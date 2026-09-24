@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<!--
+  Datei:  FI-Quiz.html
+  Zweck:  Quiz-Engine fuer die Umschulung Fachinformatiker (IHK).
+          Eine Datei, laeuft offline (Doppelklick) und auf GitHub Pages.
+          Fragenpakete stehen als JSON unten im <script type="application/json">-Block
+          und koennen zusaetzlich per "Paket laden" (JSON-Datei) importiert werden.
+  Highscore: nur lokal im Browser (localStorage), pro Paket Top 10.
+  Inhalte: eigene Formulierungen (keine Buchtexte), Quelle nur als Seitenverweis.
+-->
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FI-Quiz</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5b6573; --line: #dde2e8;
+    --accent: #2f6fdb; --accent-text: #ffffff; --ok: #1f8a4c; --ok-bg: #e5f5ec; --bad: #c2362b; --bad-bg: #fbe9e7;
+    --warn: #9a6b00; --shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111418; --card: #1a1f25; --text: #e7ebf0; --muted: #9aa5b1; --line: #2c343d;
+      --accent: #5b93f0; --accent-text: #0b1220; --ok: #4cc281; --ok-bg: #16301f; --bad: #f07366; --bad-bg: #3a1a17;
+      --warn: #e0b04a; --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.5rem; margin: 8px 0 4px; }
+  h2 { font-size: 1.15rem; margin: 0 0 8px; }
+  p.sub { color: var(--muted); margin: 0 0 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .pack h3 { margin: 0 0 4px; font-size: 1rem; }
+  .pack .meta { color: var(--muted); font-size: .85rem; margin-bottom: 10px; }
+  button { font: inherit; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--text);
+           padding: 10px 14px; cursor: pointer; min-height: 44px; }
+  button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  button:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .hud { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-variant-numeric: tabular-nums; color: var(--muted); margin-bottom: 8px; }
+  .hud b { color: var(--text); }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+  .bar > div { height: 100%; background: var(--accent); width: 100%; transition: width .25s linear; }
+  .question { font-size: 1.2rem; font-weight: 600; margin: 8px 0 16px; }
+  .answers { display: grid; gap: 8px; }
+  .answers button { text-align: left; }
+  .tf { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tf button { font-size: 1.1rem; font-weight: 600; }
+  input[type=text] { font: inherit; font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 1.2rem;
+           width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--text); }
+  .feedback { border-radius: 8px; padding: 10px 12px; margin-top: 12px; }
+  .feedback.ok { background: var(--ok-bg); color: var(--ok); }
+  .feedback.bad { background: var(--bad-bg); color: var(--bad); }
+  .feedback .expl { color: var(--text); margin-top: 4px; }
+  .feedback .src { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+  .mono { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); }
+  .muted { color: var(--muted); }
+  .big { font-size: 2.2rem; font-weight: 700; }
+  .streak { color: var(--warn); font-weight: 600; }
+  .hidden { display: none !important; }
+  .keys { color: var(--muted); font-size: .8rem; margin-top: 10px; }
+  ul.wrong { padding-left: 18px; }
+  ul.wrong li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>FI-Quiz</h1>
+    <p class="sub">Lernspiele zur Umschulung Fachinformatiker · Highscores bleiben nur in diesem Browser</p>
+  </header>
+
+  <!-- ===== Menue ===== -->
+  <section id="menu">
+    <div class="card">
+      <label for="nick"><b>Spitzname</b> <span class="muted">(für die Bestenliste, keine echten Namen)</span></label>
+      <input id="nick" type="text" maxlength="20" autocomplete="off" placeholder="z. B. BitSchubser">
+    </div>
+    <div id="packs" class="grid"></div>
+    <div class="card">
+      <h2>Eigenes Fragenpaket laden</h2>
+      <p class="muted">JSON-Datei im FI-Quiz-Format, z. B. von Claude aus dem Vault erzeugt. Sie bleibt nur in diesem Browser.</p>
+      <div class="row">
+        <input id="importFile" type="file" accept=".json,application/json">
+      </div>
+      <div id="importMsg" class="muted"></div>
+    </div>
+  </section>
+
+  <!-- ===== Spiel ===== -->
+  <section id="game" class="hidden">
+    <div class="card">
+      <div class="hud">
+        <span id="hudPack"></span>
+        <span>Punkte <b id="hudScore">0</b></span>
+        <span>Serie <b id="hudStreak">0</b></span>
+        <span id="hudProgress"></span>
+      </div>
+      <div class="bar" aria-hidden="true"><div id="timeBar"></div></div>
+      <div id="qArea"></div>
+      <div id="fb" class="feedback hidden" role="status" aria-live="polite"></div>
+      <div class="row" style="margin-top:12px">
+        <button id="nextBtn" class="primary hidden">Weiter (Enter)</button>
+        <button id="quitBtn">Abbrechen</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Ergebnis ===== -->
+  <section id="result" class="hidden">
+    <div class="card">
+      <h2 id="resTitle">Ergebnis</h2>
+      <div class="big" id="resScore">0</div>
+      <p id="resStats" class="muted"></p>
+      <p id="resRank"></p>
+      <div class="row">
+        <button id="againBtn" class="primary">Nochmal</button>
+        <button id="menuBtn">Zur Auswahl</button>
+      </div>
+    </div>
+    <div class="card" id="wrongCard">
+      <h2>Das solltest du wiederholen</h2>
+      <ul id="wrongList" class="wrong"></ul>
+      <div class="row">
+        <button id="copyMd">Als Markdown kopieren</button>
+        <button id="dlMd">Als .md herunterladen</button>
+      </div>
+      <div id="copyMsg" class="muted"></div>
+    </div>
+    <div class="card">
+      <h2>Bestenliste (dieser Browser)</h2>
+      <div id="hsTable"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== FRAGENPAKETE =====================
+  Formate:
+   wahrfalsch: { "f": Aussage, "a": true|false, "erkl": Erklaerung, "quelle": "Buch S. 289" }
+   mc:         { "f": Frage, "optionen": [..], "richtig": Index, "erkl": .., "quelle": .. }
+   generator:  { "typ": "generator", "generator": "zahlensysteme" }
+  Nur eigene Formulierungen verwenden, Buchseite nur als Quelle.
+========================================================== -->
+<script type="application/json" id="packData">[
+  {
+    "id": "lf03-wf",
+    "titel": "LF03 Wahr-oder-Falsch-Sprint",
+    "lernfeld": "LF03",
+    "typ": "wahrfalsch",
+    "zeit": 90,
+    "beschreibung": "Netzwerkgeräte, VLAN, VPN, Clients, Server, Rechenzentren. 90 Sekunden, so viele wie möglich.",
+    "fragen": [
+      {
+        "f": "Ein Switch leitet einen Frame gezielt nur an den Port weiter, hinter dem der Empfänger hängt.",
+        "a": true,
+        "erkl": "Der Switch lernt die MAC-Adressen pro Port. Genau das unterscheidet ihn vom Hub.",
+        "quelle": "Buch S. 288"
+      },
+      {
+        "f": "Ein Hub arbeitet gezielter als ein Switch.",
+        "a": false,
+        "erkl": "Der Hub verteilt alles an alle. Das erzeugt Last und ist ein Sicherheitsrisiko.",
+        "quelle": "Mitschrift LF03"
+      },
+      {
+        "f": "Ein Router verbindet unterschiedliche Netze, zum Beispiel das LAN mit dem Internet.",
+        "a": true,
+        "erkl": "Er hat eine WAN- und eine LAN-Seite und leitet anhand der IP-Adresse weiter.",
+        "quelle": "Buch S. 287"
+      },
+      {
+        "f": "Ein Laptop im Homeoffice, der sich per VPN ins Firmennetz einwählt, nutzt ein Site-to-Site-VPN.",
+        "a": false,
+        "erkl": "Ein einzelnes Gerät, das mit dem Firmennetz verbunden wird, ist End-to-Site.",
+        "quelle": "Buch S. 289"
+      },
+      {
+        "f": "Ein Site-to-Site-VPN verbindet ganze Standortnetze miteinander.",
+        "a": true,
+        "erkl": "Zum Beispiel ist das Netz der Zweigstelle dann Teil des Netzes der Zentrale.",
+        "quelle": "Buch S. 289"
+      },
+      {
+        "f": "VPN und IP-Tunneling bedeuten exakt dasselbe.",
+        "a": false,
+        "erkl": "Das VPN nutzt IP-Tunneling als Technik, die Begriffe sind aber nicht gleich.",
+        "quelle": "Buch S. 289"
+      },
+      {
+        "f": "Ein VLAN macht einen internen Server automatisch aus dem Internet erreichbar.",
+        "a": false,
+        "erkl": "Ein VLAN trennt ein LAN logisch. Mit dem Zugang aus dem Internet hat es nichts zu tun.",
+        "quelle": "Buch S. 288"
+      },
+      {
+        "f": "Die VLAN-ID im VLAN-Tag ist 12 Bit lang.",
+        "a": true,
+        "erkl": "12 Bit ergeben 4096 mögliche IDs.",
+        "quelle": "Buch S. 288"
+      },
+      {
+        "f": "Von 4096 möglichen VLAN-IDs sind 4094 nutzbar.",
+        "a": true,
+        "erkl": "Die IDs 0 und 4095 sind reserviert.",
+        "quelle": "IEEE 802.1Q"
+      },
+      {
+        "f": "Zwischen PC und Switch laufen die Frames normalerweise getaggt.",
+        "a": false,
+        "erkl": "PC ↔ Switch ist ungetaggt, erst der Trunk zwischen den Switches ist getaggt.",
+        "quelle": "Buch S. 288"
+      },
+      {
+        "f": "Über einen Trunk laufen Frames mehrerer VLANs zwischen Switches.",
+        "a": true,
+        "erkl": "Die VLAN-Kennung wird dabei im Tag mitübertragen.",
+        "quelle": "Buch S. 288"
+      },
+      {
+        "f": "In einem Peer-to-Peer-Netz kann jeder Rechner gleichzeitig Client und Server sein.",
+        "a": true,
+        "erkl": "Genau das kennzeichnet P2P, deshalb sind auch mehrere Server möglich.",
+        "quelle": "Buch S. 293"
+      },
+      {
+        "f": "Peer-to-Peer heißt, dass zwei PCs direkt über ein Kabel verbunden sind.",
+        "a": false,
+        "erkl": "P2P beschreibt die Rollen, nicht die Verkabelung. Die Rechner hängen meist am Switch.",
+        "quelle": "Buch S. 293"
+      },
+      {
+        "f": "Ein Thin Client führt Anwendungen normalerweise lokal und mit hoher Rechenleistung aus.",
+        "a": false,
+        "erkl": "Die Anwendungen laufen in einer VM auf dem Terminal-Server, der Thin Client zeigt nur das Bild an.",
+        "quelle": "Buch S. 292"
+      },
+      {
+        "f": "Ein Thin Client ist zwingend auf eine Netzwerkverbindung angewiesen.",
+        "a": true,
+        "erkl": "Ohne Netz erreicht er seine virtuelle Maschine nicht.",
+        "quelle": "Buch S. 292"
+      },
+      {
+        "f": "Aus Sicht der Administration ist jedes BYOD-Gerät ein potenzielles Sicherheitsrisiko.",
+        "a": true,
+        "erkl": "Es sind fremde, unterschiedlich gepflegte Geräte im Firmennetz.",
+        "quelle": "Buch S. 292"
+      },
+      {
+        "f": "Bei Colocation stehen die eigenen Server im Rechenzentrum eines Anbieters.",
+        "a": true,
+        "erkl": "Der Anbieter stellt Strom, Kühlung, Zutrittskontrolle und Anbindung, die Hardware gehört dir.",
+        "quelle": "Buch S. 296"
+      },
+      {
+        "f": "Bei einem Off-Premises-Rechenzentrum kümmert sich das eigene Unternehmen um Strom und Kühlung.",
+        "a": false,
+        "erkl": "Das übernimmt der Betreiber des externen Rechenzentrums.",
+        "quelle": "Buch S. 296"
+      },
+      {
+        "f": "Ein On-Premises-Rechenzentrum steht auf dem eigenen Betriebsgelände.",
+        "a": true,
+        "erkl": "On-Prem heißt: selbst betrieben, vor Ort.",
+        "quelle": "Buch S. 295"
+      },
+      {
+        "f": "Ein Web-Server liefert Inhalte, die man mit einem Browser abruft.",
+        "a": true,
+        "erkl": "Dateien bereitzustellen ist dagegen Aufgabe eines File-Servers.",
+        "quelle": "Buch S. 294"
+      },
+      {
+        "f": "Ein DNS-Server stellt Druckdienste im Netzwerk bereit.",
+        "a": false,
+        "erkl": "Der DNS-Server löst Namen in IP-Adressen auf. Für Druckdienste gibt es den Print-Server.",
+        "quelle": "Buch S. 294"
+      },
+      {
+        "f": "Server sind immer im 19-Zoll-Format gebaut.",
+        "a": false,
+        "erkl": "Meistens ja, es gibt sie aber auch als Tower- oder Desktop-Gerät.",
+        "quelle": "Buch S. 294"
+      },
+      {
+        "f": "Inkonsistente Daten liegen vor, wenn dieselbe Information an mehreren Stellen unterschiedlich gespeichert ist.",
+        "a": true,
+        "erkl": "Konsistent heißt widerspruchsfrei. Zentrale Speicherung ist der Weg dorthin.",
+        "quelle": "Mitschrift LF03"
+      },
+      {
+        "f": "Redundanz im Netzwerk kann bedeuten, dass es einen zweiten Weg für den Ausfall des ersten gibt.",
+        "a": true,
+        "erkl": "Weitere Beispiele: zwei Netzteile oder gespiegelte Rechenzentren.",
+        "quelle": "Buch S. 295"
+      },
+      {
+        "f": "Ein Lichtwellenleiter überträgt Daten mit elektrischen Spannungsimpulsen.",
+        "a": false,
+        "erkl": "Er überträgt Licht. Deshalb ist er unempfindlich gegen elektromagnetische Störungen.",
+        "quelle": "Buch S. 317 ff."
+      },
+      {
+        "f": "Eine IPv4-Adresse ist 32 Bit lang.",
+        "a": true,
+        "erkl": "4 Oktette zu je 8 Bit, das ergibt 2³² ≈ 4,29 Mrd. Adressen.",
+        "quelle": "Buch S. 330 ff."
+      },
+      {
+        "f": "Ein Oktett einer IPv4-Adresse kann Werte von 0 bis 256 annehmen.",
+        "a": false,
+        "erkl": "8 Bit ergeben 256 Werte, also 0 bis 255 (2⁸ − 1).",
+        "quelle": "Mitschrift LF03"
+      },
+      {
+        "f": "Ein Sensor setzt ein Steuersignal in eine Bewegung um.",
+        "a": false,
+        "erkl": "Das macht der Aktor. Der Sensor misst.",
+        "quelle": "Mitschrift LF03"
+      }
+    ]
+  },
+  {
+    "id": "lf03-mc",
+    "titel": "LF03 Praxis-Szenarien",
+    "lernfeld": "LF03",
+    "typ": "mc",
+    "zeit": 0,
+    "beschreibung": "12 Situationen aus dem Betrieb: Welche Technik passt? Schnelle Antworten bringen Bonuspunkte.",
+    "fragen": [
+      {
+        "f": "Ein Außendienstmitarbeiter will vom Hotel aus auf den Fileserver der Firma zugreifen. Was richtest du ein?",
+        "optionen": [
+          "End-to-Site-VPN",
+          "Site-to-Site-VPN",
+          "VLAN",
+          "VLAN-Trunk"
+        ],
+        "richtig": 0,
+        "erkl": "Ein einzelnes Gerät wird mit dem Firmennetz verbunden, also End-to-Site.",
+        "quelle": "Buch S. 289"
+      },
+      {
+        "f": "Einkauf und Vertrieb sollen auf derselben Verkabelung getrennte Netze bekommen.",
+        "optionen": [
+          "VLANs",
+          "VPN",
+          "Hub",
+          "Colocation"
+        ],
+        "richtig": 0,
+        "erkl": "VLANs trennen logisch auf gemeinsamer Hardware.",
+        "quelle": "Buch S. 288"
+      },
+      {
+        "f": "Die neue Zweigstelle soll dauerhaft ins Netz der Zentrale eingebunden werden.",
+        "optionen": [
+          "Site-to-Site-VPN",
+          "End-to-Site-VPN",
+          "End-to-End-VPN",
+          "Peer-to-Peer-Netz"
+        ],
+        "richtig": 0,
+        "erkl": "Ganze Standortnetze werden verbunden, also Site-to-Site.",
+        "quelle": "Buch S. 289"
+      },
+      {
+        "f": "Welches Gerät verbindet Endgeräte innerhalb eines LANs gezielt miteinander?",
+        "optionen": [
+          "Switch",
+          "Router",
+          "Hub",
+          "Access Point"
+        ],
+        "richtig": 0,
+        "erkl": "Der Switch arbeitet mit MAC-Adressen im selben Netz, der Hub dagegen ungezielt.",
+        "quelle": "Buch S. 288"
+      },
+      {
+        "f": "Die Firma will ihre eigenen Server behalten, aber Strom, Kühlung und die Anbindung eines Profi-Rechenzentrums nutzen.",
+        "optionen": [
+          "Colocation",
+          "On-Premises",
+          "Thin Clients",
+          "Peer-to-Peer"
+        ],
+        "richtig": 0,
+        "erkl": "Eigene Hardware im fremden RZ heißt Colocation.",
+        "quelle": "Buch S. 296"
+      },
+      {
+        "f": "Welcher Server wird gebraucht, damit Thin Clients arbeiten können?",
+        "optionen": [
+          "Terminal-Server",
+          "DNS-Server",
+          "Mail-Server",
+          "Print-Server"
+        ],
+        "richtig": 0,
+        "erkl": "Er stellt die virtuellen Arbeitsplätze (VMs) bereit.",
+        "quelle": "Buch S. 294"
+      },
+      {
+        "f": "Welcher ist der größte Wert, den eine 8-Bit-Zahl ohne Vorzeichen annehmen kann?",
+        "optionen": [
+          "255",
+          "256",
+          "511",
+          "128"
+        ],
+        "richtig": 0,
+        "erkl": "2⁸ − 1 = 255. Die 256 ist die Anzahl der Werte, weil bei 0 angefangen wird.",
+        "quelle": "Mitschrift LF03"
+      },
+      {
+        "f": "Wie viele Adressen umfasst der IPv4-Adressraum ungefähr?",
+        "optionen": [
+          "4,29 Mrd. (2³²)",
+          "8,59 Mrd. (2³³)",
+          "16,7 Mio. (2²⁴)",
+          "65.536 (2¹⁶)"
+        ],
+        "richtig": 0,
+        "erkl": "IPv4 hat 32 Bit, also 2³² = 4.294.967.296 Adressen.",
+        "quelle": "Buch S. 330 ff."
+      },
+      {
+        "f": "Welche Aussage über ein Peer-to-Peer-Netz stimmt?",
+        "optionen": [
+          "Jeder Rechner kann Client und Server zugleich sein",
+          "Es gibt genau einen zentralen Server",
+          "Es besteht immer aus zwei PCs mit Direktkabel",
+          "Es funktioniert nur über das Internet"
+        ],
+        "richtig": 0,
+        "erkl": "P2P beschreibt gleichberechtigte Rollen.",
+        "quelle": "Buch S. 293"
+      },
+      {
+        "f": "Ein Online-Shop sitzt auf dem Land, die Internetleitung dort ist schlecht. Wohin gehört der Shop-Server?",
+        "optionen": [
+          "Off-Premises-RZ oder Colocation",
+          "On-Premises in den eigenen Keller",
+          "Auf einen Thin Client",
+          "Hinter einen Hub"
+        ],
+        "richtig": 0,
+        "erkl": "Die Kunden brauchen eine gute Anbindung. Die bietet das externe RZ unabhängig von der Leitung am Standort.",
+        "quelle": "Buch S. 296"
+      },
+      {
+        "f": "Welches Bauteil misst in einer Heizungssteuerung die Raumtemperatur?",
+        "optionen": [
+          "Sensor",
+          "Aktor",
+          "Switch",
+          "Router"
+        ],
+        "richtig": 0,
+        "erkl": "Der Sensor misst, der Aktor (z. B. ein Ventil) reagiert.",
+        "quelle": "Mitschrift LF03"
+      },
+      {
+        "f": "Warum löst der Switch den Hub ab?",
+        "optionen": [
+          "Er leitet gezielt an den Zielport weiter",
+          "Er verbindet verschiedene Netze per IP",
+          "Er verschlüsselt den Datenverkehr",
+          "Er braucht keinen Strom"
+        ],
+        "richtig": 0,
+        "erkl": "Das bringt weniger Last und keine Verteilung an alle. Netze verbinden ist Sache des Routers.",
+        "quelle": "Mitschrift LF03"
+      }
+    ]
+  },
+  {
+    "id": "lf03-33-wf",
+    "titel": "LF03 3.3 Datenübertragung Wahr/Falsch",
+    "lernfeld": "LF03",
+    "typ": "wahrfalsch",
+    "zeit": 90,
+    "beschreibung": "Bit und Byte, Binär- und Dezimalpräfixe, Datenübertragungsrate, Signalgeschwindigkeit. 90 Sekunden.",
+    "fragen": [
+      {
+        "f": "Die kleinste Informationseinheit der IT ist das Byte, welches aus 8 Bit besteht.",
+        "a": false,
+        "erkl": "Das Bit ist die absolut kleinste Einheit, ein Byte setzt sich erst aus 8 dieser Bits zusammen.",
+        "quelle": "Buch S. 299"
+      },
+      {
+        "f": "Bei Datenmengen unterscheidet man zur klaren Abgrenzung zwischen binären und dezimalen Präfixen, z. B. Kibi und Kilo.",
+        "a": true,
+        "erkl": "Um Verwechslungen zu vermeiden, wurden binäre Präfixe wie Kibi (Basis 2) eingeführt, um sie vom dezimalen Kilo (Basis 10) abzugrenzen.",
+        "quelle": "Buch S. 299"
+      },
+      {
+        "f": "Die Datenübertragungsrate wird in der Netzwerktechnik standardmäßig in binären Präfixen wie Mibit/s angegeben.",
+        "a": false,
+        "erkl": "Datenübertragungsraten werden in der IT üblicherweise immer mit Dezimalpräfixen (z. B. Mbit/s) angegeben.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Ein einzelnes Bit kann in der Informationstechnik genau zwei verschiedene Werte repräsentieren, nämlich 0 und 1.",
+        "a": true,
+        "erkl": "Das Bit ist die Basis der digitalen Kommunikation und codiert exakt die beiden Zustände Null und Eins.",
+        "quelle": "Buch S. 299"
+      },
+      {
+        "f": "Wenn im IT-Alltag unpräzise von der 'Bandbreite' oder 'Geschwindigkeit' eines Anschlusses gesprochen wird, ist fachlich die Datenübertragungsrate gemeint.",
+        "a": true,
+        "erkl": "Oft werden Begriffe wie Bandbreite und Geschwindigkeit umgangssprachlich synonym für die korrekte Bezeichnung 'Datenübertragungsrate' verwendet.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Die Signalgeschwindigkeit in Glasfaserkabeln ist signifikant höher als die in herkömmlichen Kupferleitungen.",
+        "a": false,
+        "erkl": "Die reine Signalgeschwindigkeit ist in Glasfaser- und Kupferleitungen etwa gleich hoch, Glasfaser bietet jedoch eine viel höhere Datenübertragungsrate.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Ein Netzwerkknoten (Node) muss nicht zwingend ein klassischer Computer sein, sondern kann auch ein Sensor oder Aktor sein.",
+        "a": true,
+        "erkl": "Jeder Teilnehmer, der Daten sendet oder abruft, gilt als Knoten, was heutzutage auch IoT-Geräte und Sensoren einschließt.",
+        "quelle": "Buch S. 300"
+      },
+      {
+        "f": "Das Internet ist das weltumspannende Datennetz, welches praktisch fast alle lokalen Netzwerke (LANs) miteinander verbindet.",
+        "a": true,
+        "erkl": "Das Internet agiert als globales, paketvermitteltes Netz, das unzählige lokale LANs weltweit zu einem großen Verbund zusammenschließt.",
+        "quelle": "Buch S. 300"
+      },
+      {
+        "f": "Laut Fachbuch zählen auch Router und Switches zu den Netzwerkknoten.",
+        "a": true,
+        "erkl": "Das Buch definiert Netzwerkknoten als alle Endpunkte, an denen Datenpakete gesendet, empfangen ODER WEITERGELEITET werden, und nennt Router und Switches ausdrücklich. Zugleich sind sie Netzwerkgeräte, die für den Transport sorgen.",
+        "quelle": "Buch S. 297"
+      },
+      {
+        "f": "Ein Megabyte (MB) entspricht nach der Dezimalpräfix-Regel exakt 1.000.000 Byte, während ein Mebibyte (MiB) 1.048.576 Byte groß ist.",
+        "a": true,
+        "erkl": "Das dezimale Mega basiert auf Zehnerpotenzen (10^6), das binäre Mebi (Megabinary) auf Zweierpotenzen (2^20).",
+        "quelle": "Buch S. 299"
+      },
+      {
+        "f": "Die physikalische Ausbreitungsgeschwindigkeit der elektrischen oder optischen Signale in Kabeln entspricht exakt der Lichtgeschwindigkeit im Vakuum.",
+        "a": false,
+        "erkl": "Die Datenausbreitungsgeschwindigkeit in Kupfer- oder Glasfaserkabeln beträgt physikalisch bedingt nur etwa zwei Drittel der Lichtgeschwindigkeit.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Die reine Übertragungszeit einer Datei lässt sich berechnen, indem man die zu übertragende Datenmenge durch die Datenübertragungsrate dividiert.",
+        "a": true,
+        "erkl": "Teilt man die Dateigröße (Datenmenge) durch den Durchsatz des Mediums (Rate), erhält man die theoretische Übertragungsdauer.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Die spektrale Effizienz eines Netzwerks gibt an, wie viele Bytes pro Sekunde durch den Haupt-Switch des Unternehmens transportiert werden.",
+        "a": false,
+        "erkl": "Die spektrale Effizienz definiert sich nicht über Bytes pro Sekunde am Switch, sondern über Bits pro Hertz Übertragungsbandbreite auf dem Medium.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Eine Gigabit-Leitung mit einer Datenübertragungsrate von 100 Mbit/s transportiert im theoretischen Idealfall exakt 100 Millionen Byte pro Sekunde.",
+        "a": false,
+        "erkl": "Die Einheit Mbit/s steht für Megabit pro Sekunde; 100 Millionen Byte wären das Achtfache dieser Datenmenge.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Drahtlose Netzwerke wie WLAN oder Bluetooth nutzen elektromagnetische Wellen als physikalisches Medium, um Daten zu übertragen.",
+        "a": true,
+        "erkl": "Im Gegensatz zu Kupferleitungen (elektrisch) oder Glasfaser (Licht) werden bei Funknetzen elektromagnetische Strahlungen eingesetzt.",
+        "quelle": "Buch S. 300"
+      },
+      {
+        "f": "Die Signalgeschwindigkeit und die Datenübertragungsrate beschreiben in Computernetzwerken fachlich gesehen exakt denselben Sachverhalt.",
+        "a": false,
+        "erkl": "Die Signalgeschwindigkeit ist die reine Laufzeit des Signals, während die Datenübertragungsrate (Durchsatz) die Datenmenge pro Zeiteinheit beschreibt.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Das Präfix 'kibi' steht als Abkürzung für 'kilo-binary' und basiert auf der Zweierpotenz.",
+        "a": true,
+        "erkl": "Die binären Präfixe der IEC kombinieren die vertrauten SI-Vorsilben (wie Kilo) mit der Endung 'bi' für binary, um die Basis 2 kenntlich zu machen.",
+        "quelle": "Buch S. 299"
+      },
+      {
+        "f": "Ein modernes Kibibyte (KiB) entspricht umgerechnet exakt 1000 Byte.",
+        "a": false,
+        "erkl": "Das Präfix Kibi basiert auf der Basis 2 (2^10), wodurch ein Kibibyte exakt 1024 Byte umfasst, nicht 1000.",
+        "quelle": "Buch S. 299"
+      },
+      {
+        "f": "Ein Hub ist intelligenter als ein Switch, da er als bidirektionaler Verstärker auf OSI-Layer 3 arbeitet und Routen berechnen kann.",
+        "a": false,
+        "erkl": "Ein Hub wertet im Gegensatz zum Switch gar keine Adressen aus und arbeitet als reiner Signalverstärker auf der Bitübertragungsschicht (OSI-Layer 1).",
+        "quelle": "Buch S. 340"
+      }
+    ]
+  },
+  {
+    "id": "lf03-praxis-mc",
+    "titel": "LF03 Netzwerkpraxis Szenarien",
+    "lernfeld": "LF03",
+    "typ": "mc",
+    "zeit": 0,
+    "beschreibung": "Acht Situationen aus dem Betrieb: Übertragungszeit, PoE, Mirrorport, TTL, NAS. Tempobonus.",
+    "fragen": [
+      {
+        "f": "Zwei Endgeräte mit 10 Gbit/s und 10 Mbit/s sind an einem Switch angeschlossen. Was passiert beim massiven Datentransfer vom schnellen zum langsamen Gerät?",
+        "optionen": [
+          "Die Daten landen im FIFO-Puffer des Ausgangsports, können aber bei zu großer und langanhaltender Menge zum Überlauf und Datenverlust führen.",
+          "Der Switch drosselt den Sender durch seine integrierte Datenflusssteuerung automatisch sofort auf 10 Mbit/s herunter.",
+          "Die Switching Fabric blockiert den Transfer komplett, da derart unterschiedliche Geschwindigkeiten an einem Switch inkompatibel sind.",
+          "Der Switch arbeitet im Fallback als Repeater und schickt die Daten im 10-Gbit/s-Takt, was den Empfänger zum Absturz bringt."
+        ],
+        "richtig": 0,
+        "erkl": "Ist der Puffer-Speicher (FIFO) eines Ports am Switch voll, gehen alle weiteren nachrückenden Daten verloren, da es hier keine aktive Datenflusssteuerung gibt.",
+        "quelle": "Buch S. 341"
+      },
+      {
+        "f": "Ein Kunde möchte ein 1 Gigabyte großes Backup über eine 50 Mbit/s Leitung übertragen und fragt nach der exakten theoretischen Dauer.",
+        "optionen": [
+          "Es dauert im Überschlag etwa 160 Sekunden, da 1 GByte in 8 Gbit umgerechnet und anschließend durch 50 Mbit/s geteilt wird.",
+          "Es dauert exakt 20 Sekunden, da man 1000 Megabyte direkt durch 50 Megabit dividieren kann.",
+          "Die Berechnung ist ohne die Laufzeit nicht möglich, da ausschließlich die Latenzzeit des Internets die effektive Datenrate bestimmt.",
+          "Es dauert 1,25 Sekunden, weil die Einheiten GByte und Mbit synonym für dieselbe physikalische Datenmenge stehen."
+        ],
+        "richtig": 0,
+        "erkl": "Da ein Byte aus 8 Bit besteht, müssen die 1 GByte (dezimal gerechnet) zunächst in 8 Gbit umgewandelt werden, was bei 50 Mbit/s zu 160 Sekunden führt.",
+        "quelle": "Buch S. 301"
+      },
+      {
+        "f": "Sie tauschen in einem alten Netzwerksegment einen Hub gegen einen modernen Switch aus. Welchen konkreten Vorteil bringt das für die Netzwerklast?",
+        "optionen": [
+          "Der Switch merkt sich die MAC-Adressen und leitet ankommende Pakete gezielt nur an den Port des Zielrechners weiter, statt an alle.",
+          "Der Switch arbeitet im Gegensatz zum Hub auf OSI-Layer 1 und verstärkt die elektrischen Signale deutlich besser.",
+          "Der Switch wandelt private IP-Adressen in öffentliche Adressen um, was den Hauptrouter des Unternehmens entlastet.",
+          "Der Switch schützt durch automatische Hardware-Verschlüsselung der Frames vor dem Ausspähen von Passwörtern."
+        ],
+        "richtig": 0,
+        "erkl": "Ein Switch baut eine Forwarding Table mit MAC-Adressen auf und sendet Pakete zielgerichtet, wodurch unnötiger Datenverkehr auf anderen Ports entfällt.",
+        "quelle": "Buch S. 340"
+      },
+      {
+        "f": "Für die Deckenmontage neuer WLAN-Access-Points fehlen am Installationsort die Steckdosen. Welches Feature muss der neu zu bestellende Switch zwingend unterstützen?",
+        "optionen": [
+          "PoE (Power over Ethernet), damit die Access Points direkt über das herkömmliche Netzwerkkabel mit Strom versorgt werden können.",
+          "Spanning Tree Protocol, um redundante elektrische Stromschleifen im Gebäudenetzwerk sicher zu verhindern.",
+          "VLAN-Tagging, da drahtlose Netzwerke grundsätzlich eine höhere elektrische Spannung auf dem Kupferkabel benötigen.",
+          "Port-Mirroring, um den Stromverbrauch der einzelnen Ports zur Überwachung im laufenden Betrieb auf einen Server zu spiegeln."
+        ],
+        "richtig": 0,
+        "erkl": "Power over Ethernet (PoE) speist kompatible Endgeräte direkt über die acht Adern des Netzwerkkabels mit Strom, sodass keine lokalen Netzteile benötigt werden.",
+        "quelle": "Buch S. 372"
+      },
+      {
+        "f": "Das neu eingerichtete LAN der Buchhaltung soll nicht aus dem Internet adressierbar sein, aber die Clients müssen miteinander kommunizieren. Welche IPs vergeben Sie?",
+        "optionen": [
+          "Private IP-Adressen, da Pakete mit diesen Adressbereichen von Provider-Routern im Internet prinzipiell nicht weitergeleitet werden.",
+          "Öffentliche IP-Adressen, da diese durch die Windows-Firewall der Clients automatisch in ein unsichtbares Format maskiert werden.",
+          "MAC-Adressen im IP-Feld, da für ein rein lokal begrenztes LAN überhaupt keine IP-Adressen konfiguriert werden dürfen.",
+          "Dynamische DNS-Adressen, die sich minütlich ändern und so für externe Angreifer keinen stabilen Angriffspunkt bieten."
+        ],
+        "richtig": 0,
+        "erkl": "IP-Adressen aus privaten Adressbereichen (wie 192.168.x.x) werden im Internet nicht geroutet und eignen sich daher ideal für geschlossene lokale Netze.",
+        "quelle": "Buch S. 286"
+      },
+      {
+        "f": "Sie vermuten unerwünschten Datenverkehr auf dem Netzwerkport eines bestimmten Rechners und wollen diesen zur Analyse auf Ihren IT-Laptop umleiten.",
+        "optionen": [
+          "Sie richten am managebaren Switch einen Mirrorport ein und schließen dort Ihren Laptop mit einem Analysetool wie Wireshark an.",
+          "Sie ändern das VLAN-Tag des betroffenen Ports auf 0, um den Datenverkehr temporär in das Analyse-Subnetz umzuleiten.",
+          "Sie konfigurieren auf dem Router eine permanente Weiterleitungstabelle, die speziell diese MAC-Adresse an Ihren Laptop sendet.",
+          "Sie installieren einen Hardware-Repeater vor dem fraglichen PC, der die Signale unverschlüsselt an die IT-Abteilung funkt."
+        ],
+        "richtig": 0,
+        "erkl": "Über die Mirroring-Funktion (Spiegelung) wird der Verkehr eines Switch-Ports dupliziert, um ihn mit Netzwerk-Sniffern gefahrlos auswerten zu können.",
+        "quelle": "Buch S. 343"
+      },
+      {
+        "f": "Ein fehlerhaft geroutetes IP-Datenpaket irrt in einer Schleife durch das Weitverkehrsnetz. Welcher Mechanismus verhindert einen endlosen Netzwerkstau?",
+        "optionen": [
+          "Das TTL-Feld (Time to Life) im Paket wird von jedem passierten Router dekrementiert; erreicht es Null, wird das Paket verworfen.",
+          "Die Forwarding Table des nächsten Switches erkennt das kreisende Paket an seiner veralteten Absender-MAC und löscht es sofort.",
+          "Der TCP-Header meldet eine Layer-2-Kollision (Listen Before Talk) und bricht die fehlerhafte Übertragung beim Absender ab.",
+          "Die Firewall des Providernetzes erkennt den Loop verlässlich anhand der ununterbrochen gesendeten IP-Tunneling-Pakete."
+        ],
+        "richtig": 0,
+        "erkl": "Das Time-to-Life-Feld (TTL) fungiert als Lebensdauerzähler, der von jedem Router um eins verringert wird, bis das Paket bei Null aussortiert wird.",
+        "quelle": "Buch S. 343"
+      },
+      {
+        "f": "Für eine Projektgruppe im Betrieb soll ein zentraler Dateispeicher im Netzwerk geschaffen werden, ohne extra einen aufwendigen Server-PC betreiben zu müssen.",
+        "optionen": [
+          "Sie integrieren ein NAS (Network Attached Storage), da dieses als schlanke, eigenständige Fileserverlösung direkt im Netz fungiert.",
+          "Sie nutzen eine externe USB 3.0 SSD, da diese direkt an den Firmenrouter angeschlossen die höchste Multi-User-Performance bietet.",
+          "Sie richten ein lokales RAID-System im Desktop-PC des Projektleiters ein, da die Daten so automatisch mit allen Kollegen gespiegelt werden.",
+          "Sie verbauen ein SLC-NAND-Laufwerk im Switch, da nur diese teure Speicherart die nötigen Netzwerkprotokolle für Teamzugriffe integriert hat."
+        ],
+        "richtig": 0,
+        "erkl": "NAS-Systeme sind spezialisierte Festplattengehäuse mit eigenem Betriebssystem, die über das Netzwerk eine zentrale Dateifreigabe für Teams bereitstellen.",
+        "quelle": "Buch S. 167"
+      }
+    ]
+  },
+  {
+    "id": "zahlensysteme",
+    "titel": "Zahlensystem-Trainer",
+    "lernfeld": "",
+    "typ": "generator",
+    "generator": "zahlensysteme",
+    "zeit": 120,
+    "beschreibung": "Endlos neue Aufgaben: Binär, Oktal, Hex, Zweierkomplement, Nachkommastellen. Die Stufe steigt mit deiner Serie. 2 Minuten."
+  },
+  {
+    "id": "lf03-medien-wf",
+    "titel": "LF03 3.3.2 Übertragungsmedien & Netzzugriff Wahr/Falsch",
+    "lernfeld": "LF03",
+    "typ": "wahrfalsch",
+    "zeit": 60,
+    "beschreibung": "Transceiver, leitungsgebundene/nicht-leitungsgebundene Medien, Kollision und Zugriffsverfahren (RTS/CTS).",
+    "fragen": [
+      {
+        "f": "Ein Transceiver ist eine Baueinheit im Netzwerkelement, die sowohl Senden (TX) als auch Empfangen (RX) kann.",
+        "a": true,
+        "erkl": "Der Begriff setzt sich aus Transmitter (Sender, TX) und Receiver (Empfänger, RX) zusammen.",
+        "quelle": "Buch S. 304"
+      },
+      {
+        "f": "Richtfunk zählt zu den leitunggebundenen Netzwerkmedien.",
+        "a": false,
+        "erkl": "Richtfunk ist ein nicht-leitungsgebundenes Medium (Funkübertragung). Leitungsgebunden sind nur physikalische Kabel wie Kupfer oder LWL.",
+        "quelle": "Buch S. 304"
+      },
+      {
+        "f": "Eine Kollision entsteht, wenn zwei Stationen gleichzeitig Daten auf dasselbe Medium senden und sich die Signale überlagern.",
+        "a": true,
+        "erkl": "Bei zeitgleichem Senden überlagern sich die Signale auf dem Medium und werden für alle Stationen unleserlich.",
+        "quelle": "Buch S. 304"
+      },
+      {
+        "f": "Die Grundregel 'Erst hören, dann senden' (Carrier Sense bei CSMA/CD) besagt, dass eine Station vor dem Senden prüft, ob das Übertragungsmedium frei ist.",
+        "a": true,
+        "erkl": "Carrier Sense ('Trägererkennung') stellt sicher, dass keine Übertragung gestartet wird, solange bereits eine andere Station sendet. Das Buch nennt es nicht 'Listen Before Talk', der Sache nach ist es dasselbe Prinzip.",
+        "quelle": "Buch S. 305"
+      },
+      {
+        "f": "Beim RTS/CTS-Verfahren im WLAN stellt das Paket 'RTS' (Request to Send) die finale Sendeerlaubnis dar.",
+        "a": false,
+        "erkl": "RTS ist lediglich die Sendeanfrage der Station. Erst das von der zentralen Station gesendete CTS-Paket (Clear to Send) erteilt die Sendeerlaubnis.",
+        "quelle": "Buch S. 304"
+      },
+      {
+        "f": "LiFi und Infrarot gehören zu den optischen, nicht-leitungsgebundenen Übertragungsmedien.",
+        "a": true,
+        "erkl": "Beide Verfahren nutzen Licht zur kabellosen (nicht-leitungsgebundenen) Datenübertragung.",
+        "quelle": "Buch S. 304"
+      }
+    ]
+  },
+  {
+    "id": "lf03-medien-mc",
+    "titel": "LF03 3.3.2 Übertragungsmedien & Netzzugriff Szenarien",
+    "lernfeld": "LF03",
+    "typ": "mc",
+    "zeit": 0,
+    "beschreibung": "Praxisnahe Szenarien zu Binärpräfixen, Übertragungszeit, Kollision und Medienwahl.",
+    "fragen": [
+      {
+        "f": "Ein Betriebssystem zeigt für ein Laufwerk eine Kapazität von 1 Tebibyte (1 TiB) an. Wie viele Byte entsprechen dieser Binärpräfix-Angabe exakt?",
+        "optionen": [
+          "1.099.511.627.776 Byte (2^40 Byte)",
+          "1.000.000.000.000 Byte (10^12 Byte)",
+          "1.073.741.824 Byte (2^30 Byte)",
+          "1.000.000.000 Byte (10^9 Byte)"
+        ],
+        "richtig": 0,
+        "erkl": "Binärpräfixe basieren auf 2er-Potenzen. 1 Tebibyte (TiB) entspricht 2^40 Byte = 1.099.511.627.776 Byte. (1 TB in Dezimal wäre 10^12 Byte).",
+        "quelle": "Buch S. 299"
+      },
+      {
+        "f": "Die JIKU IT-Solutions muss eine Backup-Datei der Größe 1 GByte über eine Schnittstelle mit einer effektiven Rate von 300 Mbit/s übertragen. Wie lange dauert das Speichern rechnerisch (Annahme: 1 GByte = 8.000 Mbit)?",
+        "optionen": [
+          "Ca. 26,7 Sekunden",
+          "Ca. 3,3 Sekunden",
+          "Ca. 200,0 Sekunden",
+          "Ca. 800,0 Sekunden"
+        ],
+        "richtig": 0,
+        "erkl": "Rechenweg: t = D / C = 8.000 Mbit / 300 Mbit/s = 26,67 Sekunden.",
+        "quelle": "Buch S. 299"
+      },
+      {
+        "f": "In einem ungeswitchten Kabelsegment versuchen zwei Rechner gleichzeitig ein Datenpaket zu übertragen. Welches Phänomen tritt auf und wie verhalten sich die Geräte danach?",
+        "optionen": [
+          "Es kommt zu einer Kollision; die Signale überlagern sich unleserlich und die Sender müssen nach einer Wartezeit erneut hören und senden.",
+          "Der Router fängt beide Pakete ab und sortiert sie nacheinander in die Warteschlange ein.",
+          "Die Übertragungsrate verdoppelt sich automatisch, um beide Pakete gleichzeitig zu übertragen.",
+          "Das RTS/CTS-Signal bricht die Verbindung des zweiten Rechners dauerhaft ab."
+        ],
+        "richtig": 0,
+        "erkl": "Gleichzeitiges Senden erzeugt eine Kollision (Signalüberlagerung). Carrier Sense (CSMA/CD) schreibt vor, erst das Medium abzuhören und bei Freiheit erneut zu senden.",
+        "quelle": "Buch S. 304-305"
+      },
+      {
+        "f": "Ein Client in einem Firmen-WLAN möchte eine große Datei senden. Welcher Ablauf beschreibt das Zugriffsverfahren mit zentraler Steuerung korrekt?",
+        "optionen": [
+          "Der Client sendet eine Anfrage (RTS) an den Access Point und darf erst nach Erhalt des Freigabesignals (CTS) senden.",
+          "Der Client sendet ein CTS-Paket an alle anderen Stationen, um den Access Point für sich zu reservieren.",
+          "Der Access Point schickt unaufgefordert jedem Client in festen Zeitabständen Signale mit fester Datenmenge.",
+          "Der Client sendet die Daten ohne Sendeanfrage direkt ab, da Funkkanäle grundsätzlich kollisionsfrei sind."
+        ],
+        "richtig": 0,
+        "erkl": "Zentrale Steuerung nutzt RTS (Request to Send) als Sendeanfrage und CTS (Clear to Send) als erteilte Sendeerlaubnis der zentralen Station.",
+        "quelle": "Buch S. 304"
+      },
+      {
+        "f": "Ein Netzwerktechniker soll zwei Gebäude über eine kabellose, optische Sichtverbindung koppeln. Welches Übertragungsmedium eignet sich hierfür?",
+        "optionen": [
+          "LiFi / Laserlink (optisch, nicht-leitungsgebunden)",
+          "LWL / Lichtwellenleiter (optisch, leitungsgebunden)",
+          "Richtfunk (elektromagnetisch, nicht-leitungsgebunden)",
+          "Twisted-Pair-Kupferkabel (elektrisch, leitungsgebunden)"
+        ],
+        "richtig": 0,
+        "erkl": "LiFi / Laserlink nutzt Licht ohne Kabel (nicht-leitungsgebunden). LWL ist zwar optisch, aber gebunden an Glasfaserkabel. Richtfunk nutzt Funkwellen statt Licht.",
+        "quelle": "Buch S. 304"
+      }
+    ]
+  }
+]</script>
+
+<script>
+"use strict";
+/* ===================== Hilfsfunktionen ===================== */
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const shuffle = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+// localStorage kann fehlen oder werfen (z. B. private Fenster) -> immer abfangen
+const store = {
+  get(key, fallback) { try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v); } catch (e) { return fallback; } },
+  set(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) { /* ignorieren */ } }
+};
+const HS_KEY = "fi-quiz-highscores-v1";
+const PACK_KEY = "fi-quiz-custom-packs-v1";
+const NICK_KEY = "fi-quiz-nick-v1";
+
+/* ===================== Pakete laden und pruefen ===================== */
+function validatePack(p) {
+  if (!p || typeof p !== "object") return "Kein Objekt";
+  if (!p.id || !p.titel || !p.typ) return "id, titel und typ sind Pflicht";
+  if (!["wahrfalsch", "mc", "generator"].includes(p.typ)) return "Unbekannter typ: " + p.typ;
+  if (p.typ === "generator") return GENERATORS[p.generator] ? null : "Unbekannter generator";
+  if (!Array.isArray(p.fragen) || p.fragen.length === 0) return "fragen fehlt oder ist leer";
+  for (const [i, q] of p.fragen.entries()) {
+    if (!q.f) return `Frage ${i + 1}: Feld f fehlt`;
+    if (p.typ === "wahrfalsch" && typeof q.a !== "boolean") return `Frage ${i + 1}: a muss true/false sein`;
+    if (p.typ === "mc" && (!Array.isArray(q.optionen) || q.optionen.length < 2 || !(q.richtig >= 0 && q.richtig < q.optionen.length)))
+      return `Frage ${i + 1}: optionen/richtig ungültig`;
+  }
+  return null;
+}
+
+/* ===================== Generator: Zahlensysteme ===================== */
+// Liefert {f, check(input) -> bool, loesung, erkl}. Stufe 1..3 steuert die Zahlengroesse.
+function groupBits(s, k) { const out = []; for (let i = s.length; i > 0; i -= k) out.unshift(s.slice(Math.max(0, i - k), i)); return out.join(" "); }
+function normInt(s) { return s.replace(/[\s_]/g, "").replace(/^0[bxo]/i, "").toUpperCase().replace(/^0+(?=.)/, ""); }
+const GENERATORS = {
+  zahlensysteme(level) {
+    const maxBy = [0, 31, 255, 4095];
+    const types = ["d2b", "b2d", "d2h", "h2d", "b2h", "d2o"];
+    if (level >= 2) types.push("zk", "frac");
+    const t = types[rnd(0, types.length - 1)];
+    const n = rnd(level === 1 ? 2 : 16, maxBy[level]);
+    switch (t) {
+      case "d2b": { const sol = n.toString(2); return { f: `${n}₁₀ → binär`, check: (x) => normInt(x) === sol, loesung: groupBits(sol, 4), erkl: `Restwertmethode: fortlaufend durch 2 teilen, die Reste von unten lesen.` }; }
+      case "b2d": { const b = n.toString(2); return { f: `${groupBits(b, 4)}₂ → dezimal`, check: (x) => normInt(x) === String(n), loesung: String(n), erkl: `Die Stellenwerte der gesetzten Bits addieren: ${b.split("").reverse().map((c, i) => c === "1" ? 2 ** i : 0).filter(Boolean).reverse().join(" + ")}` }; }
+      case "d2h": { const m = n * (level === 3 ? 16 : 1); const sol = m.toString(16).toUpperCase(); return { f: `${m}₁₀ → hexadezimal`, check: (x) => normInt(x) === sol, loesung: sol, erkl: `Durch 16 teilen, Reste 10–15 als A–F schreiben.` }; }
+      case "h2d": { const m = n * (level === 3 ? 16 : 1); const h = m.toString(16).toUpperCase(); return { f: `${h}₁₆ → dezimal`, check: (x) => normInt(x) === String(m), loesung: String(m), erkl: `Jede Ziffer · 16^Stelle: ${h.split("").map((c, i, a) => `${parseInt(c, 16)}·16^${a.length - 1 - i}`).join(" + ")}` }; }
+      case "b2h": { const bits = [0, 8, 8, 12, 16][level + 1] || 8; const m = rnd(1, 2 ** bits - 1); const b = m.toString(2).padStart(Math.ceil(m.toString(2).length / 4) * 4, "0"); const sol = m.toString(16).toUpperCase(); return { f: `${groupBits(b, 4)}₂ → hexadezimal`, check: (x) => normInt(x) === sol, loesung: sol, erkl: `4er-Gruppen einzeln übersetzen: ${groupBits(b, 4).split(" ").map((g) => parseInt(g, 2).toString(16).toUpperCase()).join(" ")}` }; }
+      case "d2o": { const sol = n.toString(8); return { f: `${n}₁₀ → oktal`, check: (x) => normInt(x) === sol, loesung: sol, erkl: `Durch 8 teilen, die Reste (0–7) von unten lesen.` }; }
+      case "zk": { const v = rnd(1, level === 2 ? 31 : 127); const sol = ((256 - v) & 255).toString(2).padStart(8, "0"); return { f: `−${v} als 8-Bit-Zweierkomplement`, check: (x) => x.replace(/[\s_]/g, "").replace(/^0b/i, "").padStart(8, "0") === sol, loesung: groupBits(sol, 4), erkl: `${v} = ${groupBits(v.toString(2).padStart(8, "0"), 4)} → invertieren → +1` }; }
+      case "frac": { const den = level === 2 ? 8 : 16; let num = rnd(1, den - 1); const val = num / den; let bits = ""; let f = val; while (f > 0 && bits.length < 8) { f *= 2; bits += f >= 1 ? "1" : "0"; if (f >= 1) f -= 1; }
+        const shown = String(val).replace(".", ","); return { f: `${shown}₁₀ → binär (Nachkommastellen)`, check: (x) => x.replace(/\s/g, "").replace(".", ",").replace(/^,/, "0,").replace(/0+$/, "") === "0," + bits, loesung: "0," + bits, erkl: `Nachkommaanteil ·2, die Vorkommaziffer ist die nächste Stelle, von oben lesen.` }; }
+    }
+  }
+};
+
+/* ===================== Zustand ===================== */
+const builtIn = JSON.parse($("packData").textContent);
+let customPacks = store.get(PACK_KEY, []).filter((p) => !validatePack(p));
+let S = null;       // aktuelle Runde
+let timer = null;
+
+function allPacks() { return builtIn.concat(customPacks); }
+
+/* ===================== Menue ===================== */
+function renderMenu() {
+  $("nick").value = store.get(NICK_KEY, "");
+  const hs = store.get(HS_KEY, {});
+  $("packs").innerHTML = allPacks().map((p) => {
+    const best = (hs[p.id] || [])[0];
+    const count = p.typ === "generator" ? "∞ Aufgaben" : `${p.fragen.length} Fragen`;
+    const time = p.zeit ? `${p.zeit} s` : "ohne Zeitlimit";
+    return `<div class="card pack">
+      <h3>${esc(p.titel)}</h3>
+      <div class="meta">${esc(p.lernfeld || "")} · ${count} · ${time}${best ? ` · Rekord ${best.score}` : ""}</div>
+      <p class="muted">${esc(p.beschreibung || "")}</p>
+      <button class="primary" data-pack="${esc(p.id)}">Starten</button>
+    </div>`;
+  }).join("");
+  $("packs").querySelectorAll("button[data-pack]").forEach((b) => b.addEventListener("click", () => startGame(b.dataset.pack)));
+}
+$("nick").addEventListener("change", () => store.set(NICK_KEY, $("nick").value.trim().slice(0, 20)));
+
+$("importFile").addEventListener("change", (ev) => {
+  const file = ev.target.files && ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      const list = Array.isArray(data) ? data : [data];
+      const errors = list.map(validatePack).filter(Boolean);
+      if (errors.length) { $("importMsg").textContent = "Nicht geladen: " + errors[0]; return; }
+      customPacks = customPacks.filter((c) => !list.some((n) => n.id === c.id)).concat(list);
+      store.set(PACK_KEY, customPacks);
+      $("importMsg").textContent = `${list.length} Paket(e) geladen.`;
+      renderMenu();
+    } catch (e) { $("importMsg").textContent = "Keine gültige JSON-Datei."; }
+  };
+  reader.readAsText(file);
+});
+
+/* ===================== Spielablauf ===================== */
+function show(section) { ["menu", "game", "result"].forEach((s) => $(s).classList.toggle("hidden", s !== section)); }
+
+function startGame(packId) {
+  const pack = allPacks().find((p) => p.id === packId);
+  if (!pack) return;
+  S = { pack, score: 0, streak: 0, bestStreak: 0, correct: 0, answered: 0, wrong: [], idx: 0,
+        queue: pack.typ === "generator" ? [] : shuffle(pack.fragen), timeLeft: pack.zeit || 0, qStart: 0, locked: false, level: 1 };
+  $("hudPack").textContent = pack.titel;
+  show("game");
+  clearInterval(timer);
+  if (pack.zeit) {
+    timer = setInterval(() => {
+      S.timeLeft -= 0.25;
+      $("timeBar").style.width = Math.max(0, (S.timeLeft / pack.zeit) * 100) + "%";
+      if (S.timeLeft <= 0) endGame();
+    }, 250);
+  } else { $("timeBar").style.width = "100%"; }
+  nextQuestion();
+}
+
+function multiplier() { return 1 + Math.min(4, Math.floor(S.streak / 3)) * 0.5; } // 1,0 … 3,0
+
+function updateHud() {
+  $("hudScore").textContent = S.score;
+  $("hudStreak").innerHTML = S.streak >= 3 ? `<span class="streak">${S.streak} ×${String(multiplier()).replace(".", ",")}</span>` : S.streak;
+  const total = S.pack.typ === "generator" ? "" : ` / ${S.queue.length}`;
+  $("hudProgress").textContent = S.pack.typ === "generator" ? `Stufe ${S.level}` : `Frage ${Math.min(S.idx + 1, S.queue.length)}${total}`;
+}
+
+function nextQuestion() {
+  if (!S || S.ended) return;
+  $("fb").classList.add("hidden"); $("nextBtn").classList.add("hidden");
+  S.locked = false; S.qStart = performance.now();
+  const p = S.pack;
+  if (p.typ !== "generator" && S.idx >= S.queue.length) {
+    if (p.zeit) { S.queue = S.queue.concat(shuffle(p.fragen)); } // Sprint: Fragen wiederholen, solange Zeit bleibt
+    else return endGame();
+  }
+  let q;
+  if (p.typ === "generator") { S.level = S.streak >= 8 ? 3 : S.streak >= 4 ? 2 : 1; q = GENERATORS[p.generator](S.level); S.current = q; }
+  else { q = S.queue[S.idx]; S.current = q; }
+  updateHud();
+
+  const area = $("qArea");
+  if (p.typ === "wahrfalsch") {
+    area.innerHTML = `<div class="question">${esc(q.f)}</div>
+      <div class="tf"><button id="bTrue">Wahr</button><button id="bFalse">Falsch</button></div>
+      <div class="keys">Tasten: W = wahr, F = falsch</div>`;
+    $("bTrue").onclick = () => answer(q.a === true, q.a ? "Wahr" : "Falsch");
+    $("bFalse").onclick = () => answer(q.a === false, q.a ? "Wahr" : "Falsch");
+  } else if (p.typ === "mc") {
+    const opts = shuffle(q.optionen.map((o, i) => ({ o, i })));
+    area.innerHTML = `<div class="question">${esc(q.f)}</div><div class="answers">` +
+      opts.map((x, k) => `<button data-i="${x.i}">${k + 1}. ${esc(x.o)}</button>`).join("") + `</div><div class="keys">Tasten: 1–${opts.length}</div>`;
+    area.querySelectorAll("button[data-i]").forEach((b) => b.onclick = () => answer(Number(b.dataset.i) === q.richtig, q.optionen[q.richtig]));
+  } else {
+    area.innerHTML = `<div class="question mono">${esc(q.f)}</div>
+      <form id="genForm" class="row" autocomplete="off"><input id="genIn" type="text" inputmode="text" aria-label="Deine Antwort" placeholder="Antwort, Leerzeichen erlaubt">
+      <button class="primary" type="submit">Prüfen</button></form>`;
+    $("genForm").onsubmit = (e) => { e.preventDefault(); const v = $("genIn").value.trim(); if (!v) return; answer(q.check(v), q.loesung, v); };
+    $("genIn").focus();
+  }
+}
+
+function answer(ok, loesung, eingabe) {
+  if (!S || S.ended || S.locked) return;
+  S.locked = true; S.answered++;
+  const q = S.current;
+  const secs = (performance.now() - S.qStart) / 1000;
+  if (ok) {
+    S.streak++; S.bestStreak = Math.max(S.bestStreak, S.streak); S.correct++;
+    let pts = Math.round(10 * multiplier() * (S.pack.typ === "generator" ? S.level : 1));
+    if (!S.pack.zeit) pts += Math.max(0, Math.round(10 - secs)); // MC: Tempobonus bis 10 Punkte
+    S.score += pts;
+  } else {
+    S.streak = 0;
+    S.wrong.push({ f: q.f, loesung: String(loesung), eingabe: eingabe || "", erkl: q.erkl || "", quelle: q.quelle || "" });
+  }
+  S.idx++;
+  updateHud();
+  document.querySelectorAll("#qArea button, #qArea input").forEach((el) => el.disabled = true);
+  const fb = $("fb");
+  fb.className = "feedback " + (ok ? "ok" : "bad");
+  fb.innerHTML = `<b>${ok ? "Richtig!" : "Leider falsch."}</b>` +
+    (!ok ? ` Lösung: <span class="mono">${esc(loesung)}</span>` : "") +
+    (q.erkl ? `<div class="expl">${esc(q.erkl)}</div>` : "") +
+    (q.quelle ? `<div class="src">Quelle: ${esc(q.quelle)}</div>` : "");
+  // Richtig im Zeitmodus: automatisch weiter; falsch: Erklaerung lesen, dann Weiter
+  if (ok && S.pack.zeit) { setTimeout(() => { if (S && S.locked) nextQuestion(); }, 600); }
+  else { $("nextBtn").classList.remove("hidden"); $("nextBtn").focus(); }
+}
+
+function endGame() {
+  clearInterval(timer); timer = null;
+  if (!S || S.ended) return;
+  S.ended = true;
+  const nick = ($("nick").value || store.get(NICK_KEY, "") || "Anonym").trim().slice(0, 20) || "Anonym";
+  const hs = store.get(HS_KEY, {});
+  const list = hs[S.pack.id] || [];
+  const entry = { name: nick, score: S.score, correct: S.correct, answered: S.answered, date: new Date().toISOString().slice(0, 10), t: Date.now() };
+  list.push(entry); list.sort((a, b) => b.score - a.score || a.t - b.t);
+  hs[S.pack.id] = list.slice(0, 10); store.set(HS_KEY, hs);
+  const rank = hs[S.pack.id].findIndex((e) => e.t === entry.t) + 1;
+
+  $("resTitle").textContent = S.pack.titel;
+  $("resScore").textContent = S.score + " Punkte";
+  const quote = S.answered ? Math.round((S.correct / S.answered) * 100) : 0;
+  $("resStats").textContent = `${S.correct} von ${S.answered} richtig (${quote} %) · beste Serie ${S.bestStreak}`;
+  $("resRank").innerHTML = rank ? `Platz <b>${rank}</b> in deiner Bestenliste${rank === 1 ? " – neuer Rekord!" : ""}` : "Nicht in den Top 10";
+  $("hsTable").innerHTML = `<table><thead><tr><th>#</th><th>Name</th><th>Punkte</th><th>Richtig</th><th>Datum</th></tr></thead><tbody>` +
+    hs[S.pack.id].map((e, i) => `<tr${e.t === entry.t ? ' style="font-weight:700"' : ""}><td>${i + 1}</td><td>${esc(e.name)}</td><td>${e.score}</td><td>${e.correct}/${e.answered}</td><td>${e.date}</td></tr>`).join("") + `</tbody></table>`;
+  $("wrongCard").classList.toggle("hidden", S.wrong.length === 0);
+  $("wrongList").innerHTML = S.wrong.map((w) => `<li>${esc(w.f)} → <span class="mono">${esc(w.loesung)}</span>${w.eingabe ? ` <span class="muted">(deine Eingabe: ${esc(w.eingabe)})</span>` : ""}${w.erkl ? `<br><span class="muted">${esc(w.erkl)}</span>` : ""}</li>`).join("");
+  $("copyMsg").textContent = "";
+  show("result");
+}
+
+// Fehlerliste als Markdown fuer 60_Pruefung/Pruefung.md
+function wrongMarkdown() {
+  const d = new Date().toISOString().slice(0, 10);
+  return `### ${d} · FI-Quiz · ${S.pack.titel}\n` + S.wrong.map((w) =>
+    `- [ ] ${w.f} → **${w.loesung}**${w.eingabe ? ` (ich: ${w.eingabe})` : ""}${w.quelle ? ` · ${w.quelle}` : ""}`).join("\n") + "\n";
+}
+$("copyMd").onclick = async () => {
+  const md = wrongMarkdown();
+  try { await navigator.clipboard.writeText(md); $("copyMsg").textContent = "Kopiert. In 60_Pruefung/Pruefung.md unter „Fehlerliste“ einfügen."; }
+  catch (e) { // Fallback ohne Clipboard-API
+    const ta = document.createElement("textarea"); ta.value = md; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); $("copyMsg").textContent = "Kopiert."; } catch (e2) { $("copyMsg").textContent = "Kopieren nicht möglich, bitte herunterladen."; }
+    ta.remove();
+  }
+};
+$("dlMd").onclick = () => {
+  const blob = new Blob([wrongMarkdown()], { type: "text/markdown" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = `FI-Quiz-Fehler-${new Date().toISOString().slice(0, 10)}.md`; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+};
+
+$("nextBtn").onclick = nextQuestion;
+$("quitBtn").onclick = () => { clearInterval(timer); S = null; renderMenu(); show("menu"); };
+$("againBtn").onclick = () => startGame(S.pack.id);
+$("menuBtn").onclick = () => { S = null; renderMenu(); show("menu"); };
+
+// Tastatur: W/F, 1-9, Enter
+document.addEventListener("keydown", (e) => {
+  if ($("game").classList.contains("hidden") || !S) return;
+  if (e.target && e.target.id === "genIn") return;
+  if (e.key === "Enter" && !$("nextBtn").classList.contains("hidden")) { e.preventDefault(); nextQuestion(); return; }
+  if (S.locked) return;
+  if (S.pack.typ === "wahrfalsch") {
+    if (e.key.toLowerCase() === "w") $("bTrue").click();
+    if (e.key.toLowerCase() === "f") $("bFalse").click();
+  } else if (S.pack.typ === "mc" && /^[1-9]$/.test(e.key)) {
+    const btns = document.querySelectorAll("#qArea button[data-i]"); const b = btns[Number(e.key) - 1]; if (b) b.click();
+  }
+});
+
+renderMenu();
+</script>
+</body>
+</html>
