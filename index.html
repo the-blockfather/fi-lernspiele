@@ -836,6 +836,112 @@
         "quelle": "Buch S. 304"
       }
     ]
+  },
+  {
+    "id": "lf03-tag2409-wf",
+    "titel": "LF03 Unterricht 24.09. Wahr/Falsch",
+    "lernfeld": "LF03",
+    "typ": "wahrfalsch",
+    "zeit": 90,
+    "beschreibung": "Nur der Stoff vom 24.09.: IPv6, Ports, Topologien, DNS/DHCP, CSMA/CD vs. CSMA/CA, Ethernet-Frame, VLAN-Tag-Details. 90 Sekunden.",
+    "fragen": [
+      {
+        "f": "Eine IPv6-Adresse ist 64 Bit lang, also genau doppelt so groß wie eine IPv4-Adresse.",
+        "a": false,
+        "erkl": "IPv6 ist 128 Bit lang (4-mal so groß wie IPv4 mit 32 Bit), geschrieben als 8 Blöcke zu je 16 Bit in Hex.",
+        "quelle": "Buch S. 334"
+      },
+      {
+        "f": "IPv6 kennt im Gegensatz zu IPv4 keine Broadcast-Adressierung mehr.",
+        "a": true,
+        "erkl": "Bei IPv6 wurde Broadcast ersatzlos gestrichen, es gibt nur noch Multicast.",
+        "quelle": "Buch S. 335"
+      },
+      {
+        "f": "Eine Portnummer ist eine 16-Bit-Zahl mit Wertebereich 0 bis 65535.",
+        "a": true,
+        "erkl": "2^16 = 65536 mögliche Werte, also 0 bis 65535.",
+        "quelle": "Buch S. 337"
+      },
+      {
+        "f": "Die IP-Adresse adressiert die Anwendung auf einem Rechner, der Port adressiert den Rechner selbst.",
+        "a": false,
+        "erkl": "Umgekehrt: Die IP-Adresse adressiert den Rechner (Host), der Port die konkrete Anwendung darauf.",
+        "quelle": "Buch S. 337"
+      },
+      {
+        "f": "Bei einer vollständigen Maschen-Topologie ist jede Station mit jeder anderen Station verbunden.",
+        "a": true,
+        "erkl": "Das ergibt maximale Ausfallsicherheit, ist aber sehr aufwendig in der Verkabelung.",
+        "quelle": "Buch S. 310"
+      },
+      {
+        "f": "Die Bus-Topologie ist in modernen LANs der Standard.",
+        "a": false,
+        "erkl": "Die Bus-Topologie ist in LANs heute nicht mehr üblich, üblich ist die Stern-Topologie über Switches.",
+        "quelle": "Buch S. 310"
+      },
+      {
+        "f": "Ein DNS-Server übersetzt Domainnamen wie \"westermann.de\" in IP-Adressen.",
+        "a": true,
+        "erkl": "Das ist die Namensauflösung, die Kernaufgabe von DNS.",
+        "quelle": "Buch S. 327"
+      },
+      {
+        "f": "Der DHCP-Ablauf läuft in der Reihenfolge Discover, Offer, Request, Acknowledge (\"DORA\") ab.",
+        "a": true,
+        "erkl": "Client sucht Server (Discover), Server bietet an (Offer), Client fordert an (Request), Server bestätigt (Acknowledge).",
+        "quelle": "Buch S. 294"
+      },
+      {
+        "f": "Für eine IPv6-Adresse fragt ein Dual-Stack-Client per DNS eine Antwort vom Typ \"A\" ab.",
+        "a": false,
+        "erkl": "Typ \"A\" ist für IPv4. Für IPv6 wird der Typ \"AAAA\" verwendet.",
+        "quelle": "Buch S. 327"
+      },
+      {
+        "f": "CSMA/CD wird bei WLAN eingesetzt, CSMA/CA bei kabelgebundenem Ethernet.",
+        "a": false,
+        "erkl": "Umgekehrt: CSMA/CD ist für Ethernet/LAN, CSMA/CA für WLAN.",
+        "quelle": "Buch S. 305"
+      },
+      {
+        "f": "Bei CSMA/CA versucht man, Kollisionen durch zufällige Wartezeiten von vornherein zu vermeiden, statt sie erst während des Sendens zu erkennen.",
+        "a": true,
+        "erkl": "WLAN-Stationen erkennen Kollisionen oft nicht zuverlässig, deshalb setzt CSMA/CA auf Vermeidung statt Erkennung.",
+        "quelle": "Buch S. 305"
+      },
+      {
+        "f": "Ein Ethernet-Frame beginnt mit einer 8 Byte großen Präambel zur Synchronisation.",
+        "a": true,
+        "erkl": "Die Präambel synchronisiert den Empfänger, bevor die eigentlichen Adress- und Nutzdaten folgen.",
+        "quelle": "Buch S. 306"
+      },
+      {
+        "f": "Die Nutzdaten eines Ethernet-Frames dürfen maximal 1500 Byte groß sein, das entspricht der MTU.",
+        "a": true,
+        "erkl": "1500 Byte ist die Maximum Transmission Unit (MTU); bei weniger als 46 Byte wird mit Nullen aufgefüllt.",
+        "quelle": "Buch S. 306"
+      },
+      {
+        "f": "Das Typ-Feld 0x0800 im Ethernet-Frame kennzeichnet IPv6-Nutzdaten.",
+        "a": false,
+        "erkl": "0x0800 steht für IPv4. IPv6 wird mit 0x86dd gekennzeichnet.",
+        "quelle": "Buch S. 306"
+      },
+      {
+        "f": "Im VLAN-Tag stehen 3 Bit für die Prioritätsstufe zur Verfügung, also 8 mögliche Stufen.",
+        "a": true,
+        "erkl": "2^3 = 8 Prioritätsstufen (0 bis 7), z. B. um Sprachdaten höher zu priorisieren als E-Mail.",
+        "quelle": "Buch S. 307"
+      },
+      {
+        "f": "Der VLAN-Tag beginnt immer mit der Zahlenfolge 0x8100 (TPID).",
+        "a": true,
+        "erkl": "Das TPID-Feld (2 Byte, Wert 0x8100) markiert den Beginn des VLAN-Tags im Frame.",
+        "quelle": "Buch S. 307"
+      }
+    ]
   }
 ]</script>
 
