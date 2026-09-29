@@ -1,0 +1,160 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verständnislandkarte Netzwerke (LF03)</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Verständnislandkarte Netzwerke (LF03)
+
+
+## Worum geht's
+
+Kompaktübersicht, wie die Netzwerkschichten zusammenhängen — von der Anwendung bis zu den Bits auf dem Kabel — als Gegenstück zum kapitelweisen Lehrplan-Vorgehen. Für die ausführliche, buchgeprüfte Fassung mit vollständigen Prüffragen siehe die Begriffsnotiz OSI-Modell und TCP-IP-Modell. VLAN/Trunk und Router sind hier bewusst nur kurz erwähnt — ausführlich stehen sie schon in VLAN und Router.
+
+## Kernpunkte
+
+### Die Netzwerk-Landkarte
+
+```
+ANWENDUNG (HTTP, HTTPS, DNS, FTP, ...)
+   ↑ nutzt
+PORTS (80, 443, 53, ...)
+   ↑ gehören zu
+TCP / UDP
+   ↑ laufen über
+IP
+   ↑ wird verpackt in
+ETHERNET
+   ↑ wird gesendet über
+KABEL / WLAN
+   ↑ bestehen aus
+BITS
+```
+
+Gegengeprüft gegen Buch S. 323: Das Buch beschreibt beim Senden exakt diese Reihenfolge als Verkapselung (Layer 7 Data → Segment/TCP → Paket/IP → Frame/Ethernet → Bits).
+
+### Wer adressiert was? (Prüfungsklassiker)
+
+| Frage | Antwort | Schicht |
+|---|---|---|
+| Welches Gerät im LAN? | MAC-Adresse | 2 |
+| Welcher Rechner im Netzwerk? | IP-Adresse | 3 |
+| Welche Anwendung? | Port | 4 |
+| Was will der Nutzer eigentlich? | HTTP, DNS, FTP … | 7 |
+
+### Ports: die Haus-Analogie
+
+IP-Adresse = Haus, Port = Wohnung, Anwendung = Bewohner. `192.168.1.10:443` → Rechner 192.168.1.10, Wohnung/Port 443, dahinter wohnt HTTPS. Vollständige, geprüfte Port-Tabelle inkl. der hier zusätzlich genannten Ports (53 DNS, 67/68 DHCP, 110 POP3, 123 NTP, 445 SMB, 3389 RDP) steht jetzt in Portnummer (TCP-UDP-Ports).
+
+### TCP vs. UDP: warum mehr Aufwand bei TCP?
+
+| | TCP | UDP |
+|---|---|---|
+| Verbindung | Handshake vorher (`SYN → SYN-ACK → ACK`) | keine, sendet sofort |
+| Bestätigung | ACK pro Paket | keine |
+| Header-Größe | mindestens 20 Byte | 8 Byte |
+| Reihenfolge/Verlust | wird geprüft, Verlorenes erneut gesendet | nicht geprüft |
+| Merksatz | „Bist du angekommen?" – „Ja!" | „Hier sind die Daten." |
+| Typisch für | HTTP/HTTPS, FTP, E-Mail, SSH | DNS, NTP, VoIP, Streaming, Online-Gaming |
+
+**Faustregel:** TCP braucht durch Handshake, Bestätigungen und Fehlerkorrektur typischerweise **etwa 20–100 % mehr Verwaltungsaufwand** als UDP.
+
+> [!warning] Keine gemessenen Werte
+> Konkrete „CPU-Einheiten"-Vergleiche aus dem Chat sind ein vereinfachtes Gedankenexperiment zur Veranschaulichung, keine echte Messung. Für die Prüfung zählt das **Prinzip** (Handshake/ACKs/Fehlerkorrektur = Mehraufwand), nicht eine genaue Zahl.
+
+### Warum verpackt man Daten überhaupt? (Merksatz-Kette)
+
+Wer soll es bekommen? (Ziel-MAC) → Wer sendet es? (Quell-MAC) → Was ist drin? (Typ-Feld) → Die Daten (Nutzlast) → Fehlerkontrolle (FCS)
+
+### Ausblick: was kommt laut Copilot als Nächstes?
+
+Switch → VLAN → Routing → **Subnetting** → DHCP → DNS → NAT → IPv6
+
+> [!warning] Nicht 1:1 mit dem Lehrplan geprüft
+> Das ist Copilots Einschätzung des typischen Ablaufs, keine offizielle Reihenfolge eurer Umschulung. Laut Buch-Inhaltsverzeichnis kommt nach 3.3 (Ethernet/TCP-IP) tatsächlich 3.4 mit Medien, Schichtenmodellen, Adressen und Netzwerkkomponenten — **Subnetting** ist Teil von 3.4.5 (ab Buch S. 330) und laut Lernstand „stark prüfungsrelevant". Die Grundrichtung von Copilots Einschätzung passt also.
+
+## Bezug zum Buch / zu Begriffsnotizen
+
+Die OSI-Schichtinhalte sind 1:1 mit Buch S. 321–325 abgeglichen (Kapitel 3.4.4 „Schichtenmodelle der Kommunikation unterscheiden"). Details, vollständige Prüffragen und das TCP/IP-4-Schichten-Modell stehen in OSI-Modell und TCP-IP-Modell. Ethernet-Frame-Details → Ethernet, VLAN/Trunk → VLAN, Router/Layer 3 → Router (Layer-Zuordnung jetzt gegen das Buch bestätigt), vollständige Port-Tabelle und TCP/UDP-Header-Vergleich → Portnummer (TCP-UDP-Ports).
+
+## Prüffragen
+
+> [!question]- In welcher Reihenfolge durchlaufen Daten beim Senden die Netzwerk-Landkarte (von der Anwendung bis zum Kabel)?
+> Anwendung → Port → TCP/UDP → IP → Ethernet → Kabel/WLAN → Bits.
+
+> [!question]- Ein Rechner will einen anderen Rechner im selben LAN ansprechen — welche Adresse braucht er dafür, und auf welcher Schicht liegt sie?
+> Die MAC-Adresse, Schicht 2 (Sicherungsschicht).
+
+> [!question]- Warum ist UDP für ein Online-Spiel geeigneter als TCP, obwohl es keine Zuverlässigkeit bietet?
+> Geht ein Paket (z. B. eine Positionsaktualisierung) verloren, ist das kaum relevant, weil sofort das nächste, aktuellere Paket folgt. Die Geschwindigkeit ohne Handshake/Bestätigungen zählt hier mehr als Zuverlässigkeit — bei einem Dateidownload wäre das genau umgekehrt.
+
+> [!question]- Nenne zwei Gründe, warum TCP mehr Overhead als UDP erzeugt.
+> Zum Beispiel: 3-Way-Handshake vor dem eigentlichen Datenaustausch, und Bestätigungen (ACKs) für jedes empfangene Paket (weitere mögliche Gründe: größerer Header, Neuübertragung bei Verlust, Reihenfolgekontrolle).
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>
