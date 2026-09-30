@@ -1,0 +1,163 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verfügbarkeit verstehen und berechnen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Verfügbarkeit verstehen und berechnen
+
+
+## In einem Satz
+
+Verfügbarkeit misst den Anteil der Zeit, in der ein System läuft, und Redundanz senkt die Wahrscheinlichkeit, dass alle Teile gleichzeitig ausfallen.
+
+## Worum geht's
+
+Verfügbarkeit (A) ist der Bruch aus Betriebszeit und Gesamtzeit. Ein Jahr hat 8760 Stunden. Geplante Wartung zählt in der Kennzahl meist nicht als Ausfall. Mehr Bauteile allein erhöhen das Risiko, weil mehr kaputtgehen kann. Redundanz bedeutet: kritische Teile doppelt vorhalten. Das System fällt nur aus, wenn alle redundanten Teile gleichzeitig defekt sind. Die Wahrscheinlichkeit dafür multipliziert sich (p_ges = p1 * p2).
+
+> [!example] Alltagsvergleich
+> Ein Flugzeug mit zwei Triebwerken: Fällt eines aus, fliegt das andere weiter. Die Chance, dass *beide* gleichzeitig versagen, ist winzig klein (Produkt der Einzelwahrscheinlichkeiten). Aber: Zwei Triebwerke haben auch doppelt so viele Teile, die *irgendeins* kaputtgehen kann. Ohne Redundanz (z. B. nur ein Triebwerk) ist das Risiko eines Totalausfalls viel höher.
+
+## Kernpunkte
+
+1. Die **Verfügbarkeit A** ist der Zeitanteil, in dem das System funktioniert: A = t_up / t_gesamt = 1 − t_down / t_gesamt.
+2. Die **Ausfallzeit pro Jahr** berechnest du mit t_down = 8760 h · (1 − A). Bei 99,9 % sind das 8,76 h.
+3. Die **Ausfallwahrscheinlichkeit p** gibt an, wie wahrscheinlich ein einzelnes Teil ausfällt (z. B. 1 von 100 → p = 0,01).
+4. **Redundanz** heißt: Wichtige Teile doppelt (oder mehrfach) vorhalten. Das System läuft, solange mindestens ein Teil läuft.
+5. Bei **Redundanz** sinkt die Gesamt-Ausfallwahrscheinlichkeit stark: p_ges = p1 · p2 · … (bei gleichen Teilen pⁿ).
+6. Der **Verfügbarkeitsverbund** im Netz nutzt Redundanz (z. B. zweiter Server), um Ausfälle abzufedern.
+7. **Geplante Ausfälle** (Updates, Wartung) sind in der Verfügbarkeits-Kennzahl meist nicht enthalten.
+8. **RAID 1** (Spiegelung) erhöht Verfügbarkeit (eine Platte darf ausfallen). **RAID 0** (Striping) senkt sie (mehr Platten, keine Reserve).
+
+## Verfügbarkeitsklassen und erlaubte Ausfallzeit pro Jahr
+
+| Verfügbarkeit A | Ausfallzeit pro Jahr |
+|---|---|
+| 99 % | 87,6 h |
+| 99,9 % | 8,76 h |
+| 99,99 % | 52,56 min |
+| 99,999 % | 5,26 min |
+
+## Beispiel: Maximale Ausfallzeit bei 99,95 % Verfügbarkeit berechnen
+
+1. 1. Gesamtzeit pro Jahr festlegen: 8760 h.
+2. 2. Verfügbarkeit in Dezimalzahl umrechnen: 99,95 % = 0,9995.
+3. 3. Formel anwenden: t_down = 8760 h · (1 − 0,9995).
+4. 4. Klammer rechnen: 1 − 0,9995 = 0,0005.
+5. 5. Multiplizieren: 8760 h · 0,0005 = 4,38 h.
+6. 6. Nachkommateil in Minuten: 0,38 h · 60 min/h = 22,8 min ≈ 23 min.
+
+**Ergebnis:** Der Dienst darf maximal 4 h 23 min pro Jahr ausfallen.
+
+## 💡 Merksätze
+
+> 💡 Verfügbarkeit = Uptime durch Gesamtzeit.
+
+> 💡 Mehr Teile = mehr Risiko, außer sie sind redundant.
+
+> 💡 Redundanz: Alle müssen gleichzeitig kaputtgehen.
+
+> 💡 99,9 % = knapp 9 Stunden Ausfall im Jahr.
+
+> 💡 Geplante Wartung zählt nicht zur Ausfallzeit.
+
+## Prüfungsfallen
+
+- Verwechslung: ‚Mehr Baugruppen erhöhen die Verfügbarkeit.‘ → Richtig: Mehr Baugruppen erhöhen die Ausfallwahrscheinlichkeit; nur redundante Baugruppen erhöhen die Verfügbarkeit.
+- Verwechslung: ‚Verfügbarkeit und Ausfallwahrscheinlichkeit sind dasselbe.‘ → Richtig: Verfügbarkeit ist ein Zeitanteil (A), Ausfallwahrscheinlichkeit ist ein Ereignis-Wert (p).
+- Verwechslung: ‚RAID 0 macht das System sicherer.‘ → Richtig: RAID 0 (Striping) verteilt Daten ohne Spiegelung → eine Platte kaputt = alle Daten weg. Verfügbarkeit sinkt.
+- Verwechslung: ‚Geplante Updates zählen in die SLA-Ausfallzeit.‘ → Richtig: Geplante Wartungsfenster sind in der Regel ausgenommen.
+- Verwechslung: ‚Bei Redundanz addiert man die Ausfallwahrscheinlichkeiten (p1 + p2).‘ → Richtig: Man multipliziert sie (p1 · p2), weil ALLE gleichzeitig ausfallen müssen (UND-Verknüpfung).
+
+## Im Buch
+
+- Verfügbarkeit: S. 387, S. 506
+- Ausfallwahrscheinlichkeit: S. 388
+- SLA: S. 202
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Wie berechnet man die Verfügbarkeit A eines Systems?
+> A = Betriebszeit (t_up) geteilt durch Gesamtzeit (t_gesamt). Alternativ: 1 minus Ausfallzeit (t_down) geteilt durch Gesamtzeit.
+
+> [!question]- Ein Drucker hat 97 % Verfügbarkeit. Wie lange ist er pro Jahr verfügbar und wie lange fällt er aus?
+> Verfügbar: 0,97 · 8760 h = 8497,2 h. Ausfall: 8760 h − 8497,2 h = 262,8 h (ca. 11 Tage).
+
+> [!question]- Drei Access Points (je p = 0,05) decken denselben Bereich redundant ab. Wie hoch ist die Wahrscheinlichkeit, dass alle drei gleichzeitig ausfallen?
+> p_ges = 0,05 · 0,05 · 0,05 = 0,000125 (0,0125 %).
+
+> [!question]- Warum erhöht RAID 0 die Ausfallgefahr statt sie zu verringern?
+> RAID 0 verteilt Daten auf mehrere Platten ohne Redundanz. Fällt eine Platte aus, sind alle Daten verloren. Mehr Platten bedeuten mehr Ausfallursachen ohne Reserve.
+
+> [!question]- Was ist der Unterschied zwischen Verfügbarkeitsverbund und Ressourcenverbund?
+> Verfügbarkeitsverbund schafft Reserven gegen Ausfälle (Redundanz, z. B. zweiter Server). Ressourcenverbund teilt Geräte gemeinsam (z. B. ein Netzwerkdrucker für alle).
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

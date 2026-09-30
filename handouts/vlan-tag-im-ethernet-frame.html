@@ -1,0 +1,161 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VLAN-Tag im Ethernet-Frame</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: VLAN-Tag im Ethernet-Frame
+
+
+## In einem Satz
+
+Ein VLAN-Tag ist ein 4 Byte großer Zusatz im Ethernet-Header, der Frames einer logischen Gruppe zuordnet und den Header von 14 auf 18 Byte vergrößert.
+
+## Worum geht's
+
+Ein VLAN (Virtual LAN) trennt ein physisches Netzwerk logisch in mehrere getrennte Netze auf. Damit ein Switch weiß, zu welchem VLAN ein Frame gehört, wird dem Frame ein Tag angehängt. Dieser Tag wird direkt hinter die Quell-MAC-Adresse in den Header eingefügt. Er besteht aus einem Kennzeichen (TPID), Prioritätsbits, einem Drop-Indikator und der 12-Bit-VLAN-ID. Durch den Tag wächst der Ethernet-Header von 14 auf 18 Byte an, der gesamte Overhead (Header + Prüfsumme) steigt von 18 auf 22 Byte. Endgeräte senden meist ungetaggte Frames an den Switch (Access-Port), zwischen Switches laufen getaggte Frames über Trunk-Ports.
+
+> [!example] Alltagsvergleich
+> Stell dir einen großen Büroflur (physisches Netz) vor. Damit Post (Frames) nur an die richtige Abteilung (VLAN) geht, klebt der Verteiler (Switch) einen farbigen Aufkleber (Tag) auf jeden Briefumschlag. Der Aufkleber wird zwischen Absender und Betreffzeile geklebt, macht den Umschlag minimal dicker, aber die Sortierung wird eindeutig.
+
+## Kernpunkte
+
+1. Ein **VLAN-Tag** ist 4 Byte groß und sitzt im Ethernet-Header **zwischen Quell-MAC und Typ-Feld**.
+2. Der Tag enthält: **TPID** (2 Byte, Wert 0x8100 als Kennzeichen), **Priorität** (3 Bit, 8 Stufen für QoS), **CFI/DEI** (1 Bit, Markierung für verwerfbare Frames bei Überlast) und **VLAN-ID** (12 Bit, Nummer des virtuellen Netzes).
+3. Durch 12 Bit sind **4096** IDs möglich (2^12). Die IDs **0** und **4095** sind reserviert, nutzbar sind **4094 VLANs**.
+4. Der **Header wächst von 14 auf 18 Byte**. Der **Overhead (Header + FCS)** steigt von **18 auf 22 Byte**. Die Nutzdaten (Payload) bleiben maximal 1500 Byte.
+5. **Access-Port** (PC ↔ Switch): Frames laufen **untagged** (ohne Tag). Der Switch fügt beim Weiterleiten in den Trunk den Tag hinzu.
+6. **Trunk-Port** (Switch ↔ Switch): Frames laufen **tagged** (mit Tag), damit der nächste Switch die VLAN-Zuordnung erkennt.
+7. Priorisierung (QoS) über die 3 Prioritätsbits: **0 = niedrigste** (Hintergrund) bis **7 = höchste** (Netzwerksteuerung). Sprache bekommt oft Priorität 5 oder 6.
+8. Ein Tag wird nur von Switches eingefügt und entfernt. Endgeräte (PC, Drucker) sehen den Tag normalerweise nicht.
+
+## Vergleich Ethernet-Header ohne / mit VLAN-Tag
+
+| Feld | Ohne Tag (Byte) | Mit Tag (Byte) |
+|---|---|---|
+| Ziel-MAC | 6 | 6 |
+| Quell-MAC | 6 | 6 |
+| VLAN-Tag (TPID, Prio, DEI, VLAN-ID) | – | 4 |
+| Typ / Länge | 2 | 2 |
+| Header gesamt | 14 | 18 |
+| Overhead gesamt (Header + FCS 4 Byte) | 18 | 22 |
+
+## Beispiel: Berechnung Overhead mit VLAN-Tag
+
+1. 1. Standard-Ethernet-Header: Ziel-MAC (6 Byte) + Quell-MAC (6 Byte) + Typ (2 Byte) = 14 Byte.
+2. 2. Frame Check Sequence (FCS) am Ende: 4 Byte.
+3. 3. Overhead ohne Tag: 14 Byte Header + 4 Byte FCS = 18 Byte.
+4. 4. VLAN-Tag wird eingefügt: + 4 Byte (TPID 2 Byte + TCI 2 Byte).
+5. 5. Neuer Header: 14 Byte + 4 Byte = 18 Byte.
+6. 6. Neuer Overhead: 18 Byte Header + 4 Byte FCS = 22 Byte.
+
+**Ergebnis:** Mit VLAN-Tag beträgt der Header 18 Byte, der gesamte Overhead 22 Byte.
+
+## 💡 Merksätze
+
+> 💡 Tag sitzt zwischen Quell-MAC und Typ – 4 Byte Extra-Platz.
+
+> 💡 12 Bit ID = 4096 theoretisch, minus 2 reserviert = 4094 nutzbar.
+
+> 💡 Access = untagged (Endgerät), Trunk = tagged (Switch zu Switch).
+
+> 💡 TPID 0x8100 sagt: Achtung, hier kommt ein VLAN-Tag!
+
+> 💡 Priorität 3 Bit = 8 Stufen (0–7), 7 ist am wichtigsten.
+
+## Prüfungsfallen
+
+- Verwechslung: Header-Größe vs. Overhead-Größe. Richtig: Header 14→18 Byte, Overhead 18→22 Byte (inkl. FCS).
+- Verwechslung: VLAN-ID-Bitanzahl vs. Anzahl VLANs. Richtig: 12 Bit → 4096 Werte, nutzbar 4094 (0 und 4095 reserviert).
+- Verwechslung: Wo läuft tagged, wo untagged? Richtig: PC→Switch untagged (Access), Switch→Switch tagged (Trunk).
+- Verwechslung: TPID vs. Typ-Feld. Richtig: TPID (0x8100) steht *vor* dem eigentlichen Typ-Feld und kündigt den Tag an.
+- Verwechslung: Nutzdatengröße. Richtig: MTU 1500 Byte Payload bleibt gleich, nur Header wächst.
+
+## Im Buch
+
+- VLAN: S. 288, S. 307
+- Trunk: S. 288
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Ändert sich der Ethernet-Header durch einen VLAN-Tag? Begründe.
+> Ja. Der 4 Byte große VLAN-Tag wird zwischen Quell-MAC-Adresse und Typ-Feld eingefügt. Der Header wächst dadurch von 14 auf 18 Byte. Der gesamte Overhead (Header + FCS) steigt von 18 auf 22 Byte.
+
+> [!question]- Wie viele VLANs sind maximal nutzbar und warum?
+> 4094. Die VLAN-ID ist 12 Bit groß (2^12 = 4096 Werte). Die IDs 0 und 4095 sind reserviert, bleiben also 4094 nutzbare IDs.
+
+> [!question]- Erkläre den Unterschied zwischen Access-Port und Trunk-Port beim VLAN-Tagging.
+> Am Access-Port (zum Endgerät) laufen Frames untagged, der Switch kümmert sich um das Tagging. Am Trunk-Port (zwischen Switches) laufen Frames tagged, damit der nächste Switch die VLAN-Zuordnung lesen kann.
+
+> [!question]- Welche Felder enthält der VLAN-Tag (TCI) und wie groß sind sie?
+> Der Tag Control Information (TCI) Teil ist 2 Byte (16 Bit) groß und besteht aus: Priorität (3 Bit), CFI/DEI (1 Bit), VLAN-ID (12 Bit). Davor steht die TPID (2 Byte, Wert 0x8100).
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

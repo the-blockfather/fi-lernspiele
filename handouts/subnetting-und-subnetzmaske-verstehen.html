@@ -1,0 +1,146 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subnetting und Subnetzmaske verstehen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Subnetting und Subnetzmaske verstehen
+
+
+## In einem Satz
+
+Die Subnetzmaske teilt eine IPv4-Adresse in Netz- und Hostanteil auf, damit Geräte wissen, ob ein Ziel im eigenen oder in einem fremden Netz liegt.
+
+## Worum geht's
+
+Jede IPv4-Adresse besteht aus 32 Bits und teilt sich in einen Netz- und einen Hostbereich auf. Die Subnetzmaske bestimmt, wo genau diese Grenze verläuft. Links stehen in der Maske lückenlos Einsen für das Netz, rechts Nullen für den Host. Mit einer bitweisen UND-Verknüpfung aus IP-Adresse und Subnetzmaske errechnest du die Netzadresse. Wenn du stattdessen alle Hostbits auf Eins setzt, erhältst du die Broadcast-Adresse für alle Geräte in diesem Netz.
+
+> [!example] Alltagsvergleich
+> Stell dir vor wie Postleitzahl und Hausnummer. Die Subnetzmaske legt fest, welche Ziffern zur Postleitzahl (Netz) und welche zur Hausnummer (Host) gehören. Liegt ein Ziel in einer anderen Stadt (anderes Subnetz), brauchst du zwingend einen Postboten oder Router für die Zustellung.
+
+## Kernpunkte
+
+1. Die **Subnetzmaske** besteht aus 32 Bits, wobei links die Netzbits (als 1) und rechts die Hostbits (als 0) stehen.
+2. Das **CIDR-Präfix** (z. B. /24) zählt einfach die Anzahl der Einsen in der Subnetzmaske zusammen.
+3. Die **Netzadresse** entsteht, indem du die IP-Adresse und die Subnetzmaske bitweise mit **UND** verknüpfst. Dabei werden alle Hostbits zu 0.
+4. Die **Broadcast-Adresse** entsteht, wenn du im Hostanteil alle Bits auf 1 setzt. Pakete an diese Adresse gehen an jeden Teilnehmer im Subnetz.
+5. Die Anzahl der **nutzbaren Hosts** berechnest du mit der Formel 2 hoch Hostbits minus 2, da Netz- und Broadcast-Adresse wegfallen.
+6. Mit der **Blockgröße** (256 minus Dezimalwert des angebrochenen Oktetts) bestimmst du schnell die Startadressen deiner Subnetze.
+
+## Wichtige Subnetzmasken und ihre Eigenschaften
+
+| Subnetzmaske | CIDR | Blockgröße | Nutzbare Hosts |
+|---|---|---|---|
+| 255.255.255.0 | /24 | 256 | 254 |
+| 255.255.255.128 | /25 | 128 | 126 |
+| 255.255.255.192 | /26 | 64 | 62 |
+| 255.255.255.224 | /27 | 32 | 30 |
+
+## Beispiel: Netz- und Broadcast-Adresse bestimmen für 192.168.10.77/26
+
+1. Präfix /26 bedeutet: Die Subnetzmaske lautet dezimal 255.255.255.192.
+2. Blockgröße im letzten Oktett berechnen: 256 − 192 = 64. Die Netze beginnen bei .0, .64, .128 und .192.
+3. IP 192.168.10.77 liegt im Block ab .64 (weil 64 ≤ 77 < 128).
+4. Netzadresse ist demnach 192.168.10.64 (alle Hostbits sind 0).
+5. Broadcast-Adresse berechnen: Nächster Netzstart minus 1, also 192.168.10.127 (alle Hostbits sind 1).
+
+**Ergebnis:** Netzadresse: 192.168.10.64, Broadcast-Adresse: 192.168.10.127
+
+## 💡 Merksätze
+
+> 💡 Maske hat links Einsen und rechts Nullen – CIDR zählt die Einsen.
+
+> 💡 Netzadresse = IP UND Maske. Broadcast = alle Hostbits auf 1.
+
+> 💡 Blockgröße ist gleich 256 minus Maskewert im angebrochenen Oktett.
+
+> 💡 Nutzbare Hosts = 2 hoch Hostbits minus 2.
+
+## Prüfungsfallen
+
+- Verwechslung von Gesamtadressen und nutzbaren Hosts: Die Formel lautet 2^H − 2, weil Netz- und Broadcast-Adresse nicht an Geräte vergeben werden dürfen.
+- Verwechslung von Netzadresse und erster Host-IP: Die Netzadresse hat hinten Nullen, die erste nutzbare IP ist Netzadresse plus 1.
+- Falsche Blockgröße bei Subnetzmasken: 256 minus Maskenwert rechnen, nicht den Maskenwert selbst als Blockende nehmen.
+
+## Im Buch
+
+*Kein passender Eintrag im Stichwortverzeichnis.*
+
+## Prüffragen
+
+> [!question]- Wie bestimmt man die Netzadresse aus einer IP-Adresse und der Subnetzmaske?
+> Man verknüpft IP-Adresse und Subnetzmaske bitweise mit UND. Dadurch bleiben nur die Netzbits erhalten, während alle Hostbits zu 0 werden.
+
+> [!question]- Wie entsteht die Broadcast-Adresse eines Subnetzes?
+> Indem man im Hostanteil der IP-Adresse alle Bits auf den Wert 1 setzt. Damit werden Nachrichten an alle Teilnehmer im selben Subnetz gesendet.
+
+> [!question]- Warum zieht man bei der Berechnung der nutzbaren Hosts immer 2 ab?
+> Weil die allererste Adresse (Netzadresse) und die allerletzte Adresse (Broadcast-Adresse) für die Netzwersteuerung reserviert sind und nicht an Hosts vergeben werden können.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

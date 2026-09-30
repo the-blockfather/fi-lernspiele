@@ -1,0 +1,145 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taktung & Synchronisation im Ethernet-Frame</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Taktung & Synchronisation im Ethernet-Frame
+
+
+## In einem Satz
+
+Die Präambel zieht den Empfänger-Takt nach, und der SFD (10101011) markiert das exakte Startbit des Frames.
+
+## Worum geht's
+
+Bei serieller Übertragung läuft ein Bit nach dem anderen über die Leitung – es gibt keine separate Taktleitung. Der Empfänger muss seinen eigenen Takt aus dem Signal gewinnen (Taktgewinnung). Die **Präambel** (7 Byte = 56 Bit Muster 10101010…) dient als „Einschwingphase“: das regelmäßige Wechseln 0/1 lässt die **PLL** (Phase Locked Loop) im Empfänger auf die Frequenz einschwingen. Der **SFD** (Start Frame Delimiter, 1 Byte) bricht dieses Muster am Ende mit zwei Einsen (…1011). Das Signal „11“ sagt dem Empfänger: „Jetzt hört die Synchronisation auf, hier fängt das erste Bit der Ziel-MAC-Adresse an.“
+
+> [!example] Alltagsvergleich
+> Ein Dirigent zählt den Takt vor: ‚Eins, zwei, drei, vier – eins, zwei, drei, vier‘ (Präambel). Alle Musiker synchronisieren ihr internes Tempo. Dann ruft er ‚Los!‘ (SFD) – und alle setzen exakt beim nächsten Schlag ein. Ohne Vorzählen würde jeder zu einem anderen Zeitpunkt beginnen.
+
+## Kernpunkte
+
+1. Serielle Übertragung sendet Bits **nacheinander** über eine Leitung; ein separater Taktdraht fehlt.
+2. Der Empfänger gewinnt den Takt aus dem Signal selbst (**Taktgewinnung** per PLL).
+3. Die **Präambel** (7 Byte, Muster **10101010…**) liefert die nötigen Flanken zum Einschwingen.
+4. Der **SFD** (Start Frame Delimiter, 1 Byte, Muster **10101011**) beendet die Präambel.
+5. Das letzte **„11“** im SFD bricht das Wechselmuster – das ist das Startsignal für den Frame.
+6. Danach folgt sofort die Ziel-MAC-Adresse (6 Byte) als erster Teil des Ethernet-Headers.
+
+## Präambel vs. SFD im Ethernet-Frame
+
+| Feld | Länge | Bitmuster | Funktion |
+|---|---|---|---|
+| Präambel | 7 Byte (56 Bit) | 10101010… (endet mit 0) | Takt synchronisieren (Einschwingen) |
+| SFD | 1 Byte (8 Bit) | 10101011 (endet mit 11) | Frame-Start markieren (Delimiter) |
+
+## Beispiel: Bitstrom am Leitungseingang (Hex & Binär)
+
+1. Präambel (7 Byte): 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA
+2.    → Binär: 10101010 10101010 10101010 10101010 10101010 10101010 10101010
+3. SFD (1 Byte): 0xD5
+4.    → Binär: 10101011  ← hier bricht das Muster: …10 **11**
+5. Darauf folgt sofort: Ziel-MAC (6 Byte), z. B. 00:1A:2B:3C:4D:5E
+
+**Ergebnis:** Der Empfänger erkennt am Übergang von …10 auf …11 den exakten Start des Frames.
+
+## 💡 Merksätze
+
+> 💡 Sieben Mal ‚10‘, dann ‚11‘ – der Frame beginnt hier.
+
+> 💡 Präambel taktet, SFD startet.
+
+> 💡 SFD = 0xD5 = 10101011 – die zwei Einsen am Ende sind das Startsignal.
+
+## Prüfungsfallen
+
+- Verwechslung: Präambel-Muster (endet mit 0) vs. SFD-Muster (endet mit 11). Richtig: SFD endet auf **11**.
+- Verwechslung: SFD gehört nicht zum Header (MAC/Typ), sondern zur **Synchronisation** (Layer 1/2 Übergang).
+- Annahme: SFD sei 10101010. Richtig: **10101011** (letztes Nibble 1011 = 0xB).
+- Verwechslung: Taktung (Layer 1) vs. Flow Control (Layer 2). Taktung ist physikalisch, Flow Control logisch.
+
+## Im Buch
+
+- Ethernet-Frame: S. 306
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Welches Bitmuster hat der Start Frame Delimiter (SFD) im Ethernet-Frame?
+> 10101011 (hex 0xD5). Die letzten beiden Bits ‚11‘ brechen das Wechselmuster der Präambel und markieren den Frame-Start.
+
+> [!question]- Warum braucht Ethernet eine Präambel vor dem eigentlichen Frame?
+> Weil seriell ohne separate Taktleitung übertragen wird. Die Präambel (56 Bit 1010…) liefert die Flanken, damit der Empfänger seinen Takt (PLL) auf die Sender-Frequenz einschwingen kann.
+
+> [!question]- Was passiert unmittelbar nach dem SFD?
+> Das nächste Bit ist das erste Bit der Ziel-MAC-Adresse (6 Byte), gefolgt von Absender-MAC, Typ-Feld und schließlich den Nutzdaten.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

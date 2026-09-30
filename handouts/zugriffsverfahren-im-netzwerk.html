@@ -1,0 +1,157 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zugriffsverfahren im Netzwerk</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Zugriffsverfahren im Netzwerk
+
+
+## In einem Satz
+
+Zugriffsverfahren regeln, wie sich Stationen ein gemeinsames Übertragungsmedium teilen, damit Daten nicht kollidieren.
+
+## Worum geht's
+
+Wenn zwei Geräte gleichzeitig auf demselben Kabel oder Funkkanal senden, überlagern sich die Signale – das nennt man Kollision. Die Daten werden unlesbar. Damit das nicht passiert, gibt es Regeln für den Medienzugriff. Man unterscheidet zentrale Steuerung (eine Instanz erteilt Erlaubnis) und dezentrale Steuerung (Geräte hören selbst). Im kabelgebundenen LAN (Ethernet) nutzt man CSMA/CD: erst horchen, dann senden, Kollision währenddessen erkennen und abbrechen. Im WLAN nutzt man CSMA/CA: erst horchen, zufällig warten, dann senden, um Kollisionen von vornherein zu vermeiden. Bei beiden Verfahren gilt der Grundsatz: Carrier Sense – also erst hören, ob das Medium frei ist.
+
+> [!example] Alltagsvergleich
+> Stell dir einen Besprechungsraum vor. Bei CSMA/CD (Kabel) reden alle drauflos, merken aber sofort, wenn sich Stimmen überlagern (Kollision), schweigen kurz und versuchen es nach einer zufälligen Pause erneut. Bei CSMA/CA (Funk) kann man nicht hören, ob jemand anderes gerade redet (Hidden Station). Deshalb horcht man, wartet eine zufällige Zeit und fragt optional per Handzeichen (RTS/CTS), ob der Weg frei ist, bevor man losredet.
+
+## Kernpunkte
+
+1. **Kollision**: Zwei Stationen senden gleichzeitig → Signale überlagern sich → Daten unlesbar.
+2. **Zentrale Steuerung (RTS/CTS)**: Eine Zentrale (z. B. Access Point) koordiniert. **RTS** = Request to Send (Anfrage der Station). **CTS** = Clear to Send (Erlaubnis der Zentrale). Nur CTS ist die echte Sendeerlaubnis.
+3. **Dezentrale Steuerung CSMA/CD (LAN/Ethernet)**: **Carrier Sense** = Medium abhören (Listen Before Talk). **Multiple Access** = Alle dürfen zugreifen. **Collision Detection** = Kollision während des Sendens erkennen → sofort Abbruch → **Backoff-Zeit** (zufällige Wartezeit) → neuer Versuch.
+4. **CSMA/CA (WLAN)**: **Collision Avoidance** = Kollision vermeiden statt erkennen. Ablauf: Horchen → zufällige Wartezeit (Backoff) → Senden. Optional: RTS/CTS als Zusatzschutz vor Hidden-Station-Problem.
+5. **Unterschied**: CSMA/CD reagiert auf Kollision (erkennen + abbrechen). CSMA/CA verhindert Kollision vorher (warten). Grund: Im Funk kann eine Station ihre eigene Kollision oft nicht hören.
+
+## Vergleich CSMA/CD vs. CSMA/CA
+
+| Merkmal | CSMA/CD (LAN / Kabel) | CSMA/CA (WLAN / Funk) |
+|---|---|---|
+| Vorgehen | Hören → Senden → Kollision **erkennen** | Hören → **Warten** (zufällig) → Senden → Kollision **vermeiden** |
+| Strategie | Reaktiv (nachträglich behandeln) | Proaktiv (vorbeugen) |
+| Kollisionserkennung | Möglich (elektrisches Signal am Kabel) | Meist nicht möglich (Hidden Station) |
+| Zusatzmechanismus | JAM-Signal, Backoff-Zeit | Optional RTS/CTS (Anfrage/Erlaubnis) |
+
+## Beispiel: Ablauf einer Kollision bei CSMA/CD
+
+1. Station A und B horchen: Medium frei (Carrier Sense).
+2. Beide starten fast gleichzeitig mit Senden.
+3. Signale überlagern sich auf dem Kabel → Kollision entsteht.
+4. Station A und B erkennen die Störung während des Sendens (Collision Detection).
+5. Beide brechen sofort ab und senden ein JAM-Signal (Warnung an alle).
+6. Jede Station würfelt eine zufällige Backoff-Zeit.
+7. Nach Ablauf der Wartezeit: Neuer Versuch ab Schritt 1.
+
+**Ergebnis:** Durch zufällige Wartezeiten senden die Stationen beim zweiten Versuch versetzt – die Kollision ist aufgelöst.
+
+## 💡 Merksätze
+
+> 💡 Carrier Sense = Erst horchen, dann senden (gilt für CD und CA).
+
+> 💡 RTS fragt, CTS erlaubt – verwechsle nicht Anfrage mit Erlaubnis.
+
+> 💡 CD = Collision Detection (erkennen), CA = Collision Avoidance (vermeiden).
+
+> 💡 Kabel hört Kollision, Funk hört oft nichts → CA wartet lieber.
+
+> 💡 Backoff = Zufällige Pause, damit nicht alle gleichzeitig neu starten.
+
+## Prüfungsfallen
+
+- RTS mit Sendeerlaubnis verwechseln: RTS ist nur die Anfrage, CTS ist die Erlaubnis.
+- CSMA/CD und CSMA/CA verwechseln: CD (Kabel) erkennt Kollision währenddessen, CA (Funk) vermeidet sie durch Warten vorher.
+- „Listen Before Talk“ als Fachbegriff nutzen: Im Buch heißt das **Carrier Sense** – LBT nicht wörtlich lernen.
+- Annehmen, WLAN nutze CSMA/CD: Funk kann Kollisionen nicht zuverlässig erkennen (Hidden Station), daher CA.
+- Vergessen, dass RTS/CTS bei WLAN optional innerhalb von CSMA/CA ist, keine eigene dritte Methode.
+
+## Im Buch
+
+- CSMA/CD: S. 305
+- CSMA/CA: S. 305
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Was bedeutet RTS, was bedeutet CTS, und welches der beiden ist die eigentliche Sendeerlaubnis?
+> RTS = Request to Send (Sendeanfrage der Station). CTS = Clear to Send (Sendeerlaubnis der zentralen Station). CTS ist die eigentliche Erlaubnis.
+
+> [!question]- Was passiert bei einer Kollision auf einem Netzwerkmedium?
+> Zwei gleichzeitig gesendete Signale überlagern sich und werden für alle Stationen unlesbar.
+
+> [!question]- Wofür steht „Carrier Sense“ bei CSMA/CD und CSMA/CA?
+> Für das Abhören des Mediums, ob es frei ist, bevor eine Station zu senden beginnt (Listen Before Talk).
+
+> [!question]- Was ist der zentrale Unterschied zwischen CSMA/CD (LAN) und CSMA/CA (WLAN)?
+> CSMA/CD erkennt Kollisionen erst während des Sendens und bricht dann ab. CSMA/CA versucht, Kollisionen von vornherein durch zufällige Wartezeiten zu vermeiden, weil Funkstationen Kollisionen oft nicht zuverlässig erkennen können.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

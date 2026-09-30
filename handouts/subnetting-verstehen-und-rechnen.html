@@ -1,0 +1,149 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subnetting verstehen und rechnen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Subnetting verstehen und rechnen
+
+
+## In einem Satz
+
+Die Subnetzmaske trennt die IP-Adresse in Netz- und Hostteil, damit Geräte erkennen, ob ein Ziel im eigenen Netz oder in einem fremden Netz liegt.
+
+## Worum geht's
+
+Jede IPv4-Adresse hat 32 Bits. Die Maske legt fest, wie viele Bits links für das Netz (Netzanteil) und wie viele rechts für das Gerät (Hostanteil) stehen. Ohne Maske weiß ein Rechner nicht, ob der Gateway direkt erreichbar ist. Beim Subnetting schiebst du die Grenze nach rechts: Aus einem großen Netz machst du mehrere kleine Teilnetze. Die Netzadresse errechnest du per UND-Verknüpfung (IP UND Maske). Nutzbare Hosts sind 2 hoch Hostbits minus 2, weil Netz- und Broadcast-Adresse wegfallen. Wichtig: Gateway und Rechner müssen im gleichen Subnetz liegen, sonst findet der Rechner sein Gateway nicht.
+
+> [!example] Alltagsvergleich
+> Wie Postleitzahl und Hausnummer. Die Maske legt fest, wie viele Stellen zur Postleitzahl (Netz) und wie viele zur Hausnummer (Host) gehören. Ändert sich die Postleitzahl, liegt das Ziel in einer anderen Stadt (anderes Subnetz) – der Briefträger (Gateway) vor deiner Tür kann den Brief nicht direkt zustellen.
+
+## Kernpunkte
+
+1. **CIDR-Notation** (/24) zählt die führenden Einsen in der Maske. 255.255.255.0 = 24 Einsen = /24.
+2. **Blockgröße** im „angebrochenen“ Oktett: 256 minus Maskewert. Bei 255.255.255.128 ist der Block 128 groß (Netze beginnen bei .0 und .128).
+3. **Netzadresse** = IP **UND** Maske (bitweise). Alle Hostbits sind 0.
+4. **Broadcast-Adresse** = Netzadresse mit allen Hostbits auf 1. Geht an alle im Subnetz.
+5. **Hostzahl**: 2 hoch Hostbits minus 2. Bei /25 sind 7 Hostbits -> 128 Adressen -> 126 nutzbar.
+6. **Gateway-Prüfung**: Rechner und Standardgateway müssen **identische Netzadresse** haben. Sonst: „Ziel nicht erreichbar“.
+
+## Wichtige Masken im letzten Oktett (Klasse C /24 Basis)
+
+| Maske (Dezimal) | CIDR | Blockgröße | Netz-Adressen (Beispiel) | Nutzbare Hosts |
+|---|---|---|---|---|
+| 255.255.255.0 | /24 | 256 | .0 | 254 |
+| 255.255.255.128 | /25 | 128 | .0, .128 | 126 |
+| 255.255.255.192 | /26 | 64 | .0, .64, .128, .192 | 62 |
+| 255.255.255.224 | /27 | 32 | .0, .32, .64, .96, .128, .160, .192, .224 | 30 |
+
+## Beispiel: Quiz-Falle: Gateway im falschen Subnetz
+
+1. Gegeben: IP 192.168.1.210, Maske 255.255.255.128 (/25), Gateway 192.168.1.1.
+2. Blockgröße im 4. Oktett: 256 - 128 = 128.
+3. Subnetze beginnen bei 0 und 128: Netz A = 192.168.1.0/25 (Hosts .1–.126), Netz B = 192.168.1.128/25 (Hosts .129–.254).
+4. Rechner .210 liegt in Netz B (Bereich 128–255). Gateway .1 liegt in Netz A (Bereich 0–127).
+5. Netzadressen sind verschieden -> Rechner sendet Paket für Gateway an seinen Router (ARP schlägt fehl), findet Gateway nicht lokal.
+
+**Ergebnis:** Falsch. Rechner und Gateway liegen in verschiedenen Subnetzen. Direkte Kommunikation scheitert.
+
+## 💡 Merksätze
+
+> 💡 Maske links Einsen, rechts Nullen – CIDR zählt die Einsen.
+
+> 💡 Blockgröße = 256 minus Maskewert im angebrochenen Oktett.
+
+> 💡 Netzadresse = IP UND Maske. Broadcast = alle Hostbits auf 1.
+
+> 💡 Nutzbare Hosts = 2 hoch Hostbits minus 2 (Netz + Broadcast weg).
+
+> 💡 Gateway-Check: Gleicher Netzanteil? Ja = direkt. Nein = Router nötig.
+
+## Prüfungsfallen
+
+- Verwechslung: 2 hoch Hostbits = Gesamtadressen vs. nutzbare Hosts. Richtig: Nutzbare = 2^H - 2.
+- Verwechslung: Netzadresse vs. erste nutzbare Host-IP. Richtig: Netzadresse hat Hostbits 0, erste Host-IP ist Netzadresse + 1.
+- Verwechslung: Gateway-IP nur anschauen statt rechnen. Richtig: Immer Netzadresse von Rechner und Gateway vergleichen.
+- Verwechslung: Maske .128 -> Block 127. Richtig: 256 - 128 = 128.
+
+## Im Buch
+
+*Kein passender Eintrag im Stichwortverzeichnis.*
+
+## Prüffragen
+
+> [!question]- Ein Rechner hat 192.168.10.50/26. Gateway ist 192.168.10.1. Funktioniert die Kommunikation?
+> Ja. /26 Blockgröße 64. Netz ist 192.168.10.0. Rechner .50 und Gateway .1 liegen beide im Bereich .1–.62. Gleiches Subnetz.
+
+> [!question]- Wie viele nutzbare Hosts hat ein /27-Netz?
+> 30. Hostbits = 5 (32-27). 2^5 = 32 Adressen gesamt. Minus Netz- und Broadcast-Adresse = 30 nutzbar.
+
+> [!question]- Was ist die Netzadresse von 172.16.45.200/20?
+> /20 -> Maske 255.255.240.0. Block im 3. Oktett = 16. 45 liegt im Block 32 (32-47). Netzadresse: 172.16.32.0.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

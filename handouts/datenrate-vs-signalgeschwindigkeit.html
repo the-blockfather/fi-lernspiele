@@ -1,0 +1,157 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Datenrate vs. Signalgeschwindigkeit</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Datenrate vs. Signalgeschwindigkeit
+
+
+## In einem Satz
+
+Die Datenübertragungsrate ist die Menge an Daten pro Sekunde, die Signalgeschwindigkeit ist die physikalische Laufzeit des Signals im Kabel.
+
+## Worum geht's
+
+In der Netzwerktechnik werden die Begriffe 'Geschwindigkeit' und 'Bandbreite' oft umgangssprachlich für die Datenübertragungsrate genutzt. Fachlich korrekt ist die Datenübertragungsrate (Durchsatz) die übertragene Datenmenge pro Zeit (z. B. Mbit/s). Die Signalgeschwindigkeit hingegen beschreibt, wie schnell sich das physikalische Signal (elektrisch, optisch) im Medium ausbreitet – sie liegt bei ca. 2/3 der Lichtgeschwindigkeit und ist in Kupfer- und Glasfaserkabeln लगभग gleich. Ein Glasfaserkabel ist nicht deshalb 'schneller', weil das Signal schneller läuft, sondern weil man viel mehr Daten pro Sekunde hineinschieben kann (höhere Datenrate).
+
+> [!example] Alltagsvergleich
+> Stell dir eine Autobahn vor. Die **Signalgeschwindigkeit** ist die **Höchstgeschwindigkeit** der Autos (z. B. 130 km/h). Die **Datenübertragungsrate** ist die **Anzahl der Autos, die pro Stunde an einer Messstelle vorbeifahren**. Eine 4-spurige Autobahn (Glasfaser) lässt mehr Autos pro Stunde durch als eine 1-spurige Landstraße (Kupfer), obwohl die Autos auf beiden Straßen gleich schnell fahren.
+
+## Kernpunkte
+
+1. **Datenübertragungsrate** (Durchsatz, Bitrate): Datenmenge pro Zeit. Einheit: bit/s (z. B. Mbit/s = 10⁶ bit/s). Wird **immer dezimal** angegeben.
+2. **Signalgeschwindigkeit** (Laufzeitgeschwindigkeit): Physikalische Ausbreitungsgeschwindigkeit des Signals im Medium. Ca. 200.000 km/s (≈ 2/3 Lichtgeschwindigkeit). In Kupfer und Glasfaser **etwa gleich hoch**.
+3. **Bandbreite** (fachlich): Frequenzbereich des Mediums in Hz. Umgangssprachlich oft Synonym für Datenrate.
+4. **Durchsatz** (Throughput): Datenmenge, die **tatsächlich** ankommt. Meist niedriger als die nominelle Datenrate (Overhead, Störungen, Kollisionen).
+5. **Formel**: Datenübertragungsrate C = Datenmenge D / Zeit t. Umgestellt: t = D / C.
+6. **Einheiten beachten**: Datenmengen oft binär (KiB, MiB = 1024er Basis), Datenraten immer dezimal (kbit/s, Mbit/s = 1000er Basis). 1 Byte = 8 Bit.
+
+## Vergleich: Signalgeschwindigkeit vs. Datenübertragungsrate
+
+| Merkmal | Signalgeschwindigkeit | Datenübertragungsrate |
+|---|---|---|
+| Was wird gemessen? | Laufzeit des Signals (Physik) | Datenmenge pro Zeit (Logik) |
+| Einheit | m/s oder km/s | bit/s, Mbit/s, Gbit/s |
+| Typischer Wert (Kupfer/LWL) | ~ 200.000 km/s (≈ 2/3 c) | 10 Mbit/s bis 800 Gbit/s (je nach Standard) |
+| Abhängigkeit | Vom Medium (Kupfer, Glas, Luft) | Von Codierung, Modulation, Protokoll, Mediumqualität |
+| Analogie (Autobahn) | Tempo der Autos (km/h) | Autos pro Stunde (Durchsatz) |
+
+## Beispiel: Übertragungszeit berechnen (Dezimal vs. Binär)
+
+1. Aufgabe: Wie lange dauert die Übertragung von 1 GB Daten über eine Leitung mit 50 Mbit/s?
+2. Schritt 1: Datenmenge in Bit umrechnen (dezimal, wie bei Datenraten üblich). 1 GB = 1 × 10⁹ Byte = 8 × 10⁹ Bit.
+3. Schritt 2: Datenrate in Bit/s schreiben. 50 Mbit/s = 50 × 10⁶ bit/s.
+4. Schritt 3: Formel anwenden: t = D / C.
+5. Rechnung (dezimal): t = (8 × 10⁹ bit) / (50 × 10⁶ bit/s) = 160 s = 2 min 40 s.
+6. Hinweis: Nutzt man binäre Datenmenge (1 GiB = 2³⁰ Byte), ergibt sich: t = (8 × 2³⁰ bit) / (50 × 10⁶ bit/s) ≈ 171,8 s ≈ 2 min 52 s. In der Prüfung auf Angabe achten (GB vs. GiB)!
+
+**Ergebnis:** Dezimal: 160 s (2 min 40 s). Binär (GiB): ca. 172 s (2 min 52 s).
+
+## 💡 Merksätze
+
+> 💡 Datenrate = Wie viel? Signalgeschwindigkeit = Wie schnell (Laufzeit)?
+
+> 💡 Datenraten sind immer dezimal (1000er), Datenmengen oft binär (1024er).
+
+> 💡 Glasfaser: Signal nicht schneller, aber mehr Spuren (höhere Datenrate).
+
+> 💡 Durchsatz ≤ Datenrate (Overhead, Störungen fressen Kapazität).
+
+> 💡 Einheit bit/s = kleine Datenrate, Byte/s = große Datenrate (×8).
+
+## Prüfungsfallen
+
+- Verwechslung: 'Signalgeschwindigkeit = Datenrate' → Falsch. Signalgeschwindigkeit ist Laufzeit (km/s), Datenrate ist Durchsatz (bit/s).
+- Verwechslung: 'Mbit/s = MByte/s' → Falsch. 1 Byte = 8 Bit. 100 Mbit/s = 12,5 MByte/s.
+- Verwechslung: 'Dezimal = Binär bei Präfixen' → Falsch. Datenraten: k/M/G = 1000er. Datenmengen: Ki/Mi/Gi = 1024er.
+- Verwechslung: 'Nominelle Rate = Durchsatz' → Falsch. Durchsatz ist real angekommen, nominell ist theoretisches Maximum.
+- Verwechslung: 'Bandbreite (Hz) = Datenrate (bit/s)' → Falsch. Bandbreite ist Frequenzbreite, Datenrate ist Bit pro Sekunde. Zusammenhang: Shannon-Theorem.
+
+## Im Buch
+
+- Datenübertragung: S. 297
+- Datenübertragungsrate: S. 299, S. 301
+- Signalgeschwindigkeit: S. 299
+- Laufzeit: S. 395
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Ein Kunde bucht einen '100 Mbit/s'-Anschluss. Wie viele MByte/s sind das maximal theoretisch?
+> 100 Mbit/s geteilt durch 8 = 12,5 MByte/s. Achtung: Mbit/s ist dezimal (10⁶), MByte/s hier auch dezimal gerechnet.
+
+> [!question]- Warum hat ein Glasfaserkabel (LWL) eine höhere Datenübertragungsrate als ein Kupferkabel, obwohl die Signalgeschwindigkeit लगभग gleich ist?
+> Weil Glasfaser einen viel größeren Frequenzbereich (Bandbreite in Hz) nutzt und störungsunempfindlicher ist. Man kann mehr Bits pro Sekunde modulieren (höhere spektrale Effizienz), nicht weil das Licht 'schneller' im Kabel ist.
+
+> [!question]- Was ist der Unterschied zwischen 'Datenübertragungsrate' (nominell) und 'Durchsatz' (Throughput)?
+> Die Datenübertragungsrate ist die technische Maximalrate der Leitung (z. B. 1 Gbit/s). Der Durchsatz ist die tatsächlich nutzbare Datenmenge pro Zeit, die beim Empfänger ankommt (immer niedriger durch Protokoll-Overhead, Header, Kollisionen, Fehlerkorrektur).
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

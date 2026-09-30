@@ -1,0 +1,166 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Strukturierte Verkabelung verstehen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Strukturierte Verkabelung verstehen
+
+
+## In einem Satz
+
+Die strukturierte Verkabelung ist ein passives, hierarchisches Kabelsystem für alle Dienste, das aktive Technik wie Switches und Router strikt trennt.
+
+## Worum geht's
+
+Eine strukturierte Verkabelung verbindet Gebäude, Etagen und Arbeitsplätze nach einem festen Plan. Sie besteht nur aus Kabeln, Dosen und Patchfeldern – also passiven Teilen. Aktive Geräte wie Switches oder Router gehören nicht dazu, sie werden später in den Schrank gesteckt. Das System ist in drei Ebenen gegliedert: Primär (zwischen Gebäuden), Sekundär (zwischen Etagen) und Tertiär (zur Dose). So kann man jeden Anschluss flexibel nutzen, ohne Wände aufzubrechen.
+
+> [!example] Alltagsvergleich
+> Stell dir das wie das Stromnetz im Haus vor: Die festen Kabel in der Wand (Verkabelung) enden im Sicherungskasten (Patchfeld). Welches Gerät (Switch/Router) du an die Steckdose (Dose) anschließt, entscheidest du später per Stecker (Patchkabel). Ziehst du um, steckst du nur den Stecker um – die Kabel in der Wand bleiben.
+
+## Kernpunkte
+
+1. Drei **Ebenen**: **Primärverkabelung** (Standort- zu Gebäudeverteiler, meist **LWL**), **Sekundärverkabelung** (Gebäude- zu Etagenverteiler, LWL/Kupfer), **Tertiärverkabelung** (Etagenverteiler zu **Anschlussdose**, meist Kupfer).
+2. Topologie: Ein **erweiterter Stern** über drei Ebenen. Mit **Querverbindungen** (Reserveleitungen zwischen Verteilern) wird daraus eine **unvollständige Masche** für Ausfallsicherheit.
+3. **Passiv vs. Aktiv**: Zur Verkabelung gehören nur Kabel, Dosen, Patchfelder. **Switches** und **Router** sind aktive Komponenten, sie sitzen im 19-Zoll-Schrank und werden bei Bedarf getauscht.
+4. **Permanent Link** (fest: Patchfeld → Dose) maximal **90 m**. **Channel Link** (gesamt: Switch → Endgerät inkl. Patch- und Anschlusskabel) maximal **100 m**.
+5. **Patchfeld** (Patchpanel) ist die passive Anschlussleiste im Schrank. Hinten endet je Buchse eine feste Leitung. Vorne steckst du **Patchkabel** zum **Rangieren** (Verbinden von Switch-Port und Dose).
+6. **19-Zoll-Schrank** (Rack) ist das Standardgehäuse (48,3 cm Breite). Darin sitzen Patchfelder, Switches, Router, Telefonanlage.
+7. **Dokumentation** ist Pflicht: Gebäude (Buchstaben), Stockwerke (ab 0), Verteiler (Nummern), Dosen (beschriftet). Am Verteiler liegt eine **Portliste** (Leitungstyp, Zielraum).
+8. **Sammelpunkt** (Consolidation Point) auf Tertiärebene ist die einzige erlaubte Unterbrechung der festen Strecke (z. B. für flexible Bürozonen).
+
+## Vergleich Permanent Link vs. Channel Link
+
+| Merkmal | Permanent Link | Channel Link |
+|---|---|---|
+| Strecke | Patchfeld → Anschlussdose (fest) | Switch → Endgerät (gesamt) |
+| Max. Länge | 90 m | 100 m |
+| Bestandteile | Verlegekabel, Dose, Patchfeld-Buchse | Permanent Link + Patchkabel (Schrank) + Anschlusskabel (Gerät) |
+| Prüfung | Bei Abnahme der Verkabelung | Bei Inbetriebnahme / Fehlersuche |
+
+## Beispiel: Längen-Check einer Strecke
+
+1. Gegeben: Verlegekabel Patchfeld → Dose = 85 m (Permanent Link).
+2. Patchkabel im Schrank (Switch → Patchfeld) = 3 m.
+3. Anschlusskabel an der Dose (Dose → PC) = 5 m.
+4. Rechnung Channel Link: 85 m + 3 m + 5 m = 93 m.
+5. Prüfung: 93 m ≤ 100 m → Channel Link ist zulässig.
+6. Prüfung Permanent Link: 85 m ≤ 90 m → Permanent Link ist zulässig.
+
+**Ergebnis:** Beide Links sind innerhalb der Norm. Wäre das Verlegekabel 92 m lang, wäre der Permanent Link ungültig (> 90 m), auch wenn der Channel Link theoretisch noch < 100 m wäre.
+
+## 💡 Merksätze
+
+> 💡 Verkabelung ist passiv – Switch und Router sind aktiv.
+
+> 💡 Permanent 90 Meter, Channel 100 Meter – die 10 Meter Differenz sind die Patchkabel.
+
+> 💡 Drei Ebenen: Primär (LWL), Sekundär (LWL/Kupfer), Tertiär (Kupfer).
+
+> 💡 Rangieren heißt: Patchkabel umstecken, Festverkabelung bleibt.
+
+> 💡 Beschriftung: Gebäude – Stock – Verteiler – Patchfeld – Port.
+
+## Prüfungsfallen
+
+- Verwechslung: Switch/Router gehören zur Verkabelung. Richtig: Nur passive Teile (Kabel, Dosen, Patchfelder) gehören dazu. Aktive Geräte sind austauschbar.
+- Verwechslung: Permanent Link und Channel Link sind gleich lang. Richtig: Permanent Link max. 90 m (fest), Channel Link max. 100 m (inkl. Patchkabel).
+- Verwechslung: Primär/Sekundär/Tertiär sind OSI-Schichten. Richtig: Das sind räumliche Hierarchie-Ebenen der Verkabelung, keine Protokollschichten.
+- Verwechslung: Patchkabel-Kategorie ist egal. Richtig: Das schwächste Bauteil (niedrigste Kategorie) bestimmt die Klasse der ganzen Strecke.
+- Verwechslung: Unterverteiler sind Standard. Richtig: Nicht vorgesehen, Ausnahme ist nur ein Sammelpunkt (Consolidation Point) auf Tertiärebene.
+
+## Im Buch
+
+- Strukturierte Verkabelung: S. 298
+- Primärverkabelung: S. 312
+- Sekundärverkabelung: S. 312
+- Tertiärverkabelung: S. 312
+- Permanent Link: S. 313
+- Channel Link: S. 313
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Was ist der Unterschied zwischen Permanent Link und Channel Link bei der maximalen Länge und dem Umfang?
+> Der Permanent Link ist die fest verlegte Strecke vom Patchfeld zur Dose (max. 90 m). Der Channel Link ist der komplette Kanal vom Switch zum Endgerät inklusive aller Patch- und Anschlusskabel (max. 100 m).
+
+> [!question]- Warum gehören Switches und Router nicht zur strukturierten Verkabelung?
+> Weil die strukturierte Verkabelung per Definition nur die passive Infrastruktur (Kabel, Dosen, Patchfelder) umfasst. Switches und Router sind aktive Netzwerkkomponenten, die in den Verteilerschrank eingebaut und bei Bedarf getauscht werden.
+
+> [!question]- Welche drei hierarchischen Ebenen kennt die strukturierte Verkabelung und welches Medium wird in der Primärverkabelung bevorzugt?
+> Primärverkabelung (Standort- zu Gebäudeverteiler, bevorzugt Lichtwellenleiter), Sekundärverkabelung (Gebäude- zu Etagenverteiler, LWL oder Kupfer), Tertiärverkabelung (Etagenverteiler zu Anschlussdose, meist Kupfer).
+
+> [!question]- Was versteht man unter 'rangieren' im Verteilerschrank?
+> Rangieren (Patchen) ist das Verbinden eines Switch-Ports mit einer Buchse des Patchfelds über ein Patchkabel. Damit wird ein aktiver Port fest mit einer bestimmten Netzwerkdose verknüpft.
+
+> [!question]- Ein Verlegekabel ist 92 m lang. Ist der Permanent Link zulässig? Begründe.
+> Nein. Der Permanent Link darf maximal 90 m lang sein. 92 m überschreiten das Limit, auch wenn der Channel Link durch kurze Patchkabel theoretisch unter 100 m bliebe.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

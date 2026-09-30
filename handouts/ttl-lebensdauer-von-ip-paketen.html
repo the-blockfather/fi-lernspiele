@@ -1,0 +1,149 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TTL – Lebensdauer von IP-Paketen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: TTL – Lebensdauer von IP-Paketen
+
+
+## In einem Satz
+
+Das Time-to-Live-Feld (TTL) im IP-Header begrenzt die Anzahl der Router, die ein Paket passieren darf, und verhindert so endlose Schleifen im Netz.
+
+## Worum geht's
+
+Jedes IP-Datenpaket trägt im Header ein Feld namens Time-to-Live (TTL). Der Startwert wird vom Absender gesetzt (oft 64, 128 oder 255). Jeder Router, der das Paket weiterleitet, muss den Wert um 1 verringern. Sinkt der Wert auf 0, wirft der Router das Paket weg und sendet eine ICMP-Fehlermeldung (Time Exceeded) zurück an den Absender. Damit stirbt ein Paket, das durch einen Routing-Fehler im Kreis läuft, statt das Netz zu verstopfen.
+
+> [!example] Alltagsvergleich
+> Stell dir TTL wie eine Fahrkarte mit 10 Entwertungen. Bei jedem Umsteigen (Router) wird einmal abgestempelt. Sind alle Felder voll, darfst du nicht weiterfahren und musst aussteigen – die Fahrt endet dort.
+
+## Kernpunkte
+
+1. **TTL (Time to Live)**: 8-Bit-Feld im IPv4-Header (bei IPv6 **Hop Limit**). Gibt die maximale Anzahl an **Hops** (Router-Sprüngen) an.
+2. **Startwert**: Wird vom sendenden Betriebssystem festgelegt (typisch: 64 Linux/Unix, 128 Windows, 255 Cisco).
+3. **Verhalten im Router**: Jeder Router dekrementiert TTL um 1 **vor** dem Weiterleiten. Neues TTL = Altes TTL - 1.
+4. **TTL = 0**: Router verwirft Paket, sendet **ICMP Type 11 Code 0 (Time Exceeded)** an Absender. Paket stirbt.
+5. **Zweck**: Verhindert **Routing-Schleifen** (Endloskreise) bei Fehlkonfiguration oder Ausfall. Schützt Bandbreite und CPU der Router.
+6. **Nebenwirkung**: TTL-Wert in empfangenen Paketen verrät ungefähre **Entfernung in Hops** (Startwert minus empfangener Wert).
+7. **Unterschied zu DNS-TTL**: DNS-TTL ist eine Zeit in Sekunden für Caching. IP-TTL ist ein Hop-Zähler. Nicht verwechseln!
+
+## Typische TTL-Startwerte nach Betriebssystem
+
+| System / Gerät | TTL-Startwert |
+|---|---|
+| Linux / Unix / macOS | 64 |
+| Windows | 128 |
+| Cisco Router / Netzwerkgeräte | 255 |
+| Solaris / AIX (alt) | 255 |
+
+## Beispiel: TTL-Verlauf auf dem Weg zum Ziel
+
+1. Absender (Linux) sendet Paket mit TTL = 64.
+2. Router 1 (Standard-Gateway) empfängt TTL 64, dekrementiert auf 63, leitet weiter.
+3. Router 2 (Core) empfängt TTL 63, dekrementiert auf 62, leitet weiter.
+4. ... nach 10 Hops ...
+5. Router 10 empfängt TTL 54, dekrementiert auf 53, leitet an Ziel weiter.
+6. Ziel empfängt Paket mit TTL = 53. Antwort wird mit neuem TTL (z. B. 64) zurückgeschickt.
+
+**Ergebnis:** Das Paket hat 10 Router passiert. Empfangener TTL 53 bei Start 64 => 11 Hops Entfernung (inkl. Ziel-Host als letzter Hop oft nicht gezählt, aber Router = 10).
+
+## 💡 Merksätze
+
+> 💡 TTL zählt Router runter, bei Null ist Schluss.
+
+> 💡 Jeder Hop kostet 1 TTL – keine Gratis-Fahrten.
+
+> 💡 ICMP Time Exceeded = Paket tot, Absender wird informiert.
+
+> 💡 IP-TTL = Hop-Zähler, DNS-TTL = Cache-Zeit. Zwei Paar Schuhe.
+
+## Prüfungsfallen
+
+- Verwechslung: IP-TTL (Hop-Limit) vs. DNS-TTL (Sekunden für Cache). IP-TTL ist ein Zähler, DNS-TTL eine Zeit.
+- Verwechslung: TTL abgelaufen (ICMP Type 11) vs. Ziel unerreichbar (ICMP Type 3). TTL=0 -> Type 11. Port/Host down -> Type 3.
+- Annahme: TTL wird nur bei Weiterleitung dekrementiert. Richtig: Auch der Ziel-Host prüft TTL (meist aber schon >0).
+- Prüfungsfrage: 'Paket kommt nicht an, TTL abgelaufen.' Ursache oft: Routing-Schleife oder Startwert zu niedrig (selten).
+
+## Im Buch
+
+*Kein passender Eintrag im Stichwortverzeichnis.*
+
+## Prüffragen
+
+> [!question]- Was passiert genau, wenn ein Router ein IP-Paket mit TTL = 1 empfängt?
+> Der Router dekrementiert TTL auf 0, verwirft das Paket und sendet eine ICMP-Nachricht 'Time Exceeded' (Type 11, Code 0) an den Absender zurück.
+
+> [!question]- Welchen praktischen Nutzen hat der TTL-Wert in einem empfangenen Paket für die Fehlersuche?
+> Man kann die ungefähre Anzahl der durchlaufenen Router (Hops) schätzen: Startwert (z. B. 64) minus empfangener TTL = Anzahl Hops. Hilft bei traceroute-Analyse.
+
+> [!question]- Warum verhindert TTL einen 'endlosen Netzwerkstau' bei Routing-Schleifen?
+> Ohne TTL würde ein Paket in einer Schleife (Router A -> B -> A ...) für immer kreisen und Bandbreite/CPU verbrauchen. TTL begrenzt die Lebensdauer strikt auf max. 255 Hops, dann stirbt das Paket.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

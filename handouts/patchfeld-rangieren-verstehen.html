@@ -1,0 +1,156 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Patchfeld & Rangieren verstehen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Patchfeld & Rangieren verstehen
+
+
+## In einem Satz
+
+Das Patchfeld ist die passive Anschlussleiste für die fest verlegte Verkabelung, und über Patchkabel werden Switch-Ports flexibel mit den Netzwerkdosen verbunden.
+
+## Worum geht's
+
+Im Verteilerschrank (19-Zoll-Rack) sitzt das Patchfeld. Hinten enden die fest in der Wand verlegten Kabel – an jeder Buchse genau eines. Vorne steckst du kurze, flexible Patchkabel ein. Damit verbindest du einen Port des Switchs (aktive Technik) mit einer bestimmten Dose im Büro. Dieses Umstecken nennt man rangieren oder patchen. So bleibt die teure Festverkabelung unberührt, wenn jemand umzieht oder ein Gerät getauscht wird.
+
+> [!example] Alltagsvergleich
+> Stell dir das Patchfeld wie einen Hauptverteiler im Keller vor: Alle Stromkabel der Räume enden dort fest an Klemmen. Willst du in einem Raum Strom haben, steckst du vorne nur ein kurzes Verlängerungskabel (Patchkabel) von der Hauptsicherung (Switch) auf die Klemme des Raums. Zieht der Mieter aus, ziehst du das kurze Kabel ab – die Wandleitung bleibt.
+
+## Kernpunkte
+
+1. Ein **Patchfeld (Patchpanel)** ist eine passive Buchsenleiste im 19-Zoll-Schrank (48,3 cm Breite). Hinten werden die festen Verlegekabel aufgelegt (eine Leitung pro Buchse), vorne stecken die Patchkabel.
+2. Ein **Patchkabel** ist ein kurzes, flexibles Kabel mit Steckern (meist RJ45). Es verbindet einen **Switch-Port** (aktiv, braucht Strom) mit einer **Patchfeld-Buchse**. Das Verbinden heißt **rangieren** oder **patchen**.
+3. Der **Permanent Link** ist die feste Strecke **Patchfeld → Netzwerkdose** (max. 90 m). Der **Channel Link** ist die komplette Strecke **Switch → Endgerät** inklusive Patchkabel im Schrank und Anschlusskabel am Platz (max. 100 m).
+4. **Patchfeld ≠ Switch**: Das Patchfeld ist passiv (nur Metallkontakte), der Switch ist aktiv (Elektronik, Prozessor, Strom). Verwechsle sie nicht in Prüfungsfragen.
+5. Am Verteiler sieht man nicht, wohin ein Kabel führt. Deshalb muss eine **Portliste** am Schrank hängen: Patchfeld-Nummer, Port-Nummer, Leitungstyp (z. B. Cat 6A), Raum/Zimmer.
+6. Die **Kategorie** (z. B. Cat 6A) gilt für das einzelne Bauteil (Kabel, Dose, Patchkabel). Die **Klasse** (z. B. Klasse EA) gilt für die *ganze* montierte Strecke. Das schwächste Bauteil bestimmt die erreichbare Klasse.
+
+## Überblick
+
+| Merkmal | Permanent Link | Channel Link |
+|---|---|---|
+| Strecke | Patchfeld → Dose (fest) | Switch → Endgerät (gesamt) |
+| Max. Länge | 90 m | 100 m |
+| Bestandteile | Verlegekabel, Auflegedosen, Patchfeld-Buchsen | Permanent Link + Patchkabel (Schrank) + Anschlusskabel (Platz) |
+| Prüfung | Nach Installation (Abnahme) | Bei Inbetriebnahme / Fehlersuche |
+
+## Beispiel: Patchfeld & Rangieren
+
+1. Gegeben: Festverkabelung (Patchfeld → Dose) = 85 m, Patchkabel im Verteiler = 5 m, Anschlusskabel am Arbeitsplatz = 12 m.
+2. 1. Permanent Link prüfen: 85 m ≤ 90 m → **OK**.
+3. 2. Channel Link berechnen: 85 m + 5 m + 12 m = 102 m.
+4. 3. Channel Link prüfen: 102 m > 100 m → **NICHT OK**.
+5. Lösung: Anschlusskabel kürzen (z. B. auf 10 m), dann Channel = 100 m → OK.
+
+**Ergebnis:** Permanent Link OK, Channel Link zu lang (102 m > 100 m). Anschlusskabel muss max. 10 m lang sein (100 m - 85 m - 5 m = 10 m).
+
+## 💡 Merksätze
+
+> 💡 Patchfeld: Hinten fest verlegt, vorn flexibel patchen.
+
+> 💡 Rangieren = Patchkabel umstecken, nicht Kabel neu verlegen.
+
+> 💡 Permanent Link 90 m, Channel Link 100 m – die 10 m Differenz sind Puffer für Patch- und Anschlusskabel.
+
+> 💡 Schwächstes Glied bremst die Strecke: Patchkabel-Kategorie muss zur Strecke passen.
+
+> 💡 Keine Portliste = Blindflug: Am Patchfeld siehst du nicht, wohin das Kabel geht.
+
+## Prüfungsfallen
+
+- Verwechslung: Patchfeld ist aktiv wie ein Switch. / Richtig: Patchfeld ist **passiv**, Switch ist **aktiv**.
+- Verwechslung: Permanent Link und Channel Link sind beide 100 m. / Richtig: Permanent Link **90 m** (fest), Channel Link **100 m** (gesamt).
+- Verwechslung: Patchkabel-Kategorie ist egal, Hauptsache Stecker passt. / Richtig: Patchkabel **muss gleiche oder höhere Kategorie** haben wie die Festverkabelung, sonst sinkt die Klassen-Leistung.
+- Verwechslung: Am Patchfeld steht drauf, welches Zimmer dranhängt. / Richtig: Man braucht eine **Portliste** (Dokumentation) am Verteiler.
+- Verwechslung: Rangieren bedeutet, Kabel in der Wand umzulegen. / Richtig: Rangieren ist **nur Umstecken der Patchkabel** vorne am Patchfeld.
+
+## Im Buch
+
+- Permanent Link: S. 313
+- Channel Link: S. 313
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Was endet an jeder Buchse eines Patchfelds?
+> An jeder Buchse endet genau eine fest verlegte Leitung (Verlegekabel) der strukturierten Verkabelung.
+
+> [!question]- Erkläre den Unterschied zwischen Permanent Link und Channel Link.
+> Permanent Link ist die feste Strecke Patchfeld → Dose (max. 90 m). Channel Link ist die Gesamtstrecke Switch → Endgerät inkl. Patchkabel im Schrank und Anschlusskabel am Platz (max. 100 m).
+
+> [!question]- Warum darf ein Patchkabel der Kategorie 5e nicht an einer Cat-6A-Strecke verwendet werden?
+> Das schwächste Bauteil bestimmt die Klasse der ganzen Strecke. Ein Cat-5e-Patchkabel begrenzt die Leistung auf Klasse D (100 MHz), obwohl die Festverkabelung Cat 6A (500 MHz) kann.
+
+> [!question]- Welche Infos müssen auf der Portliste am Verteiler stehen?
+> Patchfeld-Nummer, Port-Nummer, Leitungstyp (Kategorie) und Raum-/Zimmernummer.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

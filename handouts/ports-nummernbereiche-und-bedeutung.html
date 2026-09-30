@@ -1,0 +1,161 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ports Nummernbereiche und Bedeutung</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Ports: Nummernbereiche und Bedeutung
+
+
+## In einem Satz
+
+Ports sind 16-Bit-Nummern (0 bis 65535), die einzelne Anwendungen auf einem Rechner adressieren und in drei feste Bereiche (Well-known, Registered, Dynamic) unterteilt sind.
+
+## Worum geht's
+
+Die IP-Adresse findet den Rechner im Netz, der Port findet das Programm darauf. Eine Portnummer ist 16 Bit groß, das ergibt 65536 mögliche Werte (0 bis 65535). Damit nicht jeder Dienst irgendeine Nummer nutzt, teilt die IANA den Raum in drei Bereiche ein. Die Well-known Ports (0–1023) sind festen Standarddiensten wie HTTP (80) oder SSH (22) reserviert. Registered Ports (1024–49151) können für Anwendungen registriert werden. Dynamische Ports (49152–65535) vergibt das Betriebssystem kurzfristig als Quell-Ports für Client-Verbindungen. TCP und UDP haben dabei getrennte Nummernräume: Port 80/TCP und Port 80/UDP sind unterschiedliche „Fächer“.
+
+> [!example] Alltagsvergleich
+> Stell dir ein Hochhaus vor. Die IP-Adresse ist die Straßenadresse des Hauses. Die Portnummer ist die Wohnungsnummer. Well-known Ports sind die festen Gewerbeeinheiten im Erdgeschoss (Portier, Briefkasten, Hausmeister). Registered Ports sind fest vermietete Wohnungen im mittleren Stockwerk. Dynamische Ports sind Gästezimmer im Dachgeschoss, die nur kurz vergeben werden, solange ein Besucher (Client) da ist.
+
+## Kernpunkte
+
+1. Eine **Portnummer** ist eine **16-Bit-Zahl** → Wertebereich **0 bis 65535** (insgesamt 65536 Ports).
+2. **Well-known Ports (0–1023)**: Fest zugewiesene Standarddienste (z. B. HTTP=80, HTTPS=443, SSH=22, DNS=53). Benötigen oft Root/Admin-Rechte.
+3. **Registered Ports (1024–49151)**: Für spezielle Anwendungen registrierbar (z. B. MySQL=3306, RDP=3389), Vergabe durch IANA.
+4. **Dynamische/Private Ports (49152–65535)**: Werden vom OS als **Quell-Ports** (Ephemeral Ports) für ausgehende Verbindungen kurzfristig vergeben.
+5. **TCP- und UDP-Ports sind getrennte Nummernräume**: Port 53/TCP (DNS-Zonentransfer) ≠ Port 53/UDP (DNS-Abfrage).
+6. **Socket** = **IP-Adresse + Portnummer** (z. B. `192.168.1.10:443`). Identifiziert eine Anwendung weltweit eindeutig.
+7. Wichtige Well-known Ports merken: 20/21 (FTP), 22 (SSH), 25 (SMTP), 53 (DNS), 80 (HTTP), 110 (POP3), 143 (IMAP), 443 (HTTPS).
+
+## Die drei Portbereiche (IANA-Einteilung)
+
+| Bereich | Nummernbereich | Anzahl Ports | Vergabe / Nutzung |
+|---|---|---|---|
+| Well-known Ports | 0 – 1023 | 1024 | Feste Standarddienste (HTTP, SSH, DNS…), Root-Rechte nötig |
+| Registered Ports | 1024 – 49151 | 48128 | Registrierte Anwendungen (z. B. Datenbanken, RDP) |
+| Dynamic / Private Ports | 49152 – 65535 | 16384 | Vom OS dynamisch als Quell-Ports (Client-Seite) vergeben |
+
+## Beispiel: Anzahl der Ports pro Bereich berechnen
+
+1. Gesamtbereich: 16 Bit = 2^16 = 65536 Ports (Nummern 0 bis 65535).
+2. Well-known: 1023 − 0 + 1 = 1024 Ports.
+3. Registered: 49151 − 1024 + 1 = 48128 Ports.
+4. Dynamic: 65535 − 49152 + 1 = 16384 Ports.
+5. Prüfung: 1024 + 48128 + 16384 = 65536 Ports (stimmt).
+
+**Ergebnis:** Well-known: 1024 | Registered: 48128 | Dynamic: 16384 | Summe: 65536 Ports
+
+## 💡 Merksätze
+
+> 💡 0 bis 1023: Systemdienste, fest und bekannt.
+
+> 💡 1024 bis 49151: Registriert für Apps, aber flexibler.
+
+> 💡 49152 bis 65535: Dynamisch, kurzlebig, Client-Seite.
+
+> 💡 TCP-Port 80 ≠ UDP-Port 80 – getrennte Nummernräume.
+
+> 💡 IP sucht den Rechner, Port sucht das Programm.
+
+## Prüfungsfallen
+
+- Verwechslung: Well-known Ports gehen bis 1024. Richtig: 0 bis 1023 (1024 ist schon Registered).
+- Verwechslung: Port 0 ist ein normaler Port. Richtig: Port 0 ist reserviert, wird nicht für Dienste genutzt.
+- Verwechslung: TCP und UDP teilen sich eine Portnummer. Richtig: Getrennte Räume, Port 53/TCP ≠ Port 53/UDP.
+- Verwechslung: Quell-Port ist fest wie Ziel-Port. Richtig: Quell-Port meist dynamisch (hohe Nummer ≥ 49152).
+- Verwechslung: Port = Socket. Richtig: Socket = IP + Port.
+
+## Im Buch
+
+- Port: S. 337
+- Socket: S. 308
+- TCP: S. 308
+- UDP: S. 308
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Wie viele Bit hat eine Portnummer und wie groß ist der gesamte Wertebereich?
+> 16 Bit, Wertebereich 0 bis 65535 (insgesamt 65536 Ports).
+
+> [!question]- Nenne die drei Portbereiche mit ihren Grenzen und typischer Nutzung.
+> Well-known 0–1023 (Standarddienste), Registered 1024–49151 (registrierte Apps), Dynamic 49152–65535 (Client-Quellports).
+
+> [!question]- Welchen Port nutzt HTTPS standardmäßig und in welchem Bereich liegt er?
+> HTTPS nutzt Port 443 (TCP), er liegt im Well-known-Bereich (0–1023).
+
+> [!question]- Ein Client ruft einen Webserver auf (Ziel-Port 443). Welchen Port nutzt der Client als Quell-Port und warum?
+> Einen dynamischen Port ≥ 49152, weil das OS Quell-Ports kurzfristig aus dem dynamischen Bereich vergibt.
+
+> [!question]- Sind Port 53/TCP und Port 53/UDP derselbe Port?
+> Nein. TCP und UDP haben getrennte Nummernräume. Port 53/TCP und Port 53/UDP sind unterschiedliche Endpunkte.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

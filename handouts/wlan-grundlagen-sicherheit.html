@@ -1,0 +1,157 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WLAN Grundlagen & Sicherheit</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: WLAN Grundlagen & Sicherheit
+
+
+## In einem Satz
+
+WLAN verbindet Geräte kabellos über die Frequenzbänder 2,4 GHz, 5 GHz und 6 GHz, wobei automatische Kanalwahl Störungen minimiert und WPA2/WPA3 mit PSK oder RADIUS für Sicherheit sorgt.
+
+## Worum geht's
+
+WLAN (Wireless Local Area Network) ermöglicht mobilen Geräten den Netzzugriff ohne Kabel über Funkwellen. Ein Access Point (AP) stellt die Verbindung zum kabelgebundenen Netz her. Die Frequenzbänder 2,4 GHz (große Reichweite, viele Störungen), 5 GHz (höhere Geschwindigkeit, weniger Reichweite) und 6 GHz (neu, viel Platz, wenig Störung) sind in Kanäle unterteilt. Da sich Kanäle im 2,4-GHz-Band überlappen, stören sich benachbarte Netze gegenseitig. Moderne Access Points wählen den Kanal automatisch nach aktueller Auslastung der Nachbarn. Zur Absicherung ist Verschlüsselung Pflicht: WPA2 oder WPA3. Die Anmeldung erfolgt per PSK (gemeinsames Passwort) für kleine Netze oder per RADIUS/802.1X (individuelle Zugangsdaten) im Unternehmen.
+
+> [!example] Alltagsvergleich
+> Stell dir WLAN wie ein Gespräch in einem vollen Restaurant vor. Das 2,4-GHz-Band ist ein kleiner Raum, in dem sich alle Tische (Kanäle) überschneiden – man hört ständig die Nachbarn. 5 GHz und 6 GHz sind größere Säle mit mehr Abstand zwischen den Tischen. Die automatische Kanalwahl ist wie ein Kellner, der dich an den ruhigsten freien Tisch setzt, statt dass du dich selbst in den Lärm setzt.
+
+## Kernpunkte
+
+1. **Frequenzbänder**: 2,4 GHz (Reichweite, durchdringt Wände, nur 3 nicht-überlappende Kanäle), 5 GHz (Geschwindigkeit, mehr Kanäle, weniger Reichweite), 6 GHz (Wi-Fi 6E/7, sehr viele Kanäle, wenig Störung, kurze Reichweite).
+2. **Kanäle & Überlappung**: Im 2,4-GHz-Band überlappen sich benachbarte Kanäle (z. B. 1, 6, 11 sind non-overlapping). Überlappung = Störung = geringere Geschwindigkeit. Automatische Kanalwahl (Auto-Channel) scannt die Umgebung und wählt den am wenigsten belegten Kanal.
+3. **Verschlüsselung**: Offenes WLAN ist verboten. Standard ist **WPA2** (AES-CCMP) oder besser **WPA3** (SAE, stärkere Verschlüsselung). WEP und altes WPA sind unsicher.
+4. **Anmeldeverfahren**: **PSK** (Pre-Shared Key) = ein Passwort für alle (Heimnetz, Kleinbetrieb). **RADIUS** (AAA) + **802.1X** = zentrale Anmeldung mit persönlichen Zugangsdaten (Unternehmen). **WPS** (Tastendruck) nur für Geräte ohne Tastatur, PIN-Verfahren unsicher -> ausschalten.
+5. **SoHo-Router**: Kombigerät für Small Office/Home Office. Enthält Router, Switch, **Access Point**, DHCP-Server, oft Telefonie/VPN. Erstellt lokales WLAN und verbindet es mit dem Internet (WAN).
+6. **RADIUS / AAA**: Remote Authentication Dial-In User Service. Zentrale Authentifizierung (Wer bist du?), Autorisierung (Was darfst du?), Accounting (Was hast du genutzt?). Trennt Anmeldung von Berechtigung.
+
+## Vergleich WLAN-Frequenzbänder
+
+| Band | Nicht-überlappende Kanäle | Reichweite | Max. Datendurchsatz (theoretisch) | Typische Störungen |
+|---|---|---|---|---|
+| 2,4 GHz | 3 (Kanal 1, 6, 11) | Hoch (Wände gut) | ~600 Mbit/s (Wi-Fi 4) | Sehr hoch (Bluetooth, Mikrowelle, Nachbarn) |
+| 5 GHz | ~19-24 (je nach Land) | Mittel | ~6,9 Gbit/s (Wi-Fi 5/6) | Gering (weniger Geräte, DFS/Radar beachten) |
+| 6 GHz (Wi-Fi 6E/7) | ~59 (80 MHz Kanäle) | Geringer (Wände schlecht) | ~30+ Gbit/s (Wi-Fi 7) | Sehr gering (neu, exklusiv für WLAN) |
+
+## Beispiel: Automatische Kanalwahl beim Access Point
+
+1. 1. Access Point startet oder führt periodischen Scan durch (Hintergrund-Scan).
+2. 2. Er misst Signalstärke und Belegung aller Kanäle im gewählten Band (z. B. 2,4 GHz).
+3. 3. Er erkennt: Kanal 1 stark belegt (Nachbar links), Kanal 6 mittel (Nachbar rechts), Kanal 11 schwach belegt.
+4. 4. Algorithmus wählt Kanal 11 (geringste Überlappung/Interferenz).
+5. 5. AP funkt auf Kanal 11. Bei starker Änderung (neuer Nachbar) wechselt er später automatisch (meist nachts oder bei geringer Last).
+
+**Ergebnis:** Das eigene WLAN nutzt den saubersten Kanal ohne manuelles Eingreifen. Manuelle Fixierung auf Kanal 1 wäre hier schlechter gewesen.
+
+## 💡 Merksätze
+
+> 💡 2,4 GHz: weit & voll, 5 GHz: schnell & leer, 6 GHz: neu & riesig.
+
+> 💡 Auto-Kanal = AP sucht ruhigste Frequenz selbst.
+
+> 💡 WPA3 ist Pflicht, WPA2 Minimum, WEP ist Müll.
+
+> 💡 PSK = ein Schlüssel für alle, RADIUS = eigener Schlüssel pro Nutzer.
+
+> 💡 WPS-PIN ist unsicher, Knopf drücken okay, besser ganz aus.
+
+## Prüfungsfallen
+
+- Verwechslung: PSK vs. WPA. Richtig: PSK ist Authentifizierungsmethode (Passwort), WPA ist Verschlüsselungsprotokoll. WPA nutzt PSK oder RADIUS.
+- Verwechslung: 2,4 GHz Kanäle. Richtig: Nur Kanal 1, 6, 11 überlappen sich nicht in Europa. Kanal 13 existiert, aber überlappt mit 11.
+- Verwechslung: RADIUS vs. Active Directory. Richtig: RADIUS ist AAA-Protokoll (Auth/Autz/Acc), AD ist Verzeichnisdienst (User/Group/Policy). RADIUS fragt oft AD ab.
+- Verwechslung: WPS Sicherheit. Richtig: WPS per Taster (PBC) ist okay, WPS per PIN ist bruteforce-angreifbar -> deaktivieren.
+- Verwechslung: SoHo-Router vs. Router. Richtig: SoHo-Router = Router + Switch + AP + DHCP + Firewall + mehr. Reiner Router routet nur zwischen Netzen.
+
+## Im Buch
+
+- WLAN: S. 320
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Nenne die drei Hauptfrequenzbänder für WLAN und je ein Merkmal.
+> 2,4 GHz (große Reichweite, 3 nicht-überlappende Kanäle, stark gestört), 5 GHz (höhere Bandbreite, viele Kanäle, DFS-Pflicht bei Radar), 6 GHz (Wi-Fi 6E/7, sehr viele breite Kanäle, wenig Störung, kurze Reichweite).
+
+> [!question]- Warum sollte man die Kanalwahl dem Access Point überlassen (Auto-Channel)?
+> Weil sich die Belegung durch Nachbar-WLANs ständig ändert. Der AP scannt die Umgebung kontinuierlich und wählt den Kanal mit der geringsten Interferenz (Co-Channel/Adjacent-Channel), was manuell kaum optimal zu halten ist.
+
+> [!question]- Was ist der Unterschied zwischen WPA2-PSK und WPA2-Enterprise (RADIUS)?
+> WPA2-PSK nutzt einen gemeinsamen Schlüssel (Passwort) für alle Nutzer (Heimnetz). WPA2-Enterprise nutzt 802.1X/RADIUS: Jeder Nutzer hat eigene Zugangsdaten, zentrale Verwaltung (AAA), dynamische Sitzungsschlüssel, besser für Unternehmen.
+
+> [!question]- Welche drei Funktionen erfüllt der AAA-Dienst (RADIUS)?
+> Authentifizierung (Identität prüfen: Wer bist du?), Autorisierung (Rechte vergeben: Was darfst du?), Accounting (Nutzung protokollieren/abrechnen: Was hast du getan?).
+
+> [!question]- Was ist ein SoHo-Router und welche fünf Funktionen integriert er typischerweise?
+> Kompaktgerät für Small Office/Home Office. Integriert: WAN-Anschluss (Modem), Router, Switch (LAN-Ports), WLAN-Access-Point, DHCP-Server, oft TK-Anlage, VPN, Firewall, DynDNS.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

@@ -1,0 +1,159 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Netzwerkgeräte Switch, Router, Netzwerkkarte</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Netzwerkgeräte: Switch, Router, Netzwerkkarte
+
+
+## In einem Satz
+
+Ein Switch verbindet Geräte im selben Netz über MAC-Adressen, ein Router verbindet verschiedene Netze über IP-Adressen.
+
+## Worum geht's
+
+Du lernst die drei wichtigsten aktiven Netzwerkkomponenten kennen. Die Netzwerkkarte (NIC) ist die Schnittstelle deines Geräts zum Kabel oder WLAN. Der Switch ist der Verteiler im lokalen Netz (LAN): Er lernt, an welchem Port welches Gerät hängt (MAC-Adresse) und schickt Daten nur dorthin. Der Router ist das Tor nach draußen: Er entscheidet anhand der IP-Adresse, in welches andere Netz ein Paket muss (z. B. ins Internet). SoHo-Router für Zuhause/Kleinbüro vereinen Router, Switch, WLAN-Access-Point, DHCP-Server und Firewall in einem Gerät. Profi-Router für Firzen machen nur Routing und werden per SSH auf der Kommandozeile konfiguriert. WLAN muss immer verschlüsselt sein (WPA2/WPA3), offene Netze sind verboten.
+
+> [!example] Alltagsvergleich
+> Stell dir ein Bürogebäude vor. Die Netzwerkkarte ist der Briefkasten an deiner Bürotür. Der Switch ist der Postverteiler auf dem Flur: Er kennt alle Zimmernummern (MAC-Adressen) und legt Briefe direkt in den richtigen Kasten. Der Router ist die Hauptpoststelle im Erdgeschoss: Sie liest die Stadt (IP-Adresse/Netzwerk) auf dem Umschlag und entscheidet, ob der Brief im Haus bleibt oder in den LKW zum nächsten Ort (Internet) kommt.
+
+## Kernpunkte
+
+1. **Netzwerkkarte (NIC)**: Verbindet den PC mit dem Medium (Kupfer, Glasfaser, WLAN). Auswahlkriterien: Netzwerkstandard (z. B. 1 Gbit/s), Medium, Bustyp (PCIe), Bauform. Onboard-Karte reicht oft, sonst Steckkarte nachrüsten.
+2. **Switch (Layer 2)**: Verteilt Frames im LAN anhand der **MAC-Adresse**. Baut eine **MAC-Adresstabelle** (Forwarding Table) auf: Welche MAC an welchem Port? Wichtige Kaufkriterien: Portanzahl & Geschwindigkeit, **PoE** (Strom für Telefone/APs über Datenkabel), **Management** (VLAN, Port-Spiegelung, SSH/Web), Puffergröße, Switching-Verfahren (Store-and-Forward prüft Fehler, Cut-Through ist schneller).
+3. **Router (Layer 3)**: Verbindet **verschiedene Netze** miteinander. Entscheidet anhand der **IP-Adresse** (Routing-Tabelle). **SoHo-Router**: All-in-One-Gerät (WAN-Modem, 4-Port-Switch, WLAN-AP, DHCP, Firewall, VPN, NAS per USB). USB-NAS am Router ist für Betriebe **nicht** geeignet (Sicherheit, Leistung). **Profi-Router**: Nur Routing, 19-Zoll-Rack, Konfiguration per **SSH** (Kommandozeile, skriptbar), kein Web-Interface.
+4. **Konfiguration**: Web-Oberfläche (GUI) einfach, aber nicht automatisierbar. **Telnet** ist **unsicher** (alles Klartext, Passwörter lesbar). **SSH** ist Standard (verschlüsselt, sicher).
+5. **WLAN-Sicherheit**: Offenes WLAN verboten. **PSK** (Pre-Shared Key = gemeinsames Passwort) für kleine Netze. **WPA2 / WPA3** = Verschlüsselungsstandard. **WPS** (Tastendruck) bequem, aber Sicherheitsrisiko (PIN angreifbar). **RADIUS** (802.1X) für Firmen: Zentrale Anmeldung mit Benutzerkonto (Authentifizierung, Autorisierung, Accounting = AAA).
+
+## Vergleich Switch vs. Router
+
+| Merkmal | Switch | Router |
+|---|---|---|
+| OSI-Schicht | Layer 2 (Sicherungsschicht) | Layer 3 (Vermittlungsschicht) |
+| Adresse | MAC-Adresse (Hardware) | IP-Adresse (logisch) |
+| Aufgabe | Geräte im **eigenen** Netz verbinden | **Verschiedene** Netze verbinden |
+| Tabelle | MAC-Adresstabelle (Port <-> MAC) | Routing-Tabelle (Netz <-> Next Hop) |
+| Typisch | LAN-Verteiler (24/48 Ports) | Standard-Gateway, Internet-Anschluss |
+
+## Beispiel: Switch-Port sicher konfigurieren (Beispiel Cisco CLI)
+
+1. 1. In den Konfigurationsmodus wechseln: `enable` -> `configure terminal`
+2. 2. Interface wählen: `interface gigabitethernet 1/0/5`
+3. 3. Port auf Access-Modus (Endgerät): `switchport mode access`
+4. 4. VLAN zuweisen: `switchport access vlan 10`
+5. 5. Portfast für schnelles Hochfahren (kein Spanning-Tree-Warten): `spanning-tree portfast`
+6. 6. BPDU Guard (schützt vor falschen Switches): `spanning-tree bpduguard enable`
+7. 7. Port einschalten: `no shutdown`
+8. 8. Speichern: `end` -> `write memory`
+
+**Ergebnis:** Port 5 ist jetzt ein sicherer Access-Port im VLAN 10 für ein Endgerät (PC, Drucker). Kein fremder Switch kann sich hier einklinken.
+
+## 💡 Merksätze
+
+> 💡 Switch schaltet im eigenen Netz (MAC).
+
+> 💡 Router routet zwischen Netzen (IP).
+
+> 💡 Telnet ist Klartext, SSH ist verschlüsselt.
+
+> 💡 Offenes WLAN ist ein offenes Tor.
+
+> 💡 SoHo = Alles in einem, Profi = Spezialist per CLI.
+
+## Prüfungsfallen
+
+- Verwechslung: Switch arbeitet mit IP-Adressen. Richtig: Switch nutzt MAC-Adressen, Router nutzt IP-Adressen.
+- Verwechslung: ARP-Tabelle und MAC-Adresstabelle sind dasselbe. Richtig: ARP-Tabelle (Host/Router) mappt IP auf MAC. MAC-Tabelle (Switch) mappt MAC auf Port.
+- Telnet für Konfiguration nutzen. Richtig: Telnet ist unsicher, immer SSH verwenden.
+- WPS (Tasten-Verfahren) als sicher ansehen. Richtig: WPS-PIN ist angreifbar, besser PSK oder RADIUS nutzen.
+- USB-Stick am SoHo-Router als professionelles NAS verkaufen. Richtig: Für Betriebe ungeeignet (Leistung, Sicherheit, Ausfallsicherheit).
+
+## Im Buch
+
+- Netzwerkgeräte: S. 297
+- Netzwerkkarte: S. 339, S. 371
+- Switch: S. 340, S. 371
+- Router: S. 372
+- VLAN: S. 288, S. 307
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Ein PC soll an einen Switch-Port angeschlossen werden. Welche Sicherheits-Features solltest du am Port aktivieren und warum?
+> Portfast (Endgerät bootet sofort ohne Spanning-Tree-Wartezeit) und BPDU Guard (Port sperrt sofort, falls doch ein Switch angeschlossen wird, verhindert Schleifen). Zusätzlich: Port auf Access-Modus festlegen, passendes VLAN zuweisen.
+
+> [!question]- Was ist der Unterschied zwischen einem SoHo-Router und einem professionellen Router bezüglich Konfiguration und Funktionsumfang?
+> SoHo-Router: Web-GUI, All-in-One (Switch, WLAN, DHCP, Firewall, VPN, USB-NAS). Profi-Router: Nur Routing, 19-Zoll-Rack, Konfiguration per SSH/Kommandozeile (IOS), skriptbar, keine GUI, separate Geräte für Switch/WLAN/Firewall nötig.
+
+> [!question]- Warum ist ein offenes WLAN (ohne Passwort) in Deutschland rechtlich und technisch problematisch?
+> Rechtlich: Störerhaftung (Betreiber haftet für Missbrauch). Technisch: Jeder mitschneidet den Verkehr (keine Verschlüsselung), Man-in-the-Middle-Angriffe trivial, unautorisierte Geräte im internen Netz möglich. Pflicht: WPA2/WPA3 mit starkem PSK oder RADIUS.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

@@ -1,0 +1,153 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USV-Typen richtig einordnen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: USV-Typen richtig einordnen
+
+
+## In einem Satz
+
+Du wählst eine USV anhand der Norm-Bezeichnungen VFI, VI und VFD, weil die alten Namen wie „Online“ oder „Offline“ uneinheitlich benutzt werden.
+
+## Worum geht's
+
+Eine USV (unterbrechungsfreie Stromversorgung) sitzt zwischen Steckdose und Server. Sie filtert Störungen aus dem Netz, überbrückt kurze Stromausfälle per Akku und gibt dem Server Zeit für ein sauberes Herunterfahren. Es gibt drei internationale Typ-Klassen: VFI (höchster Schutz, Last hängt immer am Wechselrichter), VI (regelt Spannung nach, Frequenz kommt vom Netz) und VFD (schaltet erst bei Ausfall auf Akku um). Die alten Bezeichnungen „Online“, „Line-Interactive“ und „Offline“ werden von Herstellern oft unterschiedlich verwendet, deshalb sind die Norm-Kürzel VFI, VI, VFD im Prüfungsfall und in der Praxis verlässlicher.
+
+> [!example] Alltagsvergleich
+> Stell dir die USV wie einen Wasserhahn mit Filter und Reservekanister vor. VFI: Eine Pumpe drückt das Wasser ständig durch den Filter – Druck und Qualität sind immer perfekt, egal wie das Leitungsnetz schwankt. VI: Ein Regelventil gleicht Druckschwankungen aus, der Kanister springt nur bei Totalausfall an. VFD: Der Hahn ist direkt an der Leitung, der Kanister wird nur aufgedreht, wenn das Leitungswasser ganz ausfällt – kurz tropft es noch.
+
+## Kernpunkte
+
+1. Eine **USV** versorgt angeschlossene Geräte bei Netzausfall aus dem **Akku**, filtert Spannungsspitzen und stabilisiert die Frequenz.
+2. Drei **Norm-Typen** entscheiden über die Qualität: **VFI** (Voltage Frequency Independent – Last immer am Wechselrichter, bester Schutz), **VI** (Voltage Independent – Spannung wird nachgeregelt, Frequenz vom Netz), **VFD** (Voltage Frequency Dependent – Umschaltung bei Ausfall, einfachster Schutz).
+3. Der **Gesamtwirkungsgrad** einer VFI-USV berechnet sich aus dem Produkt der Wirkungsgrade von Gleichrichter und Wechselrichter: η_ges = η_Gleichrichter · η_Wechselrichter (z. B. 0,9 · 0,9 = 0,81).
+4. Die **Überbrückungszeit** in Stunden ergibt sich aus der nutzbaren Akku-Energie (Wh mal Wirkungsgrad) geteilt durch die Last in Watt: t = (Wh_Akku · η) / P_Last.
+5. **Scheinleistung** (VA) und **Wirkleistung** (W) unterscheiden sich: P = S · cos φ. USV-Leistung steht oft in VA, die nutzbare Leistung in Watt ist geringer.
+6. Abgrenzung: **USV** (Akku, Minuten bis Stunden) überbrückt bis zum Herunterfahren oder Start der **Netzersatzanlage** (Dieselgenerator, Stunden bis Tage).
+
+## USV-Typen im Vergleich (Norm vs. alte Namen)
+
+| Norm-Typ | Alte Namen | Merkmal |
+|---|---|---|
+| VFI | Online, Double-Conversion, Doppelwandler | Last dauerhaft am Wechselrichter, Spannung & Frequenz unabhängig vom Netz |
+| VI | Line-Interactive, netzinteraktiv | Spannung wird nachgeregelt, Frequenz folgt dem Netz |
+| VFD | Offline, Standby, Passiv | Schaltet erst bei Ausfall auf Batterie um, kurze Umschaltzeit |
+
+## Beispiel: Überbrückungszeit berechnen (Prüfungsbeispiel)
+
+1. Gegeben: Akku-Kapazität = 720 Wh, Wechselrichter-Wirkungsgrad = 90 % (0,9), Server-Leistung = 400 W.
+2. Nutzbare Energie = Akku-Kapazität · Wirkungsgrad = 720 Wh · 0,9 = 648 Wh.
+3. Laufzeit t = Nutzbare Energie / Last = 648 Wh / 400 W = 1,62 h.
+4. Umrechnung in Minuten: 0,62 h · 60 min/h = 37,2 min → ca. 1 Stunde 37 Minuten.
+
+**Ergebnis:** Die USV versorgt den Server ca. 1,62 h (97 Minuten) lang.
+
+## 💡 Merksätze
+
+> 💡 VFI = Frequenz **I**ndependent (unabhängig) – bester Schutz.
+
+> 💡 VFD = Frequenz **D**ependent (abhängig) – einfachster Schutz.
+
+> 💡 Gesamtwirkungsgrad = Produkt der Einzel-Wirkungsgrade (mal, nicht plus).
+
+> 💡 USV = Akku für kurze Zeit, Netzersatzanlage = Generator für lange Zeit.
+
+> 💡 VA (Scheinleistung) mal cos φ = Watt (Wirkleistung).
+
+## Prüfungsfallen
+
+- Verwechslung: Alte Namen (Online/Offline) sind nicht genormt. Richtig: Nur VFI, VI, VFD sind international einheitlich definiert.
+- Verwechslung: Wirkungsgrade addieren. Richtig: Wirkungsgrade in Reihe multiplizieren (η_ges = η1 · η2).
+- Verwechslung: VA gleich Watt setzen. Richtig: Watt = VA · cos φ (bei Servern oft cos φ ≈ 0,9).
+- Verwechslung: USV ersetzt Generator. Richtig: USV überbrückt nur bis zum Herunterfahren oder Generator-Start.
+
+## Im Buch
+
+- USV: S. 395
+- Wirkungsgrad: S. 395
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Warum wählt man eine USV nach den Typbezeichnungen VFI, VI, VFD und nicht nach ‚Online‘ oder ‚Offline‘?
+> Weil die alten Bezeichnungen von Herstellern uneinheitlich verwendet werden. Die Norm-Kürzel VFI, VI, VFD sind international verbindlich definiert.
+
+> [!question]- Welcher USV-Typ bietet den höchsten Schutz und woran erkennst du das am Kürzel?
+> VFI bietet den höchsten Schutz. Das ‚I‘ steht für Independent (unabhängig): Spannung und Frequenz der Ausgangsseite sind vollständig vom Eingang entkoppelt.
+
+> [!question]- Eine USV hat 90 % Wirkungsgrad im Gleichrichter und 90 % im Wechselrichter. Wie hoch ist der Gesamtwirkungsgrad?
+> 0,9 · 0,9 = 0,81 also 81 %. Die Wirkungsgrade werden multipliziert, nicht addiert.
+
+> [!question]- Was ist der Unterschied zwischen USV und Netzersatzanlage?
+> Die USV nutzt Akkus für Minuten bis wenige Stunden (Überbrückung, Herunterfahren). Die Netzersatzanlage (meist Dieselgenerator) übernimmt die Versorgung für Stunden oder Tage bei langem Netzausfall.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

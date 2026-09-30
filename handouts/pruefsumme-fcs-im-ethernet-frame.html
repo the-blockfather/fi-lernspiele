@@ -1,0 +1,156 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prüfsumme (FCS) im Ethernet-Frame</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Prüfsumme (FCS) im Ethernet-Frame
+
+
+## In einem Satz
+
+Die Frame Check Sequence (FCS) ist ein 32 Bit (4 Byte) langes Feld am Ende jedes Ethernet-Frames, das Übertragungsfehler per CRC32-Verfahren erkennt.
+
+## Worum geht's
+
+Die FCS (Frame Check Sequence) ist die Prüfsumme im Ethernet-Frame. Sie steht ganz am Ende des Rahmens, direkt vor dem Inter Frame Gap. Der Sender berechnet aus dem gesamten Frame-Inhalt (Ziel-MAC, Quell-MAC, Typ/Länge, Daten, Padding) einen 32-Bit-Wert mit dem CRC32-Algorithmus und schreibt ihn in das FCS-Feld. Der Empfänger führt exakt dieselbe Berechnung durch. Stimmt das Ergebnis nicht mit dem empfangenen FCS-Wert überein, ist der Frame auf dem Übertragungsweg beschädigt worden – er wird sofort verworfen. Eine Korrektur findet auf Ebene 2 nicht statt; das übernimmt höhere Schichten (z. B. TCP). Die FCS ist 32 Bit groß, also genau 4 Byte.
+
+> [!example] Alltagsvergleich
+> Stell dir vor, du versendest ein Paket mit einer Inventarliste außen drauf. Der Absender zählt alle Teile und schreibt die Summe auf den Karton. Der Empfänger zählt nach dem Transport nach. Stimmt die Zahl nicht, fehlt etwas oder ist etwas kaputt – das Paket wird zurückgewiesen, ohne es auszupacken.
+
+## Kernpunkte
+
+1. Die **FCS (Frame Check Sequence)** ist das Prüfsummen-Feld am **Ende** jedes Ethernet-Frames (Layer 2).
+2. Sie ist **32 Bit lang (4 Byte)** und wird vom **CRC32-Algorithmus** (Cyclic Redundancy Check) berechnet.
+3. Eingabe für die Berechnung: **Ziel-MAC, Quell-MAC, Typ/Länge, Nutzdaten, Padding** – also alles ab dem Destination Address Feld bis vor das FCS-Feld.
+4. Der **Sender** berechnet den Wert und hängt ihn an. Der **Empfänger** berechnet beim Empfang neu und vergleicht.
+5. Bei **Abweichung** ist der Frame fehlerhaft (Bitfehler durch Störung, Kollision, defektes Kabel). Der Frame wird **stillschweigend verworfen** (kein Fehlerbericht an Absender auf Layer 2).
+6. Die FCS sichert nur die **Integrität** (Unversehrtheit) der Daten auf der Strecke, nicht die **Authentizität** (Absender-Echtheit).
+7. Vorsicht: **IP-Header-Prüfsumme** (Layer 3) und **TCP/UDP-Prüfsumme** (Layer 4) sind **andere Felder** an anderen Stellen mit anderen Berechnungsbereichen.
+
+## Vergleich: Prüfsummen im TCP/IP-Stack
+
+| Schicht (OSI) | Protokoll / Feld | Größe | Was wird geprüft? |
+|---|---|---|---|
+| Schicht 2 (Sicherung) | Ethernet **FCS** | 32 Bit (4 Byte) | Gesamter Frame (Header + Daten + Padding) |
+| Schicht 3 (Vermittlung) | IPv4 Header Checksum | 16 Bit (2 Byte) | Nur der IP-Header (nicht die Nutzdaten) |
+| Schicht 4 (Transport) | TCP / UDP Checksum | 16 Bit (2 Byte) | Header + Nutzdaten + Pseudo-Header (IP-Adressen) |
+
+## Beispiel: Ablauf der FCS-Prüfung (konzeptionell)
+
+1. 1. Sender hat Frame fertig: Ziel-MAC (6 B) + Quell-MAC (6 B) + Typ (2 B) + Daten (46-1500 B) + Padding (falls nötig).
+2. 2. Sender rechnet CRC32 über diese Bytes -> Ergebnis: 32-Bit-Wert (z. B. 0xA1B2C3D4).
+3. 3. Sender schreibt diesen Wert in das **FCS-Feld** (4 Byte) ans Frame-Ende.
+4. 4. Frame geht aufs Medium (Kabel, WLAN). Störungen können Bits kippen.
+5. 5. Empfänger empfängt Bits, baut Frame zusammen.
+6. 6. Empfänger rechnet CRC32 über empfangene Bytes (ohne FCS-Feld).
+7. 7. Vergleich: Berechneter Wert == Empfangener FCS-Wert?
+8. 8. JA -> Frame okay, an Layer 3 weiterreichen. NEIN -> Frame defekt, verwerfen (Statistik-Counter 'CRC Errors' hochzählen).
+
+**Ergebnis:** Fehlerhafte Frames werden auf Ebene 2 erkannt und verworfen, ohne die CPU mit kaputten Daten zu belasten.
+
+## 💡 Merksätze
+
+> 💡 FCS = 32 Bit = 4 Byte, ganz am Frame-Ende.
+
+> 💡 CRC32 rechnet, FCS ist das Ergebnis-Feld.
+
+> 💡 FCS prüft den ganzen Frame, IP-Checksumme nur den IP-Header.
+
+> 💡 CRC-Fehler = Frame weg, keine Nachfrage auf Layer 2.
+
+> 💡 Vier Byte am Schluss, das ist der FCS-Schluss.
+
+## Prüfungsfallen
+
+- Verwechslung: **FCS (32 Bit, Layer 2, ganzer Frame)** vs. **IPv4 Header Checksum (16 Bit, Layer 3, nur Header)**. Prüfung fragt oft nach Größe oder Berechnungsbereich.
+- Verwechslung: **FCS-Feld** (die 4 Byte im Frame) vs. **CRC32** (der Algorithmus dazu). Frage: 'Wie heißt das Feld?' -> FCS. 'Welches Verfahren?' -> CRC32.
+- Annahme: 'FCS korrigiert Fehler'. Falsch: FCS **erkennt** nur. Korrektur = Retransmission durch TCP (Layer 4) oder Anwendung.
+- Vergessen: **Preamble (7 Byte) + SFD (1 Byte)** gehören **NICHT** zur FCS-Berechnung. Sie dienen der Synchronisation, sind kein Frame-Bestandteil für CRC.
+- Verwechslung: **Padding** (Auffüllbytes auf 46 Byte Mindest-Datenlänge) **gehört** zur FCS-Berechnung dazu.
+
+## Im Buch
+
+- Ethernet-Frame: S. 306
+- Integrität: S. 506
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Wie groß ist das FCS-Feld im Ethernet-Frame in Bit und Byte?
+> Das FCS-Feld ist 32 Bit groß, das entspricht 4 Byte.
+
+> [!question]- Über welche Teile des Ethernet-Frames wird die FCS (CRC32) berechnet?
+> Berechnet wird über Ziel-MAC, Quell-MAC, Typ/Länge, Nutzdaten und ggf. Padding. Preamble und SFD sind nicht enthalten.
+
+> [!question]- Was passiert auf der Empfängerseite, wenn die neu berechnete CRC32 nicht zum empfangenen FCS-Wert passt?
+> Der Frame wird als fehlerhaft erkannt und sofort verworfen. Es gibt keine Fehlerbenachrichtigung an den Absender auf Layer 2.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

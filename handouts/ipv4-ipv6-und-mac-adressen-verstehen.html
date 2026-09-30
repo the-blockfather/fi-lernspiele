@@ -1,0 +1,164 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IPv4, IPv6 und MAC-Adressen verstehen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: IPv4, IPv6 und MAC-Adressen verstehen
+
+
+## In einem Satz
+
+IPv4-Adressen sind 32 Bit lang (4 Oktette à 8 Bit), IPv6-Adressen 128 Bit, und MAC-Adressen identifizieren Hardware eindeutig mit 48 Bit im lokalen Netz.
+
+## Worum geht's
+
+Eine IPv4-Adresse besteht aus 4 Dezimalzahlen (0–255), getrennt durch Punkte, insgesamt 32 Bit. Das reicht für ca. 4,3 Milliarden Adressen, was heute zu wenig ist. IPv6 nutzt 128 Bit in Hexadezimalschreibweise (8 Blöcke à 16 Bit) für einen riesigen Adressraum. Die MAC-Adresse ist eine 48-Bit-Hardwareadresse (Layer 2), fest vom Hersteller vergeben, während IP-Adressen logische Adressen (Layer 3) sind, die im Netz vergeben werden. Private IP-Bereiche (z. B. 192.168.x.x) werden im Internet nicht weitergeleitet. Adressierungsarten regeln, wer Empfänger ist: Unicast (einer), Multicast (Gruppe), Broadcast (alle, nur IPv4), Anycast (beliebig aus Gruppe).
+
+> [!example] Alltagsvergleich
+> Die IPv4-Adresse ist wie eine Telefonnummer mit Vorwahl: logisch, änderbar, für die Vermittlung (Router). Die MAC-Adresse ist wie die IMEI/Seriennummer des Telefons: fest in der Hardware, weltweit eindeutig. Ein privater IP-Bereich ist wie eine interne Durchwahl in der Firma: intern erreichbar, nach außen nicht direkt wählbar. IPv6 ist ein neues, viel längeres Nummernsystem, weil die alten Nummern ausgehen.
+
+## Kernpunkte
+
+1. **IPv4-Adresse**: 32 Bit = 4 Oktette à 8 Bit, Dezimalschreibweise (z. B. 192.168.1.1), **Layer 3**.
+2. **IPv6-Adresse**: 128 Bit = 8 Blöcke à 16 Bit, Hexadezimalschreibweise (z. B. 2001:db8::1), **Layer 3**, kein Broadcast mehr.
+3. **MAC-Adresse**: 48 Bit (6 Byte), hexadezimal (z. B. 00:1A:2B:3C:4D:5E), weltweit eindeutig, **Layer 2**, fest in Hardware.
+4. **Private IP-Adressen**: Reservierte Bereiche (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), nicht im Internet routbar, nur für lokale Netze.
+5. **Unicast**: 1 Sender → 1 Empfänger.
+6. **Multicast**: 1 Sender → Gruppe von Empfängern.
+7. **Broadcast**: 1 Sender → Alle im Netz (Spezialfall von Multicast, nur IPv4).
+8. **Anycast**: 1 Sender → Ein beliebiges Mitglied einer Gruppe (Lastverteilung).
+
+## Vergleich: IPv4 vs. IPv6 vs. MAC
+
+| Merkmal | IPv4 | IPv6 | MAC-Adresse |
+|---|---|---|---|
+| Bit-Länge | 32 Bit | 128 Bit | 48 Bit |
+| Schreibweise | 4 Dezimal-Oktette (Punkte) | 8 Hex-Blöcke (Doppelpunkte) | 6 Hex-Byte (Doppelpunkte/Striche) |
+| OSI-Schicht | Layer 3 (Vermittlung) | Layer 3 (Vermittlung) | Layer 2 (Sicherung) |
+| Adressraum | 2³² ≈ 4,3 Mrd. | 2¹²⁸ (riesig) | 2⁴⁸ (Hersteller + Gerät) |
+| Besonderheit | Privatbereiche, NAT nötig | Kein Broadcast, SLAAC/DHCPv6 | OUI (Herstellerkennung) in ersten 3 Byte |
+
+## Beispiel: Bit-Längen berechnen
+
+1. IPv4: 4 Oktette × 8 Bit = 32 Bit.
+2. IPv4-Adressraum: 2³² = 4.294.967.296 Adressen (≈ 4,3 Mrd.).
+3. IPv6: 8 Blöcke × 16 Bit = 128 Bit.
+4. MAC: 6 Byte × 8 Bit = 48 Bit.
+
+**Ergebnis:** IPv4 = 32 Bit, IPv6 = 128 Bit, MAC = 48 Bit.
+
+## 💡 Merksätze
+
+> 💡 IPv4: 4 Oktette, 8 Bit, macht 32 Bit.
+
+> 💡 MAC = 48 Bit = 6 Byte = Hardware-Adresse.
+
+> 💡 IPv6: 128 Bit, Hex, 8 Blöcke, Doppelpunkt.
+
+> 💡 Privat: 10.x, 172.16–31.x, 192.168.x → nicht ins Internet.
+
+> 💡 Broadcast = Alle (nur IPv4), Multicast = Gruppe, Anycast = Einer von Vielen.
+
+## Prüfungsfallen
+
+- Verwechslung: IPv4 32 Bit vs. IPv6 128 Bit vs. MAC 48 Bit. Richtig: IPv4=32, IPv6=128, MAC=48.
+- Verwechslung: MAC (Layer 2, Hardware) vs. IP (Layer 3, Logisch). Richtig: Switch nutzt MAC, Router nutzt IP.
+- Verwechslung: Broadcast gibt es bei IPv6 auch. Richtig: IPv6 kennt kein Broadcast, nur Multicast (z. B. All-Nodes).
+- Verwechslung: Private IPs sind öffentlich routbar. Richtig: Private IPs werden von Internet-Routern verworfen.
+- Verwechslung: Oktett max 256. Richtig: 0–255 sind 256 Werte, Maximalwert = 255 (2⁸−1).
+
+## Im Buch
+
+- Adressen: S. 298
+- Unicast: S. 303
+- Multicast: S. 303
+- Broadcast: S. 303
+- Anycast: S. 303
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Wie viele Bit hat eine IPv4-Adresse und wie setzt sie sich zusammen?
+> 32 Bit, aufgeteilt in 4 Oktette à 8 Bit, geschrieben als 4 Dezimalzahlen (0–255) mit Punkten getrennt.
+
+> [!question]- Was ist der Unterschied zwischen MAC-Adresse und IPv4-Adresse bezüglich Schicht und Vergabe?
+> MAC ist Layer 2 (Sicherung), 48 Bit, fest in Hardware (Hersteller). IPv4 ist Layer 3 (Vermittlung), 32 Bit, logisch vom Netzwerk vergeben (DHCP/statisch).
+
+> [!question]- Nenne die drei privaten IPv4-Adressbereiche.
+> 10.0.0.0/8 (10.0.0.0–10.255.255.255), 172.16.0.0/12 (172.16.0.0–172.31.255.255), 192.168.0.0/16 (192.168.0.0–192.168.255.255).
+
+> [!question]- Welche Adressierungsart kennt IPv6 nicht mehr, die es bei IPv4 gibt?
+> Broadcast. IPv6 nutzt stattdessen Multicast (z. B. ff02::1 für alle Knoten).
+
+> [!question]- Wie viele Bit hat eine MAC-Adresse und wie wird sie meist geschrieben?
+> 48 Bit (6 Byte), meist als 6 Hexadezimal-Byte mit Doppelpunkten oder Bindestrichen (z. B. 00:1A:2B:3C:4D:5E).
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>

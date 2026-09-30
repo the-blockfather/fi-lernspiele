@@ -1,0 +1,158 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ethernet-Bezeichnungen verstehen</title><style>
+:root{--bg:#f7f7fb;--fg:#1c1c24;--muted:#6b6b7b;--line:#dcdce6;--card:#fff;--c1:#6366f1}
+@media (prefers-color-scheme:dark){:root{--bg:#14141b;--fg:#ececf2;--muted:#9a9aab;--line:#30303d;--card:#1d1d27}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:0 auto;padding:24px 16px 48px}
+h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line);padding-bottom:4px}a{color:var(--c1)}
+.tab{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.95em}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.callout,blockquote,details.callout{background:var(--card);border-left:4px solid var(--c1);border-radius:8px;padding:8px 14px;margin:12px 0}
+.callout .ct,details.callout summary{font-weight:650;cursor:pointer}code{background:var(--card);padding:1px 5px;border-radius:4px}
+.fuss{color:var(--muted);font-size:.85em;margin-top:40px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><main id="inhalt"></main>
+<script type="text/markdown" id="md"># Handout: Ethernet-Bezeichnungen verstehen
+
+
+## In einem Satz
+
+Eine Ethernet-Bezeichnung ist ein Baukasten aus vier Teilen, der Geschwindigkeit, Übertragungsart, Medium mit Reichweite und Anzahl der Kanäle festlegt.
+
+## Worum geht's
+
+Der Name eines Ethernet-Standards besteht immer aus vier Blöcken: Die vordere Zahl gibt die Datenrate an (ohne G = Mbit/s, mit G = Gbit/s). Das Wort 'Base' steht für Basisband, das Signal geht also direkt aufs Kabel ohne Trägerfrequenz. Die Buchstaben in der Mitte nennen das Medium und die Reichweite (z. B. T für Kupfer, S für kurzes Multimode-Glasfaser, L für langes Singlemode-Glasfaser). Die Zahl ganz hinten zählt die Kanäle (Lanes), über die parallel übertragen wird.
+
+> [!example] Alltagsvergleich
+> Stell dir eine Autobahn vor: Die vordere Zahl ist die Gesamtkapazität aller Spuren zusammen. Die hintere Zahl ist die Anzahl der Fahrspuren. 'S' ist eine Stadtautobahn (kurz, Multimode), 'L' und 'E' sind Fernautobahnen (lang, Singlemode). 'T' ist die klassische Landstraße aus Kupfer, 'C' nur die kurze Garagenzufahrt (Twinax im Rack).
+
+## Kernpunkte
+
+1. **Datenrate (Zahl vorn):** 10, 100, 1000 = Mbit/s; 10G, 40G, 100G = Gbit/s. Merke: Kein 'G' bedeutet Megabit.
+2. **Base:** Steht für **Basisband**. Das digitale Signal wird direkt auf das Medium gegeben, ohne Modulation auf eine Trägerfrequenz (wie beim Radio). Fast alle LAN-Varianten nutzen das.
+3. **Medium/Reichweite (Buchstaben):** **T** = Twisted Pair (Kupfer, 100 m). **T1** = nur **ein** Adernpaar (Auto, IoT). **S** = Short, **Multimode**-Glasfaser (kurz, z. B. 100 m). **L** = Long, **Singlemode**-Glasfaser (lang, z. B. 10 km). **E** = Extended, Singlemode (sehr lang, 40 km). **C** = Copper Twinax (Kupfer, nur ~10 m im Rack).
+4. **Kanäle (Zahl hinten):** Die Datenrate wird auf diese Anzahl Kanäle (Lanes) aufgeteilt. Rechnung: Gesamtrate ÷ Kanäle = Rate pro Kanal. Beispiel: 100GBase-ER4 → 100 ÷ 4 = 25 Gbit/s pro Kanal.
+5. **Wellenlängen vs. Fasern:** Bei **SR4** (Multimode) laufen 4 Kanäle über 4 parallele Faserpaare (8 Fasern, MPO-Stecker). Bei **LR4/ER4** (Singlemode) laufen 4 Kanäle über **4 verschiedene Wellenlängen (Farben)** auf **einem** Faserpaar (Wellenlängenmultiplex).
+
+## Wichtige Buchstaben-Codes (Medium & Reichweite)
+
+| Kürzel | Merkwort | Medium / Typ | Typische Reichweite |
+|---|---|---|---|
+| T | Twisted Pair | Kupfer, verdrillte Paare | 100 m |
+| T1 | Twisted Pair 1 Paar | Kupfer, **ein** Adernpaar | 15–40 m (Kfz/Industrie) |
+| S / SR / SX | Short | Multimode-Glasfaser (MMF) | bis 100–550 m |
+| L / LR / LX | Long | Singlemode-Glasfaser (SMF) | bis 10 km |
+| E / ER | Extended | Singlemode-Glasfaser (SMF) | bis 40 km |
+| C / CR | Copper | Twinax-Kupfer (Direktkabel) | ca. 10 m (Rack) |
+| F / FX | Fiber | Glasfaser allgemein (alt) | variabel |
+
+## Beispiel: Kanäle berechnen: 100GBase-ER4
+
+1. 1. Bezeichnung lesen: 100G = 100 Gbit/s Gesamtdatenrate. ER = Extended Reach (Singlemode, 40 km). 4 = 4 Kanäle.
+2. 2. Formel anwenden: Datenrate pro Kanal = Gesamtdatenrate ÷ Anzahl Kanäle.
+3. 3. Rechnen: 100 Gbit/s ÷ 4 = 25 Gbit/s.
+
+**Ergebnis:** Jeder der 4 Kanäle überträgt 25 Gbit/s. Zusammen ergeben sie 100 Gbit/s über Singlemode-Faser bis 40 km.
+
+## 💡 Merksätze
+
+> 💡 Zahl ohne G = Mbit/s, mit G = Gbit/s.
+
+> 💡 Base = Basisband, nicht Basisversion.
+
+> 💡 T = Kupfer-Paare, S = Multimode kurz, L = Singlemode lang, E = noch länger, C = Twinax im Rack.
+
+> 💡 Zahl hinten = Kanäle: Gesamtrate ÷ Kanäle = Tempo je Kanal.
+
+> 💡 SR = viele Fasern (Multimode), LR/ER = viele Farben (Singlemode/Wellenlängenmultiplex).
+
+## Prüfungsfallen
+
+- 100Base-T sind **100 Mbit/s** (Fast Ethernet), nicht 100 Gbit/s. Für Gigabit über Kupfer muss **1000Base-T** (oder 1GBase-T) stehen.
+- Die **Zahl hinten ist keine Kabelkategorie** (Cat). Eine '4' hinten heißt 4 Kanäle, nicht Cat 4.
+- **SR ≠ Singlemode.** S steht für Short → **Multimode**. Lange Strecken (L, E) nutzen **Singlemode**.
+- **T1 ≠ T.** T1 nutzt nur **ein** Adernpaar (kurz, Kfz/Industrie). 1000Base-T nutzt **vier** Paare (100 m, Büro).
+- Twinax (C) ist Kupfer, aber **kein Twisted Pair** – nur für wenige Meter im Schrank (Server-Switch).
+
+## Im Buch
+
+- Multimode: S. 319
+
+*Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
+
+## Prüffragen
+
+> [!question]- Was bedeuten die Teile von '1000Base-T'?
+> 1000 = 1000 Mbit/s (1 Gbit/s). Base = Basisband. T = Twisted Pair (Kupfer, 4 Paare, 100 m).
+
+> [!question]- Wie viel Gbit/s pro Kanal bei 40GBase-SR4?
+> 40 Gbit/s ÷ 4 Kanäle = 10 Gbit/s pro Kanal. SR4 nutzt 4 parallele Faserpaare (Multimode, 100 m).
+
+> [!question]- Zwei Gebäude, 8 km Abstand, Singlemode verlegt. Welche 40-Gbit/s-Variante?
+> 40GBase-LR4. LR = Long Reach (Singlemode, 10 km). SR4 schafft nur 100 m (Multimode), CR4 nur 10 m (Twinax).
+
+> [!question]- Wofür steht 'Base' und warum ist das wichtig?
+> Base = Basisband. Das Signal wird direkt ohne Trägerfrequenz aufs Medium gegeben. Das ist Standard bei LAN (anders als WLAN oder Kabel-TV).
+
+> [!question]- Unterschied: 1000Base-T vs. 1000Base-T1?
+> Beide 1 Gbit/s Kupfer. 1000Base-T: 4 Adernpaare, 100 m, Standard-Büro. 1000Base-T1: **1** Adernpaar, 15–40 m, Kfz/Industrie/IoT.
+
+## Ergänzungen
+</script>
+<script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
+// Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
+// **fett**, *kursiv*, `Code`, [Text](https://…), Trennlinie. Alles wird zuerst escaped - Links nur http(s).
+"use strict";
+function mdZuHtml(md) {
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = (s) => esc(s)
+    .replace(/`([^`]+)`/g, "<code>$1<\/code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1<\/b>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<i>$2<\/i>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>');
+  const zeilen = String(md || "").replace(/\r/g, "").split("\n");
+  const out = [];
+  let i = 0;
+  const zelle = (z) => z.trim().replace(/^\||\|$/g, "").split(/(?<!\\)\|/).map((c) => c.trim().replace(/\\\|/g, "|"));
+  while (i < zeilen.length) {
+    const z = zeilen[i];
+    if (!z.trim()) { i++; continue; }
+    let m;
+    if ((m = z.match(/^(#{1,6})\s+(.*)$/))) { const n = Math.min(m[1].length + 1, 6); out.push(`<h${n}>${inline(m[2])}<\/h${n}>`); i++; continue; }
+    if (/^(-{3,}|\*{3,})\s*$/.test(z)) { out.push("<hr>"); i++; continue; }
+    if (z.startsWith(">")) {                                   // Zitat bzw. Callout
+      const block = []; while (i < zeilen.length && zeilen[i].startsWith(">")) block.push(zeilen[i++].replace(/^>\s?/, ""));
+      const c = block[0].match(/^\[!(\w+)\]([+-]?)\s*(.*)$/);
+      if (c) {
+        const innen = mdZuHtml(block.slice(1).join("\n")), titel = inline(c[3] || c[1]);
+        out.push(c[2] ? `<details class="callout ${esc(c[1].toLowerCase())}"${c[2] === "+" ? " open" : ""}><summary>${titel}<\/summary>${innen}<\/details>`
+          : `<div class="callout ${esc(c[1].toLowerCase())}"><div class="ct">${titel}<\/div>${innen}<\/div>`);
+      } else out.push(`<blockquote>${mdZuHtml(block.join("\n"))}<\/blockquote>`);
+      continue;
+    }
+    if (z.trim().startsWith("|") && i + 1 < zeilen.length && /^\s*\|?\s*:?-{2,}/.test(zeilen[i + 1])) {   // Tabelle
+      const kopf = zelle(z); i += 2; const rows = [];
+      while (i < zeilen.length && zeilen[i].trim().startsWith("|")) rows.push(zelle(zeilen[i++]));
+      out.push(`<div class="tab"><table><thead><tr>${kopf.map((c) => `<th>${inline(c)}<\/th>`).join("")}<\/tr><\/thead><tbody>` +
+        rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}<\/td>`).join("")}<\/tr>`).join("") + "<\/tbody><\/table><\/div>");
+      continue;
+    }
+    if (/^\s*([-*+]|\d+[.)])\s+/.test(z)) {                    // Liste (eine Ebene, Einrückung wird angehängt)
+      const nummer = /^\s*\d+[.)]/.test(z), items = [];
+      while (i < zeilen.length && (/^\s*([-*+]|\d+[.)])\s+/.test(zeilen[i]) || (/^\s{2,}\S/.test(zeilen[i]) && items.length))) {
+        const t = zeilen[i++];
+        if (/^\s*([-*+]|\d+[.)])\s+/.test(t) && !/^\s{2,}/.test(t)) items.push(t.replace(/^\s*([-*+]|\d+[.)])\s+/, "").replace(/^\[[ x]\]\s*/, ""));
+        else items[items.length - 1] += "<br>" + t.trim().replace(/^([-*+]|\d+[.)])\s+/, "• ");
+      }
+      const tag = nummer ? "ol" : "ul";
+      out.push(`<${tag}>${items.map((t) => `<li>${t.split("<br>").map(inline).join("<br>")}<\/li>`).join("")}<\/${tag}>`);
+      continue;
+    }
+    const abs = []; while (i < zeilen.length && zeilen[i].trim() && !/^(#{1,6}\s|>|\s*([-*+]|\d+[.)])\s|\s*\|)/.test(zeilen[i])) abs.push(zeilen[i++]);
+    if (!abs.length) abs.push(zeilen[i++]);
+    out.push(`<p>${abs.map(inline).join("<br>")}<\/p>`);
+  }
+  return out.join("\n");
+}
+if (typeof module !== "undefined") module.exports = { mdZuHtml };
+</script>
+<script>document.getElementById("inhalt").innerHTML = mdZuHtml(document.getElementById("md").textContent) +
+'<p class="fuss">KI-gestützter Entwurf aus dem FI-Quiz – im Zweifel gilt das Fachbuch bzw. der Unterricht. <a href="../index.html">Zurück zum Quiz</a></p>';</script>
+</body></html>
