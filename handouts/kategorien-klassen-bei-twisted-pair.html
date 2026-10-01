@@ -25,10 +25,10 @@ Bei Twisted-Pair-Kupferkabeln steht die Kategorie (z. B. Cat 6) auf der Verpacku
 
 ## Kernpunkte
 
-1. **Kategorie** = Bauteil-Eigenschaft (Stecker, Kabel, Dose, Patchfeld). Steht auf der Hülle. Einheit: **MHz** (Bandbreite).
+1. **Kategorie** = Bauteil-Eigenschaft (Stecker, Kabel, Dose, Patchfeld). Steht auf der Hülle. Angabe: **Bandbreite in MHz**.
 2. **Klasse** = Strecken-Eigenschaft (gemessene Leistung). Wird nach Installation mit Messgerät geprüft. Bezeichnung: Klasse D, E, EA, F, FA, G.
 3. **Zusammenhang**: Je höher die Frequenz (MHz), desto mehr Daten pro Sekunde möglich. Cat 5e (100 MHz) → 1 Gbit/s. Cat 6A (500 MHz) → 10 Gbit/s über 100 m.
-4. **Schwächstes Glied**: Patchfeld Cat 7 + Kabel Cat 6 + Dose Cat 5e = Strecke leistet nur Cat 5e (Klasse D, 100 MHz).
+4. **Schwächstes Glied**: Patchfeld Cat 7 + Kabel Cat 6 + Dose Cat 5e = Strecke erreicht höchstens Klasse D (100 MHz), bestimmt durch die Cat-5e-Dose.
 5. **Messung Pflicht**: Nur das Messprotokoll nach dem Verlegen beweist die erreichte Klasse. Gute Bauteile allein reichen nicht (schlechte Verarbeitung = schlechte Klasse).
 6. **Wichtige Werte (Prüfungswissen)**: Cat 5/5e = 100 MHz, **Cat 6 = 250 MHz**, Cat 6A = 500 MHz, Cat 7 = 600 MHz, Cat 8 = 2000 MHz.
 
@@ -44,15 +44,17 @@ Bei Twisted-Pair-Kupferkabeln steht die Kategorie (z. B. Cat 6) auf der Verpacku
 | Cat 7A | 1000 MHz | FA | Multimedia |
 | Cat 8 | 2000 MHz | G | 25G/40GBase-T |
 
+Hinweis: Bandbreite, Klasse und Einsatz folgen dem Buch (S. 315). Dort steht bei Cat 6 und 6A nur „bis 10 Gbit/s“; „kurz“, „100 m“ und „~55 m“ sind Ergänzungen nach Standardwissen (Cat 6: 10GBase-T nur auf kurzen Strecken, Cat 6A: 100 m). Klasse G für Cat 8: Buch S. 315; nach ISO/IEC 11801 heißen die Klassen für Cat 8 Klasse I/II.
+
 ## Beispiel: Welche Kategorie für 10 Gbit/s über 100 m?
 
 1. 1. Ziel: 10GBase-T über volle 100 m Channel Link.
-2. 2. Buch-Tabelle prüfen: Cat 6 (250 MHz, Klasse E) reicht nur für kurze Strecken (~55 m).
+2. 2. Buch-Tabelle prüfen: Cat 6 (250 MHz, Klasse E) – eine Streckenlänge nennt das Buch nicht; nach Standardwissen reicht Cat 6 für 10GBase-T nur für kurze Strecken (~55 m).
 3. 3. Cat 6A (500 MHz, Klasse EA) ist für 100 m spezifiziert.
 4. 4. Alle Bauteile (Kabel, Dosen, Patchkabel, Patchfeld) müssen mind. Cat 6A sein.
 5. 5. Nach Verlegung: Permanent Link (≤ 90 m) und Channel Link (≤ 100 m) messen lassen.
 
-**Ergebnis:** Mindestens Cat 6A (Klasse EA) an allen Stellen. Cat 6 reicht nicht für 100 m.
+**Ergebnis:** Mindestens Cat 6A (Klasse EA) an allen Stellen. Cat 6 reicht nicht für 100 m. Buch S. 316 nennt für 10GBase-T allerdings „Cat 7“; nach Norm genügt Cat 6A (Klasse EA) für 100 m.
 
 ## 💡 Merksätze
 
@@ -62,20 +64,21 @@ Bei Twisted-Pair-Kupferkabeln steht die Kategorie (z. B. Cat 6) auf der Verpacku
 
 > 💡 Das schwächste Bauteil bestimmt die Klasse der ganzen Strecke.
 
-> 💡 Ohne Messung nach dem Verlegen gibt es keine Klasse, nur Kategorie.
+> 💡 Ohne Messung nach dem Verlegen ist die Klasse nicht nachgewiesen, bekannt ist nur die Kategorie der Bauteile.
 
 > 💡 Permanent Link max 90 m, Channel Link max 100 m – 10 m Puffer für Patchkabel.
 
 ## Prüfungsfallen
 
 - Verwechslung: Kategorie und Klasse sind dasselbe. / Richtig: Kategorie = Bauteil, Klasse = gemessene Strecke.
-- Verwechslung: Cat 6 schafft 10 Gbit/s über 100 m. / Richtig: Cat 6 nur ~55 m, für 100 m braucht man Cat 6A.
+- Verwechslung: Cat 6 schafft 10 Gbit/s über 100 m. / Richtig: Cat 6 nur ~55 m (Standardwissen, im Buch keine Länge), für 100 m braucht man Cat 6A.
 - Verwechslung: Bandbreite Cat 5e = 250 MHz. / Richtig: Cat 5/5e = 100 MHz, Cat 6 = 250 MHz.
 - Verwechslung: Patchkabel-Kategorie egal, Stecker passt ja. / Richtig: Patchkabel muss gleiche/höhere Kategorie haben, sonst Flaschenhals.
-- Verwechslung: Klasse wird vom Hersteller garantiert. / Richtig: Klasse wird erst vor Ort nach Installation gemessen.
+- Verwechslung: Die Klasse folgt schon aus den Bauteildaten des Herstellers. / Richtig: Die Klasse wird erst durch Messung der fertigen Strecke nach der Installation nachgewiesen (Buch S. 315).
 
 ## Im Buch
 
+- Kategorien und Klassen (Tabelle): S. 314, S. 315
 - Permanent Link: S. 313
 - Channel Link: S. 313
 

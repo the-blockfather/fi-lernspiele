@@ -14,11 +14,11 @@ h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line
 
 ## In einem Satz
 
-Der VLAN-Tag im Ethernet-Frame trägt eine 12 Bit lange VLAN-ID, die 4096 verschiedene VLANs ermöglicht.
+Der VLAN-Tag im Ethernet-Frame trägt eine 12 Bit lange VLAN-ID, die 4096 ID-Werte ermöglicht (davon 4094 als VLAN nutzbar).
 
 ## Worum geht's
 
-Ein VLAN-Tag wird in den Ethernet-Frame eingefügt, um Datenpaketen eine virtuelle Netzwerkzugehörigkeit zu geben. Das Feld für die VLAN-ID (VID) ist genau 12 Bit groß. Mit 12 Bit lassen sich 2 hoch 12 = 4096 verschiedene Werte darstellen (0 bis 4095). Die Werte 0 und 4095 sind reserviert, daher stehen 4094 IDs für nutzbare VLANs zur Verfügung. Der Tag enthält außerdem ein 3-Bit-Prioritätsfeld (PCP) und ein 1-Bit-Flag (DEI/CFI), zusammen 4 Byte Overhead.
+Ein VLAN-Tag wird in den Ethernet-Frame eingefügt, um Datenpaketen eine virtuelle Netzwerkzugehörigkeit zu geben. Das Feld für die VLAN-ID (VID) ist genau 12 Bit groß. Mit 12 Bit lassen sich 2 hoch 12 = 4096 verschiedene Werte darstellen (0 bis 4095). Die Werte 0 und 4095 sind reserviert, daher stehen 4094 IDs für nutzbare VLANs zur Verfügung. Der Tag enthält außerdem ein 3-Bit-Prioritätsfeld (PCP) und ein 1-Bit-Flag (DEI/CFI); der ganze Tag (TPID + TCI) ergibt 4 Byte Overhead.
 
 > [!example] Alltagsvergleich
 > Wie ein farbiger Aufkleber auf einem Briefumschlag: Der Aufkleber (Tag) hat ein Feld für die Abteilungsnummer (VLAN-ID). Da das Feld nur 12 Stellen für Ziffern hat (Bits), passen maximal 4096 verschiedene Nummern drauf. Zwei Nummern sind für interne Zwecke gesperrt.
@@ -30,9 +30,9 @@ Ein VLAN-Tag wird in den Ethernet-Frame eingefügt, um Datenpaketen eine virtuel
 3. Das **TCI** teilt sich auf: **3 Bit PCP** (Priorität), **1 Bit DEI** (Drop Eligible Indicator), **12 Bit VLAN-ID (VID)**.
 4. **12 Bit** ergeben **4096** theoretische IDs (0 bis 4095).
 5. **ID 0** bedeutet: Prioritätstag ohne VLAN-Zugehörigkeit. **ID 4095 (0xFFF)** ist reserviert.
-6. Für echte VLANs nutzbar: **ID 1 bis 4094** (also 4094 VLANs).
+6. Für echte VLANs nutzbar: **ID 1 bis 4094** (also 4094 VLANs). Buch S. 288/307: „2¹² VLANs unterscheidbar“ (= 4096 Werte); nach Norm sind davon 4094 nutzbar (Errata LF03).
 7. **Native VLAN** (oft ID 1) wird untagged über Trunk-Ports geschickt.
-8. Der Tag erhöht den Frame-Overhead um 4 Byte; MTU muss ggf. angepasst werden (Baby Giant Frames).
+8. Der Tag erhöht den Frame-Overhead um 4 Byte. Die MTU (Nutzdaten, Buch S. 307) bleibt 1500 Byte; der maximale Frame wächst von 1518 auf 1522 Byte, Geräte müssen das unterstützen (sonst werden diese „Baby Giants“ verworfen).
 
 ## Aufbau des VLAN-Tags (TCI, 16 Bit)
 
@@ -67,11 +67,12 @@ Ein VLAN-Tag wird in den Ethernet-Frame eingefügt, um Datenpaketen eine virtuel
 - Verwechslung: Anzahl IDs (4096) vs. nutzbare VLANs (4094). Richtig: 0 und 4095 reserviert.
 - Verwechslung: Native VLAN ist immer VLAN 1. Richtig: Standardmäßig oft 1, aber konfigurierbar.
 - Verwechslung: TPID 0x8100 vs. EtherType. Richtig: TPID kennzeichnet Tag; EtherType folgt dahinter.
-- Vergessen: Tag erhöht Frame-Größe -> MTU-Probleme möglich (Baby Giants).
+- Vergessen: Tag erhöht die Frame-Größe (1518 → 1522 Byte); die MTU (Nutzdaten) bleibt 1500 Byte. Geräte, die nur 1518 Byte erlauben, verwerfen getaggte Frames (Baby Giants).
 
 ## Im Buch
 
-*Kein passender Eintrag im Stichwortverzeichnis.*
+- VLAN, Trunk, Tag (4 Byte, 12-Bit-ID): S. 288
+- VLAN-Tag-Aufbau (TPID 0x8100, Prio, CF/DEI, VLAN-ID): S. 307
 
 ## Prüffragen
 

@@ -26,7 +26,7 @@ RAID (Redundant Array of Independent Disks) fasst mehrere physische Platten zu e
 ## Kernpunkte
 
 1. **RAID-Level** bestimmen Ziel und Mindestanzahl Platten: RAID 0 (Striping, 2 Platten, 0 Ausfall), RAID 1 (Spiegelung, 2 Platten, 1 Ausfall), RAID 5 (Striping + verteilte Parität, 3 Platten, 1 Ausfall), RAID 6 (doppelte Parität, 4 Platten, 2 Ausfälle), RAID 10 (Spiegel-Stripe, 4 Platten, 1 Ausfall pro Spiegel).
-2. **Notation RAID (n,m)**: n = Gesamtplatten, m = darf ausfallen. Leserate = n × Einzelrate, Schreibrate = (n−m) × Einzelrate, **Kapazität = (n−m) × Einzelkapazität**.
+2. **Notation RAID (n,m)**: n = Gesamtplatten, m = darf ausfallen. Leserate = n × Einzelrate, Schreibrate = (n−m) × Einzelrate, **Kapazität = (n−m) × Einzelkapazität**. Die Formeln gelten für die (n,m)-Schreibweise (RAID 0/1/5/6, Buch S. 381) und sind idealisiert: Real schreibt RAID 5 wegen der Paritätsberechnung langsamer. RAID 10 passt nicht in diese Formel: Dort gilt fachlich Kapazität = n/2 × Einzelkapazität (4 Platten = 2 nutzbar).
 3. **Hardware-RAID** nutzt eigenen Controller (schnell, kostet Geld). **Software-RAID** rechnet die CPU (billiger, belastet System).
 4. **Hot-Spare** ist eine eingebaute Reserveplatte, die der Controller bei Defekt automatisch einbindet und neu befüllt (Rebuild).
 5. **JBOD (Just a Bunch of Disks)** hängt Platten nur aneinander (Concatenation). Es gibt **keine** Redundanz und **keinen** Tempovorteil.
@@ -52,7 +52,7 @@ RAID (Redundant Array of Independent Disks) fasst mehrere physische Platten zu e
 5. 5. Leserate: n × Einzelrate = 5-fache Einzelrate.
 6. 6. Schreibrate: (n − m) × Einzelrate = 4-fache Einzelrate.
 
-**Ergebnis:** Nutzbare Kapazität 8 TB, Lesen 5× schneller, Schreiben 4× schneller als Einzelplatte.
+**Ergebnis:** Nutzbare Kapazität 8 TB, Lesen 5× schneller, Schreiben 4× schneller als Einzelplatte (idealisiert nach Buchformel S. 381).
 
 ## 💡 Merksätze
 
@@ -64,15 +64,15 @@ RAID (Redundant Array of Independent Disks) fasst mehrere physische Platten zu e
 
 > 💡 JBOD = Just a Bunch of Disks – nur aneinandergehängt, kein Schutz, kein Tempo.
 
-> 💡 RAID schützt Hardware, Backup schützt Dateninhalt.
+> 💡 RAID schützt vor Plattenausfall, Backup vor Datenverlust (Löschen, Verschlüsselung, Brand).
 
 ## Prüfungsfallen
 
 - Verwechslung: ‚JBOD ist ein RAID-Level.‘ → Richtig: JBOD ist **kein** RAID, bietet weder Redundanz noch Striping.
 - Verwechslung: ‚RAID 0 bietet Redundanz, weil es RAID heißt.‘ → Richtig: RAID 0 hat **keine** Redundanz (Striping only).
 - Verwechslung: ‚RAID ersetzt das Backup.‘ → Richtig: RAID schützt nur vor Plattenausfall, nicht vor Datenverlust durch Software/Fehler.
-- Verwechslung: ‚Bei RAID (n,m) ist m die Anzahl der Datenplatten.‘ → Richtig: m = Anzahl der **ausfallsicheren** Platten (Parität/Spiegel).
-- Verwechslung: ‚RAID 10 und RAID 01 sind gleich.‘ → Richtig: RAID 10 = erst spiegeln, dann stripen (sicherer). RAID 01 = zwei RAID-0 spiegeln (Risiko beim Rebuild).
+- Verwechslung: ‚Bei RAID (n,m) ist m die Anzahl der Datenplatten.‘ → Richtig: m = Anzahl der Platten, die ohne Datenverlust ausfallen dürfen (Buch S. 381); n − m Platten entsprechen der Nutzkapazität.
+- Verwechslung: ‚RAID 10 und RAID 01 sind gleich.‘ → Richtig: RAID 10 = erst spiegeln, dann stripen (sicherer). RAID 01 = zwei RAID-0 spiegeln (Buch S. 380: nur ein RAID 0 darf ausfallen; nach einem Plattenausfall ist der ganze Strang verloren).
 
 ## Im Buch
 

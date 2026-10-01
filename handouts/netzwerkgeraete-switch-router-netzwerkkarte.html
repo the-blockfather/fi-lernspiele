@@ -18,7 +18,7 @@ Ein Switch verbindet Geräte im selben Netz über MAC-Adressen, ein Router verbi
 
 ## Worum geht's
 
-Du lernst die drei wichtigsten aktiven Netzwerkkomponenten kennen. Die Netzwerkkarte (NIC) ist die Schnittstelle deines Geräts zum Kabel oder WLAN. Der Switch ist der Verteiler im lokalen Netz (LAN): Er lernt, an welchem Port welches Gerät hängt (MAC-Adresse) und schickt Daten nur dorthin. Der Router ist das Tor nach draußen: Er entscheidet anhand der IP-Adresse, in welches andere Netz ein Paket muss (z. B. ins Internet). SoHo-Router für Zuhause/Kleinbüro vereinen Router, Switch, WLAN-Access-Point, DHCP-Server und Firewall in einem Gerät. Profi-Router für Firzen machen nur Routing und werden per SSH auf der Kommandozeile konfiguriert. WLAN muss immer verschlüsselt sein (WPA2/WPA3), offene Netze sind verboten.
+Du lernst die drei wichtigsten aktiven Netzwerkkomponenten kennen. Die Netzwerkkarte (NIC) ist die Schnittstelle deines Geräts zum Kabel oder WLAN. Der Switch ist der Verteiler im lokalen Netz (LAN): Er lernt, an welchem Port welches Gerät hängt (MAC-Adresse) und schickt Unicast-Frames nur an den Port des Ziels (sobald er es gelernt hat). Der Router ist das Tor nach draußen: Er entscheidet anhand der IP-Adresse, in welches andere Netz ein Paket muss (z. B. ins Internet). SoHo-Router für Zuhause/Kleinbüro vereinen Router, Switch, WLAN-Access-Point, DHCP-Server und Firewall in einem Gerät. Profi-Router für Firmen sind leistungsfähige 19-Zoll-Geräte; viele SoHo-Zusatzdienste fehlen oder laufen auf dedizierten Geräten, und sie werden meist per SSH auf der Kommandozeile konfiguriert (Buch S. 376). Interne WLANs müssen verschlüsselt und zugriffsgeschützt sein (WPA2/WPA3; Buch S. 375: „Funknetze dürfen nicht offen sein“). Offene Gastnetze sind rechtlich nicht verboten, sollten aber vom internen Netz getrennt sein.
 
 > [!example] Alltagsvergleich
 > Stell dir ein Bürogebäude vor. Die Netzwerkkarte ist der Briefkasten an deiner Bürotür. Der Switch ist der Postverteiler auf dem Flur: Er kennt alle Zimmernummern (MAC-Adressen) und legt Briefe direkt in den richtigen Kasten. Der Router ist die Hauptpoststelle im Erdgeschoss: Sie liest die Stadt (IP-Adresse/Netzwerk) auf dem Umschlag und entscheidet, ob der Brief im Haus bleibt oder in den LKW zum nächsten Ort (Internet) kommt.
@@ -27,9 +27,9 @@ Du lernst die drei wichtigsten aktiven Netzwerkkomponenten kennen. Die Netzwerkk
 
 1. **Netzwerkkarte (NIC)**: Verbindet den PC mit dem Medium (Kupfer, Glasfaser, WLAN). Auswahlkriterien: Netzwerkstandard (z. B. 1 Gbit/s), Medium, Bustyp (PCIe), Bauform. Onboard-Karte reicht oft, sonst Steckkarte nachrüsten.
 2. **Switch (Layer 2)**: Verteilt Frames im LAN anhand der **MAC-Adresse**. Baut eine **MAC-Adresstabelle** (Forwarding Table) auf: Welche MAC an welchem Port? Wichtige Kaufkriterien: Portanzahl & Geschwindigkeit, **PoE** (Strom für Telefone/APs über Datenkabel), **Management** (VLAN, Port-Spiegelung, SSH/Web), Puffergröße, Switching-Verfahren (Store-and-Forward prüft Fehler, Cut-Through ist schneller).
-3. **Router (Layer 3)**: Verbindet **verschiedene Netze** miteinander. Entscheidet anhand der **IP-Adresse** (Routing-Tabelle). **SoHo-Router**: All-in-One-Gerät (WAN-Modem, 4-Port-Switch, WLAN-AP, DHCP, Firewall, VPN, NAS per USB). USB-NAS am Router ist für Betriebe **nicht** geeignet (Sicherheit, Leistung). **Profi-Router**: Nur Routing, 19-Zoll-Rack, Konfiguration per **SSH** (Kommandozeile, skriptbar), kein Web-Interface.
+3. **Router (Layer 3)**: Verbindet **verschiedene Netze** miteinander. Entscheidet anhand der **IP-Adresse** (Routing-Tabelle). **SoHo-Router**: All-in-One-Gerät (WAN-Modem, 4-Port-Switch, WLAN-AP, DHCP, Firewall, VPN, NAS per USB). USB-NAS am Router ist für Betriebe **nicht** geeignet (Sicherheit, Leistung). **Profi-Router**: leistungsfähig, 19-Zoll-Rack, viele SoHo-Zusatzdienste fehlen (laufen auf dedizierten Geräten/Servern), Konfiguration meist per **SSH** (Kommandozeile, skriptbar), teils auch Weboberfläche (Buch S. 376).
 4. **Konfiguration**: Web-Oberfläche (GUI) einfach, aber nicht automatisierbar. **Telnet** ist **unsicher** (alles Klartext, Passwörter lesbar). **SSH** ist Standard (verschlüsselt, sicher).
-5. **WLAN-Sicherheit**: Offenes WLAN verboten. **PSK** (Pre-Shared Key = gemeinsames Passwort) für kleine Netze. **WPA2 / WPA3** = Verschlüsselungsstandard. **WPS** (Tastendruck) bequem, aber Sicherheitsrisiko (PIN angreifbar). **RADIUS** (802.1X) für Firmen: Zentrale Anmeldung mit Benutzerkonto (Authentifizierung, Autorisierung, Accounting = AAA).
+5. **WLAN-Sicherheit**: Interne WLANs nie offen betreiben (Buch S. 375). **PSK** (Pre-Shared Key = gemeinsames Passwort) für kleine Netze. **WPA2 / WPA3** = Verschlüsselungsstandard. **WPS** (Tastendruck) bequem, aber Sicherheitsrisiko (PIN angreifbar). **RADIUS** (802.1X) für Firmen: Zentrale Anmeldung mit Benutzerkonto (Authentifizierung, Autorisierung, Accounting = AAA).
 
 ## Vergleich Switch vs. Router
 
@@ -41,18 +41,18 @@ Du lernst die drei wichtigsten aktiven Netzwerkkomponenten kennen. Die Netzwerkk
 | Tabelle | MAC-Adresstabelle (Port <-> MAC) | Routing-Tabelle (Netz <-> Next Hop) |
 | Typisch | LAN-Verteiler (24/48 Ports) | Standard-Gateway, Internet-Anschluss |
 
-## Beispiel: Switch-Port sicher konfigurieren (Beispiel Cisco CLI)
+## Beispiel: Switch-Port für ein Endgerät konfigurieren (Beispiel Cisco CLI)
 
 1. 1. In den Konfigurationsmodus wechseln: `enable` -> `configure terminal`
 2. 2. Interface wählen: `interface gigabitethernet 1/0/5`
 3. 3. Port auf Access-Modus (Endgerät): `switchport mode access`
 4. 4. VLAN zuweisen: `switchport access vlan 10`
 5. 5. Portfast für schnelles Hochfahren (kein Spanning-Tree-Warten): `spanning-tree portfast`
-6. 6. BPDU Guard (schützt vor falschen Switches): `spanning-tree bpduguard enable`
+6. 6. BPDU Guard (schaltet den Port ab, wenn dort ein Switch/BPDUs erkannt werden): `spanning-tree bpduguard enable`
 7. 7. Port einschalten: `no shutdown`
 8. 8. Speichern: `end` -> `write memory`
 
-**Ergebnis:** Port 5 ist jetzt ein sicherer Access-Port im VLAN 10 für ein Endgerät (PC, Drucker). Kein fremder Switch kann sich hier einklinken.
+**Ergebnis:** Port 5 ist jetzt ein Access-Port im VLAN 10 für ein Endgerät (PC, Drucker). BPDU Guard schaltet den Port ab, sobald dort BPDUs (z. B. von einem angeschlossenen Switch) ankommen. Das ersetzt keine Zugangskontrolle (z. B. Port Security). Hinweis: Die Cisco-Befehle stehen nicht im Buch (S. 376 nennt Cisco IOS nur allgemein).
 
 ## 💡 Merksätze
 
@@ -64,7 +64,7 @@ Du lernst die drei wichtigsten aktiven Netzwerkkomponenten kennen. Die Netzwerkk
 
 > 💡 Offenes WLAN ist ein offenes Tor.
 
-> 💡 SoHo = Alles in einem, Profi = Spezialist per CLI.
+> 💡 SoHo = Alles in einem, Profi = Spezialist, meist per CLI.
 
 ## Prüfungsfallen
 
@@ -86,14 +86,14 @@ Du lernst die drei wichtigsten aktiven Netzwerkkomponenten kennen. Die Netzwerkk
 
 ## Prüffragen
 
-> [!question]- Ein PC soll an einen Switch-Port angeschlossen werden. Welche Sicherheits-Features solltest du am Port aktivieren und warum?
-> Portfast (Endgerät bootet sofort ohne Spanning-Tree-Wartezeit) und BPDU Guard (Port sperrt sofort, falls doch ein Switch angeschlossen wird, verhindert Schleifen). Zusätzlich: Port auf Access-Modus festlegen, passendes VLAN zuweisen.
+> [!question]- Ein PC soll an einen Switch-Port angeschlossen werden. Welche Einstellungen solltest du am Port setzen und warum?
+> Portfast (Endgerät bootet sofort ohne Spanning-Tree-Wartezeit; das ist kein Sicherheitsfeature) und BPDU Guard (Port wird abgeschaltet, falls dort BPDUs ankommen, z. B. von einem angeschlossenen Switch; schützt vor Schleifen). Zusätzlich: Port auf Access-Modus festlegen, passendes VLAN zuweisen. Echte Zugangskontrolle am Port leistet z. B. Port Security.
 
 > [!question]- Was ist der Unterschied zwischen einem SoHo-Router und einem professionellen Router bezüglich Konfiguration und Funktionsumfang?
-> SoHo-Router: Web-GUI, All-in-One (Switch, WLAN, DHCP, Firewall, VPN, USB-NAS). Profi-Router: Nur Routing, 19-Zoll-Rack, Konfiguration per SSH/Kommandozeile (IOS), skriptbar, keine GUI, separate Geräte für Switch/WLAN/Firewall nötig.
+> SoHo-Router: Web-GUI, All-in-One (Switch, WLAN, DHCP, Firewall, VPN, USB-NAS). Profi-Router: 19-Zoll-Rack, viele SoHo-Funktionen fehlen und laufen auf dedizierten Geräten/Servern, Konfiguration meist per SSH/Kommandozeile (z. B. Cisco IOS), skriptbar, teils auch Weboberfläche.
 
-> [!question]- Warum ist ein offenes WLAN (ohne Passwort) in Deutschland rechtlich und technisch problematisch?
-> Rechtlich: Störerhaftung (Betreiber haftet für Missbrauch). Technisch: Jeder mitschneidet den Verkehr (keine Verschlüsselung), Man-in-the-Middle-Angriffe trivial, unautorisierte Geräte im internen Netz möglich. Pflicht: WPA2/WPA3 mit starkem PSK oder RADIUS.
+> [!question]- Warum ist ein offenes WLAN (ohne Passwort) im internen Netz problematisch?
+> Technisch: Jeder kann den unverschlüsselten Verkehr mitlesen, Man-in-the-Middle-Angriffe werden erleichtert, unautorisierte Geräte kommen ins interne Netz. Buch S. 375: Funknetze dürfen nicht offen sein, der Zugang muss geregelt werden. Empfehlung: WPA2/WPA3 mit starkem PSK oder RADIUS. Rechtlich: Offene WLANs sind in Deutschland nicht verboten, die frühere Störerhaftung für WLAN-Betreiber ist seit 2017 weitgehend abgeschafft; Gastnetze getrennt vom internen Netz betreiben.
 
 ## Ergänzungen
 </script>

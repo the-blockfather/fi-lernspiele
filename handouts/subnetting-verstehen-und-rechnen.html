@@ -34,6 +34,8 @@ Jede IPv4-Adresse hat 32 Bits. Die Maske legt fest, wie viele Bits links für da
 
 ## Wichtige Masken im letzten Oktett (Klasse C /24 Basis)
 
+Hinweis: Die Adressklassen sind laut Buch S. 333 seit vielen Jahren abgeschafft und dienen nur zum Verständnis; die Tabelle gilt für jedes /24- bis /27-Netz.
+
 | Maske (Dezimal) | CIDR | Blockgröße | Netz-Adressen (Beispiel) | Nutzbare Hosts |
 |---|---|---|---|---|
 | 255.255.255.0 | /24 | 256 | .0 | 254 |
@@ -47,7 +49,7 @@ Jede IPv4-Adresse hat 32 Bits. Die Maske legt fest, wie viele Bits links für da
 2. Blockgröße im 4. Oktett: 256 - 128 = 128.
 3. Subnetze beginnen bei 0 und 128: Netz A = 192.168.1.0/25 (Hosts .1–.126), Netz B = 192.168.1.128/25 (Hosts .129–.254).
 4. Rechner .210 liegt in Netz B (Bereich 128–255). Gateway .1 liegt in Netz A (Bereich 0–127).
-5. Netzadressen sind verschieden -> Rechner sendet Paket für Gateway an seinen Router (ARP schlägt fehl), findet Gateway nicht lokal.
+5. Netzadressen sind verschieden -> Der Rechner hält das Gateway 192.168.1.1 wegen seiner Maske für ein Gerät in einem anderen Netz und kann es nicht direkt erreichen. Die Konfiguration ist ungültig, Ziele außerhalb des eigenen Subnetzes sind nicht erreichbar.
 
 **Ergebnis:** Falsch. Rechner und Gateway liegen in verschiedenen Subnetzen. Direkte Kommunikation scheitert.
 
@@ -72,7 +74,8 @@ Jede IPv4-Adresse hat 32 Bits. Die Maske legt fest, wie viele Bits links für da
 
 ## Im Buch
 
-*Kein passender Eintrag im Stichwortverzeichnis.*
+- Subnetzmaske, UND-Verknüpfung, CIDR, Broadcast: S. 332–333
+- Kompetenzcheck (Netzanteil, Präfix/Maske): S. 338
 
 ## Prüffragen
 

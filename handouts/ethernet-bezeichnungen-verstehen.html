@@ -14,11 +14,11 @@ h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line
 
 ## In einem Satz
 
-Eine Ethernet-Bezeichnung ist ein Baukasten aus vier Teilen, der Geschwindigkeit, Übertragungsart, Medium mit Reichweite und Anzahl der Kanäle festlegt.
+Eine Ethernet-Bezeichnung ist ein Baukasten aus bis zu vier Teilen, der Geschwindigkeit, Übertragungsart, Medium mit Reichweite und (nur bei Mehrkanal-Varianten) die Anzahl der Kanäle festlegt.
 
 ## Worum geht's
 
-Der Name eines Ethernet-Standards besteht immer aus vier Blöcken: Die vordere Zahl gibt die Datenrate an (ohne G = Mbit/s, mit G = Gbit/s). Das Wort 'Base' steht für Basisband, das Signal geht also direkt aufs Kabel ohne Trägerfrequenz. Die Buchstaben in der Mitte nennen das Medium und die Reichweite (z. B. T für Kupfer, S für kurzes Multimode-Glasfaser, L für langes Singlemode-Glasfaser). Die Zahl ganz hinten zählt die Kanäle (Lanes), über die parallel übertragen wird.
+Der Name eines Ethernet-Standards besteht aus bis zu vier Blöcken (nicht jeder Name hat alle, der Teil nach „Base“ ist nicht einheitlich, Buch S. 315): Die vordere Zahl gibt die Datenrate an (ohne G = Mbit/s, mit G = Gbit/s). Das Wort 'Base' steht für Basisband, das Signal geht also direkt aufs Kabel ohne Trägerfrequenz. Die Buchstaben in der Mitte nennen das Medium und die Reichweite (z. B. T für Kupfer, S für kurzes Multimode-Glasfaser, L für langes Singlemode-Glasfaser). Eine Zahl ganz hinten gibt es nur bei manchen Varianten; bei den 40G/100G-Varianten (z. B. SR4, LR4) zählt sie die Kanäle (Lanes), über die parallel übertragen wird.
 
 > [!example] Alltagsvergleich
 > Stell dir eine Autobahn vor: Die vordere Zahl ist die Gesamtkapazität aller Spuren zusammen. Die hintere Zahl ist die Anzahl der Fahrspuren. 'S' ist eine Stadtautobahn (kurz, Multimode), 'L' und 'E' sind Fernautobahnen (lang, Singlemode). 'T' ist die klassische Landstraße aus Kupfer, 'C' nur die kurze Garagenzufahrt (Twinax im Rack).
@@ -28,8 +28,8 @@ Der Name eines Ethernet-Standards besteht immer aus vier Blöcken: Die vordere Z
 1. **Datenrate (Zahl vorn):** 10, 100, 1000 = Mbit/s; 10G, 40G, 100G = Gbit/s. Merke: Kein 'G' bedeutet Megabit.
 2. **Base:** Steht für **Basisband**. Das digitale Signal wird direkt auf das Medium gegeben, ohne Modulation auf eine Trägerfrequenz (wie beim Radio). Fast alle LAN-Varianten nutzen das.
 3. **Medium/Reichweite (Buchstaben):** **T** = Twisted Pair (Kupfer, 100 m). **T1** = nur **ein** Adernpaar (Auto, IoT). **S** = Short, **Multimode**-Glasfaser (kurz, z. B. 100 m). **L** = Long, **Singlemode**-Glasfaser (lang, z. B. 10 km). **E** = Extended, Singlemode (sehr lang, 40 km). **C** = Copper Twinax (Kupfer, nur ~10 m im Rack).
-4. **Kanäle (Zahl hinten):** Die Datenrate wird auf diese Anzahl Kanäle (Lanes) aufgeteilt. Rechnung: Gesamtrate ÷ Kanäle = Rate pro Kanal. Beispiel: 100GBase-ER4 → 100 ÷ 4 = 25 Gbit/s pro Kanal.
-5. **Wellenlängen vs. Fasern:** Bei **SR4** (Multimode) laufen 4 Kanäle über 4 parallele Faserpaare (8 Fasern, MPO-Stecker). Bei **LR4/ER4** (Singlemode) laufen 4 Kanäle über **4 verschiedene Wellenlängen (Farben)** auf **einem** Faserpaar (Wellenlängenmultiplex).
+4. **Kanäle (Zahl hinten, nur bei Mehrkanal-Varianten wie SR4, LR4, ER4, CR4):** Die Datenrate wird auf diese Anzahl Kanäle (Lanes) aufgeteilt. Bei T1 zählt die Zahl die Adernpaare, bei Alt-Koax (10Base5/10Base2) die Segmentlänge (500 m/185 m, Buch S. 315/316); bei 10Base-T, 1000Base-T oder 1000Base-SX fehlt sie. Rechnung: Gesamtrate ÷ Kanäle = Rate pro Kanal. Beispiel: 100GBase-ER4 → 100 ÷ 4 = 25 Gbit/s pro Kanal.
+5. **Wellenlängen vs. Fasern (bei den 4-Kanal-Varianten):** Bei **SR4** (Multimode) laufen 4 Kanäle über 4 parallele Faserpaare (8 Fasern, MPO-Stecker). Bei **LR4/ER4** (Singlemode) laufen 4 Kanäle über **4 verschiedene Wellenlängen (Farben)** auf **einem** Faserpaar (Wellenlängenmultiplex). Einkanalige Varianten (z. B. 1000Base-SX, 10GBase-SR/-LR) nutzen ein Faserpaar mit einer Wellenlänge.
 
 ## Wichtige Buchstaben-Codes (Medium & Reichweite)
 
@@ -38,10 +38,10 @@ Der Name eines Ethernet-Standards besteht immer aus vier Blöcken: Die vordere Z
 | T | Twisted Pair | Kupfer, verdrillte Paare | 100 m |
 | T1 | Twisted Pair 1 Paar | Kupfer, **ein** Adernpaar | 15–40 m (Kfz/Industrie) |
 | S / SR / SX | Short | Multimode-Glasfaser (MMF) | bis 100–550 m |
-| L / LR / LX | Long | Singlemode-Glasfaser (SMF) | bis 10 km |
+| L / LR / LX | Long | meist Singlemode-Glasfaser (SMF); 1000Base-LX läuft auch auf Multimode (bis 550 m, Buch S. 316) | bis 10 km (LR) |
 | E / ER | Extended | Singlemode-Glasfaser (SMF) | bis 40 km |
-| C / CR | Copper | Twinax-Kupfer (Direktkabel) | ca. 10 m (Rack) |
-| F / FX | Fiber | Glasfaser allgemein (alt) | variabel |
+| C / CR | Copper | Twinax-Kupfer (Direktkabel) | ca. 10 m (Rack; Buch S. 316: 10 m; nach IEEE ca. 7 m) |
+| F / FX | Fiber | Glasfaser allgemein (alt) | variabel (Buch S. 316: 100Base-FX = LWL „Monomode“, 400 m; nach Norm: Multimode, bis 2 km Vollduplex) |
 
 ## Beispiel: Kanäle berechnen: 100GBase-ER4
 
@@ -61,18 +61,20 @@ Der Name eines Ethernet-Standards besteht immer aus vier Blöcken: Die vordere Z
 
 > 💡 Zahl hinten = Kanäle: Gesamtrate ÷ Kanäle = Tempo je Kanal.
 
-> 💡 SR = viele Fasern (Multimode), LR/ER = viele Farben (Singlemode/Wellenlängenmultiplex).
+> 💡 Bei 4-Kanal-Varianten: SR4 = 4 Kanäle auf 4 Faserpaaren (Multimode), LR4/ER4 = 4 Kanäle als 4 Farben auf einem Faserpaar (Singlemode/Wellenlängenmultiplex).
 
 ## Prüfungsfallen
 
-- 100Base-T sind **100 Mbit/s** (Fast Ethernet), nicht 100 Gbit/s. Für Gigabit über Kupfer muss **1000Base-T** (oder 1GBase-T) stehen.
-- Die **Zahl hinten ist keine Kabelkategorie** (Cat). Eine '4' hinten heißt 4 Kanäle, nicht Cat 4.
+- 100Base-T sind **100 Mbit/s** (Fast Ethernet), nicht 100 Gbit/s. Für Gigabit über Kupfer muss **1000Base-T** stehen.
+- Die **Zahl hinten ist keine Kabelkategorie** (Cat). Bei SR4/LR4/ER4 heißt die '4' 4 Kanäle, nicht Cat 4; bei 10Base5/10Base2 ist es die Segmentlänge, bei T1 die Zahl der Adernpaare.
 - **SR ≠ Singlemode.** S steht für Short → **Multimode**. Lange Strecken (L, E) nutzen **Singlemode**.
 - **T1 ≠ T.** T1 nutzt nur **ein** Adernpaar (kurz, Kfz/Industrie). 1000Base-T nutzt **vier** Paare (100 m, Büro).
 - Twinax (C) ist Kupfer, aber **kein Twisted Pair** – nur für wenige Meter im Schrank (Server-Switch).
 
 ## Im Buch
 
+- Ethernet-Bezeichnungen (Tabelle): S. 315, S. 316
+- T1-Varianten: S. 317
 - Multimode: S. 319
 
 *Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*

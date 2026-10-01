@@ -27,11 +27,11 @@ Eine IPv4-Adresse besteht aus 4 Dezimalzahlen (0–255), getrennt durch Punkte, 
 
 1. **IPv4-Adresse**: 32 Bit = 4 Oktette à 8 Bit, Dezimalschreibweise (z. B. 192.168.1.1), **Layer 3**.
 2. **IPv6-Adresse**: 128 Bit = 8 Blöcke à 16 Bit, Hexadezimalschreibweise (z. B. 2001:db8::1), **Layer 3**, kein Broadcast mehr.
-3. **MAC-Adresse**: 48 Bit (6 Byte), hexadezimal (z. B. 00:1A:2B:3C:4D:5E), weltweit eindeutig, **Layer 2**, fest in Hardware.
-4. **Private IP-Adressen**: Reservierte Bereiche (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), nicht im Internet routbar, nur für lokale Netze.
+3. **MAC-Adresse**: 48 Bit (6 Byte), hexadezimal (z. B. 00:1A:2B:3C:4D:5E), weltweit eindeutig, **Layer 2**, werkseitig in der Hardware (lokal änderbar, Buch S. 331: Bit „global/lokal“).
+4. **Private IP-Adressen**: Reservierte Bereiche (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), nicht im Internet routbar, nur für lokale Netze. Buch S. 333/334: Tabelle klassenbasiert, Klasse B mit Maske 255.255.0.0 (/16); nach Norm (RFC 1918) ist der Bereich 172.16.0.0–172.31.255.255 ein /12.
 5. **Unicast**: 1 Sender → 1 Empfänger.
 6. **Multicast**: 1 Sender → Gruppe von Empfängern.
-7. **Broadcast**: 1 Sender → Alle im Netz (Spezialfall von Multicast, nur IPv4).
+7. **Broadcast**: 1 Sender → Alle im Netz (Spezialfall von Multicast, Buch S. 303; als IP-Broadcast nur bei IPv4, auf Schicht 2 gibt es die MAC-Broadcast-Adresse ff:ff:ff:ff:ff:ff unabhängig davon).
 8. **Anycast**: 1 Sender → Ein beliebiges Mitglied einer Gruppe (Lastverteilung).
 
 ## Vergleich: IPv4 vs. IPv6 vs. MAC

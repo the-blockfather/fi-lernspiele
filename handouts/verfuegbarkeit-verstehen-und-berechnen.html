@@ -21,7 +21,7 @@ Verfügbarkeit misst den Anteil der Zeit, in der ein System läuft, und Redundan
 Verfügbarkeit (A) ist der Bruch aus Betriebszeit und Gesamtzeit. Ein Jahr hat 8760 Stunden. Geplante Wartung zählt in der Kennzahl meist nicht als Ausfall. Mehr Bauteile allein erhöhen das Risiko, weil mehr kaputtgehen kann. Redundanz bedeutet: kritische Teile doppelt vorhalten. Das System fällt nur aus, wenn alle redundanten Teile gleichzeitig defekt sind. Die Wahrscheinlichkeit dafür multipliziert sich (p_ges = p1 * p2).
 
 > [!example] Alltagsvergleich
-> Ein Flugzeug mit zwei Triebwerken: Fällt eines aus, fliegt das andere weiter. Die Chance, dass *beide* gleichzeitig versagen, ist winzig klein (Produkt der Einzelwahrscheinlichkeiten). Aber: Zwei Triebwerke haben auch doppelt so viele Teile, die *irgendeins* kaputtgehen kann. Ohne Redundanz (z. B. nur ein Triebwerk) ist das Risiko eines Totalausfalls viel höher.
+> Ein Flugzeug mit zwei Triebwerken: Fällt eines aus, fliegt das andere weiter. Die Chance, dass *beide* gleichzeitig versagen, ist winzig klein (Produkt der Einzelwahrscheinlichkeiten). Aber: Zwei Triebwerke haben auch doppelt so viele Teile, die *irgendeins* kaputtgehen kann. Die Wahrscheinlichkeit, dass irgendeins ausfällt, ist ungefähr 2 · p; dass beide ausfallen, nur p². Ohne Redundanz (z. B. nur ein Triebwerk) ist das Risiko eines Totalausfalls mit p viel höher.
 
 ## Kernpunkte
 
@@ -29,7 +29,7 @@ Verfügbarkeit (A) ist der Bruch aus Betriebszeit und Gesamtzeit. Ein Jahr hat 8
 2. Die **Ausfallzeit pro Jahr** berechnest du mit t_down = 8760 h · (1 − A). Bei 99,9 % sind das 8,76 h.
 3. Die **Ausfallwahrscheinlichkeit p** gibt an, wie wahrscheinlich ein einzelnes Teil ausfällt (z. B. 1 von 100 → p = 0,01).
 4. **Redundanz** heißt: Wichtige Teile doppelt (oder mehrfach) vorhalten. Das System läuft, solange mindestens ein Teil läuft.
-5. Bei **Redundanz** sinkt die Gesamt-Ausfallwahrscheinlichkeit stark: p_ges = p1 · p2 · … (bei gleichen Teilen pⁿ).
+5. Bei **Redundanz** sinkt die Gesamt-Ausfallwahrscheinlichkeit stark: p_ges = p1 · p2 · … (bei gleichen Teilen pⁿ; gilt bei unabhängigen Ausfällen).
 6. Der **Verfügbarkeitsverbund** im Netz nutzt Redundanz (z. B. zweiter Server), um Ausfälle abzufedern.
 7. **Geplante Ausfälle** (Updates, Wartung) sind in der Verfügbarkeits-Kennzahl meist nicht enthalten.
 8. **RAID 1** (Spiegelung) erhöht Verfügbarkeit (eine Platte darf ausfallen). **RAID 0** (Striping) senkt sie (mehr Platten, keine Reserve).
@@ -52,7 +52,7 @@ Verfügbarkeit (A) ist der Bruch aus Betriebszeit und Gesamtzeit. Ein Jahr hat 8
 5. 5. Multiplizieren: 8760 h · 0,0005 = 4,38 h.
 6. 6. Nachkommateil in Minuten: 0,38 h · 60 min/h = 22,8 min ≈ 23 min.
 
-**Ergebnis:** Der Dienst darf maximal 4 h 23 min pro Jahr ausfallen.
+**Ergebnis:** Der Dienst darf maximal 4 h 22,8 min (≈ 4 h 23 min) pro Jahr ausfallen.
 
 ## 💡 Merksätze
 
@@ -64,14 +64,14 @@ Verfügbarkeit (A) ist der Bruch aus Betriebszeit und Gesamtzeit. Ein Jahr hat 8
 
 > 💡 99,9 % = knapp 9 Stunden Ausfall im Jahr.
 
-> 💡 Geplante Wartung zählt nicht zur Ausfallzeit.
+> 💡 Geplante Wartung zählt in den Kennzahlen meist nicht zur Ausfallzeit (im SLA vertraglich geregelt).
 
 ## Prüfungsfallen
 
 - Verwechslung: ‚Mehr Baugruppen erhöhen die Verfügbarkeit.‘ → Richtig: Mehr Baugruppen erhöhen die Ausfallwahrscheinlichkeit; nur redundante Baugruppen erhöhen die Verfügbarkeit.
-- Verwechslung: ‚Verfügbarkeit und Ausfallwahrscheinlichkeit sind dasselbe.‘ → Richtig: Verfügbarkeit ist ein Zeitanteil (A), Ausfallwahrscheinlichkeit ist ein Ereignis-Wert (p).
+- Verwechslung: ‚Verfügbarkeit und Ausfallwahrscheinlichkeit sind dasselbe.‘ → Richtig: Verfügbarkeit ist ein Zeitanteil (A), Ausfallwahrscheinlichkeit ist die Wahrscheinlichkeit, dass ein Bauteil im Betrachtungszeitraum ausfällt (p, Buch S. 388).
 - Verwechslung: ‚RAID 0 macht das System sicherer.‘ → Richtig: RAID 0 (Striping) verteilt Daten ohne Spiegelung → eine Platte kaputt = alle Daten weg. Verfügbarkeit sinkt.
-- Verwechslung: ‚Geplante Updates zählen in die SLA-Ausfallzeit.‘ → Richtig: Geplante Wartungsfenster sind in der Regel ausgenommen.
+- Verwechslung: ‚Geplante Updates zählen in die SLA-Ausfallzeit.‘ → Richtig: Geplante Wartungsfenster sind in der Regel ausgenommen (Buch S. 388: in den Kennzahlen nicht berücksichtigt; im SLA steht es vertraglich).
 - Verwechslung: ‚Bei Redundanz addiert man die Ausfallwahrscheinlichkeiten (p1 + p2).‘ → Richtig: Man multipliziert sie (p1 · p2), weil ALLE gleichzeitig ausfallen müssen (UND-Verknüpfung).
 
 ## Im Buch

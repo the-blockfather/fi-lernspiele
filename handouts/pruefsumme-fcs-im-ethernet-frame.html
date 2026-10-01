@@ -29,8 +29,8 @@ Die FCS (Frame Check Sequence) ist die Prüfsumme im Ethernet-Frame. Sie steht g
 2. Sie ist **32 Bit lang (4 Byte)** und wird vom **CRC32-Algorithmus** (Cyclic Redundancy Check) berechnet.
 3. Eingabe für die Berechnung: **Ziel-MAC, Quell-MAC, Typ/Länge, Nutzdaten, Padding** – also alles ab dem Destination Address Feld bis vor das FCS-Feld.
 4. Der **Sender** berechnet den Wert und hängt ihn an. Der **Empfänger** berechnet beim Empfang neu und vergleicht.
-5. Bei **Abweichung** ist der Frame fehlerhaft (Bitfehler durch Störung, Kollision, defektes Kabel). Der Frame wird **stillschweigend verworfen** (kein Fehlerbericht an Absender auf Layer 2).
-6. Die FCS sichert nur die **Integrität** (Unversehrtheit) der Daten auf der Strecke, nicht die **Authentizität** (Absender-Echtheit).
+5. Bei **Abweichung** ist der Frame fehlerhaft (Bitfehler durch Störung, Kollision, defektes Kabel). Der Frame wird **stillschweigend verworfen** (kein Fehlerbericht an Absender auf Layer 2) – durch das Endgerät bzw. einen Store-and-Forward-Switch; ein Cut-Through-Switch prüft die FCS nicht und leitet fehlerhafte Frames trotzdem weiter (Buch S. 342).
+6. Die FCS sichert nur die **Integrität** (Unversehrtheit) der Daten auf der Strecke, nicht die **Authentizität** (Absender-Echtheit). Sie erkennt nur zufällige Übertragungsfehler, kein Schutz vor gezielter Manipulation (ein Angreifer kann die CRC neu berechnen).
 7. Vorsicht: **IP-Header-Prüfsumme** (Layer 3) und **TCP/UDP-Prüfsumme** (Layer 4) sind **andere Felder** an anderen Stellen mit anderen Berechnungsbereichen.
 
 ## Vergleich: Prüfsummen im TCP/IP-Stack
@@ -46,13 +46,13 @@ Die FCS (Frame Check Sequence) ist die Prüfsumme im Ethernet-Frame. Sie steht g
 1. 1. Sender hat Frame fertig: Ziel-MAC (6 B) + Quell-MAC (6 B) + Typ (2 B) + Daten (46-1500 B) + Padding (falls nötig).
 2. 2. Sender rechnet CRC32 über diese Bytes -> Ergebnis: 32-Bit-Wert (z. B. 0xA1B2C3D4).
 3. 3. Sender schreibt diesen Wert in das **FCS-Feld** (4 Byte) ans Frame-Ende.
-4. 4. Frame geht aufs Medium (Kabel, WLAN). Störungen können Bits kippen.
+4. 4. Frame geht aufs Medium (Kabel/LWL). Störungen können Bits kippen.
 5. 5. Empfänger empfängt Bits, baut Frame zusammen.
 6. 6. Empfänger rechnet CRC32 über empfangene Bytes (ohne FCS-Feld).
 7. 7. Vergleich: Berechneter Wert == Empfangener FCS-Wert?
 8. 8. JA -> Frame okay, an Layer 3 weiterreichen. NEIN -> Frame defekt, verwerfen (Statistik-Counter 'CRC Errors' hochzählen).
 
-**Ergebnis:** Fehlerhafte Frames werden auf Ebene 2 erkannt und verworfen, ohne die CPU mit kaputten Daten zu belasten.
+**Ergebnis:** Fehlerhafte Frames werden auf Ebene 2 erkannt und vom Empfänger verworfen, ohne die CPU mit kaputten Daten zu belasten (Cut-Through-Switches leiten sie dennoch weiter).
 
 ## 💡 Merksätze
 
@@ -71,7 +71,7 @@ Die FCS (Frame Check Sequence) ist die Prüfsumme im Ethernet-Frame. Sie steht g
 - Verwechslung: **FCS (32 Bit, Layer 2, ganzer Frame)** vs. **IPv4 Header Checksum (16 Bit, Layer 3, nur Header)**. Prüfung fragt oft nach Größe oder Berechnungsbereich.
 - Verwechslung: **FCS-Feld** (die 4 Byte im Frame) vs. **CRC32** (der Algorithmus dazu). Frage: 'Wie heißt das Feld?' -> FCS. 'Welches Verfahren?' -> CRC32.
 - Annahme: 'FCS korrigiert Fehler'. Falsch: FCS **erkennt** nur. Korrektur = Retransmission durch TCP (Layer 4) oder Anwendung.
-- Vergessen: **Preamble (7 Byte) + SFD (1 Byte)** gehören **NICHT** zur FCS-Berechnung. Sie dienen der Synchronisation, sind kein Frame-Bestandteil für CRC.
+- Vergessen: **Preamble (7 Byte) + SFD (1 Byte)** gehören **NICHT** zur FCS-Berechnung. Sie dienen der Synchronisation und sind nicht Teil der CRC-Berechnung. (Buch S. 307/342 führt die 8 Byte als erstes Feld der Frame-Tabelle; nach Norm gehören sie zur Bitübertragung.)
 - Verwechslung: **Padding** (Auffüllbytes auf 46 Byte Mindest-Datenlänge) **gehört** zur FCS-Berechnung dazu.
 
 ## Im Buch

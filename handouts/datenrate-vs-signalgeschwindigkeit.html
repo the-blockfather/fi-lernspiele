@@ -18,17 +18,17 @@ Die Datenübertragungsrate ist die Menge an Daten pro Sekunde, die Signalgeschwi
 
 ## Worum geht's
 
-In der Netzwerktechnik werden die Begriffe 'Geschwindigkeit' und 'Bandbreite' oft umgangssprachlich für die Datenübertragungsrate genutzt. Fachlich korrekt ist die Datenübertragungsrate (Durchsatz) die übertragene Datenmenge pro Zeit (z. B. Mbit/s). Die Signalgeschwindigkeit hingegen beschreibt, wie schnell sich das physikalische Signal (elektrisch, optisch) im Medium ausbreitet – sie liegt bei ca. 2/3 der Lichtgeschwindigkeit und ist in Kupfer- und Glasfaserkabeln लगभग gleich. Ein Glasfaserkabel ist nicht deshalb 'schneller', weil das Signal schneller läuft, sondern weil man viel mehr Daten pro Sekunde hineinschieben kann (höhere Datenrate).
+In der Netzwerktechnik werden die Begriffe 'Geschwindigkeit' und 'Bandbreite' oft umgangssprachlich für die Datenübertragungsrate genutzt. Fachlich korrekt ist die Datenübertragungsrate die übertragene Datenmenge pro Zeit (z. B. Mbit/s); das Buch (S. 301) verwendet „Datenrate“, „Bitrate“ und „Durchsatz“ synonym. Die Signalgeschwindigkeit hingegen beschreibt, wie schnell sich das physikalische Signal (elektrisch, optisch) im Medium ausbreitet – sie liegt bei ca. 2/3 der Lichtgeschwindigkeit und ist in Kupfer- und Glasfaserkabeln etwa gleich. Ein Glasfaserkabel ist nicht deshalb 'schneller', weil das Signal schneller läuft, sondern weil man viel mehr Daten pro Sekunde hineinschieben kann (höhere Datenrate).
 
 > [!example] Alltagsvergleich
-> Stell dir eine Autobahn vor. Die **Signalgeschwindigkeit** ist die **Höchstgeschwindigkeit** der Autos (z. B. 130 km/h). Die **Datenübertragungsrate** ist die **Anzahl der Autos, die pro Stunde an einer Messstelle vorbeifahren**. Eine 4-spurige Autobahn (Glasfaser) lässt mehr Autos pro Stunde durch als eine 1-spurige Landstraße (Kupfer), obwohl die Autos auf beiden Straßen gleich schnell fahren.
+> Stell dir eine Autobahn vor. Die **Signalgeschwindigkeit** ist die **Höchstgeschwindigkeit** der Autos (z. B. 130 km/h). Die **Datenübertragungsrate** ist die **Anzahl der Autos, die pro Stunde an einer Messstelle vorbeifahren**. Eine breite Autobahn (Glasfaser: große Bandbreite) lässt mehr Autos pro Stunde durch als eine schmale Landstraße (Kupfer), obwohl die Autos auf beiden Straßen gleich schnell fahren.
 
 ## Kernpunkte
 
-1. **Datenübertragungsrate** (Durchsatz, Bitrate): Datenmenge pro Zeit. Einheit: bit/s (z. B. Mbit/s = 10⁶ bit/s). Wird **immer dezimal** angegeben.
+1. **Datenübertragungsrate** (Bitrate; im Buch S. 301 auch „Durchsatz“ als Synonym): Datenmenge pro Zeit. Einheit: bit/s (z. B. Mbit/s = 10⁶ bit/s). Wird **immer dezimal** angegeben.
 2. **Signalgeschwindigkeit** (Laufzeitgeschwindigkeit): Physikalische Ausbreitungsgeschwindigkeit des Signals im Medium. Ca. 200.000 km/s (≈ 2/3 Lichtgeschwindigkeit). In Kupfer und Glasfaser **etwa gleich hoch**.
 3. **Bandbreite** (fachlich): Frequenzbereich des Mediums in Hz. Umgangssprachlich oft Synonym für Datenrate.
-4. **Durchsatz** (Throughput): Datenmenge, die **tatsächlich** ankommt. Meist niedriger als die nominelle Datenrate (Overhead, Störungen, Kollisionen).
+4. **Durchsatz** (Throughput): Datenmenge, die **tatsächlich** ankommt. Meist niedriger als die nominelle Datenrate (Overhead, Störungen, bei geteiltem Medium auch Kollisionen). Buch S. 301: Die Begriffe gelten dort als Synonyme; in der Praxis unterscheidet man nominelle Rate und tatsächlichen Durchsatz, in der Prüfung auf den Kontext achten.
 5. **Formel**: Datenübertragungsrate C = Datenmenge D / Zeit t. Umgestellt: t = D / C.
 6. **Einheiten beachten**: Datenmengen oft binär (KiB, MiB = 1024er Basis), Datenraten immer dezimal (kbit/s, Mbit/s = 1000er Basis). 1 Byte = 8 Bit.
 
@@ -38,7 +38,7 @@ In der Netzwerktechnik werden die Begriffe 'Geschwindigkeit' und 'Bandbreite' of
 |---|---|---|
 | Was wird gemessen? | Laufzeit des Signals (Physik) | Datenmenge pro Zeit (Logik) |
 | Einheit | m/s oder km/s | bit/s, Mbit/s, Gbit/s |
-| Typischer Wert (Kupfer/LWL) | ~ 200.000 km/s (≈ 2/3 c) | 10 Mbit/s bis 800 Gbit/s (je nach Standard) |
+| Typischer Wert (Kupfer/LWL) | ~ 200.000 km/s (≈ 2/3 c) | 10 Mbit/s bis 100 Gbit/s im LAN (Buch S. 301; je nach Standard) |
 | Abhängigkeit | Vom Medium (Kupfer, Glas, Luft) | Von Codierung, Modulation, Protokoll, Mediumqualität |
 | Analogie (Autobahn) | Tempo der Autos (km/h) | Autos pro Stunde (Durchsatz) |
 
@@ -63,11 +63,11 @@ In der Netzwerktechnik werden die Begriffe 'Geschwindigkeit' und 'Bandbreite' of
 
 > 💡 Durchsatz ≤ Datenrate (Overhead, Störungen fressen Kapazität).
 
-> 💡 Einheit bit/s = kleine Datenrate, Byte/s = große Datenrate (×8).
+> 💡 Byte/s = bit/s ÷ 8 (1 Byte = 8 Bit): Dieselbe Rate ergibt in bit/s eine 8-mal größere Zahl als in Byte/s.
 
 ## Prüfungsfallen
 
-- Verwechslung: 'Signalgeschwindigkeit = Datenrate' → Falsch. Signalgeschwindigkeit ist Laufzeit (km/s), Datenrate ist Durchsatz (bit/s).
+- Verwechslung: 'Signalgeschwindigkeit = Datenrate' → Falsch. Signalgeschwindigkeit ist Laufzeit (km/s), Datenrate ist Datenmenge pro Zeit (bit/s).
 - Verwechslung: 'Mbit/s = MByte/s' → Falsch. 1 Byte = 8 Bit. 100 Mbit/s = 12,5 MByte/s.
 - Verwechslung: 'Dezimal = Binär bei Präfixen' → Falsch. Datenraten: k/M/G = 1000er. Datenmengen: Ki/Mi/Gi = 1024er.
 - Verwechslung: 'Nominelle Rate = Durchsatz' → Falsch. Durchsatz ist real angekommen, nominell ist theoretisches Maximum.
@@ -87,11 +87,11 @@ In der Netzwerktechnik werden die Begriffe 'Geschwindigkeit' und 'Bandbreite' of
 > [!question]- Ein Kunde bucht einen '100 Mbit/s'-Anschluss. Wie viele MByte/s sind das maximal theoretisch?
 > 100 Mbit/s geteilt durch 8 = 12,5 MByte/s. Achtung: Mbit/s ist dezimal (10⁶), MByte/s hier auch dezimal gerechnet.
 
-> [!question]- Warum hat ein Glasfaserkabel (LWL) eine höhere Datenübertragungsrate als ein Kupferkabel, obwohl die Signalgeschwindigkeit लगभग gleich ist?
-> Weil Glasfaser einen viel größeren Frequenzbereich (Bandbreite in Hz) nutzt und störungsunempfindlicher ist. Man kann mehr Bits pro Sekunde modulieren (höhere spektrale Effizienz), nicht weil das Licht 'schneller' im Kabel ist.
+> [!question]- Warum hat ein Glasfaserkabel (LWL) eine höhere Datenübertragungsrate als ein Kupferkabel, obwohl die Signalgeschwindigkeit etwa gleich ist?
+> Weil Glasfaser eine sehr viel größere nutzbare Bandbreite (Frequenzbereich in Hz) und eine geringe Dämpfung hat und störungsunempfindlicher ist. Man kann dadurch mehr Bits pro Sekunde übertragen, nicht weil das Licht 'schneller' im Kabel ist.
 
 > [!question]- Was ist der Unterschied zwischen 'Datenübertragungsrate' (nominell) und 'Durchsatz' (Throughput)?
-> Die Datenübertragungsrate ist die technische Maximalrate der Leitung (z. B. 1 Gbit/s). Der Durchsatz ist die tatsächlich nutzbare Datenmenge pro Zeit, die beim Empfänger ankommt (immer niedriger durch Protokoll-Overhead, Header, Kollisionen, Fehlerkorrektur).
+> Die Datenübertragungsrate ist die technische Maximalrate der Leitung (z. B. 1 Gbit/s). Der Durchsatz ist die tatsächlich nutzbare Datenmenge pro Zeit, die beim Empfänger ankommt (niedriger durch Protokoll-Overhead, Header, Fehlerkorrektur, bei geteiltem Medium auch Kollisionen). Hinweis: Das Buch (S. 301) verwendet beide Begriffe als Synonyme.
 
 ## Ergänzungen
 </script>

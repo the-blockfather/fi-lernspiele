@@ -14,7 +14,7 @@ h1,h2,h3{line-height:1.25}h2{margin-top:1.8em;border-bottom:1px solid var(--line
 
 ## In einem Satz
 
-Ein Socket ist die Kombination aus IP-Adresse und Portnummer und identifiziert eine Anwendung auf einem Rechner weltweit eindeutig; eine Verbindung benötigt immer zwei Sockets (Quelle und Ziel).
+Ein Socket ist die Kombination aus IP-Adresse und Portnummer und identifiziert eine Anwendung auf einem Rechner weltweit eindeutig (Buch S. 308; bei privaten IP-Adressen gilt das nur im jeweiligen Netz); eine Verbindung benötigt immer zwei Sockets (Quelle und Ziel).
 
 ## Worum geht's
 
@@ -31,7 +31,7 @@ Die IP-Adresse findet den richtigen Rechner im Netz. Die Portnummer findet das r
 4. Schreibweise IPv4: `IP:Port` (z. B. `192.168.1.20:51734`).
 5. Schreibweise IPv6: `[IP]:Port` (z. B. `[2001:db8::1]:80`), weil IPv6 schon Doppelpunkte nutzt.
 6. **Well-known Ports** (0–1023) sind festen Diensten zugeordnet (HTTP=80, HTTPS=443).
-7. **Dynamische Ports** (49152–65535) vergibt das Betriebssystem kurzfristig als Quell-Ports.
+7. **Dynamische Ports** (49152–65535, IANA/RFC 6335, Buch S. 338) vergibt das Betriebssystem kurzfristig als Quell-Ports; je nach Betriebssystem liegt der genutzte Bereich anders (Linux standardmäßig 32768–60999).
 8. **Socket ≠ Port**: Der Port allein sagt nicht, *wo* der Rechner steht. **Socket ≠ MAC**: MAC ist nur lokal (Schicht 2), Socket geht weltweit (Schicht 3+4).
 
 ## Beispiel: HTTPS-Aufruf (Client ↔ Server)

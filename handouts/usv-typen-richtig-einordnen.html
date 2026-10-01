@@ -25,12 +25,12 @@ Eine USV (unterbrechungsfreie Stromversorgung) sitzt zwischen Steckdose und Serv
 
 ## Kernpunkte
 
-1. Eine **USV** versorgt angeschlossene Geräte bei Netzausfall aus dem **Akku**, filtert Spannungsspitzen und stabilisiert die Frequenz.
+1. Eine **USV** versorgt angeschlossene Geräte bei Netzausfall aus dem **Akku**, filtert Spannungsspitzen und Netzstörungen. Buch S. 390: „Stabilisieren der Netzfrequenz“; fachlich: Die Ausgangsfrequenz ist nur bei VFI, die Ausgangsspannung bei VFI und VI vom Netz unabhängig.
 2. Drei **Norm-Typen** entscheiden über die Qualität: **VFI** (Voltage Frequency Independent – Last immer am Wechselrichter, bester Schutz), **VI** (Voltage Independent – Spannung wird nachgeregelt, Frequenz vom Netz), **VFD** (Voltage Frequency Dependent – Umschaltung bei Ausfall, einfachster Schutz).
 3. Der **Gesamtwirkungsgrad** einer VFI-USV berechnet sich aus dem Produkt der Wirkungsgrade von Gleichrichter und Wechselrichter: η_ges = η_Gleichrichter · η_Wechselrichter (z. B. 0,9 · 0,9 = 0,81).
-4. Die **Überbrückungszeit** in Stunden ergibt sich aus der nutzbaren Akku-Energie (Wh mal Wirkungsgrad) geteilt durch die Last in Watt: t = (Wh_Akku · η) / P_Last.
+4. Die **Überbrückungszeit** in Stunden ergibt sich aus der nutzbaren Akku-Energie (Wh mal Wirkungsgrad) geteilt durch die Last in Watt: t = (Wh_Akku · η_Wechselrichter) / P_Last (im Batteriebetrieb zählt nur der Wechselrichter, nicht η_ges; Buch S. 396).
 5. **Scheinleistung** (VA) und **Wirkleistung** (W) unterscheiden sich: P = S · cos φ. USV-Leistung steht oft in VA, die nutzbare Leistung in Watt ist geringer.
-6. Abgrenzung: **USV** (Akku, Minuten bis Stunden) überbrückt bis zum Herunterfahren oder Start der **Netzersatzanlage** (Dieselgenerator, Stunden bis Tage).
+6. Abgrenzung: **USV** (Akku) überbrückt meist wenige Minuten bis zum Herunterfahren oder Start der **Netzersatzanlage** (Dieselgenerator, Stunden bis Tage).
 
 ## USV-Typen im Vergleich (Norm vs. alte Namen)
 
@@ -47,7 +47,7 @@ Eine USV (unterbrechungsfreie Stromversorgung) sitzt zwischen Steckdose und Serv
 3. Laufzeit t = Nutzbare Energie / Last = 648 Wh / 400 W = 1,62 h.
 4. Umrechnung in Minuten: 0,62 h · 60 min/h = 37,2 min → ca. 1 Stunde 37 Minuten.
 
-**Ergebnis:** Die USV versorgt den Server ca. 1,62 h (97 Minuten) lang.
+**Ergebnis:** Die USV versorgt den Server ca. 1,62 h (97 Minuten) lang. (Das Zahlenbeispiel ist frei gewählt; Buchbeispiel S. 396: 100 Wh, 100 W, η = 0,9 → 0,9 h.)
 
 ## 💡 Merksätze
 
@@ -64,13 +64,13 @@ Eine USV (unterbrechungsfreie Stromversorgung) sitzt zwischen Steckdose und Serv
 ## Prüfungsfallen
 
 - Verwechslung: Alte Namen (Online/Offline) sind nicht genormt. Richtig: Nur VFI, VI, VFD sind international einheitlich definiert.
-- Verwechslung: Wirkungsgrade addieren. Richtig: Wirkungsgrade in Reihe multiplizieren (η_ges = η1 · η2).
-- Verwechslung: VA gleich Watt setzen. Richtig: Watt = VA · cos φ (bei Servern oft cos φ ≈ 0,9).
+- Verwechslung: Wirkungsgrade addieren. Richtig: Wirkungsgrade in Reihe multiplizieren (η_ges = η1 · η2, gilt für VFI; bei VFD im Netzbetrieb mit vollem Akku fließt nur ein geringer Ladeerhaltungsstrom, Buch S. 395).
+- Verwechslung: VA gleich Watt setzen. Richtig: Watt = VA · cos φ (Buchaufgabe S. 396: USV-Wirkfaktor 0,9, also 1 kVA = 900 W).
 - Verwechslung: USV ersetzt Generator. Richtig: USV überbrückt nur bis zum Herunterfahren oder Generator-Start.
 
 ## Im Buch
 
-- USV: S. 395
+- USV: S. 395; Typen VFI/VI/VFD: S. 390
 - Wirkungsgrad: S. 395
 
 *Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
@@ -78,7 +78,7 @@ Eine USV (unterbrechungsfreie Stromversorgung) sitzt zwischen Steckdose und Serv
 ## Prüffragen
 
 > [!question]- Warum wählt man eine USV nach den Typbezeichnungen VFI, VI, VFD und nicht nach ‚Online‘ oder ‚Offline‘?
-> Weil die alten Bezeichnungen von Herstellern uneinheitlich verwendet werden. Die Norm-Kürzel VFI, VI, VFD sind international verbindlich definiert.
+> Weil die alten Bezeichnungen von Herstellern uneinheitlich verwendet werden. Die Norm-Kürzel VFI, VI, VFD sind international genormt (IEC/EN 62040-3) und einheitlich definiert.
 
 > [!question]- Welcher USV-Typ bietet den höchsten Schutz und woran erkennst du das am Kürzel?
 > VFI bietet den höchsten Schutz. Das ‚I‘ steht für Independent (unabhängig): Spannung und Frequenz der Ausgangsseite sind vollständig vom Eingang entkoppelt.
@@ -87,7 +87,7 @@ Eine USV (unterbrechungsfreie Stromversorgung) sitzt zwischen Steckdose und Serv
 > 0,9 · 0,9 = 0,81 also 81 %. Die Wirkungsgrade werden multipliziert, nicht addiert.
 
 > [!question]- Was ist der Unterschied zwischen USV und Netzersatzanlage?
-> Die USV nutzt Akkus für Minuten bis wenige Stunden (Überbrückung, Herunterfahren). Die Netzersatzanlage (meist Dieselgenerator) übernimmt die Versorgung für Stunden oder Tage bei langem Netzausfall.
+> Die USV nutzt Akkus meist für wenige Minuten (Überbrückung, geregeltes Herunterfahren). Die Netzersatzanlage (meist Dieselgenerator) übernimmt die Versorgung für Stunden oder Tage bei langem Netzausfall.
 
 ## Ergänzungen
 </script>

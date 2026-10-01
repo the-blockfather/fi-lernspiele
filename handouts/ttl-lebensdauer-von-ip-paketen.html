@@ -21,7 +21,7 @@ Das Time-to-Live-Feld (TTL) im IP-Header begrenzt die Anzahl der Router, die ein
 Jedes IP-Datenpaket trägt im Header ein Feld namens Time-to-Live (TTL). Der Startwert wird vom Absender gesetzt (oft 64, 128 oder 255). Jeder Router, der das Paket weiterleitet, muss den Wert um 1 verringern. Sinkt der Wert auf 0, wirft der Router das Paket weg und sendet eine ICMP-Fehlermeldung (Time Exceeded) zurück an den Absender. Damit stirbt ein Paket, das durch einen Routing-Fehler im Kreis läuft, statt das Netz zu verstopfen.
 
 > [!example] Alltagsvergleich
-> Stell dir TTL wie eine Fahrkarte mit 10 Entwertungen. Bei jedem Umsteigen (Router) wird einmal abgestempelt. Sind alle Felder voll, darfst du nicht weiterfahren und musst aussteigen – die Fahrt endet dort.
+> Stell dir TTL wie eine Fahrkarte mit 10 Fahrten vor. Bei jedem Umsteigen (Router) wird eine Fahrt entwertet. Sind alle Fahrten verbraucht (Stand 0), darfst du nicht weiterfahren und musst aussteigen – die Fahrt endet dort.
 
 ## Kernpunkte
 
@@ -48,10 +48,10 @@ Jedes IP-Datenpaket trägt im Header ein Feld namens Time-to-Live (TTL). Der Sta
 2. Router 1 (Standard-Gateway) empfängt TTL 64, dekrementiert auf 63, leitet weiter.
 3. Router 2 (Core) empfängt TTL 63, dekrementiert auf 62, leitet weiter.
 4. ... nach 10 Hops ...
-5. Router 10 empfängt TTL 54, dekrementiert auf 53, leitet an Ziel weiter.
-6. Ziel empfängt Paket mit TTL = 53. Antwort wird mit neuem TTL (z. B. 64) zurückgeschickt.
+5. Router 10 empfängt TTL 55, dekrementiert auf 54, leitet an Ziel weiter.
+6. Ziel empfängt Paket mit TTL = 54. Antwort wird mit neuem TTL (z. B. 64) zurückgeschickt.
 
-**Ergebnis:** Das Paket hat 10 Router passiert. Empfangener TTL 53 bei Start 64 => 11 Hops Entfernung (inkl. Ziel-Host als letzter Hop oft nicht gezählt, aber Router = 10).
+**Ergebnis:** Das Paket hat 10 Router passiert. Empfangener TTL 54 bei Start 64 => 64 − 54 = 10 Router auf dem Weg (ein traceroute würde das Ziel als 11. Hop anzeigen).
 
 ## 💡 Merksätze
 
@@ -67,12 +67,14 @@ Jedes IP-Datenpaket trägt im Header ein Feld namens Time-to-Live (TTL). Der Sta
 
 - Verwechslung: IP-TTL (Hop-Limit) vs. DNS-TTL (Sekunden für Cache). IP-TTL ist ein Zähler, DNS-TTL eine Zeit.
 - Verwechslung: TTL abgelaufen (ICMP Type 11) vs. Ziel unerreichbar (ICMP Type 3). TTL=0 -> Type 11. Port/Host down -> Type 3.
-- Annahme: TTL wird nur bei Weiterleitung dekrementiert. Richtig: Auch der Ziel-Host prüft TTL (meist aber schon >0).
+- Annahme: Auch der Ziel-Host zählt die TTL herunter. Richtig: Nur Router dekrementieren die TTL (Hop für Hop), der Ziel-Host nicht. Ein Paket mit TTL = 1 wird vom letzten Router auf 0 gesetzt und verworfen, erreicht also keinen Host hinter einem Router.
+- Buch S. 343: „TTL (Time to Life)“ und bei TTL 0 werde „Ziel nicht erreichbar“ zurückgeschickt; fachlich: Time to **Live**, und die Meldung ist ICMP „Time Exceeded“ (Type 11), nicht „Ziel nicht erreichbar“ (Type 3).
 - Prüfungsfrage: 'Paket kommt nicht an, TTL abgelaufen.' Ursache oft: Routing-Schleife oder Startwert zu niedrig (selten).
 
 ## Im Buch
 
-*Kein passender Eintrag im Stichwortverzeichnis.*
+- Routing und TTL: S. 343
+- TTL bei Ping und Traceroute: S. 366–367
 
 ## Prüffragen
 

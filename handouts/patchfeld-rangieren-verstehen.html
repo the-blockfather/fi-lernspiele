@@ -29,7 +29,7 @@ Im Verteilerschrank (19-Zoll-Rack) sitzt das Patchfeld. Hinten enden die fest in
 2. Ein **Patchkabel** ist ein kurzes, flexibles Kabel mit Steckern (meist RJ45). Es verbindet einen **Switch-Port** (aktiv, braucht Strom) mit einer **Patchfeld-Buchse**. Das Verbinden heißt **rangieren** oder **patchen**.
 3. Der **Permanent Link** ist die feste Strecke **Patchfeld → Netzwerkdose** (max. 90 m). Der **Channel Link** ist die komplette Strecke **Switch → Endgerät** inklusive Patchkabel im Schrank und Anschlusskabel am Platz (max. 100 m).
 4. **Patchfeld ≠ Switch**: Das Patchfeld ist passiv (nur Metallkontakte), der Switch ist aktiv (Elektronik, Prozessor, Strom). Verwechsle sie nicht in Prüfungsfragen.
-5. Am Verteiler sieht man nicht, wohin ein Kabel führt. Deshalb muss eine **Portliste** am Schrank hängen: Patchfeld-Nummer, Port-Nummer, Leitungstyp (z. B. Cat 6A), Raum/Zimmer.
+5. Am Verteiler gibt es meist keine Kennzeichnung, wohin ein Kabel führt (Buch S. 314). Deshalb muss eine **Portliste** am Schrank hängen: Patchfeld-Nummer, Port-Nummer, Leitungstyp (z. B. Cat 6A), Raum/Zimmer.
 6. Die **Kategorie** (z. B. Cat 6A) gilt für das einzelne Bauteil (Kabel, Dose, Patchkabel). Die **Klasse** (z. B. Klasse EA) gilt für die *ganze* montierte Strecke. Das schwächste Bauteil bestimmt die erreichbare Klasse.
 
 ## Überblick
@@ -39,7 +39,7 @@ Im Verteilerschrank (19-Zoll-Rack) sitzt das Patchfeld. Hinten enden die fest in
 | Strecke | Patchfeld → Dose (fest) | Switch → Endgerät (gesamt) |
 | Max. Länge | 90 m | 100 m |
 | Bestandteile | Verlegekabel, Auflegedosen, Patchfeld-Buchsen | Permanent Link + Patchkabel (Schrank) + Anschlusskabel (Platz) |
-| Prüfung | Nach Installation (Abnahme) | Bei Inbetriebnahme / Fehlersuche |
+| Prüfung | meist nach Installation (Abnahme) | bei Bedarf, z. B. Inbetriebnahme / Fehlersuche |
 
 ## Beispiel: Patchfeld & Rangieren
 
@@ -49,7 +49,7 @@ Im Verteilerschrank (19-Zoll-Rack) sitzt das Patchfeld. Hinten enden die fest in
 4. 3. Channel Link prüfen: 102 m > 100 m → **NICHT OK**.
 5. Lösung: Anschlusskabel kürzen (z. B. auf 10 m), dann Channel = 100 m → OK.
 
-**Ergebnis:** Permanent Link OK, Channel Link zu lang (102 m > 100 m). Anschlusskabel muss max. 10 m lang sein (100 m - 85 m - 5 m = 10 m).
+**Ergebnis:** Permanent Link OK, Channel Link zu lang (102 m > 100 m). Anschlusskabel muss max. 10 m lang sein (100 m - 85 m - 5 m = 10 m). Das ist die vereinfachte Prüfungsrechnung; in der Praxis werden flexible Patchkabel mit einem Dämpfungsfaktor bewertet.
 
 ## 💡 Merksätze
 
@@ -61,14 +61,14 @@ Im Verteilerschrank (19-Zoll-Rack) sitzt das Patchfeld. Hinten enden die fest in
 
 > 💡 Schwächstes Glied bremst die Strecke: Patchkabel-Kategorie muss zur Strecke passen.
 
-> 💡 Keine Portliste = Blindflug: Am Patchfeld siehst du nicht, wohin das Kabel geht.
+> 💡 Keine Portliste = Blindflug: Am Patchfeld siehst du meist nicht, wohin das Kabel geht.
 
 ## Prüfungsfallen
 
 - Verwechslung: Patchfeld ist aktiv wie ein Switch. / Richtig: Patchfeld ist **passiv**, Switch ist **aktiv**.
 - Verwechslung: Permanent Link und Channel Link sind beide 100 m. / Richtig: Permanent Link **90 m** (fest), Channel Link **100 m** (gesamt).
 - Verwechslung: Patchkabel-Kategorie ist egal, Hauptsache Stecker passt. / Richtig: Patchkabel **muss gleiche oder höhere Kategorie** haben wie die Festverkabelung, sonst sinkt die Klassen-Leistung.
-- Verwechslung: Am Patchfeld steht drauf, welches Zimmer dranhängt. / Richtig: Man braucht eine **Portliste** (Dokumentation) am Verteiler.
+- Verwechslung: Am Patchfeld steht drauf, welches Zimmer dranhängt. / Richtig: Am Verteiler gibt es meist keine Kennzeichnung; man braucht eine **Portliste** (Dokumentation).
 - Verwechslung: Rangieren bedeutet, Kabel in der Wand umzulegen. / Richtig: Rangieren ist **nur Umstecken der Patchkabel** vorne am Patchfeld.
 
 ## Im Buch
@@ -86,7 +86,7 @@ Im Verteilerschrank (19-Zoll-Rack) sitzt das Patchfeld. Hinten enden die fest in
 > [!question]- Erkläre den Unterschied zwischen Permanent Link und Channel Link.
 > Permanent Link ist die feste Strecke Patchfeld → Dose (max. 90 m). Channel Link ist die Gesamtstrecke Switch → Endgerät inkl. Patchkabel im Schrank und Anschlusskabel am Platz (max. 100 m).
 
-> [!question]- Warum darf ein Patchkabel der Kategorie 5e nicht an einer Cat-6A-Strecke verwendet werden?
+> [!question]- Warum sollte ein Patchkabel der Kategorie 5e nicht an einer Cat-6A-Strecke verwendet werden?
 > Das schwächste Bauteil bestimmt die Klasse der ganzen Strecke. Ein Cat-5e-Patchkabel begrenzt die Leistung auf Klasse D (100 MHz), obwohl die Festverkabelung Cat 6A (500 MHz) kann.
 
 > [!question]- Welche Infos müssen auf der Portliste am Verteiler stehen?

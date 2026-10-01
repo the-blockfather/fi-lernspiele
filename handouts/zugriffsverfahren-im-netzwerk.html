@@ -18,18 +18,19 @@ Zugriffsverfahren regeln, wie sich Stationen ein gemeinsames Übertragungsmedium
 
 ## Worum geht's
 
-Wenn zwei Geräte gleichzeitig auf demselben Kabel oder Funkkanal senden, überlagern sich die Signale – das nennt man Kollision. Die Daten werden unlesbar. Damit das nicht passiert, gibt es Regeln für den Medienzugriff. Man unterscheidet zentrale Steuerung (eine Instanz erteilt Erlaubnis) und dezentrale Steuerung (Geräte hören selbst). Im kabelgebundenen LAN (Ethernet) nutzt man CSMA/CD: erst horchen, dann senden, Kollision währenddessen erkennen und abbrechen. Im WLAN nutzt man CSMA/CA: erst horchen, zufällig warten, dann senden, um Kollisionen von vornherein zu vermeiden. Bei beiden Verfahren gilt der Grundsatz: Carrier Sense – also erst hören, ob das Medium frei ist.
+Wenn zwei Geräte gleichzeitig auf demselben Kabel oder Funkkanal senden, überlagern sich die Signale – das nennt man Kollision. Die Daten werden unlesbar. Damit das nicht passiert, gibt es Regeln für den Medienzugriff. Man unterscheidet zentrale Steuerung (eine Instanz erteilt Erlaubnis) und dezentrale Steuerung (Geräte hören selbst). Im kabelgebundenen LAN (Ethernet) nutzt man CSMA/CD: erst horchen, dann senden, Kollision währenddessen erkennen und abbrechen (Buch S. 305: „Einsatz bei Ethernet“; nach Norm gilt CSMA/CD nur bei Halbduplex/Hub, in heutigen Switch-Netzen mit Vollduplex gibt es keine Kollisionen). Im WLAN nutzt man CSMA/CA: erst horchen, zufällig warten, dann senden, um Kollisionen von vornherein zu vermeiden. Bei beiden Verfahren gilt der Grundsatz: Carrier Sense – also erst hören, ob das Medium frei ist.
 
 > [!example] Alltagsvergleich
-> Stell dir einen Besprechungsraum vor. Bei CSMA/CD (Kabel) reden alle drauflos, merken aber sofort, wenn sich Stimmen überlagern (Kollision), schweigen kurz und versuchen es nach einer zufälligen Pause erneut. Bei CSMA/CA (Funk) kann man nicht hören, ob jemand anderes gerade redet (Hidden Station). Deshalb horcht man, wartet eine zufällige Zeit und fragt optional per Handzeichen (RTS/CTS), ob der Weg frei ist, bevor man losredet.
+> Stell dir einen Besprechungsraum vor. Bei CSMA/CD (Kabel) reden alle drauflos, merken aber sofort, wenn sich Stimmen überlagern (Kollision), schweigen kurz und versuchen es nach einer zufälligen Pause erneut. Bei CSMA/CA (Funk) kann man beim Reden nicht gleichzeitig zuhören und hört nicht alle Teilnehmer (Hidden Station). Deshalb horcht man, wartet eine zufällige Zeit und fragt optional per Handzeichen (RTS/CTS), ob der Weg frei ist, bevor man losredet.
 
 ## Kernpunkte
 
 1. **Kollision**: Zwei Stationen senden gleichzeitig → Signale überlagern sich → Daten unlesbar.
-2. **Zentrale Steuerung (RTS/CTS)**: Eine Zentrale (z. B. Access Point) koordiniert. **RTS** = Request to Send (Anfrage der Station). **CTS** = Clear to Send (Erlaubnis der Zentrale). Nur CTS ist die echte Sendeerlaubnis.
+2. **Zentrale Steuerung (RTS/CTS)**: Eine Zentrale (z. B. Access Point) koordiniert. **RTS** = Request to Send (Anfrage der Station). **CTS** = Clear to Send (Erlaubnis der Zentrale). Nur CTS ist die echte Sendeerlaubnis. Buch S. 304: RTS/CTS steht als eigenes Verfahren „Zentrale Steuerung“ (WLAN); nach Norm (802.11) ist RTS/CTS ein optionaler Zusatz zu CSMA/CA.
 3. **Dezentrale Steuerung CSMA/CD (LAN/Ethernet)**: **Carrier Sense** = Medium abhören (Listen Before Talk). **Multiple Access** = Alle dürfen zugreifen. **Collision Detection** = Kollision während des Sendens erkennen → sofort Abbruch → **Backoff-Zeit** (zufällige Wartezeit) → neuer Versuch.
 4. **CSMA/CA (WLAN)**: **Collision Avoidance** = Kollision vermeiden statt erkennen. Ablauf: Horchen → zufällige Wartezeit (Backoff) → Senden. Optional: RTS/CTS als Zusatzschutz vor Hidden-Station-Problem.
 5. **Unterschied**: CSMA/CD reagiert auf Kollision (erkennen + abbrechen). CSMA/CA verhindert Kollision vorher (warten). Grund: Im Funk kann eine Station ihre eigene Kollision oft nicht hören.
+6. **Token Passing** (Buch S. 305): Der Token ist die Sendeerlaubnis. Wer ihn hat, darf ein Paket senden und gibt den Token dann weiter; Einsatz bei Tokenring (veraltet) und Glasfaserringen.
 
 ## Vergleich CSMA/CD vs. CSMA/CA
 
@@ -37,7 +38,7 @@ Wenn zwei Geräte gleichzeitig auf demselben Kabel oder Funkkanal senden, überl
 |---|---|---|
 | Vorgehen | Hören → Senden → Kollision **erkennen** | Hören → **Warten** (zufällig) → Senden → Kollision **vermeiden** |
 | Strategie | Reaktiv (nachträglich behandeln) | Proaktiv (vorbeugen) |
-| Kollisionserkennung | Möglich (elektrisches Signal am Kabel) | Meist nicht möglich (Hidden Station) |
+| Kollisionserkennung | Möglich (elektrisches Signal am Kabel) | Meist nicht möglich (Station kann beim Senden nicht mithören; dazu Hidden-Station-Problem) |
 | Zusatzmechanismus | JAM-Signal, Backoff-Zeit | Optional RTS/CTS (Anfrage/Erlaubnis) |
 
 ## Beispiel: Ablauf einer Kollision bei CSMA/CD
@@ -60,7 +61,7 @@ Wenn zwei Geräte gleichzeitig auf demselben Kabel oder Funkkanal senden, überl
 
 > 💡 CD = Collision Detection (erkennen), CA = Collision Avoidance (vermeiden).
 
-> 💡 Kabel hört Kollision, Funk hört oft nichts → CA wartet lieber.
+> 💡 Kabel hört Kollision, Funk kann beim Senden nicht mithören → CA wartet lieber.
 
 > 💡 Backoff = Zufällige Pause, damit nicht alle gleichzeitig neu starten.
 
@@ -68,9 +69,10 @@ Wenn zwei Geräte gleichzeitig auf demselben Kabel oder Funkkanal senden, überl
 
 - RTS mit Sendeerlaubnis verwechseln: RTS ist nur die Anfrage, CTS ist die Erlaubnis.
 - CSMA/CD und CSMA/CA verwechseln: CD (Kabel) erkennt Kollision währenddessen, CA (Funk) vermeidet sie durch Warten vorher.
-- „Listen Before Talk“ als Fachbegriff nutzen: Im Buch heißt das **Carrier Sense** – LBT nicht wörtlich lernen.
+- Begriffe: **Carrier Sense** (Trägererkennung) = Abhören des Mediums, ob es frei ist (Buch S. 305); „Listen Before Talk“ (LBT) benennt dasselbe (laut Errata-Datei im Merkkasten auf S. 304). In Antworten „Carrier Sense“ verwenden, LBT als Zusatz.
 - Annehmen, WLAN nutze CSMA/CD: Funk kann Kollisionen nicht zuverlässig erkennen (Hidden Station), daher CA.
-- Vergessen, dass RTS/CTS bei WLAN optional innerhalb von CSMA/CA ist, keine eigene dritte Methode.
+- RTS/CTS einordnen: Laut Buch (S. 304) ist es das Verfahren der zentralen Steuerung im WLAN (Antwort in der Prüfung laut Buch); nach Norm (802.11) ist es ein optionaler Zusatz innerhalb von CSMA/CA, keine eigene Methode neben CSMA/CA.
+- Token Passing nicht vergessen: Neben zentraler Steuerung, CSMA/CD und CSMA/CA nennt das Buch (S. 305) als viertes Verfahren Token Passing.
 
 ## Im Buch
 

@@ -30,9 +30,9 @@ Ein VLAN (Virtual LAN) trennt ein physisches Netzwerk logisch in mehrere getrenn
 3. Durch 12 Bit sind **4096** IDs möglich (2^12). Die IDs **0** und **4095** sind reserviert, nutzbar sind **4094 VLANs**.
 4. Der **Header wächst von 14 auf 18 Byte**. Der **Overhead (Header + FCS)** steigt von **18 auf 22 Byte**. Die Nutzdaten (Payload) bleiben maximal 1500 Byte.
 5. **Access-Port** (PC ↔ Switch): Frames laufen **untagged** (ohne Tag). Der Switch fügt beim Weiterleiten in den Trunk den Tag hinzu.
-6. **Trunk-Port** (Switch ↔ Switch): Frames laufen **tagged** (mit Tag), damit der nächste Switch die VLAN-Zuordnung erkennt.
-7. Priorisierung (QoS) über die 3 Prioritätsbits: **0 = niedrigste** (Hintergrund) bis **7 = höchste** (Netzwerksteuerung). Sprache bekommt oft Priorität 5 oder 6.
-8. Ein Tag wird nur von Switches eingefügt und entfernt. Endgeräte (PC, Drucker) sehen den Tag normalerweise nicht.
+6. **Trunk-Port** (Switch ↔ Switch): Frames laufen **tagged** (mit Tag), damit der nächste Switch die VLAN-Zuordnung erkennt (Ausnahme nach Norm: das Native VLAN läuft auf dem Trunk untagged).
+7. Priorisierung (QoS) über die 3 Prioritätsbits: Stufen 0–7, **7 = höchste** (Netzwerksteuerung); nach IEEE 802.1p ist 0 = Best Effort (Standard) und 1 = Background (niedrigste). Sprache bekommt oft Priorität 5 oder 6.
+8. Ein Tag wird meist von Switches eingefügt und entfernt (Buch S. 288: „Die Switches erweitern die Frames um den VLAN-Tag“; in der Praxis taggen auch Router, getaggte Server-NICs oder VoIP-Telefone). Endgeräte (PC, Drucker) sehen den Tag normalerweise nicht.
 
 ## Vergleich Ethernet-Header ohne / mit VLAN-Tag
 

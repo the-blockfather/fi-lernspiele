@@ -26,10 +26,10 @@ Die IP-Adresse findet den Rechner im Netz, der Port findet das Programm darauf. 
 ## Kernpunkte
 
 1. Eine **Portnummer** ist eine **16-Bit-Zahl** → Wertebereich **0 bis 65535** (insgesamt 65536 Ports).
-2. **Well-known Ports (0–1023)**: Fest zugewiesene Standarddienste (z. B. HTTP=80, HTTPS=443, SSH=22, DNS=53). Benötigen oft Root/Admin-Rechte.
+2. **Well-known Ports (0–1023)**: Fest zugewiesene Standarddienste (z. B. HTTP=80, HTTPS=443, SSH=22, DNS=53). Unter Linux/Unix benötigt man standardmäßig Root-Rechte, um sie zu belegen.
 3. **Registered Ports (1024–49151)**: Für spezielle Anwendungen registrierbar (z. B. MySQL=3306, RDP=3389), Vergabe durch IANA.
 4. **Dynamische/Private Ports (49152–65535)**: Werden vom OS als **Quell-Ports** (Ephemeral Ports) für ausgehende Verbindungen kurzfristig vergeben.
-5. **TCP- und UDP-Ports sind getrennte Nummernräume**: Port 53/TCP (DNS-Zonentransfer) ≠ Port 53/UDP (DNS-Abfrage).
+5. **TCP- und UDP-Ports sind getrennte Nummernräume**: Port 53/TCP ≠ Port 53/UDP (DNS nutzt meist UDP, TCP z. B. für Zonentransfer und große Antworten).
 6. **Socket** = **IP-Adresse + Portnummer** (z. B. `192.168.1.10:443`). Identifiziert eine Anwendung weltweit eindeutig.
 7. Wichtige Well-known Ports merken: 20/21 (FTP), 22 (SSH), 25 (SMTP), 53 (DNS), 80 (HTTP), 110 (POP3), 143 (IMAP), 443 (HTTPS).
 
@@ -37,7 +37,7 @@ Die IP-Adresse findet den Rechner im Netz, der Port findet das Programm darauf. 
 
 | Bereich | Nummernbereich | Anzahl Ports | Vergabe / Nutzung |
 |---|---|---|---|
-| Well-known Ports | 0 – 1023 | 1024 | Feste Standarddienste (HTTP, SSH, DNS…), Root-Rechte nötig |
+| Well-known Ports | 0 – 1023 | 1024 | Feste Standarddienste (HTTP, SSH, DNS…), unter Linux/Unix standardmäßig Root-Rechte nötig |
 | Registered Ports | 1024 – 49151 | 48128 | Registrierte Anwendungen (z. B. Datenbanken, RDP) |
 | Dynamic / Private Ports | 49152 – 65535 | 16384 | Vom OS dynamisch als Quell-Ports (Client-Seite) vergeben |
 
@@ -68,12 +68,12 @@ Die IP-Adresse findet den Rechner im Netz, der Port findet das Programm darauf. 
 - Verwechslung: Well-known Ports gehen bis 1024. Richtig: 0 bis 1023 (1024 ist schon Registered).
 - Verwechslung: Port 0 ist ein normaler Port. Richtig: Port 0 ist reserviert, wird nicht für Dienste genutzt.
 - Verwechslung: TCP und UDP teilen sich eine Portnummer. Richtig: Getrennte Räume, Port 53/TCP ≠ Port 53/UDP.
-- Verwechslung: Quell-Port ist fest wie Ziel-Port. Richtig: Quell-Port meist dynamisch (hohe Nummer ≥ 49152).
+- Verwechslung: Quell-Port ist fest wie Ziel-Port. Richtig: Quell-Port meist dynamisch (hohe Nummer; IANA-Bereich ab 49152, je nach Betriebssystem auch ab 32768, z. B. Linux).
 - Verwechslung: Port = Socket. Richtig: Socket = IP + Port.
 
 ## Im Buch
 
-- Port: S. 337
+- Port: S. 337 (Bereich 49152–65535 / RFC 6335: S. 338)
 - Socket: S. 308
 - TCP: S. 308
 - UDP: S. 308
@@ -92,7 +92,7 @@ Die IP-Adresse findet den Rechner im Netz, der Port findet das Programm darauf. 
 > HTTPS nutzt Port 443 (TCP), er liegt im Well-known-Bereich (0–1023).
 
 > [!question]- Ein Client ruft einen Webserver auf (Ziel-Port 443). Welchen Port nutzt der Client als Quell-Port und warum?
-> Einen dynamischen Port ≥ 49152, weil das OS Quell-Ports kurzfristig aus dem dynamischen Bereich vergibt.
+> Einen hohen, dynamischen Port (IANA-Bereich ab 49152; je nach Betriebssystem auch ab 32768, z. B. Linux), weil das OS Quell-Ports kurzfristig aus diesem Bereich vergibt.
 
 > [!question]- Sind Port 53/TCP und Port 53/UDP derselbe Port?
 > Nein. TCP und UDP haben getrennte Nummernräume. Port 53/TCP und Port 53/UDP sind unterschiedliche Endpunkte.

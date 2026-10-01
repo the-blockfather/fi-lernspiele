@@ -41,9 +41,9 @@ Bei serieller Übertragung läuft ein Bit nach dem anderen über die Leitung –
 
 ## Beispiel: Bitstrom am Leitungseingang (Hex & Binär)
 
-1. Präambel (7 Byte): 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA
+1. Präambel (7 Byte): 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA 0xAA (Hex in Bit-Reihenfolge auf der Leitung, MSB-first; in der IEEE-Schreibweise, LSB-first, steht dafür 0x55)
 2.    → Binär: 10101010 10101010 10101010 10101010 10101010 10101010 10101010
-3. SFD (1 Byte): 0xD5
+3. SFD (1 Byte): 0xAB (in der IEEE-Schreibweise, LSB-first, als 0xD5 notiert)
 4.    → Binär: 10101011  ← hier bricht das Muster: …10 **11**
 5. Darauf folgt sofort: Ziel-MAC (6 Byte), z. B. 00:1A:2B:3C:4D:5E
 
@@ -51,16 +51,16 @@ Bei serieller Übertragung läuft ein Bit nach dem anderen über die Leitung –
 
 ## 💡 Merksätze
 
-> 💡 Sieben Mal ‚10‘, dann ‚11‘ – der Frame beginnt hier.
+> 💡 Sieben Byte ‚10101010‘, dann ‚10101011‘ – der Frame beginnt hier.
 
 > 💡 Präambel taktet, SFD startet.
 
-> 💡 SFD = 0xD5 = 10101011 – die zwei Einsen am Ende sind das Startsignal.
+> 💡 SFD = 10101011 (= 0xAB, in IEEE-Schreibweise 0xD5) – die zwei Einsen am Ende sind das Startsignal.
 
 ## Prüfungsfallen
 
 - Verwechslung: Präambel-Muster (endet mit 0) vs. SFD-Muster (endet mit 11). Richtig: SFD endet auf **11**.
-- Verwechslung: SFD gehört nicht zum Header (MAC/Typ), sondern zur **Synchronisation** (Layer 1/2 Übergang).
+- Verwechslung: SFD gehört nicht zum Header (MAC/Typ), sondern zur **Synchronisation** (Layer 1/2 Übergang). Buch S. 307/342: Präambel + SFD (zusammen 8 Byte) stehen als erstes Feld in der Frame-Tabelle; nach Norm (IEEE 802.3) gehören sie zur Bitübertragung, der MAC-Frame beginnt erst bei der Ziel-MAC.
 - Annahme: SFD sei 10101010. Richtig: **10101011** (letztes Nibble 1011 = 0xB).
 - Verwechslung: Taktung (Layer 1) vs. Flow Control (Layer 2). Taktung ist physikalisch, Flow Control logisch.
 
@@ -73,7 +73,7 @@ Bei serieller Übertragung läuft ein Bit nach dem anderen über die Leitung –
 ## Prüffragen
 
 > [!question]- Welches Bitmuster hat der Start Frame Delimiter (SFD) im Ethernet-Frame?
-> 10101011 (hex 0xD5). Die letzten beiden Bits ‚11‘ brechen das Wechselmuster der Präambel und markieren den Frame-Start.
+> 10101011 (hex 0xAB, in IEEE-Schreibweise LSB-first 0xD5). Die letzten beiden Bits ‚11‘ brechen das Wechselmuster der Präambel und markieren den Frame-Start.
 
 > [!question]- Warum braucht Ethernet eine Präambel vor dem eigentlichen Frame?
 > Weil seriell ohne separate Taktleitung übertragen wird. Die Präambel (56 Bit 1010…) liefert die Flanken, damit der Empfänger seinen Takt (PLL) auf die Sender-Frequenz einschwingen kann.

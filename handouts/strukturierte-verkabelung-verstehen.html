@@ -21,18 +21,18 @@ Die strukturierte Verkabelung ist ein passives, hierarchisches Kabelsystem für 
 Eine strukturierte Verkabelung verbindet Gebäude, Etagen und Arbeitsplätze nach einem festen Plan. Sie besteht nur aus Kabeln, Dosen und Patchfeldern – also passiven Teilen. Aktive Geräte wie Switches oder Router gehören nicht dazu, sie werden später in den Schrank gesteckt. Das System ist in drei Ebenen gegliedert: Primär (zwischen Gebäuden), Sekundär (zwischen Etagen) und Tertiär (zur Dose). So kann man jeden Anschluss flexibel nutzen, ohne Wände aufzubrechen.
 
 > [!example] Alltagsvergleich
-> Stell dir das wie das Stromnetz im Haus vor: Die festen Kabel in der Wand (Verkabelung) enden im Sicherungskasten (Patchfeld). Welches Gerät (Switch/Router) du an die Steckdose (Dose) anschließt, entscheidest du später per Stecker (Patchkabel). Ziehst du um, steckst du nur den Stecker um – die Kabel in der Wand bleiben.
+> Stell dir das wie das Stromnetz im Haus vor: Die festen Kabel in der Wand (Verkabelung) enden einerseits an der Anschlussleiste im Schrank (Patchfeld) und andererseits an den Steckdosen in den Räumen (Dosen). Das Endgerät steckst du an die Dose. Welche Dose mit welchem Switch-Port (aktive Technik im Schrank) verbunden ist, entscheidest du später per kurzem Stecker-Kabel (Patchkabel) am Patchfeld. Ziehst du um, steckst du nur dieses Kabel um – die Kabel in der Wand bleiben.
 
 ## Kernpunkte
 
-1. Drei **Ebenen**: **Primärverkabelung** (Standort- zu Gebäudeverteiler, meist **LWL**), **Sekundärverkabelung** (Gebäude- zu Etagenverteiler, LWL/Kupfer), **Tertiärverkabelung** (Etagenverteiler zu **Anschlussdose**, meist Kupfer).
+1. Drei **Ebenen**: **Primärverkabelung** (Standort- zu Gebäudeverteiler, meist **LWL**; auch Flächenverkabelung), **Sekundärverkabelung** (Gebäude- zu Etagenverteiler, LWL/Kupfer; auch Vertikalverkabelung/Steigleitungsbereich), **Tertiärverkabelung** (Etagenverteiler zu **Anschlussdose**, meist Kupfer; auch Horizontalverkabelung). Buch S. 312.
 2. Topologie: Ein **erweiterter Stern** über drei Ebenen. Mit **Querverbindungen** (Reserveleitungen zwischen Verteilern) wird daraus eine **unvollständige Masche** für Ausfallsicherheit.
 3. **Passiv vs. Aktiv**: Zur Verkabelung gehören nur Kabel, Dosen, Patchfelder. **Switches** und **Router** sind aktive Komponenten, sie sitzen im 19-Zoll-Schrank und werden bei Bedarf getauscht.
 4. **Permanent Link** (fest: Patchfeld → Dose) maximal **90 m**. **Channel Link** (gesamt: Switch → Endgerät inkl. Patch- und Anschlusskabel) maximal **100 m**.
 5. **Patchfeld** (Patchpanel) ist die passive Anschlussleiste im Schrank. Hinten endet je Buchse eine feste Leitung. Vorne steckst du **Patchkabel** zum **Rangieren** (Verbinden von Switch-Port und Dose).
 6. **19-Zoll-Schrank** (Rack) ist das Standardgehäuse (48,3 cm Breite). Darin sitzen Patchfelder, Switches, Router, Telefonanlage.
 7. **Dokumentation** ist Pflicht: Gebäude (Buchstaben), Stockwerke (ab 0), Verteiler (Nummern), Dosen (beschriftet). Am Verteiler liegt eine **Portliste** (Leitungstyp, Zielraum).
-8. **Sammelpunkt** (Consolidation Point) auf Tertiärebene ist die einzige erlaubte Unterbrechung der festen Strecke (z. B. für flexible Bürozonen).
+8. **Sammelpunkt** (Consolidation Point): Unterverteiler sind nach Norm nicht vorgesehen. Ausnahme: Auf der Tertiärebene darf ein TA als Sammelpunkt dienen, an dem weitere TAs im Raum angeschlossen werden (z. B. Schulungsraum mit vielen Rechnern, Buch S. 313).
 
 ## Vergleich Permanent Link vs. Channel Link
 
@@ -52,7 +52,7 @@ Eine strukturierte Verkabelung verbindet Gebäude, Etagen und Arbeitsplätze nac
 5. Prüfung: 93 m ≤ 100 m → Channel Link ist zulässig.
 6. Prüfung Permanent Link: 85 m ≤ 90 m → Permanent Link ist zulässig.
 
-**Ergebnis:** Beide Links sind innerhalb der Norm. Wäre das Verlegekabel 92 m lang, wäre der Permanent Link ungültig (> 90 m), auch wenn der Channel Link theoretisch noch < 100 m wäre.
+**Ergebnis:** Beide Links sind innerhalb der Norm. Wäre das Verlegekabel 92 m lang, wäre der Permanent Link ungültig (> 90 m), auch wenn der Channel Link mit 92 m + 3 m + 5 m = 100 m (≤ 100 m) noch zulässig wäre.
 
 ## 💡 Merksätze
 
@@ -60,7 +60,7 @@ Eine strukturierte Verkabelung verbindet Gebäude, Etagen und Arbeitsplätze nac
 
 > 💡 Permanent 90 Meter, Channel 100 Meter – die 10 Meter Differenz sind die Patchkabel.
 
-> 💡 Drei Ebenen: Primär (LWL), Sekundär (LWL/Kupfer), Tertiär (Kupfer).
+> 💡 Drei Ebenen: Primär (meist LWL), Sekundär (LWL/Kupfer), Tertiär (meist Kupfer).
 
 > 💡 Rangieren heißt: Patchkabel umstecken, Festverkabelung bleibt.
 
@@ -97,10 +97,10 @@ Eine strukturierte Verkabelung verbindet Gebäude, Etagen und Arbeitsplätze nac
 > Primärverkabelung (Standort- zu Gebäudeverteiler, bevorzugt Lichtwellenleiter), Sekundärverkabelung (Gebäude- zu Etagenverteiler, LWL oder Kupfer), Tertiärverkabelung (Etagenverteiler zu Anschlussdose, meist Kupfer).
 
 > [!question]- Was versteht man unter 'rangieren' im Verteilerschrank?
-> Rangieren (Patchen) ist das Verbinden eines Switch-Ports mit einer Buchse des Patchfelds über ein Patchkabel. Damit wird ein aktiver Port fest mit einer bestimmten Netzwerkdose verknüpft.
+> Rangieren (Patchen) ist das Verbinden eines Switch-Ports mit einer Buchse des Patchfelds über ein Patchkabel. Damit wird ein aktiver Port mit einer bestimmten Netzwerkdose verbunden.
 
 > [!question]- Ein Verlegekabel ist 92 m lang. Ist der Permanent Link zulässig? Begründe.
-> Nein. Der Permanent Link darf maximal 90 m lang sein. 92 m überschreiten das Limit, auch wenn der Channel Link durch kurze Patchkabel theoretisch unter 100 m bliebe.
+> Nein. Der Permanent Link darf maximal 90 m lang sein. 92 m überschreiten das Limit, auch wenn der Channel Link durch kurze Patchkabel noch innerhalb von 100 m bliebe.
 
 ## Ergänzungen
 </script>

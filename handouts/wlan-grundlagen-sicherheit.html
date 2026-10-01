@@ -18,7 +18,7 @@ WLAN verbindet Geräte kabellos über die Frequenzbänder 2,4 GHz, 5 GHz und 6 G
 
 ## Worum geht's
 
-WLAN (Wireless Local Area Network) ermöglicht mobilen Geräten den Netzzugriff ohne Kabel über Funkwellen. Ein Access Point (AP) stellt die Verbindung zum kabelgebundenen Netz her. Die Frequenzbänder 2,4 GHz (große Reichweite, viele Störungen), 5 GHz (höhere Geschwindigkeit, weniger Reichweite) und 6 GHz (neu, viel Platz, wenig Störung) sind in Kanäle unterteilt. Da sich Kanäle im 2,4-GHz-Band überlappen, stören sich benachbarte Netze gegenseitig. Moderne Access Points wählen den Kanal automatisch nach aktueller Auslastung der Nachbarn. Zur Absicherung ist Verschlüsselung Pflicht: WPA2 oder WPA3. Die Anmeldung erfolgt per PSK (gemeinsames Passwort) für kleine Netze oder per RADIUS/802.1X (individuelle Zugangsdaten) im Unternehmen.
+WLAN (Wireless Local Area Network) ermöglicht mobilen Geräten den Netzzugriff ohne Kabel über Funkwellen. Ein Access Point (AP) stellt die Verbindung zum kabelgebundenen Netz her. Die Frequenzbänder 2,4 GHz (große Reichweite, viele Störungen), 5 GHz (höhere Geschwindigkeit, weniger Reichweite) und 6 GHz (neu, viel Platz, wenig Störung) sind in Kanäle unterteilt. Da sich Kanäle im 2,4-GHz-Band überlappen, stören sich benachbarte Netze gegenseitig. Moderne Access Points wählen den Kanal automatisch nach aktueller Auslastung der Nachbarn. Zur Absicherung muss das WLAN verschlüsselt und der Zugang geregelt sein (Buch S. 375): WPA2 oder WPA3. Die Anmeldung erfolgt per PSK (gemeinsames Passwort) für kleine Netze oder per RADIUS/802.1X (individuelle Zugangsdaten) im Unternehmen.
 
 > [!example] Alltagsvergleich
 > Stell dir WLAN wie ein Gespräch in einem vollen Restaurant vor. Das 2,4-GHz-Band ist ein kleiner Raum, in dem sich alle Tische (Kanäle) überschneiden – man hört ständig die Nachbarn. 5 GHz und 6 GHz sind größere Säle mit mehr Abstand zwischen den Tischen. Die automatische Kanalwahl ist wie ein Kellner, der dich an den ruhigsten freien Tisch setzt, statt dass du dich selbst in den Lärm setzt.
@@ -26,9 +26,9 @@ WLAN (Wireless Local Area Network) ermöglicht mobilen Geräten den Netzzugriff 
 ## Kernpunkte
 
 1. **Frequenzbänder**: 2,4 GHz (Reichweite, durchdringt Wände, nur 3 nicht-überlappende Kanäle), 5 GHz (Geschwindigkeit, mehr Kanäle, weniger Reichweite), 6 GHz (Wi-Fi 6E/7, sehr viele Kanäle, wenig Störung, kurze Reichweite).
-2. **Kanäle & Überlappung**: Im 2,4-GHz-Band überlappen sich benachbarte Kanäle (z. B. 1, 6, 11 sind non-overlapping). Überlappung = Störung = geringere Geschwindigkeit. Automatische Kanalwahl (Auto-Channel) scannt die Umgebung und wählt den am wenigsten belegten Kanal.
-3. **Verschlüsselung**: Offenes WLAN ist verboten. Standard ist **WPA2** (AES-CCMP) oder besser **WPA3** (SAE, stärkere Verschlüsselung). WEP und altes WPA sind unsicher.
-4. **Anmeldeverfahren**: **PSK** (Pre-Shared Key) = ein Passwort für alle (Heimnetz, Kleinbetrieb). **RADIUS** (AAA) + **802.1X** = zentrale Anmeldung mit persönlichen Zugangsdaten (Unternehmen). **WPS** (Tastendruck) nur für Geräte ohne Tastatur, PIN-Verfahren unsicher -> ausschalten.
+2. **Kanäle & Überlappung**: Im 2,4-GHz-Band überlappen sich benachbarte Kanäle (z. B. 1, 6, 11 sind non-overlapping). Überlappung = Störung = geringere Geschwindigkeit. Buch S. 375: Beide Bänder sind in „sich überlappende“ Kanäle eingeteilt; fachlich: 20-MHz-Kanäle im 5-GHz-Band überlappen sich nicht. Automatische Kanalwahl (Auto-Channel) scannt die Umgebung und wählt den am wenigsten belegten Kanal.
+3. **Verschlüsselung**: Ein WLAN darf nicht offen betrieben werden (Buch S. 375: „Funknetze dürfen nicht offen sein!“ – Sicherheitsgrundsatz, kein gesetzliches Verbot). Aktuell werden **WPA2** (AES-CCMP) und **WPA3** verwendet (Buch S. 376). WPA3-Personal nutzt SAE statt des PSK-Handshakes (Schutz vor Offline-Wörterbuchangriffen); die Verschlüsselung bleibt AES. WEP und altes WPA sind unsicher.
+4. **Anmeldeverfahren**: **PSK** (Pre-Shared Key) = ein Passwort für alle (Heimnetz, Kleinbetrieb). **RADIUS** (AAA) + **802.1X** = zentrale Anmeldung mit persönlichen Zugangsdaten (Unternehmen). **WPS** (Tastendruck, Buch S. 376) ist bequem, das PIN-Verfahren ist unsicher; WPS bei Nichtgebrauch ausschalten.
 5. **SoHo-Router**: Kombigerät für Small Office/Home Office. Enthält Router, Switch, **Access Point**, DHCP-Server, oft Telefonie/VPN. Erstellt lokales WLAN und verbindet es mit dem Internet (WAN).
 6. **RADIUS / AAA**: Remote Authentication Dial-In User Service. Zentrale Authentifizierung (Wer bist du?), Autorisierung (Was darfst du?), Accounting (Was hast du genutzt?). Trennt Anmeldung von Berechtigung.
 
@@ -36,9 +36,9 @@ WLAN (Wireless Local Area Network) ermöglicht mobilen Geräten den Netzzugriff 
 
 | Band | Nicht-überlappende Kanäle | Reichweite | Max. Datendurchsatz (theoretisch) | Typische Störungen |
 |---|---|---|---|---|
-| 2,4 GHz | 3 (Kanal 1, 6, 11) | Hoch (Wände gut) | ~600 Mbit/s (Wi-Fi 4) | Sehr hoch (Bluetooth, Mikrowelle, Nachbarn) |
-| 5 GHz | ~19-24 (je nach Land) | Mittel | ~6,9 Gbit/s (Wi-Fi 5/6) | Gering (weniger Geräte, DFS/Radar beachten) |
-| 6 GHz (Wi-Fi 6E/7) | ~59 (80 MHz Kanäle) | Geringer (Wände schlecht) | ~30+ Gbit/s (Wi-Fi 7) | Sehr gering (neu, exklusiv für WLAN) |
+| 2,4 GHz | 3 (Kanal 1, 6, 11) | Hoch (Wände gut) | Wi-Fi 4: Buch S. 320: 150 Mbit/s; fachlich theoretisch bis 600 Mbit/s | Sehr hoch (Bluetooth, Mikrowelle, Nachbarn) |
+| 5 GHz | ~19-24 (je nach Land) | Mittel | Wi-Fi 5: ~6,9 Gbit/s (Buch S. 320); Wi-Fi 6: theoretisch bis ~9,6 Gbit/s | Gering (weniger Geräte, DFS/Radar in Teilbereichen beachten) |
+| 6 GHz (Wi-Fi 6E/7) | DE/EU: 24 (20 MHz) bzw. 6 (80 MHz); USA: 59 (20 MHz) | Geringer (Wände schlecht) | Wi-Fi 7: Buch S. 320: 46 Gbit/s (theoretisch), real deutlich weniger | Sehr gering (neu; in der EU nur unteres Band 5945–6425 MHz, mit anderen Diensten geteilt) |
 
 ## Beispiel: Automatische Kanalwahl beim Access Point
 
@@ -46,7 +46,7 @@ WLAN (Wireless Local Area Network) ermöglicht mobilen Geräten den Netzzugriff 
 2. 2. Er misst Signalstärke und Belegung aller Kanäle im gewählten Band (z. B. 2,4 GHz).
 3. 3. Er erkennt: Kanal 1 stark belegt (Nachbar links), Kanal 6 mittel (Nachbar rechts), Kanal 11 schwach belegt.
 4. 4. Algorithmus wählt Kanal 11 (geringste Überlappung/Interferenz).
-5. 5. AP funkt auf Kanal 11. Bei starker Änderung (neuer Nachbar) wechselt er später automatisch (meist nachts oder bei geringer Last).
+5. 5. AP funkt auf Kanal 11. Bei starker Änderung (neuer Nachbar) wechselt er später automatisch.
 
 **Ergebnis:** Das eigene WLAN nutzt den saubersten Kanal ohne manuelles Eingreifen. Manuelle Fixierung auf Kanal 1 wäre hier schlechter gewesen.
 
@@ -56,7 +56,7 @@ WLAN (Wireless Local Area Network) ermöglicht mobilen Geräten den Netzzugriff 
 
 > 💡 Auto-Kanal = AP sucht ruhigste Frequenz selbst.
 
-> 💡 WPA3 ist Pflicht, WPA2 Minimum, WEP ist Müll.
+> 💡 WPA3 ist der aktuelle Standard, WPA2 noch akzeptabel, WEP und altes WPA sind unsicher.
 
 > 💡 PSK = ein Schlüssel für alle, RADIUS = eigener Schlüssel pro Nutzer.
 
@@ -65,21 +65,21 @@ WLAN (Wireless Local Area Network) ermöglicht mobilen Geräten den Netzzugriff 
 ## Prüfungsfallen
 
 - Verwechslung: PSK vs. WPA. Richtig: PSK ist Authentifizierungsmethode (Passwort), WPA ist Verschlüsselungsprotokoll. WPA nutzt PSK oder RADIUS.
-- Verwechslung: 2,4 GHz Kanäle. Richtig: Nur Kanal 1, 6, 11 überlappen sich nicht in Europa. Kanal 13 existiert, aber überlappt mit 11.
+- Verwechslung: 2,4 GHz Kanäle. Richtig: Typisch sind Kanal 1, 6, 11 (20 MHz, 3 überlappungsfreie Kanäle); in Europa ist alternativ 1/5/9/13 möglich. Kanal 13 existiert, überlappt aber mit 11.
 - Verwechslung: RADIUS vs. Active Directory. Richtig: RADIUS ist AAA-Protokoll (Auth/Autz/Acc), AD ist Verzeichnisdienst (User/Group/Policy). RADIUS fragt oft AD ab.
 - Verwechslung: WPS Sicherheit. Richtig: WPS per Taster (PBC) ist okay, WPS per PIN ist bruteforce-angreifbar -> deaktivieren.
 - Verwechslung: SoHo-Router vs. Router. Richtig: SoHo-Router = Router + Switch + AP + DHCP + Firewall + mehr. Reiner Router routet nur zwischen Netzen.
 
 ## Im Buch
 
-- WLAN: S. 320
+- WLAN: S. 320 (Standards); Anmeldeverfahren, WPA, RADIUS, Kanalwahl: S. 355, S. 364, S. 375–S. 376
 
 *Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
 
 ## Prüffragen
 
 > [!question]- Nenne die drei Hauptfrequenzbänder für WLAN und je ein Merkmal.
-> 2,4 GHz (große Reichweite, 3 nicht-überlappende Kanäle, stark gestört), 5 GHz (höhere Bandbreite, viele Kanäle, DFS-Pflicht bei Radar), 6 GHz (Wi-Fi 6E/7, sehr viele breite Kanäle, wenig Störung, kurze Reichweite).
+> 2,4 GHz (große Reichweite, 3 nicht-überlappende Kanäle, stark gestört), 5 GHz (höhere Bandbreite, viele Kanäle, DFS zur Radarerkennung in Teilen des Bands, in der EU Kanäle 52–64 und 100–140), 6 GHz (Wi-Fi 6E/7, sehr viele breite Kanäle, wenig Störung, kurze Reichweite).
 
 > [!question]- Warum sollte man die Kanalwahl dem Access Point überlassen (Auto-Channel)?
 > Weil sich die Belegung durch Nachbar-WLANs ständig ändert. Der AP scannt die Umgebung kontinuierlich und wählt den Kanal mit der geringsten Interferenz (Co-Channel/Adjacent-Channel), was manuell kaum optimal zu halten ist.

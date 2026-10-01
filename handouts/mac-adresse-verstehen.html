@@ -25,9 +25,9 @@ Jede Netzwerk-Schnittstelle (LAN-Port, WLAN-Chip) hat eine weltweit einmalige MA
 
 ## Kernpunkte
 
-1. Die **MAC-Adresse** (Media Access Control) ist eine **48-Bit-Hardware-Adresse** (6 Byte, z. B. 24:65:11:AB:CD:EF), fest in das Netzwerk-Interface eingebrannt.
+1. Die **MAC-Adresse** (Media Access Control) ist eine **48-Bit-Hardware-Adresse** (6 Byte, z. B. 24:65:11:AB:CD:EF), werkseitig in das Netzwerk-Interface eingebrannt (Buch S. 331: Bit 0 des ersten Oktetts = Unicast/Multicast, Bit 1 = global eindeutig/lokal vergeben; die Broadcast-MAC lautet ff-ff-ff-ff-ff-ff; per Software kann die MAC auch lokal geändert werden).
 2. Die **ersten 3 Byte (OUI)** identifizieren den **Hersteller** (z. B. AVM, Intel), die **letzten 3 Byte** das konkrete **Gerät**.
-3. Ein **Switch** baut eine **Forwarding-Tabelle** (MAC-Adresse ↔ Port) auf und leitet Frames **gezielt nur an den richtigen Port** weiter – ein **Hub** kennt keine Adressen und flutet alle Ports.
+3. Ein **Switch** baut eine **Forwarding-Tabelle** (MAC-Adresse ↔ Port) auf und leitet Frames bei bekannter Ziel-MAC **gezielt nur an den richtigen Port** weiter (Broadcast und unbekannte Ziele gehen an alle Ports) – ein **Hub** kennt keine Adressen und flutet alle Ports.
 4. **MAC-Adresse ≠ IP-Adresse**: MAC = Schicht 2, hardwarefest, lokal im LAN. IP = Schicht 3, logisch, vom Netzwerk vergeben, auch über Router hinweg gültig.
 5. Zum Bauen eines **Ethernet-Frames** braucht der Sender die **Ziel-MAC**. Liegt sie nicht vor, fragt **ARP** per Broadcast: „Wer hat IP X?“. Die Antwort liefert die MAC.
 6. Im **Ethernet-Frame** stehen **Ziel-MAC (6 Byte)** und **Quell-MAC (6 Byte)** ganz vorne im Header – direkt nach Präambel und SFD.
@@ -39,15 +39,15 @@ Jede Netzwerk-Schnittstelle (LAN-Port, WLAN-Chip) hat eine weltweit einmalige MA
 |---|---|---|
 | OSI-Schicht | Schicht 2 (Sicherung) | Schicht 3 (Vermittlung) |
 | Vergabe | Hersteller (fest) | Netzwerk / DHCP (änderbar) |
-| Gültigkeit | Nur im lokalen LAN | Netzwerk- und internetweit |
+| Gültigkeit | Nur im lokalen LAN | Öffentliche IPs weltweit, private nur lokal |
 | Format | 48 Bit (6 Byte, Hex) | IPv4: 32 Bit, IPv6: 128 Bit |
 | Auflösung | ARP (IP → MAC) | DNS (Name → IP) |
 
 ## Beispiel: MAC-Adresse im Ethernet-Frame erkennen
 
-1. Ein Frame wird erfasst: Ziel-MAC = 00:1A:2B:3C:4D:5E, Quell-MAC = 11:22:33:44:55:66, Typ = 0x0800 (IPv4).
+1. Ein Frame wird erfasst: Ziel-MAC = 00:1A:2B:3C:4D:5E, Quell-MAC = 00:1B:44:11:3A:B7, Typ = 0x0800 (IPv4).
 2. Die ersten 6 Byte nach Präambel+SFD sind die Ziel-MAC: 00:1A:2B:3C:4D:5E.
-3. Die nächsten 6 Byte sind die Quell-MAC: 11:22:33:44:55:66.
+3. Die nächsten 6 Byte sind die Quell-MAC: 00:1B:44:11:3A:B7.
 4. Das Typ-Feld (2 Byte) 0x0800 zeigt: Nutzdaten enthalten ein IPv4-Paket.
 5. Der Switch liest die Ziel-MAC, schaut in seiner Tabelle nach dem Port und leitet nur dorthin weiter.
 
@@ -79,6 +79,7 @@ Jede Netzwerk-Schnittstelle (LAN-Port, WLAN-Chip) hat eine weltweit einmalige MA
 - Hub: S. 340
 - ARP: S. 326
 - Ethernet-Frame: S. 306
+- MAC-Adressen (Aufbau, OUI, Unicast/Multicast-Bit): S. 331
 
 *Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
 

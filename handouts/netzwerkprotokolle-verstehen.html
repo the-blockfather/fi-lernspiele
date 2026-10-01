@@ -26,13 +26,13 @@ In einem Netzwerk müssen sich alle Geräte auf gemeinsame Sprachen einigen. Die
 ## Kernpunkte
 
 1. **Protokoll**: Einheitliches Regelwerk für Format, Bedeutung und Ablauf der Kommunikation zwischen Geräten.
-2. **TCP/IP-Modell (4 Schichten)**: 1. Netzzugang (Ethernet, WLAN) – physikalische Übertragung im LAN. 2. Internet (IP) – Adressierung & Routing paketweise, verbindungslos. 3. Transport (TCP, UDP) – Ende-zu-Ende-Verbindung zu Anwendungen über **Ports**. 4. Anwendung (HTTP, DNS, DHCP, SMTP) – Nutzdaten der Programme.
-3. **Kapselung**: Daten wandern von Schicht 4 nach 1. Jede Schicht fügt einen **Header** (Kopf) hinzu. Ethernet nennt das Ergebnis **Frame**, IP **Paket**, TCP **Segment**, UDP **Datagramm**.
-4. **Ethernet (Schicht 2)**: Regelt **MAC-Adresse** (48 Bit, Hardware-Adresse), Frame-Aufbau (Ziel-MAC, Quell-MAC, Typ-Feld z. B. 0x0800 für IPv4, Prüfsumme FCS). MTU = 1500 Byte Nutzdaten.
-5. **IP (Schicht 3)**: Vergeben logische **IP-Adressen** (IPv4: 32 Bit, IPv6: 128 Bit). Routet Pakete netzwerkübergreifend. Unzuverlässig (keine Quittung).
-6. **TCP (Schicht 4)**: Verbindungsorientiert (3-Wege-Handshake), zuverlässig (Quittung, Wiederholung, Reihenfolge), Fluss- & Staukontrolle. Hoher Overhead. Typisch: Web (Port 80/443), Mail, SSH.
-7. **UDP (Schicht 4)**: Verbindungslos, unzuverlässig, kein Overhead, schnell. Unterstützt Multicast. Typisch: DNS (Port 53), DHCP (Port 67/68), VoIP, Streaming, Gaming.
-8. **DHCP vs. DNS**: **DHCP** (Dynamic Host Configuration Protocol) vergibt **automatisch IP-Adresse, Subnetzmaske, Gateway, DNS-Server** an Clients (UDP Port 67/68). **DNS** (Domain Name System) löst **Namen (www.example.com) in IP-Adressen auf** (UDP/TCP Port 53).
+2. **TCP/IP-Modell (4 Schichten)**: 1. Netzzugang (Ethernet, WLAN) – physikalische Übertragung im LAN. 2. Internet (IP) – Adressierung & Routing paketweise, verbindungslos. 3. Transport (TCP, UDP) – Ende-zu-Ende-Verbindung zu Anwendungen über **Ports**. 4. Anwendung (HTTP, DNS, DHCP, SMTP) – Nutzdaten der Programme. (Diese Nummern zählen nur im TCP/IP-Modell. OSI-Entsprechung: Netzzugang = OSI 1+2, Internet = OSI 3, Transport = OSI 4, Anwendung = OSI 5–7; Buch S. 322.)
+3. **Kapselung**: Daten wandern von der Anwendungsschicht nach unten zum Netzzugang (TCP/IP-Schicht 4 nach 1). Jede Schicht fügt einen **Header** (Kopf) hinzu. Ethernet nennt das Ergebnis **Frame**, IP **Paket**, TCP **Segment**, UDP **Datagramm**.
+4. **Ethernet (OSI-Schicht 2)**: Regelt **MAC-Adresse** (48 Bit, Hardware-Adresse), Frame-Aufbau (Ziel-MAC, Quell-MAC, Typ-Feld z. B. 0x0800 für IPv4, Prüfsumme FCS). MTU = 1500 Byte Nutzdaten.
+5. **IP (OSI-Schicht 3)**: Vergeben logische **IP-Adressen** (IPv4: 32 Bit, IPv6: 128 Bit). Routet Pakete netzwerkübergreifend. Unzuverlässig (keine Quittung).
+6. **TCP (OSI-Schicht 4)**: Verbindungsorientiert (3-Wege-Handshake), zuverlässig (Quittung, Wiederholung, Reihenfolge), Fluss- & Staukontrolle. Hoher Overhead. Typisch: Web (Port 80/443), Mail, SSH.
+7. **UDP (OSI-Schicht 4)**: Verbindungslos, unzuverlässig, geringer Overhead (8-Byte-Header), schnell. Unterstützt Multicast. Typisch: DNS (Port 53), DHCP (Port 67/68), VoIP, Streaming, Gaming.
+8. **DHCP vs. DNS**: **DHCP** (Dynamic Host Configuration Protocol) vergibt **automatisch IP-Adresse, Subnetzmaske, Gateway, DNS-Server** an Clients (UDP Port 67/68). **DNS** (Domain Name System) löst **Namen (www.example.com) in IP-Adressen auf** (UDP/TCP Port 53). Buch S. 326 ordnet DHCP Schicht 3 (DNS Schicht 3/7) zu; fachlich: beide gehören zur Anwendungsschicht.
 9. **Socket**: Kombination aus **IP-Adresse + Portnummer** (z. B. 192.168.1.5:443). Identifiziert eindeutig einen Kommunikationsendpunkt (Prozess) auf einem Host.
 
 ## Vergleich TCP vs. UDP (Transportschicht)
@@ -51,9 +51,9 @@ In einem Netzwerk müssen sich alle Geräte auf gemeinsame Sprachen einigen. Die
 1. 1. Discover: Client sendet Broadcast (UDP Port 67) – 'Ich brauche eine IP!'
 2. 2. Offer: DHCP-Server antwortet (UDP Port 68) – 'Hier ist ein Angebot (IP, Maske, Gateway, Lease-Zeit).'
 3. 3. Request: Client fordert offiziell an (Broadcast) – 'Ich nehme das Angebot.'
-4. 4. Acknowledge: Server bestätigt (Unicast) – 'IP ist dir zugewiesen.' Client konfiguriert Interface.
+4. 4. Acknowledge: Server bestätigt (oft per Unicast) – 'IP ist dir zugewiesen.' Client konfiguriert Interface.
 
-**Ergebnis:** Client hat nun vollständige Netzwerkkonfiguration ohne manuelles Eingreifen. Lease-Zeit läuft, danach Verlängerung nötig.
+**Ergebnis:** Client hat nun vollständige Netzwerkkonfiguration ohne manuelles Eingreifen. Nach der Hälfte der Lease-Zeit versucht der Client, die Adresse zu verlängern (Buch S. 360).
 
 ## 💡 Merksätze
 
@@ -73,7 +73,7 @@ In einem Netzwerk müssen sich alle Geräte auf gemeinsame Sprachen einigen. Die
 - Verwechslung: TCP vs. IP. Richtig: IP ist verbindungslos und unzuverlässig (Routing). TCP baut darauf auf und sichert die Übertragung (Transport).
 - Verwechslung: MAC-Adresse vs. IP-Adresse. Richtig: MAC (Layer 2) für lokale Zustellung im LAN, IP (Layer 3) für netzwerkübergreifendes Routing.
 - Verwechslung: Port vs. Socket. Richtig: Port ist die Nummer (16 Bit), Socket ist die Kombination IP:Port (Endpunkt).
-- Verwechslung: Frame vs. Paket vs. Segment. Richtig: Ethernet=Frame (L2), IP=Paket (L3), TCP=Segment (L4), UDP=Datagramm (L4).
+- Verwechslung: Frame vs. Paket vs. Segment. Richtig: Ethernet=Frame (OSI-Schicht 2), IP=Paket (OSI-Schicht 3), TCP=Segment (OSI-Schicht 4), UDP=Datagramm (OSI-Schicht 4).
 
 ## Im Buch
 
@@ -81,6 +81,7 @@ In einem Netzwerk müssen sich alle Geräte auf gemeinsame Sprachen einigen. Die
 - Ethernet-Frame: S. 306
 - TCP: S. 308
 - UDP: S. 308
+- Protokolltabellen: S. 325–326; DHCP-Ablauf und Lease: S. 360
 
 *Seiten aus dem Stichwortverzeichnis (automatisch zugeordnet).*
 
