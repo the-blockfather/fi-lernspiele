@@ -71,17 +71,6 @@ IP-Adresse = Haus, Port = Wohnung, Anwendung = Bewohner. `192.168.1.10:443` → 
 
 Wer soll es bekommen? (Ziel-MAC) → Wer sendet es? (Quell-MAC) → Was ist drin? (Typ-Feld) → Die Daten (Nutzlast) → Fehlerkontrolle (FCS)
 
-### Ausblick: was kommt laut Copilot als Nächstes?
-
-Switch → VLAN → Routing → **Subnetting** → DHCP → DNS → NAT → IPv6
-
-> [!warning] Nicht 1:1 mit dem Lehrplan geprüft
-> Das ist Copilots Einschätzung des typischen Ablaufs, keine offizielle Reihenfolge eurer Umschulung. Laut Buch-Inhaltsverzeichnis kommt nach 3.3 (Ethernet/TCP-IP) tatsächlich 3.4 mit Medien, Schichtenmodellen, Adressen und Netzwerkkomponenten — **Subnetting** ist Teil von 3.4.5 (ab Buch S. 330) und laut Lernstand „stark prüfungsrelevant". Die Grundrichtung von Copilots Einschätzung passt also.
-
-## Bezug zum Buch / zu Begriffsnotizen
-
-Die OSI-Schichtinhalte sind 1:1 mit Buch S. 321–325 abgeglichen (Kapitel 3.4.4 „Schichtenmodelle der Kommunikation unterscheiden"). Details, vollständige Prüffragen und das TCP/IP-4-Schichten-Modell stehen in OSI-Modell und TCP-IP-Modell. Ethernet-Frame-Details → Ethernet, VLAN/Trunk → VLAN, Router/Layer 3 → Router (Layer-Zuordnung jetzt gegen das Buch bestätigt), vollständige Port-Tabelle und TCP/UDP-Header-Vergleich → Portnummer (TCP-UDP-Ports).
-
 ## Prüffragen
 
 > [!question]- In welcher Reihenfolge durchlaufen Daten beim Senden die Netzwerk-Landkarte (von der Anwendung bis zum Kabel)?
@@ -95,8 +84,6 @@ Die OSI-Schichtinhalte sind 1:1 mit Buch S. 321–325 abgeglichen (Kapitel 3.4.4
 
 > [!question]- Nenne zwei Gründe, warum TCP mehr Overhead als UDP erzeugt.
 > Zum Beispiel: 3-Way-Handshake vor dem eigentlichen Datenaustausch, und Bestätigungen (ACKs) für jedes empfangene Paket (weitere mögliche Gründe: größerer Header, Neuübertragung bei Verlust, Reihenfolgekontrolle).
-
-## Ergänzungen
 </script>
 <script>// lernspiel/fi-quiz/src/md.js - kleiner Markdown-Renderer (ohne Bibliothek) für Handout-Seiten und die Handout-Werkstatt.
 // Kann: Überschriften, Absätze, Listen (auch nummeriert), Tabellen, Zitate/Obsidian-Callouts (> [!typ]- Titel),
