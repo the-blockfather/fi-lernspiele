@@ -254,7 +254,7 @@ body.lp #lpPanel { display: block; grid-column: 2; grid-row: 1 / span 20; positi
 .hud .flamme { color: var(--mid); font-weight: 700; }
 .fortschritt { display: flex; gap: 3px; margin-bottom: 14px; }
 .fortschritt i { flex: 1; height: 6px; border-radius: 3px; background: var(--line); transition: background .3s; }
-.fortschritt i.ok { background: var(--ok); } .fortschritt i.bad { background: var(--bad); } .fortschritt i.mid { background: var(--mid); } .fortschritt i.jetzt { background: var(--c1); }
+.fortschritt i.ok { background: var(--ok); } .fortschritt i.bad { background: var(--bad); } .fortschritt i.mid { background: var(--mid); } .fortschritt i.unk { background: color-mix(in srgb, var(--muted) 55%, transparent); } .fortschritt i.jetzt { background: var(--c1); }
 .zeit { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-bottom: 14px; } .zeit > div { height: 100%; background: var(--grad); transition: width .25s linear; }
 .frage { padding: 22px; animation: auf .35s cubic-bezier(.2,.7,.2,1) both; }
 .frage .kopf { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
@@ -444,6 +444,7 @@ footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 24p
         <h3>Einstellungen</h3>
         <label class="einst">🌐 Übersetzung <select id="sprache" aria-label="Sprache für den Übersetzen-Knopf"><option value="">aus</option><option value="ro">Română</option><option value="tr">Türkçe</option><option value="ru">Русский</option><option value="en">English</option></select></label>
         <label class="einst"><input type="checkbox" id="unwichtig"> Nicht prüfungsrelevante Fragen überspringen</label>
+        <label class="einst" title="Raten lohnt sich dann nicht: falsch kostet Punkte, „Weiß ich nicht“ nie"><input type="checkbox" id="strafe"> Raten kostet Punkte (falsch −3, „Weiß ich nicht“ kostenlos)</label>
         <h3>Feedback</h3>
         <button class="fbknopf" id="fbAllg">💬 Feedback / Idee zum Quiz</button>
       </aside>
@@ -484,6 +485,7 @@ footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 24p
     </aside>
     <div class="aktionen" style="justify-content:space-between">
       <button class="ghost" id="abbrechen">Beenden</button>
+      <button class="ghost" id="weissnicht" title="Ehrlich sagen, dass du es nicht weißt: kein Punktabzug, du siehst die Lösung und die Frage kommt später wieder">🤷 Weiß ich nicht</button>
       <button class="primary hidden" id="weiter">Weiter ↵</button>
     </div>
   </section>
@@ -1334,7 +1336,7 @@ function bauenUi(q, box, kopf) {
     zeigeLoesung(!alleOk);
     abschluss(urteil, punkte, `Musterlösung mit ${q.par} Gatter (siehe unten)`, `${a.kosten} Gatter, ${a.richtig} von ${n} ${istSeq ? "Schritten" : "Zeilen"} richtig${alleOk ? " " + "★".repeat(st) : ""}`);
   };
-  $("bauAuf").onclick = () => { if (ui.fertig) return; zeigeLoesung(true); abschluss("falsch", 0, `Musterlösung mit ${q.par} Gatter (siehe unten)`, "aufgegeben"); };
+  $("bauAuf").onclick = () => { if (ui.fertig) return; zeigeLoesung(true); abschluss("weissnicht", 0, `Musterlösung mit ${q.par} Gatter (siehe unten)`, "weiß ich nicht"); };
   stilKnopfBinden(box, () => { zeichne(); palette(); });
   palette(); aenderung();
 }
@@ -1554,12 +1556,12 @@ function hud() {
   $("hudSerie").innerHTML = S.streak >= 3 ? `<span class="flamme">🔥 ${S.streak} · ×${String(mult()).replace(".", ",")}</span>` : `Serie ${S.streak}`;
   const endlos = S.pack.typ === "generator" || S.zeit || S.pack.typ === "lernpfad";
   $("hudPos").textContent = S.pack.typ === "generator" ? `Stufe ${S.level}` : endlos ? `${S.antworten.length} beantwortet` : `Aufgabe ${Math.min(S.idx + 1, S.queue.length)} / ${S.queue.length}`;
-  if (!endlos) $("fortschritt").innerHTML = S.queue.map((_, i) => { const a = S.antworten[i]; return `<i class="${a ? a.urteil === "richtig" ? "ok" : a.urteil === "teilweise" ? "mid" : "bad" : i === S.idx ? "jetzt" : ""}"></i>`; }).join("");
+  if (!endlos) $("fortschritt").innerHTML = S.queue.map((_, i) => { const a = S.antworten[i]; return `<i class="${a ? a.urteil === "richtig" ? "ok" : a.urteil === "teilweise" ? "mid" : a.urteil === "weissnicht" ? "unk" : "bad" : i === S.idx ? "jetzt" : ""}"></i>`; }).join("");
   else $("fortschritt").innerHTML = "";
 }
 function naechste() {
   if (!S || S.ende) return;
-  $("weiter").classList.add("hidden"); S.locked = false; S.t0 = performance.now();
+  $("weiter").classList.add("hidden"); $("weissnicht").classList.remove("hidden"); S.locked = false; S.t0 = performance.now();
   let q;
   if (S.pack.typ === "generator") { S.level = S.streak >= 8 ? 3 : S.streak >= 4 ? 2 : 1; const g = GENERATORS[S.pack.generator](S.level); q = { ...g, art: g.art || "rechnen", gen: true, paket: S.pack.titel, thema: g.thema }; }
   else if (S.pack.typ === "lernpfad") {                                     // Lernmodus: Frage wird live ausgewählt
@@ -1763,27 +1765,60 @@ function antwortGeschlossen(ok, loesung, gewaehlt, richtigId, eingabe) {
   $(richtigId)?.classList.add("richtig"); if (!ok) $(gewaehlt)?.classList.add("falsch");
   werte(ok ? "richtig" : "falsch", ok ? 10 : 0, loesung, eingabe || "");
 }
-// Zentrale Wertung fuer alle Arten; urteil: richtig | teilweise | falsch, punkte 0..10
+// Zentrale Wertung fuer alle Arten; urteil: richtig | teilweise | falsch | weissnicht (bewusst "weiß ich nicht": keine Punkte, keine Strafe, Serie bleibt), punkte 0..10
 function werte(urteil, punkte, loesung, eingabe, extra) {
   if (!S || S.locked) return;
-  S.locked = true; sperren();
-  const q = S.q, ok = urteil === "richtig";
+  S.locked = true; sperren(); $("weissnicht").classList.add("hidden");
+  const q = S.q, ok = urteil === "richtig", unk = urteil === "weissnicht"; let strafe = 0;
   if (ok) { S.streak++; S.best = Math.max(S.best, S.streak); S.score += Math.round(punkte * mult() * (S.pack.typ === "generator" ? S.level : 1)); }
-  else { S.streak = 0; S.score += Math.round(urteil === "teilweise" ? punkte : 0); }
+  else if (!unk) {
+    S.streak = 0; S.score += Math.round(urteil === "teilweise" ? punkte : 0);
+    if (urteil === "falsch" && strafeAn()) { const vor = S.score; S.score = Math.max(0, S.score - STRAFE); strafe = vor - S.score; }
+  }
   S.antworten[S.idx] = { q, urteil, punkte, loesung: String(loesung ?? ""), eingabe: eingabe || "", ki: extra && extra.ki };
   S.idx++; hud();
   if (S.pack.typ === "lernpfad") lpNachWertung(q, urteil);
-  const titel = ok ? "Richtig!" : urteil === "teilweise" ? "Teilweise richtig" : "Leider falsch";
-  let h = `<div class="titel">${ok ? "✔" : urteil === "teilweise" ? "◐" : "✘"} ${titel}${q.art === "frei" ? ` · ${punkte}/10` : ""}</div>`;
+  const titel = ok ? "Richtig!" : unk ? "Weiß ich nicht – kein Problem" : urteil === "teilweise" ? "Teilweise richtig" : "Leider falsch";
+  let h = `<div class="titel">${ok ? "✔" : unk ? "🤷" : urteil === "teilweise" ? "◐" : "✘"} ${titel}${q.art === "frei" && !unk ? ` · ${punkte}/10` : ""}</div>`;
+  if (unk) h += `<div class="kinfo">Ehrlich zu sein hilft beim Lernen: Du siehst die Lösung, es kostet nichts und die Frage kommt später noch einmal.</div>`;
+  if (strafe) h += `<div class="kinfo">−${strafe} Punkte für die falsche Antwort. Bei „Weiß ich nicht“ wäre es kostenlos gewesen.</div>`;
   if (q.art === "frei") h += kiHtml(extra || {}) + `<details ${ok ? "" : "open"}><summary>Musterlösung</summary>${esc(q.muster || "")}</details>`;
   else if (!ok) h += `<div class="erkl">Lösung: <b class="mono">${esc(loesung)}</b></div>`;
   if (q.erkl) h += `<div class="erkl">${esc(q.erkl)}</div>`;
   h += ok && q.art !== "frei" ? (q.quelle ? `<div class="nach">📖 ${quelleHtml(q.quelle)}</div>` : "") : nachlesenHtml(q, loesung);
-  const fb = $("fb"); fb.className = "fb " + (ok ? "ok" : urteil === "teilweise" ? "mid" : "bad"); fb.innerHTML = h; fb.setAttribute("role", "status");
+  const fb = $("fb"); fb.className = "fb " + (ok ? "ok" : urteil === "teilweise" || unk ? "mid" : "bad"); fb.innerHTML = h; fb.setAttribute("role", "status");
   const w = $("kiWarte"); if (w) w.classList.add("hidden");
   if (ok && S.zeit && q.art !== "frei") setTimeout(() => { if (S && S.locked && !S.ende) naechste(); }, 650);
   else { $("weiter").classList.remove("hidden"); $("weiter").focus({ preventScroll: true }); fb.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
 }
+// „Weiß ich nicht“: Lösungstext je Aufgabenart
+function logikLoesungText(q) {
+  const m = q.modus || "lesen"; if (m === "erkennen") return gatterName(q.gatter);
+  const M = logikModell(q.schaltung), ein = Object.fromEntries(M.ein.map((e) => [e, (q.eingang && q.eingang[e]) || 0]));
+  if (m === "lesen") return String(logikSim(M, ein)[M.aus[0].von]);
+  if (m === "zaehlen") return String(logikTabelle(M).filter((z) => z.aus[0] === 1).length);
+  if (m === "schalten") return logikTabelle(M).filter((z) => z.aus[0] === q.ziel && (!q.fest || Object.keys(q.fest).every((k) => z.ein[k] === q.fest[k]))).map((z) => M.ein.map((e) => `${e}=${z.ein[e]}`).join(" ")).join("  ·  ");
+  if (m === "gattertyp") return Object.entries(q.loesung).map(([k, v]) => `${k}: ${gatterName(v)}`).join(" · ");
+  return logikTabelle(M).map((z) => `${M.ein.map((e) => z.ein[e]).join("")}→${z.aus.join("")}`).join("  ");
+}
+function weissnichtText(q) {
+  switch (q.art) {
+    case "jn": return q.a ? "Ja, stimmt" : "Nein, stimmt nicht";
+    case "mc": return q.optionen[q.richtig];
+    case "rechnen": return String(q.loesung ?? "");
+    case "frei": return q.muster || "";
+    case "zuordnen": return zuordnenLoesung(q);
+    case "reihenfolge": return q.schritte.map((s, i) => `${i + 1}. ${s}`).join(" → ");
+    case "netz": return q.szene.knoten.filter((n) => n[1] === "?").map((n) => `${n[4] || n[0]}: ${[].concat(q.loesung[n[0]]).map(geraetName).join(" / ")}`).join(" · ");
+    case "logik": return logikLoesungText(q);
+    default: return "";
+  }
+}
+$("weissnicht").onclick = () => {
+  if (!S || S.locked || !S.q) return;
+  if (S.q.art === "bauen") { $("bauAuf").click(); return; }                  // zeigt die Musterlösung
+  werte("weissnicht", 0, weissnichtText(S.q), "weiß ich nicht");
+};
 
 /* ======================================================================= Freitext + KI */
 const RE_PII = /[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[A-Za-z]{2,}\b|\b[A-Z]{2}\d{2}(?:\s?[A-Z0-9]{4}){3,7}\b|(?:\+49|0049|\b0)[1-9][\d /-]{6,}\d/;
@@ -1848,7 +1883,8 @@ function selbst(q, antwort, grund) { // Rückfall: Musterlösung zeigen, selbst 
 // Kommentare pflegst du in Obsidian (50_Lernspiele/FI-Quiz-Kommentare.md), build.py baut sie ein.
 // Schlüssel ist die Kennung der Frage (#xxxxxxxx, aus dem Fragetext) - sie bleibt gleich, solange der Text gleich bleibt.
 const KOMM = readJson("kommentare", {});
-const K2 = { ueber: "fi-quiz-sprache-v1", unw: "fi-quiz-unwichtige-v1" };
+const K2 = { ueber: "fi-quiz-sprache-v1", unw: "fi-quiz-unwichtige-v1", strafe: "fi-quiz-strafe-v1" };
+const STRAFE = 3, strafeAn = () => store.get(K2.strafe, false);
 const SPRACHEN = { ro: "Română", tr: "Türkçe", ru: "Русский", en: "English" };
 function qid(q) { // FNV-1a über den normalisierten Fragetext, 8 Hex-Zeichen (gleich wie build.py)
   let h = 0x811c9dc5; const s = String(q.f || "").toLowerCase().replace(/\s+/g, " ").trim();
@@ -2201,7 +2237,7 @@ function lpWaehleFrage(kn, grund) {
   if (!wahl.length) return gen ? lpGeneriere(gen, m) : null;
   if (gen && !wahl.some((q) => q.art === "frei") && Math.random() < .5) return lpGeneriere(gen, m);
   // bevorzugt: früher falsch beantwortet, dann selten gesehen
-  const wert = (q) => { const f = st.fragen[q._id] || { n: 0, r: 0 }; return (f.n - f.r) * 2 - f.n + Math.random(); };
+  const wert = (q) => { const f = st.fragen[q._id] || { n: 0, r: 0 }, x = f.x || 0, w = f.w || 0, teil = Math.max(0, f.n - f.r - x - w); return x * 3 + w * 1.8 + teil * 1.2 - f.r + Math.random(); };   // falsch > weiß nicht > teilweise
   wahl.sort((a, b) => wert(b) - wert(a));
   return wahl[0];
 }
@@ -2289,10 +2325,10 @@ varKnopf();
 
 // ---- Nachfragen planen und stellen
 function lpRetestPlanen(q, urteil) {
-  const L = S.lp; if (urteil !== "falsch" || q._grund === "einstufung") return;
-  const basis = q._basis || q._id || q.kn, versuch = q._retest ? q._retest.versuch + 1 : 1;
-  if (versuch > 2 || L.retest.some((r) => r.basis === basis)) return;
-  const rec = { basis, kn: q.kn, q: { ...q }, due: L.n + 1 + (Math.random() < .5 ? 0 : 1), versuch, fertig: true, variante: null, warte: 0, gen: !!q.gen };   // 1 oder 2 andere Fragen dazwischen
+  const L = S.lp; if ((urteil !== "falsch" && urteil !== "weissnicht") || q._grund === "einstufung") return;
+  const unk = urteil === "weissnicht", basis = q._basis || q._id || q.kn, versuch = q._retest ? q._retest.versuch + 1 : 1;
+  if (versuch > (unk ? 1 : 2) || L.retest.some((r) => r.basis === basis)) return;               // falsch: bis zu 2 Nachfragen, schon nach 1–2 Fragen; weiß ich nicht: 1 Nachfrage, etwas später
+  const rec = { basis, kn: q.kn, q: { ...q }, due: L.n + (unk ? 2 : 1) + (Math.random() < .5 ? 0 : 1), versuch, fertig: true, variante: null, warte: 0, gen: !!q.gen };
   if (!rec.gen && varArtOk(q)) {
     const s = varLesen(), gespeichert = () => { const l = (s.v[basis] || []).filter((v) => qid(v) !== q._id && !L.varGenutzt.has(qid(v))); return l.length ? l[Math.floor(Math.random() * l.length)] : null; };
     if ((s.v[basis] || []).length >= VAR_MAX) rec.variante = gespeichert();
@@ -2303,7 +2339,8 @@ function lpRetestPlanen(q, urteil) {
   }
   L.retest.push(rec);
   if (!L.hinweise.has("retesthinweis")) { L.hinweise.add("retesthinweis");
-    lpCoach("coach", `🔁 Lies dir die Erklärung kurz durch. Ich frage das gleich nach ein, zwei anderen Fragen **in anderen Worten** noch einmal – dann siehst du, ob es jetzt sitzt.`); }
+    lpCoach("coach", unk ? `🤷 „Weiß ich nicht“ ist völlig okay – lies die Erklärung kurz durch, ich frage es nach ein paar Fragen **in anderen Worten** noch einmal.`
+      : `🔁 Lies dir die Erklärung kurz durch. Ich frage das gleich nach ein, zwei anderen Fragen **in anderen Worten** noch einmal – dann siehst du, ob es jetzt sitzt. (Falsch beantwortete Fragen wiederhole ich öfter als „weiß ich nicht“.)`); }
 }
 function lpRetestFaellig() {
   const L = S.lp, i = L.retest.findIndex((r) => L.n >= r.due); if (i < 0) return null;
@@ -2322,16 +2359,16 @@ function lpRetestFaellig() {
 function lpNachWertung(q, urteil) {
   const L = S.lp, st = lpStand(), jetzt = Date.now();
   const t = st.themen[q.kn] || { n: 0, r: 0, m: .5, box: 0, serie: 0 };
-  const vorher = lpStatus(t), ok = urteil === "richtig", teil = urteil === "teilweise";
-  if (!t.n) t.m = ok ? .6 : teil ? .45 : .25;                                        // erste Antwort setzt den Startwert
-  else t.m = ok ? t.m + (1 - t.m) * .35 : teil ? t.m + (.6 - t.m) * .3 : t.m * .55;
+  const vorher = lpStatus(t), ok = urteil === "richtig", teil = urteil === "teilweise", unk = urteil === "weissnicht";
+  if (!t.n) t.m = ok ? .6 : teil ? .45 : unk ? .32 : .2;                          // falsch (Fehlvorstellung) wiegt schwerer als ehrliches „weiß ich nicht“                                        // erste Antwort setzt den Startwert
+  else t.m = ok ? t.m + (1 - t.m) * .35 : teil ? t.m + (.6 - t.m) * .3 : unk ? t.m * .8 : t.m * .5;
   t.n++; if (ok) t.r++;
-  t.box = ok ? Math.min(t.box + 1, LP_ABSTAND.length - 1) : teil ? Math.max(t.box - 1, 0) : 0;
+  t.box = ok ? Math.min(t.box + 1, LP_ABSTAND.length - 1) : teil ? Math.max(t.box - 1, 0) : unk ? Math.min(t.box, 1) : 0;
   t.faellig = jetzt + LP_ABSTAND[t.box] * 6e4; t.zuletzt = jetzt;
-  t.serie = ok ? Math.max(1, (t.serie || 0) + 1) : teil ? 0 : Math.min(-1, (t.serie || 0) - 1);
+  t.serie = ok ? Math.max(1, (t.serie || 0) + 1) : teil ? 0 : unk ? Math.min(-.5, (t.serie || 0) - .5) : Math.min(-1, (t.serie || 0) - 1);
   st.themen[q.kn] = t;
-  if (!q.gen) { const f = st.fragen[q._id] || { n: 0, r: 0 }; f.n++; if (ok) f.r++; f.t = jetzt; st.fragen[q._id] = f; }
-  st.verlauf.push({ t: jetzt, kn: q.kn, id: q._id, ok: ok ? 1 : teil ? .5 : 0 });
+  if (!q.gen) { const f = st.fragen[q._id] || { n: 0, r: 0 }; f.n++; if (ok) f.r++; if (urteil === "falsch") f.x = (f.x || 0) + 1; if (unk) f.w = (f.w || 0) + 1; f.t = jetzt; st.fragen[q._id] = f; }
+  st.verlauf.push({ t: jetzt, kn: q.kn, id: q._id, ok: ok ? 1 : teil ? .5 : unk ? .15 : 0 });
   lpSpeichern(st);
   L.n++;
   const nachher = lpStatus(t);
@@ -2360,7 +2397,7 @@ function lpRegelKommentar(q, t, vorher, nachher, urteil) {
   if (q._retest) {
     if (urteil === "richtig") return lpCoach("coach", `🔁 **${esc(kn)}**: in anderen Worten nachgefragt – diesmal richtig. 👍 Die Lücke ist fürs Erste geschlossen.`);
     const h = lpHandoutLinks(kn), s = lpSeiten(kn);
-    return lpCoach("coach", `🔁 **${esc(kn)}**: noch nicht sicher. ` + (s ? `Nachlesen: ${s}. ` : "") + (h ? `Handout: ${h}. ` : "") + (q._retest.versuch < 2 ? "Ich frage später noch einmal nach." : "Wir kommen später im Mix wieder darauf zurück."), true);
+    return lpCoach("coach", `🔁 **${esc(kn)}**: noch nicht sicher. ` + (s ? `Nachlesen: ${s}. ` : "") + (h ? `Handout: ${h}. ` : "") + (q._retest.versuch < 2 && urteil === "falsch" ? "Ich frage später noch einmal nach." : "Wir kommen später im Mix wieder darauf zurück."), true);
   }
   if (q._grund === "einstufung" && !L.einst.length) {
     const st = lpStand(), jeKap = {};
@@ -2554,7 +2591,7 @@ function endGame() {
   const A = S.antworten.filter(Boolean);
   const nick = ($("nick").value || store.get(K.nick, "") || "Anonym").trim().slice(0, 20) || "Anonym";
   const hs = store.get(K.hs, {}); const list = hs[S.pack.id] || [];
-  const richtig = A.filter((a) => a.urteil === "richtig").length, teil = A.filter((a) => a.urteil === "teilweise").length;
+  const richtig = A.filter((a) => a.urteil === "richtig").length, teil = A.filter((a) => a.urteil === "teilweise").length, unk = A.filter((a) => a.urteil === "weissnicht").length, falsch = A.filter((a) => a.urteil === "falsch").length;
   const quote = A.length ? Math.round((richtig + teil * .5) / A.length * 100) : 0;
   const entry = { name: nick, score: S.score, correct: richtig, answered: A.length, date: new Date().toISOString().slice(0, 10), t: Date.now() };
   list.push(entry); list.sort((a, b) => b.score - a.score || a.t - b.t); hs[S.pack.id] = list.slice(0, 10); store.set(K.hs, hs);
@@ -2567,7 +2604,7 @@ function endGame() {
         <circle class="bg" cx="75" cy="75" r="62"/><circle class="vg" id="ringVg" cx="75" cy="75" r="62" stroke-dasharray="${umfang}" stroke-dashoffset="${umfang}"/>
         <text x="75" y="86" text-anchor="middle">${quote}%</text></svg>
       <div><h2>${esc(S.pack.titel)}</h2><div class="gross">${S.score} Punkte</div>
-        <div class="muted">${richtig} richtig${teil ? `, ${teil} teilweise` : ""} von ${A.length} · beste Serie ${S.best}</div>
+        <div class="muted">${richtig} richtig${teil ? `, ${teil} teilweise` : ""}${falsch ? `, ${falsch} falsch` : ""}${unk ? `, ${unk}× „weiß ich nicht“` : ""} von ${A.length} · beste Serie ${S.best}</div>
         <div>${rank ? `Platz <b>${rank}</b> in deiner Bestenliste${rank === 1 ? " – neuer Rekord! 🏆" : ""}` : ""}</div></div>
     </div>
     <div class="block glass"><h3>Nach Themen</h3>${b.themen.map((t) => `<div class="thema"><span>${esc(t.name)}</span>
@@ -2659,6 +2696,7 @@ document.addEventListener("keydown", (e) => {
 });
 $("version").textContent = KONFIG.version ? "Version " + KONFIG.version : "";
 $("sprache").value = store.get(K2.ueber, ""); $("sprache").onchange = () => store.set(K2.ueber, $("sprache").value);
+$("strafe").checked = store.get(K2.strafe, false); $("strafe").onchange = () => store.set(K2.strafe, $("strafe").checked);
 $("unwichtig").checked = store.get(K2.unw, true); $("unwichtig").onchange = () => { store.set(K2.unw, $("unwichtig").checked); renderHome(); };
 renderHome();
 </script>
