@@ -1251,6 +1251,433 @@ body.retro #bossBuehne.aktiv {
   border-color: #ffd36b;
 }
 
+/* ==========================================================================
+   LERNKURS MULTIPLAYER BAR & BOSS STATION BOX
+   ========================================================================== */
+
+/* Kurskarte: Multiplayer Aktionsleiste */
+.kMultiBar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 18px;
+  margin: 14px 0 18px;
+  border-radius: 10px;
+  background: rgba(28, 24, 18, 0.7);
+  border: 1px solid rgba(255, 211, 107, 0.25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.kMultiInfo b {
+  display: block;
+  font-size: 14px;
+  color: #ffd36b;
+  margin-bottom: 3px;
+}
+
+.kMultiInfo span {
+  font-size: 12px;
+  color: #a89880;
+}
+
+.kMultiBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.kMultiBtns button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kMultiBtns button:hover {
+  transform: translateY(-1px);
+}
+
+.kBtnRaid {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  border: 1px solid #ffb74d;
+  color: #1a1510;
+  font-weight: 700;
+}
+
+.kBtnRaid:hover {
+  box-shadow: 0 0 14px rgba(255, 152, 0, 0.4);
+}
+
+.kBtnClash {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #64b5f6;
+  color: #90caf9;
+}
+
+.kBtnClash:hover {
+  background: rgba(100, 181, 246, 0.2);
+  box-shadow: 0 0 12px rgba(100, 181, 246, 0.3);
+}
+
+.kBtnDuell {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #e040fb;
+  color: #ea80fc;
+}
+
+.kBtnDuell:hover {
+  background: rgba(224, 64, 251, 0.2);
+  box-shadow: 0 0 12px rgba(224, 64, 251, 0.3);
+}
+
+/* Wächter-Box in der Kurs-Station */
+.kBossBox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  background: rgba(20, 16, 12, 0.85);
+  border: 1px solid rgba(255, 211, 107, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.kBossVisual {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(circle, rgba(255, 211, 107, 0.15), transparent 70%);
+  border-radius: 8px;
+}
+
+.kBossInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.kBossKopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.kBossName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffd36b;
+  letter-spacing: 0.5px;
+}
+
+.kBossStationBadge {
+  font-size: 11px;
+  color: #a89880;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.kBossBlase {
+  position: relative;
+  background: #fff8e7;
+  color: #211a12;
+  border: 2px solid #3a2514;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+}
+
+.kBossBlase::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px 7px 6px 0;
+  border-style: solid;
+  border-color: transparent #3a2514 transparent transparent;
+}
+
+.kBossBlase::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px 5px 5px 0;
+  border-style: solid;
+  border-color: transparent #fff8e7 transparent transparent;
+}
+
+.kBossSpruch {
+  display: inline;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+}
+
+/* ==========================================================================
+   1v1 ONLINE DUELL BAR (BEAMER & HOST)
+   ========================================================================== */
+.lvDuellBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 14px;
+  background: rgba(15, 12, 10, 0.85);
+  border: 1px solid rgba(234, 128, 252, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+
+.lvDuellP {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.lvDuellP1 {
+  color: #80d8ff;
+}
+
+.lvDuellP2 {
+  color: #ff80ab;
+}
+
+.lvDuellP b {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.lvDuellVs {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffd36b;
+  text-shadow: 0 0 8px rgba(255, 211, 107, 0.6);
+}
+
+.lvDuellTag {
+  font-weight: 700;
+}
+
+/* Mobile Duell Header */
+.lvSpTop.duell {
+  border-color: #e040fb;
+  box-shadow: 0 0 12px rgba(224, 64, 251, 0.3);
+}
+
+.lvSpDuellMini {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #14100c;
+  border-bottom: 1px solid #3a2514;
+}
+
+.spDuellDu {
+  color: #80d8ff;
+}
+
+.spDuellGegner {
+  color: #ff80ab;
+}
+
+/* ==========================================================================
+   WISSENSBAUM & KAPITEL WÄCHTER-MONSTER (.lpGuardianBox)
+   ========================================================================== */
+.lpGuardianBox {
+  margin: 10px 0 12px;
+  padding: 10px 12px;
+  background: rgba(22, 18, 14, 0.92);
+  border: 1px solid rgba(255, 179, 71, 0.35);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+.lpGuardianTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lpGuardianVisual {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lpGuardianInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.lpGuardianTitel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffd36b;
+}
+
+.lpGuardianTitel b {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lpGuardianBlase {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: #fdf6e2;
+  color: #1a1510;
+  border-radius: 8px;
+  border: 1px solid #d4a373;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  position: relative;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.lpGuardianBlase::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 18px;
+  border-width: 0 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent #d4a373;
+  display: block;
+}
+
+.lpGuardianBlase::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 19px;
+  border-width: 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent #fdf6e2;
+  display: block;
+}
+
+.lpGuardianText {
+  display: inline;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  word-break: break-word;
+}
+
+.lpGuardianActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.lpGuardianActions button {
+  font-size: 0.74rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.lpBtnArena {
+  background: linear-gradient(135deg, #ff9100, #ff3d00);
+  border: 1px solid #ffab40;
+  color: #fff;
+  font-weight: 700;
+}
+.lpBtnArena:hover {
+  background: linear-gradient(135deg, #ffa726, #ff5722);
+  transform: translateY(-1px);
+}
+
+.lpBtnDuell {
+  background: rgba(224, 64, 251, 0.2);
+  border: 1px solid #e040fb;
+  color: #ea80fc;
+  font-weight: 700;
+}
+.lpBtnDuell:hover {
+  background: rgba(224, 64, 251, 0.4);
+  transform: translateY(-1px);
+}
+
+.lpBtnRaid {
+  background: rgba(0, 229, 255, 0.2);
+  border: 1px solid #00e5ff;
+  color: #84ffff;
+  font-weight: 700;
+}
+.lpBtnRaid:hover {
+  background: rgba(0, 229, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   STARTSEITEN-EMPFEHLUNG MIT MONSTER (.kEmpfBossWrap)
+   ========================================================================== */
+.kEmpfBossWrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 6px 0 10px;
+}
+
+.kEmpfBossVisual {
+  width: 58px;
+  height: 58px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 179, 71, 0.3);
+  overflow: hidden;
+}
+
+.kEmpfBossBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.kEmpfMultiRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+
+
 
 
 /* ---- fancy.css ---- */
@@ -2368,6 +2795,7 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
       <h3><span>🌳 Wissensbaum</span><span class="muted klein" id="lpFortschritt"></span></h3>
       <div id="lpSvg"></div>
       <div id="lpLegende"></div>
+      <div id="lpGuardianWrap"></div>
       <div id="lpKapitel"></div>
       <h3 style="margin-top:12px"><span>💬 Coach</span></h3>
       <div id="lpChat" aria-live="polite"></div>
@@ -2992,21 +3420,115 @@ function kVertiefenKarte(P) {       // Karte: je Station ein Block, nur Statione
 // Kurse mit Zahl "reihenfolge" bilden den empfohlenen Lernpfad; "testbereich" (z. B. "Seite 306–345") und "seiten" erscheinen im Text.
 function kursEmpfehlungZeigen() {
   const box = $("kursEmpf"); if (!box) return;
-  const kurse = alle().filter((p) => p.typ === "kurs" && Number.isFinite(p.reihenfolge)).sort((a, b) => a.reihenfolge - b.reihenfolge);
+  const getAlle = typeof alle === "function" ? alle : window.alle ? window.alle : () => [];
+  const kurse = getAlle().filter((p) => p.typ === "kurs" && Number.isFinite(p.reihenfolge)).sort((a, b) => a.reihenfolge - b.reihenfolge);
   if (kurse.length < 2) { box.innerHTML = ""; return; }
   const info = kurse.map((p) => { const st = kStand(p.id).st, n = p.stationen.length, ok = p.stationen.filter((s) => ((st[s.id] || {}).sterne || 0) > 0).length, sterne = p.stationen.reduce((a, s) => a + ((st[s.id] || {}).sterne || 0), 0); return { p, n, ok, sterne, fertig: ok === n, naechste: p.stationen.findIndex((s) => !((st[s.id] || {}).sterne > 0)) }; });
   const weiter = info.find((x) => !x.fertig), nick = store.get(K.nick, ""), anz = info.filter((x) => x.fertig).length;
   const bereich = (info.find((x) => x.p.testbereich) || { p: {} }).p.testbereich;
   const kopf = `<b>👋 Hallo${nick ? ", " + esc(nick) : ""}!</b> ${bereich ? `Für den nächsten Test (${esc(bereich)}) ist das dein Lernpfad.` : "Das ist dein empfohlener Lernpfad."}`;
+  const boss = weiter ? kBossFuer(weiter.p) : null;
+  const sprHtml = boss ? kBossSprHtml(boss.id, 2.7) : "";
+  const bossHtml = weiter ? `
+    <div class="kEmpfBossWrap">
+      <div class="kEmpfBossVisual">${sprHtml}</div>
+      <div class="kEmpfBossBody">
+        <div class="kBossBlase" style="margin-top:0">
+          <span style="color:#d4a373;margin-right:6px">${boss.icon} <b>${esc(boss.name)}:</b></span>
+          <span>Ich hüte den Kurs <b>${esc(weiter.p.titel)}</b>. Wage den Lernkurs solo oder fordere andere per QR-Code heraus!</span>
+        </div>
+        <div class="kEmpfMultiRow">
+          <button class="primary" data-kempf="${esc(weiter.p.id)}">▶ ${weiter.ok ? "Weiterlernen" : "Kurs Starten"}</button>
+          <button class="kBtnDuell mini" data-kduell="${esc(weiter.p.id)}">⚔️ 1v1 Online-Duell</button>
+          <button class="kBtnRaid mini" data-kraid="${esc(weiter.p.id)}">📡 Klassen-Raid</button>
+        </div>
+      </div>
+    </div>` : "";
   const text = weiter
-    ? `<p class="kEmpfNext">Als Nächstes empfehle ich: <b>${esc(weiter.p.titel)}</b>${weiter.ok ? ` · weiter bei Station ${weiter.naechste}: ${esc(weiter.p.stationen[weiter.naechste].titel)}` : " · noch nicht angefangen"}${weiter.p.seiten ? ` <span class="muted">(Buch ${esc(weiter.p.seiten)}${weiter.p.testbereich && weiter.p.testbereich !== bereich ? ", " + esc(weiter.p.testbereich) : ""})</span>` : ""}</p>`
+    ? `<p class="kEmpfNext" style="margin:6px 0 10px">Station: <b>${weiter.ok ? weiter.naechste + " · " + esc(weiter.p.stationen[weiter.naechste].titel) : "1 · Start"}</b>${weiter.p.seiten ? ` <span class="muted">(Buch ${esc(weiter.p.seiten)}${weiter.p.testbereich && weiter.p.testbereich !== bereich ? ", " + esc(weiter.p.testbereich) : ""})</span>` : ""}</p>`
     : `<p class="kEmpfNext">🏆 Alle Kurse geschafft. Wiederhole den <b>Prüfungsflug</b> in zwei Tagen und am Tag vor dem Test.</p>`;
   const liste = info.map((x, i) => `<li class="${x.fertig ? "fertig" : x === weiter ? "jetzt" : ""}"><span class="kEmpfNr">${x.fertig ? "✓" : i + 1}</span><span class="kEmpfT"><b>${esc(x.p.titel)}</b><span class="muted"> ${x.p.seiten ? "· Buch " + esc(x.p.seiten) : ""}${x.p.testbereich && x.p.testbereich !== bereich ? " · " + esc(x.p.testbereich) : ""}${x.sterne ? ` · ★ ${x.sterne}/${x.n * 3}` : ""}</span></span><button class="mini ${x === weiter ? "primary" : "ghost"}" data-kempf="${esc(x.p.id)}">${x.fertig ? "Nochmal" : x.ok ? "Weiter" : "Starten"}</button></li>`).join("");
-  box.innerHTML = `<div class="glass kEmpf"><div class="kEmpfKopf">${kopf}</div>${text}
-    <div class="aktionen">${weiter ? `<button class="primary" data-kempf="${esc(weiter.p.id)}">▶ ${weiter.ok ? "Weiterlernen" : "Starten"}</button>` : ""}</div>
+  box.innerHTML = `<div class="glass kEmpf"><div class="kEmpfKopf">${kopf}</div>${bossHtml}${text}
     <details class="kEmpfAlle"${anz === 0 ? " open" : ""}><summary>Alle ${info.length} Kurse in empfohlener Reihenfolge (${anz} geschafft)</summary><ol class="kEmpfListe">${liste}</ol></details></div>`;
-  box.querySelectorAll("button[data-kempf]").forEach((b) => b.onclick = () => { const p = alle().find((x) => x.id === b.dataset.kempf); if (p) kursStart(p); });
+  box.querySelectorAll("button[data-kempf]").forEach((b) => b.onclick = () => { const p = getAlle().find((x) => x.id === b.dataset.kempf); if (p) kursStart(p); });
+  box.querySelectorAll("button[data-kduell]").forEach((b) => b.onclick = () => {
+    const p = getAlle().find((x) => x.id === b.dataset.kduell);
+    if (p && window.LIVE_RUNDE) window.LIVE_RUNDE.hostStartKurs({ spielmodus: "duell" }, p.id, p.stationen.map((_, i) => i));
+  });
+  box.querySelectorAll("button[data-kraid]").forEach((b) => b.onclick = () => {
+    const p = getAlle().find((x) => x.id === b.dataset.kraid);
+    if (p && window.LIVE_RUNDE) window.LIVE_RUNDE.hostStartKurs({ spielmodus: "coop" }, p.id, p.stationen.map((_, i) => i));
+  });
 }
+
+/* ------------------------------------------------------------------ Wächter-Monster für Lernkurse */
+function kBossFuer(packOderThema) {
+  const t = typeof packOderThema === "string"
+    ? packOderThema.toLowerCase()
+    : (((packOderThema && packOderThema.titel) || "") + " " + ((packOderThema && packOderThema.beschreibung) || "")).toLowerCase();
+  if (t.includes("subnet") || t.includes("ip") || t.includes("netz") || t.includes("adress") || t.includes("3.")) {
+    return { id: "GiantBlueSamurai", name: "Klingen-Wächter der Subnetze", icon: "⚔️" };
+  }
+  if (t.includes("kabel") || t.includes("norm") || t.includes("schicht") || t.includes("hardware") || t.includes("geraet") || t.includes("1.") || t.includes("2.")) {
+    return { id: "GiantBamboo", name: "Bambus-Goliath der Schichten", icon: "🎋" };
+  }
+  if (t.includes("sicher") || t.includes("port") || t.includes("cloud") || t.includes("triage") || t.includes("dhcp") || t.includes("routing") || t.includes("4.") || t.includes("7.")) {
+    return { id: "DemonCyclop", name: "Zyklopen-Dämon der Sicherheit", icon: "👁️" };
+  }
+  return { id: "GiantFrog", name: "Meisterkröte der Algorithmen", icon: "🐸" };
+}
+
+function kursFuerKapitel(k) {
+  const getAlle = typeof alle === "function" ? alle : window.alle ? window.alle : () => [];
+  const kurse = getAlle().filter((p) => p.typ === "kurs");
+  if (!kurse.length) return null;
+  const kStr = String(k || "");
+  const kTitle = (typeof BAUM !== "undefined" && BAUM.kap && BAUM.kap[kStr] ? BAUM.kap[kStr].titel || "" : "").toLowerCase();
+  let match = kurse.find((p) => p.kapitel === kStr || (p.kapitel && p.kapitel.startsWith(kStr.split(".")[0])));
+  if (!match) {
+    const kWords = kTitle.split(/[\s,–-]+/).filter((w) => w.length > 3);
+    match = kurse.find((p) => {
+      const pt = (p.titel + " " + (p.beschreibung || "")).toLowerCase();
+      return kWords.some((w) => pt.includes(w));
+    });
+  }
+  return match || kurse[0];
+}
+
+function kBossSprHtml(bId, s = 1) {
+  const FA = window.FANCY_A;
+  const bData = FA && FA.boss ? FA.boss[bId] : null;
+  if (bData && bData.idle) {
+    const fw = bData.idle.fw || 48;
+    const fh = bData.idle.fh || 48;
+    return `<span class="kBossSpriteWrap" style="display:inline-block;width:${fw}px;height:${fh}px;overflow:hidden;image-rendering:pixelated;transform:scale(${s});transform-origin:center center;"><i style="display:block;width:${fw}px;height:${fh}px;background-image:url(${bData.idle.src});background-repeat:no-repeat;background-position:0 0;background-size:auto 100%;"></i></span>`;
+  }
+  const em = { GiantBlueSamurai: "⚔️", GiantBamboo: "🎋", DemonCyclop: "👁️", GiantFrog: "🐸" };
+  return `<span class="lvEmoji" style="font-size:32px">${em[bId] || "👾"}</span>`;
+}
+let kBossTyping = 0;
+function kBossSprich(text) {
+  const el = $("kBossSpruch");
+  if (!el) return;
+  clearInterval(kBossTyping);
+  el.textContent = "";
+  let idx = 0;
+  kBossTyping = setInterval(() => {
+    if (idx < text.length) {
+      el.textContent += text[idx++];
+    } else {
+      clearInterval(kBossTyping);
+    }
+  }, 16);
+}
+
+window.kursStart = kursStart;
+window.kursStation = kursStation;
+window.kBossFuer = kBossFuer;
+window.kBossSprHtml = kBossSprHtml;
+window.kBossSprich = kBossSprich;
+window.kursFuerKapitel = kursFuerKapitel;
+window.kursEmpfehlungZeigen = kursEmpfehlungZeigen;
 
 /* ------------------------------------------------------------------ Karte */
 function kursStart(pack) {
@@ -3021,6 +3543,14 @@ function kursKarte() {
   sec.innerHTML = `<div class="kKarte">
     <div class="kHud glass"><button class="ghost" id="kHome">← Übersicht</button><span class="kTitel">${esc(P.titel)}</span><span class="kRang">${esc(kRang(sterne, max))} · <b>${sterne}</b>/${max} ★</span></div>
     <div class="glass kIntro"><p>${esc(P.beschreibung || "")}</p>${P.grundlage ? `<p class="muted klein">Grundlage: ${esc(P.grundlage)}</p>` : P.handout ? `<p class="muted klein">Grundlage: Handout „${esc(P.handout)}“ (35_Handouts).</p>` : ""}</div>
+    <div class="kMultiBar glass">
+      <div class="kMultiInfo"><b>👥 Lernkurs im Mehrspieler spielen:</b><span>Lerne mit der ganzen Klasse am Beamer oder fordere jemanden zum 1v1 Duell heraus (mit Raumcode & QR-Code).</span></div>
+      <div class="kMultiBtns">
+        <button type="button" class="primary kBtnRaid" id="kRaidBtn">📡 Klassen-Raid (Beamer)</button>
+        <button type="button" class="ghost kBtnClash" id="kClashBtn">⚡ Team-Clash (Rot vs. Blau)</button>
+        <button type="button" class="ghost kBtnDuell" id="kDuellBtn">⚔️ 1v1 Online-Duell</button>
+      </div>
+    </div>
     ${kVertiefenKarte(P)}
     <ol class="kPfad">${P.stationen.map((s, i) => {
       const e = stand.st[s.id] || {}, offen = kStationOffen(stand, i), n = (e.sterne || 0);
@@ -3032,6 +3562,21 @@ function kursKarte() {
       <button class="ghost mini" id="kFrei">${stand.frei ? "Reihenfolge wieder erzwingen" : "Alle Stationen freischalten"}</button>
       <button class="ghost mini" id="kReset">Fortschritt zurücksetzen</button></div></div>`;
   $("kHome").onclick = () => { KS = null; renderHome(); show("home"); };
+  $("kRaidBtn").onclick = () => {
+    if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostStartKurs === "function") {
+      window.LIVE_RUNDE.hostStartKurs({ spielmodus: "coop", zeit: 30, st: 1, pi: true, auto: true, ruhig: false }, P.id, P.stationen.map((_, idx) => idx));
+    }
+  };
+  $("kClashBtn").onclick = () => {
+    if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostStartKurs === "function") {
+      window.LIVE_RUNDE.hostStartKurs({ spielmodus: "clash", zeit: 30, st: 1, pi: false, auto: true, ruhig: false }, P.id, P.stationen.map((_, idx) => idx));
+    }
+  };
+  $("kDuellBtn").onclick = () => {
+    if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostStartKurs === "function") {
+      window.LIVE_RUNDE.hostStartKurs({ spielmodus: "duell", zeit: 20, st: 1, pi: false, auto: true, ruhig: false }, P.id, P.stationen.map((_, idx) => idx));
+    }
+  };
   sec.querySelectorAll("button[data-st]").forEach((b) => b.onclick = () => kursStation(Number(b.dataset.st)));
   $("kFrei").onclick = () => { stand.frei = !stand.frei; kSpeichern(P.id, stand); kursKarte(); };
   let sicher = false;
@@ -3050,10 +3595,18 @@ function kursStation(i) {
     } else liste.push({ ...s });
   };
   st.schritte.forEach((s) => add(s));
-  KS = { i, st, liste, pos: 0, res: [], blatt: {}, chat: [], t0: Date.now(), ki: false };
+  const boss = kBossFuer(KS_PACK);
+  KS = { i, st, liste, pos: 0, res: [], blatt: {}, chat: [], t0: Date.now(), ki: false, boss };
   $("kurs").innerHTML = `<div class="kSpiel">
     <div class="kHud glass"><button class="ghost" id="kKarte">← Karte</button><span class="kTitel">${esc(st.icon || "")} ${esc(st.titel)}</span><span id="kPos" class="muted"></span><span id="kPunkte"></span></div>
     <div class="kFort" id="kFort" aria-hidden="true"></div>
+    <div class="kBossBox glass" id="kBossBox">
+      <div class="kBossVisual"><div id="kBossSprWrap">${kBossSprHtml(boss.id, 3)}</div></div>
+      <div class="kBossInfo">
+        <div class="kBossKopf"><b class="kBossName">${esc(boss.name)}</b><span class="kBossStationBadge">${esc(st.titel)}</span></div>
+        <div class="kBossBlase"><span class="kBossSpruch" id="kBossSpruch"></span></div>
+      </div>
+    </div>
     <div class="kBox glass" id="kBox" aria-live="polite"></div>
     <div class="aktionen" id="kAkt"></div>
     <div class="glass kKi hidden" id="kKi"></div></div>`;
@@ -3074,6 +3627,7 @@ function kursSchritt() {
   const box = $("kBox"); box.style.animation = "none"; void box.offsetWidth; box.style.animation = "";
   const grp = x.grp ? kGrpKopf(x) : "";
   if (x.t === "lies") {
+    kBossSprich("Pass gut auf, Azubi! Verstehe diesen Abschnitt genau – gleich werde ich dein Wissen auf die Probe stellen.");
     box.innerHTML = `<div class="kopf"><span class="chip">📖 Erklärung</span></div>${x.titel ? `<h3>${esc(x.titel)}</h3>` : ""}<div class="kText">${kMd(x.text)}</div>${x.block ? `<pre class="kBlock">${esc(x.block)}</pre>` : ""}${x.merke ? `<div class="kMerke">💡 <b>Merksatz:</b> ${kMd(x.merke).replace(/^<p>|<\/p>$/g, "")}</div>` : ""}`;
     if (KS.pos === 0 && !KS.st.ohneHilfe) box.insertAdjacentHTML("beforeend", kVertiefenHtml(KS.st));
     $("kAkt").innerHTML = `<button class="primary" id="kWeiter">Verstanden →</button>`;
@@ -3082,6 +3636,13 @@ function kursSchritt() {
   } else if (x.t === "labor") {
     laborStart(x);
   } else {
+    const sprueche = [
+      "Zeig mir, was du kannst! Das errätst du niemals ohne logisches Denken.",
+      "Hier scheitern die meisten! Weißt du die korrekte Lösung?",
+      "Konzentrier dich... Kannst du diesen Schritt fehlerfrei lösen?",
+      "Beweise mir dein Fachwissen!"
+    ];
+    kBossSprich(sprueche[(KS.pos + (KS.i || 0)) % sprueche.length]);
     const hilfe = !KS.st.ohneHilfe, art = x.t === "wahl" ? "Auswahl" : x.t === "ordnen" ? "Reihenfolge" : x.t === "zuordnen" ? "Zuordnen" : x.eingabeArt || (x.art === "zahl" || x.art === "ip" || x.art === "praefix" ? "Rechnen" : "Eingabe");
     box.innerHTML = `<div class="kopf"><span class="chip">${art}</span>${x.grp ? `<span class="chip">${esc(x.grp.titel)} · Schritt ${x.nr}/${x.grp.n}</span>` : ""}</div>${grp}
       <div class="kFrage">${kMd(x.f)}</div>${x.block ? `<pre class="kBlock">${esc(x.block)}</pre>` : ""}<div id="kEin"></div>
@@ -3158,6 +3719,8 @@ function kZuordnenPruefen(x) {
 function kFb(klasse, titel, html) { $("kFb").innerHTML = `<div class="fb ${klasse}"><div class="titel">${titel}</div>${html ? `<div class="erkl">${html}</div>` : ""}</div>`; }
 function kFalsch(x, h) {      // falsche Antwort: Hinweis, Tipp-Leiter bleibt, Lösung nach 2 Fehlversuchen anbieten
   KS.s.fehl++;
+  if (window.FANCY_S && typeof window.FANCY_S.play === "function") window.FANCY_S.play("falsch");
+  kBossSprich("Ha! Genau wie erwartet! Schau dir den Fehler an und versuch es noch einmal.");
   kFb("bad", "✘ Noch nicht", (h ? kMd(h) : "") + (KS.s.fehl >= 2 && !KS.st.ohneHilfe ? `<p class="muted">Tipp: Nutze den 💡 Tipp oder lass dir die Lösung zeigen.</p>` : ""));
   kKiZeichnen();
 }
@@ -3166,6 +3729,10 @@ function kRichtig(x, note) {
   const s = KS.s; s.fertig = true;
   const sterne = Math.max(1, 3 - Math.min(2, s.fehl + s.tipps));
   kErgebnis(x, sterne);
+  const bossWr = $("kBossSprWrap");
+  if (bossWr) { bossWr.classList.add("treffer"); setTimeout(() => bossWr.classList.remove("treffer"), 600); }
+  if (window.FANCY_S && typeof window.FANCY_S.play === "function") window.FANCY_S.play("hit");
+  kBossSprich("Argh! Richtig gelöst! Das war nicht schlecht... aber die nächste Prüfung wartet schon!");
   if (x.grp) (KS.blatt[x.grp.id] = KS.blatt[x.grp.id] || []).push({ label: x.label || "Ergebnis", wert: kLoesungText(x) });
   kFb("ok", `✔ Richtig ${kSterneText(sterne)}`, (note ? `<p>${kMd(note).replace(/^<p>|<\/p>$/g, "")}</p>` : "") + (x.erkl ? kMd(x.erkl) : ""));
   kFertigZeigen(x);
@@ -3173,6 +3740,7 @@ function kRichtig(x, note) {
 function kAufdecken(x) {
   const s = KS.s; if (s.fertig) return;
   s.fertig = true; s.verraten = true; kErgebnis(x, 0);
+  kBossSprich("Hier ist die Lösung. Schau sie dir genau an, damit du es beim nächsten Mal beherrschst!");
   if (x.grp) (KS.blatt[x.grp.id] = KS.blatt[x.grp.id] || []).push({ label: x.label || "Ergebnis", wert: kLoesungText(x) });
   kFb("mid", "Lösung", `<p><b>${esc(kPlain(kLoesungText(x)))}</b></p>` + (x.erkl ? kMd(x.erkl) : "") + `<p class="muted">Diese Aufgabe kommt später im Test wieder – schau sie dir in Ruhe an.</p>`);
   if (x.t === "wahl") { const b = $("kEin").querySelectorAll("button")[x.richtig]; if (b) b.classList.add("richtig"); }
@@ -3212,6 +3780,7 @@ function kTippKnopf(x) {
 function kTipp() {
   const x = KS.liste[KS.pos], s = KS.s; if (s.fertig || s.tipps >= (x.tipps || []).length) return;
   s.tipps++;
+  kBossSprich("Brauchst du schon Nachhilfe? Nun gut, hier ist ein kleiner Hinweis von mir...");
   $("kTipps").innerHTML = x.tipps.slice(0, s.tipps).map((t, i) => `<div class="kTippZeile"><b>💡 Tipp ${i + 1}</b> ${kMd(t).replace(/^<p>|<\/p>$/g, "")}</div>`).join("");
   kTippKnopf(x);
 }
@@ -3221,6 +3790,11 @@ function kWeiter() { if (!KS) return; if (KS.liste[KS.pos].t === "lies") KS.res[
 function kursEnde() {
   const g = KS.res.filter((r) => r && r.graded), summe = g.reduce((a, r) => a + r.sterne, 0), q = g.length ? summe / (3 * g.length) : 1;
   const sterne = q >= .85 ? 3 : q >= .55 ? 2 : 1;
+  if (sterne >= 3) {
+    kBossSprich("Beeindruckend... Du hast alle Aufgaben dieser Station gemeistert! Ich ziehe meinen Hut.");
+  } else {
+    kBossSprich("Das reicht noch nicht ganz zur Meisterschaft! Wiederhole diese Station, um dir 3 Sterne zu holen.");
+  }
   const stand = kStand(KS_PACK.id), alt = stand.st[KS.st.id] || {};
   stand.st[KS.st.id] = { sterne: Math.max(alt.sterne || 0, sterne), beste: Math.max(alt.beste || 0, Math.round(q * 100)) };
   kSpeichern(KS_PACK.id, stand);
@@ -5659,6 +6233,8 @@ function validatePack(p) {
 const BUILTIN = readJson("packData", []).filter((p) => !validatePack(p));
 let custom = store.get(K.packs, []).filter((p) => !validatePack(p));
 const alle = () => BUILTIN.concat(custom.map((p) => Object.assign({ ordner: ["Eigene Pakete"] }, p))).concat(varPack());
+window.alle = alle;
+window.BUILTIN = BUILTIN;
 const ordnerVon = (p) => Array.isArray(p.ordner) && p.ordner.length ? p.ordner : [p.lernfeld ? p.lernfeld : "Weitere", "ATLAS-Quiz"];
 function artenZaehlen(p) {
   const z = { jn: 0, mc: 0, rechnen: 0, frei: 0, zuordnen: 0, reihenfolge: 0, logik: 0, netz: 0, bauen: 0 };
@@ -6696,6 +7272,12 @@ function lpRegelKommentar(q, t, vorher, nachher, urteil) {
     if (t.n >= 6 && t.m < .4 && !h) einmal("wunsch:" + kn, `Bei **${esc(kn)}** bleibt es schwierig und es gibt noch kein Handout. ` +
       (wunschAn() ? `<button class="mini" data-wunsch="${esc(q.gen ? "" : q._id || "")}" data-thema="${esc(q.thema || kn)}">➕ Handout wünschen</button>` : ""));
   }
+  const gs = $("lpGuardianSpruch");
+  if (gs) {
+    if (urteil === "richtig") gs.innerHTML = `Argh! Treffer bei <b>${esc(kn)}</b>! Aber ich habe noch schwerere Fragen!`;
+    else if (urteil === "falsch" || urteil === "weissnicht") gs.innerHTML = `Harhar! Bei <b>${esc(kn)}</b> habe ich dich erwischt! Merk dir die Erklärung gut!`;
+    if (vorher !== nachher && nachher === "sitzt") gs.innerHTML = `Donnerwetter! <b>${esc(kn)}</b> sitzt jetzt felsenfest! Respekt!`;
+  }
 }
 function lpBilanzText() {
   const L = S.lp, st = lpStand();
@@ -6788,6 +7370,61 @@ function lpBaum(aktuell) {
   // Liste des aktuellen Kapitels
   const k = aktKap || kaps[0];
   const liste = (themenJeKap.find(([x]) => x === k) || [k, []])[1];
+
+  // Wächter-Monster für das aktive Kapitel
+  const b = (typeof kBossFuer === "function") ? kBossFuer((BAUM.kap[k] || {}).titel || k) : { id: "GiantBlueSamurai", name: "Kapitel-Wächter", icon: "⚔️" };
+  const sprHtml = (typeof kBossSprHtml === "function") ? kBossSprHtml(b.id, 2.5) : `<span class="lvEmoji" style="font-size:28px">${b.icon}</span>`;
+  const luecken = liste.filter((kn) => lpStatus(st.themen[kn]) === "luecke");
+  const festigen = liste.filter((kn) => lpStatus(st.themen[kn]) === "festigen");
+  const sitzt = liste.filter((kn) => lpStatus(st.themen[kn]) === "sitzt");
+
+  let bossSpruch = "";
+  if (luecken.length > 0) {
+    bossSpruch = `Ha! Bei <b>${esc(luecken[0])}</b> wackeln deine Knie (${luecken.length} Lücke${luecken.length > 1 ? "n" : ""})! Glaubst du, du kannst mich in der Boss-Arena besiegen?`;
+  } else if (festigen.length > 0) {
+    bossSpruch = `Du lernst fleißig, aber meisterst du Kapitel <b>${esc(k)}</b> auch unter Zeitdruck?`;
+  } else if (sitzt.length === liste.length && liste.length > 0) {
+    bossSpruch = `Respekt, Anwärter! Kapitel <b>${esc(k)}</b> ist bezwungen! Wagst du das 1v1-Online-Duell oder den Klassen-Raid?`;
+  } else {
+    bossSpruch = `Ich bin der Hüter von Kapitel <b>${esc(k)}</b>. Trainiere fleißig und stelle dich meiner Prüfung!`;
+  }
+
+  const gw = $("lpGuardianWrap");
+  if (gw) {
+    gw.innerHTML = `
+      <div class="lpGuardianBox" id="lpGuardianBox">
+        <div class="lpGuardianTop">
+          <div class="lpGuardianVisual">${sprHtml}</div>
+          <div class="lpGuardianInfo">
+            <div class="lpGuardianTitel"><span class="lpBossIcon">${b.icon}</span><b>${esc(b.name)}</b></div>
+            <div class="muted klein">Wächter Kapitel ${esc(k)} · ${esc((BAUM.kap[k] || {}).titel || "")}</div>
+          </div>
+        </div>
+        <div class="lpGuardianBlase">
+          <div class="lpGuardianText" id="lpGuardianSpruch">${bossSpruch}</div>
+        </div>
+        <div class="lpGuardianActions">
+          <button class="mini primary lpBtnArena" id="lpBtnArena" title="Fordere das Wächter-Monster im passenden Lernkurs heraus">⚔️ Boss-Arena (Kurs)</button>
+          <button class="mini lpBtnDuell" id="lpBtnDuell" title="1v1 Online-Duell gegen Mitschüler per QR-Code">⚡ 1v1 Duell</button>
+          <button class="mini lpBtnRaid" id="lpBtnRaid" title="Klassen-Raid mit Beamer per QR-Code">📡 Klassen-Raid</button>
+        </div>
+      </div>`;
+
+    const kPack = (typeof kursFuerKapitel === "function") ? kursFuerKapitel(k) : null;
+    const btnArena = $("lpBtnArena");
+    if (btnArena) btnArena.onclick = () => {
+      if (kPack && typeof kursStart === "function") kursStart(kPack);
+    };
+    const btnDuell = $("lpBtnDuell");
+    if (btnDuell) btnDuell.onclick = () => {
+      if (kPack && window.LIVE_RUNDE) window.LIVE_RUNDE.hostStartKurs({ spielmodus: "duell" }, kPack.id, kPack.stationen.map((_, i) => i));
+    };
+    const btnRaid = $("lpBtnRaid");
+    if (btnRaid) btnRaid.onclick = () => {
+      if (kPack && window.LIVE_RUNDE) window.LIVE_RUNDE.hostStartKurs({ spielmodus: "coop" }, kPack.id, kPack.stationen.map((_, i) => i));
+    };
+  }
+
   $("lpKapitel").innerHTML = `<div class="lpKopf">${esc(k)} ${esc((BAUM.kap[k] || {}).titel || "")}</div>` + liste.map((kn) => {
     const t = st.themen[kn] || {}, s = lpStatus(t), p = t.n ? Math.round(t.m * 100) : 0;
     return `<div class="lpZeile${kn === aktuell ? " akt" : ""}" data-kn="${esc(kn)}"><span>${esc(kn)}</span><span class="lpBalken"><i style="width:${p}%;background:${LP_FARBE[s]}"></i></span><span class="muted">${t.n ? p + " %" : "–"}</span></div>`;
@@ -6795,6 +7432,8 @@ function lpBaum(aktuell) {
   document.querySelectorAll("#lpSvg .lpThema, #lpKapitel .lpZeile").forEach((el) => el.onclick = () => {
     L.fokus = { kn: el.dataset.kn, rest: 3 }; L.einst = [];
     lpCoach("coach", `🎯 Die nächsten 3 Fragen kommen zu **${esc(el.dataset.kn)}**.`);
+    const gs = $("lpGuardianSpruch");
+    if (gs) gs.innerHTML = `Du wagst es, 🎯 <b>${esc(el.dataset.kn)}</b> zu trainieren? Zeig mir, was du drauf hast!`;
   });
   $("lpFortschritt").textContent = L.einst.length ? `Einstufung ${L.einstGesamt - L.einst.length} / ${L.einstGesamt}` :
     `${L.n - L.einstGesamt} Fragen` + (L.zielN ? ` / Ziel ${L.zielN}` : L.zielMin ? ` · ${Math.round((Date.now() - (L.startUeben || Date.now())) / 6e4)} / ${L.zielMin} Min.` : "");
@@ -7945,6 +8584,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     const im = $("introModal");
     if (store.get(KM, "") === "") { if (!im || im.classList.contains("hidden")) fragen(); }
     else if (fancyAn() && !inSpiel()) fancyAuf(false);
+    if (typeof kursEmpfehlungZeigen === "function") kursEmpfehlungZeigen();
   }, 0);
 })();
 
@@ -8523,7 +9163,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       else if (P.opt) { if (!Number.isInteger(m.a) || m.a < 0 || m.a >= P.opt.length) return; a = m.a; }
       else { a = String(m.a == null ? "" : m.a).trim().slice(0, 40); if (!a) return; }
       const s = Number.isInteger(m.s) && m.s >= 0 && m.s <= 2 ? m.s : null, schon = H.antCur.has(pid);
-      H.antCur.set(pid, { a, s });
+      H.antCur.set(pid, { a, s, ts: Date.now() });
       hAntwort(pid, !schon); hZaehler(); pruefeAlle();
     }
   }
@@ -8589,15 +9229,60 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       H.scoreBlau = (H.scoreBlau || 0) + bOk * 10;
       hClashUpdate();
     }
+    if (H.spielmodus === "duell") {
+      const pids = [...H.sp.keys()];
+      const pid1 = pids[0], pid2 = pids[1];
+      const rec1 = pid1 ? fm.get(pid1) : null;
+      const rec2 = pid2 ? fm.get(pid2) : null;
+      const ok1 = rec1 && !P.poll ? richtig(P, rec1.a) : false;
+      const ok2 = rec2 && !P.poll ? richtig(P, rec2.a) : false;
+      let win = null;
+      if (ok1 && !ok2) {
+        win = pid1;
+        H.duellHp2 = Math.max(0, (H.duellHp2 || 300) - 100);
+      } else if (ok2 && !ok1) {
+        win = pid2;
+        H.duellHp1 = Math.max(0, (H.duellHp1 || 300) - 100);
+      } else if (ok1 && ok2) {
+        const t1 = (rec1 && rec1.ts) || 0, t2 = (rec2 && rec2.ts) || 0;
+        if (t1 <= t2) {
+          win = pid1;
+          H.duellHp2 = Math.max(0, (H.duellHp2 || 300) - 100);
+        } else {
+          win = pid2;
+          H.duellHp1 = Math.max(0, (H.duellHp1 || 300) - 100);
+        }
+      } else {
+        if (rec1 && !ok1) H.duellHp1 = Math.max(0, (H.duellHp1 || 300) - 30);
+        if (rec2 && !ok2) H.duellHp2 = Math.max(0, (H.duellHp2 || 300) - 30);
+      }
+      H.duellWinner = win;
+      hClashUpdate();
+    }
     const p1 = pct(r1.ok, r1.n), p2 = r2 ? pct(r2.ok, r2.n) : null;
     const fu = !P.poll && ((neu === true) || (r2 && p2 < 70)) && folgeFrage();
     H.stats.push({ thema: P.thema, art: P.art, f: P.f, n: fin.n, ok: fin.ok, share, pi: !!r2 && !H.tpRunde, tp: !!r2 && H.tpRunde, st: P.stIdx, loes: String(P.loesung || "").slice(0, 140), n1: r1.n, p1, p2, sicher: fin.sicher, poll: !!P.poll, bal: P.poll ? (r2 || r1).bal : null, opt: P.poll ? P.opt : null, qid: P.q.zufall || P.q.eigen ? "" : qid(P.q), folge: !!P.folge });
     if (P.weg) (H.blatt[P.stIdx + ":" + P.weg.id] = H.blatt[P.stIdx + ":" + P.weg.id] || []).push({ label: P.label || "Ergebnis", wert: String(P.loesung || "").slice(0, 60) });
     const an = {};
-    for (const [pid, s] of H.sp) { if (!s.on) continue; const rec = fm.get(pid); an[pid] = { k: "du", id: qIdx(), ok: rec && !P.poll ? richtig(P, rec.a) : null, sf: !!(rec && rec.s === 2 && richtig(P, rec.a) === false), team: s.team }; }
+    const duellPids = [...H.sp.keys()];
+    for (const [pid, s] of H.sp) {
+      if (!s.on) continue;
+      const rec = fm.get(pid);
+      const isD = H.spielmodus === "duell";
+      const slot = duellPids.indexOf(pid);
+      an[pid] = {
+        k: "du", id: qIdx(),
+        ok: rec && !P.poll ? richtig(P, rec.a) : null,
+        sf: !!(rec && rec.s === 2 && richtig(P, rec.a) === false),
+        team: s.team,
+        duellWin: isD ? H.duellWinner === pid : undefined,
+        meinHp: isD ? (slot === 0 ? H.duellHp1 : H.duellHp2) : undefined,
+        gegnerHp: isD ? (slot === 0 ? H.duellHp2 : H.duellHp1) : undefined
+      };
+    }
     hostSenden({ t: "einzeln", an });
     const wort = P.poll ? pick(TX.poll) : (neu === true ? pick(TX.neu) : (r2 && p2 - p1 >= 10 ? pick(H.tpRunde ? TX.besserT : TX.besser) : share >= 0.7 ? pick(TX.hoch) : share >= 0.4 ? pick(TX.mittel) : pick(TX.niedrig))) + (fin.sicher > 0 && share < 0.7 && Math.random() < 0.6 ? " " + TX.sicher[0] : "");
-    H.m = { w: wort, k: "aufl", id: qIdx(), i: nr(), n: nGes(), art: P.art, opt: P.opt || undefined, korrekt: P.korr, loesung: P.loesung, erkl: P.erkl, ordT: P.ordTexte, paareT: P.paareT, poll: P.poll || undefined, tp: r2 && H.tpRunde ? 1 : undefined, fu: fu || undefined, sf: H.E.konf && !P.poll && fin.sicher >= 2 ? fin.sicher : undefined, bal1: r1.bal, bal2: r2 ? r2.bal : null, p1, p2, n1: r1.n, n2: r2 ? r2.n : 0, schaden, hp: H.hp, hpMax: H.hpMax, kein: kein || undefined, spielmodus: H.spielmodus, monName: monName(), scoreRot: H.scoreRot || 0, scoreBlau: H.scoreBlau || 0 };
+    H.m = { w: wort, k: "aufl", id: qIdx(), i: nr(), n: nGes(), art: P.art, opt: P.opt || undefined, korrekt: P.korr, loesung: P.loesung, erkl: P.erkl, ordT: P.ordTexte, paareT: P.paareT, poll: P.poll || undefined, tp: r2 && H.tpRunde ? 1 : undefined, fu: fu || undefined, sf: H.E.konf && !P.poll && fin.sicher >= 2 ? fin.sicher : undefined, bal1: r1.bal, bal2: r2 ? r2.bal : null, p1, p2, n1: r1.n, n2: r2 ? r2.n : 0, schaden, hp: H.hp, hpMax: H.hpMax, kein: kein || undefined, spielmodus: H.spielmodus, monName: monName(), scoreRot: H.scoreRot || 0, scoreBlau: H.scoreBlau || 0, duellHp1: H.duellHp1, duellHp2: H.duellHp2, duellWinner: H.duellWinner };
     hostSenden({ t: "alle", m: H.m, merk: 1 });
     hRender(); hMonster(vorher > 0 && H.hp === 0 ? "tot" : schaden > 0 ? "treffer" : "", schaden); hFreu();
     sage("w", wort, 9000);
@@ -8615,8 +9300,15 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       if (r > b) wt = `Team Rot gewinnt mit ${r} : ${b} Punkten! 🏆`;
       else if (b > r) wt = `Team Blau gewinnt mit ${b} : ${r} Punkten! 🏆`;
       else wt = `Unentschieden! Beide Teams erreichen ${r} Punkte! 🤝`;
+    } else if (H.spielmodus === "duell") {
+      const pids = [...H.sp.keys()];
+      const sp1 = pids[0] ? H.sp.get(pids[0]) : null, sp2 = pids[1] ? H.sp.get(pids[1]) : null;
+      const h1 = H.duellHp1 || 0, h2 = H.duellHp2 || 0;
+      if (h1 > h2) wt = `🏆 ${sp1 ? sp1.alias : "Spieler 1"} gewinnt das 1v1 Duell! (${h1} : ${h2} HP)`;
+      else if (h2 > h1) wt = `🏆 ${sp2 ? sp2.alias : "Spieler 2"} gewinnt das 1v1 Duell! (${h2} : ${h1} HP)`;
+      else wt = `🤝 Unentschieden! Gleichstarker Kampf!`;
     }
-    H.m = { k: "schluss", hp: H.hp, hpMax: H.hpMax, besiegt: H.hp <= 0 && !H.nurEigene, nq: H.stats.length, okPct, piPlus, kein: H.nurEigene || undefined, w: wt, spielmodus: H.spielmodus, scoreRot: H.scoreRot || 0, scoreBlau: H.scoreBlau || 0 };
+    H.m = { k: "schluss", hp: H.hp, hpMax: H.hpMax, besiegt: H.hp <= 0 && !H.nurEigene, nq: H.stats.length, okPct, piPlus, kein: H.nurEigene || undefined, w: wt, spielmodus: H.spielmodus, scoreRot: H.scoreRot || 0, scoreBlau: H.scoreBlau || 0, duellHp1: H.duellHp1, duellHp2: H.duellHp2 };
     hostSenden({ t: "alle", m: H.m, merk: 1 });
     hRender(); hFreu(); if (H.m.besiegt) konfetti(70); else konfetti(25);
     zustandWeg();
@@ -8791,20 +9483,32 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   };
 
   function hClashUpdate() {
-    const bar = $("lvClashBar");
-    if (!bar) return;
+    const bar = $("lvClashBar"), dBar = $("lvDuellBar");
     const isClash = H && H.E && H.E.spielmodus === "clash";
-    bar.style.display = isClash ? "flex" : "none";
-    const monK = $("lvMonK"); if (monK) monK.style.display = isClash ? "none" : "";
-    if (!isClash) return;
-    const r = H.scoreRot || 0, b = H.scoreBlau || 0;
-    $("lvClashRotZ").textContent = r;
-    $("lvClashBlauZ").textContent = b;
-    const ges = r + b;
-    const rotPct = ges > 0 ? clamp(Math.round((r / ges) * 100), 10, 90) : 50;
-    $("lvClashFillRot").style.width = rotPct + "%";
-    $("lvClashFillBlau").style.width = (100 - rotPct) + "%";
-    $("lvClashNadel").style.left = rotPct + "%";
+    const isDuell = H && H.E && H.E.spielmodus === "duell";
+    if (bar) bar.style.display = isClash ? "flex" : "none";
+    if (dBar) dBar.style.display = isDuell ? "flex" : "none";
+    const monK = $("lvMonK"); if (monK) monK.style.display = (isClash || isDuell) ? "none" : "";
+    if (isClash) {
+      const r = H.scoreRot || 0, b = H.scoreBlau || 0;
+      $("lvClashRotZ").textContent = r;
+      $("lvClashBlauZ").textContent = b;
+      const ges = r + b;
+      const rotPct = ges > 0 ? clamp(Math.round((r / ges) * 100), 10, 90) : 50;
+      $("lvClashFillRot").style.width = rotPct + "%";
+      $("lvClashFillBlau").style.width = (100 - rotPct) + "%";
+      $("lvClashNadel").style.left = rotPct + "%";
+    }
+    if (isDuell && dBar) {
+      const pids = [...H.sp.keys()];
+      const sp1 = pids[0] ? H.sp.get(pids[0]) : null;
+      const sp2 = pids[1] ? H.sp.get(pids[1]) : null;
+      const n1 = $("lvDP1Name"), n2 = $("lvDP2Name"), h1 = $("lvDP1Hp"), h2 = $("lvDP2Hp");
+      if (n1) n1.textContent = sp1 ? sp1.alias : "Warte auf Spieler 1...";
+      if (n2) n2.textContent = sp2 ? sp2.alias : "Warte auf Spieler 2...";
+      if (h1) h1.textContent = (H.duellHp1 || 0) + " HP";
+      if (h2) h2.textContent = (H.duellHp2 || 0) + " HP";
+    }
   }
 
   function hostUi() {
@@ -8816,6 +9520,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           <div class="lvClashTeamRot"><span class="lvTag">🔴 Team Rot</span> <b id="lvClashRotZ">0</b></div>
           <div class="lvClashTrack"><i class="lvClashFillRot" id="lvClashFillRot"></i><span class="lvClashNadel" id="lvClashNadel">⚡</span><i class="lvClashFillBlau" id="lvClashFillBlau"></i></div>
           <div class="lvClashTeamBlau"><b id="lvClashBlauZ">0</b> <span class="lvTag">Team Blau 🔵</span></div>
+        </div>
+        <div class="lvDuellBar" id="lvDuellBar" style="display:none">
+          <div class="lvDuellP lvDuellP1"><span class="lvDuellTag" id="lvDP1Name">Warte auf Spieler 1...</span> <b id="lvDP1Hp">300 HP</b></div>
+          <div class="lvDuellVs">⚡ DUELL ⚡</div>
+          <div class="lvDuellP lvDuellP2"><b id="lvDP2Hp">300 HP</b> <span class="lvDuellTag" id="lvDP2Name">Warte auf Spieler 2...</span></div>
         </div>
         <div class="lvMonK" id="lvMonK"><span id="lvMonSpr" aria-hidden="true"></span><div class="lvMonB"><small id="lvMonName"></small><div class="lvHp" role="img" aria-label="Energie des Monsters"><i id="lvHpFuell"></i><span id="lvHpT"></span></div></div></div></header>
       <main class="lvKarteBox" id="lvKarteBox"></main>
@@ -9350,15 +10059,21 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   const antKey = (m) => m.id + ":" + m.rund;
   function sUpdateHeader() {
     if (!SP) return;
-    const top = $("lvSpTop"), pille = $("lvSpTeamPille"), clash = $("lvSpClashMini");
+    const top = $("lvSpTop"), pille = $("lvSpTeamPille"), clash = $("lvSpClashMini"), dMini = $("lvSpDuellMini");
     const g = SP.m, isClash = (g && g.spielmodus === "clash") || !!SP.team;
+    const isDuell = (g && g.spielmodus === "duell") || SP.meinHp != null;
 
     if (top) {
       top.classList.toggle("teamRot", SP.team === "rot");
       top.classList.toggle("teamBlau", SP.team === "blau");
+      top.classList.toggle("duell", isDuell);
     }
     if (pille) {
-      if (SP.team) {
+      if (isDuell) {
+        pille.style.display = "inline-flex";
+        pille.className = "lvSpTeamPille duell";
+        pille.textContent = "⚔️ 1v1 Duell";
+      } else if (SP.team) {
         pille.style.display = "inline-flex";
         pille.className = "lvSpTeamPille " + SP.team;
         pille.textContent = SP.team === "rot" ? "🔴 Team Rot" : "🔵 Team Blau";
@@ -9380,10 +10095,20 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         clash.style.display = "none";
       }
     }
+    if (dMini) {
+      if (isDuell) {
+        dMini.style.display = "flex";
+        const dHp = $("spDuellDuHp"), gHp = $("spDuellGegHp");
+        if (dHp) dHp.textContent = SP.meinHp != null ? SP.meinHp : 300;
+        if (gHp) gHp.textContent = SP.gegnerHp != null ? SP.gegnerHp : 300;
+      } else {
+        dMini.style.display = "none";
+      }
+    }
   }
 
   function spielerStart(alias, av, code) {
-    SP = { code, alias: alias || "Azubi", av: avatarOk(av), pid: "", v: null, m: null, t0: 0, ant: {}, du: {}, fr: {}, al: {}, wip: {}, kl: {}, host: true, status: "verbinde", sig: "", zEnde: 0, zDauer: 1, tm: 0, fertig: false, team: null, vib: null };
+    SP = { code, alias: alias || "Azubi", av: avatarOk(av), pid: "", v: null, m: null, t0: 0, ant: {}, du: {}, fr: {}, al: {}, wip: {}, kl: {}, host: true, status: "verbinde", sig: "", zEnde: 0, zDauer: 1, tm: 0, fertig: false, team: null, vib: null, meinHp: null, gegnerHp: null };
     const root = mk("div", "lvSp"); root.id = "lvSp"; root.setAttribute("role", "region"); root.setAttribute("aria-label", "Live-Runde");
     root.innerHTML = `<header class="lvSpTop" id="lvSpTop">
         <span class="lvSpAv" id="lvSpAv"></span>
@@ -9397,6 +10122,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         <span class="spTagRot">🔴 <b id="spClashRot">0</b></span>
         <div class="spTrack"><i id="spFillRot" style="width:50%"></i><i id="spFillBlau" style="width:50%"></i></div>
         <span class="spTagBlau"><b id="spClashBlau">0</b> 🔵</span>
+      </div>
+      <div class="lvSpDuellMini" id="lvSpDuellMini" style="display:none">
+        <span class="spDuellDu">Du: <b id="spDuellDuHp">300</b> HP</span>
+        <span>⚡ DUELL ⚡</span>
+        <span class="spDuellGegner">Gegner: <b id="spDuellGegHp">300</b> HP</span>
       </div>
       <div class="lvSpWeg" id="lvSpWeg" hidden>Der Moderator ist kurz weg. Bleib dran, es geht gleich weiter.</div>
       <main class="lvSpMain" id="lvSpMain" aria-live="polite"></main>`;
@@ -9440,6 +10170,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       if (g.k === "ki") { sKi(g); return; }
       if (g.k === "du") {
         if (g.team) SP.team = g.team;
+        if (g.meinHp != null) { SP.meinHp = g.meinHp; SP.gegnerHp = g.gegnerHp; }
         SP.du[g.id] = g;
         sUpdateHeader();
         if (SP.m && SP.m.k === "aufl" && SP.m.id === g.id) sRender(true);
@@ -9507,7 +10238,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       const du = SP.du[g.id], fin = meineEndAntwort(g.id);
       let ok = du ? du.ok : (g.opt && fin ? fin.a === g.korrekt : undefined);
       const mein = fin && (g.opt && typeof fin.a === "number" ? `${FORMEN[fin.a][1]} ${inl(g.opt[fin.a])}` : typeof fin.a === "string" || typeof fin.a === "number" ? esc(String(fin.a)) : ""), meinZ = mein ? `<small>Deine Antwort: ${mein}</small>` : "";
-      const plusText = ok === true ? (g.spielmodus === "clash" ? `<br><span class="lvSpTeamPlus">+10 Punkte für dein Team! 🎉</span>` : (g.schaden > 0 ? `<br><span class="lvSpDmgPlus">💥 Treffer gegen ${esc(g.monName || "das Monster")}!</span>` : "")) : "";
+      const isDuell = g.spielmodus === "duell";
+      const plusText = isDuell ? (du && du.duellWin ? `<br><span class="lvSpTeamPlus">💥 Schneller als dein Gegner! Volltreffer!</span>` : ok ? `<br><span class="lvSpDmgPlus">🛡️ Richtig, aber Gegner war schneller!</span>` : `<br><span class="lvSpDmgPlus">😵 Falsch beantwortet (−30 HP)</span>`) : ok === true ? (g.spielmodus === "clash" ? `<br><span class="lvSpTeamPlus">+10 Punkte für dein Team! 🎉</span>` : (g.schaden > 0 ? `<br><span class="lvSpDmgPlus">💥 Treffer gegen ${esc(g.monName || "das Monster")}!</span>` : "")) : "";
       const kopf = g.poll ? `<p class="lvSpErg neutral">Danke für deine Stimme. Hier gibt es kein Richtig oder Falsch.</p>` : ok === true ? `<p class="lvSpErg gut" role="status"><b class="lvSpV">✔ RICHTIG</b>${plusText}${meinZ}</p>` : ok === false ? `<p class="lvSpErg falsch" role="status"><b class="lvSpV">✖ FALSCH</b>${meinZ}<small>Die richtige Lösung steht unten.${du && du.sf ? " Du warst dir sicher: Genau diese Korrektur bleibt oft besonders gut hängen." : ""}</small></p>` : ok === null || (!fin && g.opt) ? `<p class="lvSpErg neutral"><b class="lvSpV">– Keine Antwort</b><small>Kein Problem, schau dir die Lösung an.</small></p>` : `<p class="lvSpErg neutral">Schau dir die Lösung an.</p>`;
       if (ok !== undefined && ok !== null && !g.poll && SP.vib !== g.id) { SP.vib = g.id; try { navigator.vibrate && navigator.vibrate(ok ? [60, 40, 100] : [100, 50, 100]); } catch (e) {} }
       h = `<div class="lvSpK lvEin"><div class="lvChips"><span>Frage ${g.i} / ${g.n}</span></div>${kopf}
@@ -9518,7 +10250,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         ${g.erkl ? `<div class="lvErkl">${inl(g.erkl)}</div>` : ""}
         ${g.poll ? "" : `<p class="lvStat">${g.p2 != null ? `Klasse: <b>${g.p1} %</b> → nach dem ${g.tp ? "Tipp" : "Gespräch"} <b>${g.p2} %</b> richtig` : `Klasse: <b>${g.p1} %</b> richtig`}</p>`}
         ${g.fu ? `<p class="lvSm">Zur Festigung kommt gleich noch eine ähnliche Frage.</p>` : ""}
-        ${g.kein || g.spielmodus === "clash" || g.hp == null ? "" : `<p class="lvSpMon">💥 −${g.schaden} HP · Monster: ${g.hp} / ${g.hpMax}</p>`}</div>`;
+        ${g.kein || g.spielmodus === "clash" || g.spielmodus === "duell" || g.hp == null ? "" : `<p class="lvSpMon">💥 −${g.schaden} HP · Monster: ${g.hp} / ${g.hpMax}</p>`}</div>`;
     } else if (g.k === "karte") {
       const kc = `<div class="lvChips"><span>📚 Lernkurs</span><span>${esc(g.thema)}</span></div>`, kl = SP.kl[g.id];
       const off = g.sub === "offen";
@@ -9542,9 +10274,13 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         <p style="font-size:16px;font-weight:700">🔴 ${g.scoreRot || 0} : ${g.scoreBlau || 0} 🔵</p>
         ${SP.team ? `<p style="font-size:13px;margin-top:6px">${(rotWin && SP.team === "rot") || (blauWin && SP.team === "blau") ? "Glückwunsch! Dein Team hat triumphiert! 🥇" : rotWin || blauWin ? "Starker Einsatz für dein Team! 🥈" : "Ausgeglichenes Match!"}</p>` : ""}
       </div>` : "";
-      h = `<div class="lvSpK lvEin"><div class="lvSpGrossAv">${spr("lvA-" + SP.av, 6, "freu")}</div><h2>${g.spielmodus === "clash" ? "Clash beendet! ⚡" : g.besiegt ? "Monster besiegt! 🎉" : "Geschafft!"}</h2>
-        ${clashEnde}
-        <p class="lvSpGross">${g.kein ? "Danke fürs Mitmachen." : g.besiegt ? "Gemeinsam habt ihr es geschafft." : g.spielmodus === "clash" ? "Danke für euren Teamgeist!" : `Das Monster hat noch ${g.hp} von ${g.hpMax} Energie. Ihr wisst jetzt, was ihr wiederholen könnt.`}</p>
+      const duellEnde = g.spielmodus === "duell" ? `<div class="lvSpClashEnde ${(SP.meinHp || 0) > (SP.gegnerHp || 0) ? 'rotGewinnt' : (SP.gegnerHp || 0) > (SP.meinHp || 0) ? 'blauGewinnt' : 'unentschieden'}">
+        <h3>${(SP.meinHp || 0) > (SP.gegnerHp || 0) ? '🏆 Du hast das Duell gewonnen!' : (SP.gegnerHp || 0) > (SP.meinHp || 0) ? '🥈 Duell verloren!' : '🤝 Unentschieden!'}</h3>
+        <p style="font-size:16px;font-weight:700">Du: ${SP.meinHp || 0} HP ⚔️ Gegner: ${SP.gegnerHp || 0} HP</p>
+      </div>` : "";
+      h = `<div class="lvSpK lvEin"><div class="lvSpGrossAv">${spr("lvA-" + SP.av, 6, "freu")}</div><h2>${g.spielmodus === "duell" ? "Duell beendet! ⚔️" : g.spielmodus === "clash" ? "Clash beendet! ⚡" : g.besiegt ? "Monster besiegt! 🎉" : "Geschafft!"}</h2>
+        ${clashEnde}${duellEnde}
+        <p class="lvSpGross">${g.kein ? "Danke fürs Mitmachen." : g.besiegt ? "Gemeinsam habt ihr es geschafft." : g.spielmodus === "clash" ? "Danke für euren Teamgeist!" : g.spielmodus === "duell" ? "Starker Zweikampf!" : `Das Monster hat noch ${g.hp} von ${g.hpMax} Energie. Ihr wisst jetzt, was ihr wiederholen könnt.`}</p>
         <p class="lvStat">${g.nq} Fragen${g.okPct != null ? ` · Klasse im Schnitt <b>${g.okPct} %</b> richtig` : ""}</p>
         ${wdhListe().length ? `<p class="lvSm">Bei ${wdhListe().length} Fragen lohnt sich noch ein Blick. Das Üben bleibt nur auf deinem Gerät.</p><div class="lvAkt"><button class="primary" id="lvSpUeb">🔁 Offene Fragen üben (${wdhListe().length})</button><button id="lvSpZ2">Fertig</button></div>` : `<div class="lvAkt"><button class="primary" id="lvSpZ2">Fertig</button></div>`}</div>`;
     }
