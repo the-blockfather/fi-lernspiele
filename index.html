@@ -2316,17 +2316,24 @@ button.bbDroppedPacket {
   align-items: center;
   gap: 3px;
   cursor: pointer;
-  transition: transform 0.06s linear, outline-color 0.2s, box-shadow 0.2s;
+  transition: outline-color 0.15s, box-shadow 0.15s, background 0.15s;
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
   font-family: inherit;
   font-size: 10px;
   font-weight: 700;
   min-width: 74px;
+  will-change: transform;
 }
 
 .hubRingNode:hover {
   outline-color: var(--fxorg2);
-  transform: translate(-50%, -50%) scale(1.08) !important;
+  background: rgba(62, 40, 24, 0.98);
+  box-shadow: 0 0 14px rgba(255, 166, 80, 0.55), 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.hubRingNode:hover .nodeImg {
+  transform: scale(1.15);
+  transition: transform 0.12s ease-out;
 }
 
 .hubRingNode.focus {
@@ -10982,6 +10989,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   let currentAngle = 0;
   let targetAngle = 0;
   let focusIdx = 0;
+  let hoveredIdx = -1;
   let lastReportedFocus = -1;
   const NUM_ITEMS = RING_ITEMS.length;
   const STEP_ANGLE = (2 * Math.PI) / NUM_ITEMS;
@@ -11190,9 +11198,14 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       const opacity = 0.55 + 0.45 * z;
       const zIndex = Math.round(10 + 25 * z);
 
-      btn.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0) translate(-50%, -50%) scale(${scale.toFixed(3)})`;
-      btn.style.opacity = opacity.toFixed(2);
-      btn.style.zIndex = zIndex;
+      const isHovered = (hoveredIdx === idx);
+      const effScale = (scale * (isHovered ? 1.08 : 1.0)).toFixed(3);
+      const effOpacity = isHovered ? "1.00" : opacity.toFixed(2);
+      const effZIndex = isHovered ? zIndex + 25 : zIndex;
+
+      btn.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0) translate(-50%, -50%) scale(${effScale})`;
+      btn.style.opacity = effOpacity;
+      btn.style.zIndex = effZIndex;
 
       if (idx === focusIdx) {
         btn.classList.add("focus");
@@ -11227,10 +11240,12 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   $("hubArrowRight").onclick = dreheRechts;
   $("hubOpenBtn").onclick = () => oeffneBereich(RING_ITEMS[focusIdx].id);
 
-  // Klick auf Ringknoten
+  // Klick & Hover auf Ringknoten
   RING_ITEMS.forEach((item, idx) => {
     const btn = $(`ringNode_${idx}`);
     if (!btn) return;
+    btn.onmouseenter = () => { hoveredIdx = idx; };
+    btn.onmouseleave = () => { if (hoveredIdx === idx) hoveredIdx = -1; };
     btn.onclick = () => {
       if (idx === focusIdx) {
         oeffneBereich(item.id);
