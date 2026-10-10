@@ -2052,6 +2052,22 @@ body.retro #fxArena {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  display: contents;
+}
+
+.hubPlayerSpriteWrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 18;
+}
+
+.hubPlayerCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 .hubRingNode {
@@ -2064,23 +2080,23 @@ body.retro #fxArena {
   border: 3px solid var(--fxdark);
   outline: 2px solid #5a3822;
   border-radius: 4px;
-  padding: 6px 10px;
+  padding: 4px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   cursor: pointer;
   transition: transform 0.06s linear, outline-color 0.2s, box-shadow 0.2s;
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
   font-family: inherit;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  min-width: 84px;
+  min-width: 74px;
 }
 
 .hubRingNode:hover {
   outline-color: var(--fxorg2);
-  transform: translate(-50%, -50%) scale(1.1) !important;
+  transform: translate(-50%, -50%) scale(1.08) !important;
 }
 
 .hubRingNode.focus {
@@ -2090,16 +2106,16 @@ body.retro #fxArena {
 }
 
 .nodeIconWrap {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .nodeImg {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   image-rendering: pixelated;
   object-fit: contain;
 }
@@ -2112,46 +2128,46 @@ body.retro #fxArena {
 /* Fokus-Plakette & Pfeile */
 .hubFocusPlaque {
   position: absolute;
-  bottom: 24px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 12px;
-  width: 90%;
-  max-width: 540px;
-  z-index: 30;
+  gap: 10px;
+  width: 92%;
+  max-width: 500px;
+  z-index: 40;
 }
 
 .hubFocusInfo {
   flex: 1;
-  background: rgba(28, 20, 14, 0.95);
+  background: rgba(28, 20, 14, 0.96);
   border: 3px solid var(--fxdark);
   outline: 2px solid var(--fxorg);
-  padding: 6px 12px 8px;
+  padding: 4px 10px 6px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
 
 .hubFocusInfo h2 {
-  margin: 0 0 2px;
-  font-size: 14px;
+  margin: 0 0 1px;
+  font-size: 13px;
   color: var(--fxfocus);
   text-shadow: 1px 1px 0 #000;
 }
 
 .hubFocusInfo p {
-  margin: 0 0 6px;
-  font-size: 10px;
+  margin: 0 0 4px;
+  font-size: 9.5px;
   color: var(--fxcream);
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 .hubOpenBtn {
   font-family: inherit;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 4px 14px;
+  padding: 3px 12px;
   background: var(--fxorg);
   color: #fff;
   border: 2px solid var(--fxdark);
@@ -2167,10 +2183,10 @@ body.retro #fxArena {
 
 .hubArrowBtn {
   font-family: inherit;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3485,6 +3501,55 @@ body.lvAn #dsModal { z-index: 95; }
 .lvSpKi { position: absolute; z-index: 5; left: 8px; right: 8px; bottom: 8px; max-height: 58%; overflow: auto; background: #2a2018; border: 3px solid #d9a05b; border-radius: 14px; padding: 10px 12px; box-shadow: 0 6px 24px rgba(0,0,0,.6); }
 .lvSpKiK { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
 .lvSpKiT { line-height: 1.4; font-size: 1.02rem; }
+
+/* Klassen-Mana & Super-Attacke (Beamer-Raid) */
+.lvManaK { display: flex; align-items: center; gap: .6em; justify-content: flex-end; }
+.lvManaB { display: grid; gap: .25em; justify-items: end; }
+.lvManaB small { font-size: .75em; opacity: .9; text-align: right; color: #38bdf8; font-weight: 700; letter-spacing: .05em; }
+.lvManaHp { position: relative; height: 1.25em; width: 14em; max-width: 24vw; border: 2px solid #1c1812; background: #0c1a26; border-radius: 6px; overflow: hidden; }
+.lvManaHp i { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, #0284c7, #38bdf8, #f59e0b); box-shadow: 0 0 10px rgba(56, 189, 248, 0.6); transition: width .5s cubic-bezier(.2, .9, .3, 1); }
+.lvManaHp.voll i { animation: manaGlow .7s infinite alternate; background: linear-gradient(90deg, #f59e0b, #ef4444, #fbbf24); }
+@keyframes manaGlow { from { filter: brightness(1); } to { filter: brightness(1.5) drop-shadow(0 0 8px #f59e0b); } }
+.lvManaHp span { position: absolute; inset: 0; display: grid; place-items: center; font-size: .72em; font-weight: 700; text-shadow: 0 1px 2px #000; color: #fff; }
+
+/* Super-Attacke Banner & Screen Shake */
+.superShake { animation: superScreenShake .6s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes superScreenShake {
+  10%, 90% { transform: translate3d(-4px, 0, 0); }
+  20%, 80% { transform: translate3d(6px, 2px, 0); }
+  30%, 50%, 70% { transform: translate3d(-8px, -4px, 0); }
+  40%, 60% { transform: translate3d(8px, 4px, 0); }
+}
+.lvSuperAttackBanner {
+  position: fixed; inset: 0; z-index: 999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(10, 5, 2, 0.88);
+  pointer-events: none;
+  animation: superBan 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.lvSuperAttackBanner h1 {
+  font-size: clamp(26px, 5.2vw, 58px);
+  color: #ffcc00;
+  text-shadow: 0 0 20px #ff4400, 3px 3px 0 #000;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.lvSuperAttackBanner p {
+  font-size: clamp(16px, 2.8vw, 32px);
+  color: #fff;
+  font-weight: 800;
+  text-shadow: 2px 2px 0 #000;
+  margin: 0;
+}
+@keyframes superBan {
+  0% { opacity: 0; transform: scale(0.7); }
+  15% { opacity: 1; transform: scale(1.05); }
+  25% { transform: scale(1); }
+  80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.2); visibility: hidden; }
+}
+
 
 /* ---- retro.css ---- */
 /* retro.css - Pixel-Look (Schalter "Retro-Look" und Standard im Fancy Mode), nur aktiv mit <body class="retro">.
@@ -8797,6 +8862,13 @@ document.addEventListener("keydown", (e) => {
         if ($("nick")) $("nick").value = nick;
         const cfg = store.get("fi-quiz-fancy-v1", {});
         store.set("fi-quiz-fancy-v1", Object.assign(cfg, { av: avWahl }));
+        let syncD = store.get("fi-quiz-sync-v1", {});
+        if (!syncD.code) {
+          const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+          let c = "FI-";
+          for (let i = 0; i < 4; i++) c += chars.charAt(Math.floor(Math.random() * chars.length));
+          store.set("fi-quiz-sync-v1", { code: c, ein: true });
+        }
         zu();
       };
 
@@ -9406,6 +9478,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         `).join("")}
       </div>
 
+      <!-- Spieler-Ebene im DOM (z-index: 18, zwischen hinteren und vorderen Ringknoten) -->
+      <div class="hubPlayerSpriteWrap" id="hubPlayerSpriteWrap">
+        <canvas id="hubPlayerCanvas" width="640" height="360" class="hubPlayerCanvas"></canvas>
+      </div>
+
       <!-- Fokus-Plakette & Steuerung -->
       <div class="hubFocusPlaque">
         <button type="button" class="hubArrowBtn" id="hubArrowLeft" title="Nach links drehen (◀ / A)">◀</button>
@@ -9445,6 +9522,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   const cv = $("hubCanvas");
   const ctx = cv ? cv.getContext("2d") : null;
   if (ctx) ctx.imageSmoothingEnabled = false;
+
+  const pCv = $("hubPlayerCanvas");
+  const pCtx = pCv ? pCv.getContext("2d") : null;
+  if (pCtx) pCtx.imageSmoothingEnabled = false;
 
   // Sterne & Cyber-Staub
   const STERNE = Array.from({ length: 42 }, () => ({
@@ -9564,7 +9645,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     });
 
     // 3. Magische Bodenplattform / Runenkreis unter der Figur
-    const cx = 320, cy = 205;
+    const cx = 320, cy = 115;
     ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
     ctx.beginPath();
     ctx.ellipse(cx, cy + 18, 55, 16, 0, 0, 7);
@@ -9577,72 +9658,75 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     ctx.ellipse(cx, cy + 18, 48 + Math.sin(ts / 350) * 3, 14, 0, 0, 7);
     ctx.stroke();
 
-    // 4. Spieler-Figur (16px Sprite, auf 48x48 skaliert)
-    const avName = cfg().av || "Knight";
-    const avImg = ladeBild(A.chars[avName] || A.chars.Knight);
-    const bob = Math.round(Math.sin(ts / 260) * 2);
+    // 4. Spieler & Wichtel auf separater Canvas-Ebene (z-index: 18) zeichnen
+    if (pCtx) {
+      pCtx.clearRect(0, 0, 640, 360);
+      const avName = cfg().av || "Knight";
+      const avImg = ladeBild(A.chars[avName] || A.chars.Knight);
+      const bob = Math.round(Math.sin(ts / 260) * 2);
 
-    if (avImg && avImg.complete) {
-      const walkFrame = Math.floor(ts / 240) % 4;
-      // Figur nach vorne gerichtet (Zeile 0, Spalte = Animation)
-      ctx.drawImage(
-        avImg,
-        0, walkFrame * 16, 16, 16,
-        cx - 24, cy - 32 + bob, 48, 48
-      );
+      if (avImg && avImg.complete) {
+        const walkFrame = Math.floor(ts / 240) % 4;
+        // Figur nach vorne gerichtet (Zeile 0, Spalte = Animation)
+        pCtx.drawImage(
+          avImg,
+          0, walkFrame * 16, 16, 16,
+          cx - 24, cy - 32 + bob, 48, 48
+        );
 
-      // Freigeschaltetes Cosmetic-Accessoire auf Kopf zeichnen
-      const hat = (cfg().cosmetics || {}).hat;
-      if (hat === "crown") {
-        // Goldene IT-Krone
-        ctx.fillStyle = "#ffd700";
-        ctx.fillRect(cx - 10, cy - 38 + bob, 20, 6);
-        ctx.fillRect(cx - 10, cy - 42 + bob, 4, 4);
-        ctx.fillRect(cx - 2, cy - 43 + bob, 4, 5);
-        ctx.fillRect(cx + 6, cy - 42 + bob, 4, 4);
-      } else if (hat === "glasses") {
-        // Root-Admin Sonnenbrille
-        ctx.fillStyle = "#111";
-        ctx.fillRect(cx - 10, cy - 20 + bob, 20, 5);
-        ctx.fillStyle = "#00e5ff";
-        ctx.fillRect(cx - 8, cy - 19 + bob, 5, 2);
-        ctx.fillRect(cx + 3, cy - 19 + bob, 5, 2);
-      } else if (hat === "cap") {
-        // Doktorhut
-        ctx.fillStyle = "#1f2937";
-        ctx.fillRect(cx - 16, cy - 38 + bob, 32, 4);
-        ctx.fillRect(cx - 8, cy - 34 + bob, 16, 4);
-        ctx.fillStyle = "#f59e0b";
-        ctx.fillRect(cx + 12, cy - 36 + bob, 2, 7);
+        // Freigeschaltetes Cosmetic-Accessoire auf Kopf zeichnen
+        const hat = (cfg().cosmetics || {}).hat;
+        if (hat === "crown") {
+          // Goldene IT-Krone
+          pCtx.fillStyle = "#ffd700";
+          pCtx.fillRect(cx - 10, cy - 38 + bob, 20, 6);
+          pCtx.fillRect(cx - 10, cy - 42 + bob, 4, 4);
+          pCtx.fillRect(cx - 2, cy - 43 + bob, 4, 5);
+          pCtx.fillRect(cx + 6, cy - 42 + bob, 4, 4);
+        } else if (hat === "glasses") {
+          // Root-Admin Sonnenbrille
+          pCtx.fillStyle = "#111";
+          pCtx.fillRect(cx - 10, cy - 20 + bob, 20, 5);
+          pCtx.fillStyle = "#00e5ff";
+          pCtx.fillRect(cx - 8, cy - 19 + bob, 5, 2);
+          pCtx.fillRect(cx + 3, cy - 19 + bob, 5, 2);
+        } else if (hat === "cap") {
+          // Doktorhut
+          pCtx.fillStyle = "#1f2937";
+          pCtx.fillRect(cx - 16, cy - 38 + bob, 32, 4);
+          pCtx.fillRect(cx - 8, cy - 34 + bob, 16, 4);
+          pCtx.fillStyle = "#f59e0b";
+          pCtx.fillRect(cx + 12, cy - 36 + bob, 2, 7);
+        }
       }
-    }
 
-    // 5. KIS-Wichtel (Lern-Begleiter) schwebend neben dem Spieler
-    const wiImg = ladeBild(A.spirit);
-    const wiBob = Math.round(Math.sin(ts / 300) * 5);
-    const wx = cx + 38, wy = cy - 48 + wiBob;
+      // 5. KIS-Wichtel (Lern-Begleiter) schwebend neben dem Spieler
+      const wiImg = ladeBild(A.spirit);
+      const wiBob = Math.round(Math.sin(ts / 300) * 5);
+      const wx = cx + 38, wy = cy - 44 + wiBob;
 
-    if (wiImg && wiImg.complete) {
-      const wFrame = Math.floor(ts / 180) % 4;
-      ctx.drawImage(
-        wiImg,
-        0, wFrame * 16, 16, 16,
-        wx, wy, 28, 28
-      );
+      if (wiImg && wiImg.complete) {
+        const wFrame = Math.floor(ts / 180) % 4;
+        pCtx.drawImage(
+          wiImg,
+          0, wFrame * 16, 16, 16,
+          wx, wy, 28, 28
+        );
 
-      // Magische Glitzerfunken um den Wichtel
-      const spA = 0.5 + 0.5 * Math.sin(ts / 200);
-      ctx.fillStyle = `rgba(180, 240, 255, ${spA})`;
-      ctx.fillRect(wx + 10 + Math.sin(ts / 250) * 12, wy + 14 + Math.cos(ts / 250) * 8, 2, 2);
+        // Magische Glitzerfunken um den Wichtel
+        const spA = 0.5 + 0.5 * Math.sin(ts / 200);
+        pCtx.fillStyle = `rgba(180, 240, 255, ${spA})`;
+        pCtx.fillRect(wx + 10 + Math.sin(ts / 250) * 12, wy + 14 + Math.cos(ts / 250) * 8, 2, 2);
+      }
     }
 
     // 6. DOM Ringknoten im 2.5D Orbit positionieren
     const stageW = cv.clientWidth || 640;
     const stageH = cv.clientHeight || 360;
-    const rx = Math.min(210, stageW * 0.34);
-    const ry = Math.min(68, stageH * 0.18);
+    const rx = Math.min(220, stageW * 0.34);
+    const ry = Math.min(44, stageH * 0.125);
     const nodeCx = stageW / 2;
-    const nodeCy = stageH / 2 + 25;
+    const nodeCy = Math.round(stageH * 0.41);
 
     RING_ITEMS.forEach((_, idx) => {
       const btn = $(`ringNode_${idx}`);
@@ -9655,7 +9739,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       // Tiefenfaktor z: 0 (ganz hinten) bis 1 (ganz vorne)
       const cosVal = Math.cos(theta);
       const z = (cosVal + 1) / 2;
-      const scale = 0.72 + 0.52 * z;
+      const scale = 0.70 + 0.44 * z;
       const opacity = 0.55 + 0.45 * z;
       const zIndex = Math.round(10 + 25 * z);
 
@@ -9806,7 +9890,13 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       btn.onclick = () => {
         schliesseModal();
         stoppeHub();
-        kursStarten(btn.dataset.kurs);
+        const pId = btn.dataset.kurs;
+        if (typeof startGame === "function") {
+          startGame(pId);
+        } else if (typeof kursStart === "function") {
+          const p = alle().find((x) => x.id === pId);
+          if (p) kursStart(p);
+        }
       };
     });
   }
@@ -9814,9 +9904,13 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   // 2. Wissensbaum (Adaptiver Lernmodus)
   function oeffneWissensbaum() {
     schliesseModal();
-    stoppeHub();
-    if (typeof lpStarten === "function") {
-      lpStarten();
+    if (typeof lpStartDialog === "function") {
+      lpStartDialog();
+    } else if (typeof lpStarten === "function") {
+      stoppeHub();
+      const pool = typeof lpPool === "function" ? lpPool() : [];
+      const kaps = [...new Set(pool.map((q) => q.kap))];
+      lpStarten({ lf: "alle", kaps, ziel: { art: "zeit", wert: 15 }, frei: "1", einstufung: true });
     }
   }
 
@@ -9848,8 +9942,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
     $("arenaHostBtn").onclick = () => {
       schliesseModal();
-      if (window.DUELL && typeof window.DUELL.hostDuell === "function") {
-        window.DUELL.hostDuell();
+      stoppeHub();
+      if (window.DUELL_ARENA && typeof window.DUELL_ARENA.starten === "function") {
+        window.DUELL_ARENA.starten();
+      } else if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostDialog === "function") {
+        window.LIVE_RUNDE.hostDialog();
       }
     };
 
@@ -9857,18 +9954,58 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       const code = ($("arenaJoinCode").value || "").trim().toUpperCase();
       if (!code) return;
       schliesseModal();
-      if (window.DUELL && typeof window.DUELL.joinDuell === "function") {
-        window.DUELL.joinDuell(code);
+      stoppeHub();
+      if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.spielerDialog === "function") {
+        window.LIVE_RUNDE.spielerDialog(code);
       }
     };
 
     $("arenaRaidBtn").onclick = () => {
       schliesseModal();
-      if (window.LIVE && typeof window.LIVE.openHost === "function") {
+      stoppeHub();
+      if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostDialog === "function") {
+        window.LIVE_RUNDE.hostDialog();
+      } else if (window.LIVE && typeof window.LIVE.openHost === "function") {
         window.LIVE.openHost();
       }
     };
   }
+
+  // Mini-Game Runner für Spielhalle
+  function starteMiniGame(typ, titel) {
+    schliesseModal();
+    stoppeHub();
+    const queue = [];
+    for (let i = 0; i < 10; i++) {
+      if (window.GENERATORS && window.GENERATORS[typ]) {
+        const lvl = typeof rnd === "function" ? rnd(1, 3) : 1;
+        const g = window.GENERATORS[typ](lvl);
+        queue.push({ ...g, art: typ, thema: titel, paket: "🕹️ Spielhalle" });
+      }
+    }
+    if (!queue.length) {
+      const p = alle()[0];
+      if (p) return startGame(p.id);
+    }
+    const pack = { id: "mini-" + typ, titel: titel, zeit: 60, typ: "spiel" };
+    window.S = { pack, queue, idx: 0, score: 0, streak: 0, best: 0, antworten: [], zeit: 60, rest: 60, level: 1, ende: false };
+    if ($("hudTitel")) $("hudTitel").textContent = pack.titel;
+    if ($("zeitWrap")) $("zeitWrap").classList.remove("hidden");
+    clearInterval(window.timer);
+    window.timer = setInterval(() => {
+      if (!window.S) return;
+      window.S.rest -= 0.25;
+      if ($("zeitBar")) $("zeitBar").style.width = Math.max(0, (window.S.rest / window.S.zeit) * 100) + "%";
+      if (window.S.rest <= 0 && typeof endGame === "function") endGame();
+    }, 250);
+    show("game");
+    if (typeof naechste === "function") naechste();
+  }
+
+  window.fTriageStarten = () => starteMiniGame("triage", "📦 Subnetz-Triage");
+  window.fVlanStarten = () => starteMiniGame("vlan", "🔀 VLAN-Dispatcher");
+  window.fBlocksStarten = () => starteMiniGame("blocks", "🧱 Block-Allocator");
+  window.fArcadeStarten = () => starteMiniGame("sniper", "🎯 Rechen-Sniper");
 
   // 4. Spielhalle (Mini-Games & Sprints)
   function oeffneSpielhalleModal() {
@@ -9900,13 +10037,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
     modalBody.querySelectorAll("[data-game]").forEach((b) => {
       b.onclick = () => {
-        schliesseModal();
-        stoppeHub();
         const g = b.dataset.game;
-        if (g === "triage" && window.fTriageStarten) window.fTriageStarten();
-        else if (g === "vlan" && window.fVlanStarten) window.fVlanStarten();
-        else if (g === "blocks" && window.fBlocksStarten) window.fBlocksStarten();
-        else if (g === "arcade" && window.fArcadeStarten) window.fArcadeStarten();
+        if (g === "triage") window.fTriageStarten();
+        else if (g === "vlan") window.fVlanStarten();
+        else if (g === "blocks") window.fBlocksStarten();
+        else if (g === "arcade") window.fArcadeStarten();
       };
     });
   }
@@ -9972,7 +10107,14 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     const curHat = (cfg().cosmetics || {}).hat || "";
     const info = kurseInfo();
     const r = rang(info);
-    const syncData = store.get("fi-quiz-sync-v1", {});
+    let syncData = store.get("fi-quiz-sync-v1", {});
+    if (!syncData.code) {
+      const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+      let c = "FI-";
+      for (let i = 0; i < 4; i++) c += chars.charAt(Math.floor(Math.random() * chars.length));
+      syncData = { code: c, ein: true };
+      store.set("fi-quiz-sync-v1", syncData);
+    }
 
     zeigeModal("⚙️ Profil, Kleiderschrank & Cloud-Sync", `
       <div class="profilTabs">
@@ -10016,10 +10158,27 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         <h4>Spielstand-Abgleich per Code oder QR-Code</h4>
         <p class="modalLead">Gleiche deinen Fortschritt freiwillig zwischen PC und Smartphone ab. Völlig anonym ohne E-Mail oder Passwort.</p>
         <div class="syncCodeBox">
-          <span class="syncLabel">Dein Code:</span>
-          <b class="syncCodeDisplay" id="syncCodeDisplay">${esc(syncData.code || "Noch nicht generiert")}</b>
-          <div id="syncQrContainer" style="margin:10px auto;width:128px;height:128px;"></div>
-          <button type="button" class="primary" id="syncGenBtn">Neuen Code erzeugen / abgleichen</button>
+          <span class="syncLabel">Dein 6-stelliger Profil-Code:</span>
+          <b class="syncCodeDisplay" id="syncCodeDisplay">${esc(syncData.code)}</b>
+          <div style="display:flex;gap:8px;justify-content:center;margin:8px 0;flex-wrap:wrap">
+            <button type="button" class="primary" id="syncCopyCodeBtn">📋 Code kopieren</button>
+            <button type="button" class="ghost" id="syncCopyLinkBtn">🔗 Link kopieren</button>
+            <button type="button" class="ghost" id="syncGenBtn">🎲 Neuer Code</button>
+          </div>
+          <div id="syncQrContainer" style="margin:10px auto;width:130px;height:130px;background:#fff;padding:6px;border-radius:6px;display:flex;align-items:center;justify-content:center;"></div>
+          <small class="muted" style="display:block;margin-bottom:12px">Scanne den QR-Code mit der Handykamera, um sofort auf dem Smartphone weiterzuspielen.</small>
+
+          <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;margin-top:10px;">
+            <span class="syncLabel">Anderen Code verbinden:</span>
+            <div class="introCodeInputRow" style="margin:6px 0">
+              <input type="text" id="syncInputCode" placeholder="Code (z. B. FI-8492)" maxlength="14" style="text-transform:uppercase">
+              <button type="button" class="primary" id="syncConnectBtn">Verbinden</button>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap">
+              <button type="button" class="ghost" id="syncExportBtn">💾 Backup exportieren</button>
+              <button type="button" class="ghost" id="syncImportBtn">📥 Backup importieren</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -10066,24 +10225,112 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       const code = (store.get("fi-quiz-sync-v1", {}).code || "");
       if (code && typeof FI_QR !== "undefined") {
         try {
-          const qr = FI_QR(4, "M");
+          const qr = FI_QR(0, "M");
           qr.addData(window.location.origin + window.location.pathname + "#sync=" + code);
           qr.make();
-          $("syncQrContainer").innerHTML = qr.createSvgTag(3, 4);
-        } catch (e) {}
+          $("syncQrContainer").innerHTML = qr.createSvgTag({ cellSize: 3, margin: 2, scalable: true });
+        } catch (e) {
+          $("syncQrContainer").textContent = "QR-Code Code: " + code;
+        }
       }
+    }
+
+    const copyCodeBtn = $("syncCopyCodeBtn");
+    if (copyCodeBtn) {
+      copyCodeBtn.onclick = () => {
+        const c = $("syncCodeDisplay").textContent.trim();
+        if (navigator.clipboard) navigator.clipboard.writeText(c);
+        copyCodeBtn.textContent = "✓ Kopiert!";
+        setTimeout(() => copyCodeBtn.textContent = "📋 Code kopieren", 1800);
+      };
+    }
+
+    const copyLinkBtn = $("syncCopyLinkBtn");
+    if (copyLinkBtn) {
+      copyLinkBtn.onclick = () => {
+        const c = $("syncCodeDisplay").textContent.trim();
+        const url = window.location.origin + window.location.pathname + "#sync=" + c;
+        if (navigator.clipboard) navigator.clipboard.writeText(url);
+        copyLinkBtn.textContent = "✓ Link kopiert!";
+        setTimeout(() => copyLinkBtn.textContent = "🔗 Link kopieren", 1800);
+      };
     }
 
     const genBtn = $("syncGenBtn");
     if (genBtn) {
       genBtn.onclick = () => {
+        const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+        let c = "FI-";
+        for (let i = 0; i < 4; i++) c += chars.charAt(Math.floor(Math.random() * chars.length));
+        store.set("fi-quiz-sync-v1", { code: c, ein: true });
+        $("syncCodeDisplay").textContent = c;
+        renderQr();
+      };
+    }
+
+    const connBtn = $("syncConnectBtn");
+    if (connBtn) {
+      connBtn.onclick = () => {
+        const inp = ($("syncInputCode").value || "").trim().toUpperCase();
+        if (!inp) return;
+        store.set("fi-quiz-sync-v1", { code: inp, ein: true });
+        $("syncCodeDisplay").textContent = inp;
+        renderQr();
         if (window.FISync && typeof window.FISync.abgleichen === "function") {
-          window.FISync.abgleichen().then(() => {
-            const sc = store.get("fi-quiz-sync-v1", {}).code || "";
-            $("syncCodeDisplay").textContent = sc;
-            renderQr();
-          });
+          window.FISync.abgleichen(inp);
         }
+      };
+    }
+
+    const expBtn = $("syncExportBtn");
+    if (expBtn) {
+      expBtn.onclick = () => {
+        const daten = {
+          datum: new Date().toISOString(),
+          nick: store.get(K.nick, "Azubi"),
+          code: store.get("fi-quiz-sync-v1", {}).code || "",
+          kurs: store.get("fi-quiz-kurs-v1", {}),
+          lernstand: store.get("fi-quiz-lernstand-v1", {}),
+          fancy: store.get("fi-quiz-fancy-v1", {})
+        };
+        const str = JSON.stringify(daten, null, 2);
+        const b = new Blob([str], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(b);
+        a.download = `FI-Quiz-Spielstand-${daten.code || "backup"}.json`;
+        a.click();
+      };
+    }
+
+    const impBtn = $("syncImportBtn");
+    if (impBtn) {
+      impBtn.onclick = () => {
+        const inp = document.createElement("input");
+        inp.type = "file";
+        inp.accept = ".json";
+        inp.onchange = (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const r = new FileReader();
+          r.onload = (ev) => {
+            try {
+              const j = JSON.parse(ev.target.result);
+              if (j.nick) store.set(K.nick, j.nick);
+              if (j.kurs) store.set("fi-quiz-kurs-v1", j.kurs);
+              if (j.lernstand) store.set("fi-quiz-lernstand-v1", j.lernstand);
+              if (j.fancy) store.set("fi-quiz-fancy-v1", j.fancy);
+              if (j.code) store.set("fi-quiz-sync-v1", { code: j.code, ein: true });
+              hudUpdate();
+              schliesseModal();
+              ton("fanfare");
+              alert("Spielstand erfolgreich importiert!");
+            } catch (err) {
+              alert("Ungültige Spielstand-Datei.");
+            }
+          };
+          r.readAsText(file);
+        };
+        inp.click();
       };
     }
 
@@ -10782,6 +11029,17 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     H.phase = "aufl";
     const nenner = Math.max(fin.n, Math.ceil(conn * 0.6), 1), share = fin.ok / nenner, kein = P.poll || H.nurEigene, schaden = kein ? 0 : Math.round(share * 100), vorher = H.hp;
     H.hp = Math.max(0, H.hp - schaden);
+    if (!H.spielmodus || H.spielmodus === "coop") {
+      const manaZuwachs = Math.max(fin.ok * 5, Math.round(share * 25));
+      H.mana = Math.min(100, (H.mana || 0) + manaZuwachs);
+      if (H.mana >= 100) {
+        H.mana = 0;
+        const superDmg = 500;
+        H.hp = Math.max(0, H.hp - superDmg);
+        hSuperAttacke("DDoS-Gegenschlag", superDmg);
+      }
+      hManaUpdate();
+    }
     if (H.spielmodus === "clash") {
       let rOk = 0, bOk = 0;
       for (const [pid, s] of H.sp) {
@@ -11092,6 +11350,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           <div class="lvDuellVs">⚡ DUELL ⚡</div>
           <div class="lvDuellP lvDuellP2"><b id="lvDP2Hp">300 HP</b> <span class="lvDuellTag" id="lvDP2Name">Warte auf Spieler 2...</span></div>
         </div>
+        <div class="lvManaK" id="lvManaK" style="display:none" title="Klassen-Mana für Super-Attacke"><div class="lvManaB"><small>⚡ KLASSEN-MANA</small><div class="lvManaHp" id="lvManaHp"><i id="lvManaFuell"></i><span id="lvManaT">0%</span></div></div></div>
         <div class="lvMonK" id="lvMonK"><span id="lvMonSpr" aria-hidden="true"></span><div class="lvMonB"><small id="lvMonName"></small><div class="lvHp" role="img" aria-label="Energie des Monsters"><i id="lvHpFuell"></i><span id="lvHpT"></span></div></div></div></header>
       <main class="lvKarteBox" id="lvKarteBox"></main>
       <section class="lvBuehne" aria-hidden="false"><div class="lvFig lvFigW"><div class="lvBlase" id="lvWB" role="status" hidden></div><span id="lvWSpr" aria-hidden="true"></span></div><div class="lvLeute" id="lvLeute"></div>
@@ -11112,7 +11371,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       hostSenden({ t: "kick", pid: b.closest(".lvLeut").dataset.pid });
     });
     $("lvMonName").textContent = monName();
-    hSprites(); hMonster(""); hClashUpdate(); hRender();
+    hSprites(); hMonster(""); hClashUpdate(); hManaUpdate(); hRender();
   }
   function hSprites() {
     const s = skala();
@@ -11145,6 +11404,39 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       d.classList.add("an");
     }
     if (art === "tot") konfetti(60);
+  }
+  function hManaUpdate() {
+    const f = $("lvManaFuell"), t = $("lvManaT"), box = $("lvManaHp"), mk = $("lvManaK");
+    if (!f || !t) return;
+    if (H && (H.spielmodus === "clash" || H.spielmodus === "duell")) {
+      if (mk) mk.style.display = "none";
+      return;
+    }
+    if (mk) mk.style.display = "flex";
+    const m = Math.min(100, Math.max(0, H ? (H.mana || 0) : 0));
+    f.style.width = m + "%";
+    t.textContent = m + "%";
+    if (box) box.classList.toggle("voll", m >= 100);
+  }
+  function hSuperAttacke(name, schaden) {
+    document.body.classList.add("superShake");
+    setTimeout(() => document.body.classList.remove("superShake"), 650);
+
+    const ban = document.createElement("div");
+    ban.className = "lvSuperAttackBanner";
+    ban.innerHTML = `
+      <h1>⚡ KLASSEN-SUPER-ATTACKE! ⚡</h1>
+      <p>🔥 ${name} 🔥</p>
+      <small style="color:#ffa650;font-size:1.4em;margin-top:8px">Massiver Schaden: -${schaden} HP am Boss!</small>
+    `;
+    document.body.appendChild(ban);
+    setTimeout(() => ban.remove(), 2900);
+
+    if (window.FX && typeof window.FX.sound === "function") {
+      window.FX.sound("win", 0.6);
+    }
+    konfetti(50);
+    sage("w", `⚡ SUPER-ATTACKE: ${name}! Die ganze Klasse schlägt vereint zu!`, 8000);
   }
   function hFreu() { for (const c of document.querySelectorAll("#lvLeute .lvLeut")) { c.style.setProperty("--d", Math.round(Math.random() * 600) + "ms"); c.classList.remove("ant"); c.classList.add("freu"); } }
   function hFreuAus() { for (const c of document.querySelectorAll("#lvLeute .lvLeut")) c.classList.remove("freu", "ant"); }
@@ -12027,7 +12319,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     if (!H && !SP) setTimeout(() => spielerDialog(c), 30);
   }
   deepLink(); addEventListener("hashchange", deepLink);
-  window.LIVE_RUNDE = { host: () => H, spieler: () => SP, hostStart, bereite, richtig, pool: bauePool, zaehle, kursFragen, duellFragen, DUELL, loeseQids, ueben, uAusFrage, parseSchnell, nameOk, waehleFragen, netzTest, wdhListe, kursDrehbuch, hostStartKurs, kursDialog, stepsVon, zaehleSt, spielerStart, sRender, sUpdateHeader, spielerZu };   // nur für Tests und Fehlersuche
+  window.LIVE_RUNDE = { host: () => H, spieler: () => SP, hostStart, bereite, richtig, pool: bauePool, zaehle, kursFragen, duellFragen, DUELL, loeseQids, ueben, uAusFrage, parseSchnell, nameOk, waehleFragen, netzTest, wdhListe, kursDrehbuch, hostStartKurs, kursDialog, stepsVon, zaehleSt, spielerStart, sRender, sUpdateHeader, spielerZu, hostDialog, spielerDialog };
+  window.LIVE = { openHost: hostDialog, openJoin: (code) => spielerDialog(code || "") };
 })();
 
 /* ---- s_zz_battle.js ---- */
