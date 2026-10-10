@@ -345,8 +345,7 @@ button.mini { min-height: 34px; padding: 6px 12px; font-size: .9em; }
 @keyframes auf { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 @media (max-width: 560px) { .frage .text { font-size: 1.1rem; } .thema { grid-template-columns: 1fr 60px; } .thema .balken { grid-column: 1 / -1; } .nick input { width: 130px; } }
-body.spielt header.top .stats, body.spielt header.top .nick, body.spielt .brand p { display: none; }
-body.spielt header.top { padding: 12px 18px; margin-bottom: 12px; }
+body.spielt header.top, body.ausserhalbMenue header.top, .wrap:has(> #game:not(.hidden)) > header.top, .wrap:has(> #kurs:not(.hidden)) > header.top, .wrap:has(> #result:not(.hidden)) > header.top { display: none !important; }
 footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 24px 0 10px; }
 /* Netzwerk-Baukasten */
 .nzWisch { display: none; font-size: .72rem; color: var(--muted); text-align: right; padding: 0 6px 2px; position: sticky; left: 0; }
@@ -2081,6 +2080,15 @@ button.bbDroppedPacket {
 
 @media (max-width: 560px) {
   :root { --fxpx: 2px; }
+}
+
+/* Oberen Header außerhalb des Hub-Menüs komplett ausblenden, damit kein unnötiger Scrollbereich entsteht */
+body.spielt header.top,
+body.ausserhalbMenue header.top,
+.wrap:has(> #game:not(.hidden)) > header.top,
+.wrap:has(> #kurs:not(.hidden)) > header.top,
+.wrap:has(> #result:not(.hidden)) > header.top {
+  display: none !important;
 }
 
 /* ---------- Der Haupt-JRPG-Hub ---------- */
@@ -5068,7 +5076,7 @@ window.kursEmpfehlungZeigen = kursEmpfehlungZeigen;
 /* ------------------------------------------------------------------ Karte */
 function kursStart(pack) {
   KS_PACK = pack; KS = null; S = null; clearInterval(timer);
-  kursKarte(); show("kurs");
+  kursKarte(); show("kurs"); window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 }
 function kStationOffen(stand, i) { const P = KS_PACK.stationen; return stand.frei || i === 0 || ((stand.st[P[i - 1].id] || {}).sterne || 0) > 0; }
 function kursKarte() {
@@ -5145,8 +5153,8 @@ function kursStation(i) {
     <div class="kBox glass" id="kBox" aria-live="polite"></div>
     <div class="aktionen" id="kAkt"></div>
     <div class="glass kKi hidden" id="kKi"></div></div>`;
-  $("kKarte").onclick = () => { KS = null; kursKarte(); window.scrollTo({ top: 0 }); };
-  kursSchritt(); show("kurs");
+  $("kKarte").onclick = () => { KS = null; kursKarte(); window.scrollTo({ top: 0, left: 0, behavior: "instant" }); };
+  kursSchritt(); show("kurs"); window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 }
 function kFortschritt() {
   const x = KS.liste;
@@ -5319,7 +5327,7 @@ function kTipp() {
   $("kTipps").innerHTML = x.tipps.slice(0, s.tipps).map((t, i) => `<div class="kTippZeile"><b>💡 Tipp ${i + 1}</b> ${kMd(t).replace(/^<p>|<\/p>$/g, "")}</div>`).join("");
   kTippKnopf(x);
 }
-function kWeiter() { if (!KS) return; if (KS.liste[KS.pos].t === "lies") KS.res[KS.pos] = { sterne: 3, graded: false }; KS.pos++; kursSchritt(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+function kWeiter() { if (!KS) return; if (KS.liste[KS.pos].t === "lies") KS.res[KS.pos] = { sterne: 3, graded: false }; KS.pos++; kursSchritt(); window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }
 
 /* ------------------------------------------------------------------ Ende einer Station */
 function kursEnde() {
@@ -5345,7 +5353,7 @@ function kursEnde() {
   const i = KS.i;
   $("kNochmal").onclick = () => kursStation(i); $("kZurKarte").onclick = () => { KS = null; kursKarte(); };
   if (!letzte) { $("kNaechste").onclick = () => kursStation(i + 1); $("kNaechste").focus(); }
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 }
 
 /* ------------------------------------------------------------------ KI-Hilfe (nutzt den vorhandenen /coach-Dienst; ohne KI bleiben Tipps und Erklärungen) */
@@ -8078,8 +8086,9 @@ $("importFile").addEventListener("change", (ev) => {
 
 /* ======================================================================= Spielablauf */
 let S = null, timer = null;
-function show(id) { ["home", "game", "result", "kurs"].forEach((s) => $(s).classList.toggle("hidden", s !== id)); document.body.classList.toggle("spielt", id === "game" || id === "kurs");
-  document.body.classList.toggle("lp", id === "game" && !!(S && S.pack && S.pack.typ === "lernpfad")); if (id === "home" && typeof lpInfoHome === "function") lpInfoHome(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+function show(id) { ["home", "game", "result", "kurs"].forEach((s) => $(s).classList.toggle("hidden", s !== id)); document.body.classList.toggle("spielt", id !== "home");
+  document.body.classList.toggle("ausserhalbMenue", id !== "home");
+  document.body.classList.toggle("lp", id === "game" && !!(S && S.pack && S.pack.typ === "lernpfad")); if (id === "home" && typeof lpInfoHome === "function") lpInfoHome(); window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }
 function expandiere(pack) { // liefert die Aufgabenliste einer Runde
   const out = [];
   const add = (p, q) => {
@@ -11925,11 +11934,18 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   const _origShow = window.show;
   window.show = function (id) {
     if (_origShow) _origShow.apply(this, arguments);
+    const topHeader = document.querySelector("header.top");
+    if (topHeader) {
+      topHeader.style.display = (id === "home") ? "" : "none";
+    }
+    document.body.classList.toggle("spielt", id !== "home");
+    document.body.classList.toggle("ausserhalbMenue", id !== "home");
     if (id === "home") {
       starteHub();
     } else {
       stoppeHub();
     }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
 
   /* ---------- Öffentliche API für andere Module ---------- */
