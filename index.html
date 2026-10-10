@@ -1492,24 +1492,29 @@ body.retro #fxArena {
 .kBossBox {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
+  gap: 20px;
+  padding: 14px 18px;
   margin-bottom: 16px;
-  border-radius: 10px;
-  background: rgba(20, 16, 12, 0.85);
-  border: 1px solid rgba(255, 211, 107, 0.3);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  background: rgba(20, 16, 12, 0.92);
+  border: 1px solid rgba(255, 211, 107, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
 
 .kBossVisual {
-  flex: none;
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+  min-width: 96px;
+  min-height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  background: radial-gradient(circle, rgba(255, 211, 107, 0.15), transparent 70%);
-  border-radius: 8px;
+  background: radial-gradient(circle, rgba(255, 211, 107, 0.22), rgba(15, 12, 8, 0.6) 75%);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 211, 107, 0.3);
+  overflow: hidden;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
 }
 
 .kBossInfo {
@@ -1521,14 +1526,18 @@ body.retro #fxArena {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  gap: 10px;
 }
 
 .kBossName {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: #ffd36b;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .kBossStationBadge {
@@ -1827,6 +1836,193 @@ body.retro #fxArena {
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 10px;
+}
+
+/* ==========================================================================
+   BOSS-STÖRANGRIFFE & CHIPTUNE BATTLE HUD
+   ========================================================================== */
+.bbKopfAktionen {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bbMusicToggle {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(30, 20, 14, 0.9);
+  border: 1px solid #ffd36b;
+  color: #ffd36b;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.1s, background 0.15s;
+}
+
+.bbMusicToggle:hover {
+  background: #f26a30;
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.bbMusicToggle[aria-pressed="false"] {
+  opacity: 0.6;
+  filter: grayscale(0.8);
+  border-color: #666;
+  color: #aaa;
+}
+
+.bbStoerungBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  margin: 4px 8px 6px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.3px;
+  animation: bbPulseBanner 1.2s infinite alternate;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.bbStoerungBanner.hidden {
+  display: none !important;
+}
+
+.bbStoerungBanner.broadcast {
+  background: rgba(45, 30, 10, 0.92);
+  border: 2px solid #ffb300;
+  color: #ffe082;
+  box-shadow: 0 0 16px rgba(255, 179, 0, 0.4);
+}
+
+.bbStoerungBanner.synflood {
+  background: rgba(45, 12, 12, 0.92);
+  border: 2px solid #ff3d00;
+  color: #ff8a65;
+  box-shadow: 0 0 16px rgba(255, 61, 0, 0.4);
+}
+
+.bbStoerungBanner.ransomware {
+  background: rgba(10, 30, 20, 0.92);
+  border: 2px solid #00e676;
+  color: #b9f6ca;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  box-shadow: 0 0 16px rgba(0, 230, 118, 0.4);
+}
+
+.bbStoerungBanner.packetloss {
+  background: rgba(12, 25, 45, 0.92);
+  border: 2px solid #00b0ff;
+  color: #80d8ff;
+  box-shadow: 0 0 16px rgba(0, 176, 255, 0.4);
+}
+
+.bbStoerungBanner.erfolg {
+  background: rgba(15, 40, 15, 0.92);
+  border: 2px solid #4caf50;
+  color: #a5d6a7;
+  box-shadow: 0 0 16px rgba(76, 175, 80, 0.4);
+}
+
+.bbStoerungBanner.timeout {
+  background: rgba(40, 20, 20, 0.92);
+  border: 2px solid #e53935;
+  color: #ef9a9a;
+}
+
+@keyframes bbPulseBanner {
+  0% { transform: scale(0.99); }
+  100% { transform: scale(1.01); }
+}
+
+/* SYN-Flood QTE Button */
+.bbQteWrap {
+  display: flex;
+  justify-content: center;
+  padding: 4px 8px 8px;
+}
+
+.bbQteWrap.hidden {
+  display: none !important;
+}
+
+.bbQteBtn {
+  background: linear-gradient(135deg, #d32f2f, #f57c00);
+  color: #fff;
+  border: 2px solid #ffeb3b;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 87, 34, 0.7);
+  animation: bbQtePulse 0.8s infinite alternate;
+}
+
+.bbQteBtn:hover {
+  background: linear-gradient(135deg, #b71c1c, #e65100);
+  transform: scale(1.04);
+}
+
+@keyframes bbQtePulse {
+  0% { transform: scale(0.98); box-shadow: 0 0 8px rgba(255, 87, 34, 0.5); }
+  100% { transform: scale(1.03); box-shadow: 0 0 20px rgba(255, 235, 59, 0.9); }
+}
+
+/* CRT Scanline Glitch für Broadcast-Sturm */
+.pokemonBattleStage.bbGlitchScanlines {
+  position: relative;
+  overflow: hidden;
+  animation: bbScanlineJitter 0.15s infinite;
+}
+
+.pokemonBattleStage.bbGlitchScanlines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(255, 179, 0, 0.12) 2px,
+    rgba(255, 179, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 25;
+}
+
+@keyframes bbScanlineJitter {
+  0% { filter: hue-rotate(0deg) contrast(1.05); }
+  50% { filter: hue-rotate(15deg) contrast(1.2); }
+  100% { filter: hue-rotate(-10deg) contrast(1); }
+}
+
+/* Paketverlust dropped Button */
+button.bbDroppedPacket {
+  opacity: 0.45 !important;
+  background: rgba(30, 20, 20, 0.6) !important;
+  border: 1px dashed #ef5350 !important;
+  color: #ef9a9a !important;
+  cursor: not-allowed !important;
+  position: relative;
+}
+
+.bbDropBadge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ff5252;
+  font-family: ui-monospace, "Cascadia Code", monospace;
 }
 
 
@@ -4635,7 +4831,7 @@ function kBossSprHtml(bId, s = 1) {
   if (bData && bData.idle) {
     const fw = bData.idle.fw || 48;
     const fh = bData.idle.fh || 48;
-    return `<span class="kBossSpriteWrap" style="display:inline-block;width:${fw}px;height:${fh}px;overflow:hidden;image-rendering:pixelated;transform:scale(${s});transform-origin:center center;"><i style="display:block;width:${fw}px;height:${fh}px;background-image:url(${bData.idle.src});background-repeat:no-repeat;background-position:0 0;background-size:auto 100%;"></i></span>`;
+    return `<span class="kBossSpriteWrap" style="display:inline-flex;align-items:center;justify-content:center;width:${fw}px;height:${fh}px;overflow:visible;image-rendering:pixelated;transform:scale(${s});transform-origin:center center;"><i style="display:block;width:${fw}px;height:${fh}px;background-image:url(${bData.idle.src});background-repeat:no-repeat;background-position:0 0;background-size:auto 100%;"></i></span>`;
   }
   const em = { GiantBlueSamurai: "⚔️", GiantBamboo: "🎋", DemonCyclop: "👁️", GiantFrog: "🐸" };
   return `<span class="lvEmoji" style="font-size:32px">${em[bId] || "👾"}</span>`;
@@ -4735,7 +4931,7 @@ function kursStation(i) {
     <div class="kHud glass"><button class="ghost" id="kKarte">← Karte</button><span class="kTitel">${esc(st.icon || "")} ${esc(st.titel)}</span><span id="kPos" class="muted"></span><span id="kPunkte"></span></div>
     <div class="kFort" id="kFort" aria-hidden="true"></div>
     <div class="kBossBox glass" id="kBossBox">
-      <div class="kBossVisual"><div id="kBossSprWrap">${kBossSprHtml(boss.id, 3)}</div></div>
+      <div class="kBossVisual"><div id="kBossSprWrap">${kBossSprHtml(boss.id, 1.9)}</div></div>
       <div class="kBossInfo">
         <div class="kBossKopf"><b class="kBossName">${esc(boss.name)}</b><span class="kBossStationBadge">${esc(st.titel)}</span></div>
         <div class="kBossBlase"><span class="kBossSpruch" id="kBossSpruch"></span></div>
@@ -8747,6 +8943,389 @@ document.addEventListener("keydown", (e) => {
   else if (S.q.art === "mc" && /^[1-9]$/.test(e.key)) { const b = document.querySelectorAll("#frageBox button[data-i]")[Number(e.key) - 1]; if (b) b.click(); }
   else if (ARTEN[S.q.art] && ARTEN[S.q.art].taste) ARTEN[S.q.art].taste(e, k);
 });
+/* ---- s_chiptune.js ---- */
+// s_chiptune.js - Pure WebAudio 8-Bit Chiptune Synthesizer Engine (Zero external MP3 dependencies)
+// Enthält 4-Kanal Retro-Klangerzeugung (Square-Lead, Square-Arp, Triangle-Bass, Noise-Drums)
+// Zwei handkomponierte JRPG-Themen: 'hub' (Nostalgisches Town-Theme) und 'battle' (Treibender Boss-Kampf)
+(function () {
+  const KS_MUSIK = "fi-quiz-musik-v1";
+  let ctx = null;
+  let masterGain = null;
+  let isPlaying = false;
+  let currentTrackName = "hub";
+  let schedulerTimer = null;
+
+  // Persistence: Standardmäßig an (true), außer der Benutzer hat es explizit deaktiviert
+  let isMuted = (function () {
+    try {
+      const v = localStorage.getItem(KS_MUSIK);
+      return v === "false" || v === "0";
+    } catch (e) {
+      return false;
+    }
+  })();
+
+  // 12-TET Notenfrequenzen über MIDI-Nummer
+  function m2f(m) {
+    return m > 0 ? 440 * Math.pow(2, (m - 69) / 12) : 0;
+  }
+
+  // AudioContext faul initialisieren
+  function getContext() {
+    if (!ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      ctx = new AC();
+      masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(isMuted ? 0 : 0.045, ctx.currentTime);
+      masterGain.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") {
+      ctx.resume().catch(() => {});
+    }
+    return ctx;
+  }
+
+  // 1 Sekunde Weißes Rauschen für 8-Bit Drums puffern
+  let noiseBuffer = null;
+  function getNoiseBuffer(ac) {
+    if (!noiseBuffer) {
+      const len = ac.sampleRate * 1;
+      noiseBuffer = ac.createBuffer(1, len, ac.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < len; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+    }
+    return noiseBuffer;
+  }
+
+  // Synthese-Kanal 1 & 2: Square Wave (Lead & Arp)
+  function playSquare(freq, t, dur, vol, dutyDetune) {
+    if (!freq || isMuted) return;
+    const ac = getContext();
+    if (!ac) return;
+
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+
+    osc.type = "square";
+    osc.frequency.setValueAtTime(freq, t);
+    if (dutyDetune) osc.detune.setValueAtTime(dutyDetune, t);
+
+    // Knackige 8-Bit ADSR-Hüllkurve
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol || 0.22, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.0001, (vol || 0.22) * 0.65), t + dur * 0.7);
+    g.gain.linearRampToValueAtTime(0.0001, t + dur);
+
+    osc.connect(g);
+    g.connect(masterGain);
+    osc.start(t);
+    osc.stop(t + dur + 0.02);
+  }
+
+  // Synthese-Kanal 3: Triangle Wave (Klassischer Game Boy / NES Bass)
+  function playTriangle(freq, t, dur, vol) {
+    if (!freq || isMuted) return;
+    const ac = getContext();
+    if (!ac) return;
+
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, t);
+
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol || 0.35, t + 0.01);
+    g.gain.setValueAtTime((vol || 0.35) * 0.8, t + dur * 0.8);
+    g.gain.linearRampToValueAtTime(0.0001, t + dur);
+
+    osc.connect(g);
+    g.connect(masterGain);
+    osc.start(t);
+    osc.stop(t + dur + 0.02);
+  }
+
+  // Synthese-Kanal 4: Noise Drums (1 = Hat, 2 = Snare, 3 = Kick)
+  function playDrum(typ, t) {
+    if (!typ || isMuted) return;
+    const ac = getContext();
+    if (!ac) return;
+
+    if (typ === 1) {
+      // 8-Bit Hi-Hat
+      const src = ac.createBufferSource();
+      src.buffer = getNoiseBuffer(ac);
+      const filter = ac.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(6800, t);
+      filter.Q.setValueAtTime(2.5, t);
+
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0.12, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+
+      src.connect(filter);
+      filter.connect(g);
+      g.connect(masterGain);
+      src.start(t);
+      src.stop(t + 0.05);
+    } else if (typ === 2) {
+      // 8-Bit Snare
+      const src = ac.createBufferSource();
+      src.buffer = getNoiseBuffer(ac);
+      const filter = ac.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(2400, t);
+      filter.Q.setValueAtTime(1.2, t);
+
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0.24, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+
+      src.connect(filter);
+      filter.connect(g);
+      g.connect(masterGain);
+      src.start(t);
+      src.stop(t + 0.13);
+    } else if (typ === 3) {
+      // 8-Bit Kick Pop
+      const osc = ac.createOscillator();
+      const g = ac.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(130, t);
+      osc.frequency.exponentialRampToValueAtTime(38, t + 0.08);
+
+      g.gain.setValueAtTime(0.3, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+
+      osc.connect(g);
+      g.connect(masterGain);
+      osc.start(t);
+      osc.stop(t + 0.1);
+    }
+  }
+
+  /* ==========================================================================
+     TRACK 1: HUB / TOWN THEME (104 BPM, C-Dur, Ruhig, Gemütlich & Nostalgisch)
+     ========================================================================== */
+  const TRACK_HUB = {
+    bpm: 104,
+    lead: [
+      // Bar 1 (C-Dur)
+      64, 0, 67, 0, 72, 0, 71, 69, 67, 0, 64, 0, 65, 0, 67, 0,
+      // Bar 2 (G-Dur)
+      62, 0, 67, 0, 71, 0, 69, 67, 65, 0, 62, 0, 64, 0, 65, 0,
+      // Bar 3 (A-Moll)
+      60, 0, 64, 0, 69, 0, 67, 65, 64, 0, 60, 0, 62, 0, 64, 0,
+      // Bar 4 (F-Dur / G-Dur Kadenz)
+      65, 0, 67, 0, 69, 0, 71, 0, 72, 72, 0, 0, 0, 0, 0, 0
+    ],
+    arp: [
+      // Sanfte 16tel-Arpeggio-Begleitung
+      60, 64, 67, 72, 60, 64, 67, 72, 60, 64, 67, 72, 60, 64, 67, 72,
+      59, 62, 67, 71, 59, 62, 67, 71, 59, 62, 67, 71, 59, 62, 67, 71,
+      57, 60, 64, 69, 57, 60, 64, 69, 57, 60, 64, 69, 57, 60, 64, 69,
+      53, 57, 60, 65, 53, 57, 60, 65, 55, 59, 62, 67, 55, 59, 62, 67
+    ],
+    bass: [
+      // Hüpfender Triangle-Walking-Bass
+      48, 0, 48, 55, 48, 0, 52, 55, 48, 0, 48, 55, 48, 0, 52, 55,
+      43, 0, 43, 50, 43, 0, 47, 50, 43, 0, 43, 50, 43, 0, 47, 50,
+      45, 0, 45, 52, 45, 0, 48, 52, 45, 0, 45, 52, 45, 0, 48, 52,
+      41, 0, 41, 48, 41, 0, 45, 48, 43, 0, 43, 50, 43, 0, 47, 50
+    ],
+    drums: [
+      // 1 = Hat, 2 = Snare, 3 = Kick
+      3, 1, 1, 1, 2, 1, 1, 1, 3, 1, 3, 1, 2, 1, 1, 1,
+      3, 1, 1, 1, 2, 1, 1, 1, 3, 1, 3, 1, 2, 1, 1, 1,
+      3, 1, 1, 1, 2, 1, 1, 1, 3, 1, 3, 1, 2, 1, 1, 1,
+      3, 1, 1, 1, 2, 1, 1, 1, 3, 1, 3, 1, 2, 2, 1, 1
+    ]
+  };
+
+  /* ==========================================================================
+     TRACK 2: BOSS BATTLE THEME (148 BPM, D-Moll, Energetisch, Treibend & Heroisch)
+     ========================================================================== */
+  const TRACK_BATTLE = {
+    bpm: 148,
+    lead: [
+      // Bar 1 (Dm Heroischer Angriff)
+      74, 0, 74, 0, 72, 0, 74, 0, 77, 0, 76, 74, 72, 0, 69, 0,
+      // Bar 2 (Bb Maj Power-Akkord)
+      70, 0, 70, 0, 69, 0, 70, 0, 74, 0, 72, 70, 69, 0, 67, 0,
+      // Bar 3 (Aufsteigende Tonleiter Gm -> C)
+      67, 0, 69, 0, 70, 0, 72, 0, 74, 0, 76, 0, 77, 0, 79, 0,
+      // Bar 4 (Triumphaler Höhepunkt A7 -> Dm)
+      81, 0, 81, 79, 77, 76, 74, 0, 72, 0, 74, 0, 74, 74, 0, 0
+    ],
+    arp: [
+      // Treibende 16tel Synth-Sweeps
+      62, 65, 69, 74, 69, 65, 62, 65, 62, 65, 69, 74, 69, 65, 62, 65,
+      58, 62, 65, 70, 65, 62, 58, 62, 58, 62, 65, 70, 65, 62, 58, 62,
+      55, 58, 62, 67, 62, 58, 55, 58, 60, 64, 67, 72, 67, 64, 60, 64,
+      57, 61, 64, 69, 64, 61, 57, 61, 62, 65, 69, 74, 69, 65, 62, 65
+    ],
+    bass: [
+      // 16tel treibender Pummel-Oktav-Bass
+      50, 62, 50, 62, 50, 62, 53, 50, 50, 62, 50, 62, 57, 55, 53, 50,
+      46, 58, 46, 58, 46, 58, 50, 46, 46, 58, 46, 58, 53, 51, 50, 46,
+      43, 55, 43, 55, 43, 55, 46, 43, 48, 60, 48, 60, 52, 50, 48, 45,
+      45, 57, 45, 57, 45, 57, 48, 45, 50, 62, 50, 62, 50, 62, 50, 62
+    ],
+    drums: [
+      // Schneller Double-Kick & Snare-Drive
+      3, 1, 3, 1, 2, 1, 3, 1, 3, 1, 3, 1, 2, 1, 1, 1,
+      3, 1, 3, 1, 2, 1, 3, 1, 3, 1, 3, 1, 2, 1, 1, 1,
+      3, 1, 3, 1, 2, 1, 3, 1, 3, 1, 3, 1, 2, 1, 1, 1,
+      3, 1, 3, 1, 2, 1, 3, 1, 2, 2, 2, 1, 2, 2, 3, 3
+    ]
+  };
+
+  const TRACKS = {
+    hub: TRACK_HUB,
+    battle: TRACK_BATTLE
+  };
+
+  /* ==========================================================================
+     WEB AUDIO LOOKAHEAD SCHEDULER (Absolut ruckelfrei, da zeitgesteuert)
+     ========================================================================== */
+  let currentStep = 0;
+  let nextStepTime = 0;
+  const LOOKAHEAD_MS = 35;
+  const SCHEDULE_AHEAD_TIME = 0.12;
+
+  function scheduleStep(track, step, time, stepDur) {
+    const lNote = track.lead[step % track.lead.length];
+    if (lNote) playSquare(m2f(lNote), time, stepDur * 0.9, 0.22, 0);
+
+    const aNote = track.arp[step % track.arp.length];
+    if (aNote) playSquare(m2f(aNote), time, stepDur * 0.75, 0.11, 8);
+
+    const bNote = track.bass[step % track.bass.length];
+    if (bNote) playTriangle(m2f(bNote), time, stepDur * 0.85, 0.36);
+
+    const dNote = track.drums[step % track.drums.length];
+    if (dNote) playDrum(dNote, time);
+  }
+
+  function tickScheduler() {
+    if (!isPlaying) return;
+    const ac = getContext();
+    if (!ac) return;
+
+    const track = TRACKS[currentTrackName] || TRACK_HUB;
+    const stepDur = 60 / track.bpm / 4;
+
+    while (nextStepTime < ac.currentTime + SCHEDULE_AHEAD_TIME) {
+      scheduleStep(track, currentStep, nextStepTime, stepDur);
+      nextStepTime += stepDur;
+      currentStep++;
+    }
+  }
+
+  function startScheduler() {
+    clearInterval(schedulerTimer);
+    const ac = getContext();
+    if (!ac) return;
+
+    currentStep = 0;
+    nextStepTime = ac.currentTime + 0.05;
+    isPlaying = true;
+    schedulerTimer = setInterval(tickScheduler, LOOKAHEAD_MS);
+  }
+
+  function stopScheduler() {
+    isPlaying = false;
+    clearInterval(schedulerTimer);
+  }
+
+  /* ==========================================================================
+     ÖFFENTLICHE API & STEUERUNG
+     ========================================================================== */
+  function play(trackName) {
+    if (trackName && TRACKS[trackName]) {
+      if (currentTrackName !== trackName) {
+        currentTrackName = trackName;
+        currentStep = 0; // Neustart auf Takt 1
+      }
+    }
+    const ac = getContext();
+    if (!ac) return;
+
+    if (!isPlaying) {
+      startScheduler();
+    }
+    updateAllMusicButtons();
+  }
+
+  function stop() {
+    stopScheduler();
+    updateAllMusicButtons();
+  }
+
+  function setMuted(muted) {
+    isMuted = !!muted;
+    try {
+      localStorage.setItem(KS_MUSIK, isMuted ? "false" : "true");
+    } catch (e) {}
+
+    if (masterGain && ctx) {
+      const now = ctx.currentTime;
+      masterGain.gain.cancelScheduledValues(now);
+      masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+      masterGain.gain.linearRampToValueAtTime(isMuted ? 0 : 0.045, now + 0.25);
+    }
+    updateAllMusicButtons();
+  }
+
+  function toggle() {
+    setMuted(!isMuted);
+    if (!isMuted && !isPlaying) {
+      play(currentTrackName);
+    }
+  }
+
+  function updateAllMusicButtons() {
+    const btns = document.querySelectorAll(".chiptuneToggleBtn, #hubMusicToggle, #bbMusicToggle");
+    btns.forEach((btn) => {
+      const label = isMuted ? "🔇 Musik: Aus" : "🎵 Musik: An";
+      const icon = isMuted ? "🔇" : "🎵";
+      if (btn.classList.contains("compactIcon")) {
+        btn.textContent = icon;
+      } else {
+        btn.textContent = label;
+      }
+      btn.setAttribute("aria-pressed", isMuted ? "false" : "true");
+      btn.title = isMuted ? "8-Bit Musik einschalten" : "8-Bit Musik stummschalten";
+    });
+  }
+
+  // Benutzer-Interaktion für Web Audio Freigabe (Autoplay Policy)
+  function unlockOnGesture() {
+    const ac = getContext();
+    if (ac && ac.state === "suspended") {
+      ac.resume().catch(() => {});
+    }
+    document.removeEventListener("pointerdown", unlockOnGesture);
+    document.removeEventListener("keydown", unlockOnGesture);
+  }
+  document.addEventListener("pointerdown", unlockOnGesture, { once: true });
+  document.addEventListener("keydown", unlockOnGesture, { once: true });
+
+  window.CHIPTUNE = {
+    play,
+    stop,
+    toggle,
+    isMuted: () => isMuted,
+    setMuted,
+    currentTrack: () => currentTrackName,
+    updateButtons: updateAllMusicButtons
+  };
+})();
+
 /* ---- s_intro.js ---- */
 // s_intro.js - Schnelles, kompaktes JRPG-Onboarding (Begrüßung, Datenschutz, 16px-Avatar, Nickname & Cloud-Sync-Code)
 (function () {
@@ -9446,6 +10025,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       </div>
       <div class="hubQuickBtns">
         <button type="button" class="hubBtn iconBtn" id="hubKompendiumBtn" title="IHK-Kompendium (Pokédex)">📖 Kompendium</button>
+        <button type="button" class="hubBtn iconBtn chiptuneToggleBtn" id="hubMusicToggle" title="8-Bit Chiptune Musik an/aus">🎵 Musik: An</button>
         <button type="button" class="hubBtn iconBtn" id="hubSoundBtn" title="Töne umschalten">🔊 Töne</button>
         <button type="button" class="hubBtn iconBtn" id="hubSyncBtn" title="Spielstand mit Code abgleichen">☁️ Sync</button>
       </div>
@@ -9763,6 +10343,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     animRunning = true;
     hudUpdate();
     setzeFokus(focusIdx, false);
+    if (window.CHIPTUNE) {
+      window.CHIPTUNE.play("hub");
+      window.CHIPTUNE.updateButtons();
+    }
     requestAnimationFrame(hubLoop);
   }
 
@@ -10347,6 +10931,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     } else {
       oeffneBereich("tests");
     }
+  };
+
+  $("hubMusicToggle").onclick = () => {
+    if (window.CHIPTUNE) window.CHIPTUNE.toggle();
   };
 
   $("hubSoundBtn").onclick = () => {
@@ -12426,6 +13014,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   let blaseEl = null, blaseTextEl = null, blaseAutorEl = null, blaseEmoteEl = null;
   let hpFillEl = null, hpTextEl = null, bossNameEl = null, dmgEl = null;
   let jokerBtnEl = null, playerStreakBadgeEl = null;
+  let stoerungBannerEl = null, qteWrapEl = null, musicToggleEl = null;
+  let aktiveStoerung = null;
+  let qteKeyHandler = null;
+  let decodeTimer = null;
 
   function baueBühne() {
     buehneEl = $("bossBuehne");
@@ -12443,11 +13035,18 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           <span class="bbBossName" id="bbBossName">Boss</span>
           <span class="bbBossTitel" id="bbBossTitel">Themen-Wächter</span>
         </div>
-        <div class="bbHpBox">
-          <div class="bbHpBar"><i class="bbHpFill" id="bbHpFill"></i></div>
-          <span class="bbHpText" id="bbHpText">800 / 800 HP</span>
+        <div class="bbKopfAktionen">
+          <button type="button" class="bbMusicToggle compactIcon chiptuneToggleBtn" id="bbMusicToggle" title="8-Bit Chiptune Musik an/aus">🎵</button>
+          <div class="bbHpBox">
+            <div class="bbHpBar"><i class="bbHpFill" id="bbHpFill"></i></div>
+            <span class="bbHpText" id="bbHpText">800 / 800 HP</span>
+          </div>
         </div>
       </div>
+
+      <!-- Boss-Störangriff Banner & QTE -->
+      <div class="bbStoerungBanner hidden" id="bbStoerungBanner"></div>
+      <div class="bbQteWrap hidden" id="bbQteWrap"></div>
 
       <!-- Pokémon Kampf-Arena -->
       <div class="bbArena">
@@ -12499,9 +13098,17 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     dmgEl = $("bbDmg");
     jokerBtnEl = $("bbJokerBtn");
     playerStreakBadgeEl = $("bbStreakBadge");
+    stoerungBannerEl = $("bbStoerungBanner");
+    qteWrapEl = $("bbQteWrap");
+    musicToggleEl = $("bbMusicToggle");
 
     blaseEl.addEventListener("click", () => typewriterSofort());
     if (jokerBtnEl) jokerBtnEl.onclick = triggerWichtelJoker;
+    if (musicToggleEl) {
+      musicToggleEl.onclick = () => {
+        if (window.CHIPTUNE) window.CHIPTUNE.toggle();
+      };
+    }
   }
 
   /* ---------- Bild-Caching ---------- */
@@ -12928,12 +13535,228 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     loopRunning = false;
   }
 
+  /* ---------- Boss-Störangriffe (Disruptions) ---------- */
+  function stoerungAufraeumen() {
+    if (aktiveStoerung) {
+      if (aktiveStoerung.timer) clearTimeout(aktiveStoerung.timer);
+      if (aktiveStoerung.cleanup) aktiveStoerung.cleanup();
+      aktiveStoerung = null;
+    }
+    if (qteKeyHandler) {
+      document.removeEventListener("keydown", qteKeyHandler);
+      qteKeyHandler = null;
+    }
+    if (decodeTimer) {
+      clearInterval(decodeTimer);
+      decodeTimer = null;
+    }
+    if (stoerungBannerEl) {
+      stoerungBannerEl.className = "bbStoerungBanner hidden";
+      stoerungBannerEl.textContent = "";
+    }
+    if (qteWrapEl) {
+      qteWrapEl.className = "bbQteWrap hidden";
+      qteWrapEl.innerHTML = "";
+    }
+    if (buehneEl) buehneEl.classList.remove("bbGlitchScanlines");
+  }
+
+  function triggerBossStoerung(bossDef, forceType) {
+    stoerungAufraeumen();
+    if (!bossDef) bossDef = curBoss || BOSSE.samurai;
+
+    // Bestimme Typ nach Boss
+    let typ = forceType;
+    if (!typ) {
+      if (bossDef.id === "GiantBlueSamurai") typ = "broadcast";
+      else if (bossDef.id === "GiantBamboo") typ = "synflood";
+      else if (bossDef.id === "GiantFrog") typ = "ransomware";
+      else if (bossDef.id === "DemonCyclop") typ = "packetloss";
+      else typ = pick(["broadcast", "synflood", "ransomware", "packetloss"]);
+    }
+
+    if (!stoerungBannerEl || !qteWrapEl) return;
+
+    if (typ === "broadcast") {
+      // 1. Broadcast-Sturm: Scanlines & Timer-Beschleunigung
+      if (buehneEl) buehneEl.classList.add("bbGlitchScanlines");
+      stoerungBannerEl.className = "bbStoerungBanner aktiv broadcast";
+      stoerungBannerEl.innerHTML = `⚡ <b>BROADCAST-STURM!</b> Der Subnetz-Shogun flutet das Netz – Reaktionszeit sinkt!`;
+      ton("charge", 0.5);
+
+      // Zeitstrafe, falls Timer läuft
+      const curS = (typeof S !== "undefined" ? S : window.S);
+      if (curS && curS.zeit && curS.rest > 3) {
+        curS.rest = Math.max(1, curS.rest - 2);
+        const zBar = $("zeitBar");
+        if (zBar) zBar.style.width = Math.max(0, (curS.rest / curS.zeit) * 100) + "%";
+      }
+
+      aktiveStoerung = {
+        typ: "broadcast",
+        timer: setTimeout(() => {
+          if (buehneEl) buehneEl.classList.remove("bbGlitchScanlines");
+          if (stoerungBannerEl) stoerungBannerEl.classList.add("hidden");
+        }, 3500)
+      };
+    } else if (typ === "synflood") {
+      // 2. SYN-Flood: Quick-Time Event zur Firewall-Abwehr
+      stoerungBannerEl.className = "bbStoerungBanner aktiv synflood";
+      stoerungBannerEl.innerHTML = `🔥 <b>SYN-FLOOD ANGRIFF!</b> Halte die Firewall! [SPACE] drücken zum Abwehren!`;
+      ton("monster", 0.5);
+
+      qteWrapEl.className = "bbQteWrap aktiv";
+      qteWrapEl.innerHTML = `<button type="button" class="bbQteBtn" id="bbQteBtn">🛡️ FIREWALL-REGEL ANWENDEN [SPACE]</button>`;
+
+      let abgewehrt = false;
+      const abwehrErfolg = () => {
+        if (abgewehrt) return;
+        abgewehrt = true;
+        ton("magic", 0.6);
+        qteWrapEl.className = "bbQteWrap hidden";
+        stoerungBannerEl.className = "bbStoerungBanner aktiv erfolg";
+        stoerungBannerEl.innerHTML = `✅ <b>FIREWALL AKTIV:</b> SYN-Flood neutralisiert! (+10 Mana)`;
+        if (window.KLASSEN_RAID && typeof window.KLASSEN_RAID.addMana === "function") {
+          window.KLASSEN_RAID.addMana(10);
+        }
+        setTimeout(() => {
+          if (stoerungBannerEl) stoerungBannerEl.classList.add("hidden");
+        }, 2000);
+      };
+
+      const btn = $("bbQteBtn");
+      if (btn) btn.onclick = abwehrErfolg;
+
+      qteKeyHandler = (e) => {
+        if (e.key === " " || e.code === "Space") {
+          e.preventDefault();
+          abwehrErfolg();
+        }
+      };
+      document.addEventListener("keydown", qteKeyHandler);
+
+      aktiveStoerung = {
+        typ: "synflood",
+        timer: setTimeout(() => {
+          if (!abgewehrt) {
+            stoerungBannerEl.className = "bbStoerungBanner aktiv timeout";
+            stoerungBannerEl.innerHTML = `⚠️ <b>FIREWALL ÜBERLASTET!</b> Verbindungen verworfen.`;
+            qteWrapEl.className = "bbQteWrap hidden";
+            const g = $("game");
+            if (g) {
+              g.classList.add("fxSchuettel");
+              setTimeout(() => g.classList.remove("fxSchuettel"), 450);
+            }
+            setTimeout(() => {
+              if (stoerungBannerEl) stoerungBannerEl.classList.add("hidden");
+            }, 1800);
+          }
+        }, 3200),
+        cleanup: () => {
+          if (qteKeyHandler) document.removeEventListener("keydown", qteKeyHandler);
+        }
+      };
+    } else if (typ === "ransomware") {
+      // 3. Ransomware: Hex-Matrix Fragetext-Verschlüsselung mit schrittweiser Dechiffrierung
+      const fBox = $("frageBox");
+      const titleEl = fBox ? (fBox.querySelector(".titel, p") || fBox.firstChild) : null;
+      if (!titleEl) return;
+
+      const echtesText = titleEl.textContent;
+      const hexChars = "0123456789ABCDEF";
+      stoerungBannerEl.className = "bbStoerungBanner aktiv ransomware";
+      stoerungBannerEl.innerHTML = `🔒 <b>RANSOMWARE-PAYLOAD:</b> Fragetext verschlüsselt! Dechiffriere mit AES-256...`;
+      ton("klick", 0.4);
+
+      let step = 0;
+      const totalSteps = 12;
+      decodeTimer = setInterval(() => {
+        step++;
+        if (step < 4) {
+          // Volle Hex-Verschleierung
+          let scramble = "";
+          for (let i = 0; i < Math.min(echtesText.length, 36); i++) {
+            scramble += hexChars[Math.floor(Math.random() * hexChars.length)];
+            if (i % 2 === 1 && i < 34) scramble += " ";
+          }
+          titleEl.textContent = `0x${scramble}`;
+          ton("klick", 0.2);
+        } else if (step < totalSteps) {
+          // Schrittweise Klartext-Wiederherstellung
+          const anteil = (step - 4) / (totalSteps - 4);
+          const klarLen = Math.floor(anteil * echtesText.length);
+          let mix = echtesText.slice(0, klarLen);
+          for (let i = klarLen; i < Math.min(echtesText.length, klarLen + 12); i++) {
+            mix += hexChars[Math.floor(Math.random() * hexChars.length)];
+          }
+          titleEl.textContent = mix;
+        } else {
+          clearInterval(decodeTimer);
+          decodeTimer = null;
+          titleEl.textContent = echtesText;
+          stoerungBannerEl.className = "bbStoerungBanner aktiv erfolg";
+          stoerungBannerEl.innerHTML = `🔓 <b>PAYLOAD ENTSCHLÜSSELT:</b> Fragetext wiederhergestellt!`;
+          setTimeout(() => {
+            if (stoerungBannerEl) stoerungBannerEl.classList.add("hidden");
+          }, 1800);
+        }
+      }, 90);
+
+      aktiveStoerung = {
+        typ: "ransomware",
+        cleanup: () => {
+          if (decodeTimer) clearInterval(decodeTimer);
+          if (titleEl) titleEl.textContent = echtesText;
+        }
+      };
+    } else if (typ === "packetloss") {
+      // 4. Paketverlust: Switch wirft eine falsche Option ab (Taktischer Helfer)
+      const curS = (typeof S !== "undefined" ? S : window.S);
+      const q = curS && curS.q;
+      const fBox = $("frageBox");
+      if (!fBox || !q || q.art !== "mc") return;
+
+      const buttons = [...fBox.querySelectorAll("button[data-i]")];
+      const loesung = Array.isArray(q.l) ? q.l : [q.l];
+      const falscheBtns = buttons.filter((b) => {
+        const idx = Number(b.dataset.i);
+        return !loesung.includes(idx) && !b.disabled;
+      });
+
+      if (falscheBtns.length) {
+        const opferBtn = pick(falscheBtns);
+        opferBtn.classList.add("bbDroppedPacket");
+        opferBtn.disabled = true;
+        opferBtn.setAttribute("data-dropped", "true");
+        opferBtn.innerHTML = `❌ <del>${opferBtn.textContent}</del> <span class="bbDropBadge">[PACKET LOSS]</span>`;
+
+        stoerungBannerEl.className = "bbStoerungBanner aktiv packetloss";
+        stoerungBannerEl.innerHTML = `📡 <b>ROUTING-FEHLER:</b> Paket verworfen – 1 falsche Route eliminiert!`;
+        ton("charge", 0.4);
+
+        aktiveStoerung = {
+          typ: "packetloss",
+          timer: setTimeout(() => {
+            if (stoerungBannerEl) stoerungBannerEl.classList.add("hidden");
+          }, 3500)
+        };
+      }
+    }
+  }
+
   /* ---------- Frage-Initialisierung ---------- */
   function neueFrageGeladen(q) {
     baueBühne();
     if (!buehneEl) return;
     buehneEl.classList.add("aktiv");
     starteLoop();
+
+    if (window.CHIPTUNE) {
+      window.CHIPTUNE.play("battle");
+      window.CHIPTUNE.updateButtons();
+    }
+
+    stoerungAufraeumen();
 
     const curS = (typeof S !== "undefined" ? S : window.S) || {};
     updatePlayerBadge((curS && curS.serie) || 0);
@@ -12954,6 +13777,14 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         g.classList.remove("taktikTerminal");
       }
     }
+
+    // Boss-Störangriff: Triggert ab Frage 2 oder bei Chance
+    const frageNr = ((curS && curS.pos) || 0) + 1;
+    if (frageNr >= 2 && (frageNr % 2 === 0 || Math.random() < 0.45)) {
+      setTimeout(() => {
+        triggerBossStoerung(bossDef);
+      }, 450);
+    }
   }
 
   /* ---------- Lifecycle Hooks ---------- */
@@ -12964,6 +13795,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       if (id !== "game" && id !== "kurs") {
         if (buehneEl) buehneEl.classList.remove("aktiv");
         stoppeLoop();
+        stoerungAufraeumen();
       }
     };
   }
@@ -12990,6 +13822,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   const origWerte = window.werte;
   if (typeof origWerte === "function") {
     window.werte = function (urteil, punkte, loesung, eingabe) {
+      stoerungAufraeumen();
       origWerte.apply(this, arguments);
       if (!buehneEl || !buehneEl.classList.contains("aktiv")) return;
 
@@ -13036,7 +13869,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     spielerGreiftAn,
     bossKontert,
     neueFrageGeladen,
-    triggerWichtelJoker
+    triggerWichtelJoker,
+    triggerBossStoerung,
+    stoerungAufraeumen
   };
 })();
 
