@@ -689,22 +689,56 @@ body.retro #fxArena {
   to { transform: scale(1.08); }
 }
 
-/* Wichtel 50:50 Joker Button */
-.bbJokerBtn {
+/* Aktions-Leiste: IT-Klassen Skill & Wichtel Joker */
+.bbAktionsLeiste {
   position: absolute;
   bottom: 8px;
   right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 15;
+}
+
+.bbSkillBtn,
+.bbJokerBtn {
   font-family: inherit;
   font-size: 10px;
   font-weight: 700;
-  padding: 4px 8px;
+  padding: 4px 9px;
+  border: 2px solid #1c1812;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: transform 0.1s, background 0.15s, opacity 0.2s;
+  white-space: nowrap;
+}
+
+/* IT-Klassen Skill Button */
+.bbSkillBtn {
+  background: #1c2838;
+  color: #00e5ff;
+  outline: 1px solid #00e5ff;
+}
+
+.bbSkillBtn:hover:not(:disabled) {
+  background: #0088cc;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.bbSkillBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: #555;
+  outline-color: #555;
+  color: #aaa;
+}
+
+/* Wichtel 50:50 Joker Button */
+.bbJokerBtn {
   background: #3b2516;
   color: #ffd36b;
-  border: 2px solid #1c1812;
   outline: 1px solid #ffd36b;
-  cursor: pointer;
-  z-index: 15;
-  transition: transform 0.1s, background 0.15s;
 }
 
 .bbJokerBtn:hover:not(:disabled) {
@@ -3049,6 +3083,170 @@ button.bbDroppedPacket {
 #retroKnopf, .retroKnopf, #fxModusKnopf, .fxModusKnopf {
   display: none !important;
 }
+
+/* ---------- IT-Berufsklassen Grid & Cards ---------- */
+.klasseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.klasseCard {
+  background: rgba(30, 24, 18, 0.95);
+  border: 2px solid #3d2a18;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.klasseCard:hover {
+  transform: translateY(-2px);
+  border-color: #f26a30;
+}
+
+.klasseCard.sel {
+  border-color: #ffd36b;
+  background: rgba(48, 36, 24, 0.98);
+  box-shadow: 0 0 12px rgba(255, 211, 107, 0.2);
+}
+
+.klasseCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.klasseIcon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.klasseAktivBadge {
+  margin-left: auto;
+  font-size: 9px;
+  background: #ffd36b;
+  color: #1c1812;
+  padding: 2px 6px;
+  font-weight: 700;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+.klasseDesc {
+  font-size: 11px;
+  color: #dfd0bc;
+  margin: 2px 0;
+  line-height: 1.4;
+}
+
+.klasseTalente {
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 4px 0;
+  border-left: 2px solid #ffd36b;
+}
+
+.klasseWahlBtn {
+  margin-top: auto;
+  font-size: 11px;
+  padding: 6px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------- Spaced Repetition Hub Badge ---------- */
+.hubBtn.lueckenBtn {
+  background: #d32f2f !important;
+  color: #fff !important;
+  font-weight: 700;
+  border-color: #ff5252 !important;
+  box-shadow: 0 0 8px rgba(255, 82, 82, 0.5);
+  animation: lueckenPuls 2s infinite ease-in-out;
+}
+
+@keyframes lueckenPuls {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ---------- Gamepad HUD Badge ---------- */
+.hubGamepadBadge {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  background: rgba(20, 35, 55, 0.9);
+  border: 1px solid #00e5ff;
+  color: #80d8ff;
+  padding: 4px 10px;
+  border-radius: 3px;
+  box-shadow: 0 0 6px rgba(0, 229, 255, 0.3);
+}
+
+/* ---------- 100-Etagen Prüfungsturm HUD Bar ---------- */
+.turmHudBar {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto 8px;
+  background: rgba(28, 20, 14, 0.96);
+  border: 2px solid #ffd36b;
+  padding: 8px 14px;
+  box-sizing: border-box;
+  font-family: "Silkscreen", ui-monospace, monospace;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.turmHudInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.turmEtage {
+  color: #ffd36b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.turmHerzen {
+  font-size: 15px;
+  letter-spacing: 3px;
+}
+
+.turmRekord {
+  font-size: 11px;
+  color: #c9a98a;
+}
+
+.turmAufgebenBtn {
+  background: #3b2014;
+  color: #ff8a80;
+  border: 1px solid #ff5252;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.turmAufgebenBtn:hover {
+  background: #ff5252;
+  color: #fff;
+}
+
 
 /* ---- fx.css ---- */
 /* fx.css - Effekte des Pixel-Looks: Effekt-Ebene, Kampfleiste (Boss), Geist am Rand, Beute-Fenster. Nur sichtbar mit <body class="retro">.
@@ -6758,6 +6956,200 @@ GENERATORS.triage = function (level) {
     erkl: `Netzadresse ${NETZ.str(r.net)}, Broadcast ${NETZ.str(r.bc)}, nutzbar ${NETZ.str(r.net + 1)} bis ${NETZ.str(r.bc - 1)}. Die Endung .0 oder .255 allein entscheidet nichts: es zählt die Maske /${p}.` };
 };
 
+/* ---- f_turm.js ---- */
+// f_turm.js - Der 100-Etagen IHK-Prüfungsturm (Roguelike Dungeon-Crawler)
+// Jede Etage stellt eine Prüfungsaufgabe. Alle 5 Etagen ein Boss, alle 10 Etagen ein permanenter Checkpoint.
+// 3 Leben (Herzen). Bei Niederlage Rückfall auf den letzten Checkpoint.
+(function () {
+  const KT = "fi-quiz-turm-v1";
+
+  function getTurmStand() {
+    try {
+      const d = JSON.parse(localStorage.getItem(KT) || "{}");
+      return Object.assign({ maxEtage: 1, aktuelleEtage: 1, leben: 3 }, d);
+    } catch (e) {
+      return { maxEtage: 1, aktuelleEtage: 1, leben: 3 };
+    }
+  }
+
+  function speichereTurmStand(st) {
+    try {
+      localStorage.setItem(KT, JSON.stringify(st));
+    } catch (e) {}
+  }
+
+  let turmAktiv = false;
+
+  function starteTurm(vonCheckpoint) {
+    const st = getTurmStand();
+    if (vonCheckpoint) {
+      // Rückfall auf letzten Checkpoint
+      const cp = Math.max(1, Math.floor((st.aktuelleEtage - 1) / 10) * 10 || 1);
+      st.aktuelleEtage = cp;
+      st.leben = 3;
+    } else if (st.leben <= 0) {
+      st.leben = 3;
+    }
+    speichereTurmStand(st);
+    turmAktiv = true;
+
+    // Erzeuge dynamisches Paket für die aktuelle Etage
+    ladeEtageFrage();
+  }
+
+  function ladeEtageFrage() {
+    const st = getTurmStand();
+    const allePakete = (typeof window.alle === "function" ? window.alle() : [])
+      .filter(p => p.fragen && p.fragen.length > 0 && p.typ !== "kurs");
+
+    if (allePakete.length === 0) return;
+
+    // Fragepool aus allen Paketen
+    const alleFragen = allePakete.flatMap(p => p.fragen.map(q => Object.assign({}, q, { paketTitel: p.titel })));
+    const zufallFrage = alleFragen[Math.floor(Math.random() * alleFragen.length)];
+
+    const istBoss = (st.aktuelleEtage % 5 === 0);
+    const istCheckpoint = (st.aktuelleEtage % 10 === 0);
+
+    const turmPack = {
+      id: `turm-etage-${st.aktuelleEtage}`,
+      titel: `🏰 Prüfungsturm – Etage ${st.aktuelleEtage} / 100`,
+      ordner: ["Prüfungsturm"],
+      typ: "turm",
+      zeit: istBoss ? 45 : 30,
+      fragen: [zufallFrage],
+      beschreibung: istBoss
+        ? `🔥 ETAGE ${st.aktuelleEtage}: BOSS-KAMPF! Besiege den Wächter!`
+        : `Etage ${st.aktuelleEtage} von 100. Beantworte die Aufgabe, um vorzurücken.`
+    };
+
+    if (typeof window.BUILTIN !== "undefined") {
+      const idx = window.BUILTIN.findIndex(p => p.id === turmPack.id);
+      if (idx >= 0) window.BUILTIN[idx] = turmPack;
+      else window.BUILTIN.push(turmPack);
+    }
+
+    if (typeof window.startGame === "function") {
+      window.startGame(turmPack.id);
+      aktualisiereTurmHud();
+    }
+  }
+
+  function aktualisiereTurmHud() {
+    if (!turmAktiv) return;
+    const st = getTurmStand();
+    let bar = document.getElementById("turmHudBar");
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.id = "turmHudBar";
+      bar.className = "turmHudBar";
+      const game = document.getElementById("game");
+      if (game) game.insertBefore(bar, game.firstChild);
+    }
+
+    const herzen = "❤️".repeat(Math.max(0, st.leben)) + "🖤".repeat(Math.max(0, 3 - st.leben));
+    bar.innerHTML = `
+      <div class="turmHudInner">
+        <span class="turmEtage">🏰 <b>Etage ${st.aktuelleEtage}</b> / 100</span>
+        <span class="turmHerzen">${herzen}</span>
+        <span class="turmRekord">🏆 Rekord: Etage ${st.maxEtage}</span>
+        <button type="button" class="turmAufgebenBtn" id="turmAufgebenBtn">Verlassen</button>
+      </div>
+    `;
+
+    const btn = document.getElementById("turmAufgebenBtn");
+    if (btn) {
+      btn.onclick = () => {
+        turmAktiv = false;
+        bar.remove();
+        if (typeof window.renderHome === "function") window.renderHome();
+        if (typeof window.show === "function") window.show("home");
+      };
+    }
+  }
+
+  function verarbeiteTurmUrteil(urteil) {
+    if (!turmAktiv) return;
+    const st = getTurmStand();
+
+    if (urteil === "richtig") {
+      st.aktuelleEtage++;
+      if (st.aktuelleEtage > st.maxEtage) st.maxEtage = st.aktuelleEtage;
+      speichereTurmStand(st);
+
+      if (st.aktuelleEtage > 100) {
+        alert("🏆 LEGENDÄR! Du hast alle 100 Etagen des IHK-Prüfungsturms bezwungen und bist nun offiziell ein Root-Gott!");
+        turmAktiv = false;
+        const bar = document.getElementById("turmHudBar");
+        if (bar) bar.remove();
+        return;
+      }
+
+      setTimeout(() => {
+        ladeEtageFrage();
+      }, 1200);
+
+    } else {
+      st.leben--;
+      speichereTurmStand(st);
+
+      if (st.leben <= 0) {
+        setTimeout(() => {
+          const cp = Math.max(1, Math.floor((st.aktuelleEtage - 1) / 10) * 10 || 1);
+          alert(`💀 GAME OVER im Prüfungsturm!\nAlle 3 Leben aufgebraucht. Du wirst zum letzten Checkpoint (Etage ${cp}) zurückgesetzt.`);
+          st.aktuelleEtage = cp;
+          st.leben = 3;
+          speichereTurmStand(st);
+          turmAktiv = false;
+          const bar = document.getElementById("turmHudBar");
+          if (bar) bar.remove();
+          if (typeof window.show === "function") window.show("home");
+        }, 1200);
+      } else {
+        // Noch Leben übrig: nächste Frage auf gleicher Etage
+        setTimeout(() => {
+          ladeEtageFrage();
+        }, 1200);
+      }
+    }
+  }
+
+  function stoppeTurm() {
+    turmAktiv = false;
+    const bar = document.getElementById("turmHudBar");
+    if (bar) bar.remove();
+  }
+
+  // Hook in startGame und show, damit der Turm-Header bei anderen Modi sofort verschwindet
+  const _origStart = window.startGame;
+  if (typeof _origStart === "function") {
+    window.startGame = function (id) {
+      if (!id || !String(id).startsWith("turm-etage-")) {
+        stoppeTurm();
+      }
+      _origStart.apply(this, arguments);
+    };
+  }
+
+  const _origShow = window.show;
+  if (typeof _origShow === "function") {
+    window.show = function (id) {
+      if (id !== "game") {
+        stoppeTurm();
+      }
+      _origShow.apply(this, arguments);
+    };
+  }
+
+  window.PRUEFUNGSTURM = {
+    starteTurm,
+    getStand: getTurmStand,
+    isAktiv: () => turmAktiv,
+    verarbeiteUrteil: verarbeiteTurmUrteil,
+    stoppe: stoppeTurm
+  };
+})();
+
 /* ---- f_vlan.js ---- */
 // f_vlan.js - VLAN-Dispatcher (Konzept 16, Regeln neu und nach Buch/Handout: Access-Port = ungetaggt, Trunk = getaggt, 1 VLAN = 1 Broadcast-Domäne)
 // Aufgabe: { art: "vlan", modus: "flut"|"erreicht"|"tag"|"tagfrei", ports: [{ n, typ: "access"|"trunk", vlan }], von: Portnummer, tag?: VLAN-ID (nur wenn von = Trunk), b?: Zielport (erreicht) }
@@ -9326,6 +9718,150 @@ document.addEventListener("keydown", (e) => {
   };
 })();
 
+/* ---- s_gamepad.js ---- */
+// s_gamepad.js - Gamepad API Controller-Unterstützung (Xbox, PlayStation, Nintendo Switch, USB)
+// Ermöglicht die Steuerung des 2.5D-Ringmenüs, der Kampfbühne und der Antworten per Controller
+(function () {
+  let connectedPad = null;
+  let lastButtonStates = {};
+  let lastAxisTime = 0;
+
+  window.addEventListener("gamepadconnected", (e) => {
+    connectedPad = e.gamepad;
+    console.log(`Gamepad verbunden: ${e.gamepad.id}`);
+    zeigeGamepadInfo(true, e.gamepad.id);
+  });
+
+  window.addEventListener("gamepaddisconnected", (e) => {
+    connectedPad = null;
+    zeigeGamepadInfo(false);
+  });
+
+  function zeigeGamepadInfo(verbunden, idStr) {
+    let badge = document.getElementById("hubGamepadBadge");
+    if (!badge) {
+      badge = document.createElement("div");
+      badge.id = "hubGamepadBadge";
+      badge.className = "hubGamepadBadge";
+      const hudBar = document.querySelector(".hubHudBar");
+      if (hudBar) hudBar.appendChild(badge);
+    }
+    if (verbunden) {
+      badge.style.display = "inline-flex";
+      const name = (idStr || "Controller").split("(")[0].trim();
+      badge.innerHTML = `🎮 <b>${name}</b> aktiv`;
+      badge.title = "Steuerung per Gamepad: D-Pad/Stick = Drehen, A = Öffnen/Wählen, B = Zurück, X = Skill, Y = Musik";
+    } else {
+      badge.style.display = "none";
+    }
+  }
+
+  function tickGamepad() {
+    const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+    const pad = pads[0] || connectedPad;
+
+    if (pad && pad.connected) {
+      const now = performance.now();
+
+      // 1. D-Pad & Analog-Stick Links/Rechts (Drehen im Hub)
+      const axisX = pad.axes[0] || 0;
+      const dpadLeft = pad.buttons[14]?.pressed;
+      const dpadRight = pad.buttons[15]?.pressed;
+      const dpadUp = pad.buttons[12]?.pressed;
+      const dpadDown = pad.buttons[13]?.pressed;
+
+      if (now - lastAxisTime > 220) {
+        if (axisX < -0.5 || dpadLeft) {
+          lastAxisTime = now;
+          if (typeof window.dreheLinks === "function") window.dreheLinks();
+        } else if (axisX > 0.5 || dpadRight) {
+          lastAxisTime = now;
+          if (typeof window.dreheRechts === "function") window.dreheRechts();
+        }
+      }
+
+      // 2. Buttons mit Flankenerkennung (Pressed Just Now)
+      const btnPressed = (idx) => {
+        const isDown = pad.buttons[idx]?.pressed;
+        const wasDown = !!lastButtonStates[idx];
+        lastButtonStates[idx] = isDown;
+        return isDown && !wasDown;
+      };
+
+      // Button 0 (A / Cross): Bestätigen / Öffnen / Antwort 1
+      if (btnPressed(0)) {
+        handleConfirmAction();
+      }
+
+      // Button 1 (B / Circle): Zurück / Schließen / Joker
+      if (btnPressed(1)) {
+        handleBackAction();
+      }
+
+      // Button 2 (X / Square): Klassen-Skill aktivieren
+      if (btnPressed(2)) {
+        if (window.IT_KLASSEN && typeof window.IT_KLASSEN.nutzeKlassenSkill === "function") {
+          window.IT_KLASSEN.nutzeKlassenSkill();
+        }
+      }
+
+      // Button 3 (Y / Triangle): Chiptune Musik Toggle
+      if (btnPressed(3)) {
+        if (window.CHIPTUNE && typeof window.CHIPTUNE.toggle === "function") {
+          window.CHIPTUNE.toggle();
+        }
+      }
+    }
+
+    requestAnimationFrame(tickGamepad);
+  }
+
+  function handleConfirmAction() {
+    const hub = document.getElementById("jrpgHub");
+    const isHubSichtbar = hub && !hub.classList.contains("hidden");
+
+    if (isHubSichtbar) {
+      const modal = document.getElementById("hubModalOverlay");
+      if (modal && !modal.classList.contains("hidden")) {
+        // Modal offen: erster Primär-Button
+        const btn = modal.querySelector(".primary, .hubStartBtn");
+        if (btn) btn.click();
+      } else {
+        // Im Ringmenü: Öffnen
+        const openBtn = document.getElementById("hubOpenBtn");
+        if (openBtn) openBtn.click();
+      }
+    } else {
+      // In Quiz/Frage: Erste Antwort oder Weiter
+      const weiterBtn = document.getElementById("weiter");
+      if (weiterBtn && !weiterBtn.classList.contains("hidden")) {
+        weiterBtn.click();
+      } else {
+        const b = document.querySelector("#frageBox button[data-i='0'], #frageBox button:first-of-type");
+        if (b) b.click();
+      }
+    }
+  }
+
+  function handleBackAction() {
+    const modal = document.getElementById("hubModalOverlay");
+    if (modal && !modal.classList.contains("hidden")) {
+      const closeBtn = document.getElementById("hubModalClose");
+      if (closeBtn) closeBtn.click();
+    } else {
+      // Wichtel Joker
+      const jBtn = document.getElementById("bbJokerBtn");
+      if (jBtn) jBtn.click();
+    }
+  }
+
+  requestAnimationFrame(tickGamepad);
+
+  window.GAMEPAD_SUPPORT = {
+    isConnected: () => !!(connectedPad && connectedPad.connected)
+  };
+})();
+
 /* ---- s_intro.js ---- */
 // s_intro.js - Schnelles, kompaktes JRPG-Onboarding (Begrüßung, Datenschutz, 16px-Avatar, Nickname & Cloud-Sync-Code)
 (function () {
@@ -9502,6 +10038,199 @@ document.addEventListener("keydown", (e) => {
   window.fiIntroAuf = auf;
 })();
 
+/* ---- s_klasse.js ---- */
+// s_klasse.js - IT-Berufe Klassen- & Job-System für das Retro-JRPG FI-Quiz
+// 4 archetypische Fachrichtungen mit passiven Talenten und aktiven Kampf-Skills
+(function () {
+  const KK = "fi-quiz-klasse-v1";
+
+  const KLASSEN = {
+    paladin: {
+      id: "paladin",
+      name: "Netzwerk-Paladin",
+      fachrichtung: "Systemintegration",
+      icon: "🛡️",
+      avatar: "Knight",
+      farbe: "#ffd36b",
+      beschreibung: "Meister der Protokolle und Subnetze. Hält dem Druck stand.",
+      passiv: "Timer-Puffer: +3 Sek. Bonuszeit bei Netzwerkfragen (LF03).",
+      skillName: "Port-Scan",
+      skillTaste: "Q",
+      skillDesc: "Deckt sofort 1 falsche Antwortoption auf.",
+      cooldownMax: 3
+    },
+    codemage: {
+      id: "codemage",
+      name: "Code-Mage",
+      fachrichtung: "Anwendungsentwicklung",
+      icon: "🔮",
+      avatar: "SorcererBlack",
+      farbe: "#ea80fc",
+      beschreibung: "Manipuliert Logik und Kontrollstrukturen für maximale Treffer.",
+      passiv: "Compiler-Boost: +25% Bonusschaden bei Python & Logik (LF05).",
+      skillName: "Refactoring",
+      skillTaste: "Q",
+      skillDesc: "Wandelt einen Fehler in 50% Teilpunkte um.",
+      cooldownMax: 3
+    },
+    alchemist: {
+      id: "alchemist",
+      name: "Data-Alchemist",
+      fachrichtung: "Daten- & Prozessanalyse",
+      icon: "⚡",
+      avatar: "NinjaBlue",
+      farbe: "#00e5ff",
+      beschreibung: "Schnelle Abfragen, hohe Crit-Treffer und Index-Zauber.",
+      passiv: "Index-Scan: +20% Chance auf kritische Doppel-Treffer.",
+      skillName: "Query-Cache",
+      skillTaste: "Q",
+      skillDesc: "Friert die Countdown-Uhr für 5 Sekunden komplett ein.",
+      cooldownMax: 3
+    },
+    sentinel: {
+      id: "sentinel",
+      name: "Cyber-Sentinel",
+      fachrichtung: "Digitale Vernetzung & Security",
+      icon: "⚔️",
+      avatar: "Samurai",
+      farbe: "#ff5252",
+      beschreibung: "Zero-Trust-Verteidigung gegen Boss-Störungen und Malware.",
+      passiv: "Zero-Trust: Boss-Störangriffe dauern nur halb so lang.",
+      skillName: "Zero-Trust-Wall",
+      skillTaste: "Q",
+      skillDesc: "Schützt die Antwortserie vor dem nächsten Fehler.",
+      cooldownMax: 3
+    }
+  };
+
+  // Status
+  let cooldown = 0;
+  let skillAktiv = false; // z.B. für Zero-Trust-Wall oder Refactoring
+
+  function getAktuelleKlasse() {
+    let kId = "paladin";
+    try {
+      kId = localStorage.getItem(KK) || "paladin";
+    } catch (e) {}
+    return KLASSEN[kId] || KLASSEN.paladin;
+  }
+
+  function setKlasse(kId) {
+    if (KLASSEN[kId]) {
+      try {
+        localStorage.setItem(KK, kId);
+      } catch (e) {}
+      // Avatar synchronisieren
+      try {
+        const kf = JSON.parse(localStorage.getItem("fi-quiz-fancy-v1") || "{}");
+        kf.av = KLASSEN[kId].avatar;
+        localStorage.setItem("fi-quiz-fancy-v1", JSON.stringify(kf));
+      } catch (e) {}
+      cooldown = 0;
+      skillAktiv = false;
+      if (typeof window.hudUpdate === "function") window.hudUpdate();
+      return true;
+    }
+    return false;
+  }
+
+  function resetCooldown() {
+    cooldown = 0;
+    skillAktiv = false;
+    updateSkillButton();
+  }
+
+  function tickCooldown() {
+    if (cooldown > 0) cooldown--;
+    updateSkillButton();
+  }
+
+  function nutzeKlassenSkill() {
+    if (cooldown > 0) return { erfolg: false, grund: `Noch ${cooldown} Fragen Cooldown` };
+    const k = getAktuelleKlasse();
+
+    if (k.id === "paladin") {
+      // Port-Scan: 1 falsche Option ausschalten
+      const fBox = document.getElementById("frageBox");
+      const curS = (typeof S !== "undefined" ? S : window.S);
+      const q = curS && curS.q;
+      if (!fBox || !q || q.art !== "mc") {
+        return { erfolg: false, grund: "Nur bei Multiple-Choice anwendbar" };
+      }
+      const btns = [...fBox.querySelectorAll("button[data-i]:not(:disabled)")];
+      const loesung = Array.isArray(q.l) ? q.l : [q.l];
+      const falsche = btns.filter(b => !loesung.includes(Number(b.dataset.i)));
+      if (falsche.length === 0) return { erfolg: false, grund: "Keine falschen Optionen übrig" };
+      
+      const opfer = falsche[Math.floor(Math.random() * falsche.length)];
+      opfer.disabled = true;
+      opfer.innerHTML = `🔍 <del>${opfer.textContent}</del> <small style="color:#ffd36b">[PORT GESPERRT]</small>`;
+      cooldown = k.cooldownMax;
+      updateSkillButton();
+      if (window.ton) window.ton("magic");
+      return { erfolg: true, text: "Port-Scan erfolgreich: 1 falsche Option eliminiert!" };
+
+    } else if (k.id === "codemage") {
+      // Refactoring: rettet nächsten Fehler
+      skillAktiv = true;
+      cooldown = k.cooldownMax;
+      updateSkillButton();
+      if (window.ton) window.ton("magic");
+      return { erfolg: true, text: "Refactoring aktiv: Nächster Fehler wird abgefedert!" };
+
+    } else if (k.id === "alchemist") {
+      // Query-Cache: Friert Timer für 5s ein
+      const curS = (typeof S !== "undefined" ? S : window.S);
+      if (curS && curS.zeit) {
+        curS.rest = Math.min(curS.zeit, (curS.rest || 0) + 5);
+        const zBar = document.getElementById("zeitBar");
+        if (zBar) zBar.style.width = Math.min(100, (curS.rest / curS.zeit) * 100) + "%";
+      }
+      cooldown = k.cooldownMax;
+      updateSkillButton();
+      if (window.ton) window.ton("magic");
+      return { erfolg: true, text: "Query-Cache aktiv: +5 Sekunden Pufferzeit gutgeschrieben!" };
+
+    } else if (k.id === "sentinel") {
+      // Zero-Trust-Wall: Schild vor Serien-Verlust
+      skillAktiv = true;
+      cooldown = k.cooldownMax;
+      updateSkillButton();
+      if (window.ton) window.ton("magic");
+      return { erfolg: true, text: "Zero-Trust-Wall aktiv: Deine Serie ist geschützt!" };
+    }
+
+    return { erfolg: false };
+  }
+
+  function updateSkillButton() {
+    const btn = document.getElementById("bbSkillBtn");
+    if (!btn) return;
+    const k = getAktuelleKlasse();
+    if (cooldown > 0) {
+      btn.disabled = true;
+      btn.textContent = `⏳ ${k.skillName} (${cooldown})`;
+      btn.title = `Cooldown: Noch ${cooldown} Runden`;
+    } else {
+      btn.disabled = false;
+      btn.textContent = `⚡ [Q] ${k.skillName}`;
+      btn.title = `${k.skillName}: ${k.skillDesc}`;
+    }
+  }
+
+  window.IT_KLASSEN = {
+    KLASSEN,
+    getAktuelleKlasse,
+    setKlasse,
+    nutzeKlassenSkill,
+    resetCooldown,
+    tickCooldown,
+    isSkillAktiv: () => skillAktiv,
+    verbraucheSkill: () => { const a = skillAktiv; skillAktiv = false; return a; },
+    updateSkillButton
+  };
+})();
+
 /* ---- s_retro.js ---- */
 // s_retro.js - Schalter für das Retro-Erscheinungsbild (retro.css) und optionale Töne (Standard: aus). Im Pixel-Look spielt s_zz_fx.js die Sounds aus dem Pack, sonst gibt es Chiptune per WebAudio.
 (function () {
@@ -9540,6 +10269,138 @@ document.addEventListener("keydown", (e) => {
   knopfText();
   window.fiRetro = (an) => { setzeRetro(an); $("retroAn").checked = !!an; knopfText(); };   // Hook für den Fancy Mode (s_z_fancy.js)
   $("tonAn").onchange = (e) => { store.set(KS, e.target.checked); if (e.target.checked) { if (window.fxTon && document.body.classList.contains("retro") && window.FX) FX.sound("richtig"); else ton(TON.richtig); } };
+})();
+
+/* ---- s_spaced_rep.js ---- */
+// s_spaced_rep.js - Spaced Repetition Engine & Intelligentes Fehler-Archiv
+// Erfasst falsch beantwortete Fragen nach dem Leitner-Prinzip und ermöglicht gezieltes Schließen von Wissenslücken
+(function () {
+  const KF = "fi-quiz-fehler-v1";
+
+  function ladeFehler() {
+    try {
+      return JSON.parse(localStorage.getItem(KF) || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function speichereFehler(fMap) {
+    try {
+      localStorage.setItem(KF, JSON.stringify(fMap));
+    } catch (e) {}
+    aktualisiereHubBadge();
+  }
+
+  function getQId(q) {
+    if (!q) return "";
+    if (q.id) return q.id;
+    // FNV-1a Hash über Fragetext
+    const txt = (q.f || "").toLowerCase().trim();
+    let h = 0x811c9dc5;
+    for (let i = 0; i < txt.length; i++) {
+      h = ((h ^ txt.charCodeAt(i)) * 0x01000193) & 0xffffffff;
+    }
+    return `q_${(h >>> 0).toString(16)}`;
+  }
+
+  function registriereFehler(q, loesung, eingabe) {
+    if (!q || !q.f) return;
+    const qid = getQId(q);
+    const fMap = ladeFehler();
+    const alt = fMap[qid] || {
+      qid,
+      q,
+      fehlerCount: 0,
+      erfolgCount: 0,
+      erstmals: Date.now()
+    };
+
+    alt.q = q; // Aktuelle Fragedaten sichern
+    alt.fehlerCount = (alt.fehlerCount || 0) + 1;
+    alt.letzterFehler = Date.now();
+    alt.status = "offen"; // offen, gemeistert
+    fMap[qid] = alt;
+    speichereFehler(fMap);
+  }
+
+  function registriereErfolg(q) {
+    if (!q || !q.f) return;
+    const qid = getQId(q);
+    const fMap = ladeFehler();
+    if (!fMap[qid]) return; // War kein registrierter Fehler
+
+    const eintrag = fMap[qid];
+    eintrag.erfolgCount = (eintrag.erfolgCount || 0) + 1;
+
+    // Nach 2 erfolgreichen Wiederholungen gilt die Frage als gemeistert
+    if (eintrag.erfolgCount >= 2) {
+      delete fMap[qid];
+    } else {
+      eintrag.status = "wiederholt";
+    }
+    speichereFehler(fMap);
+  }
+
+  function getOffeneFehler() {
+    const fMap = ladeFehler();
+    return Object.values(fMap).filter(x => x && x.q);
+  }
+
+  function anzahlOffenerFehler() {
+    return getOffeneFehler().length;
+  }
+
+  function starteFehlerTraining() {
+    const offene = getOffeneFehler();
+    if (offene.length === 0) {
+      alert("Hervorragend! Du hast aktuell keine offenen Wissenslücken.");
+      return;
+    }
+
+    const fragen = offene.map(x => x.q);
+    const fehlerPack = {
+      id: "wissensluecken-spezial",
+      titel: "⚡ Wissenslücken-Training",
+      typ: "quiz",
+      ordner: ["Training"],
+      fragen: fragen,
+      beschreibung: `${fragen.length} gezielte Wiederholungsfragen aus deinen bisherigen Fehlern.`
+    };
+
+    // Temporär in BUILTIN oder custom eintragen, damit startGame es findet
+    if (typeof window.BUILTIN !== "undefined") {
+      const idx = window.BUILTIN.findIndex(p => p.id === fehlerPack.id);
+      if (idx >= 0) window.BUILTIN[idx] = fehlerPack;
+      else window.BUILTIN.push(fehlerPack);
+    }
+
+    if (typeof window.startGame === "function") {
+      window.startGame(fehlerPack.id);
+    }
+  }
+
+  function aktualisiereHubBadge() {
+    const btn = document.getElementById("hubLueckenBtn");
+    if (!btn) return;
+    const count = anzahlOffenerFehler();
+    if (count > 0) {
+      btn.style.display = "inline-flex";
+      btn.textContent = `⚡ Wissenslücken (${count})`;
+      btn.title = `${count} Fragen zum Wiederholen vorgemerkt. Klicke zum Trainieren!`;
+    } else {
+      btn.style.display = "none";
+    }
+  }
+
+  window.SPACED_REP = {
+    registriereFehler,
+    registriereErfolg,
+    getOffeneFehler,
+    anzahlOffenerFehler,
+    starteFehlerTraining,
+    aktualisiereHubBadge
+  };
 })();
 
 /* ---- s_sync.js ---- */
@@ -10024,6 +10885,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         <div class="hubStarsBar"><i id="hubStarsFill" style="width:0%"></i></div>
       </div>
       <div class="hubQuickBtns">
+        <button type="button" class="hubBtn iconBtn lueckenBtn" id="hubLueckenBtn" style="display:none;" title="Offene Wissenslücken trainieren">⚡ Wissenslücken</button>
         <button type="button" class="hubBtn iconBtn" id="hubKompendiumBtn" title="IHK-Kompendium (Pokédex)">📖 Kompendium</button>
         <button type="button" class="hubBtn iconBtn chiptuneToggleBtn" id="hubMusicToggle" title="8-Bit Chiptune Musik an/aus">🎵 Musik: An</button>
         <button type="button" class="hubBtn iconBtn" id="hubSoundBtn" title="Töne umschalten">🔊 Töne</button>
@@ -10176,15 +11038,20 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     const info = kurseInfo();
     const r = rang(info);
     const av = cfg().av || "Knight";
+    const kl = window.IT_KLASSEN ? window.IT_KLASSEN.getAktuelleKlasse() : null;
 
     $("hubNickName").textContent = alias();
-    $("hubRankTitle").textContent = `Stufe ${r.l + 1}: ${r.name}`;
+    $("hubRankTitle").textContent = kl ? `${kl.icon} ${kl.name} · Stufe ${r.l + 1}: ${r.name}` : `Stufe ${r.l + 1}: ${r.name}`;
     $("hubStarsText").textContent = `⭐ ${r.S} / ${r.M} Sterne`;
     $("hubStarsFill").style.width = Math.round(r.frac * 100) + "%";
 
     const avSmall = $("hubAvatarSmall");
     if (avSmall && A && A.chars && A.chars[av]) {
       avSmall.style.backgroundImage = `url(${A.chars[av]})`;
+    }
+
+    if (window.SPACED_REP && typeof window.SPACED_REP.aktualisiereHubBadge === "function") {
+      window.SPACED_REP.aktualisiereHubBadge();
     }
   }
 
@@ -10593,9 +11460,18 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
   // 4. Spielhalle (Mini-Games & Sprints)
   function oeffneSpielhalleModal() {
+    const turmStand = window.PRUEFUNGSTURM ? window.PRUEFUNGSTURM.getStand() : { maxEtage: 1, aktuelleEtage: 1 };
     zeigeModal("🕹️ Spielhalle & Sprints", `
       <p class="modalLead">Schnelle Mini-Games für Subnetting, VLAN, Logik und Rechenwege:</p>
       <div class="modalGridCards">
+        <div class="arenaCard full" style="border: 2px solid #ffd36b; background: rgba(35, 25, 15, 0.95); margin-bottom: 6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+            <h3 style="color:#ffd36b; margin:0;">🏰 IHK-Prüfungsturm (100 Etagen Roguelike)</h3>
+            <span style="color:#ffd36b; font-weight:700; font-size:12px;">Rekord: Etage ${turmStand.maxEtage}</span>
+          </div>
+          <p style="margin:4px 0 8px; font-size:12px;">Kämpfe dich durch 100 Etagen! Alle 5 Etagen ein Boss, alle 10 Etagen ein Checkpoint. Du hast 3 Leben (❤️❤️❤️).</p>
+          <button type="button" class="primary" id="hubStartTurmBtn" style="font-weight:700;">Turm betreten (Etage ${turmStand.aktuelleEtage})</button>
+        </div>
         <div class="arenaCard">
           <h3>📦 Subnetz-Triage</h3>
           <p>Sortiere IP-Adressen in Rekordzeit in die passenden Subnetze ein.</p>
@@ -10618,6 +11494,15 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         </div>
       </div>
     `);
+
+    const turmBtn = $("hubStartTurmBtn");
+    if (turmBtn) {
+      turmBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (window.PRUEFUNGSTURM) window.PRUEFUNGSTURM.starteTurm();
+      };
+    }
 
     modalBody.querySelectorAll("[data-game]").forEach((b) => {
       b.onclick = () => {
@@ -10700,9 +11585,12 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       store.set("fi-quiz-sync-v1", syncData);
     }
 
+    const curKlasse = window.IT_KLASSEN ? window.IT_KLASSEN.getAktuelleKlasse() : { id: "paladin" };
+
     zeigeModal("⚙️ Profil, Kleiderschrank & Cloud-Sync", `
       <div class="profilTabs">
         <button type="button" class="tabBtn sel" id="tabBtnChar">Helden-Kleiderschrank</button>
+        <button type="button" class="tabBtn" id="tabBtnKlasse">IT-Berufsklasse</button>
         <button type="button" class="tabBtn" id="tabBtnSync">Cloud-Sync (QR-Code)</button>
         <button type="button" class="tabBtn" id="tabBtnOpt">Optionen</button>
       </div>
@@ -10735,6 +11623,36 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
             <span>👑 Goldene Krone</span>
             <small>${r.S >= 20 ? "Freigeschaltet" : "Benötigt 20 Sterne"}</small>
           </button>
+        </div>
+      </div>
+
+      <div id="tabContentKlasse" class="tabContent hidden">
+        <h4>Wähle deine IT-Fachrichtung (Berufsklasse):</h4>
+        <p class="modalLead">Jede Klasse bietet passive Boni und einen einzigartigen Kampf-Skill [Q]:</p>
+        <div class="klasseGrid">
+          ${Object.values(window.IT_KLASSEN ? window.IT_KLASSEN.KLASSEN : {}).map((kl) => {
+            const isSel = curKlasse.id === kl.id;
+            return `
+              <div class="klasseCard ${isSel ? "sel" : ""}" style="border-left: 4px solid ${kl.farbe}">
+                <div class="klasseCardHeader">
+                  <span class="klasseIcon">${kl.icon}</span>
+                  <div>
+                    <b>${esc(kl.name)}</b>
+                    <small style="display:block;color:#a89880">${esc(kl.fachrichtung)}</small>
+                  </div>
+                  ${isSel ? '<span class="klasseAktivBadge">AKTIV</span>' : ""}
+                </div>
+                <p class="klasseDesc">${esc(kl.beschreibung)}</p>
+                <div class="klasseTalente">
+                  <div><b>Passiv:</b> ${esc(kl.passiv)}</div>
+                  <div><b>Skill [Q]:</b> <span style="color:#ffd36b">${esc(kl.skillName)}</span> – ${esc(kl.skillDesc)}</div>
+                </div>
+                <button type="button" class="primary klasseWahlBtn" data-klasse="${esc(kl.id)}" ${isSel ? "disabled" : ""}>
+                  ${isSel ? "Ausgewählt" : "Diese Klasse wählen"}
+                </button>
+              </div>
+            `;
+          }).join("")}
         </div>
       </div>
 
@@ -10799,11 +11717,32 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     });
 
     // Tabs
-    const tChar = $("tabBtnChar"), tSync = $("tabBtnSync"), tOpt = $("tabBtnOpt");
-    const cChar = $("tabContentChar"), cSync = $("tabContentSync"), cOpt = $("tabContentOpt");
-    tChar.onclick = () => { tChar.classList.add("sel"); tSync.classList.remove("sel"); tOpt.classList.remove("sel"); cChar.classList.remove("hidden"); cSync.classList.add("hidden"); cOpt.classList.add("hidden"); };
-    tSync.onclick = () => { tSync.classList.add("sel"); tChar.classList.remove("sel"); tOpt.classList.remove("sel"); cSync.classList.remove("hidden"); cChar.classList.add("hidden"); cOpt.classList.add("hidden"); renderQr(); };
-    tOpt.onclick = () => { tOpt.classList.add("sel"); tChar.classList.remove("sel"); tSync.classList.remove("sel"); cOpt.classList.remove("hidden"); cChar.classList.add("hidden"); cSync.classList.add("hidden"); };
+    const tChar = $("tabBtnChar"), tKlasse = $("tabBtnKlasse"), tSync = $("tabBtnSync"), tOpt = $("tabBtnOpt");
+    const cChar = $("tabContentChar"), cKlasse = $("tabContentKlasse"), cSync = $("tabContentSync"), cOpt = $("tabContentOpt");
+
+    function aktiviereTab(aktBtn, aktContent) {
+      [tChar, tKlasse, tSync, tOpt].forEach(b => b && b.classList.remove("sel"));
+      [cChar, cKlasse, cSync, cOpt].forEach(c => c && c.classList.add("hidden"));
+      if (aktBtn) aktBtn.classList.add("sel");
+      if (aktContent) aktContent.classList.remove("hidden");
+    }
+
+    if (tChar) tChar.onclick = () => aktiviereTab(tChar, cChar);
+    if (tKlasse) tKlasse.onclick = () => aktiviereTab(tKlasse, cKlasse);
+    if (tSync) tSync.onclick = () => { aktiviereTab(tSync, cSync); renderQr(); };
+    if (tOpt) tOpt.onclick = () => aktiviereTab(tOpt, cOpt);
+
+    modalBody.querySelectorAll(".klasseWahlBtn").forEach(btn => {
+      btn.onclick = () => {
+        const kId = btn.dataset.klasse;
+        if (window.IT_KLASSEN && window.IT_KLASSEN.setKlasse(kId)) {
+          if (window.ton) window.ton("fanfare");
+          oeffneProfilModal();
+          const tk = $("tabBtnKlasse");
+          if (tk) tk.click();
+        }
+      };
+    });
 
     function renderQr() {
       const code = (store.get("fi-quiz-sync-v1", {}).code || "");
@@ -10925,6 +11864,15 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   }
 
   // Quick Buttons im HUD
+  const lueckenBtn = $("hubLueckenBtn");
+  if (lueckenBtn) {
+    lueckenBtn.onclick = () => {
+      if (window.SPACED_REP && typeof window.SPACED_REP.starteFehlerTraining === "function") {
+        window.SPACED_REP.starteFehlerTraining();
+      }
+    };
+  }
+
   $("hubKompendiumBtn").onclick = () => {
     if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openModal === "function") {
       window.IHK_KOMPENDIUM.openModal();
@@ -10951,6 +11899,12 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   $("hubWichtelCoachLink").onclick = () => {
     typewriterWichtel("Ich helfe dir jederzeit bei Fragen! Wähle ein Thema oder starte einen Lernkurs.");
   };
+
+  // Globale Navigation für Gamepad & Hotkeys
+  window.dreheLinks = () => dreheUm(-1);
+  window.dreheRechts = () => dreheUm(1);
+  window.hudUpdate = hudUpdate;
+  window.oeffneBereich = oeffneBereich;
 
   /* ---------- Global Hook: show() überschreiben ---------- */
   const _origShow = window.show;
@@ -13072,10 +14026,15 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           <span class="bbStreakBadge" id="bbStreakBadge">🔥 Serie 0</span>
         </div>
 
-        <!-- Wichtel Joker 50:50 Button -->
-        <button type="button" class="bbJokerBtn" id="bbJokerBtn" title="Der KIS-Held zaubert zwei falsche Antworten weg!">
-          💡 Wichtel 50:50 Joker
-        </button>
+        <!-- Aktions-Leiste: IT-Klassen Skill & Wichtel Joker -->
+        <div class="bbAktionsLeiste">
+          <button type="button" class="bbSkillBtn" id="bbSkillBtn" title="Klassen-Fertigkeit einsetzen [Q]">
+            ⚡ [Q] Skill
+          </button>
+          <button type="button" class="bbJokerBtn" id="bbJokerBtn" title="Der KIS-Held zaubert zwei falsche Antworten weg!">
+            💡 Wichtel 50:50 Joker
+          </button>
+        </div>
       </div>
     `;
 
@@ -13104,12 +14063,42 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
     blaseEl.addEventListener("click", () => typewriterSofort());
     if (jokerBtnEl) jokerBtnEl.onclick = triggerWichtelJoker;
+    
+    const skillBtnEl = $("bbSkillBtn");
+    if (skillBtnEl) {
+      skillBtnEl.onclick = () => {
+        if (window.IT_KLASSEN) {
+          const res = window.IT_KLASSEN.nutzeKlassenSkill();
+          if (res && res.text) {
+            starteTypewriter(`⚡ ${res.text}`);
+          }
+        }
+      };
+    }
+    if (window.IT_KLASSEN) window.IT_KLASSEN.updateSkillButton();
+
     if (musicToggleEl) {
       musicToggleEl.onclick = () => {
         if (window.CHIPTUNE) window.CHIPTUNE.toggle();
       };
     }
   }
+
+  // Taste [Q] für Klassen-Skill global abfangen
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "q" || e.key === "Q") {
+      const g = $("game");
+      if (g && !g.classList.contains("hidden")) {
+        if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+        if (window.IT_KLASSEN) {
+          const res = window.IT_KLASSEN.nutzeKlassenSkill();
+          if (res && res.text) {
+            starteTypewriter(`⚡ ${res.text}`);
+          }
+        }
+      }
+    }
+  });
 
   /* ---------- Bild-Caching ---------- */
   const imgCache = {};
@@ -13269,6 +14258,20 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         mult = 1.5;
         comboLvl = 1;
         label = "-150 HP! KRITISCH";
+      }
+
+      // IT-Klassen Talente
+      const aktKl = window.IT_KLASSEN ? window.IT_KLASSEN.getAktuelleKlasse() : null;
+      if (aktKl && aktKl.id === "codemage") {
+        // Compiler-Boost: +25% Bonusschaden
+        mult *= 1.25;
+      } else if (aktKl && aktKl.id === "alchemist") {
+        // Index-Scan: 20% Chance auf kritische Doppel-Treffer
+        if (Math.random() < 0.20) {
+          mult *= 2.0;
+          comboLvl = Math.max(comboLvl, 1);
+          label = "-250 HP! CRIT-INDEX!";
+        }
       }
 
       const dmg = Math.round((Math.max(80, punkte * 12)) * mult);
@@ -13564,6 +14567,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   function triggerBossStoerung(bossDef, forceType) {
     stoerungAufraeumen();
     if (!bossDef) bossDef = curBoss || BOSSE.samurai;
+    const isSentinel = window.IT_KLASSEN && window.IT_KLASSEN.getAktuelleKlasse().id === "sentinel";
 
     // Bestimme Typ nach Boss
     let typ = forceType;
@@ -13581,13 +14585,13 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       // 1. Broadcast-Sturm: Scanlines & Timer-Beschleunigung
       if (buehneEl) buehneEl.classList.add("bbGlitchScanlines");
       stoerungBannerEl.className = "bbStoerungBanner aktiv broadcast";
-      stoerungBannerEl.innerHTML = `⚡ <b>BROADCAST-STURM!</b> Der Subnetz-Shogun flutet das Netz – Reaktionszeit sinkt!`;
+      stoerungBannerEl.innerHTML = `⚡ <b>BROADCAST-STURM!</b> Der Subnetz-Shogun flutet das Netz – Reaktionszeit sinkt!${isSentinel ? ' <span style="color:#00e5ff">[Zero-Trust: -50% Dauer]</span>' : ''}`;
       ton("charge", 0.5);
 
       // Zeitstrafe, falls Timer läuft
       const curS = (typeof S !== "undefined" ? S : window.S);
       if (curS && curS.zeit && curS.rest > 3) {
-        curS.rest = Math.max(1, curS.rest - 2);
+        curS.rest = Math.max(1, curS.rest - (isSentinel ? 1 : 2));
         const zBar = $("zeitBar");
         if (zBar) zBar.style.width = Math.max(0, (curS.rest / curS.zeit) * 100) + "%";
       }
@@ -13597,7 +14601,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         timer: setTimeout(() => {
           if (buehneEl) buehneEl.classList.remove("bbGlitchScanlines");
           if (stoerungBannerEl) stoerungBannerEl.classList.add("hidden");
-        }, 3500)
+        }, isSentinel ? 1800 : 3500)
       };
     } else if (typ === "synflood") {
       // 2. SYN-Flood: Quick-Time Event zur Firewall-Abwehr
@@ -13651,7 +14655,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
               if (stoerungBannerEl) stoerungBannerEl.classList.add("hidden");
             }, 1800);
           }
-        }, 3200),
+        }, isSentinel ? 1800 : 3200),
         cleanup: () => {
           if (qteKeyHandler) document.removeEventListener("keydown", qteKeyHandler);
         }
@@ -13665,7 +14669,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       const echtesText = titleEl.textContent;
       const hexChars = "0123456789ABCDEF";
       stoerungBannerEl.className = "bbStoerungBanner aktiv ransomware";
-      stoerungBannerEl.innerHTML = `🔒 <b>RANSOMWARE-PAYLOAD:</b> Fragetext verschlüsselt! Dechiffriere mit AES-256...`;
+      stoerungBannerEl.innerHTML = `🔒 <b>RANSOMWARE-PAYLOAD:</b> Fragetext verschlüsselt! Dechiffriere mit AES-256...${isSentinel ? ' <span style="color:#00e5ff">[Zero-Trust: Turbo]</span>' : ''}`;
       ton("klick", 0.4);
 
       let step = 0;
@@ -13700,7 +14704,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
             if (stoerungBannerEl) stoerungBannerEl.classList.add("hidden");
           }, 1800);
         }
-      }, 90);
+      }, isSentinel ? 45 : 90);
 
       aktiveStoerung = {
         typ: "ransomware",
@@ -13758,8 +14762,27 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
     stoerungAufraeumen();
 
+    // IT-Klassen Cooldown & Skill-Button Update
+    if (window.IT_KLASSEN) {
+      window.IT_KLASSEN.tickCooldown();
+    }
+
     const curS = (typeof S !== "undefined" ? S : window.S) || {};
     updatePlayerBadge((curS && curS.serie) || 0);
+
+    // Paladin Passiv: +3s Zeitpuffer bei Netzwerkfragen
+    const curKl = window.IT_KLASSEN ? window.IT_KLASSEN.getAktuelleKlasse() : null;
+    if (curKl && curKl.id === "paladin") {
+      const qText = ((q && q.thema) || "") + " " + ((q && q.f) || "");
+      if (/netz|subnet|ip|prefix|lan|wlan|osi|switch|router/i.test(qText)) {
+        if (curS && curS.zeit) {
+          curS.rest = (curS.rest || curS.zeit) + 3;
+          curS.zeit += 3;
+          const zBar = $("zeitBar");
+          if (zBar) zBar.style.width = Math.min(100, (curS.rest / curS.zeit) * 100) + "%";
+        }
+      }
+    }
 
     const bossDef = waehleBoss(q);
     setzeBoss(bossDef, 800);
@@ -13823,10 +14846,45 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   if (typeof origWerte === "function") {
     window.werte = function (urteil, punkte, loesung, eingabe) {
       stoerungAufraeumen();
-      origWerte.apply(this, arguments);
+      const curS = (typeof S !== "undefined" ? S : window.S) || {};
+      const altSerie = curS.serie || (curS && curS.streak) || 0;
+
+      // Spaced Repetition Hook
+      if (window.SPACED_REP && curS && curS.q) {
+        if (urteil === "richtig") {
+          window.SPACED_REP.registriereErfolg(curS.q);
+        } else if (urteil === "falsch") {
+          window.SPACED_REP.registriereFehler(curS.q, loesung, eingabe);
+        }
+      }
+
+      // Code-Mage Refactoring & Cyber-Sentinel Shield Check
+      if (urteil === "falsch" && window.IT_KLASSEN && window.IT_KLASSEN.isSkillAktiv()) {
+        const kl = window.IT_KLASSEN.getAktuelleKlasse();
+        if (kl.id === "codemage") {
+          window.IT_KLASSEN.verbraucheSkill();
+          urteil = "teilweise";
+          punkte = Math.max(punkte || 0, 5);
+          starteTypewriter("🔮 REFACTORING ERFOLGREICH: Fehler abgefangen und in 50% Teilpunkte gerettet!");
+        } else if (kl.id === "sentinel") {
+          window.IT_KLASSEN.verbraucheSkill();
+          starteTypewriter("⚔️ ZERO-TRUST-WALL: Dein Schutzschild hat deine Antwortserie gerettet!");
+          setTimeout(() => {
+            if (curS) curS.serie = Math.max(altSerie, 1);
+            updatePlayerBadge(altSerie);
+          }, 30);
+        }
+      }
+
+      origWerte.call(this, urteil, punkte, loesung, eingabe);
+
+      // IHK-Prüfungsturm Hook
+      if (window.PRUEFUNGSTURM && window.PRUEFUNGSTURM.isAktiv()) {
+        window.PRUEFUNGSTURM.verarbeiteUrteil(urteil);
+      }
+
       if (!buehneEl || !buehneEl.classList.contains("aktiv")) return;
 
-      const curS = (typeof S !== "undefined" ? S : window.S) || {};
       const serie = (curS && curS.serie) || 0;
 
       if (urteil === "richtig") {
