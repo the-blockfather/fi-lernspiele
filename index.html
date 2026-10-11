@@ -3567,109 +3567,507 @@ body.retro section.fxEin { animation: fxEin .4s steps(6) both; }
 }
 
 /* ---- kurs.css ---- */
-/* kurs.css - Oberfläche des Kurs-Modus (Karte, Erklärkarten, Rechenweg, Tipps, KI-Hilfe) */
-section.kurs { max-width: 860px; margin: 0 auto; }
-.kHud { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 10px 14px; margin-bottom: 12px; }
-.kHud .kTitel { font-weight: 700; flex: 1 1 200px; }
-.kHud .kRang { color: var(--muted); font-size: .92rem; }
-.kIntro { padding: 14px 18px; margin-bottom: 14px; }
-.kIntro p { margin: 0 0 6px; }
-.kPfad { list-style: none; margin: 0; padding: 0; position: relative; }
-.kStation { display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; margin: 0 0 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); position: relative; }
-.kStation::before { content: ""; position: absolute; left: 40px; top: 100%; width: 2px; height: 10px; background: var(--line); }
-.kStation:last-child::before { display: none; }
-.kStation.zu { opacity: .6; }
-.kStation.fertig { border-color: color-mix(in srgb, var(--ok) 55%, var(--line)); background: color-mix(in srgb, var(--ok) 7%, var(--card)); }
-.kNr { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; font-size: 1.35rem; background: color-mix(in srgb, var(--c1) 16%, var(--card-solid)); border: 2px solid color-mix(in srgb, var(--c1) 45%, var(--line)); }
-.kStation.fertig .kNr { background: var(--ok-bg); border-color: var(--ok); }
-.kInfo { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.kInfo .muted { font-size: .88rem; }
-.kRechts { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-.kSt { color: var(--mid); letter-spacing: .06em; white-space: nowrap; }
-.kFuss { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 12px; }
-.kFuss .muted { flex: 1 1 180px; }
-.kFort { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 12px; }
-.kFort i { width: 16px; height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--text) 14%, transparent); }
-.kFort i.lies { background: color-mix(in srgb, var(--c1) 30%, transparent); }
-.kFort i.lies.ok { background: color-mix(in srgb, var(--c1) 55%, transparent); }
-.kFort i.ok { background: var(--ok); } .kFort i.mid { background: var(--mid); } .kFort i.bad { background: var(--bad); }
-.kFort i.jetzt { background: var(--c2); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c2) 30%, transparent); }
-.kBox { padding: 18px 20px; overflow-wrap: anywhere; min-width: 0; }
-.kBox b, .kBox code, .kFb, .kTippZeile { overflow-wrap: anywhere; word-break: break-word; }
-.kForm input { font-size: 1rem; }
-.kBox h3 { margin: 4px 0 8px; }
-.kText p, .kFrage p { margin: 0 0 8px; line-height: 1.55; }
-.kText ul { margin: 0 0 8px; padding-left: 22px; line-height: 1.55; }
-.kBox code { padding: 1px 6px; border-radius: 6px; background: color-mix(in srgb, var(--text) 9%, transparent); font-size: .92em; }
-.kBlock { margin: 10px 0; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: color-mix(in srgb, var(--text) 6%, transparent); font-family: ui-monospace, Consolas, monospace; font-size: .86rem; line-height: 1.5; overflow-x: auto; white-space: pre; max-width: 100%; }
-.kMerke { margin: 12px 0 4px; padding: 10px 14px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--mid) 55%, var(--line)); background: var(--mid-bg); }
-.kMerke p { margin: 0; display: inline; }
-.kFrage { font-size: 1.06rem; margin-bottom: 8px; }
-.kWeg { margin: 6px 0 12px; padding: 12px 14px; border-radius: 12px; border: 1px dashed color-mix(in srgb, var(--c2) 55%, var(--line)); background: color-mix(in srgb, var(--c2) 6%, transparent); }
-.kWegKopf p { margin: 0; }
-.kBlatt { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); display: grid; gap: 3px; font-size: .92rem; }
-.kBlatt b:first-child { color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
-.kBlatt div { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.kBlatt div b { font-family: ui-monospace, Consolas, monospace; overflow-wrap: anywhere; }
-.kForm { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
-.kForm input { flex: 1 1 220px; min-width: 0; font: inherit; font-size: 1.05rem; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--card-solid); color: var(--text); font-family: ui-monospace, Consolas, monospace; }
-.kOpt { display: grid; gap: 8px; margin: 6px 0; }
-.kOpt button { text-align: left; display: flex; gap: 10px; align-items: baseline; overflow-wrap: anywhere; }
-.kOpt button.richtig, .kOrd button.richtig { border-color: var(--ok); background: var(--ok-bg); }
-.kOpt button.falsch, .kOrd button.falsch { border-color: var(--bad); background: var(--bad-bg); }
-.kOrd { display: grid; gap: 10px; margin: 6px 0; }
-.kOrdFolge, .kOrdPool { display: grid; gap: 6px; padding: 8px; border-radius: 12px; border: 1px dashed var(--line); min-height: 44px; }
-.kOrdFolge button, .kOrdPool button { text-align: left; overflow-wrap: anywhere; }
-.kZu { display: grid; gap: 10px; margin: 6px 0; }
-.kZuZeilen { display: grid; gap: 6px; }
-.kZuZ { display: flex; justify-content: space-between; align-items: center; gap: 12px; text-align: left; overflow-wrap: anywhere; }
-.kZuZ .kZuL { flex: 1 1 55%; min-width: 0; }
-.kZuZ .kZuR { flex: 1 1 40%; min-width: 0; text-align: right; font-weight: 600; }
-.kZuZ.aktiv { border-color: var(--c2); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c2) 30%, transparent); }
-.kZuZ.richtig { border-color: var(--ok); background: var(--ok-bg); }
-.kZuZ.falsch { border-color: var(--bad); background: var(--bad-bg); }
-.kZuPool { display: flex; flex-wrap: wrap; gap: 8px; padding: 8px; border-radius: 12px; border: 1px dashed var(--line); }
-.kZuPool button { overflow-wrap: anywhere; text-align: left; }
-.kTipps { display: grid; gap: 6px; margin: 8px 0; }
-.kTippZeile { padding: 8px 12px; border-radius: 10px; background: var(--mid-bg); border: 1px solid color-mix(in srgb, var(--mid) 40%, var(--line)); font-size: .95rem; }
-.kTippZeile p { display: inline; margin: 0; }
-.kEnde { text-align: center; padding: 8px 0; }
-.kEnde .kStern { font-size: 2.2rem; color: var(--mid); letter-spacing: .1em; }
-.kEnde .kMerke { text-align: left; }
-.kSchwach { text-align: left; margin-top: 10px; }
-.kKi { padding: 10px 14px; margin-top: 12px; }
-.kKiBody { margin-top: 8px; display: grid; gap: 8px; }
-.kKiKnoepfe { display: flex; gap: 8px; flex-wrap: wrap; }
-.kKiLog { display: grid; gap: 6px; max-height: 280px; overflow: auto; }
-body.retro .kStation, body.retro .kBox, body.retro .kHud, body.retro .kWeg { border-radius: 0; }
-body.retro .kNr, body.retro .kZuZ, body.retro .kZuPool { border-radius: 0; }
-@media (max-width: 560px) {
-  .kStation { grid-template-columns: 44px 1fr; }
-  .kStation::before { left: 32px; }
-  .kRechts { grid-column: 1 / -1; justify-content: space-between; }
-  .kBox { padding: 14px 14px; }
-  .kBlock { font-size: .76rem; padding: 10px 12px; }
-  .kZuZ { flex-direction: column; align-items: flex-start; gap: 2px; }
-  .kZuZ .kZuR { text-align: left; }
+/* ==========================================================================
+   kurs.css — Next-Gen Cyber-Tactile Lernkurse & Stationen-Roadmap
+   Living Guardian Encounter, Circuit-Path Roadmap, Tactile Spring Answers
+   ========================================================================== */
+
+section.kurs {
+  max-width: 880px;
+  margin: 0 auto 24px;
+  box-sizing: border-box;
 }
-.kBox .kopf { flex-wrap: wrap; }
-.kBox .kopf .chip { white-space: normal; max-width: 100%; overflow-wrap: anywhere; }
-/* Zum Vertiefen (Buch, Handouts, Videos) und Lernpfad-Empfehlung auf der Startseite */
-.kVert { margin: 12px 0 0; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--line); font-size: .92rem; }
-.kVert summary { cursor: pointer; font-weight: 600; }
-.kVertZ { margin: 6px 0 0; line-height: 1.55; overflow-wrap: anywhere; }
-.kVertSt { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--line); }
-.kEmpf { padding: 14px 16px; margin-bottom: 14px; }
-.kEmpfKopf { font-size: 1.02rem; margin-bottom: 4px; }
-.kEmpfNext { margin: 6px 0 10px; line-height: 1.5; }
-.kEmpfAlle { margin-top: 10px; }
-.kEmpfAlle summary { cursor: pointer; color: var(--muted); }
-.kEmpfListe { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
-.kEmpfListe li { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: center; padding: 6px 8px; border-radius: 10px; border: 1px solid var(--line); }
-.kEmpfListe li.fertig { opacity: .75; }
-.kEmpfListe li.jetzt { border-color: var(--accent, #7c5cff); }
-.kEmpfNr { text-align: center; font-weight: 700; }
-.kEmpfT { min-width: 0; overflow-wrap: anywhere; }
+
+/* 1. Sticky Glassmorphism Header */
+.kHud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 14px;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  background: rgba(22, 17, 13, 0.94);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  position: sticky;
+  top: 8px;
+  z-index: 20;
+}
+
+.kHud .kTitel {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--fxfocus, #ffd36b);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.kHud .kRang {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.kIntro {
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  background: rgba(22, 17, 13, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+}
+
+.kIntro p {
+  margin: 0 0 6px;
+  line-height: 1.5;
+}
+
+/* 2. Cyber-Circuit Roadmap & Stationen-Pfad */
+.kPfad {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kStation {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 211, 107, 0.22);
+  border-radius: 14px;
+  background: rgba(26, 20, 15, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.18s ease,
+              border-color 0.18s ease;
+}
+
+.kStation:hover:not(.zu) {
+  transform: translateY(-2px);
+  border-color: #38bdf8;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65), 0 0 16px rgba(56, 189, 248, 0.25);
+}
+
+/* Verbindungs-Leiterbahn zwischen den Stationen */
+.kStation::before {
+  content: "";
+  position: absolute;
+  left: 39px;
+  top: 100%;
+  width: 2px;
+  height: 12px;
+  background: linear-gradient(to bottom, #f59e0b, #38bdf8);
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.5);
+  z-index: 1;
+}
+
+.kStation:last-child::before {
+  display: none;
+}
+
+.kStation.zu {
+  opacity: 0.55;
+  filter: grayscale(0.2);
+}
+
+.kStation.fertig {
+  border-color: rgba(16, 185, 129, 0.55);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(26, 20, 15, 0.92));
+}
+
+.kStation.fertig::before {
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+/* Node Badge (Ziffer oder Schloss) */
+.kNr {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2b1f14, #18120c);
+  border: 2px solid #f59e0b;
+  color: #ffd36b;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.kStation.fertig .kNr {
+  background: linear-gradient(135deg, #133321, #0a1f13);
+  border-color: #10b981;
+  color: #6ee7b7;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
+}
+
+.kInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.kInfo b {
+  font-size: 0.98rem;
+  color: #fff;
+}
+
+.kInfo .muted {
+  font-size: 0.86rem;
+  color: var(--fxmute, #c9a98a);
+}
+
+.kRechts {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.kSt {
+  color: #ffd36b;
+  letter-spacing: 0.08em;
+  font-size: 1.05rem;
+}
+
+/* 3. Wächter-Monster RPG Encounter Box */
+.kBossBox {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  background: rgba(30, 20, 12, 0.94);
+  border: 2px solid rgba(245, 158, 11, 0.4);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.kBossVisual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kBossVisual .kBossSpriteWrap {
+  animation: charLivingBreathe 3.4s infinite ease-in-out;
+  transform-origin: bottom center;
+}
+
+.kBossVisual.treffer {
+  animation: bossTrefferShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  filter: drop-shadow(0 0 12px #ef4444) brightness(1.4);
+}
+
+@keyframes bossTrefferShake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(3px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.kBossInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.kBossKopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.kBossName {
+  font-size: 0.95rem;
+  color: #ffd36b;
+}
+
+.kBossStationBadge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #7dd3fc;
+}
+
+.kBossBlase {
+  background: rgba(15, 10, 8, 0.8);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.88rem;
+  color: #fef3c7;
+  line-height: 1.4;
+  position: relative;
+}
+
+/* 4. Haupt-Arbeitskarte (.kBox) */
+.kBox {
+  padding: 20px 22px;
+  background: rgba(26, 20, 15, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid var(--glass-border);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  min-width: 0;
+}
+
+.kBox .kopf {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.kBox .chip {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #7dd3fc;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.kFrage {
+  font-size: 1.08rem;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.kBlock {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(8, 12, 20, 0.92);
+  color: #38bdf8;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.kMerke {
+  margin: 14px 0 6px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  background: rgba(45, 30, 15, 0.7);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.15);
+  color: #fef3c7;
+}
+
+/* 5. Taktile Rechenblatt-Notiz (.kBlatt) */
+.kWeg {
+  margin: 8px 0 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px dashed rgba(56, 189, 248, 0.4);
+  background: rgba(14, 25, 42, 0.75);
+}
+
+.kBlatt {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(56, 189, 248, 0.2);
+  display: grid;
+  gap: 4px;
+  font-size: 0.92rem;
+}
+
+.kBlatt b:first-child {
+  color: #38bdf8;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.kBlatt div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+}
+
+.kBlatt div span {
+  color: #4ade80;
+}
+
+.kBlatt div b {
+  font-family: ui-monospace, Consolas, monospace;
+  color: #ffd36b;
+}
+
+/* 6. Multi-Choice Taktile Spring-Buttons */
+.kOpt {
+  display: grid;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.kOpt button {
+  text-align: left;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(35, 25, 18, 0.92);
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.15s ease,
+              border-color 0.15s ease;
+}
+
+.kOpt button:hover:not(:disabled) {
+  border-color: #38bdf8;
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.25);
+  transform: translateY(-1.5px);
+}
+
+.kOpt button:active:not(:disabled) {
+  transform: translateY(1.5px) scale(0.97);
+}
+
+.kOpt button .taste {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #ffd36b;
+  flex-shrink: 0;
+}
+
+.kOpt button.richtig {
+  border-color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.2) !important;
+  color: #6ee7b7 !important;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.3) !important;
+}
+
+.kOpt button.falsch {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5 !important;
+}
+
+/* Eingabe-Formular */
+.kForm {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.kForm input {
+  flex: 1 1 240px;
+  font-size: 1.05rem;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 10, 8, 0.85);
+  color: #fff;
+  font-family: ui-monospace, Consolas, monospace;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kForm input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+}
+
+/* 7. Feedback-Meldungen (.fb) */
+.kFb .fb {
+  margin-top: 12px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  animation: feedbackSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kFb .fb.ok {
+  border: 1px solid #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+}
+
+.kFb .fb.bad {
+  border: 1px solid #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+}
+
+.kFb .fb.mid {
+  border: 1px solid #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  color: #fde68a;
+}
+
+@keyframes feedbackSlideIn {
+  0% { transform: translateY(8px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* 8. Mobile Responsiveness */
+@media (max-width: 640px) {
+  .kStation {
+    grid-template-columns: 44px 1fr;
+    padding: 12px 14px;
+  }
+  .kStation::before {
+    left: 35px;
+  }
+  .kRechts {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .kBossBox {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .kBossVisual {
+    justify-content: center;
+  }
+  .kBossKopf {
+    justify-content: center;
+  }
+}
 
 /* ---- labor.css ---- */
 /* labor.css - Netz-Labor (Kurs-Schritt t:"labor"): Lehrer mit Sprechblase, Arbeitsfläche, Geräteleiste, Konfig-Panel, Konsole */
@@ -4194,6 +4592,219 @@ body.lvAn #dsModal { z-index: 95; }
   25% { transform: scale(1); }
   80% { opacity: 1; transform: scale(1); }
   100% { opacity: 0; transform: scale(1.2); visibility: hidden; }
+}
+
+
+/* ---- modern_game_theme.css ---- */
+/* ==========================================================================
+   modern_game_theme.css — Next-Gen Cyber-Tactile Glassmorphism & Mobile UX
+   Spring-Physics Buttons, Tactile Micro-Interactions & Mobile Bottom-Sheets
+   ========================================================================== */
+
+:root {
+  --glow-cyan: rgba(56, 189, 248, 0.5);
+  --glow-amber: rgba(245, 158, 11, 0.5);
+  --glow-emerald: rgba(16, 185, 129, 0.5);
+  --glow-ruby: rgba(239, 68, 68, 0.5);
+  --glow-amethyst: rgba(168, 85, 247, 0.5);
+  --glass-bg: rgba(22, 17, 13, 0.92);
+  --glass-border: rgba(255, 211, 107, 0.35);
+}
+
+/* 1. Taktile Spring-Physik für alle interaktiven Buttons */
+button,
+.primary,
+.ghost,
+.hubBtn,
+.modalItemAktion button,
+.introCodeInputRow button {
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.15s ease,
+              background-color 0.15s ease,
+              border-color 0.15s ease !important;
+  will-change: transform;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:hover,
+.primary:hover,
+.ghost:hover,
+.hubBtn:hover {
+  transform: translateY(-1.5px);
+  filter: brightness(1.08);
+}
+
+button:active,
+.primary:active,
+.ghost:active,
+.hubBtn:active {
+  transform: translateY(1.5px) scale(0.96) !important;
+  filter: brightness(0.95);
+}
+
+/* 2. Glassmorphism & Cyber-Rahmen für Hub-Karten & Modale */
+.hubModalWin {
+  backdrop-filter: blur(14px) saturate(170%);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  background: var(--glass-bg) !important;
+  border: 2px solid var(--glass-border) !important;
+  outline: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.85),
+              0 0 24px rgba(242, 106, 48, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Edle Dünne Cyber-Scrollbars */
+.hubModalBody::-webkit-scrollbar,
+.modalList::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.hubModalBody::-webkit-scrollbar-track,
+.modalList::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.hubModalBody::-webkit-scrollbar-thumb,
+.modalList::-webkit-scrollbar-thumb {
+  background: rgba(255, 211, 107, 0.35);
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.hubModalBody::-webkit-scrollbar-thumb:hover,
+.modalList::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 211, 107, 0.65);
+}
+
+/* 3. Taktile Karten & Glowing Badges */
+.arenaCard,
+.modalItemCard {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.18s ease,
+              box-shadow 0.18s ease !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.arenaCard:hover,
+.modalItemCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+/* Atmende Status-Badges */
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+}
+
+.devStatusBadge.live {
+  animation: badgePulse 2.8s infinite ease-in-out;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+}
+
+.devStatusBadge.wip {
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
+}
+
+/* 4. Mobile Bottom-Sheet Perfektion für Smartphones (<= 768px) */
+@media (max-width: 768px) {
+  .hubModalOverlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+    backdrop-filter: blur(8px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(8px) saturate(150%) !important;
+  }
+
+  .hubModalWin {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 20px 20px 0 0 !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    max-height: 86vh !important;
+    padding-bottom: env(safe-area-inset-bottom, 16px) !important;
+    animation: sheetSpringSlideUp 0.35s cubic-bezier(0.34, 1.3, 0.64, 1) forwards !important;
+    overscroll-behavior: contain !important;
+  }
+
+  /* Der zentrierte Dragg-Griff / Pull-Pill */
+  .hubModalWin::before {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 3px;
+    margin: 8px auto 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .modalGridCards {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* Griffigere Touch-Flächen auf Mobilgeräten */
+  button,
+  .primary,
+  .ghost,
+  .hubBtn {
+    min-height: 42px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@keyframes sheetSpringSlideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+/* 5. Lebendige Charakter-Atmung & Sprechblasen-Bouncing */
+.vlBossSingleSprite,
+.vlHeroBossWrap,
+.hubAvatarSmall,
+.vlCharSpriteWrap {
+  animation: charLivingBreathe 3.4s infinite ease-in-out;
+  transform-origin: bottom center;
+}
+
+@keyframes charLivingBreathe {
+  0%, 100% {
+    transform: scale(1, 1) translateY(0);
+  }
+  50% {
+    transform: scale(1.025, 0.975) translateY(-2px);
+  }
+}
+
+.vlSpeechBubbleBox,
+.vlHeroSpeechBubble {
+  animation: bubbleSpringPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, opacity;
+}
+
+@keyframes bubbleSpringPop {
+  0% {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 
@@ -6573,8 +7184,14 @@ function kursKarte() {
   const P = KS_PACK, stand = kStand(P.id), sec = $("kurs");
   const sterne = P.stationen.reduce((a, s) => a + ((stand.st[s.id] || {}).sterne || 0), 0), max = P.stationen.length * 3;
   const fertig = P.stationen.filter((s) => (stand.st[s.id] || {}).sterne > 0).length;
+  if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("whoosh");
   sec.innerHTML = `<div class="kKarte">
-    <div class="kHud glass"><button class="ghost" id="kHome">← Übersicht</button><span class="kTitel">${esc(P.titel)}</span><span class="kRang">${esc(kRang(sterne, max))} · <b>${sterne}</b>/${max} ★</span></div>
+    <div class="kHud glass">
+      <button class="ghost" id="kHome">← Übersicht</button>
+      <span class="kTitel">${esc(P.titel)}</span>
+      <button type="button" class="ghost mini" id="kSpickzettelBtn" style="border-color:#38bdf8;color:#7dd3fc;font-weight:700;">📑 Spickzettel</button>
+      <span class="kRang">${esc(kRang(sterne, max))} · <b>${sterne}</b>/${max} ★</span>
+    </div>
     <div class="glass kIntro"><p>${esc(P.beschreibung || "")}</p>${P.grundlage ? `<p class="muted klein">Grundlage: ${esc(P.grundlage)}</p>` : P.handout ? `<p class="muted klein">Grundlage: Handout „${esc(P.handout)}“ (35_Handouts).</p>` : ""}</div>
     <div class="kMultiBar glass">
       <div class="kMultiInfo"><b>👥 Lernkurs im Mehrspieler spielen:</b><span>Lerne mit der ganzen Klasse am Beamer oder fordere jemanden zum 1v1 Duell heraus (mit Raumcode & QR-Code).</span></div>
@@ -6595,6 +7212,18 @@ function kursKarte() {
       <button class="ghost mini" id="kFrei">${stand.frei ? "Reihenfolge wieder erzwingen" : "Alle Stationen freischalten"}</button>
       <button class="ghost mini" id="kReset">Fortschritt zurücksetzen</button></div></div>`;
   $("kHome").onclick = () => { KS = null; renderHome(); show("home"); };
+  const spickBtn = $("kSpickzettelBtn");
+  if (spickBtn) {
+    spickBtn.onclick = () => {
+      const boss = kBossFuer(P);
+      if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("whoosh");
+      if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openMonster === "function") {
+        window.IHK_KOMPENDIUM.openMonster(boss.id);
+      } else if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openModal === "function") {
+        window.IHK_KOMPENDIUM.openModal();
+      }
+    };
+  }
   $("kRaidBtn").onclick = () => {
     if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostStartKurs === "function") {
       window.LIVE_RUNDE.hostStartKurs({ spielmodus: "coop", zeit: 30, st: 1, pi: true, auto: true, ruhig: false }, P.id, P.stationen.map((_, idx) => idx));
@@ -6630,8 +7259,15 @@ function kursStation(i) {
   st.schritte.forEach((s) => add(s));
   const boss = kBossFuer(KS_PACK);
   KS = { i, st, liste, pos: 0, res: [], blatt: {}, chat: [], t0: Date.now(), ki: false, boss };
+  if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("whoosh");
   $("kurs").innerHTML = `<div class="kSpiel">
-    <div class="kHud glass"><button class="ghost" id="kKarte">← Karte</button><span class="kTitel">${esc(st.icon || "")} ${esc(st.titel)}</span><span id="kPos" class="muted"></span><span id="kPunkte"></span></div>
+    <div class="kHud glass">
+      <button class="ghost" id="kKarte">← Karte</button>
+      <span class="kTitel">${esc(st.icon || "")} ${esc(st.titel)}</span>
+      <button type="button" class="ghost mini" id="kStationSpickzettelBtn" style="border-color:#38bdf8;color:#7dd3fc;font-weight:700;">📑 Spickzettel</button>
+      <span id="kPos" class="muted"></span>
+      <span id="kPunkte"></span>
+    </div>
     <div class="kFort" id="kFort" aria-hidden="true"></div>
     <div class="kBossBox glass" id="kBossBox">
       <div class="kBossVisual"><div id="kBossSprWrap">${kBossSprHtml(boss.id, 1.9)}</div></div>
@@ -6644,6 +7280,17 @@ function kursStation(i) {
     <div class="aktionen" id="kAkt"></div>
     <div class="glass kKi hidden" id="kKi"></div></div>`;
   $("kKarte").onclick = () => { KS = null; kursKarte(); window.scrollTo({ top: 0, left: 0, behavior: "instant" }); };
+  const stSpickBtn = $("kStationSpickzettelBtn");
+  if (stSpickBtn) {
+    stSpickBtn.onclick = () => {
+      if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("whoosh");
+      if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openMonster === "function") {
+        window.IHK_KOMPENDIUM.openMonster(boss.id);
+      } else if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openModal === "function") {
+        window.IHK_KOMPENDIUM.openModal();
+      }
+    };
+  }
   kursSchritt(); show("kurs"); window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 }
 function kFortschritt() {
@@ -6752,7 +7399,14 @@ function kZuordnenPruefen(x) {
 function kFb(klasse, titel, html) { $("kFb").innerHTML = `<div class="fb ${klasse}"><div class="titel">${titel}</div>${html ? `<div class="erkl">${html}</div>` : ""}</div>`; }
 function kFalsch(x, h) {      // falsche Antwort: Hinweis, Tipp-Leiter bleibt, Lösung nach 2 Fehlversuchen anbieten
   KS.s.fehl++;
-  if (window.FANCY_S && typeof window.FANCY_S.play === "function") window.FANCY_S.play("falsch");
+  if (window.AUDIO_SYNTH) {
+    window.AUDIO_SYNTH.play("wrong");
+  } else if (window.FANCY_S && typeof window.FANCY_S.play === "function") {
+    window.FANCY_S.play("falsch");
+  }
+  if (window.FX) {
+    window.FX.shakeElement($("kBox"), 7, 280);
+  }
   kBossSprich("Ha! Genau wie erwartet! Schau dir den Fehler an und versuch es noch einmal.");
   kFb("bad", "✘ Noch nicht", (h ? kMd(h) : "") + (KS.s.fehl >= 2 && !KS.st.ohneHilfe ? `<p class="muted">Tipp: Nutze den 💡 Tipp oder lass dir die Lösung zeigen.</p>` : ""));
   kKiZeichnen();
@@ -6764,7 +7418,20 @@ function kRichtig(x, note) {
   kErgebnis(x, sterne);
   const bossWr = $("kBossSprWrap");
   if (bossWr) { bossWr.classList.add("treffer"); setTimeout(() => bossWr.classList.remove("treffer"), 600); }
-  if (window.FANCY_S && typeof window.FANCY_S.play === "function") window.FANCY_S.play("hit");
+  
+  if (window.AUDIO_SYNTH) {
+    window.AUDIO_SYNTH.play("correct");
+    setTimeout(() => window.AUDIO_SYNTH.play("hit"), 130);
+  } else if (window.FANCY_S && typeof window.FANCY_S.play === "function") {
+    window.FANCY_S.play("hit");
+  }
+
+  if (window.FX) {
+    window.FX.spawnConfetti(window.innerWidth / 2, 230, 32);
+    window.FX.floatText(`+${sterne * 100} XP`, window.innerWidth / 2, 190, { color: "#ffd36b", isCrit: sterne >= 3 });
+    window.FX.shake(0.35, 0.18);
+  }
+
   kBossSprich("Argh! Richtig gelöst! Das war nicht schlecht... aber die nächste Prüfung wartet schon!");
   if (x.grp) (KS.blatt[x.grp.id] = KS.blatt[x.grp.id] || []).push({ label: x.label || "Ergebnis", wert: kLoesungText(x) });
   kFb("ok", `✔ Richtig ${kSterneText(sterne)}`, (note ? `<p>${kMd(note).replace(/^<p>|<\/p>$/g, "")}</p>` : "") + (x.erkl ? kMd(x.erkl) : ""));
@@ -6813,16 +7480,31 @@ function kTippKnopf(x) {
 function kTipp() {
   const x = KS.liste[KS.pos], s = KS.s; if (s.fertig || s.tipps >= (x.tipps || []).length) return;
   s.tipps++;
+  if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("click");
   kBossSprich("Brauchst du schon Nachhilfe? Nun gut, hier ist ein kleiner Hinweis von mir...");
   $("kTipps").innerHTML = x.tipps.slice(0, s.tipps).map((t, i) => `<div class="kTippZeile"><b>💡 Tipp ${i + 1}</b> ${kMd(t).replace(/^<p>|<\/p>$/g, "")}</div>`).join("");
   kTippKnopf(x);
 }
-function kWeiter() { if (!KS) return; if (KS.liste[KS.pos].t === "lies") KS.res[KS.pos] = { sterne: 3, graded: false }; KS.pos++; kursSchritt(); window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }
+function kWeiter() {
+  if (!KS) return;
+  if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("click");
+  if (KS.liste[KS.pos].t === "lies") KS.res[KS.pos] = { sterne: 3, graded: false };
+  KS.pos++;
+  kursSchritt();
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+}
 
 /* ------------------------------------------------------------------ Ende einer Station */
 function kursEnde() {
   const g = KS.res.filter((r) => r && r.graded), summe = g.reduce((a, r) => a + r.sterne, 0), q = g.length ? summe / (3 * g.length) : 1;
   const sterne = q >= .85 ? 3 : q >= .55 ? 2 : 1;
+  if (window.AUDIO_SYNTH) {
+    window.AUDIO_SYNTH.play("levelUp");
+  }
+  if (window.FX) {
+    window.FX.spawnConfetti(window.innerWidth / 2, window.innerHeight / 2, 65);
+    window.FX.floatText("STATION MEISTERHAFT!", window.innerWidth / 2, window.innerHeight / 2 - 40, { color: "#4ade80", isCrit: true, size: 20 });
+  }
   if (sterne >= 3) {
     kBossSprich("Beeindruckend... Du hast alle Aufgaben dieser Station gemeistert! Ich ziehe meinen Hut.");
   } else {
@@ -10684,6 +11366,9 @@ GENERATORS.vlan = function (level) {
 
   function togglePlay() {
     isPlaying = !isPlaying;
+    if (window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.play === "function") {
+      window.AUDIO_SYNTH.play(isPlaying ? "click" : "whoosh");
+    }
     const btn = document.getElementById("vlPlayBtn");
     if (btn) btn.textContent = isPlaying ? "⏸ Pause" : "▶ Play";
 
@@ -13280,6 +13965,404 @@ document.addEventListener("keydown", (e) => {
   else if (S.q.art === "mc" && /^[1-9]$/.test(e.key)) { const b = document.querySelectorAll("#frageBox button[data-i]")[Number(e.key) - 1]; if (b) b.click(); }
   else if (ARTEN[S.q.art] && ARTEN[S.q.art].taste) ARTEN[S.q.art].taste(e, k);
 });
+/* ---- s_anim_vector.js ---- */
+/* ==========================================================================
+   s_anim_vector.js — Kurzgesagt-Style Vector & Living Character Rigs
+   Procedural Breathing, Blinking, Gestures, Squash & Stretch and Path Morphing
+   ========================================================================== */
+(function() {
+  "use strict";
+
+  // 1. Procedural Living Character Rig (Dozent & Azubi)
+  const ANIM_RIG = {
+    // Berechnet organische Schwingungen für einen Charakter
+    getPose(nowMs, state = {}) {
+      const t = nowMs / 1000.0;
+      const isSpeaking = !!state.isSpeaking;
+      const isWalking = !!state.isWalking;
+      const emotion = state.emotion || "neutral"; // "happy", "thinking", "alert"
+
+      // A. Atmung (Squash & Stretch)
+      const breathPhase = t * 2.6;
+      const breathScaleY = 1.0 + Math.sin(breathPhase) * 0.035;
+      const breathScaleX = 1.0 - Math.sin(breathPhase) * 0.02;
+      const breathOffsetY = -Math.sin(breathPhase) * 1.5;
+
+      // B. Sprech-Gesten & Redebobbing
+      let speakTilt = 0;
+      let speakOffsetY = 0;
+      if (isSpeaking) {
+        speakOffsetY = Math.sin(t * 9.5) * 2.2;
+        speakTilt = Math.sin(t * 4.8) * 0.06; // Leichtes Kopfnicken
+      }
+
+      // C. Blinzeln (alle ~3.8 Sekunden ein kurzer 120ms-Blink)
+      const blinkCycle = t % 3.8;
+      const isBlinking = blinkCycle < 0.14;
+
+      // D. Gehen / Wippen
+      let walkBob = 0;
+      if (isWalking) {
+        walkBob = Math.abs(Math.sin(t * 7.0)) * 4.0;
+      }
+
+      return {
+        scaleX: breathScaleX,
+        scaleY: breathScaleY,
+        offsetY: breathOffsetY + speakOffsetY - walkBob,
+        tilt: speakTilt,
+        isBlinking,
+        shadowScale: 1.0 - (breathOffsetY * 0.05)
+      };
+    },
+
+    // Zeichnet ein Sprite (oder Bild) mit lebendiger Skelett-Deformation
+    drawLivingSprite(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh, state = {}) {
+      if (!ctx || !img) return;
+      const pose = this.getPose(performance.now(), state);
+
+      ctx.save();
+
+      // 1. Schattierung am Boden
+      ctx.save();
+      ctx.fillStyle = "rgba(0, 0, 0, 0.28)";
+      ctx.beginPath();
+      const shadowW = dw * 0.42 * pose.shadowScale;
+      const shadowH = dh * 0.12 * pose.shadowScale;
+      ctx.ellipse(dx + dw * 0.5, dy + dh - 2, shadowW, shadowH, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // 2. Sprite Transformation anwenden (Ursprung an den Füßen)
+      ctx.translate(dx + dw * 0.5, dy + dh);
+      ctx.rotate(pose.tilt);
+      ctx.scale(pose.scaleX, pose.scaleY);
+      ctx.translate(-dw * 0.5, -dh + pose.offsetY);
+
+      // 3. Sprite zeichnen
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, dw, dh);
+
+      // 4. Blinzel-Balken über den Augen zeichnen wenn aktiv
+      if (pose.isBlinking && !state.noBlink) {
+        ctx.fillStyle = "rgba(20, 16, 12, 0.9)";
+        // Ungefähre Position der Augen bei Standard 16x16 / 32x32 Chars
+        const eyeY = dh * 0.32;
+        ctx.fillRect(dw * 0.3, eyeY, dw * 0.4, Math.max(2, dh * 0.08));
+      }
+
+      ctx.restore();
+    }
+  };
+
+  // 2. Kurzgesagt-Style Vector Morphing
+  const VECTOR_MORPH = {
+    // Interpoliert stufenlos zwischen zwei Punkt-Arrays [{x, y}, ...]
+    lerpPoints(pointsA, pointsB, t) {
+      const len = Math.max(pointsA.length, pointsB.length);
+      const res = [];
+      const easeT = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // Cubic In-Out
+
+      for (let i = 0; i < len; i++) {
+        const pA = pointsA[i % pointsA.length];
+        const pB = pointsB[i % pointsB.length];
+        res.push({
+          x: pA.x + (pB.x - pA.x) * easeT,
+          y: pA.y + (pB.y - pA.y) * easeT
+        });
+      }
+      return res;
+    },
+
+    // Zeichnet ein glattes Bézier-Polygon
+    drawSmoothPolygon(ctx, points, fillCol, strokeCol, lineWidth = 2) {
+      if (!ctx || points.length < 2) return;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+
+      for (let i = 1; i < points.length; i++) {
+        const xc = (points[i].x + points[(i + 1) % points.length].x) * 0.5;
+        const yc = (points[i].y + points[(i + 1) % points.length].y) * 0.5;
+        ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+      }
+
+      ctx.closePath();
+      if (fillCol) {
+        ctx.fillStyle = fillCol;
+        ctx.fill();
+      }
+      if (strokeCol) {
+        ctx.strokeStyle = strokeCol;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+  };
+
+  // 3. Feder-basierte Kamera für sanfte Zooms und Schwenks (Kurzgesagt-Fokus)
+  class SpringCamera {
+    constructor() {
+      this.x = 0;
+      this.y = 0;
+      this.targetX = 0;
+      this.targetY = 0;
+      this.scale = 1.0;
+      this.targetScale = 1.0;
+      this.stiffness = 0.12;
+      this.damping = 0.78;
+      this.vx = 0;
+      this.vy = 0;
+      this.vs = 0;
+    }
+
+    setTarget(tx, ty, tScale = 1.0) {
+      this.targetX = tx;
+      this.targetY = ty;
+      this.targetScale = tScale;
+    }
+
+    update() {
+      const fx = (this.targetX - this.x) * this.stiffness;
+      this.vx = (this.vx + fx) * this.damping;
+      this.x += this.vx;
+
+      const fy = (this.targetY - this.y) * this.stiffness;
+      this.vy = (this.vy + fy) * this.damping;
+      this.y += this.vy;
+
+      const fs = (this.targetScale - this.scale) * this.stiffness;
+      this.vs = (this.vs + fs) * this.damping;
+      this.scale += this.vs;
+    }
+
+    apply(ctx) {
+      ctx.translate(this.x, this.y);
+      ctx.scale(this.scale, this.scale);
+    }
+  }
+
+  window.ANIM_RIG = ANIM_RIG;
+  window.VECTOR_MORPH = VECTOR_MORPH;
+  window.SpringCamera = SpringCamera;
+
+  console.log("🎬 [Anim Rig] Living Character Rig & Vector Morphing Engine aktiv.");
+})();
+
+/* ---- s_audio_synth.js ---- */
+/* ==========================================================================
+   s_audio_synth.js — Zero-Asset Procedural Web Audio & Mobile Haptics
+   100% Offline, Vanilla JS, mathematically synthesized chiptunes & SFX
+   ========================================================================== */
+(function() {
+  "use strict";
+
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  let actx = null;
+  let isMuted = false;
+  let masterVolume = 0.25;
+
+  // Lade gespeicherte Audio-Präferenzen
+  try {
+    const saved = localStorage.getItem("fi_quiz_audio_muted");
+    if (saved === "1") isMuted = true;
+    const savedVol = localStorage.getItem("fi_quiz_audio_vol");
+    if (savedVol) masterVolume = parseFloat(savedVol) || 0.25;
+  } catch(e) {}
+
+  function getCtx() {
+    if (!AudioCtx) return null;
+    if (!actx) {
+      actx = new AudioCtx();
+    }
+    if (actx && actx.state === "suspended") {
+      actx.resume().catch(() => {});
+    }
+    return actx;
+  }
+
+  // Erzeuge Rausch-Buffer (gecacht für White-Noise Hits & Whooshes)
+  let noiseBuffer = null;
+  function getNoiseBuffer(ctx) {
+    if (noiseBuffer) return noiseBuffer;
+    const bufferSize = ctx.sampleRate * 0.4;
+    noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const output = noiseBuffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      output[i] = Math.random() * 2 - 1;
+    }
+    return noiseBuffer;
+  }
+
+  // --- Mobile Vibration Haptik ---
+  function haptic(type = "tick") {
+    if (!("vibrate" in navigator)) return;
+    try {
+      if (type === "tick") navigator.vibrate(15);
+      else if (type === "success") navigator.vibrate([20, 40, 25]);
+      else if (type === "damage") navigator.vibrate([40, 30, 45]);
+      else if (type === "heavy") navigator.vibrate([80, 50, 90]);
+    } catch(e) {}
+  }
+
+  // --- Sound Preset Synthese ---
+  function playTone(startFreq, endFreq, durationSec, waveType = "sine", gainMul = 1.0) {
+    if (isMuted) return;
+    const ctx = getCtx();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = waveType;
+      osc.frequency.setValueAtTime(startFreq, now);
+      if (endFreq && endFreq !== startFreq) {
+        osc.frequency.exponentialRampToValueAtTime(Math.max(10, endFreq), now + durationSec);
+      }
+
+      const peakGain = masterVolume * gainMul;
+      gain.gain.setValueAtTime(peakGain, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + durationSec);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + durationSec);
+    } catch(e) {}
+  }
+
+  function playNoise(durationSec, filterFreq, gainMul = 1.0) {
+    if (isMuted) return;
+    const ctx = getCtx();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const whiteNoise = ctx.createBufferSource();
+      whiteNoise.buffer = getNoiseBuffer(ctx);
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(filterFreq, now);
+      filter.Q.setValueAtTime(2.0, now);
+
+      const gain = ctx.createGain();
+      const peakGain = masterVolume * gainMul;
+      gain.gain.setValueAtTime(peakGain, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + durationSec);
+
+      whiteNoise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      whiteNoise.start(now);
+      whiteNoise.stop(now + durationSec);
+    } catch(e) {}
+  }
+
+  const PRESETS = {
+    // 1. UI Klick
+    click: () => {
+      playTone(750, 400, 0.035, "triangle", 0.35);
+      haptic("tick");
+    },
+
+    // 2. Richtig beantwortet (Dreiklang)
+    correct: () => {
+      playTone(523.25, 523.25, 0.09, "sine", 0.6); // C5
+      setTimeout(() => playTone(659.25, 659.25, 0.11, "sine", 0.7), 80); // E5
+      setTimeout(() => playTone(783.99, 783.99, 0.18, "sine", 0.8), 160); // G5
+      haptic("success");
+    },
+
+    // 3. Falsch beantwortet
+    wrong: () => {
+      playTone(180, 110, 0.22, "sawtooth", 0.5);
+      haptic("damage");
+    },
+
+    // 4. Punchy Treffer im Duell
+    hit: () => {
+      playTone(240, 50, 0.14, "triangle", 0.8);
+      playNoise(0.08, 600, 0.6);
+      haptic("damage");
+    },
+
+    // 5. Kritischer Treffer / K.O.
+    crit: () => {
+      playTone(880, 160, 0.25, "sawtooth", 0.9);
+      playTone(120, 30, 0.35, "sine", 1.0); // Sub-Bass Drop
+      playNoise(0.18, 1200, 0.8);
+      haptic("heavy");
+    },
+
+    // 6. Level Up & Etage abgeschlossen
+    levelUp: () => {
+      const notes = [440, 554.37, 659.25, 880];
+      notes.forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, freq * 1.02, 0.16, "square", 0.4), idx * 75);
+      });
+      haptic("heavy");
+    },
+
+    // 7. Whoosh (Slide-In / Modale)
+    whoosh: () => {
+      playNoise(0.16, 800, 0.4);
+    },
+
+    // 8. Boss Alert (Prüfungsturm Alarm)
+    bossAlert: () => {
+      playTone(480, 320, 0.22, "sawtooth", 0.65);
+      setTimeout(() => playTone(480, 320, 0.28, "sawtooth", 0.7), 240);
+      haptic("heavy");
+    }
+  };
+
+  function play(name) {
+    if (PRESETS[name]) PRESETS[name]();
+  }
+
+  function setMuted(muted) {
+    isMuted = !!muted;
+    try { localStorage.setItem("fi_quiz_audio_muted", isMuted ? "1" : "0"); } catch(e) {}
+  }
+
+  function toggleMute() {
+    setMuted(!isMuted);
+    return isMuted;
+  }
+
+  function setVolume(vol) {
+    masterVolume = Math.max(0, Math.min(1.0, vol));
+    try { localStorage.setItem("fi_quiz_audio_vol", String(masterVolume)); } catch(e) {}
+  }
+
+  window.AUDIO_SYNTH = {
+    play,
+    haptic,
+    isMuted: () => isMuted,
+    setMuted,
+    toggleMute,
+    setVolume,
+    getVolume: () => masterVolume,
+    initUserGesture: () => getCtx()
+  };
+
+  // Kopple direkt an window.FX
+  if (window.FX) {
+    window.FX.sfx = play;
+    window.FX.haptic = haptic;
+  }
+
+  // Benutzer-Interaktion weckt AudioContext auf
+  document.addEventListener("pointerdown", () => getCtx(), { once: true });
+  document.addEventListener("keydown", () => getCtx(), { once: true });
+
+  console.log("🔊 [Audio Synth] Procedural Web Audio & Haptics Engine geladen.");
+})();
+
 /* ---- s_chiptune.js ---- */
 // s_chiptune.js - Pure WebAudio 8-Bit Chiptune Synthesizer Engine (Zero external MP3 dependencies)
 // Enthält 4-Kanal Retro-Klangerzeugung (Square-Lead, Square-Arp, Triangle-Bass, Noise-Drums)
@@ -13661,6 +14744,363 @@ document.addEventListener("keydown", (e) => {
     currentTrack: () => currentTrackName,
     updateButtons: updateAllMusicButtons
   };
+})();
+
+/* ---- s_fx_core.js ---- */
+/* ==========================================================================
+   s_fx_core.js — High-Performance Zero-GC Particle & Game Juice Engine
+   100% Offline, Vanilla JS, TypedArray Float32 Pools (60-120 FPS)
+   ========================================================================== */
+(function() {
+  "use strict";
+
+  // 1. Zero-GC Partikel-Pool (1.200 Partikel)
+  // Speicherlayout pro Partikel:
+  // [0]=x, [1]=y, [2]=vx, [3]=vy, [4]=life, [5]=maxLife, [6]=size, [7]=type
+  // Types: 0: spark (rect), 1: bit ('0'/'1'), 2: confetti (rot rect), 3: smoke (circle), 4: ring (shockwave)
+  const MAX_P = 1200;
+  const P_DATA = new Float32Array(MAX_P * 8);
+  const P_COLOR = new Uint32Array(MAX_P);
+  const P_EXTRA = new Float32Array(MAX_P * 2); // [0]=angle/rot, [1]=rotSpeed
+  let pCount = 0;
+
+  // 2. Schwebende Schadens- & XP-Zahlen mit Impulsphysik
+  const MAX_FLOATS = 64;
+  const floatTexts = [];
+
+  // 3. Screen Shake Trauma-System (nach Squirrel Eiserloh)
+  let trauma = 0.0; // 0.0 bis 1.0
+  let traumaDecay = 1.6; // Abklingrate pro Sekunde
+  let maxAngle = 4.0; // Grad
+  let maxOffsetX = 16.0; // Pixel
+  let maxOffsetY = 16.0; // Pixel
+
+  // 4. Hit-Stop (Micro-Freezes bei schweren Treffern)
+  let hitStopMs = 0;
+
+  // Hilfsfunktion: Hex-Farbe zu uint32 Zahl
+  function parseColor(col) {
+    if (typeof col === "number") return col;
+    if (typeof col === "string" && col.startsWith("#")) {
+      const hex = col.slice(1);
+      if (hex.length === 3) {
+        const r = hex[0] + hex[0], g = hex[1] + hex[1], b = hex[2] + hex[2];
+        return parseInt(r + g + b, 16);
+      }
+      return parseInt(hex, 16) || 0xffffff;
+    }
+    return 0x38bdf8; // Fallback Cyan
+  }
+
+  function colToHexStr(num, alpha = 1.0) {
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `rgba(${r},${g},${b},${Math.max(0, Math.min(1, alpha))})`;
+  }
+
+  // --- Partikel Spawning Methoden ---
+  function spawnParticle(x, y, vx, vy, life, size, type, colHex, extra1 = 0, extra2 = 0) {
+    if (pCount >= MAX_P) return;
+    const idx = pCount * 8;
+    P_DATA[idx + 0] = x;
+    P_DATA[idx + 1] = y;
+    P_DATA[idx + 2] = vx;
+    P_DATA[idx + 3] = vy;
+    P_DATA[idx + 4] = life;
+    P_DATA[idx + 5] = life;
+    P_DATA[idx + 6] = size;
+    P_DATA[idx + 7] = type;
+    P_COLOR[pCount] = parseColor(colHex);
+    P_EXTRA[pCount * 2 + 0] = extra1;
+    P_EXTRA[pCount * 2 + 1] = extra2;
+    pCount++;
+  }
+
+  // Emitter: Funken (Treffer, Schwerthiebe, Funkenflug)
+  function spawnSparks(x, y, count = 16, colorHex = "#ffd36b") {
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1.5 + Math.random() * 5.5;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed - 1.2;
+      const life = 18 + Math.random() * 24;
+      const size = 2 + Math.random() * 4;
+      spawnParticle(x, y, vx, vy, life, size, 0, colorHex);
+    }
+  }
+
+  // Emitter: Daten-Bits (0/1 für Netzwerk & IT-Cyberpunk Look)
+  function spawnBits(x, y, count = 12, colorHex = "#38bdf8") {
+    for (let i = 0; i < count; i++) {
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.5;
+      const speed = 1.2 + Math.random() * 3.8;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      const life = 24 + Math.random() * 30;
+      const size = 11 + Math.random() * 4; // Fontgröße
+      const bitVal = Math.random() > 0.5 ? 1 : 0;
+      spawnParticle(x, y, vx, vy, life, size, 1, colorHex, bitVal);
+    }
+  }
+
+  // Emitter: Konfetti (Sieg, Level-Up, Checkpoint)
+  function spawnConfetti(x, y, count = 35) {
+    const palette = ["#ffd36b", "#38bdf8", "#4ade80", "#f43f5e", "#a855f7", "#fb923c"];
+    for (let i = 0; i < count; i++) {
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * 2.2;
+      const speed = 3.0 + Math.random() * 7.0;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      const life = 45 + Math.random() * 40;
+      const size = 4 + Math.random() * 4;
+      const col = palette[Math.floor(Math.random() * palette.length)];
+      const rot = Math.random() * Math.PI;
+      const rotSpd = (Math.random() - 0.5) * 0.2;
+      spawnParticle(x, y, vx, vy, life, size, 2, col, rot, rotSpd);
+    }
+  }
+
+  // Emitter: Schockwelle / Pulsring
+  function shockwave(x, y, colorHex = "#38bdf8", maxRadius = 40) {
+    spawnParticle(x, y, 0, 0, 20, maxRadius, 4, colorHex, 2);
+  }
+
+  // --- Floating Numbers (Schadens- & XP-Popups) ---
+  function floatText(text, x, y, opts = {}) {
+    if (floatTexts.length >= MAX_FLOATS) floatTexts.shift();
+    const isCrit = !!opts.isCrit;
+    floatTexts.push({
+      text: String(text),
+      x: x + (Math.random() - 0.5) * 10,
+      y: y,
+      vx: (Math.random() - 0.5) * 1.8,
+      vy: isCrit ? -4.2 : -2.6,
+      color: opts.color || (isCrit ? "#fbbf24" : "#ffffff"),
+      size: opts.size || (isCrit ? 19 : 14),
+      alpha: 1.0,
+      life: isCrit ? 55 : 40,
+      maxLife: isCrit ? 55 : 40,
+      isCrit: isCrit
+    });
+  }
+
+  // --- Screen Shake API ---
+  function shake(amount = 0.5, durationSec = 0.3) {
+    trauma = Math.min(1.0, trauma + amount);
+    if (durationSec > 0) {
+      traumaDecay = 1.0 / durationSec;
+    }
+  }
+
+  // --- Hit Stop API ---
+  function hitStop(ms = 80) {
+    hitStopMs = Math.max(hitStopMs, ms);
+  }
+
+  // --- Update & Render Pipeline (auf Canvas aufrufbar) ---
+  function update(dtMs = 16.6) {
+    const dt = dtMs / 1000.0;
+
+    // 1. Hit-Stop Handling
+    if (hitStopMs > 0) {
+      hitStopMs -= dtMs;
+      return false; // Loop pausiert für Wucht
+    }
+
+    // 2. Trauma Decay
+    if (trauma > 0) {
+      trauma = Math.max(0, trauma - traumaDecay * dt);
+    }
+
+    // 3. Partikel Update (Fast Swap Remove bei Tod)
+    for (let i = pCount - 1; i >= 0; i--) {
+      const idx = i * 8;
+      // Position updaten
+      P_DATA[idx + 0] += P_DATA[idx + 2];
+      P_DATA[idx + 1] += P_DATA[idx + 3];
+
+      // Physik je nach Typ
+      const type = P_DATA[idx + 7];
+      if (type === 0 || type === 2) {
+        // Funken & Konfetti haben Gravitation
+        P_DATA[idx + 3] += 0.12;
+        P_DATA[idx + 2] *= 0.98;
+      } else if (type === 1) {
+        // Bits steigen sanft und driften
+        P_DATA[idx + 3] -= 0.02;
+        P_DATA[idx + 2] *= 0.96;
+      } else if (type === 4) {
+        // Shockwave expandiert
+        P_EXTRA[i * 2 + 0] += P_DATA[idx + 6] / P_DATA[idx + 5];
+      }
+
+      if (type === 2) {
+        // Konfetti rotiert
+        P_EXTRA[i * 2 + 0] += P_EXTRA[i * 2 + 1];
+      }
+
+      // Lebensdauer reduzieren
+      P_DATA[idx + 4] -= 1.0;
+      if (P_DATA[idx + 4] <= 0) {
+        // Fast Swap Remove
+        pCount--;
+        const lastIdx = pCount * 8;
+        for (let k = 0; k < 8; k++) P_DATA[idx + k] = P_DATA[lastIdx + k];
+        P_COLOR[i] = P_COLOR[pCount];
+        P_EXTRA[i * 2 + 0] = P_EXTRA[pCount * 2 + 0];
+        P_EXTRA[i * 2 + 1] = P_EXTRA[pCount * 2 + 1];
+      }
+    }
+
+    // 4. Floating Texts Update
+    for (let i = floatTexts.length - 1; i >= 0; i--) {
+      const ft = floatTexts[i];
+      ft.x += ft.vx;
+      ft.y += ft.vy;
+      ft.vy += 0.06; // Leichte Gravitation
+      ft.life -= 1;
+      ft.alpha = Math.max(0, ft.life / (ft.maxLife * 0.4));
+      if (ft.life <= 0) {
+        floatTexts.splice(i, 1);
+      }
+    }
+
+    return true;
+  }
+
+  function getShakeOffsets() {
+    if (trauma <= 0.001) return { x: 0, y: 0, rot: 0 };
+    const shakePower = trauma * trauma; // Nichtlinear!
+    const offsetX = (Math.random() * 2 - 1) * maxOffsetX * shakePower;
+    const offsetY = (Math.random() * 2 - 1) * maxOffsetY * shakePower;
+    const rot = (Math.random() * 2 - 1) * (maxAngle * Math.PI / 180) * shakePower;
+    return { x: offsetX, y: offsetY, rot };
+  }
+
+  // Rendert alle FX direkt auf einen beliebigen 2D-Canvas-Kontext
+  function render(ctx) {
+    if (!ctx) return;
+
+    // A. Partikel rendern
+    for (let i = 0; i < pCount; i++) {
+      const idx = i * 8;
+      const x = P_DATA[idx + 0];
+      const y = P_DATA[idx + 1];
+      const life = P_DATA[idx + 4];
+      const maxLife = P_DATA[idx + 5];
+      const size = P_DATA[idx + 6];
+      const type = P_DATA[idx + 7];
+      const alpha = Math.max(0, life / maxLife);
+      const colNum = P_COLOR[i];
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+
+      if (type === 0) {
+        // Spark
+        ctx.fillStyle = colToHexStr(colNum, alpha);
+        ctx.shadowColor = colToHexStr(colNum, 0.8);
+        ctx.shadowBlur = 4;
+        ctx.fillRect(x - size * 0.5, y - size * 0.5, size, size);
+      } else if (type === 1) {
+        // Bit '0' / '1'
+        const bitVal = P_EXTRA[i * 2 + 0] ? "1" : "0";
+        ctx.font = `bold ${Math.round(size)}px monospace`;
+        ctx.fillStyle = colToHexStr(colNum, alpha);
+        ctx.shadowColor = colToHexStr(colNum, 0.9);
+        ctx.shadowBlur = 6;
+        ctx.fillText(bitVal, x, y);
+      } else if (type === 2) {
+        // Konfetti
+        const rot = P_EXTRA[i * 2 + 0];
+        ctx.translate(x, y);
+        ctx.rotate(rot);
+        ctx.fillStyle = colToHexStr(colNum, alpha);
+        ctx.fillRect(-size * 0.5, -size * 0.8, size, size * 1.6);
+      } else if (type === 4) {
+        // Shockwave Ring
+        const curRadius = P_EXTRA[i * 2 + 0];
+        ctx.beginPath();
+        ctx.arc(x, y, curRadius, 0, Math.PI * 2);
+        ctx.strokeStyle = colToHexStr(colNum, alpha);
+        ctx.lineWidth = 2.5;
+        ctx.shadowColor = colToHexStr(colNum, 0.9);
+        ctx.shadowBlur = 8;
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    // B. Floating Texts rendern
+    for (let i = 0; i < floatTexts.length; i++) {
+      const ft = floatTexts[i];
+      ctx.save();
+      ctx.globalAlpha = ft.alpha;
+      ctx.font = `${ft.isCrit ? "bold " : ""}${ft.size}px 'Press Start 2P', monospace, sans-serif`;
+      ctx.textAlign = "center";
+
+      // Schwarze Kontur
+      ctx.strokeStyle = "rgba(0,0,0,0.85)";
+      ctx.lineWidth = ft.isCrit ? 4 : 3;
+      ctx.strokeText(ft.text, ft.x, ft.y);
+
+      // Leuchtender Kern
+      ctx.fillStyle = ft.color;
+      if (ft.isCrit) {
+        ctx.shadowColor = ft.color;
+        ctx.shadowBlur = 10;
+      }
+      ctx.fillText(ft.text, ft.x, ft.y);
+      ctx.restore();
+    }
+  }
+
+  // All-in-one Helper für Game-Loops
+  function renderOnCanvas(ctx, dtMs = 16.6) {
+    update(dtMs);
+    render(ctx);
+  }
+
+  // Globales Singleton Interface
+  window.FX = {
+    spawnSparks,
+    spawnBits,
+    spawnConfetti,
+    shockwave,
+    floatText,
+    shake,
+    hitStop,
+    getShakeOffsets,
+    update,
+    render,
+    renderOnCanvas,
+    get activeParticles() { return pCount; },
+    get trauma() { return trauma; }
+  };
+
+  // Hilfsmethode für DOM-Element-Shake (z.B. bei Falschantworten im Quiz)
+  window.FX.shakeElement = function(elem, intensity = 6, duration = 300) {
+    if (!elem) return;
+    const start = performance.now();
+    const origTransform = elem.style.transform || "";
+    function step(now) {
+      const elapsed = now - start;
+      if (elapsed < duration) {
+        const decay = 1.0 - elapsed / duration;
+        const dx = (Math.random() * 2 - 1) * intensity * decay;
+        const dy = (Math.random() * 2 - 1) * intensity * decay;
+        elem.style.transform = `${origTransform} translate(${dx}px, ${dy}px)`;
+        requestAnimationFrame(step);
+      } else {
+        elem.style.transform = origTransform;
+      }
+    }
+    requestAnimationFrame(step);
+  };
+
+  console.log("🎮 [FX Engine] Zero-GC Core & Game Juice initialisiert.");
 })();
 
 /* ---- s_gamepad.js ---- */
@@ -14214,6 +15654,235 @@ document.addEventListener("keydown", (e) => {
   knopfText();
   window.fiRetro = (an) => { setzeRetro(an); $("retroAn").checked = !!an; knopfText(); };   // Hook für den Fancy Mode (s_z_fancy.js)
   $("tonAn").onchange = (e) => { store.set(KS, e.target.checked); if (e.target.checked) { if (window.fxTon && document.body.classList.contains("retro") && window.FX) FX.sound("richtig"); else ton(TON.richtig); } };
+})();
+
+/* ---- s_shader_pipeline.js ---- */
+/* ==========================================================================
+   s_shader_pipeline.js — WebGL 2.0 / WebGL Post-Processing Shaders
+   Neon-Bloom, Dynamic Glow & Retro CRT-Scanline Filter (100% Offline)
+   ========================================================================== */
+(function() {
+  "use strict";
+
+  let glCanvas = null;
+  let gl = null;
+  let program = null;
+  let quadVao = null;
+  let sceneTexture = null;
+
+  // Einstellungen mit Persistenz
+  let bloomAktiv = true;
+  let crtAktiv = false;
+  let isSupported = false;
+
+  try {
+    const savedCrt = localStorage.getItem("fi_quiz_crt_shader");
+    if (savedCrt === "1") crtAktiv = true;
+    const savedBloom = localStorage.getItem("fi_quiz_bloom_shader");
+    if (savedBloom === "0") bloomAktiv = false;
+  } catch(e) {}
+
+  const VERT_SRC = `
+    attribute vec2 a_pos;
+    varying vec2 v_uv;
+    void main() {
+      v_uv = (a_pos + 1.0) * 0.5;
+      v_uv.y = 1.0 - v_uv.y; // Flip Y für Canvas Koordinaten
+      gl_Position = vec4(a_pos, 0.0, 1.0);
+    }
+  `;
+
+  const FRAG_SRC = `
+    precision mediump float;
+    varying vec2 v_uv;
+    uniform sampler2D u_scene;
+    uniform vec2 u_res;
+    uniform float u_time;
+    uniform int u_bloom;
+    uniform int u_crt;
+
+    void main() {
+      vec2 uv = v_uv;
+
+      // 1. CRT Wölbung (wenn aktiviert)
+      if (u_crt == 1) {
+        vec2 cc = uv - 0.5;
+        float dist = dot(cc, cc);
+        uv = uv + cc * dist * 0.09;
+        if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
+          gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+          return;
+        }
+      }
+
+      // 2. Chromatic Aberration
+      float split = (u_crt == 1) ? 0.0025 : (u_bloom == 1 ? 0.0008 : 0.0);
+      vec4 col;
+      if (split > 0.0) {
+        float r = texture2D(u_scene, uv + vec2(split, 0.0)).r;
+        float g = texture2D(u_scene, uv).g;
+        float b = texture2D(u_scene, uv - vec2(split, 0.0)).b;
+        float a = texture2D(u_scene, uv).a;
+        col = vec4(r, g, b, a);
+      } else {
+        col = texture2D(u_scene, uv);
+      }
+
+      // 3. Neon Bloom (Glow Extraction & Addition)
+      if (u_bloom == 1) {
+        // Sample 4 Nachbarpixel für weichen Glow
+        vec2 px = 2.0 / u_res;
+        vec4 g1 = texture2D(u_scene, uv + vec2(px.x, 0.0));
+        vec4 g2 = texture2D(u_scene, uv - vec2(px.x, 0.0));
+        vec4 g3 = texture2D(u_scene, uv + vec2(0.0, px.y));
+        vec4 g4 = texture2D(u_scene, uv - vec2(0.0, px.y));
+        vec4 glow = (g1 + g2 + g3 + g4) * 0.25;
+
+        // Luminanz-Filter: Nur helle Farben leuchten
+        float lum = dot(glow.rgb, vec3(0.299, 0.587, 0.114));
+        if (lum > 0.45) {
+          col.rgb += glow.rgb * (lum - 0.45) * 1.4;
+        }
+      }
+
+      // 4. CRT Scanlines & Vignette
+      if (u_crt == 1) {
+        // Horizontale Scanlines
+        float scanline = sin(uv.y * u_res.y * 1.5) * 0.07;
+        col.rgb -= scanline;
+
+        // Rand-Vignette
+        float vig = uv.x * uv.y * (1.0 - uv.x) * (1.0 - uv.y);
+        vig = clamp(pow(16.0 * vig, 0.22), 0.0, 1.0);
+        col.rgb *= vig;
+      }
+
+      gl_FragColor = col;
+    }
+  `;
+
+  function initGL() {
+    try {
+      glCanvas = document.createElement("canvas");
+      gl = glCanvas.getContext("webgl", { alpha: true, antialias: false, premultipliedAlpha: false });
+      if (!gl) return false;
+
+      // Shaders kompilieren
+      const vs = gl.createShader(gl.VERTEX_SHADER);
+      gl.shaderSource(vs, VERT_SRC);
+      gl.compileShader(vs);
+      if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) return false;
+
+      const fs = gl.createShader(gl.FRAGMENT_SHADER);
+      gl.shaderSource(fs, FRAG_SRC);
+      gl.compileShader(fs);
+      if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) return false;
+
+      program = gl.createProgram();
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return false;
+
+      // Quad Buffer
+      const quadBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        -1, -1,
+         1, -1,
+        -1,  1,
+        -1,  1,
+         1, -1,
+         1,  1
+      ]), gl.STATIC_DRAW);
+
+      const aPos = gl.getAttribLocation(program, "a_pos");
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+      // Texture
+      sceneTexture = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, sceneTexture);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+      isSupported = true;
+      return true;
+    } catch(e) {
+      isSupported = false;
+      return false;
+    }
+  }
+
+  // Wendet Shader-Postprocessing auf einen Quell-Canvas an und zeichnet das Ergebnis zurück
+  function applyPostProcess(sourceCanvas, targetCtx) {
+    if (!isSupported && !initGL()) return;
+    if (!bloomAktiv && !crtAktiv) return; // Nichts zu tun
+
+    const w = sourceCanvas.width;
+    const h = sourceCanvas.height;
+    if (w <= 0 || h <= 0) return;
+
+    if (glCanvas.width !== w || glCanvas.height !== h) {
+      glCanvas.width = w;
+      glCanvas.height = h;
+      gl.viewport(0, 0, w, h);
+    }
+
+    gl.useProgram(program);
+
+    // Textur mit aktuellem 2D-Canvas Bild aktualisieren
+    gl.bindTexture(gl.TEXTURE_2D, sceneTexture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sourceCanvas);
+
+    // Uniforms setzen
+    const uRes = gl.getUniformLocation(program, "u_res");
+    const uTime = gl.getUniformLocation(program, "u_time");
+    const uBloom = gl.getUniformLocation(program, "u_bloom");
+    const uCrt = gl.getUniformLocation(program, "u_crt");
+
+    gl.uniform2f(uRes, w, h);
+    gl.uniform1f(uTime, performance.now() / 1000.0);
+    gl.uniform1i(uBloom, bloomAktiv ? 1 : 0);
+    gl.uniform1i(uCrt, crtAktiv ? 1 : 0);
+
+    // Render WebGL
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+    // Zurück in den 2D-Zielkontext blitten
+    if (targetCtx) {
+      targetCtx.drawImage(glCanvas, 0, 0, w, h);
+    }
+  }
+
+  // Öffentliche API
+  window.SHADER_FX = {
+    applyPostProcess,
+    isSupported: () => isSupported,
+    get bloom() { return bloomAktiv; },
+    set bloom(val) {
+      bloomAktiv = !!val;
+      try { localStorage.setItem("fi_quiz_bloom_shader", bloomAktiv ? "1" : "0"); } catch(e) {}
+    },
+    get crt() { return crtAktiv; },
+    set crt(val) {
+      crtAktiv = !!val;
+      try { localStorage.setItem("fi_quiz_crt_shader", crtAktiv ? "1" : "0"); } catch(e) {}
+    },
+    toggleCRT() {
+      this.crt = !this.crt;
+      return this.crt;
+    },
+    toggleBloom() {
+      this.bloom = !this.bloom;
+      return this.bloom;
+    }
+  };
+
+  initGL();
+  console.log("✨ [Shader Pipeline] WebGL 2.0 Post-Processing (Neon-Bloom & CRT) bereit.");
 })();
 
 /* ---- s_spaced_rep.js ---- */
@@ -15130,17 +16799,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       id: "arena",
       titel: "⚔️ ARENA & DUELLE",
       kurz: "Arena",
-      desc: "1v1 Online-Duelle per QR-Code & Beamer-Klassen-Raids",
-      wichtel: "Tritt im 1v1 gegen Mitschüler an oder kämpft gemeinsam im Klassen-Raid!",
+      desc: "1v1 Speed-Duelle gegen KI-Bot oder Mitschüler & Beamer-Raids",
+      wichtel: "Tritt im 1v1 gegen die KI oder Mitschüler an und kämpfe um HP!",
       icon: A.item ? A.item["ScrollFire"] : null
-    },
-    {
-      id: "halle",
-      titel: "🕹️ SPIELHALLE",
-      kurz: "Spielhalle",
-      desc: "Adress-Triage, VLAN-Dispatcher, Block-Allocator & Sprints",
-      wichtel: "Schnelle Mini-Games, Triage und Rechen-Sprints für deine Reflexe!",
-      icon: A.item ? A.item["Dice 20"] : null
     },
     {
       id: "tests",
@@ -15232,7 +16893,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       </div>
 
       <div class="hubKeyHints">
-        <span>Tasten: ◀ ▶ Drehen · Enter Öffnen · 1–7 Direktwahl · Touch-Swipe</span>
+        <span>Tasten: ◀ ▶ Drehen · Enter Öffnen · 1–6 Direktwahl · Touch-Swipe</span>
       </div>
     </div>
 
@@ -15570,7 +17231,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     } else if (e.key === "Enter" || e.key === "ArrowUp" || e.key === " ") {
       e.preventDefault();
       oeffneBereich(RING_ITEMS[focusIdx].id);
-    } else if (e.key >= "1" && e.key <= "7") {
+    } else if (e.key >= "1" && e.key <= "6") {
       setzeFokus(parseInt(e.key, 10) - 1, true);
     }
   });
@@ -15599,11 +17260,18 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     modalTitle.textContent = title;
     modalBody.innerHTML = html;
     modalOv.classList.remove("hidden");
-    ton("klick");
+    if (window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.play === "function") {
+      window.AUDIO_SYNTH.play("whoosh");
+    } else {
+      ton("klick");
+    }
   }
 
   function schliesseModal() {
     modalOv.classList.add("hidden");
+    if (window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.play === "function") {
+      window.AUDIO_SYNTH.play("click");
+    }
   }
 
   modalClose.onclick = schliesseModal;
@@ -15630,10 +17298,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     }
   }
 
-  // 1b. Untermenü: In Entwicklung (Experimental Lab & KI-Vorlesung)
+  // 1b. Untermenü: In Entwicklung (Experimental Lab & KI-Vorlesung & Spielhalle)
   function oeffneInEntwicklungModal() {
+    const turmStand = window.PRUEFUNGSTURM ? window.PRUEFUNGSTURM.getStand() : { maxEtage: 1, aktuelleEtage: 1 };
     zeigeModal("🚧 In Entwicklung (Experimental Lab)", `
-      <p class="modalLead">Hier entstehen brandneue interaktive Module und Next-Gen-Lernformate für deine Fachinformatik-Ausbildung:</p>
+      <p class="modalLead">Hier entstehen brandneue interaktive Module, die Spielhalle und Next-Gen-Lernformate für deine Fachinformatik-Ausbildung:</p>
       <div class="modalGridCards">
         <!-- 1. Interaktive KI-Vorlesung -->
         <div class="arenaCard full devHighlightCard" style="border: 2px solid #38bdf8; background: rgba(15, 23, 42, 0.95); margin-bottom: 8px;">
@@ -15659,7 +17328,31 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           </button>
         </div>
 
-        <!-- 2. LF03 Packet Defender (Tower Defense) -->
+        <!-- 2. Spielhalle & Prüfungsturm -->
+        <div class="arenaCard full devHighlightCard" style="border: 2px solid #ffd36b; background: rgba(28, 20, 10, 0.95); margin-bottom: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px; flex-wrap:wrap; gap:4px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:22px;">🕹️</span>
+              <div>
+                <h3 style="color:#ffd36b; margin:0; font-size:14px;">Spielhalle & Prüfungsturm</h3>
+                <span style="font-size:10px; color:#fde68a;">Roguelike & 4 Speed-Mini-Games</span>
+              </div>
+            </div>
+            <span class="devStatusBadge live">🏰 Etage ${turmStand.aktuelleEtage} / 100</span>
+          </div>
+          <p style="margin:4px 0 8px; font-size:11.5px; line-height:1.4; color:#e2e8f0;">
+            Kämpfe dich durch 100 Etagen des Roguelike-Prüfungsturms oder trainiere Subnetting, VLANs und Rechenwege in schnellen Mini-Games:
+          </p>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:6px; margin-bottom:6px;">
+            <button type="button" class="primary" id="hubDevTurmBtn" style="font-size:11px; padding:7px 8px; background:#b45309; border-color:#f59e0b; font-weight:700;">🏰 Prüfungsturm</button>
+            <button type="button" class="ghost" id="hubDevTriageBtn" style="font-size:11px; padding:7px 8px;">📦 Subnetz-Triage</button>
+            <button type="button" class="ghost" id="hubDevVlanBtn" style="font-size:11px; padding:7px 8px;">🔀 VLAN-Dispatcher</button>
+            <button type="button" class="ghost" id="hubDevBlocksBtn" style="font-size:11px; padding:7px 8px;">🧱 Block-Allocator</button>
+            <button type="button" class="ghost" id="hubDevSniperBtn" style="font-size:11px; padding:7px 8px;">🎯 Rechen-Sniper</button>
+          </div>
+        </div>
+
+        <!-- 3. LF03 Packet Defender (Tower Defense) -->
         <div class="arenaCard devCard" style="border: 1px solid #f59e0b; background: rgba(30, 24, 15, 0.92);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
             <h3 style="color:#fbbf24; margin:0; font-size:12.5px;">🛡️ LF03 Packet Defender</h3>
@@ -15673,7 +17366,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           </button>
         </div>
 
-        <!-- 3. LF03 OSI Invaders (Space Arcade) -->
+        <!-- 4. LF03 OSI Invaders (Space Arcade) -->
         <div class="arenaCard devCard" style="border: 1px solid #ec4899; background: rgba(30, 15, 25, 0.92);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
             <h3 style="color:#f472b6; margin:0; font-size:12.5px;">👾 LF03 OSI Invaders</h3>
@@ -15687,8 +17380,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           </button>
         </div>
 
-        <!-- 4. RAG & Obsidian Synthesizer -->
-        <div class="arenaCard devCard" style="border: 1px solid #8b5cf6; background: rgba(22, 16, 35, 0.92);">
+        <!-- 5. RAG & Obsidian Synthesizer -->
+        <div class="arenaCard devCard full" style="border: 1px solid #8b5cf6; background: rgba(22, 16, 35, 0.92);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
             <h3 style="color:#a78bfa; margin:0; font-size:12.5px;">🧠 Obsidian RAG Synthese</h3>
             <span class="devStatusBadge plan">🟣 In Planung</span>
@@ -15709,6 +17402,26 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         if (typeof window.startVorlesung === "function") window.startVorlesung("lf03-router-grundlagen");
       };
     }
+
+    const devTurmBtn = $("hubDevTurmBtn");
+    if (devTurmBtn) {
+      devTurmBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (window.PRUEFUNGSTURM && typeof window.PRUEFUNGSTURM.starteTurm === "function") {
+          window.PRUEFUNGSTURM.starteTurm();
+        }
+      };
+    }
+
+    const devTriageBtn = $("hubDevTriageBtn");
+    if (devTriageBtn) devTriageBtn.onclick = () => window.fTriageStarten();
+    const devVlanBtn = $("hubDevVlanBtn");
+    if (devVlanBtn) devVlanBtn.onclick = () => window.fVlanStarten();
+    const devBlocksBtn = $("hubDevBlocksBtn");
+    if (devBlocksBtn) devBlocksBtn.onclick = () => window.fBlocksStarten();
+    const devSniperBtn = $("hubDevSniperBtn");
+    if (devSniperBtn) devSniperBtn.onclick = () => window.fArcadeStarten();
 
     const startDefBtn = $("hubStartPacketDefenderBtn");
     if (startDefBtn) {
@@ -15788,58 +17501,116 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   // 3. Arena & Duelle (1v1 & Raids)
   function oeffneArenaModal() {
     zeigeModal("⚔️ Arena & Duelle", `
-      <p class="modalLead">Tritt gegen andere Azubis an oder kämpft gemeinsam im Klassen-Raid!</p>
+      <p class="modalLead">Tritt gegen die KI an, fordere andere Azubis heraus oder kämpft gemeinsam im Klassen-Raid!</p>
       <div class="modalGridCards">
-        <div class="arenaCard">
-          <h3>⚡ 1v1 Online-Duell (Host)</h3>
-          <p>Erstelle ein Duell und lade deinen Gegner mit einem 6-stelligen Code oder QR-Code ein.</p>
-          <button type="button" class="primary" id="arenaHostBtn">Duell hosten</button>
-        </div>
-        <div class="arenaCard">
-          <h3>🎮 Duell beitreten</h3>
-          <p>Gib den 6-stelligen Duell-Code deines Gegners ein.</p>
-          <div class="introCodeInputRow">
-            <input type="text" id="arenaJoinCode" placeholder="Code (z.B. AB12)" maxlength="8" autocomplete="off">
-            <button type="button" class="primary" id="arenaJoinBtn">Beitreten</button>
+        <!-- 1. 1v1 Speed-Duell (Lokal & KI-Bot) -->
+        <div class="arenaCard" style="border: 2px solid #ef4444; background: rgba(35, 15, 15, 0.95);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <h3 style="color:#f87171; margin:0; font-size:13px;">⚔️ 1v1 Speed-Duell</h3>
+            <span class="devStatusBadge live">⚡ Lokal / KI</span>
+          </div>
+          <p style="font-size:11px; margin:4px 0 8px; color:#e2e8f0; line-height:1.35;">Kämpfe um HP! Antworte schneller und genauer als dein Kontrahent in rasanten 1v1-Runden.</p>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <button type="button" class="primary" id="arenaBotDuellBtn" style="font-weight:700; background:#dc2626; border-color:#ef4444; font-size:11.5px; padding:7px 8px;">🤖 Gegen KI-Bot antreten</button>
+            <button type="button" class="ghost" id="arenaLocalDuellBtn" style="font-size:11px; padding:6px 8px;">👥 2-Spieler Duell (Tastatur / Split)</button>
           </div>
         </div>
-        <div class="arenaCard full">
-          <h3>📺 Beamer-Klassen-Raid (Team Clash)</h3>
-          <p>Dozent zeigt den Raid auf dem Beamer, die Klasse loggt sich per Smartphone ein und kämpft gemeinsam gegen den Mega-Boss!</p>
-          <button type="button" class="ghost" id="arenaRaidBtn">Klassen-Raid starten</button>
+
+        <!-- 2. 1v1 Online-Duell (Host) -->
+        <div class="arenaCard" style="border: 1px solid #3b82f6; background: rgba(15, 23, 42, 0.95);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <h3 style="color:#60a5fa; margin:0; font-size:13px;">📡 Online-Raum (Host)</h3>
+            <span class="devStatusBadge live">🌐 P2P</span>
+          </div>
+          <p style="font-size:11px; margin:4px 0 8px; color:#e2e8f0; line-height:1.35;">Erstelle ein Duell und lade deinen Gegner mit einem 6-stelligen Code oder QR-Code ein.</p>
+          <button type="button" class="primary" id="arenaOnlineHostBtn" style="background:#2563eb; width:100%; font-size:11.5px; padding:7px 8px; margin-top:4px;">Online-Raum hosten</button>
+        </div>
+
+        <!-- 3. Duell beitreten -->
+        <div class="arenaCard" style="border: 1px solid #10b981; background: rgba(15, 28, 22, 0.95);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <h3 style="color:#34d399; margin:0; font-size:13px;">🎮 Duell beitreten</h3>
+            <span class="devStatusBadge live">🔑 Code</span>
+          </div>
+          <p style="font-size:11px; margin:4px 0 8px; color:#e2e8f0; line-height:1.35;">Gib den 6-stelligen Duell-Code deines Gegners ein und trete bei.</p>
+          <div class="introCodeInputRow">
+            <input type="text" id="arenaJoinCode" placeholder="Code (z.B. AB12)" maxlength="8" autocomplete="off" style="font-size:12px;">
+            <button type="button" class="primary" id="arenaJoinBtn" style="font-size:12px;">Beitreten</button>
+          </div>
+        </div>
+
+        <!-- 4. Beamer-Klassen-Raid -->
+        <div class="arenaCard full" style="border: 1px solid #8b5cf6; background: rgba(25, 18, 38, 0.95);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <h3 style="color:#a78bfa; margin:0; font-size:13px;">📺 Beamer-Klassen-Raid (Team Clash)</h3>
+            <span class="devStatusBadge wip">👥 Multiplayer</span>
+          </div>
+          <p style="font-size:11.5px; margin:4px 0 8px; color:#e2e8f0; line-height:1.35;">Dozent zeigt den Raid auf dem Beamer, die Klasse loggt sich per Smartphone ein und kämpft gemeinsam gegen den Mega-Boss!</p>
+          <button type="button" class="ghost" id="arenaRaidBtn" style="border-color:#8b5cf6; color:#c4b5fd; font-size:11.5px;">Klassen-Raid starten</button>
         </div>
       </div>
     `);
 
-    $("arenaHostBtn").onclick = () => {
-      schliesseModal();
-      stoppeHub();
-      if (window.DUELL_ARENA && typeof window.DUELL_ARENA.starten === "function") {
-        window.DUELL_ARENA.starten();
-      } else if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostDialog === "function") {
-        window.LIVE_RUNDE.hostDialog();
-      }
-    };
+    const botBtn = $("arenaBotDuellBtn");
+    if (botBtn) {
+      botBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (window.DUELL_ARENA && typeof window.DUELL_ARENA.starten === "function") {
+          window.DUELL_ARENA.starten({ bot: true });
+        }
+      };
+    }
 
-    $("arenaJoinBtn").onclick = () => {
-      const code = ($("arenaJoinCode").value || "").trim().toUpperCase();
-      if (!code) return;
-      schliesseModal();
-      stoppeHub();
-      if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.spielerDialog === "function") {
-        window.LIVE_RUNDE.spielerDialog(code);
-      }
-    };
+    const localBtn = $("arenaLocalDuellBtn");
+    if (localBtn) {
+      localBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (window.DUELL_ARENA && typeof window.DUELL_ARENA.starten === "function") {
+          window.DUELL_ARENA.starten({ bot: false });
+        }
+      };
+    }
 
-    $("arenaRaidBtn").onclick = () => {
-      schliesseModal();
-      stoppeHub();
-      if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostDialog === "function") {
-        window.LIVE_RUNDE.hostDialog();
-      } else if (window.LIVE && typeof window.LIVE.openHost === "function") {
-        window.LIVE.openHost();
-      }
-    };
+    const hostBtn = $("arenaOnlineHostBtn");
+    if (hostBtn) {
+      hostBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostDialog === "function") {
+          window.LIVE_RUNDE.hostDialog();
+        } else if (window.LIVE && typeof window.LIVE.openHost === "function") {
+          window.LIVE.openHost();
+        }
+      };
+    }
+
+    const joinBtn = $("arenaJoinBtn");
+    if (joinBtn) {
+      joinBtn.onclick = () => {
+        const code = ($("arenaJoinCode").value || "").trim().toUpperCase();
+        if (!code) return;
+        schliesseModal();
+        stoppeHub();
+        if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.spielerDialog === "function") {
+          window.LIVE_RUNDE.spielerDialog(code);
+        }
+      };
+    }
+
+    const raidBtn = $("arenaRaidBtn");
+    if (raidBtn) {
+      raidBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (window.LIVE_RUNDE && typeof window.LIVE_RUNDE.hostDialog === "function") {
+          window.LIVE_RUNDE.hostDialog();
+        } else if (window.LIVE && typeof window.LIVE.openHost === "function") {
+          window.LIVE.openHost();
+        }
+      };
+    }
   }
 
   // Mini-Game Runner für Spielhalle
@@ -16142,9 +17913,14 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       </div>
 
       <div id="tabContentOpt" class="tabContent hidden">
-        <h4>Spiel-Einstellungen:</h4>
+        <h4>⚡ Grafik- & Sound-Engine (Next-Gen):</h4>
         <div class="optList">
-          <label><input type="checkbox" id="optSound" ${store.get("fi-quiz-ton-v1", false) ? "checked" : ""}> 🔊 Soundeffekte aktivieren</label>
+          <label><input type="checkbox" id="optSound" ${!window.AUDIO_SYNTH || !window.AUDIO_SYNTH.isMuted() ? "checked" : ""}> 🔊 Synthesizer-Audio & Haptik (Web Audio 0 KB)</label>
+          <label><input type="checkbox" id="optBloom" ${!window.SHADER_FX || window.SHADER_FX.bloom ? "checked" : ""}> ✨ WebGL Neon-Bloom Shader (Glow für Laser & Netze)</label>
+          <label><input type="checkbox" id="optCrt" ${window.SHADER_FX && window.SHADER_FX.crt ? "checked" : ""}> 📺 Retro CRT-Scanlines & Krümmung (Arcade-Look)</label>
+        </div>
+        <h4 style="margin-top:14px">🎯 Quiz-Regeln:</h4>
+        <div class="optList">
           <label><input type="checkbox" id="optUnwichtig" ${store.get("fi-quiz-unwichtige-v1", false) ? "checked" : ""}> Nicht prüfungsrelevante Fragen überspringen</label>
           <label><input type="checkbox" id="optStrafe" ${store.get("fi-quiz-strafe-v1", false) ? "checked" : ""}> Raten kostet Punkte (falsch −3, „Weiß ich nicht“ kostenlos)</label>
         </div>
@@ -16315,9 +18091,29 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     }
 
     // Optionen Events
-    $("optSound").onchange = (e) => store.set("fi-quiz-ton-v1", e.target.checked);
-    $("optUnwichtig").onchange = (e) => store.set("fi-quiz-unwichtige-v1", e.target.checked);
-    $("optStrafe").onchange = (e) => store.set("fi-quiz-strafe-v1", e.target.checked);
+    const optS = $("optSound");
+    if (optS) {
+      optS.onchange = (e) => {
+        store.set("fi-quiz-ton-v1", e.target.checked);
+        if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.setMuted(!e.target.checked);
+      };
+    }
+    const optB = $("optBloom");
+    if (optB) {
+      optB.onchange = (e) => {
+        if (window.SHADER_FX) window.SHADER_FX.bloom = e.target.checked;
+      };
+    }
+    const optC = $("optCrt");
+    if (optC) {
+      optC.onchange = (e) => {
+        if (window.SHADER_FX) window.SHADER_FX.crt = e.target.checked;
+      };
+    }
+    const optU = $("optUnwichtig");
+    if (optU) optU.onchange = (e) => store.set("fi-quiz-unwichtige-v1", e.target.checked);
+    const optSt = $("optStrafe");
+    if (optSt) optSt.onchange = (e) => store.set("fi-quiz-strafe-v1", e.target.checked);
   }
 
   // Quick Buttons im HUD
@@ -19404,12 +21200,21 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 })();
 
 /* ---- s_zz_duell.js ---- */
-// s_zz_duell.js - 1v1 Speed-Duell Arena (Lokales Split-Screen / Buzzer-Duell)
-// Ermoeglicht 2 Spielern an einem Rechner (oder Smartboard) ein rasantes Wissens-Duell.
+// s_zz_duell.js - 1v1 Speed-Duell Arena (vs. KI-Bot & Lokales 2-Spieler Duell)
+// Ermöglicht rasanten Wissenskampf um HP mit 16-Bit-Sprites, Laser- und Treffereffekten.
 (() => {
   "use strict";
 
-  const FA = () => (typeof window !== "undefined" ? window.FANCY_ASSETS : null);
+  const imgCache = {};
+  function ladeBild(src) {
+    if (!src) return null;
+    if (imgCache[src]) return imgCache[src];
+    const im = new Image();
+    im.src = src;
+    imgCache[src] = im;
+    return im;
+  }
+
   const sfx = (name) => {
     try {
       if (typeof window !== "undefined" && window.FANCY_SOUNDS && typeof window.FANCY_SOUNDS.play === "function") {
@@ -19470,6 +21275,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
   const D = {
     aktiv: false,
+    botAktiv: true,
+    botTimerId: null,
     p1Hp: MAX_HP,
     p2Hp: MAX_HP,
     p1Stun: 0,
@@ -19496,13 +21303,13 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     ov.innerHTML = `
       <div class="duellKopf">
         <div class="duellFighter" id="dFighter1">
-          <span class="duellFighterName" style="color:#ff5252">🔴 Spieler 1 (Tasten: 1, 2, 3, 4)</span>
+          <span class="duellFighterName" id="dF1Name" style="color:#ff5252">🔴 Du (Tasten: 1–4 / Klick)</span>
           <div class="duellFighterHp"><i class="duellFighterHpFill p1Fill" id="dHp1" style="width:100%"></i></div>
           <small id="dHpZ1">${MAX_HP} / ${MAX_HP} HP</small>
         </div>
         <div class="duellMidVersus">⚡ SPEED-DUELL ⚡</div>
         <div class="duellFighter" id="dFighter2">
-          <span class="duellFighterName" style="color:#448aff">Spieler 2 (Tasten: 7, 8, 9, 0) 🔵</span>
+          <span class="duellFighterName" id="dF2Name" style="color:#448aff">🤖 KI-Gegner: Dr. Bug 🔵</span>
           <div class="duellFighterHp"><i class="duellFighterHpFill p2Fill" id="dHp2" style="width:100%"></i></div>
           <small id="dHpZ2">${MAX_HP} / ${MAX_HP} HP</small>
         </div>
@@ -19549,7 +21356,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     document.body.appendChild(ov);
     ov.querySelector("#dCloseTop").onclick = beenden;
     ov.querySelector("#dBtnBeenden").onclick = beenden;
-    ov.querySelector("#dBtnRematch").onclick = starten;
+    ov.querySelector("#dBtnRematch").onclick = () => starten({ bot: D.botAktiv });
 
     return ov;
   }
@@ -19560,8 +21367,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     const ctx = cv.getContext("2d");
     ctx.clearRect(0, 0, cv.width, cv.height);
 
-    const fa = FA();
-    const spr = fa && fa.char && fa.char[spriteKey] ? fa.char[spriteKey] : null;
+    const A = typeof window !== "undefined" ? window.FANCY_A : null;
+    const chars = A && A.chars ? A.chars : {};
+    const src = chars[spriteKey] || (flip ? chars["NinjaBlue"] : chars["Samurai"]) || chars["Knight"];
+    const img = ladeBild(src);
+
     const t = Date.now() / 1000;
     const bob = Math.sin(t * 5) * 3;
     const shake = shakeTime > 0 ? (Math.random() * 8 - 4) : 0;
@@ -19570,10 +21380,14 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     ctx.translate(cv.width / 2 + shake, cv.height / 2 + bob);
     if (flip) ctx.scale(-1, 1);
 
-    if (spr && spr.img) {
-      const sw = spr.fw || 16, sh = spr.fh || 16;
-      ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(spr.img, 0, 0, sw, sh, -36, -36, 72, 72);
+    if (img && img.complete) {
+      const frame = Math.floor(t * 5) % 4;
+      if (window.ANIM_RIG && typeof window.ANIM_RIG.drawLivingSprite === "function") {
+        window.ANIM_RIG.drawLivingSprite(ctx, img, 0, frame * 16, 16, 16, -36, -46, 72, 72, { isSpeaking: false });
+      } else {
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, 0, frame * 16, 16, 16, -36, -36, 72, 72);
+      }
     } else {
       ctx.fillStyle = flip ? "#448aff" : "#ff5252";
       ctx.beginPath();
@@ -19592,13 +21406,20 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     }
 
     ctx.restore();
+
+    // FX Partikel auf dem Canvas zeichnen falls aktiv
+    if (window.FX && typeof window.FX.render === "function") {
+      ctx.save();
+      window.FX.render(ctx);
+      ctx.restore();
+    }
   }
 
   function loopAnimation() {
     if (!D.aktiv) return;
     const now = Date.now();
     renderFighterCanvas("dCanvasP1", "Samurai", false, D.p1Shake > now ? 1 : 0);
-    renderFighterCanvas("dCanvasP2", "Ninja", true, D.p2Shake > now ? 1 : 0);
+    renderFighterCanvas("dCanvasP2", "NinjaBlue", true, D.p2Shake > now ? 1 : 0);
 
     const s1 = document.getElementById("dStun1");
     if (s1) s1.classList.toggle("an", D.p1Stun > now);
@@ -19632,6 +21453,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   function naechsteFrage() {
     if (!D.aktiv) return;
     clearInterval(D.timerId);
+    clearTimeout(D.botTimerId);
 
     if (D.p1Hp <= 0 || D.p2Hp <= 0) {
       sieg();
@@ -19676,7 +21498,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           <span><b>${String.fromCharCode(65 + idx)})</b> ${o}</span>
           <div class="duellTastenKombi">
             <span class="duellK1" title="Spieler 1 Taste">${k1Labels[idx]}</span>
-            <span class="duellK2" title="Spieler 2 Taste">${k2Labels[idx]}</span>
+            ${!D.botAktiv ? `<span class="duellK2" title="Spieler 2 Taste">${k2Labels[idx]}</span>` : ""}
           </div>
         </div>
       `).join("");
@@ -19690,6 +21512,21 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       });
     }
 
+    // Bot-Timer planen falls aktiv
+    if (D.botAktiv) {
+      const botDelay = 2200 + Math.random() * 2400; // 2.2 bis 4.6 Sekunden
+      D.botTimerId = setTimeout(() => {
+        if (!D.aktiv || D.lockInput || !D.curFrage) return;
+        const trifft = Math.random() < 0.72; // 72% Bot-Trefferchance
+        let wahl = D.curFrage.korr;
+        if (!trifft) {
+          const falsch = [0, 1, 2, 3].filter(x => x !== D.curFrage.korr && x < D.curFrage.opt.length);
+          wahl = falsch.length ? falsch[Math.floor(Math.random() * falsch.length)] : D.curFrage.korr;
+        }
+        beantworte(2, wahl);
+      }, botDelay);
+    }
+
     // Timer
     D.timerRest = 15;
     const tf = document.getElementById("dTimerFill");
@@ -19700,6 +21537,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       if (tf) tf.style.width = Math.max(0, (D.timerRest / 15) * 100) + "%";
       if (D.timerRest <= 0) {
         clearInterval(D.timerId);
+        clearTimeout(D.botTimerId);
         sfx("hit");
         const cards = document.querySelectorAll(".duellOptCard");
         if (cards[D.curFrage.korr]) {
@@ -19717,6 +21555,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     if (spieler === 1 && D.p1Stun > now) return;
     if (spieler === 2 && D.p2Stun > now) return;
 
+    clearTimeout(D.botTimerId);
     const cards = document.querySelectorAll(".duellOptCard");
 
     if (optIdx === D.curFrage.korr) {
@@ -19728,8 +21567,26 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         cards[optIdx].style.color = "#fff";
       }
 
-      sfx("laser");
-      setTimeout(() => sfx("hit"), 150);
+      if (window.AUDIO_SYNTH) {
+        window.AUDIO_SYNTH.play("correct");
+        setTimeout(() => window.AUDIO_SYNTH.play("hit"), 120);
+      } else {
+        sfx("laser");
+        setTimeout(() => sfx("hit"), 150);
+      }
+
+      const isP1Attacking = (spieler === 1);
+      const targetCv = document.getElementById(isP1Attacking ? "dCanvasP2" : "dCanvasP1");
+
+      if (window.FX) {
+        window.FX.shake(0.55, 0.28);
+        if (targetCv) {
+          const col = isP1Attacking ? "#38bdf8" : "#ef4444";
+          window.FX.spawnSparks(targetCv.width / 2, targetCv.height / 2, 26, col);
+          window.FX.shockwave(targetCv.width / 2, targetCv.height / 2, col, 35);
+          window.FX.floatText(`-${DMG} HP`, targetCv.width / 2, targetCv.height / 2 - 12, { color: col, isCrit: true });
+        }
+      }
 
       if (spieler === 1) {
         D.p2Hp = Math.max(0, D.p2Hp - DMG);
@@ -19744,12 +21601,17 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       updateHpUi();
 
       if (D.p1Hp <= 0 || D.p2Hp <= 0) {
+        if (window.FX) window.FX.hitStop(100);
         setTimeout(sieg, 700);
       } else {
         setTimeout(naechsteFrage, 1100);
       }
     } else {
-      sfx("wrong");
+      if (window.AUDIO_SYNTH) {
+        window.AUDIO_SYNTH.play("wrong");
+      } else {
+        sfx("wrong");
+      }
       if (spieler === 1) {
         D.p1Stun = now + STUN_MS;
       } else {
@@ -19757,6 +21619,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       }
       if (cards[optIdx]) {
         cards[optIdx].style.background = "#c62828";
+        if (window.FX) window.FX.shakeElement(cards[optIdx], 8, 300);
         setTimeout(() => {
           if (cards[optIdx]) cards[optIdx].style.background = "";
         }, 600);
@@ -19771,33 +21634,44 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       return;
     }
 
-    const k = e.key;
-    // Spieler 1: 1, 2, 3, 4
-    if (k === "1") beantworte(1, 0);
-    else if (k === "2") beantworte(1, 1);
-    else if (k === "3") beantworte(1, 2);
-    else if (k === "4") beantworte(1, 3);
+    const k = e.key.toLowerCase();
+    // Spieler 1: 1, 2, 3, 4 oder q, w, e, r
+    if (k === "1" || k === "q") beantworte(1, 0);
+    else if (k === "2" || k === "w") beantworte(1, 1);
+    else if (k === "3" || k === "e") beantworte(1, 2);
+    else if (k === "4" || k === "r") beantworte(1, 3);
 
-    // Spieler 2: 7, 8, 9, 0
-    else if (k === "7") beantworte(2, 0);
-    else if (k === "8") beantworte(2, 1);
-    else if (k === "9") beantworte(2, 2);
-    else if (k === "0") beantworte(2, 3);
+    // Spieler 2 (nur wenn kein Bot): 7, 8, 9, 0 oder u, i, o, p
+    if (!D.botAktiv) {
+      if (k === "7" || k === "u") beantworte(2, 0);
+      else if (k === "8" || k === "i") beantworte(2, 1);
+      else if (k === "9" || k === "o") beantworte(2, 2);
+      else if (k === "0" || k === "p") beantworte(2, 3);
+    }
   }
 
   function sieg() {
     clearInterval(D.timerId);
+    clearTimeout(D.botTimerId);
     D.lockInput = true;
-    sfx("victory");
+
+    if (window.FX) {
+      window.FX.spawnConfetti(window.innerWidth / 2, window.innerHeight / 2, 55);
+    }
+    if (window.AUDIO_SYNTH) {
+      window.AUDIO_SYNTH.play("levelUp");
+    } else {
+      sfx("victory");
+    }
 
     const w = document.getElementById("dWinOverlay");
     const t = document.getElementById("dWinTitel");
     if (!w || !t) return;
 
     if (D.p1Hp > D.p2Hp) {
-      t.innerHTML = "🏆 SPIELER 1 (ROT) GEWINNT!<br><span style='font-size:16px;color:#fff1d8'>K.O. - Volltreffer gelandet!</span>";
+      t.innerHTML = `🏆 ${D.botAktiv ? "DU HAST GEWONNEN!" : "SPIELER 1 (ROT) GEWINNT!"}<br><span style='font-size:16px;color:#fff1d8'>K.O. - Volltreffer gelandet!</span>`;
     } else if (D.p2Hp > D.p1Hp) {
-      t.innerHTML = "🏆 SPIELER 2 (BLAU) GEWINNT!<br><span style='font-size:16px;color:#fff1d8'>K.O. - Volltreffer gelandet!</span>";
+      t.innerHTML = `💀 ${D.botAktiv ? "KI-BOT (DR. BUG) GEWINNT!" : "SPIELER 2 (BLAU) GEWINNT!"}<br><span style='font-size:16px;color:#fff1d8'>Trainiere weiter im Wissensbaum!</span>`;
     } else {
       t.innerHTML = "🤝 UNENTSCHIEDEN!<br><span style='font-size:16px;color:#fff1d8'>Beide Kämpfer gleichzeitig K.O.!</span>";
     }
@@ -19805,10 +21679,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     w.style.display = "flex";
   }
 
-  function starten() {
+  function starten(opts) {
     const ov = erstelleOverlay();
     ov.classList.remove("hidden");
 
+    D.botAktiv = (!opts || opts.bot !== false);
     D.aktiv = true;
     D.p1Hp = MAX_HP;
     D.p2Hp = MAX_HP;
@@ -19816,6 +21691,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     D.p2Stun = 0;
     D.runde = 0;
     D.fragen = mische(poolSammeln());
+
+    const f2Name = document.getElementById("dF2Name");
+    if (f2Name) {
+      f2Name.innerHTML = D.botAktiv ? "🤖 KI-Gegner: Dr. Bug 🔵" : "Spieler 2 (Tasten: 7–0) 🔵";
+    }
 
     const w = document.getElementById("dWinOverlay");
     if (w) w.style.display = "none";
@@ -19831,11 +21711,17 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   function beenden() {
     D.aktiv = false;
     clearInterval(D.timerId);
+    clearTimeout(D.botTimerId);
     cancelAnimationFrame(D.animId);
     document.removeEventListener("keydown", onKeyDown);
 
     const ov = document.getElementById("duellOverlay");
     if (ov) ov.classList.add("hidden");
+
+    // Falls der Hub lief, wieder aktivieren
+    if (typeof window.starteHub === "function") {
+      window.starteHub();
+    }
   }
 
   window.DUELL_ARENA = {
@@ -20438,6 +22324,14 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     kompModal.classList.remove("hidden");
   }
 
+  function openMonster(targetIdOrBossId) {
+    if (targetIdOrBossId) {
+      const match = KOMPENDIUM_DATEN.find(m => m.id === targetIdOrBossId || m.bossId === targetIdOrBossId);
+      if (match) gewaehltesMonster = match.id;
+    }
+    openModal();
+  }
+
   function closeModal() {
     kompModal.classList.add("hidden");
   }
@@ -20453,6 +22347,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
   window.IHK_KOMPENDIUM = {
     openModal,
+    openMonster,
     closeModal,
     daten: KOMPENDIUM_DATEN
   };
