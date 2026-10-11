@@ -4802,7 +4802,7 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
 
 .vlLayout {
   display: grid;
-  grid-template-columns: minmax(0, 1.42fr) minmax(350px, 1fr);
+  grid-template-columns: minmax(0, 1.42fr) minmax(360px, 1fr);
   gap: 14px;
   margin-bottom: 8px;
   align-items: stretch;
@@ -4833,10 +4833,209 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   display: block;
 }
 
+/* Phase 0: Intro Hero Fokus auf den Lehrer-Mob */
+.vlStageIntroHero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 220px;
+  background: radial-gradient(circle at 50% 50%, #172554 0%, #060913 95%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 14px;
+  box-sizing: border-box;
+  z-index: 10;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.vlStageIntroHero.hidden-hero {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.96);
+}
+
+.vlHeroBossWrap {
+  width: 72px;
+  height: 72px;
+  border: 3px solid #38bdf8;
+  border-radius: 14px;
+  background: radial-gradient(circle, #1e293b 0%, #090d16 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.45);
+  flex-shrink: 0;
+}
+
+.vlHeroSpeechBubble {
+  background: #0f172a;
+  border: 2px solid #38bdf8;
+  border-radius: 12px;
+  padding: 10px 14px;
+  max-width: 440px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+
+.vlHeroSpeechBubble h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: #38bdf8;
+}
+
+.vlHeroSpeechBubble p {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+/* Vektor-Knoten Stufenweise Sichtbarkeit */
+.stageNode {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Timeline Controls (Direkt unter der Vektor-Bühne) */
+.vlTimelineBar {
+  background: rgba(15, 23, 42, 0.98);
+  border-top: 2px solid #1e293b;
+  border-bottom: 2px solid #1e293b;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vlScrubberRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vlScrubber {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #334155;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.vlScrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #38bdf8;
+  cursor: pointer;
+  box-shadow: 0 0 10px #38bdf8;
+  transition: transform 0.1s;
+}
+
+.vlScrubber::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.vlTimeText {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: #94a3b8;
+  min-width: 75px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.vlControlButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vlBtnGroup {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Schriftarten & Buttons ohne Arcade-Überblähung */
+.vlWrap button,
+.vlBtn,
+.vlPill,
+.vlTabBtn,
+.vlChoiceBtn,
+.vlSendPacketBtn,
+.vlQuickBtn {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.vlBtn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #f1f5f9;
+  border-radius: 6px;
+  padding: 5px 10px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.vlBtn:hover {
+  background: #334155;
+  border-color: #38bdf8;
+}
+
+.vlBtn.primary {
+  background: #0284c7;
+  border-color: #38bdf8;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+}
+
+.vlBtn.primary:hover {
+  background: #0369a1;
+}
+
+.vlSzenenPills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.vlPill {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 3px 8px !important;
+  border-radius: 6px;
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.vlPill:hover, .vlPill.akt {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
 /* Interaktiver Dialogbereich mit Dozent, Sprechblase & Avatar */
 .vlDialogRow {
   background: rgba(10, 15, 29, 0.96);
-  border-top: 2px solid #1e293b;
   padding: 10px 12px;
   display: flex;
   align-items: flex-start;
@@ -4855,8 +5054,8 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
 
 .vlCharSpriteWrap {
   position: relative;
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border: 2px solid #334155;
   border-radius: 8px;
   background: #0f172a;
@@ -4864,7 +5063,7 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  image-rendering: pixelated;
+  overflow: hidden;
 }
 
 .vlCharBox.dozent .vlCharSpriteWrap {
@@ -4877,20 +5076,50 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   background: radial-gradient(circle, #14291e 0%, #090d16 100%);
 }
 
-.vlCharSprite {
+/* Sauberes Sprite Slicing (1 Frame 16x16 skaliert auf 32x32) */
+.vlSingleSprite {
   display: block;
-  width: 34px;
-  height: 34px;
-  background-size: contain;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  position: relative;
+  image-rendering: pixelated;
+}
+
+.vlSingleSprite > span {
+  display: block;
+  width: 128px;
+  height: 224px;
+  background-size: 128px 224px;
+  background-position: 0 0;
   background-repeat: no-repeat;
-  background-position: center;
+  image-rendering: pixelated;
+}
+
+/* Boss Single Sprite */
+.vlBossSingleSprite {
+  display: block;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  position: relative;
+  image-rendering: pixelated;
+}
+
+.vlBossSingleSprite > span {
+  display: block;
+  width: 576px;
+  height: 48px;
+  background-size: 576px 48px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
   image-rendering: pixelated;
 }
 
 .vlEmoteBadge {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -6px;
+  right: -6px;
   width: 22px;
   height: 22px;
   border-radius: 50%;
@@ -4903,6 +5132,7 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   animation: vlBounce 1.2s infinite alternate ease-in-out;
   box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
   display: none;
+  z-index: 5;
 }
 
 @keyframes vlBounce {
@@ -4977,20 +5207,7 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   font-size: 12px;
   line-height: 1.45;
   color: #e2e8f0;
-  margin-bottom: 8px;
-}
-
-/* Button & Font Overrides gegen Arcade-Font Überblähung */
-.vlWrap button,
-.vlBtn,
-.vlPill,
-.vlTabBtn,
-.vlChoiceBtn,
-.vlSendPacketBtn,
-.vlQuickBtn {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
-  letter-spacing: 0 !important;
-  text-transform: none !important;
+  margin-bottom: 6px;
 }
 
 /* Gegenfragen / Interaktive Wahl */
@@ -5031,128 +5248,7 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   font-weight: 700;
 }
 
-/* Timeline Controls */
-.vlTimelineBar {
-  background: rgba(15, 23, 42, 0.98);
-  border-top: 2px solid #1e293b;
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.vlScrubberRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.vlScrubber {
-  flex: 1;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 6px;
-  background: #334155;
-  border-radius: 3px;
-  outline: none;
-  cursor: pointer;
-}
-
-.vlScrubber::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #38bdf8;
-  cursor: pointer;
-  box-shadow: 0 0 10px #38bdf8;
-  transition: transform 0.1s;
-}
-
-.vlScrubber::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
-.vlTimeText {
-  font-family: ui-monospace, monospace;
-  font-size: 11px;
-  color: #94a3b8;
-  min-width: 75px;
-  text-align: right;
-  flex-shrink: 0;
-}
-
-.vlControlButtons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.vlBtnGroup {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.vlBtn {
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #f1f5f9;
-  border-radius: 6px;
-  padding: 5px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s;
-}
-
-.vlBtn:hover {
-  background: #334155;
-  border-color: #38bdf8;
-}
-
-.vlBtn.primary {
-  background: #0284c7;
-  border-color: #38bdf8;
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
-}
-
-.vlBtn.primary:hover {
-  background: #0369a1;
-}
-
-.vlSzenenPills {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.vlPill {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background: #1e293b;
-  color: #94a3b8;
-  border: 1px solid #334155;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s;
-}
-
-.vlPill:hover, .vlPill.akt {
-  background: rgba(56, 189, 248, 0.18);
-  color: #38bdf8;
-  border-color: #38bdf8;
-}
-
-/* Rechtes Panel: Tabs (Didaktik, KI-Tutor, Sandbox) */
+/* Rechtes Panel: Tabs & Handout-Notebook */
 .vlSidePanel {
   background: #0f172a;
   border: 2px solid #1e293b;
@@ -5161,7 +5257,7 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   flex-direction: column;
   overflow: hidden;
   min-height: 480px;
-  max-height: 600px;
+  max-height: 580px;
 }
 
 .vlTabsHeader {
@@ -5178,8 +5274,8 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   border-bottom: 2px solid transparent;
   color: #94a3b8;
   padding: 9px 6px;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 11px !important;
+  font-weight: 700 !important;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.15s;
@@ -5205,25 +5301,55 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   line-height: 1.5;
 }
 
-/* Didaktik Ansicht */
-.vlDidaktikBox h3 {
-  margin: 0 0 6px;
-  font-size: 13px;
-  color: #38bdf8;
+/* Progressives Handout-Notebook */
+.vlHandoutNotebook {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.vlDidaktikText {
-  color: #cbd5e1;
-  margin-bottom: 8px;
-}
-
-.vlMerkeBox {
-  background: rgba(56, 189, 248, 0.1);
-  border-left: 3px solid #38bdf8;
-  padding: 8px 10px;
+.vlHandoutCard {
+  background: #1e293b;
+  border-left: 4px solid #334155;
   border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  transition: all 0.35s ease;
+  opacity: 0.35;
+  filter: grayscale(70%);
+}
+
+.vlHandoutCard.unlocked {
+  opacity: 1;
+  filter: none;
+  border-left-color: #38bdf8;
+  background: rgba(30, 41, 59, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.vlHandoutCard.active-card {
+  border-left-color: #2ed573;
+  box-shadow: 0 0 12px rgba(46, 213, 115, 0.25);
+  background: rgba(20, 41, 30, 0.6);
+}
+
+.vlCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+  font-weight: 700;
+  color: #38bdf8;
   font-size: 11px;
-  margin-bottom: 8px;
+}
+
+.vlCardBadge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
 }
 
 .vlQuelleFoot {
@@ -5249,7 +5375,7 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   flex-direction: column;
   gap: 8px;
   margin-bottom: 8px;
-  min-height: 220px;
+  min-height: 200px;
 }
 
 .vlMsg {
@@ -9754,13 +9880,14 @@ GENERATORS.vlan = function (level) {
 
 /* ---- f_vorlesung.js ---- */
 // f_vorlesung.js - Interaktive-KI-Vorlesung im Kurzgesagt-Stil (Explorable Explanations)
-// Modul fuer Fachinformatiker: Vektor-Bühne mit Dozenten- & Avatar-Dialog, Gegenfragen und Live-Sandbox
+// Modul fuer Fachinformatiker: Didaktischer Stufenaufbau mit Lehrer-Mob-Fokus, progressivem Diagramm & Handout
 (function () {
   let timerId = null;
   let isPlaying = false;
   let currentTime = 0; // Sekunden (0 .. 180)
   const TOTAL_DURATION = 180;
   let emoteTimer = null;
+  const checkpointsReached = new Set();
 
   // Lerneinheiten-Definition (Pilot: Router & Routingtabelle)
   const PILOT_UNIT = {
@@ -9770,20 +9897,42 @@ GENERATORS.vlan = function (level) {
     buch: "Westermann S. 330–334 · Handout: Netzwerkgeräte · Handout: Standardgateway",
     szenen: [
       {
+        id: 0,
+        titel: "0. Begrüßung",
+        start: 0,
+        ende: 15,
+        dialog: {
+          speaker: "Subnetz-Shogun",
+          role: "Lehrer-Mob (LF03)",
+          text: "Sei gegrüßt, IT-Azubi! Ich bin dein Lehrer-Mob für Lernfeld 3. Heute klären wir: Warum reicht ein einfacher Switch nicht aus, um ins Internet zu kommen? Lass uns das Schritt für Schritt gemeinsam aufbauen!",
+          question: "Bist du bereit für den Aufbau der Netzwerktopologie?",
+          choices: [
+            {
+              id: "s0_c1",
+              label: "🚀 Ja, lass uns die Topologie starten!",
+              answer: "Hervorragend! Wir beginnen mit deinem Rechner im lokalen Netzwerk.",
+              emote: "idea",
+              action: "start_p1"
+            }
+          ]
+        }
+      },
+      {
         id: 1,
         titel: "1. Das Broadcast-Problem",
-        start: 0,
-        ende: 45,
+        start: 15,
+        ende: 60,
+        checkpointTime: 32,
         dialog: {
-          speaker: "Dozent Arkanus",
-          role: "Netzwerk-Mentor",
-          text: "Willkommen! Sieh dir an, was passiert: PC A schickt einen Broadcast ('Wer hat IP X?'). Der Switch leitet das Paket an JEDEN Port weiter. Ohne Grenze droht ein verheerender Broadcast-Sturm!",
+          speaker: "Subnetz-Shogun",
+          role: "Lehrer-Mob",
+          text: "Hier ist dein Rechner PC A (192.168.1.10). Wenn er Daten sendet, flutet ein reiner Layer-2-Switch das Paket gnadenlos an JEDEN Port. Ohne Grenze droht ein Broadcast-Sturm!",
           question: "Hast du verstanden, warum ein Switch den Broadcast nicht stoppen kann?",
           choices: [
             {
               id: "s1_c1",
               label: "💡 Ja, voll verstanden! (Switch arbeitet nur auf Schicht 2)",
-              answer: "Hervorragend! Ein Switch kennt nur MAC-Adressen. Die Broadcast-MAC FF:FF:FF:FF:FF:FF zwingt ihn zum Fluten. Erst ein Schicht-3-Router setzt der Flut eine Grenze!",
+              answer: "Exakt! Schicht 2 kennt nur MAC-Adressen. Die Broadcast-MAC FF:FF:FF:FF:FF:FF zwingt ihn zum Fluten. Erst ein Schicht-3-Router setzt der Flut ein Ende!",
               emote: "idea",
               action: "broadcast_stop"
             },
@@ -9803,14 +9952,6 @@ GENERATORS.vlan = function (level) {
             }
           ]
         },
-        didaktik: `
-          <h3>Das Problem: Warum Switches allein nicht reichen</h3>
-          <p class="vlDidaktikText">In einem reinen Switch-Netzwerk (Layer 2) werden Broadcasts (z. B. ARP-Anfragen „Wer hat IP X?“) an <b>jeden einzelnen Port</b> weitergeleitet.</p>
-          <div class="vlMerkeBox">
-            <b>Merksatz für die IHK:</b><br>
-            Ein Switch trennt Kollisionsdomänen, bildet aber <b>eine einzige große Broadcast-Domäne</b>. Ohne Begrenzung droht ein Broadcast-Sturm!
-          </div>
-        `,
         quickQuestions: [
           "Warum stoppt ein Switch keine Broadcasts?",
           "Was ist der Unterschied zwischen Kollisions- und Broadcast-Domäne?"
@@ -9819,12 +9960,13 @@ GENERATORS.vlan = function (level) {
       {
         id: 2,
         titel: "2. Die Postamt-Metapher",
-        start: 45,
-        ende: 100,
+        start: 60,
+        ende: 110,
+        checkpointTime: 82,
         dialog: {
-          speaker: "Dozent Arkanus",
-          role: "Netzwerk-Mentor",
-          text: "Jetzt kommt der Router! Er arbeitet auf Schicht 3 (Netzwerk-Schicht) und trennt Broadcast-Domänen strikt. Will PC A nun mit einem fremden Netz (z. B. 10.0.0.5) sprechen, braucht er einen Vermittler.",
+          speaker: "Subnetz-Shogun",
+          role: "Lehrer-Mob",
+          text: "Deshalb setzen wir jetzt den Router in die Mitte! Er arbeitet auf Schicht 3 (IP) und trennt Broadcast-Domänen strikt. Will PC A nun mit einem fremden Netz sprechen, braucht er einen Vermittler.",
           question: "An welche IP-Adresse übergibt PC A sein Datenpaket?",
           choices: [
             {
@@ -9850,14 +9992,6 @@ GENERATORS.vlan = function (level) {
             }
           ]
         },
-        didaktik: `
-          <h3>Die Lösung: Der Router als Postverteilzentrum</h3>
-          <p class="vlDidaktikText">Ein Router arbeitet auf <b>Layer 3 (Netzwerk-Schicht)</b> und trennt Broadcast-Domänen strikt voneinander ab. Broadcasts werden an seinen Schnittstellen verworfen.</p>
-          <div class="vlMerkeBox">
-            <b>Das Default Gateway (Standardgateway):</b><br>
-            Weiß ein Host nicht, wie er ein fremdes Netz erreicht, wirft er das Paket in seinen „Hausbriefkasten“ – die IP seines <b>Default Gateways (Router)</b> im selben Subnetz.
-          </div>
-        `,
         quickQuestions: [
           "Was genau ist ein Default Gateway?",
           "Warum leitet ein Router niemals Broadcasts weiter?"
@@ -9866,12 +10000,13 @@ GENERATORS.vlan = function (level) {
       {
         id: 3,
         titel: "3. Die Routing-Tabelle",
-        start: 100,
+        start: 110,
         ende: 155,
+        checkpointTime: 130,
         dialog: {
-          speaker: "Dozent Arkanus",
-          role: "Netzwerk-Mentor",
-          text: "Blicken wir in das Gehirn des Routers: die Routing-Tabelle! Ein Paket für 10.0.0.5 trifft ein. In der Tabelle stehen die Einträge 10.0.0.0/8 und 10.0.0.0/24.",
+          speaker: "Subnetz-Shogun",
+          role: "Lehrer-Mob",
+          text: "Jetzt verbinden wir die Außenwelt: Server B (eth1) und das Internet (wan0)! Blicken wir in das Gehirn des Routers: In der Routing-Tabelle stehen 10.0.0.0/8 und 10.0.0.0/24 für ein Paket an 10.0.0.5.",
           question: "Über welches Interface entscheidet sich der Router und warum?",
           choices: [
             {
@@ -9897,14 +10032,6 @@ GENERATORS.vlan = function (level) {
             }
           ]
         },
-        didaktik: `
-          <h3>Der Kern: Die Routing-Tabelle (IHK-Prüfungsfokus)</h3>
-          <p class="vlDidaktikText">Der Router vergleicht die Ziel-IP bitweise mit seiner Routing-Tabelle. Passt mehr als ein Eintrag, gewinnt immer die <b>spezifischste Route (Longest Prefix Match)</b>.</p>
-          <div class="vlMerkeBox">
-            <b>Standard-Route (Default Route):</b><br>
-            <code>0.0.0.0/0</code> matcht auf alles, was sonst nirgends hinpasst (z. B. ins Internet über wan0).
-          </div>
-        `,
         quickQuestions: [
           "Was bedeutet 'Longest Prefix Match'?",
           "Was bedeutet die Route 0.0.0.0 mit Maske 0.0.0.0?"
@@ -9916,9 +10043,9 @@ GENERATORS.vlan = function (level) {
         start: 155,
         ende: 180,
         dialog: {
-          speaker: "Dozent Arkanus",
-          role: "Netzwerk-Mentor",
-          text: "Großartige Leistung! Du hast das Zusammenspiel von Schicht 2 (Switch), Schicht 3 (Router) und der Routing-Tabelle verstanden. Teste nun beliebige IP-Pakete live in der Sandbox!",
+          speaker: "Subnetz-Shogun",
+          role: "Lehrer-Mob",
+          text: "Großartige Leistung! Du hast das Zusammenspiel von Schicht 2 (Switch), Schicht 3 (Router) und der Routing-Tabelle verstanden. Das Handout ist vollständig – teste nun beliebige IP-Pakete live!",
           question: "Welches Paket möchtest du als Nächstes routen lassen?",
           choices: [
             {
@@ -9944,14 +10071,6 @@ GENERATORS.vlan = function (level) {
             }
           ]
         },
-        didaktik: `
-          <h3>Interaktive Sandbox & Prüfungstransfer</h3>
-          <p class="vlDidaktikText">Teste dein Wissen jetzt live in der Sandbox (Reiter „Sandbox“): Wähle Ziel-IPs aus und beobachte, wie der Router die Weichen stellt!</p>
-          <div class="vlMerkeBox">
-            <b>Prüfungstipp (GAP Teil 1):</b><br>
-            Router verändern die Ziel- und Quell-IPs nicht (außer bei NAT), aber sie tauschen auf jedem Hop die <b>MAC-Adressen (Layer 2)</b> aus!
-          </div>
-        `,
         quickQuestions: [
           "Werden IP-Adressen beim Routing verändert?",
           "Wie berechnet ein Router die Metrik?"
@@ -9971,6 +10090,31 @@ GENERATORS.vlan = function (level) {
     "werden ip-adressen beim routing verändert?": "Nein, im normalen Routing bleiben Quell- und Ziel-IP im IP-Header über alle Hops hinweg unberührt. Nur die MAC-Adressen (Layer 2) werden an jedem Router neu geschrieben! (Ausnahme: NAT am Internet-Router).",
     "wie berechnet ein router die metrik?": "Die Metrik gibt die Kosten eines Pfades an. RIP nutzt Hop-Counts (max. 15), OSPF nutzt Bandbreite (Kosten = Referenz / Bandbreite). Der Router wählt bei gleichen Präfixen die Route mit der niedrigsten Metrik."
   };
+
+  // Saubere Einzel-Sprite-Generierung (kein zusammengestauchtes Spritesheet!)
+  function getCharSpriteHtml(charKey) {
+    const FA = window.FANCY_A;
+    const src = FA && FA.chars && FA.chars[charKey] ? FA.chars[charKey] : (FA && FA.chars ? FA.chars.Knight : "");
+    if (!src) return '<span style="font-size:24px;">👤</span>';
+    return `
+      <span class="vlSingleSprite">
+        <span style="background-image: url('${src}');"></span>
+      </span>
+    `;
+  }
+
+  function getBossSpriteHtml(bossKey) {
+    const FA = window.FANCY_A;
+    const b = FA && FA.boss && FA.boss[bossKey] ? FA.boss[bossKey] : null;
+    if (b && b.idle && b.idle.src) {
+      return `
+        <span class="vlBossSingleSprite">
+          <span style="background-image: url('${b.idle.src}');"></span>
+        </span>
+      `;
+    }
+    return getCharSpriteHtml("SorcererBlack");
+  }
 
   function getPlayerAvatarKey() {
     if (window.FANCY_CFG && window.FANCY_CFG.av) return window.FANCY_CFG.av;
@@ -10003,14 +10147,12 @@ GENERATORS.vlan = function (level) {
     isPlaying = false;
     currentTime = 0;
     clearInterval(timerId);
+    checkpointsReached.clear();
 
     const gameSec = document.getElementById("game");
     if (!gameSec) return;
 
-    const FA = window.FANCY_A;
-    const dozentSrc = FA && FA.chars && FA.chars["SorcererBlack"] ? FA.chars["SorcererBlack"] : "";
     const pAvKey = getPlayerAvatarKey();
-    const playerSrc = FA && FA.chars && FA.chars[pAvKey] ? FA.chars[pAvKey] : (FA && FA.chars ? FA.chars["Knight"] : "");
     const pName = getPlayerName();
 
     gameSec.innerHTML = `
@@ -10034,7 +10176,21 @@ GENERATORS.vlan = function (level) {
         <div class="vlLayout">
           <!-- Vektor-Bühne Container -->
           <div class="vlStageContainer">
-            <svg class="vlSvgStage" id="vlSvgStage" viewBox="0 0 640 290">
+            <!-- Phase 0: Intro Hero Fokus auf den Lehrer-Mob -->
+            <div class="vlStageIntroHero" id="vlStageIntroHero">
+              <div class="vlHeroBossWrap">
+                ${getBossSpriteHtml("GiantBlueSamurai")}
+              </div>
+              <div class="vlHeroSpeechBubble">
+                <h3>🎓 Subnetz-Shogun (Lernfeld 3 Mentor)</h3>
+                <p>Sei gegrüßt, IT-Azubi! Heute lüften wir das Geheimnis: <b>Wie funktioniert ein Router?</b><br>
+                Warum reicht ein einfacher Switch nicht aus, um ins Internet zu gelangen? Lass uns die Topologie Schritt für Schritt gemeinsam aufbauen!</p>
+                <button type="button" class="vlBtn primary" id="vlStartTopologyBtn">🚀 Topologie aufbauen & starten ➔</button>
+              </div>
+            </div>
+
+            <!-- Vektor-Bühne (SVG) -->
+            <svg class="vlSvgStage" id="vlSvgStage" viewBox="0 0 640 260">
               <defs>
                 <linearGradient id="vlNetGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stop-color="#38bdf8" />
@@ -10047,17 +10203,17 @@ GENERATORS.vlan = function (level) {
               </defs>
 
               <!-- Hintergrund Leitungen -->
-              <path d="M 110 145 L 320 145" stroke="#1e293b" stroke-width="8" stroke-linecap="round" />
-              <path d="M 320 145 L 530 75" stroke="#1e293b" stroke-width="8" stroke-linecap="round" />
-              <path d="M 320 145 L 530 215" stroke="#1e293b" stroke-width="8" stroke-linecap="round" />
+              <path id="vlPathA" class="stageNode" d="M 110 130 L 320 130" stroke="#1e293b" stroke-width="8" stroke-linecap="round" opacity="0" />
+              <path id="vlPathB" class="stageNode" d="M 320 130 L 530 65" stroke="#1e293b" stroke-width="8" stroke-linecap="round" opacity="0" />
+              <path id="vlPathC" class="stageNode" d="M 320 130 L 530 195" stroke="#1e293b" stroke-width="8" stroke-linecap="round" opacity="0" />
 
               <!-- Aktive Datenpulse -->
-              <path id="vlLineA" d="M 110 145 L 320 145" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8 6" opacity="0.4" />
-              <path id="vlLineB" d="M 320 145 L 530 75" stroke="#2ed573" stroke-width="3" stroke-dasharray="8 6" opacity="0.4" />
-              <path id="vlLineC" d="M 320 145 L 530 215" stroke="#fbbf24" stroke-width="3" stroke-dasharray="8 6" opacity="0.4" />
+              <path id="vlLineA" class="stageNode" d="M 110 130 L 320 130" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8 6" opacity="0" />
+              <path id="vlLineB" class="stageNode" d="M 320 130 L 530 65" stroke="#2ed573" stroke-width="3" stroke-dasharray="8 6" opacity="0" />
+              <path id="vlLineC" class="stageNode" d="M 320 130 L 530 195" stroke="#fbbf24" stroke-width="3" stroke-dasharray="8 6" opacity="0" />
 
               <!-- Client A (Host) -->
-              <g id="vlHostA" transform="translate(100, 145)">
+              <g id="vlHostA" class="stageNode" transform="translate(100, 130)" opacity="0">
                 <rect x="-35" y="-28" width="70" height="56" rx="9" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5" />
                 <rect x="-24" y="-18" width="48" height="28" rx="4" fill="#0f172a" />
                 <text x="0" y="0" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">PC A</text>
@@ -10065,12 +10221,10 @@ GENERATORS.vlan = function (level) {
               </g>
 
               <!-- Router (Zentraler Vermittler) -->
-              <g id="vlRouterNode" transform="translate(320, 145)">
+              <g id="vlRouterNode" class="stageNode" transform="translate(320, 130)" opacity="0">
                 <circle id="vlRouterCircle" r="44" fill="#0f172a" stroke="#fbbf24" stroke-width="3.5" filter="url(#vlGlow)" />
-                <!-- 4 Pfeile Symbol -->
                 <path d="M -15 0 L 15 0 M 0 -15 L 0 15 M -8 -7 L -15 0 L -8 7 M 8 -7 L 15 0 L 8 7 M -7 -8 L 0 -15 L 7 -8 M -7 8 L 0 15 L 7 8" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
                 <text x="0" y="27" fill="#fbbf24" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">ROUTER</text>
-                <!-- Schnittstellen-Labels -->
                 <rect x="-54" y="-9" width="20" height="14" rx="3" fill="#38bdf8" />
                 <text x="-44" y="2" fill="#042f2e" font-size="8" font-weight="bold" text-anchor="middle">eth0</text>
                 <rect x="34" y="-46" width="20" height="14" rx="3" fill="#2ed573" />
@@ -10080,7 +10234,7 @@ GENERATORS.vlan = function (level) {
               </g>
 
               <!-- Ziel 1: Webserver B (eth1) -->
-              <g id="vlHostB" transform="translate(540, 75)">
+              <g id="vlHostB" class="stageNode" transform="translate(540, 65)" opacity="0">
                 <rect x="-35" y="-26" width="70" height="52" rx="8" fill="#14291e" stroke="#2ed573" stroke-width="2.5" />
                 <rect x="-24" y="-16" width="48" height="26" rx="4" fill="#0f172a" />
                 <text x="0" y="1" fill="#2ed573" font-size="9" font-weight="bold" text-anchor="middle" font-family="monospace">SERVER B</text>
@@ -10088,21 +10242,21 @@ GENERATORS.vlan = function (level) {
               </g>
 
               <!-- Ziel 2: Internet Cloud (wan0) -->
-              <g id="vlCloudNode" transform="translate(540, 215)">
+              <g id="vlCloudNode" class="stageNode" transform="translate(540, 195)" opacity="0">
                 <path d="M -28 0 C -28 -14 -13 -22 0 -22 C 13 -22 26 -14 28 0 C 35 2 37 12 32 18 C 26 24 -26 24 -32 16 C -36 10 -36 4 -28 0 Z" fill="#291e10" stroke="#fbbf24" stroke-width="2" />
                 <text x="0" y="4" fill="#fbbf24" font-size="10" font-weight="bold" text-anchor="middle" font-family="monospace">INTERNET</text>
                 <text x="0" y="34" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">0.0.0.0/0</text>
               </g>
 
               <!-- Animiertes Datenpaket -->
-              <g id="vlPacket" transform="translate(100, 145)" opacity="0">
+              <g id="vlPacket" transform="translate(100, 130)" opacity="0">
                 <rect x="-18" y="-12" width="36" height="24" rx="5" fill="#f87171" stroke="#fff" stroke-width="2" filter="url(#vlGlow)" />
                 <path d="M -16 -10 L 0 3 L 16 -10" fill="none" stroke="#fff" stroke-width="2" />
                 <text id="vlPacketTag" x="0" y="22" fill="#f87171" font-size="8" font-weight="bold" text-anchor="middle" font-family="monospace">:IP</text>
               </g>
 
               <!-- Sprechblase / Live-Hinweis auf der Bühne -->
-              <g id="vlStageBubble" transform="translate(320, 36)" opacity="0">
+              <g id="vlStageBubble" transform="translate(320, 24)" opacity="0">
                 <rect x="-150" y="-16" width="300" height="32" rx="7" fill="rgba(15, 23, 42, 0.95)" stroke="#38bdf8" stroke-width="1.5" />
                 <text id="vlBubbleText" x="0" y="4" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">Hinweis</text>
               </g>
@@ -10122,8 +10276,9 @@ GENERATORS.vlan = function (level) {
                   <button type="button" class="vlBtn" id="vlResetBtn">⟲ Reset</button>
                 </div>
                 <div class="vlSzenenPills">
-                  <button type="button" class="vlPill akt" data-szene="1">1. Problem</button>
-                  <button type="button" class="vlPill" data-szene="2">2. Metapher</button>
+                  <button type="button" class="vlPill akt" data-szene="0">0. Intro</button>
+                  <button type="button" class="vlPill" data-szene="1">1. Problem</button>
+                  <button type="button" class="vlPill" data-szene="2">2. Router</button>
                   <button type="button" class="vlPill" data-szene="3">3. Tabelle</button>
                   <button type="button" class="vlPill" data-szene="4">4. Sandbox</button>
                 </div>
@@ -10132,20 +10287,20 @@ GENERATORS.vlan = function (level) {
 
             <!-- Interaktiver Klassenzimmer-Dialogbereich -->
             <div class="vlDialogRow">
-              <!-- Dozent Charakter -->
+              <!-- Lehrer-Mob Charakter -->
               <div class="vlCharBox dozent">
                 <div class="vlCharSpriteWrap">
-                  <span class="vlCharSprite" style="background-image: url('${dozentSrc}');"></span>
+                  ${getBossSpriteHtml("GiantBlueSamurai")}
                 </div>
-                <div class="vlCharName">Dozent Arkanus<span class="vlCharRole">Netzwerk-Mentor</span></div>
+                <div class="vlCharName">Subnetz-Shogun<span class="vlCharRole">Lehrer-Mob</span></div>
               </div>
 
               <!-- Sprechblase mit animiertem Erklärtext & Gegenfragen -->
               <div class="vlSpeechBubbleBox">
                 <div class="vlSpeechTail"></div>
                 <div class="vlSpeechHeader">
-                  <span class="vlSpeechSpeaker" id="vlDialogSpeaker">Dozent Arkanus</span>
-                  <span class="vlSpeechPhase" id="vlDialogPhase">1. Broadcast-Problem</span>
+                  <span class="vlSpeechSpeaker" id="vlDialogSpeaker">Subnetz-Shogun</span>
+                  <span class="vlSpeechPhase" id="vlDialogPhase">0. Begrüßung</span>
                 </div>
                 <div class="vlSpeechText" id="vlSpeechText">
                   Lade Lektion...
@@ -10157,7 +10312,7 @@ GENERATORS.vlan = function (level) {
               <!-- Spieler Avatar -->
               <div class="vlCharBox player">
                 <div class="vlCharSpriteWrap">
-                  <span class="vlCharSprite" style="background-image: url('${playerSrc}');"></span>
+                  ${getCharSpriteHtml(pAvKey)}
                   <div class="vlEmoteBadge" id="vlPlayerEmote"></div>
                 </div>
                 <div class="vlCharName" id="vlPlayerNameLabel">${esc(pName)}<span class="vlCharRole">Lernender</span></div>
@@ -10165,17 +10320,19 @@ GENERATORS.vlan = function (level) {
             </div>
           </div>
 
-          <!-- Rechtes Panel: Didaktik / KI-Tutor / Sandbox -->
+          <!-- Rechtes Panel: Progressives Handout / KI-Tutor / Sandbox -->
           <div class="vlSidePanel">
             <div class="vlTabsHeader">
-              <button type="button" class="vlTabBtn akt" id="vlTabDidaktik">📖 Erklärung</button>
+              <button type="button" class="vlTabBtn akt" id="vlTabDidaktik">📝 Handout</button>
               <button type="button" class="vlTabBtn" id="vlTabCoach">💬 KI-Tutor</button>
               <button type="button" class="vlTabBtn" id="vlTabSandbox">🧪 Sandbox</button>
             </div>
 
-            <!-- Tab 1: Didaktik & Lehrbuch -->
+            <!-- Tab 1: Progressives Handout-Notebook -->
             <div class="vlTabContent" id="vlBoxDidaktik">
-              <div class="vlDidaktikBox" id="vlDidaktikInhalt"></div>
+              <div class="vlHandoutNotebook" id="vlHandoutNotebook">
+                <!-- Karten werden schrittweise freigeschaltet -->
+              </div>
               <div class="vlQuelleFoot">
                 📚 <b>Quelle:</b> ${esc(PILOT_UNIT.buch)}
               </div>
@@ -10237,6 +10394,11 @@ GENERATORS.vlan = function (level) {
     document.getElementById("vlResetBtn").onclick = resetPlayback;
     document.getElementById("vlStepBackBtn").onclick = () => stepTime(-5);
     document.getElementById("vlStepFwdBtn").onclick = () => stepTime(5);
+    document.getElementById("vlStartTopologyBtn").onclick = () => {
+      currentTime = 15;
+      updateDisplay();
+      if (!isPlaying) togglePlay();
+    };
 
     const scrubber = document.getElementById("vlScrubber");
     scrubber.oninput = (e) => {
@@ -10292,6 +10454,16 @@ GENERATORS.vlan = function (level) {
       clearInterval(timerId);
       timerId = setInterval(() => {
         currentTime += 0.5;
+
+        // Prüfen auf automatischen Pausen-Checkpoint
+        const aktSzene = getAktSzene();
+        if (aktSzene && aktSzene.checkpointTime && !checkpointsReached.has(aktSzene.id)) {
+          if (currentTime >= aktSzene.checkpointTime && currentTime < aktSzene.checkpointTime + 1) {
+            checkpointsReached.add(aktSzene.id);
+            togglePlay(); // Automatisch pausieren!
+          }
+        }
+
         if (currentTime >= TOTAL_DURATION) {
           currentTime = TOTAL_DURATION;
           togglePlay();
@@ -10312,9 +10484,14 @@ GENERATORS.vlan = function (level) {
     isPlaying = false;
     clearInterval(timerId);
     currentTime = 0;
+    checkpointsReached.clear();
     const btn = document.getElementById("vlPlayBtn");
     if (btn) btn.textContent = "▶ Play";
     updateDisplay();
+  }
+
+  function getAktSzene() {
+    return PILOT_UNIT.szenen.find(s => currentTime >= s.start && currentTime < s.ende) || PILOT_UNIT.szenen[4];
   }
 
   function updateDisplay() {
@@ -10329,28 +10506,119 @@ GENERATORS.vlan = function (level) {
     }
 
     // 2. Aktive Szene ermitteln
-    const aktSzene = PILOT_UNIT.szenen.find(s => currentTime >= s.start && currentTime < s.ende) || PILOT_UNIT.szenen[3];
+    const aktSzene = getAktSzene();
 
     // Pills updaten
     document.querySelectorAll(".vlPill").forEach(p => {
       p.classList.toggle("akt", parseInt(p.dataset.szene, 10) === aktSzene.id);
     });
 
-    // Didaktik-Text updaten
-    const dBox = document.getElementById("vlDidaktikInhalt");
-    if (dBox && dBox.dataset.szeneId !== String(aktSzene.id)) {
-      dBox.dataset.szeneId = String(aktSzene.id);
-      dBox.innerHTML = aktSzene.didaktik;
-
-      // Schnellauswahl-Fragen für KI-Tutor aktualisieren
-      renderQuickQuestions(aktSzene.quickQuestions);
-
-      // Dialog & Gegenfragen aktualisieren
-      renderSceneDialog(aktSzene);
+    // 3. Intro Hero Fokus vs. Topologie
+    const introHero = document.getElementById("vlStageIntroHero");
+    if (introHero) {
+      introHero.classList.toggle("hidden-hero", currentTime >= 15);
     }
 
-    // 3. Vektor-Bühnen-Animation basierend auf currentTime
+    // 4. Stufenweiser Aufbau der Vektor-Knoten auf der Bühne
+    updateTopologyVisibility(aktSzene.id);
+
+    // 5. Progressives Handout-Notebook updaten
+    renderProgressiveHandout(aktSzene.id);
+
+    // 6. Dialog & Gegenfragen updaten
+    renderSceneDialog(aktSzene);
+
+    // 7. Vektor-Bühnen-Animation
     animateStage(aktSzene, currentTime);
+  }
+
+  function updateTopologyVisibility(szeneId) {
+    const hostA = document.getElementById("vlHostA");
+    const pathA = document.getElementById("vlPathA");
+    const lineA = document.getElementById("vlLineA");
+    const router = document.getElementById("vlRouterNode");
+    const pathB = document.getElementById("vlPathB");
+    const lineB = document.getElementById("vlLineB");
+    const hostB = document.getElementById("vlHostB");
+    const pathC = document.getElementById("vlPathC");
+    const lineC = document.getElementById("vlLineC");
+    const cloud = document.getElementById("vlCloudNode");
+
+    if (!hostA) return;
+
+    // Szene 0: Alles versteckt
+    // Szene 1: PC A sichtbar
+    // Szene 2: Router sichtbar
+    // Szene 3+: Server B & Internet sichtbar
+    const showP1 = szeneId >= 1;
+    const showP2 = szeneId >= 2;
+    const showP3 = szeneId >= 3;
+
+    hostA.style.opacity = showP1 ? "1" : "0";
+    pathA.style.opacity = showP1 ? "1" : "0";
+    lineA.style.opacity = showP1 ? "0.4" : "0";
+
+    router.style.opacity = showP2 ? "1" : "0";
+
+    pathB.style.opacity = showP3 ? "1" : "0";
+    lineB.style.opacity = showP3 ? "0.4" : "0";
+    hostB.style.opacity = showP3 ? "1" : "0";
+
+    pathC.style.opacity = showP3 ? "1" : "0";
+    lineC.style.opacity = showP3 ? "0.4" : "0";
+    cloud.style.opacity = showP3 ? "1" : "0";
+  }
+
+  function renderProgressiveHandout(szeneId) {
+    const nb = document.getElementById("vlHandoutNotebook");
+    if (!nb) return;
+
+    const cards = [
+      {
+        id: 0,
+        titel: "Lernziel & Auftrag",
+        badge: "Einführung",
+        text: "Verstehen, wie Datenpakete über Netzwerkgrenzen hinweg geroutet werden. Abgrenzung von Schicht 2 (Switch) und Schicht 3 (Router)."
+      },
+      {
+        id: 1,
+        titel: "1. Schicht 2 (Switch) & Broadcast-Problem",
+        badge: "Westermann S. 313",
+        text: "Ein Switch trennt Kollisionsdomänen für jeden Port, bildet aber <b>eine einzige große Broadcast-Domäne</b>. Broadcasts (FF:FF:FF:FF:FF:FF) werden ungefiltert an jeden Port geflutet!"
+      },
+      {
+        id: 2,
+        titel: "2. Schicht 3 (Router) & Default Gateway",
+        badge: "Westermann S. 330",
+        text: "Ein Router trennt Broadcast-Domänen strikt. Für fremde Netze schickt ein Client das Paket immer an sein <b>Default Gateway (Router)</b>, das im selben Subnetz liegen muss!"
+      },
+      {
+        id: 3,
+        titel: "3. Die Routing-Tabelle & Longest Prefix Match",
+        badge: "IHK-Kernkompetenz",
+        text: "Der Router vergleicht Ziel-IPs bitweise mit seinen Routen. Bei mehreren Treffern gewinnt ausnahmslos die <b>spezifischste Route mit der längsten Bitmaske</b> (z. B. /24 schlägt /8). <code>0.0.0.0/0</code> dient als Default Route ins Internet."
+      },
+      {
+        id: 4,
+        titel: "4. Sicherung & IHK-Prüfungstipp",
+        badge: "GAP Teil 1",
+        text: "<b>Wichtig:</b> Router verändern die IP-Adressen (Schicht 3) nicht! Aber sie tauschen auf jedem Hop die <b>MAC-Adressen (Schicht 2)</b> komplett neu aus! (Ausnahme: NAT)."
+      }
+    ];
+
+    nb.innerHTML = cards.map(c => {
+      const isUnlocked = szeneId >= c.id;
+      const isActive = szeneId === c.id;
+      return `
+        <div class="vlHandoutCard ${isUnlocked ? 'unlocked' : ''} ${isActive ? 'active-card' : ''}">
+          <div class="vlCardHeader">
+            <span>${c.titel}</span>
+            <span class="vlCardBadge">${c.badge}</span>
+          </div>
+          <div>${isUnlocked ? c.text : '<i>🔒 Wird im Verlauf der Vorlesung freigeschaltet...</i>'}</div>
+        </div>
+      `;
+    }).join("");
   }
 
   function renderSceneDialog(szene) {
@@ -10362,24 +10630,25 @@ GENERATORS.vlan = function (level) {
     const choiceRow = document.getElementById("vlChoiceRow");
 
     if (spPhase) spPhase.textContent = szene.titel;
-    if (spText) {
+    if (spText && spText.dataset.curId !== String(szene.id)) {
+      spText.dataset.curId = String(szene.id);
       spText.innerHTML = `<b>${esc(diag.text)}</b><br><span style="color:#38bdf8; font-weight:700; margin-top:4px; display:inline-block;">❓ ${esc(diag.question)}</span>`;
-    }
 
-    if (choiceRow) {
-      choiceRow.innerHTML = (diag.choices || []).map(c => `
-        <button type="button" class="vlChoiceBtn" data-cid="${esc(c.id)}">
-          ${esc(c.label)}
-        </button>
-      `).join("");
+      if (choiceRow) {
+        choiceRow.innerHTML = (diag.choices || []).map(c => `
+          <button type="button" class="vlChoiceBtn" data-cid="${esc(c.id)}">
+            ${esc(c.label)}
+          </button>
+        `).join("");
 
-      choiceRow.querySelectorAll(".vlChoiceBtn").forEach(btn => {
-        btn.onclick = () => {
-          const cid = btn.dataset.cid;
-          const choice = diag.choices.find(x => x.id === cid);
-          if (choice) handleChoiceSelected(choice, szene);
-        };
-      });
+        choiceRow.querySelectorAll(".vlChoiceBtn").forEach(btn => {
+          btn.onclick = () => {
+            const cid = btn.dataset.cid;
+            const choice = diag.choices.find(x => x.id === cid);
+            if (choice) handleChoiceSelected(choice, szene);
+          };
+        });
+      }
     }
   }
 
@@ -10391,11 +10660,27 @@ GENERATORS.vlan = function (level) {
 
     // 2. Dozent spricht Antwort
     const spText = document.getElementById("vlSpeechText");
+    const nextSzene = PILOT_UNIT.szenen.find(s => s.id === szene.id + 1);
+
     if (spText) {
       spText.innerHTML = `
         <span style="color: #2ed573; font-weight: 700;">✓ Deine Wahl: ${esc(choice.label)}</span><br>
-        <div style="margin-top: 5px; color: #f1f5f9;">${choice.answer}</div>
+        <div style="margin-top: 4px; color: #f1f5f9;">${choice.answer}</div>
+        ${nextSzene ? `
+          <div style="margin-top: 8px;">
+            <button type="button" class="vlBtn primary" id="vlResumeBtn">▶ Weiter zur nächsten Phase (${esc(nextSzene.titel)}) ➔</button>
+          </div>
+        ` : ''}
       `;
+
+      const resumeBtn = document.getElementById("vlResumeBtn");
+      if (resumeBtn && nextSzene) {
+        resumeBtn.onclick = () => {
+          currentTime = nextSzene.start;
+          updateDisplay();
+          if (!isPlaying) togglePlay();
+        };
+      }
     }
 
     // 3. Avatar Emote anzeigen
@@ -10430,11 +10715,15 @@ GENERATORS.vlan = function (level) {
 
     if (!pkt) return;
 
-    if (action === "broadcast_stop") {
+    if (action === "start_p1") {
+      currentTime = 15;
+      updateDisplay();
+      if (!isPlaying) togglePlay();
+    } else if (action === "broadcast_stop") {
       bubble.setAttribute("opacity", "1");
       bText.textContent = "Schicht 3 Barriere: Router blockiert Broadcast an eth0!";
       pkt.setAttribute("opacity", "1");
-      pkt.setAttribute("transform", "translate(240, 145)");
+      pkt.setAttribute("transform", "translate(240, 130)");
       pkt.querySelector("rect").setAttribute("fill", "#f87171");
       tag.textContent = "STOP: LAYER 3";
       if (rCircle) {
@@ -10454,12 +10743,12 @@ GENERATORS.vlan = function (level) {
       pkt.setAttribute("opacity", "1");
       tag.textContent = "GW: 192.168.1.1";
       pkt.querySelector("rect").setAttribute("fill", "#2ed573");
-      animatePacketTo(320, 145);
+      animatePacketTo(320, 130);
     } else if (action === "gateway_fail") {
       bubble.setAttribute("opacity", "1");
       bText.textContent = "FEHLER: Rechner hat kein direktes Kabel! ARP schlägt fehl ohne Gateway!";
       pkt.setAttribute("opacity", "1");
-      pkt.setAttribute("transform", "translate(100, 145)");
+      pkt.setAttribute("transform", "translate(100, 130)");
       tag.textContent = "ARP FEHLSCHLAG!";
       pkt.querySelector("rect").setAttribute("fill", "#ef4444");
     } else if (action === "gateway_metaphor") {
@@ -10471,7 +10760,7 @@ GENERATORS.vlan = function (level) {
       pkt.setAttribute("opacity", "1");
       tag.textContent = "eth1 -> 10.0.0.5";
       pkt.querySelector("rect").setAttribute("fill", "#2ed573");
-      animatePacketTo(540, 75);
+      animatePacketTo(540, 65);
     } else if (action === "lpm_explain") {
       bubble.setAttribute("opacity", "1");
       bText.textContent = "Longest Prefix Match vergleicht bitweise die Subnetzmasken-Länge.";
@@ -10504,60 +10793,50 @@ GENERATORS.vlan = function (level) {
 
     if (!pkt || !bubble) return;
 
-    if (szene.id === 1) {
-      // Szene 1 (0-45s): Broadcast Sturm
+    if (szene.id === 0) {
+      // Intro: Keine Netzwerkpakete
+      pkt.setAttribute("opacity", "0");
+      bubble.setAttribute("opacity", "0");
+    } else if (szene.id === 1) {
+      // Szene 1: Broadcast Sturm
       bubble.setAttribute("opacity", "1");
       bText.textContent = "Broadcast-Flutung: Switch leitet an ALLE Ports weiter!";
       const progress = (t - szene.start) / (szene.ende - szene.start);
 
       pkt.setAttribute("opacity", "1");
       const x = 100 + Math.sin(t * 3) * 50;
-      pkt.setAttribute("transform", `translate(${x}, 145)`);
+      pkt.setAttribute("transform", `translate(${x}, 130)`);
       pkt.querySelector("rect").setAttribute("fill", "#f87171");
       tag.textContent = "BROADCAST!";
     } else if (szene.id === 2) {
-      // Szene 2 (45-100s): Default Gateway Metapher
+      // Szene 2: Default Gateway Metapher
       bubble.setAttribute("opacity", "1");
       bText.textContent = "Default Gateway: Paket wird gezielt an den Router geschickt";
       const progress = (t - szene.start) / (szene.ende - szene.start);
 
       pkt.setAttribute("opacity", "1");
       const x = 100 + Math.min(220, progress * 300);
-      pkt.setAttribute("transform", `translate(${x}, 145)`);
+      pkt.setAttribute("transform", `translate(${x}, 130)`);
       pkt.querySelector("rect").setAttribute("fill", "#fbbf24");
       tag.textContent = "GW: 192.168.1.1";
     } else if (szene.id === 3) {
-      // Szene 3 (100-155s): Routingtabelle & Weiterleitung
+      // Szene 3: Routingtabelle & Weiterleitung
       bubble.setAttribute("opacity", "1");
       bText.textContent = "Routing-Entscheidung: Longest Prefix Match (Ziel: 10.0.0.5)";
       const progress = (t - szene.start) / (szene.ende - szene.start);
 
       pkt.setAttribute("opacity", "1");
       const x = 320 + Math.min(220, progress * 300);
-      const y = 145 - Math.min(70, progress * 100);
+      const y = 130 - Math.min(65, progress * 95);
       pkt.setAttribute("transform", `translate(${x}, ${y})`);
       pkt.querySelector("rect").setAttribute("fill", "#2ed573");
       tag.textContent = "eth1 -> 10.0.0.5";
     } else {
-      // Szene 4 (155-180s): Sandbox Bereit
+      // Szene 4: Sandbox Bereit
       bubble.setAttribute("opacity", "1");
       bText.textContent = "Experimentiere in der Sandbox rechts mit eigenen IP-Adressen!";
       pkt.setAttribute("opacity", "0");
     }
-  }
-
-  function renderQuickQuestions(list) {
-    const box = document.getElementById("vlQuickQuestions");
-    if (!box) return;
-    box.innerHTML = (list || []).map(q => `
-      <button type="button" class="vlQuickBtn" data-q="${esc(q)}">❓ ${esc(q)}</button>
-    `).join("");
-
-    box.querySelectorAll(".vlQuickBtn").forEach(btn => {
-      btn.onclick = () => {
-        askTutor(btn.dataset.q);
-      };
-    });
   }
 
   function handleCoachSubmit(e) {
@@ -10616,26 +10895,26 @@ GENERATORS.vlan = function (level) {
     if (!pkt) return;
 
     pkt.setAttribute("opacity", "1");
-    pkt.setAttribute("transform", "translate(100, 145)");
+    pkt.setAttribute("transform", "translate(100, 130)");
 
     if (targetIp.startsWith("10.0.")) {
       r2.classList.add("match");
       fb.innerHTML = `✔ <b>Treffer:</b> Route <code>10.0.0.0/24</code> über Interface <b>eth1</b> gewählt!`;
       tag.textContent = targetIp;
       pkt.querySelector("rect").setAttribute("fill", "#2ed573");
-      animatePacketTo(540, 75);
+      animatePacketTo(540, 65);
     } else if (targetIp.startsWith("192.168.1.")) {
       r1.classList.add("match");
       fb.innerHTML = `✔ <b>Treffer:</b> Route <code>192.168.1.0/24</code> über Interface <b>eth0</b> (Lokales Netz)!`;
       tag.textContent = targetIp;
       pkt.querySelector("rect").setAttribute("fill", "#38bdf8");
-      animatePacketTo(100, 145);
+      animatePacketTo(100, 130);
     } else {
       r3.classList.add("match");
       fb.innerHTML = `✔ <b>Default Route:</b> Keine lokale Route für <code>${targetIp}</code> → Weiterleitung über <b>wan0 (0.0.0.0/0)</b> ins Internet!`;
       tag.textContent = targetIp;
       pkt.querySelector("rect").setAttribute("fill", "#fbbf24");
-      animatePacketTo(540, 215);
+      animatePacketTo(540, 195);
     }
   }
 
@@ -10647,7 +10926,7 @@ GENERATORS.vlan = function (level) {
     const interval = setInterval(() => {
       step += 0.05;
       const curX = 100 + (targetX - 100) * step;
-      const curY = 145 + (targetY - 145) * step;
+      const curY = 130 + (targetY - 130) * step;
       pkt.setAttribute("transform", `translate(${curX}, ${curY})`);
       if (step >= 1) {
         clearInterval(interval);
