@@ -2082,12 +2082,8 @@ button.bbDroppedPacket {
   :root { --fxpx: 2px; }
 }
 
-/* Oberen Header außerhalb des Hub-Menüs komplett ausblenden, damit kein unnötiger Scrollbereich entsteht */
-body.spielt header.top,
-body.ausserhalbMenue header.top,
-.wrap:has(> #game:not(.hidden)) > header.top,
-.wrap:has(> #kurs:not(.hidden)) > header.top,
-.wrap:has(> #result:not(.hidden)) > header.top {
+/* Oberen Standard-Header ausblenden, da der JRPG-Hub eine eigene vollwertige HUD-Bar besitzt */
+header.top {
   display: none !important;
 }
 
@@ -2217,7 +2213,7 @@ body.ausserhalbMenue header.top,
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  max-height: 480px;
+  max-height: min(460px, calc(100vh - 120px));
   background: #000;
   border: 3px solid var(--fxdark);
   outline: 2px solid var(--fxorg);
@@ -2231,6 +2227,7 @@ body.ausserhalbMenue header.top,
   display: block;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  pointer-events: none !important;
 }
 
 /* Wichtel Sprechblase */
@@ -2290,13 +2287,13 @@ body.ausserhalbMenue header.top,
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 20;
+  z-index: 30;
 }
 
 .hubPlayerSpriteWrap {
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 18;
 }
 
@@ -2306,13 +2303,15 @@ body.ausserhalbMenue header.top,
   display: block;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  pointer-events: none !important;
 }
 
 .hubRingNode {
   position: absolute;
   left: 0;
   top: 0;
-  pointer-events: auto;
+  pointer-events: auto !important;
+  cursor: pointer !important;
   background: rgba(38, 26, 18, 0.95);
   color: var(--fxcream);
   border: 3px solid var(--fxdark);
@@ -2323,7 +2322,6 @@ body.ausserhalbMenue header.top,
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  cursor: pointer;
   transition: outline-color 0.15s, box-shadow 0.15s, background 0.15s;
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
   font-family: inherit;
@@ -2356,6 +2354,7 @@ body.ausserhalbMenue header.top,
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none !important;
 }
 
 .nodeImg {
@@ -2363,11 +2362,13 @@ body.ausserhalbMenue header.top,
   height: 24px;
   image-rendering: pixelated;
   object-fit: contain;
+  pointer-events: none !important;
 }
 
 .nodeLabel {
   white-space: nowrap;
   text-shadow: 1px 1px 0 #000;
+  pointer-events: none !important;
 }
 
 /* Fokus-Plakette & Pfeile */
@@ -17286,21 +17287,20 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     focusPlaque.style.cursor = "pointer";
   }
 
-  // Klick & Hover auf Ringknoten
+  // Klick & Hover auf Ringknoten (Jeder Knoten öffnet beim Klick sofort direkt seinen Bereich)
   RING_ITEMS.forEach((item, idx) => {
     const btn = $(`ringNode_${idx}`);
     if (!btn) return;
     btn.onmouseenter = () => { hoveredIdx = idx; };
     btn.onmouseleave = () => { if (hoveredIdx === idx) hoveredIdx = -1; };
     btn.onclick = (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      if (idx === focusIdx) {
-        oeffneBereich(item.id);
-      } else {
-        setzeFokus(idx, true);
-      }
+      setzeFokus(idx, false);
+      oeffneBereich(item.id);
     };
     btn.ondblclick = (e) => {
+      e.preventDefault();
       e.stopPropagation();
       setzeFokus(idx, false);
       oeffneBereich(item.id);
@@ -17324,7 +17324,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       e.preventDefault();
       oeffneBereich(RING_ITEMS[focusIdx].id);
     } else if (e.key >= "1" && e.key <= "6") {
-      setzeFokus(parseInt(e.key, 10) - 1, true);
+      const targetIdx = parseInt(e.key, 10) - 1;
+      setzeFokus(targetIdx, false);
+      oeffneBereich(RING_ITEMS[targetIdx].id);
     }
   });
 
