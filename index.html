@@ -2290,7 +2290,7 @@ body.ausserhalbMenue header.top,
   position: absolute;
   inset: 0;
   pointer-events: none;
-  display: contents;
+  z-index: 20;
 }
 
 .hubPlayerSpriteWrap {
@@ -2392,6 +2392,14 @@ body.ausserhalbMenue header.top,
   padding: 4px 10px 6px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: transform 0.15s ease, outline-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hubFocusInfo:hover {
+  outline-color: var(--fxfocus);
+  box-shadow: 0 0 16px rgba(255, 211, 107, 0.5), 0 4px 12px rgba(0, 0, 0, 0.7);
+  transform: translateY(-2px);
 }
 
 .hubFocusInfo h2 {
@@ -3013,6 +3021,41 @@ body.ausserhalbMenue header.top,
   height: 56px;
   image-rendering: pixelated;
   object-fit: contain;
+}
+
+/* ---------- Kompendium Monster Sprite Slicing & Animationen ---------- */
+@keyframes kompBoss_samurai { from { background-position-x: 0px; } to { background-position-x: -576px; } }
+@keyframes kompBoss_bamboo { from { background-position-x: 0px; } to { background-position-x: -372px; } }
+@keyframes kompBoss_frog { from { background-position-x: 0px; } to { background-position-x: -200px; } }
+@keyframes kompBoss_cyclop { from { background-position-x: 0px; } to { background-position-x: -250px; } }
+@keyframes kompMon_walk { from { background-position-y: 0px; } to { background-position-y: -64px; } }
+
+.kompSprContainer {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.kompSprContainer.thumb {
+  width: 26px;
+  height: 26px;
+}
+
+.kompSprContainer.big {
+  width: 58px;
+  height: 58px;
+}
+
+.kompSprAnim {
+  display: block;
+  flex: none;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 .kompCardTitle h3 {
@@ -4010,6 +4053,14 @@ section.kurs {
 .kForm input:focus {
   border-color: #38bdf8;
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+}
+
+.kForm button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  min-width: 110px;
+  font-weight: 700;
+  padding: 12px 20px;
 }
 
 /* 7. Feedback-Meldungen (.fb) */
@@ -6973,9 +7024,11 @@ function kMd(t) {   // kleines Markdown: **fett**, `code`, Listen mit "- ", Abs�
 const kPlain = (t) => String(t ?? "").replace(/\*\*|`/g, "").replace(/\s+/g, " ").trim();
 function kZahl(s) { const t = String(s).replace(/[.\s'’ ]/g, "").replace(",", "."); if (!/^-?\d+(\.\d+)?$/.test(t)) return null; return Number(t); }
 function kPruefe(x, roh) {      // -> { ok, h?, note?, leer? }
-  const e = String(roh ?? "").trim();
-  if (!e) return { ok: false, leer: true, h: "Trag erst etwas ein." };
-  const A = x.antwort, fall = (k) => (x.fallen && x.fallen[k]) || "";
+  try {
+    const e = String(roh ?? "").trim();
+    if (!e) return { ok: false, leer: true, h: "Trag erst etwas ein." };
+    const A = Array.isArray(x.antwort) ? x.antwort : (x.antwort !== undefined ? [x.antwort] : []);
+    const fall = (k) => (x.fallen && x.fallen[k]) || "";
   switch (x.art) {
     case "zahl": { const n = kZahl(e); if (n === null) return { ok: false, h: "Bitte eine Zahl eintragen (z. B. 62)." }; return A.some((a) => kZahl(a) === n) ? { ok: true } : { ok: false, h: fall(String(n)) }; }
     case "praefix": { const m = /^\/?\s*(\d{1,3})$/.exec(e); if (!m) return { ok: false, h: "Bitte das Präfix als Zahl eintragen, z. B. /27." }; return A.some((a) => String(a).replace("/", "") === String(Number(m[1]))) ? { ok: true } : { ok: false, h: fall(String(Number(m[1]))) }; }
@@ -7013,6 +7066,10 @@ function kPruefe(x, roh) {      // -> { ok, h?, note?, leer? }
     }
   }
   return { ok: false, h: "" };
+} catch (err) {
+  console.error("kPruefe Fehler:", err);
+  return { ok: false, h: "Eingabefehler: " + err.message };
+}
 }
 function kLoesungText(x) {
   if (x.t === "wahl") return x.optionen[x.richtig];
@@ -7346,8 +7403,20 @@ function kEingabe(x) {
     ein.querySelectorAll("button").forEach((b) => b.onclick = () => kWahl(x, Number(b.dataset.i), b));
   } else if (x.t === "eingabe") {
     const ph = { zahl: "Zahl", ip: "z. B. 192.168.10.64", praefix: "z. B. /27", text: "Antwort", ipv6kurz: "z. B. 2001:db8::1", ipv6voll: "8 Blöcke zu je 4 Ziffern", ipv6net: "z. B. 2001:db8:3a7c:a::/64", url: "z. B. http://[2001:db8::1]:8080/" }[x.art];
-    ein.innerHTML = `<form class="kForm" id="kForm" autocomplete="off"><input id="kIn" maxlength="80" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="${esc(ph)}" aria-label="Deine Antwort"><button class="primary" id="kPruef" type="submit">Prüfen</button></form>`;
-    $("kForm").onsubmit = (e) => { e.preventDefault(); kEinPruefen(x); };
+    ein.innerHTML = `<form class="kForm" id="kForm" autocomplete="off" action="javascript:void(0);"><input id="kIn" maxlength="80" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="${esc(ph)}" aria-label="Deine Antwort"><button class="primary" id="kPruef" type="submit">Prüfen</button></form>`;
+    const form = $("kForm");
+    const pBtn = $("kPruef");
+    const inp = $("kIn");
+    if (form) form.onsubmit = (e) => { e.preventDefault(); kEinPruefen(x); };
+    if (pBtn) pBtn.onclick = (e) => { e.preventDefault(); kEinPruefen(x); };
+    if (inp) {
+      inp.onkeydown = (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          kEinPruefen(x);
+        }
+      };
+    }
   } else if (x.t === "ordnen") {
     do { KS.s.pool = shuffle(x.items.map((t, i) => i)); } while (KS.s.pool.every((v, i) => v === i));   // nie schon in richtiger Reihenfolge anbieten
     kOrdnenZeichnen(x);
@@ -7462,9 +7531,24 @@ function kWahl(x, i, b) {
 }
 function kEinPruefen(x) {
   if (KS.s.fertig) return;
-  const r = kPruefe(x, $("kIn").value);
-  if (r.leer) { $("kIn").focus(); return; }
-  if (r.ok) kRichtig(x, r.note); else { kFalsch(x, r.h); $("kIn").select(); }
+  const inp = $("kIn");
+  const val = inp ? inp.value : "";
+  const r = kPruefe(x, val);
+  if (r.leer) {
+    kFb("bad", "✘ Bitte trage erst eine Antwort ein.", "<p class='muted'>Das Eingabefeld darf nicht leer sein.</p>");
+    if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("click");
+    if (window.FX && typeof window.FX.shakeElement === "function") {
+      window.FX.shakeElement(inp || $("kBox"), 5, 200);
+    }
+    if (inp) inp.focus();
+    return;
+  }
+  if (r.ok) {
+    kRichtig(x, r.note);
+  } else {
+    kFalsch(x, r.h);
+    if (inp) inp.select();
+  }
 }
 function kOrdnenPruefen(x) {
   const s = KS.s; s.bewertet = true;
@@ -15063,8 +15147,8 @@ document.addEventListener("keydown", (e) => {
     render(ctx);
   }
 
-  // Globales Singleton Interface
-  window.FX = {
+  // Globales Singleton Interface (merging with any existing FX methods)
+  window.FX = Object.assign(window.FX || {}, {
     spawnSparks,
     spawnBits,
     spawnConfetti,
@@ -15078,7 +15162,7 @@ document.addEventListener("keydown", (e) => {
     renderOnCanvas,
     get activeParticles() { return pCount; },
     get trauma() { return trauma; }
-  };
+  });
 
   // Hilfsmethode für DOM-Element-Shake (z.B. bei Falschantworten im Quiz)
   window.FX.shakeElement = function(elem, intensity = 6, duration = 300) {
@@ -16945,19 +17029,22 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
   function setzeFokus(idx, playSound) {
     focusIdx = ((idx % NUM_ITEMS) + NUM_ITEMS) % NUM_ITEMS;
-    targetAngle = -focusIdx * STEP_ANGLE;
+    const desiredAngle = -focusIdx * STEP_ANGLE;
+    // Kürzester Drehwinkel von targetAngle zu desiredAngle
+    let diff = (desiredAngle - targetAngle) % (2 * Math.PI);
+    if (diff > Math.PI) diff -= 2 * Math.PI;
+    if (diff < -Math.PI) diff += 2 * Math.PI;
+    targetAngle += diff;
     if (playSound) ton("klick");
     aktualisiereFokusPlaque();
   }
 
   function dreheLinks() {
-    targetAngle += STEP_ANGLE;
-    ton("klick");
+    setzeFokus(focusIdx - 1, true);
   }
 
   function dreheRechts() {
-    targetAngle -= STEP_ANGLE;
-    ton("klick");
+    setzeFokus(focusIdx + 1, true);
   }
 
   function aktualisiereFokusPlaque() {
@@ -17018,15 +17105,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     if (!animRunning || !ctx) return;
 
     // 1. Sanfte Feder-Interpolation des Winkels
-    currentAngle += (targetAngle - currentAngle) * 0.16;
-
-    // Aktuellen Fokus-Index aus normalisiertem Winkel bestimmen
-    let norm = ((-currentAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-    let calcIdx = Math.round(norm / STEP_ANGLE) % NUM_ITEMS;
-    if (calcIdx !== focusIdx) {
-      focusIdx = calcIdx;
-      aktualisiereFokusPlaque();
-    }
+    currentAngle += (targetAngle - currentAngle) * 0.18;
 
     // 2. Canvas Hintergrund löschen & Sternenfeld zeichnen
     ctx.fillStyle = "#0c0a08";
@@ -17156,12 +17235,12 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       const z = (cosVal + 1) / 2;
       const scale = 0.70 + 0.44 * z;
       const opacity = 0.55 + 0.45 * z;
-      const zIndex = Math.round(10 + 25 * z);
+      const zIndex = Math.round(22 + 25 * z);
 
       const isHovered = (hoveredIdx === idx);
       const effScale = (scale * (isHovered ? 1.08 : 1.0)).toFixed(3);
       const effOpacity = isHovered ? "1.00" : opacity.toFixed(2);
-      const effZIndex = isHovered ? zIndex + 25 : zIndex;
+      const effZIndex = isHovered ? zIndex + 30 : zIndex;
 
       btn.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0) translate(-50%, -50%) scale(${effScale})`;
       btn.style.opacity = effOpacity;
@@ -17200,18 +17279,31 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   $("hubArrowRight").onclick = dreheRechts;
   $("hubOpenBtn").onclick = () => oeffneBereich(RING_ITEMS[focusIdx].id);
 
+  // Klick auf die gesamte Fokus-Plakette öffnet den Bereich sofort
+  const focusPlaque = $("hubFocusInfo");
+  if (focusPlaque) {
+    focusPlaque.onclick = () => oeffneBereich(RING_ITEMS[focusIdx].id);
+    focusPlaque.style.cursor = "pointer";
+  }
+
   // Klick & Hover auf Ringknoten
   RING_ITEMS.forEach((item, idx) => {
     const btn = $(`ringNode_${idx}`);
     if (!btn) return;
     btn.onmouseenter = () => { hoveredIdx = idx; };
     btn.onmouseleave = () => { if (hoveredIdx === idx) hoveredIdx = -1; };
-    btn.onclick = () => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
       if (idx === focusIdx) {
         oeffneBereich(item.id);
       } else {
         setzeFokus(idx, true);
       }
+    };
+    btn.ondblclick = (e) => {
+      e.stopPropagation();
+      setzeFokus(idx, false);
+      oeffneBereich(item.id);
     };
   });
 
@@ -22043,7 +22135,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   document.addEventListener("mouseout", (e) => { if (ueber && !ueber.contains(e.relatedTarget)) ueber = null; }, true);
 
   // für Tests und Fehlersuche
-  window.FX = { sprite, konfetti, feuerwerk, sound, bossHit, bossKonter, belohnungsFenster, geistReagiere, boss: () => B, geist: G };
+  const legacyFx = { sprite, konfetti, feuerwerk, sound, bossHit, bossKonter, belohnungsFenster, geistReagiere, boss: () => B, geist: G };
+  window.PIXEL_FX = legacyFx;
+  window.FX = Object.assign(window.FX || {}, legacyFx);
   if (pixel()) ladeFx();
   new MutationObserver(() => { if (pixel()) ladeFx(); }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
 })();
@@ -22055,12 +22149,66 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   const A = window.FANCY_A;
   if (!A) return;
 
+  function erstelleBossMeta(bossKey, idleAnim = "idle", frames = 6, duration = 0.9) {
+    const b = A.boss && A.boss[bossKey] ? (A.boss[bossKey][idleAnim] || A.boss[bossKey].idle) : null;
+    if (!b) return null;
+    const fw = b.fw || 48;
+    const fh = b.fh || 48;
+    const totalW = fw * frames;
+    return { type: "boss", src: b.src, fw, fh, totalW, frames, duration };
+  }
+
+  function erstelleMonMeta(monKey, duration = 0.8) {
+    const src = A.mon ? A.mon[monKey] : null;
+    if (!src) return null;
+    return { type: "mon", src, fw: 16, fh: 16, totalW: 64, totalH: 64, frames: 4, duration };
+  }
+
+  function renderMonsterSpriteHtml(m, isBig) {
+    if (!m || !m.spriteMeta || !m.spriteMeta.src) return `<span style="font-size:${isBig ? 32 : 18}px">👾</span>`;
+    const sm = m.spriteMeta;
+    if (sm.type === "boss") {
+      const boxSize = isBig ? 56 : 24;
+      const scale = (boxSize / Math.max(sm.fw, sm.fh)).toFixed(3);
+      return `
+        <div class="kompSprContainer ${isBig ? 'big' : 'thumb'}">
+          <i class="kompSprAnim" style="
+            width: ${sm.fw}px;
+            height: ${sm.fh}px;
+            background-image: url('${sm.src}');
+            background-size: ${sm.totalW}px ${sm.fh}px;
+            transform: scale(${scale});
+            transform-origin: center center;
+            animation: kompBoss_${m.id} ${sm.duration}s steps(${sm.frames}) infinite;
+          "></i>
+        </div>
+      `;
+    } else {
+      const boxSize = isBig ? 56 : 24;
+      const scale = (boxSize / 16).toFixed(3);
+      return `
+        <div class="kompSprContainer ${isBig ? 'big' : 'thumb'}">
+          <i class="kompSprAnim" style="
+            width: 16px;
+            height: 16px;
+            background-image: url('${sm.src}');
+            background-position-x: 0px;
+            transform: scale(${scale});
+            transform-origin: center center;
+            animation: kompMon_walk ${sm.duration}s steps(4) infinite;
+          "></i>
+        </div>
+      `;
+    }
+  }
+
   const KOMPENDIUM_DATEN = [
     {
       id: "samurai",
       bossId: "GiantBlueSamurai",
       name: "Subnetz-Shogun Katana-Mask",
       bereich: "LF03 - Netzwerke & Subnetting",
+      spriteMeta: erstelleBossMeta("GiantBlueSamurai", "idle", 12, 1.2),
       sprite: A.boss && A.boss.GiantBlueSamurai ? (A.boss.GiantBlueSamurai.idle ? A.boss.GiantBlueSamurai.idle.src : "") : "",
       lore: "Meister der Host-Bits und Präfixe. Schneller als jeder Ping. Schneidet IP-Netze mit geschärftem Katana in mundgerechte Subnetze.",
       schwaeche: "Exakte Berechnung der Magic Number Schrittweite",
@@ -22091,6 +22239,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       bossId: "GiantBamboo",
       name: "Kabelsalat-Golem Patch-Terror",
       bereich: "LF03 - Verkabelung & OSI-Schichten",
+      spriteMeta: erstelleBossMeta("GiantBamboo", "idle", 6, 0.9),
       sprite: A.boss && A.boss.GiantBamboo ? (A.boss.GiantBamboo.idle ? A.boss.GiantBamboo.idle.src : "") : "",
       lore: "Hockt in finsteren Server-Schränken und verstrickt strukturierte Verkabelung zu undurchdringlichen Schlingpflanzen.",
       schwaeche: "Genaue Kenntnis des 7-Schichten-Modells und normgerechte TIA-568 Belegung",
@@ -22114,7 +22263,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       bossId: "GiantFrog",
       name: "Der Hexadezimale Krötenkönig",
       bereich: "LF01/LF04 - Zahlensysteme & Logik",
-      sprite: A.boss && A.boss.GiantFrog ? (A.boss.GiantFrog.charge ? A.boss.GiantFrog.charge.src : "") : "",
+      spriteMeta: erstelleBossMeta("GiantFrog", "idle", 5, 0.8),
+      sprite: A.boss && A.boss.GiantFrog ? (A.boss.GiantFrog.idle ? A.boss.GiantFrog.idle.src : (A.boss.GiantFrog.charge ? A.boss.GiantFrog.charge.src : "")) : "",
       lore: "Quakt in purem Binärcode (01001011). Verschluckt unvorsichtige Dezimalzahlen mit Genuss.",
       schwaeche: "Zweierpotenzen im Kopf und Logikgatter-Wahrheitstabellen",
       spickzettelTitel: "📋 IHK-Spickzettel: Zahlensysteme & Logik",
@@ -22136,6 +22286,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       bossId: "DemonCyclop",
       name: "Syntax-Zyklop Dr. Bug",
       bereich: "LF05 - Programmierung & Python",
+      spriteMeta: erstelleBossMeta("DemonCyclop", "idle", 5, 0.8),
       sprite: A.boss && A.boss.DemonCyclop ? (A.boss.DemonCyclop.idle ? A.boss.DemonCyclop.idle.src : "") : "",
       lore: "Sein einzelnes Auge erspäht jede vergessene Klammer, fehlerhafte Einrückungen und Off-by-One-Fehler in Millisekunden.",
       schwaeche: "Saubere Exception-Handling-Blöcke und strukturierte Schleifen",
@@ -22158,6 +22309,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       bossId: "Grey Trex",
       name: "Legacy-Rex Mainframe",
       bereich: "LF02 - Hardware & Speicher",
+      spriteMeta: erstelleMonMeta("Grey Trex", 0.8),
       sprite: A.mon ? A.mon["Grey Trex"] : "",
       lore: "Ein gigantischer Dinosaurier aus Lochkarten und Röhrenspeichern. Brüllt lautstark bei jedem I/O-Flaschenhals.",
       schwaeche: "Moderne NVMe-SSDs und redundante RAID-Verbünde",
@@ -22179,6 +22331,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       bossId: "Flam",
       name: "Flammy Firewall",
       bereich: "LF07 - Cyber-Sicherheit & Ports",
+      spriteMeta: erstelleMonMeta("Flam", 0.8),
       sprite: A.mon ? A.mon["Flam"] : "",
       lore: "Glüht vor Zorn, wenn unautorisierte Pakete an geschlossenen Ports anklopfen.",
       schwaeche: "Port-Scanning und Stateful Packet Inspection",
@@ -22206,6 +22359,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       bossId: "Dragon",
       name: "Dr. Datenverlust",
       bereich: "LF07 - Cyber-Sicherheit & Backup",
+      spriteMeta: erstelleMonMeta("Dragon", 0.8),
       sprite: A.mon ? A.mon["Dragon"] : "",
       lore: "Haucht gefährliche Ransomware und frisst ungesicherte Firmendaten zum Frühstück.",
       schwaeche: "Die 3-2-1 Backup-Regel und unveränderliche Offline-Backups (WORM)",
@@ -22261,7 +22415,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     listCol.innerHTML = KOMPENDIUM_DATEN.map((m) => `
       <button type="button" class="kompListItem ${m.id === gewaehltesMonster ? "sel" : ""}" data-id="${m.id}">
         <div class="kompThumb">
-          ${m.sprite ? `<img src="${m.sprite}" alt="" class="kompImg">` : `<span>👾</span>`}
+          ${renderMonsterSpriteHtml(m, false)}
         </div>
         <div class="kompMeta">
           <b>${esc(m.name)}</b>
@@ -22285,7 +22439,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       <div class="kompCard">
         <div class="kompCardHeader">
           <div class="kompCardSprBox">
-            ${cur.sprite ? `<img src="${cur.sprite}" alt="" class="kompBigSpr">` : ""}
+            ${renderMonsterSpriteHtml(cur, true)}
           </div>
           <div class="kompCardTitle">
             <h3>${esc(cur.name)}</h3>
