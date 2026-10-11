@@ -2477,6 +2477,29 @@ body.ausserhalbMenue header.top,
   padding: 16px;
 }
 
+/* Animationen für Modale & Bottom Sheet */
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translate3d(0, 14px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sheetSlideUp {
+  0% {
+    opacity: 0.4;
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 .hubModalWin {
   width: 100%;
   max-width: 680px;
@@ -2489,6 +2512,8 @@ body.ausserhalbMenue header.top,
   color: var(--fxcream);
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8);
   overflow: hidden;
+  animation: modalPopIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
 }
 
 .hubModalHeader {
@@ -3261,6 +3286,218 @@ body.ausserhalbMenue header.top,
   background: #ff5252;
   color: #fff;
 }
+
+/* ---------- Untermenü: In Entwicklung (Status-Badges & Cards) ---------- */
+.devStatusBadge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.devStatusBadge.live {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid #22c55e;
+}
+.devStatusBadge.wip {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid #f59e0b;
+}
+.devStatusBadge.plan {
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+  border: 1px solid #8b5cf6;
+}
+
+.devHighlightCard {
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.devHighlightCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px rgba(56, 189, 248, 0.45);
+}
+
+.devCard {
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.devCard:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- Smartphone- & Mobile-Optimierung für das JRPG-Hub Menü (< 680px) ---------- */
+@media (max-width: 680px) {
+  /* 1. Bühne im Hochformat / Smartphone-Display entzerren */
+  .hubStageWrap {
+    aspect-ratio: 4 / 3 !important;
+    min-height: 320px !important;
+    max-height: 420px !important;
+  }
+
+  /* 2. Wichtel als ultra-flaches Banner am oberen Rand, damit die Spielfigur frei und unbedeckt im Rampenlicht steht */
+  .hubWichtelWrap {
+    top: 5px !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: auto !important;
+    max-width: none !important;
+    z-index: 35 !important;
+    pointer-events: none !important;
+  }
+  .hubWichtelBubble {
+    padding: 3px 8px !important;
+    font-size: 8.5px !important;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4) !important;
+    border-width: 2px !important;
+  }
+  .hubWichtelKopf {
+    margin-bottom: 2px !important;
+    padding-bottom: 1px !important;
+  }
+  .hubWichtelName {
+    font-size: 8px !important;
+  }
+  .hubWichtelAction {
+    font-size: 7.5px !important;
+    pointer-events: auto !important;
+  }
+  .hubWichtelText {
+    font-size: 8.5px !important;
+    min-height: 14px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* 3. Ringmenü-Knoten kompakt & sauber unterhalb der Spielfigur */
+  .hubRingNode {
+    min-width: 56px !important;
+    padding: 2px 4px !important;
+    font-size: 8px !important;
+    border-width: 2px !important;
+  }
+  .nodeIconWrap {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .nodeImg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* 4. Fokus-Plakette & Pfeile kompakt am unteren Bühnenrand */
+  .hubFocusPlaque {
+    bottom: 4px !important;
+    width: 96% !important;
+    gap: 6px !important;
+  }
+  .hubFocusInfo {
+    padding: 2px 6px !important;
+  }
+  .hubFocusInfo h2 {
+    font-size: 11px !important;
+    margin: 0 !important;
+  }
+  .hubFocusInfo p {
+    font-size: 8px !important;
+    line-height: 1.15 !important;
+    margin: 0 0 2px !important;
+  }
+  .hubOpenBtn {
+    font-size: 9.5px !important;
+    padding: 2px 8px !important;
+  }
+  .hubArrowBtn {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 11px !important;
+    border-width: 2px !important;
+  }
+  .hubKeyHints {
+    display: none !important; /* Touchscreen verwendet Gesten-Swipe */
+  }
+
+  /* 5. HUD Kopfzeile aufgeräumt */
+  .hubHudBar {
+    padding: 4px 6px !important;
+    gap: 4px !important;
+    margin-bottom: 6px !important;
+  }
+  .hubPlayerBadge {
+    padding: 0 4px !important;
+    gap: 6px !important;
+  }
+  .hubAvatarSmall {
+    width: 26px !important;
+    height: 26px !important;
+  }
+  .hubPlayerMeta b {
+    font-size: 11px !important;
+  }
+  .hubRankTitle {
+    font-size: 7.5px !important;
+  }
+  .hubStarsProgress {
+    min-width: 80px !important;
+    gap: 1px !important;
+  }
+  .hubStarsText {
+    font-size: 8px !important;
+  }
+  .hubStarsBar {
+    height: 6px !important;
+  }
+  .hubQuickBtns {
+    width: 100% !important;
+    justify-content: space-between !important;
+    gap: 3px !important;
+    overflow-x: auto !important;
+    padding-top: 2px !important;
+  }
+  .hubBtn {
+    font-size: 8.5px !important;
+    padding: 3px 5px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* 6. Modale Fenster gleiten auf Smartphones als modernes Bottom-Sheet von unten ein */
+  .hubModalOverlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+    backdrop-filter: blur(4px) !important;
+  }
+  .hubModalWin {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 16px 16px 0 0 !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    max-height: 84vh !important;
+    animation: sheetSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.8) !important;
+  }
+  .hubModalWin::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    margin: 6px auto 4px;
+  }
+  .hubModalHeader {
+    padding: 8px 12px !important;
+  }
+  .hubModalHeader h2 {
+    font-size: 13px !important;
+  }
+  .hubModalBody {
+    padding: 10px 12px 24px !important;
+  }
+}
+
 
 
 /* ---- fx.css ---- */
@@ -14874,11 +15111,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       icon: A.item ? A.item["Book"] : null
     },
     {
-      id: "vorlesung",
-      titel: "🎓 INTERAKTIVE-KI-VORLESUNG",
-      kurz: "KI-Vorlesung",
-      desc: "Animierte Vektor-Lerneinheiten im Kurzgesagt-Stil mit Live-KI-Tutor & Sandbox",
-      wichtel: "Erforsche animierte Lerneinheiten, halte jederzeit an und teste dein Wissen!",
+      id: "in_entwicklung",
+      titel: "🚧 IN ENTWICKLUNG",
+      kurz: "In Entwicklung",
+      desc: "Experimentelle Module: KI-Vorlesung, Packet Defender & Next-Gen Prototypen",
+      wichtel: "Hier entsteht die Zukunft! Teste experimentelle Module wie die KI-Vorlesung!",
       icon: A.item ? (A.item["ScrollFire"] || A.item["Book"]) : null
     },
     {
@@ -15151,17 +15388,26 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     });
 
     // 3. Magische Bodenplattform / Runenkreis unter der Figur
-    const cx = 320, cy = 115;
+    const stageW = cv.clientWidth || 640;
+    const stageH = cv.clientHeight || 360;
+    const isMobile = (stageW < 600 || window.innerWidth < 680);
+
+    const cx = 320;
+    const cy = isMobile ? 96 : 115;
+    const pSize = isMobile ? 64 : 54;
+    const platRx = isMobile ? 68 : 56;
+    const platRy = isMobile ? 18 : 16;
+
     ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
     ctx.beginPath();
-    ctx.ellipse(cx, cy + 18, 55, 16, 0, 0, 7);
+    ctx.ellipse(cx, cy + (isMobile ? 22 : 18), platRx, platRy, 0, 0, 7);
     ctx.fill();
 
     // Glühender Magie-Ring
-    ctx.strokeStyle = "rgba(242, 106, 48, 0.4)";
+    ctx.strokeStyle = "rgba(242, 106, 48, 0.45)";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.ellipse(cx, cy + 18, 48 + Math.sin(ts / 350) * 3, 14, 0, 0, 7);
+    ctx.ellipse(cx, cy + (isMobile ? 22 : 18), (platRx - 7) + Math.sin(ts / 350) * 3, platRy - 2, 0, 0, 7);
     ctx.stroke();
 
     // 4. Spieler & Wichtel auf separater Canvas-Ebene (z-index: 18) zeichnen
@@ -15174,49 +15420,53 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       if (avImg && avImg.complete) {
         const walkFrame = Math.floor(ts / 240) % 4;
         // Figur nach vorne gerichtet (Zeile 0, Spalte = Animation)
+        const pDrawX = cx - Math.round(pSize / 2);
+        const pDrawY = cy - Math.round(pSize * 0.65) + bob;
         pCtx.drawImage(
           avImg,
           0, walkFrame * 16, 16, 16,
-          cx - 24, cy - 32 + bob, 48, 48
+          pDrawX, pDrawY, pSize, pSize
         );
 
         // Freigeschaltetes Cosmetic-Accessoire auf Kopf zeichnen
         const hat = (cfg().cosmetics || {}).hat;
+        const hatBaseY = pDrawY + Math.round(pSize * 0.08);
         if (hat === "crown") {
           // Goldene IT-Krone
           pCtx.fillStyle = "#ffd700";
-          pCtx.fillRect(cx - 10, cy - 38 + bob, 20, 6);
-          pCtx.fillRect(cx - 10, cy - 42 + bob, 4, 4);
-          pCtx.fillRect(cx - 2, cy - 43 + bob, 4, 5);
-          pCtx.fillRect(cx + 6, cy - 42 + bob, 4, 4);
+          pCtx.fillRect(cx - 10, hatBaseY - 6, 20, 6);
+          pCtx.fillRect(cx - 10, hatBaseY - 10, 4, 4);
+          pCtx.fillRect(cx - 2, hatBaseY - 11, 4, 5);
+          pCtx.fillRect(cx + 6, hatBaseY - 10, 4, 4);
         } else if (hat === "glasses") {
           // Root-Admin Sonnenbrille
           pCtx.fillStyle = "#111";
-          pCtx.fillRect(cx - 10, cy - 20 + bob, 20, 5);
+          pCtx.fillRect(cx - 10, hatBaseY + 12, 20, 5);
           pCtx.fillStyle = "#00e5ff";
-          pCtx.fillRect(cx - 8, cy - 19 + bob, 5, 2);
-          pCtx.fillRect(cx + 3, cy - 19 + bob, 5, 2);
+          pCtx.fillRect(cx - 8, hatBaseY + 13, 5, 2);
+          pCtx.fillRect(cx + 3, hatBaseY + 13, 5, 2);
         } else if (hat === "cap") {
           // Doktorhut
           pCtx.fillStyle = "#1f2937";
-          pCtx.fillRect(cx - 16, cy - 38 + bob, 32, 4);
-          pCtx.fillRect(cx - 8, cy - 34 + bob, 16, 4);
+          pCtx.fillRect(cx - 16, hatBaseY - 6, 32, 4);
+          pCtx.fillRect(cx - 8, hatBaseY - 2, 16, 4);
           pCtx.fillStyle = "#f59e0b";
-          pCtx.fillRect(cx + 12, cy - 36 + bob, 2, 7);
+          pCtx.fillRect(cx + 12, hatBaseY - 4, 2, 7);
         }
       }
 
       // 5. KIS-Wichtel (Lern-Begleiter) schwebend neben dem Spieler
       const wiImg = ladeBild(A.spirit);
       const wiBob = Math.round(Math.sin(ts / 300) * 5);
-      const wx = cx + 38, wy = cy - 44 + wiBob;
+      const wSize = isMobile ? 32 : 28;
+      const wx = cx + (isMobile ? 44 : 38), wy = cy - (isMobile ? 50 : 44) + wiBob;
 
       if (wiImg && wiImg.complete) {
         const wFrame = Math.floor(ts / 180) % 4;
         pCtx.drawImage(
           wiImg,
           0, wFrame * 16, 16, 16,
-          wx, wy, 28, 28
+          wx, wy, wSize, wSize
         );
 
         // Magische Glitzerfunken um den Wichtel
@@ -15227,12 +15477,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     }
 
     // 6. DOM Ringknoten im 2.5D Orbit positionieren
-    const stageW = cv.clientWidth || 640;
-    const stageH = cv.clientHeight || 360;
-    const rx = Math.min(220, stageW * 0.34);
-    const ry = Math.min(44, stageH * 0.125);
+    const rx = isMobile ? Math.min(150, stageW * 0.38) : Math.min(220, stageW * 0.34);
+    const ry = isMobile ? Math.min(32, stageH * 0.11) : Math.min(44, stageH * 0.125);
     const nodeCx = stageW / 2;
-    const nodeCy = Math.round(stageH * 0.41);
+    const nodeCy = isMobile ? Math.round(stageH * 0.61) : Math.round(stageH * 0.44);
 
     RING_ITEMS.forEach((_, idx) => {
       const btn = $(`ringNode_${idx}`);
@@ -15367,8 +15615,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   function oeffneBereich(id) {
     if (id === "kurse") {
       oeffneKurseModal();
-    } else if (id === "vorlesung") {
-      oeffneVorlesungModal();
+    } else if (id === "in_entwicklung" || id === "dev" || id === "vorlesung") {
+      oeffneInEntwicklungModal();
     } else if (id === "lern") {
       oeffneWissensbaum();
     } else if (id === "arena") {
@@ -15382,44 +15630,108 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     }
   }
 
-  // 1b. Interaktive-KI-Vorlesung Übersicht & Start
-  function oeffneVorlesungModal() {
-    zeigeModal("🎓 Interaktive-KI-Vorlesung", `
-      <p class="modalLead">Animierte Vektor-Lerneinheiten im Kurzgesagt-Stil mit Live-KI-Tutor, Pause-Funktion & interaktiven Sandboxen:</p>
+  // 1b. Untermenü: In Entwicklung (Experimental Lab & KI-Vorlesung)
+  function oeffneInEntwicklungModal() {
+    zeigeModal("🚧 In Entwicklung (Experimental Lab)", `
+      <p class="modalLead">Hier entstehen brandneue interaktive Module und Next-Gen-Lernformate für deine Fachinformatik-Ausbildung:</p>
       <div class="modalGridCards">
-        <div class="arenaCard full" style="border: 2px solid #38bdf8; background: rgba(15, 23, 42, 0.95); margin-bottom: 8px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
-            <h3 style="color:#38bdf8; margin:0;">🌐 LF03: Wie funktioniert ein Router?</h3>
-            <span style="color:#38bdf8; font-weight:700; font-size:12px;">Pilot-Einheit · 3 Min.</span>
+        <!-- 1. Interaktive KI-Vorlesung -->
+        <div class="arenaCard full devHighlightCard" style="border: 2px solid #38bdf8; background: rgba(15, 23, 42, 0.95); margin-bottom: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px; flex-wrap:wrap; gap:4px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:22px;">🎓</span>
+              <div>
+                <h3 style="color:#38bdf8; margin:0; font-size:14px;">Interaktive-KI-Vorlesung</h3>
+                <span style="font-size:10px; color:#7dd3fc;">Pilot: Wie funktioniert ein Router? (LF03)</span>
+              </div>
+            </div>
+            <span class="devStatusBadge live">🟢 Spielbereit</span>
           </div>
-          <p style="margin:4px 0 8px; font-size:12px;">Vom Broadcast-Problem zur Routing-Tabelle: Erfahre, warum Switches nicht reichen, wie das Default Gateway funktioniert und teste Routing-Entscheidungen live in der Sandbox!</p>
-          <div style="font-size:11px; color:#94a3b8; margin-bottom:10px;">
-            📚 <b>Fachbuch:</b> Westermann S. 330–334 · <b>Obsidian:</b> 20_Begriffe/Router.md · <b>Handout:</b> Netzwerkgeräte
+          <p style="margin:4px 0 8px; font-size:11.5px; line-height:1.4; color:#e2e8f0;">
+            Didaktische Lerneinheit im <b>Kurzgesagt-Stil</b>: Schrittweiser Aufbau mit animiertem Dozent-Mob, 
+            synchronen Obsidian-Handouts, didaktischen Checkpoints mit Gegenfragen & interaktiver Routing-Sandbox.
+          </p>
+          <div style="font-size:10px; color:#94a3b8; margin-bottom:10px; background:rgba(0,0,0,0.3); padding:5px 8px; border-radius:3px;">
+            📚 <b>Fachbuch:</b> Westermann S. 330–334 · <b>Obsidian:</b> 20_Begriffe/Router.md · <b>Tutor:</b> Live & Offline
           </div>
-          <button type="button" class="primary" id="hubStartVorlesungBtn" style="font-weight:700; background:#0284c7; color:#fff;">Vorlesung starten ➔</button>
+          <button type="button" class="primary" id="hubStartVorlesungDevBtn" style="font-weight:700; background:#0284c7; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer;">
+            🎓 Vorlesung starten ➔
+          </button>
         </div>
 
-        <div class="arenaCard">
-          <h3>⚡ Künftige Einheiten (Pipeline)</h3>
-          <p>Weitere Einheiten zu Subnetting (CIDR), DHCP (DORA), DNS-Auflösung und OSI vs. TCP/IP.</p>
-          <span style="font-size:11px; color:#64748b;">Automatische Generierung via Obsidian & RAG</span>
+        <!-- 2. LF03 Packet Defender (Tower Defense) -->
+        <div class="arenaCard devCard" style="border: 1px solid #f59e0b; background: rgba(30, 24, 15, 0.92);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+            <h3 style="color:#fbbf24; margin:0; font-size:12.5px;">🛡️ LF03 Packet Defender</h3>
+            <span class="devStatusBadge wip">🟡 Prototyp</span>
+          </div>
+          <p style="font-size:10.5px; color:#dfd0bc; margin:4px 0 8px; line-height:1.35;">
+            Netzwerk-Tower-Defense: Platziere Firewalls, Paketfilter & IDS-Türme, um das LAN vor DDoS- und Broadcast-Stürmen zu schützen.
+          </p>
+          <button type="button" class="hubBtn" id="hubStartPacketDefenderBtn" style="width:100%; font-size:10px; background:#452814; color:#ffd36b; border-color:#f59e0b;">
+            🛡️ Tower Defense testen ➔
+          </button>
         </div>
-        <div class="arenaCard">
-          <h3>💬 KI-Tutor & Obsidian-Verknüpfung</h3>
-          <p>Der KI-Tutor ist kontextsensitiv mit den Fachbuch-Notizen und deinem Spaced-Repetition-Lernstand synchronisiert.</p>
-          <span style="font-size:11px; color:#38bdf8;">100 % offlinefähig + KI-Erweiterung</span>
+
+        <!-- 3. LF03 OSI Invaders (Space Arcade) -->
+        <div class="arenaCard devCard" style="border: 1px solid #ec4899; background: rgba(30, 15, 25, 0.92);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+            <h3 style="color:#f472b6; margin:0; font-size:12.5px;">👾 LF03 OSI Invaders</h3>
+            <span class="devStatusBadge wip">🟡 Prototyp</span>
+          </div>
+          <p style="font-size:10.5px; color:#dfd0bc; margin:4px 0 8px; line-height:1.35;">
+            Retro Space Arcade: Zerstöre feindliche Frames Schicht für Schicht von Layer 7 bis Layer 2 mit den passenden Protokoll-Kanonen.
+          </p>
+          <button type="button" class="hubBtn" id="hubStartOsiInvadersBtn" style="width:100%; font-size:10px; background:#40172e; color:#fbcfe8; border-color:#ec4899;">
+            👾 OSI Arcade testen ➔
+          </button>
+        </div>
+
+        <!-- 4. RAG & Obsidian Synthesizer -->
+        <div class="arenaCard devCard" style="border: 1px solid #8b5cf6; background: rgba(22, 16, 35, 0.92);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+            <h3 style="color:#a78bfa; margin:0; font-size:12.5px;">🧠 Obsidian RAG Synthese</h3>
+            <span class="devStatusBadge plan">🟣 In Planung</span>
+          </div>
+          <p style="font-size:10.5px; color:#dfd0bc; margin:4px 0 8px; line-height:1.35;">
+            Automatische Konvertierung von Obsidian-Lernfeld-Notizen (LF01–LF12) in animierte Vektor-Vorlesungen.
+          </p>
+          <span style="font-size:9.5px; color:#c4b5fd;">Masterplan für 8 LF03-Einheiten hinterlegt</span>
         </div>
       </div>
     `);
 
-    const startBtn = $("hubStartVorlesungBtn");
-    if (startBtn) {
-      startBtn.onclick = () => {
+    const startVorlBtn = $("hubStartVorlesungDevBtn");
+    if (startVorlBtn) {
+      startVorlBtn.onclick = () => {
         schliesseModal();
         stoppeHub();
         if (typeof window.startVorlesung === "function") window.startVorlesung("lf03-router-grundlagen");
       };
     }
+
+    const startDefBtn = $("hubStartPacketDefenderBtn");
+    if (startDefBtn) {
+      startDefBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (typeof window.startPacketDefender === "function") window.startPacketDefender();
+      };
+    }
+
+    const startOsiBtn = $("hubStartOsiInvadersBtn");
+    if (startOsiBtn) {
+      startOsiBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (typeof window.startOsiInvaders === "function") window.startOsiInvaders();
+      };
+    }
+  }
+
+  // Alias für Rückwärtskompatibilität
+  function oeffneVorlesungModal() {
+    oeffneInEntwicklungModal();
   }
 
   // 1. Lernkurse Übersicht
@@ -16086,6 +16398,12 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     kleinesMonster: () => {},
     zustand: () => ({ idle: 0, me: { x: 320, y: 200 } })
   };
+
+  // Window Hooks für externe Steuerung & Tests
+  window.starteHub = starteHub;
+  window.stoppeHub = stoppeHub;
+  window.setzeFokus = setzeFokus;
+  window.oeffneBereich = oeffneBereich;
 
   // Start initialisieren
   setTimeout(() => {
