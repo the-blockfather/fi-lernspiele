@@ -2290,11 +2290,14 @@ header.top {
   z-index: 30;
 }
 
+/* Spielfigur liegt ueber den Ringkacheln (z-index 30), aber unter Sprechblase
+   (35) und Fokus-Plakette (40). pointer-events: none laesst die Klicks zu den
+   Kacheln durch. */
 .hubPlayerSpriteWrap {
   position: absolute;
   inset: 0;
   pointer-events: none !important;
-  z-index: 18;
+  z-index: 31;
 }
 
 .hubPlayerCanvas {
@@ -4824,7 +4827,11 @@ body.lvAn #dsModal { z-index: 95; }
 }
 
 /* 1. Taktile Spring-Physik für alle interaktiven Buttons */
-button,
+/* .hubRingNode ausgenommen: die Ringkacheln werden in jedem Frame per JS ueber
+   style.transform positioniert (s_z_fancy.js). Eine transform-Transition oder
+   ein transform-!important wuerde diese Position ueberschreiben - die Kachel
+   springt beim Druecken weg und der Klick kommt nie an. */
+button:not(.hubRingNode),
 .primary,
 .ghost,
 .hubBtn,
@@ -4834,12 +4841,14 @@ button,
               box-shadow 0.15s ease,
               background-color 0.15s ease,
               border-color 0.15s ease !important;
-  will-change: transform;
+  /* kein globales will-change: transform - das hebt jeden einzelnen Knopf
+     (Paketlisten, Begriffsstapel: mehrere hundert) auf eine eigene
+     Compositor-Ebene und kostet Speicher. Die Ringkacheln setzen es selbst. */
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-button:hover,
+button:not(.hubRingNode):hover,
 .primary:hover,
 .ghost:hover,
 .hubBtn:hover {
@@ -4847,7 +4856,7 @@ button:hover,
   filter: brightness(1.08);
 }
 
-button:active,
+button:not(.hubRingNode):active,
 .primary:active,
 .ghost:active,
 .hubBtn:active {
@@ -18803,7 +18812,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         `).join("")}
       </div>
 
-      <!-- Spieler-Ebene im DOM (z-index: 18, zwischen hinteren und vorderen Ringknoten) -->
+      <!-- Spieler-Ebene im DOM (z-index: 31, immer vor den Ringknoten) -->
       <div class="hubPlayerSpriteWrap" id="hubPlayerSpriteWrap">
         <canvas id="hubPlayerCanvas" width="640" height="360" class="hubPlayerCanvas"></canvas>
       </div>
@@ -19060,10 +19069,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     }
 
     // 6. DOM Ringknoten im 2.5D Orbit positionieren
-    const rx = isMobile ? Math.min(150, stageW * 0.38) : Math.min(220, stageW * 0.34);
-    const ry = isMobile ? Math.min(32, stageH * 0.11) : Math.min(44, stageH * 0.125);
+    const rx = isMobile ? Math.min(150, stageW * 0.38) : Math.min(260, stageW * 0.36);
+    const ry = isMobile ? Math.min(40, stageH * 0.135) : Math.min(70, stageH * 0.17);
     const nodeCx = stageW / 2;
-    const nodeCy = isMobile ? Math.round(stageH * 0.61) : Math.round(stageH * 0.44);
+    const nodeCy = isMobile ? Math.round(stageH * 0.52) : Math.round(stageH * 0.52);
 
     RING_ITEMS.forEach((_, idx) => {
       const btn = $(`ringNode_${idx}`);
@@ -19157,6 +19166,17 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       if (e.key === "Escape") schliesseModal();
       return;
     }
+
+    // Nicht mitdrehen, waehrend der Nutzer tippt: sonst springt das Menue beim
+    // Eingeben von Name oder Sync-Code ("a"/"d" drehen, 1-6 oeffnen Bereiche).
+    const ziel = e.target;
+    if (ziel && ziel.closest && ziel.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]')) return;
+    if (e.ctrlKey || e.altKey || e.metaKey) return;
+    // Liegt ein anderer Dialog darueber (Intro, Lernpfad, Sync ...), gehoert
+    // die Tastatur ihm und nicht dem Ringmenue dahinter.
+    const andererDialog = [...document.querySelectorAll(".modal")]
+      .some((m) => !m.classList.contains("hidden") && getComputedStyle(m).display !== "none");
+    if (andererDialog) return;
 
     if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
       dreheLinks();
