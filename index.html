@@ -13241,7 +13241,7 @@ GENERATORS.vlan = function (level) {
               <div class="vlCoachBox">
                 <div class="vlCoachHistory" id="vlCoachHistory">
                   <div class="vlMsg tutor">
-                    Hallo! Ich bin dein <b>KI-Fachdozent für Lernfeld 3</b>. Halte die Vorlesung jederzeit an und frage mich, wenn dir etwas unklar ist!
+                    Hallo! Ich bin dein <b>KI-Fachdozent für Lernfeld 3</b>. Tippe eine Frage ein oder nimm eine der Fragen unten – sie passen zur Phase, in der du gerade bist.
                   </div>
                 </div>
                 <div class="vlQuickQuestions" id="vlQuickQuestions"></div>
@@ -13352,7 +13352,16 @@ GENERATORS.vlan = function (level) {
     const alt = document.getElementById("vlSchnellfragen");
     if (alt) alt.remove();
     const s = getAktSzene();
-    const fragen = (s && s.quickQuestions) || [];
+    // Hat die Szene keine eigenen Fragen (z. B. die Begruessung), die geprueften
+    // Standardfragen anbieten - sonst wirkt der Reiter leer und kaputt.
+    let fragen = (s && s.quickQuestions) || [];
+    // Sauber geschrieben; kleingeschrieben treffen sie trotzdem die Datenbank,
+    // weil askTutor() vor dem Nachschlagen in Kleinbuchstaben wandelt.
+    if (!fragen.length) fragen = [
+      "Warum stoppt ein Switch keine Broadcasts?",
+      "Was genau ist ein Default Gateway?",
+      "Was bedeutet 'Longest Prefix Match'?"
+    ];
     if (!fragen.length) return;
     const box = document.createElement("div");
     box.id = "vlSchnellfragen";
