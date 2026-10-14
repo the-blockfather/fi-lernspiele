@@ -9672,7 +9672,7 @@ function kursEmpfehlungZeigen() {
       <div class="kEmpfBossBody">
         <div class="kBossBlase" style="margin-top:0">
           <span style="color:#d4a373;margin-right:6px">${boss.icon} <b>${esc(boss.name)}:</b></span>
-          <span>Ich hüte den Kurs <b>${esc(weiter.p.titel)}</b>. Wage den Lernkurs solo oder fordere andere per QR-Code heraus!</span>
+          <span>Ich begleite dich durch den Kurs <b>${esc(weiter.p.titel)}</b>. Lerne solo oder fordere andere per QR-Code heraus!</span>
         </div>
         <div class="kEmpfMultiRow">
           <button class="primary" data-kempf="${esc(weiter.p.id)}">▶ ${weiter.ok ? "Weiterlernen" : "Kurs Starten"}</button>
@@ -9933,18 +9933,25 @@ const K_BOSS_PROFILES = {
   }
 };
 
-function kBossFuer(packOderThema) {
-  const pId = typeof packOderThema === "string" ? packOderThema : (packOderThema && packOderThema.id) || "";
-  const t = (pId + " " + ((packOderThema && packOderThema.titel) || "") + " " + ((packOderThema && packOderThema.beschreibung) || "")).toLowerCase();
-  
-  if (t.includes("norm")) return K_BOSS_PROFILES["Grey Trex"];
-  if (t.includes("client") || t.includes("port") || t.includes("sicher")) return K_BOSS_PROFILES["Flam"];
-  if (t.includes("cloud") || t.includes("dhcp") || t.includes("dora") || t.includes("daten")) return K_BOSS_PROFILES["Dragon"];
-  if (t.includes("routing") || t.includes("geraet")) return K_BOSS_PROFILES["DemonCyclop"];
-  if (t.includes("paketreise") || t.includes("kapsel") || t.includes("flug") || t.includes("pruefungsflug")) return K_BOSS_PROFILES["GiantFrog"];
-  if (t.includes("kabel") || t.includes("schicht") || t.includes("labor") || t.includes("tutorial")) return K_BOSS_PROFILES["GiantBamboo"];
-  return K_BOSS_PROFILES["GiantBlueSamurai"];
-}
+// Kein Boss mehr: Jeder Kurs wird vom Dozenten begleitet (Figur + Sprechblase). Die Namen kBoss* bleiben
+// aus Kompatibilitaet bestehen (Live-Runde, Startseite). Der Boss-Kampf ist abgeschaltet (KAMPF_PHASEN = null);
+// der Code in f_boss_phases.js bleibt unangetastet und kann bei Bedarf wieder angeschlossen werden.
+const KAMPF_PHASEN = null;
+const K_DOZENT = {
+  id: "Dozent", name: "Dozent", icon: "🎓",
+  sprueche: {
+    intro: ["Schauen wir uns das zusammen an.", "Nimm dir Zeit, einen Tipp darfst du jederzeit holen.", "Los geht's, Schritt für Schritt."],
+    lies: "Lies den Abschnitt in Ruhe, gleich kommt dazu eine Aufgabe.",
+    falsch: ["Nicht ganz, schau noch einmal genau hin.", "Fast. Überleg, was die Frage wirklich wissen will.", "Kein Problem, probier es noch einmal."],
+    denkfalle: ["Typische Denkfalle, hier verrutschen viele.", "Achtung, das ist eine beliebte Verwechslung."],
+    richtig: ["Genau so.", "Richtig, gut erklärt.", "Sauber gelöst."],
+    tipp: "Hier ein Hinweis:",
+    aufdecken: "Hier die Musterlösung, schau dir den Weg an:",
+    abschluss: "Station geschafft. Wiederhole sie bei Gelegenheit.",
+    abschluss3: "Sehr gut, das sitzt."
+  }
+};
+function kBossFuer() { return K_DOZENT; }
 
 function kBossReaktion(ereignis, extra = {}) {
   const boss = extra.boss || (KS && KS.boss) || kBossFuer(KS_PACK);
@@ -10088,27 +10095,8 @@ function kursFuerKapitel(k) {
   return match || kurse[0];
 }
 
-function kBossSprHtml(bId, s = 1.6) {
-  const komp = window.IHK_KOMPENDIUM;
-  if (komp && typeof komp.findMonster === "function" && typeof komp.renderMonsterSpriteHtml === "function") {
-    const m = komp.findMonster(bId);
-    if (m) {
-      return komp.renderMonsterSpriteHtml(m, 72);
-    }
-  }
-  const FA = window.FANCY_A;
-  const bData = FA && FA.boss ? FA.boss[bId] : null;
-  if (bData && bData.idle) {
-    const fw = bData.idle.fw || 48;
-    const fh = bData.idle.fh || 48;
-    return `<span class="kBossSpriteWrap" style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;overflow:visible;image-rendering:pixelated;"><i style="display:block;width:${fw}px;height:${fh}px;background-image:url(${bData.idle.src});background-repeat:no-repeat;background-position:0 0;background-size:auto 100%;"></i></span>`;
-  }
-  const monSrc = FA && FA.mon ? FA.mon[bId] : null;
-  if (monSrc) {
-    return `<span class="kBossSpriteWrap" style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;overflow:visible;image-rendering:pixelated;"><i style="display:block;width:16px;height:16px;background-image:url(${monSrc});background-position-x:0px;transform:scale(3.5);transform-origin:center;animation:kompMon_walk 0.8s steps(4) infinite;"></i></span>`;
-  }
-  const em = { GiantBlueSamurai: "⚔️", GiantBamboo: "🎋", DemonCyclop: "👁️", GiantFrog: "🐸", "Grey Trex": "🦖", Flam: "🔥", Dragon: "🐉" };
-  return `<span class="lvEmoji" style="font-size:42px">${em[bId] || "👾"}</span>`;
+function kBossSprHtml() {
+  return window.KursRahmen ? window.KursRahmen.lehrerHtml() : '<span class="lvEmoji" style="font-size:42px">🎓</span>';
 }
 
 let kBossTyping = 0;
@@ -10180,7 +10168,7 @@ function kursKarte() {
     spickBtn.onclick = () => {
       const boss = kBossFuer(P);
       if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("whoosh");
-      if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openMonster === "function") {
+      if (window.IHK_KOMPENDIUM && false) {
         window.IHK_KOMPENDIUM.openMonster(boss.id);
       } else if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openModal === "function") {
         window.IHK_KOMPENDIUM.openModal();
@@ -10221,7 +10209,7 @@ function kursStation(i) {
   };
   st.schritte.forEach((s) => add(s));
   const boss = kBossFuer(KS_PACK);
-  if (window.BOSS_PHASEN) window.BOSS_PHASEN.initKampf(boss.id);
+  if (KAMPF_PHASEN) KAMPF_PHASEN.initKampf(boss.id);
   KS = { i, st, liste, pos: 0, res: [], blatt: {}, chat: [], t0: Date.now(), ki: false, boss };
   if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("whoosh");
   $("kurs").innerHTML = `<div class="kSpiel"><div class="vlLayout kLayout" id="kLayoutBox">${window.KursRahmen ? window.KursRahmen.panelHtml() : ""}<div class="kHaupt">
@@ -10242,7 +10230,7 @@ function kursStation(i) {
         <div class="kBossBlase"><span class="kBossSpruch" id="kBossSpruch"></span></div>
       </div>
     </div>
-    ${window.BOSS_PHASEN ? window.BOSS_PHASEN.renderHudHtml() : ""}
+    ${KAMPF_PHASEN ? KAMPF_PHASEN.renderHudHtml() : ""}
     <div class="kBox glass" id="kBox" aria-live="polite"></div>
     <div class="aktionen" id="kAkt"></div>
     ${window.KursRahmen ? "" : '<div class="glass kKi hidden" id="kKi"></div>'}</div></div></div>`;
@@ -10251,7 +10239,7 @@ function kursStation(i) {
   if (stSpickBtn) {
     stSpickBtn.onclick = () => {
       if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("whoosh");
-      if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openMonster === "function") {
+      if (window.IHK_KOMPENDIUM && false) {
         window.IHK_KOMPENDIUM.openMonster(boss.id);
       } else if (window.IHK_KOMPENDIUM && typeof window.IHK_KOMPENDIUM.openModal === "function") {
         window.IHK_KOMPENDIUM.openModal();
@@ -10410,8 +10398,8 @@ function kFalsch(x, h, extra) {      // falsche Antwort: Hinweis, Tipp-Leiter bl
   }
 
   // 2. Boss-Phasen Schild-Regeneration
-  if (window.BOSS_PHASEN) {
-    window.BOSS_PHASEN.verarbeiteAntwort(false);
+  if (KAMPF_PHASEN) {
+    KAMPF_PHASEN.verarbeiteAntwort(false);
   }
 
   const boss = (KS && KS.boss) || kBossFuer(KS_PACK);
@@ -10472,8 +10460,8 @@ function kRichtig(x, note) {
 
   // 2. Boss-Phasen Schaden & Critical Hits
   let bRes = null;
-  if (window.BOSS_PHASEN) {
-    bRes = window.BOSS_PHASEN.verarbeiteAntwort(true, {
+  if (KAMPF_PHASEN) {
+    bRes = KAMPF_PHASEN.verarbeiteAntwort(true, {
       kategorie: x.grp?.titel || x.art,
       frage: x.f
     });
@@ -13635,7 +13623,15 @@ const LABSIM = (() => {
     if (n && n.scrollIntoView) n.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
-  window.KursRahmen = { panelHtml, start, aktualisieren };
+  // Figur des Dozenten (gleiche Charakter-Grafik wie in den Einheiten, kein Boss-Blatt)
+  function lehrerHtml() {
+    const FA = window.FANCY_A;
+    const src = FA && FA.chars ? (FA.chars.Monk || FA.chars.Knight) : "";
+    if (!src) return '<span class="vlLehrerErsatz">🎓</span>';
+    return '<span class="vlLehrerSprite"><span style="background-image: url(\'' + src + '\');"></span></span>';
+  }
+
+  window.KursRahmen = { panelHtml, start, aktualisieren, lehrerHtml };
 })();
 
 /* ---- f_sandboxes.js ---- */
