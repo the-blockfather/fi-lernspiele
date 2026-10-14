@@ -6872,6 +6872,63 @@ body.retro .vlPaket circle { fill: #ffe600; filter: none; }
 
 .vlLehrerErsatz { font-size: 26px; }
 
+/* Schwung bei richtig/falsch (VlFx in f_vorlesung.js): Tutor-Figur huepft bzw. wackelt, Rueckmeldung poppt auf */
+.vlJubel { animation: vlHop 0.7s ease-out 1; }
+.vlWackel { animation: vlWack 0.5s ease-in-out 1; }
+.vlPop { animation: vlPopIn 0.45s cubic-bezier(.2,1.4,.4,1) 1; }
+@keyframes vlHop { 0%{transform:translateY(0)} 25%{transform:translateY(-12px) scale(1.08)} 50%{transform:translateY(0)} 70%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
+@keyframes vlWack { 0%,100%{transform:translateX(0) rotate(0)} 20%{transform:translateX(-5px) rotate(-6deg)} 40%{transform:translateX(5px) rotate(6deg)} 60%{transform:translateX(-3px) rotate(-3deg)} 80%{transform:translateX(3px) rotate(3deg)} }
+@keyframes vlPopIn { 0%{transform:scale(.92);box-shadow:0 0 0 0 rgba(56,189,248,.6)} 60%{transform:scale(1.03);box-shadow:0 0 0 10px rgba(56,189,248,0)} 100%{transform:scale(1)} }
+@media (prefers-reduced-motion: reduce) { .vlJubel, .vlWackel, .vlPop { animation: none; } }
+
+/* Wissensbaum im KI-Tutor-Look: dunkles Navy mit Cyan-Akzent wie die Einheiten; Tutor-Figur statt Waechter-Monster */
+body.lp #lpPanel {
+  background: linear-gradient(180deg, rgba(8, 15, 35, 0.96), rgba(2, 6, 23, 0.96));
+  border: 1px solid #1e293b;
+  border-top: 3px solid #38bdf8;
+  color: #e2e8f0;
+}
+body.lp #lpPanel h3 { color: #7dd3fc; letter-spacing: 0.02em; }
+body.lp #lpPanel .lpKante { stroke: #1e3a5f; }
+body.lp #lpPanel .lpWurzel { fill: #0e7490; stroke: #38bdf8; stroke-width: 2; }
+body.lp #lpPanel .lpKap text { fill: #0b1220; }
+.lpEinheitRing { fill: none; stroke: #38bdf8; stroke-width: 1.4; stroke-dasharray: 2.5 2; opacity: 0.9; pointer-events: none; }
+body.lp #lpPanel .lpZeile.akt { background: rgba(56, 189, 248, 0.14); }
+body.lp #lpPanel .lpMsg { background: rgba(2, 6, 23, 0.6); border-color: #1e293b; }
+body.lp #lpPanel .lpMsg.coach { border-left: 3px solid #38bdf8; }
+body.lp #lpPanel .lpMsg.ki { border-left: 3px solid #a78bfa; }
+
+.lpTutorBox {
+  margin: 10px 0 12px;
+  padding: 10px 12px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid #1e293b;
+  border-left: 3px solid #38bdf8;
+  border-radius: 10px;
+}
+.lpTutorTop { display: flex; align-items: center; gap: 10px; }
+.lpTutorFigur {
+  width: 48px; height: 48px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid #1e3a5f; border-radius: 8px; overflow: hidden;
+}
+.lpTutorInfo { flex: 1; min-width: 0; }
+.lpTutorName { font-size: 0.85rem; color: #7dd3fc; }
+.lpTutorBlase {
+  margin-top: 8px; padding: 8px 10px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid #1e293b; border-radius: 8px;
+  font-size: 0.82rem; line-height: 1.45; color: #e2e8f0;
+}
+.lpTutorEinheiten { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+.lpTutorEinheiten:empty { display: none; }
+.lpTutorEinheiten .lpBtnEinheit, body.retro .lpTutorEinheiten .lpBtnEinheit {
+  text-align: left; font-size: 0.76rem; padding: 6px 9px; cursor: pointer; white-space: normal;
+  background: rgba(14, 116, 144, 0.35); border: 1px solid #38bdf8; color: #e0f2fe; box-shadow: none; border-radius: 6px;
+}
+.lpTutorEinheiten .lpBtnEinheit:hover { background: rgba(56, 189, 248, 0.3); }
+
 .vlDialogBox {
   background: rgba(2, 6, 23, 0.6);
   border: 1px solid #1e293b;
@@ -7707,7 +7764,7 @@ body.retro .vlPanelNeu { border-radius: 0; }
       <div id="lpLegende"></div>
       <div id="lpGuardianWrap"></div>
       <div id="lpKapitel"></div>
-      <h3 style="margin-top:12px"><span>💬 Coach</span></h3>
+      <h3 style="margin-top:12px"><span>💬 KI-Tutor</span></h3>
       <div id="lpChat" aria-live="polite"></div>
       <form class="lpEingabe" id="lpForm" autocomplete="off"><input id="lpIn" maxlength="500" placeholder="Frage an den KI-Lehrer …"><button class="mini" type="submit">Senden</button></form>
       <button class="mini" id="lpTipp" style="margin-top:6px">Was soll ich als Nächstes lernen?</button>
@@ -7753,7 +7810,7 @@ body.retro .vlPanelNeu { border-radius: 0; }
 <div class="modal hidden" id="lpModal" role="dialog" aria-modal="true" aria-labelledby="lpTitel">
   <div class="glass">
     <h3 id="lpTitel">🧠 Lernmodus</h3>
-    <p class="muted klein">Adaptiv und endlos: erst eine kurze Einstufung, dann kommen deine Lücken öfter, Gelerntes seltener – und mit wachsendem Abstand zur Wiederholung. Rechts wächst dein Wissensbaum, darunter kommentiert der Coach.</p>
+    <p class="muted klein">Adaptiv und endlos: erst eine kurze Einstufung, dann kommen deine Lücken öfter, Gelerntes seltener – und mit wachsendem Abstand zur Wiederholung. Rechts wächst dein Wissensbaum, darunter kommentiert dein KI-Tutor und führt dich bei Lücken zur passenden Einheit (📖).</p>
     <label class="einst">Lernfeld <select id="lpLf"></select></label>
     <div class="klein"><b>Kapitel</b> (z. B. nur den Stoff bis zum nächsten Test):</div>
     <div id="lpKaps"></div>
@@ -48712,6 +48769,7 @@ GENERATORS.triage = function (level) {
       ton("correct");
       if (x.grp && x.label) x.grp.blatt.push({ label: x.label, wert: loesung(x) });
       meldung("ok", "✓ Richtig", md(x.erkl || ""));
+      if (window.VlFx) window.VlFx.richtig(host.querySelector("#vlUFb .fb"), z.fehl === 0 && z.tipps === 0);
       sperre();
       weiterKnopf(pos >= liste.length - 1 ? "Übung beenden ➔" : "Weiter ➔");
     }
@@ -48719,6 +48777,8 @@ GENERATORS.triage = function (level) {
     function falsch(x, hinweis) {
       z.fehl++;
       ton("wrong");
+      // Effekt nach dem Einblenden der Meldung (siehe meldung() unten), damit der Anker existiert
+      setTimeout(() => { if (window.VlFx) window.VlFx.falsch(host.querySelector("#vlUFb .fb")); }, 0);
       const h = hinweis ? md(hinweis) : "Das stimmt noch nicht.";
       if (z.fehl >= 2) {
         z.fertig = true;
@@ -49018,8 +49078,30 @@ GENERATORS.vlan = function (level) {
   // Eine Stelle zum Aendern, falls eine andere Figur gewuenscht ist. Erlaubt sind
   // die Schluessel aus window.FANCY_A.chars: Monk, Villager, Woman, Knight, Samurai,
   // SorcererBlack, Hunter, Princess, NinjaBlue, NinjaRed, Boy, Cavegirl.
-  const LEHRER_FIGUR = "Monk";
+  // Die Figur wechselt je Einheit (stabil: dieselbe Einheit hat immer dasselbe Gesicht).
+  // Eine Einheit kann sie mit dem Feld "figur" fest vorgeben. Alle Blaetter der Palette
+  // haben dasselbe Raster (4 Spalten x 7 Zeilen), die Lehrer-Animation passt also zu jeder.
+  const LEHRER_POOL = ["Monk", "Samurai", "Woman", "Hunter", "Princess", "SorcererBlack",
+    "NinjaBlue", "Villager", "Knight", "NinjaRed", "Cavegirl", "Boy"];
+  let LEHRER_FIGUR = "Monk";
   const LEHRER_NAME = "Dozent";
+
+  function waehleLehrerFigur(einheit) {
+    const FA = window.FANCY_A;
+    const ok = (k) => !!(FA && FA.chars && FA.chars[k]);
+    if (einheit && einheit.figur && ok(einheit.figur)) return einheit.figur;
+    let h = 0;
+    const s = String((einheit && (einheit.id || einheit.titel)) || "");
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    const pool = LEHRER_POOL.filter(ok);
+    if (!pool.length) return "Monk";
+    // nie dieselbe Figur wie der eigene Avatar des Lernenden
+    let eigene = "";
+    try { eigene = getPlayerAvatarKey(); } catch (_) {}
+    let k = pool[h % pool.length];
+    if (k === eigene && pool.length > 1) k = pool[(h + 1) % pool.length];
+    return k;
+  }
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, (c) =>
@@ -49031,6 +49113,101 @@ GENERATORS.vlan = function (level) {
     if (window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.play === "function") {
       try { window.AUDIO_SYNTH.play(name); } catch (_) {}
     }
+  }
+
+  // Schwung bei richtig/falsch: Konfetti, schwebender Spruch, kleines Wackeln, Tutor-Figur reagiert.
+  // Gemeinsam fuer Probe (hier) und Uebungsblock (f_uebung.js, ruft window.VlFx zur Laufzeit auf).
+  // Alles ist Beiwerk: fehlt window.FX oder will jemand wenig Bewegung, bleibt nur der Ton.
+  const SPRUECHE_RICHTIG = ["Sitzt!", "Genau!", "Stark!", "Sauber!", "Treffer!", "Läuft!"];
+  const SPRUECHE_SERIE = ["Serie!", "Auf Kurs!", "Nicht zu stoppen!"];
+  const SPRUECHE_FALSCH = ["Knapp daneben", "Noch nicht", "Fast", "Nochmal schauen"];
+  let serieRichtig = 0;
+
+  function fxPunkt(anker) {
+    let r = null;
+    try { r = anker && anker.getBoundingClientRect ? anker.getBoundingClientRect() : null; } catch (_) {}
+    if (!r || (!r.width && !r.height)) return { x: window.innerWidth / 2, y: Math.max(120, window.innerHeight / 3) };
+    return { x: r.left + r.width / 2, y: Math.min(Math.max(r.top, 90), window.innerHeight - 90) };
+  }
+
+  function fxFigurReagiert(wurzel, klasse) {
+    const ziel = (wurzel && wurzel.querySelectorAll ? wurzel : document).querySelectorAll(".vlLehrerSprite, .vlSprecher");
+    ziel.forEach((el) => {
+      el.classList.remove("vlJubel", "vlWackel");
+      void el.offsetWidth; // Animation neu starten
+      el.classList.add(klasse);
+      setTimeout(() => el.classList.remove(klasse), 900);
+    });
+  }
+
+  window.VlFx = {
+    richtig: function (anker, beim1) {
+      serieRichtig++;
+      if (reduzierteBewegung()) return;
+      const p = fxPunkt(anker);
+      const serie = serieRichtig >= 3;
+      const liste = serie ? SPRUECHE_SERIE : SPRUECHE_RICHTIG;
+      const text = (serie ? "🔥 " : "✓ ") + liste[Math.floor(Math.random() * liste.length)] + (serie ? " ×" + serieRichtig : "");
+      if (window.FX) {
+        try {
+          window.FX.spawnConfetti(p.x, p.y, serie ? 34 : beim1 ? 22 : 14);
+          window.FX.floatText(text, p.x, p.y - 30, { color: serie ? "#fbbf24" : "#4ade80", isCrit: serie });
+        } catch (_) {}
+      }
+      fxFigurReagiert(anker && anker.closest ? anker.closest(".vlWrap") : null, "vlJubel");
+      if (anker && anker.classList) {
+        anker.classList.remove("vlPop"); void anker.offsetWidth; anker.classList.add("vlPop");
+      }
+    },
+    falsch: function (anker) {
+      serieRichtig = 0;
+      if (reduzierteBewegung()) return;
+      const p = fxPunkt(anker);
+      if (window.FX) {
+        try {
+          window.FX.floatText("✗ " + SPRUECHE_FALSCH[Math.floor(Math.random() * SPRUECHE_FALSCH.length)], p.x, p.y - 30, { color: "#f87171", isCrit: false });
+          window.FX.shake(0.2, 0.12);
+        } catch (_) {}
+      }
+      fxFigurReagiert(anker && anker.closest ? anker.closest(".vlWrap") : null, "vlWackel");
+    },
+    reset: function () { serieRichtig = 0; },
+    // Tutor-Figur fuer den Wissensbaum: je Kapitel stabil dieselbe, gleiche Animation wie in den Einheiten
+    figurHtml: function (schluessel) {
+      const FA = window.FANCY_A;
+      const key = waehleLehrerFigur({ id: String(schluessel || "") });
+      const src = FA && FA.chars ? (FA.chars[key] || FA.chars.Monk || FA.chars.Knight) : "";
+      if (!src) return '<span class="vlLehrerErsatz">🎓</span>';
+      return '<span class="vlLehrerSprite"><span style="background-image: url(\'' + src + '\');"></span></span>';
+    },
+    // Wissensbaum-Themen, zu denen es eine Einheit gibt (Set); baumThemen = alle Themennamen des Baums
+    einheitThemen: function (baumThemen) {
+      const s = new Set();
+      (baumThemen || []).forEach((t) => { if (einheitenZuThema([t]).length) s.add(t); });
+      return s;
+    },
+    // Einheiten, die eines der Wissensbaum-Themen abdecken: [{ id, titel }]
+    einheitenFuer: function (themen) { return einheitenZuThema(themen || []); }
+  };
+
+  // Die Themen in lernziele[].kn sind frei benannt ("Subnetting"), die im Wissensbaum fest
+  // ("Subnetting & Subnetzmaske"). Gleichheit waere zu streng: wir vergleichen Woerter
+  // (gleich, oder eines endet auf das andere, z. B. "Standardgateway" / "Gateway").
+  const KN_WOERTER_AUS = { und: 1, mit: 1, fuer: 1, über: 1, image: 1 };
+  const KN_SYNONYM = { adressierung: "adressen" };
+  function knWoerter(s) {
+    return String(s || "").toLowerCase().split(/[^a-zäöüß0-9]+/)
+      .map((w) => KN_SYNONYM[w] || w).filter((w) => w.length >= 4 && !KN_WOERTER_AUS[w]);
+  }
+  function knPasst(a, b) {
+    const wa = knWoerter(a), wb = knWoerter(b);
+    return wa.some((x) => wb.some((y) => x === y || (y.length >= 6 && x.endsWith(y)) || (x.length >= 6 && y.endsWith(x))));
+  }
+  function einheitenZuThema(themen) {
+    const alle = window.LERNEINHEITEN || {};
+    return Object.keys(alle).map((id) => ({ id, e: alle[id] }))
+      .filter((x) => (x.e.lernziele || []).some((l) => l.kn && themen.some((t) => t === l.kn || knPasst(t, l.kn))))
+      .map((x) => ({ id: x.id, titel: x.e.titel || x.id }));
   }
 
   // Freitext vergleichen: Gross/Klein, Leerzeichen und typische Schreibweisen egal
@@ -49286,6 +49463,8 @@ GENERATORS.vlan = function (level) {
     const alle = window.LERNEINHEITEN || {};
     E = alle[einheitId] || alle[Object.keys(alle)[0]];
     if (!E) return;
+    LEHRER_FIGUR = waehleLehrerFigur(E);
+    if (window.VlFx) window.VlFx.reset();
 
     phaseIdx = 0; schrittIdx = 0; versuche = 0; testIdx = 0; testTreffer = 0;
     ergebnis = {}; freigegeben = []; letztesDiagramm = null;
@@ -49537,15 +49716,11 @@ GENERATORS.vlan = function (level) {
     return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }
 
-  // Am Handy startet die Spalte eingeklappt (sie stuende sonst ueber dem Unterricht), am Rechner offen.
-  // Die letzte Wahl des Lernenden gilt, sofern der Browser sie speichern darf.
+  // Die Spalte startet in JEDER Einheit eingeklappt (einheitliches Bild, Buehne hat den vollen Platz).
+  // Aufklappen geht per Knopf; ein gemerkter Wert aus frueheren Versionen wird bewusst ignoriert,
+  // sonst startete die eine Einheit offen und die andere zu (Anzeigefehler vom 14.10.2026).
   function panelStartZu() {
-    try {
-      const s = localStorage.getItem(PANEL_KEY);
-      if (s === "zu") return true;
-      if (s === "auf") return false;
-    } catch (e) {}
-    return !!(window.matchMedia && window.matchMedia("(max-width: 920px)").matches);
+    return true;
   }
 
   function panelIstZu() {
@@ -49918,12 +50093,14 @@ GENERATORS.vlan = function (level) {
         </div>`);
       sperreProbe();
       $v("vlWeiter").onclick = () => nachProbe(p);
+      if (window.VlFx) window.VlFx.richtig(k.querySelector(".vlRueck.richtig"), versuche === 0);
       return;
     }
 
     ton("wrong");
     versuche++;
     const k = $v("vlKarte");
+    setTimeout(() => { if (window.VlFx) window.VlFx.falsch(k.querySelector(".vlRueck.falsch")); }, 0);
     if (versuche === 1) {
       k.insertAdjacentHTML("beforeend", `
         <div class="vlRueck falsch">
@@ -52010,9 +52187,11 @@ function lpRegelKommentar(q, t, vorher, nachher, urteil) {
   }
   const gs = $("lpGuardianSpruch");
   if (gs) {
-    if (urteil === "richtig") gs.innerHTML = `Argh! Treffer bei <b>${esc(kn)}</b>! Aber ich habe noch schwerere Fragen!`;
-    else if (urteil === "falsch" || urteil === "weissnicht") gs.innerHTML = `Harhar! Bei <b>${esc(kn)}</b> habe ich dich erwischt! Merk dir die Erklärung gut!`;
-    if (vorher !== nachher && nachher === "sitzt") gs.innerHTML = `Donnerwetter! <b>${esc(kn)}</b> sitzt jetzt felsenfest! Respekt!`;
+    if (urteil === "richtig") gs.innerHTML = `Richtig bei <b>${esc(kn)}</b>. Als Nächstes wird es etwas anspruchsvoller.`;
+    else if (urteil === "falsch" || urteil === "weissnicht") gs.innerHTML = `Bei <b>${esc(kn)}</b> hakt es noch. Lies die Erklärung, ich frage gleich nochmal anders.`;
+    if (vorher !== nachher && nachher === "sitzt") gs.innerHTML = `<b>${esc(kn)}</b> sitzt jetzt. Sauber gemacht.`;
+    // Tutor reagiert wie in den Einheiten
+    if (window.VlFx) { if (urteil === "richtig") window.VlFx.richtig(gs, false); else if (urteil === "falsch" || urteil === "weissnicht") window.VlFx.falsch(gs); }
   }
 }
 function lpBilanzText() {
@@ -52030,7 +52209,7 @@ function lpCoach(von, html, warnung) {
 }
 function lpChatZeigen() {
   const log = $("lpChat"); if (!log || !S || !S.lp) return;
-  const wer = { du: "Du", ki: "✨ KI-Lehrer", coach: "🧭 Coach" };
+  const wer = { du: "Du", ki: "✨ KI-Lehrer", coach: "🎓 KI-Tutor" };
   log.innerHTML = S.lp.chat.slice(-40).map((c) => `<div class="lpMsg ${c.von}${c.warnung ? " warn" : ""}"><b>${wer[c.von]}</b> ` +
     (c.von === "du" ? esc(c.html) : String(c.html).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")) + `</div>`).join("");
   log.scrollTop = log.scrollHeight;
@@ -52079,6 +52258,7 @@ function lpBaum(aktuell) {
   const breite = (t) => Math.max(t.length, 3);                                   // kleine Kapitel bekommen Mindestplatz
   const gesamt = themenJeKap.reduce((a, [, t]) => a + breite(t), 0) || 1;
   let winkel = -Math.PI / 2, svg = "", knoten = "";
+  const mitEinheit = (window.VlFx && window.VlFx.einheitThemen) ? window.VlFx.einheitThemen(themenJeKap.flatMap(([, t]) => t)) : new Set();   // Themen mit KI-Tutor-Einheit
   const pos = (r, w) => [C + r * Math.cos(w), C + r * Math.sin(w)];
   const aktKap = aktuell ? (L.pool.find((q) => q.kn === aktuell) || {}).kap : null;
   for (const [k, themen] of themenJeKap) {
@@ -52092,8 +52272,9 @@ function lpBaum(aktuell) {
       const w = winkel + sektor * (i + .5) / themen.length, [tx, ty] = pos(r2, w), t = st.themen[kn] || {}, s = lpStatus(t);
       const rad = 4 + Math.min(t.n || 0, 12) * .35, akt = kn === aktuell;
       svg += `<line x1="${kx}" y1="${ky}" x2="${tx}" y2="${ty}" class="lpKante"/>`;
-      knoten += `<g class="lpThema${akt ? " akt" : ""}" data-kn="${esc(kn)}" tabindex="0"><circle cx="${tx}" cy="${ty}" r="${rad + (akt ? 3 : 0)}" fill="${LP_FARBE[s]}"/>` +
-        `<title>${esc(kn)} · ${LP_NAME[s]}${t.n ? ` · ${Math.round(t.m * 100)} % · ${t.n} Antworten` : ""} (Klick: 3 Fragen dazu)</title></g>`;
+      const ring = mitEinheit.has(kn) ? `<circle cx="${tx}" cy="${ty}" r="${rad + 4}" class="lpEinheitRing"/>` : "";
+      knoten += `<g class="lpThema${akt ? " akt" : ""}" data-kn="${esc(kn)}" tabindex="0">${ring}<circle cx="${tx}" cy="${ty}" r="${rad + (akt ? 3 : 0)}" fill="${LP_FARBE[s]}"/>` +
+        `<title>${esc(kn)} · ${LP_NAME[s]}${t.n ? ` · ${Math.round(t.m * 100)} % · ${t.n} Antworten` : ""}${mitEinheit.has(kn) ? " · Einheit vorhanden" : ""} (Klick: 3 Fragen dazu)</title></g>`;
     });
     knoten += `<g class="lpKap${k === aktKap ? " akt" : ""}"><circle cx="${kx}" cy="${ky}" r="14" fill="${LP_FARBE[ks]}"/><text x="${kx}" y="${ky + 4}" text-anchor="middle">${esc(k)}</text>` +
       `<title>${esc(k)} ${esc((BAUM.kap[k] || {}).titel || "")}${km != null ? ` · Ø ${Math.round(km * 100)} %` : ""}</title></g>`;
@@ -52107,50 +52288,52 @@ function lpBaum(aktuell) {
   const k = aktKap || kaps[0];
   const liste = (themenJeKap.find(([x]) => x === k) || [k, []])[1];
 
-  // Wächter-Monster für das aktive Kapitel
-  const b = (typeof kBossFuer === "function") ? kBossFuer((BAUM.kap[k] || {}).titel || k) : { id: "GiantBlueSamurai", name: "Kapitel-Wächter", icon: "⚔️" };
-  const sprHtml = (typeof kBossSprHtml === "function") ? kBossSprHtml(b.id, 2.5) : `<span class="lvEmoji" style="font-size:28px">${b.icon}</span>`;
+  // KI-Tutor fürs aktive Kapitel: dieselbe Figur-Auswahl wie in den Einheiten, Einheiten zum Kapitel als Einstieg
+  const sprHtml = (window.VlFx && window.VlFx.figurHtml) ? window.VlFx.figurHtml("kap" + k) : `<span class="lvEmoji" style="font-size:28px">🎓</span>`;
+  const einheiten = (window.VlFx && window.VlFx.einheitenFuer) ? window.VlFx.einheitenFuer(liste) : [];
   const luecken = liste.filter((kn) => lpStatus(st.themen[kn]) === "luecke");
   const festigen = liste.filter((kn) => lpStatus(st.themen[kn]) === "festigen");
   const sitzt = liste.filter((kn) => lpStatus(st.themen[kn]) === "sitzt");
 
   let bossSpruch = "";
   if (luecken.length > 0) {
-    bossSpruch = `Ha! Bei <b>${esc(luecken[0])}</b> wackeln deine Knie (${luecken.length} Lücke${luecken.length > 1 ? "n" : ""})! Glaubst du, du kannst mich in der Boss-Arena besiegen?`;
+    bossSpruch = `Bei <b>${esc(luecken[0])}</b> sehe ich noch eine Lücke (${luecken.length} offen in diesem Kapitel). ` + (einheiten.length ? "Am besten gehst du dazu die passende Einheit durch." : "Ich frage dich dazu mehrmals, in anderen Worten.");
   } else if (festigen.length > 0) {
-    bossSpruch = `Du lernst fleißig, aber meisterst du Kapitel <b>${esc(k)}</b> auch unter Zeitdruck?`;
+    bossSpruch = `Kapitel <b>${esc(k)}</b> läuft gut, ist aber noch nicht fest. Ein paar Wiederholungen mit wachsendem Abstand, dann sitzt es.`;
   } else if (sitzt.length === liste.length && liste.length > 0) {
-    bossSpruch = `Respekt, Anwärter! Kapitel <b>${esc(k)}</b> ist bezwungen! Wagst du das 1v1-Online-Duell oder den Klassen-Raid?`;
+    bossSpruch = `Kapitel <b>${esc(k)}</b> sitzt. Teste dich im Duell oder im Klassen-Raid, oder nimm dir das nächste Kapitel vor.`;
   } else {
-    bossSpruch = `Ich bin der Hüter von Kapitel <b>${esc(k)}</b>. Trainiere fleißig und stelle dich meiner Prüfung!`;
+    bossSpruch = `Ich bin dein KI-Tutor für Kapitel <b>${esc(k)}</b>. Eine kurze Einstufung zeigt, wo du stehst.`;
   }
 
   const gw = $("lpGuardianWrap");
   if (gw) {
     gw.innerHTML = `
-      <div class="lpGuardianBox" id="lpGuardianBox">
-        <div class="lpGuardianTop">
-          <div class="lpGuardianVisual">${sprHtml}</div>
-          <div class="lpGuardianInfo">
-            <div class="lpGuardianTitel"><span class="lpBossIcon">${b.icon}</span><b>${esc(b.name)}</b></div>
-            <div class="muted klein">Wächter Kapitel ${esc(k)} · ${esc((BAUM.kap[k] || {}).titel || "")}</div>
+      <div class="lpTutorBox" id="lpGuardianBox">
+        <div class="lpTutorTop">
+          <div class="lpTutorFigur">${sprHtml}</div>
+          <div class="lpTutorInfo">
+            <div class="lpTutorName"><b>KI-Tutor</b></div>
+            <div class="muted klein">Kapitel ${esc(k)} · ${esc((BAUM.kap[k] || {}).titel || "")}</div>
           </div>
         </div>
-        <div class="lpGuardianBlase">
+        <div class="lpTutorBlase">
           <div class="lpGuardianText" id="lpGuardianSpruch">${bossSpruch}</div>
         </div>
+        <div class="lpTutorEinheiten">${einheiten.slice(0, 4).map((e) => `<button type="button" class="mini primary lpBtnEinheit" data-einheit="${esc(e.id)}" title="Einheit starten">📖 ${esc(e.titel)}</button>`).join("")}</div>
         <div class="lpGuardianActions">
-          <button class="mini primary lpBtnArena" id="lpBtnArena" title="Fordere das Wächter-Monster im passenden Lernkurs heraus">⚔️ Boss-Arena (Kurs)</button>
           <button class="mini lpBtnDuell" id="lpBtnDuell" title="1v1 Online-Duell gegen Mitschüler per QR-Code">⚡ 1v1 Duell</button>
           <button class="mini lpBtnRaid" id="lpBtnRaid" title="Klassen-Raid mit Beamer per QR-Code">📡 Klassen-Raid</button>
         </div>
       </div>`;
 
     const kPack = (typeof kursFuerKapitel === "function") ? kursFuerKapitel(k) : null;
-    const btnArena = $("lpBtnArena");
-    if (btnArena) btnArena.onclick = () => {
-      if (kPack && typeof kursStart === "function") kursStart(kPack);
-    };
+    // Einheit aus dem Wissensbaum starten: Lernmodus sauber verlassen, dann wie aus dem Menü öffnen
+    gw.querySelectorAll(".lpBtnEinheit").forEach((btn) => btn.onclick = () => {
+      if (typeof window.startVorlesung !== "function") return;
+      clearInterval(timer); S = null; document.body.classList.remove("lp");
+      window.startVorlesung(btn.dataset.einheit);
+    });
     const btnDuell = $("lpBtnDuell");
     if (btnDuell) btnDuell.onclick = () => {
       if (kPack && window.LIVE_RUNDE) window.LIVE_RUNDE.hostStartKurs({ spielmodus: "duell" }, kPack.id, kPack.stationen.map((_, i) => i));
@@ -52163,13 +52346,13 @@ function lpBaum(aktuell) {
 
   $("lpKapitel").innerHTML = `<div class="lpKopf">${esc(k)} ${esc((BAUM.kap[k] || {}).titel || "")}</div>` + liste.map((kn) => {
     const t = st.themen[kn] || {}, s = lpStatus(t), p = t.n ? Math.round(t.m * 100) : 0;
-    return `<div class="lpZeile${kn === aktuell ? " akt" : ""}" data-kn="${esc(kn)}"><span>${esc(kn)}</span><span class="lpBalken"><i style="width:${p}%;background:${LP_FARBE[s]}"></i></span><span class="muted">${t.n ? p + " %" : "–"}</span></div>`;
+    return `<div class="lpZeile${kn === aktuell ? " akt" : ""}" data-kn="${esc(kn)}"><span>${mitEinheit.has(kn) ? "📖 " : ""}${esc(kn)}</span><span class="lpBalken"><i style="width:${p}%;background:${LP_FARBE[s]}"></i></span><span class="muted">${t.n ? p + " %" : "–"}</span></div>`;
   }).join("");
   document.querySelectorAll("#lpSvg .lpThema, #lpKapitel .lpZeile").forEach((el) => el.onclick = () => {
     L.fokus = { kn: el.dataset.kn, rest: 3 }; L.einst = [];
     lpCoach("coach", `🎯 Die nächsten 3 Fragen kommen zu **${esc(el.dataset.kn)}**.`);
     const gs = $("lpGuardianSpruch");
-    if (gs) gs.innerHTML = `Du wagst es, 🎯 <b>${esc(el.dataset.kn)}</b> zu trainieren? Zeig mir, was du drauf hast!`;
+    if (gs) gs.innerHTML = `🎯 Gut, wir nehmen uns <b>${esc(el.dataset.kn)}</b> vor. Drei Fragen dazu.`;
   });
   $("lpFortschritt").textContent = L.einst.length ? `Einstufung ${L.einstGesamt - L.einst.length} / ${L.einstGesamt}` :
     `${L.n - L.einstGesamt} Fragen` + (L.zielN ? ` / Ziel ${L.zielN}` : L.zielMin ? ` · ${Math.round((Date.now() - (L.startUeben || Date.now())) / 6e4)} / ${L.zielMin} Min.` : "");
@@ -55168,8 +55351,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       id: "lern",
       titel: "🌳 WISSENSBAUM",
       kurz: "Wissensbaum",
-      desc: "Adaptives Training gegen Wissenslücken mit Wächter-Monstern",
-      wichtel: "Der Wissensbaum findet deine Lücken und fordert Wächter-Monster heraus!",
+      desc: "Dein Lernstand als Baum: der KI-Tutor findet Lücken und führt dich zur passenden Einheit",
+      wichtel: "Der Wissensbaum zeigt dir, wo es hakt – dein KI-Tutor hilft dir gezielt weiter!",
       icon: A.item ? A.item["ScrollIce"] : null
     },
     {
