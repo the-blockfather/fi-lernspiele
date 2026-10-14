@@ -12838,6 +12838,3502 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_CIDR.id]: LF03_CIDR });
 })();
 
+/* ---- f_einheiten_geraete1.js ---- */
+//
+// Einheit 16: Aktive Geraete, Netzwerkkarte und Hub (aus dem Kurs "Geraete & Routing", Stationen 0 und 1). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_GE1 = {
+    "id": "lf03-geraete-aktiv-hub",
+    "reihe": 16,
+    "titel": "Aktive Geräte, Netzwerkkarte und Hub",
+    "untertitel": "was jedes Gerät auswertet, bevor es weiterleitet, und warum der Hub nichts kann",
+    "lernfeld": "LF03",
+    "dauer_min": 25,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 339–341 (aktive Geräte, NIC, Repeater, Hub)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Aktive und passive Bauteile trennen und die Geräte-Treppe nennen",
+        "kn": "Netzwerkgeräte"
+      },
+      {
+        "id": "lz2",
+        "text": "Aufbau und Aufgaben der Netzwerkkarte beschreiben",
+        "kn": "Netzwerkgeräte"
+      },
+      {
+        "id": "lz3",
+        "text": "Hub und Repeater von Bridge und Switch abgrenzen",
+        "kn": "Netzwerkgeräte"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Hub = nichts, Switch = MAC, Router = IP-Netz",
+        "knoten": [
+          {
+            "id": "h",
+            "x": 110,
+            "y": 110,
+            "t": "Hub",
+            "sub": "Schicht 1: verstärkt",
+            "w": 170
+          },
+          {
+            "id": "s",
+            "x": 320,
+            "y": 110,
+            "t": "Switch",
+            "sub": "Schicht 2: MAC",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "r",
+            "x": 530,
+            "y": 110,
+            "t": "Router",
+            "sub": "Schicht 3: IP-Netz",
+            "w": 170,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "h",
+            "bis": "s"
+          },
+          {
+            "von": "s",
+            "bis": "r"
+          }
+        ]
+      },
+      "treppe": {
+        "art": "netz",
+        "titel": "Hub = nichts, Switch = MAC, Router = IP-Netz",
+        "knoten": [
+          {
+            "id": "h",
+            "x": 110,
+            "y": 110,
+            "t": "Hub",
+            "sub": "Schicht 1: verstärkt",
+            "w": 170
+          },
+          {
+            "id": "s",
+            "x": 320,
+            "y": 110,
+            "t": "Switch",
+            "sub": "Schicht 2: MAC",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "r",
+            "x": 530,
+            "y": 110,
+            "t": "Router",
+            "sub": "Schicht 3: IP-Netz",
+            "w": 170,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "h",
+            "bis": "s"
+          },
+          {
+            "von": "s",
+            "bis": "r"
+          }
+        ]
+      },
+      "akpa": {
+        "art": "netz",
+        "titel": "Aktiv bearbeitet Daten, passiv leitet nur",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 170,
+            "y": 110,
+            "t": "Aktiv",
+            "sub": "NIC, Hub, Switch, Router, AP",
+            "w": 270,
+            "rolle": "gelb"
+          },
+          {
+            "id": "p",
+            "x": 490,
+            "y": 110,
+            "t": "Passiv",
+            "sub": "Kabel, Dose, Patchfeld",
+            "w": 250
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "p",
+            "t": "braucht Strom / nicht"
+          }
+        ]
+      },
+      "nic": {
+        "art": "netz",
+        "titel": "Die Netzwerkkarte: vier Aufgaben",
+        "knoten": [
+          {
+            "id": "n0",
+            "x": 75,
+            "y": 110,
+            "t": "Netzanpassung",
+            "sub": "Zugriffssteuerung",
+            "w": 130
+          },
+          {
+            "id": "n1",
+            "x": 225,
+            "y": 110,
+            "t": "Aufbereitung",
+            "sub": "Filter",
+            "w": 130
+          },
+          {
+            "id": "n2",
+            "x": 375,
+            "y": 110,
+            "t": "Puffer",
+            "sub": "Senden, Empfangen",
+            "w": 130
+          },
+          {
+            "id": "n3",
+            "x": 525,
+            "y": 110,
+            "t": "Betriebssystem",
+            "sub": "Übergabe",
+            "w": 130
+          }
+        ],
+        "links": [
+          {
+            "von": "n0",
+            "bis": "n1"
+          },
+          {
+            "von": "n1",
+            "bis": "n2"
+          },
+          {
+            "von": "n2",
+            "bis": "n3"
+          }
+        ]
+      },
+      "hub": {
+        "art": "netz",
+        "titel": "Hub: Signal an einem Port, Verstärkung an alle anderen",
+        "knoten": [
+          {
+            "id": "h",
+            "x": 320,
+            "y": 110,
+            "t": "Hub",
+            "sub": "Schicht 1",
+            "w": 110,
+            "rolle": "gelb"
+          },
+          {
+            "id": "a",
+            "x": 110,
+            "y": 60,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "b",
+            "x": 110,
+            "y": 160,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "c",
+            "x": 530,
+            "y": 60,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "d",
+            "x": 530,
+            "y": 160,
+            "t": "PC",
+            "w": 64
+          }
+        ],
+        "links": [
+          {
+            "von": "h",
+            "bis": "a"
+          },
+          {
+            "von": "h",
+            "bis": "b"
+          },
+          {
+            "von": "h",
+            "bis": "c"
+          },
+          {
+            "von": "h",
+            "bis": "d"
+          }
+        ]
+      },
+      "rep": {
+        "art": "netz",
+        "titel": "Repeater: ein Hub mit zwei Anschlüssen",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 110,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "r",
+            "x": 320,
+            "y": 110,
+            "t": "Repeater",
+            "sub": "verstärkt",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "b",
+            "x": 530,
+            "y": 110,
+            "t": "PC",
+            "w": 64
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "r"
+          },
+          {
+            "von": "r",
+            "bis": "b"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Auf welcher OSI-Schicht arbeitet ein Hub?",
+        "optionen": [
+          {
+            "text": "Schicht 1",
+            "richtig": true
+          },
+          {
+            "text": "Schicht 2",
+            "richtig": false
+          },
+          {
+            "text": "Schicht 3",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Welche Adresse wertet ein Switch aus?",
+        "optionen": [
+          {
+            "text": "Die MAC-Adresse",
+            "richtig": true
+          },
+          {
+            "text": "Die IP-Adresse",
+            "richtig": false
+          },
+          {
+            "text": "Den Port",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Der Gerätepark",
+        "kurz": "aktiv und passiv, die Treppe aus drei Stufen",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Im Verteilerschrank liegen Patchfeld, Switch und Router. Nicht alles davon braucht Strom.",
+          "frage": "Was ist aktiv, und was schaut sich welches Gerät an?"
+        },
+        "aufbau": [
+          {
+            "text": "Aktiv sind Geräte, die Signale oder Daten bearbeiten und Strom brauchen. Passiv sind Leitungen, Dosen und Patchfelder, sie leiten nur.",
+            "diagramm": "akpa"
+          },
+          {
+            "text": "Die Frage hinter jedem Gerät: Was schaut es sich an, bevor es weiterleitet?",
+            "diagramm": "treppe"
+          },
+          {
+            "text": "Hub und Repeater (Schicht 1) werten keine Adresse aus, sie verstärken nur. Bridge und Switch (Schicht 2) lesen die MAC. Der Router (Schicht 3) liest den Netzanteil der IP.",
+            "diagramm": "treppe"
+          },
+          {
+            "text": "Die Schichtnummer folgt dem OSI-Modell. Bei TCP/IP heißt die Router-Schicht Internet und ist dort Schicht 2.",
+            "diagramm": "treppe"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Gerät wertet den Netzanteil der IP-Adresse aus. Welches?",
+          "optionen": [
+            {
+              "text": "Router",
+              "richtig": true,
+              "korrektur": "Richtig: Router arbeiten auf Schicht 3 mit dem Netzanteil."
+            },
+            {
+              "text": "Switch",
+              "richtig": false,
+              "korrektur": "Der Switch liest die MAC-Adresse."
+            },
+            {
+              "text": "Hub",
+              "richtig": false,
+              "korrektur": "Der Hub liest keine Adresse."
+            }
+          ],
+          "loesung": "Router.",
+          "beleg": {
+            "seite": "339"
+          }
+        },
+        "wiederholung": {
+          "text": "Hub = nichts, Switch = MAC, Router = IP-Netz. Aktiv = bearbeitet Daten.",
+          "diagramm": "treppe"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Aktiv oder passiv?",
+            "paare": [
+              [
+                "Switch",
+                "aktiv"
+              ],
+              [
+                "Patchfeld",
+                "passiv"
+              ],
+              [
+                "Router",
+                "aktiv"
+              ],
+              [
+                "Netzwerkdose",
+                "passiv"
+              ],
+              [
+                "Access Point",
+                "aktiv"
+              ],
+              [
+                "Twisted-Pair-Kabel",
+                "passiv"
+              ]
+            ],
+            "tipps": [
+              "Strom und Datenverarbeitung heißt aktiv.",
+              "Patchfelder und Dosen verbinden nur Leitungen."
+            ],
+            "erkl": "Aktiv sind Geräte mit eigener Elektronik (Switch, Router, Access Point). Kabel, Dosen und Patchfelder sind passiv."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Auf welcher OSI-Schicht arbeitet das Gerät?",
+            "paare": [
+              [
+                "Hub",
+                "Schicht 1"
+              ],
+              [
+                "Repeater",
+                "Schicht 1"
+              ],
+              [
+                "Switch",
+                "Schicht 2"
+              ],
+              [
+                "Bridge",
+                "Schicht 2"
+              ],
+              [
+                "Router",
+                "Schicht 3"
+              ]
+            ],
+            "tipps": [
+              "Je mehr das Gerät von der Adresse auswertet, desto höher die Schicht.",
+              "Router = IP = Schicht 3."
+            ],
+            "erkl": "Hub und Repeater arbeiten auf Schicht 1, Switch und Bridge auf Schicht 2, der Router auf Schicht 3."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Adresse wertet das Gerät aus?",
+            "paare": [
+              [
+                "Hub",
+                "keine Adresse"
+              ],
+              [
+                "Switch",
+                "MAC-Adresse"
+              ],
+              [
+                "Router",
+                "Netzanteil der IP-Adresse"
+              ],
+              [
+                "Bridge",
+                "MAC-Adresse"
+              ],
+              [
+                "Repeater",
+                "keine Adresse"
+              ]
+            ],
+            "tipps": [
+              "Schicht 1 kennt keine Adressen.",
+              "Schicht 2 = MAC, Schicht 3 = IP."
+            ],
+            "erkl": "Hub/Repeater: keine. Bridge/Switch: MAC. Router: Netzanteil der IP-Adresse."
+          },
+          {
+            "t": "gen",
+            "gen": "schichtProto",
+            "stufen": [
+              1,
+              1
+            ],
+            "modus": "schicht"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Aussage über den **Access Point** stimmt?",
+            "optionen": [
+              "Er bildet den Mittelpunkt einer Funkzelle und bindet Mobilgeräte an das LAN an",
+              "Er verbindet zwei Netze und wertet IP-Adressen aus",
+              "Er verstärkt Signale auf Schicht 1 ohne Funk",
+              "Er ersetzt den Switch im Verteiler"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Mobilgeräte (Laptops, Smartphones) melden sich per Funk an.",
+              "Ein Hotspot ist dasselbe Prinzip."
+            ],
+            "erkl": "Ein Access Point (auch Hotspot) ist die Basisstation einer Funkzelle. Mobilgeräte werden dadurch Teil des LANs."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Aktiv = bearbeitet Daten, passiv = Kabel, Dose, Patchfeld. Hub nichts, Switch MAC, Router IP-Netz.",
+          "handout": "**Geräte:** aktiv (NIC, Repeater, Hub, Bridge, Switch, Router, AP) gegen passiv (Kabel, Dose, Patchfeld). **Treppe:** Hub/Repeater Schicht 1 (keine Adresse) · Bridge/Switch Schicht 2 (MAC) · Router Schicht 3 (Netzanteil der IP). Schichtzählung nach OSI."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Die Netzwerkkarte",
+        "kurz": "Anschluss, MAC-Adresse und vier Baugruppen",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Jeder Rechner, Drucker und jedes IP-Telefon hat eine Netzwerkkarte.",
+          "frage": "Was steckt in ihr, und was kommt von ihr?"
+        },
+        "aufbau": [
+          {
+            "text": "Die Netzwerkkarte (NIC) hängt das Gerät ans Medium und trägt die MAC-Adresse.",
+            "diagramm": "nic"
+          },
+          {
+            "text": "Netzanpassung mit Zugriffssteuerung passt die Signale ans Medium an und regelt, wann gesendet werden darf.",
+            "diagramm": "nic"
+          },
+          {
+            "text": "Datenaufbereitung mit Filter nimmt nur Frames an, die für die Karte bestimmt sind. Dazu kommen Sende- und Empfangspuffer.",
+            "diagramm": "nic"
+          },
+          {
+            "text": "Zuletzt übergibt die Karte die Daten an das Betriebssystem. Eine MAC gehört der Karte, nicht dem Rechner.",
+            "diagramm": "nic"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wer bekommt die MAC-Adresse: die Karte oder der Rechner?",
+          "optionen": [
+            {
+              "text": "Die Karte, jede Karte hat ihre eigene",
+              "richtig": true,
+              "korrektur": "Richtig: Ein Notebook mit LAN- und WLAN-Karte hat zwei MACs."
+            },
+            {
+              "text": "Der Rechner als Ganzes, egal wie viele Karten",
+              "richtig": false,
+              "korrektur": "Es zählt das Interface, also die Karte."
+            },
+            {
+              "text": "Das Betriebssystem",
+              "richtig": false,
+              "korrektur": "Das Betriebssystem übernimmt die MAC nur von der Hardware."
+            }
+          ],
+          "loesung": "Die Karte.",
+          "beleg": {
+            "seite": "339"
+          }
+        },
+        "wiederholung": {
+          "text": "Die NIC gibt dem Gerät Anschluss und MAC und puffert die Daten.",
+          "diagramm": "nic"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche Baugruppe der NIC macht was?",
+            "paare": [
+              [
+                "Netzanpassung mit Zugriffssteuerung",
+                "Signal ans Medium anpassen, Senden regeln"
+              ],
+              [
+                "Datenaufbereitung mit Filter",
+                "Nur Frames für diese Karte durchlassen"
+              ],
+              [
+                "Sende- und Empfangspuffer",
+                "Daten zwischenspeichern"
+              ],
+              [
+                "MAC-Adresse",
+                "Eindeutige Kennung der Karte"
+              ]
+            ],
+            "tipps": [
+              "Der Filter sortiert aus, was nicht für die Karte ist.",
+              "Der Puffer ist der Zwischenspeicher zum Betriebssystem."
+            ],
+            "erkl": "Die NIC passt an das Medium an, filtert, puffert und trägt die MAC-Adresse. Über die Puffer tauscht sie Daten mit dem Betriebssystem aus."
+          },
+          {
+            "t": "wahl",
+            "f": "Wer **bekommt die MAC-Adresse** zugewiesen: die Karte oder der Rechner?",
+            "optionen": [
+              "Der Rechner als Ganzes, egal wie viele Karten er hat",
+              "Die Netzwerkkarte (das Interface)",
+              "Der Switch-Port, an dem das Gerät hängt",
+              "Die IP-Adresse bestimmt die MAC-Adresse"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ein Rechner mit WLAN und LAN hat zwei MAC-Adressen."
+            ],
+            "erkl": "Die MAC-Adresse gehört zum **Interface** (der Karte). Ein Rechner mit zwei Karten hat zwei MAC-Adressen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Die NIC gibt dem Gerät Anschluss und MAC-Adresse und puffert die Daten.",
+          "handout": "**NIC:** hängt das Gerät ans Medium, trägt die MAC. Vier Aufgaben: Netzanpassung mit Zugriffssteuerung · Datenaufbereitung mit Filter · Sende-/Empfangspuffer · Übergabe an das Betriebssystem."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Repeater und Hub",
+        "kurz": "ein Verstärker ohne Adresslesen",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Ein Hub hat vier Anschlüsse, und jeder Rechner hört alles mit.",
+          "frage": "Warum ist das so?"
+        },
+        "aufbau": [
+          {
+            "text": "Ein Hub ist ein bidirektionaler Verstärker: Aus einem schwachen Signal macht er wieder eines mit vollem Pegel.",
+            "diagramm": "hub"
+          },
+          {
+            "text": "Er arbeitet auf Schicht 1 und wertet keine Adressen aus. Darum gibt er das Signal an alle anderen Anschlüsse weiter.",
+            "diagramm": "hub"
+          },
+          {
+            "text": "Ein Hub mit nur zwei Anschlüssen heißt Repeater.",
+            "diagramm": "rep"
+          },
+          {
+            "text": "Der Name kommt von Nabe: In der Mitte eines Sterns laufen die Leitungen wie Radspeichen auseinander.",
+            "diagramm": "hub"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Hub bekommt ein Signal an Port 1. Was kann er nicht?",
+          "optionen": [
+            {
+              "text": "Gezielt nur an den Zielrechner senden",
+              "richtig": true,
+              "korrektur": "Richtig: Ohne Adressen weiß er nicht, wo der Zielrechner hängt."
+            },
+            {
+              "text": "Das Signal verstärken",
+              "richtig": false,
+              "korrektur": "Genau das kann er."
+            },
+            {
+              "text": "An mehrere Leitungen weitergeben",
+              "richtig": false,
+              "korrektur": "Das tut er, an alle anderen Ports."
+            }
+          ],
+          "loesung": "Gezieltes Senden geht nicht.",
+          "beleg": {
+            "seite": "340"
+          }
+        },
+        "wiederholung": {
+          "text": "Hub = Verstärker auf Schicht 1, ohne Adressen. Zwei Anschlüsse = Repeater.",
+          "diagramm": "hub"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Ein Hub mit **genau zwei** Anschlüssen heißt …",
+            "optionen": [
+              "Bridge",
+              "Switch",
+              "Repeater",
+              "Access Point"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Der Name sagt, dass er das Signal wiederholt."
+            ],
+            "erkl": "Hub mit zwei Anschlüssen = **Repeater**."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Hub bekommt ein Signal an Port 1. Was kann er **nicht**?",
+            "optionen": [
+              "Das Signal verstärken",
+              "An mehrere Leitungen anschließen",
+              "In einer Sternverkabelung arbeiten",
+              "Entscheiden, an welchen Port das Signal gezielt gehört"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Er kennt weder MAC noch IP."
+            ],
+            "erkl": "Ein Hub wertet keine Adressen aus. Er kann also nicht gezielt weiterleiten und gibt das verstärkte Signal an alle anderen Anschlüsse weiter (Praxis, steht so nicht im Buch)."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Hub arbeitet auf Schicht 2 des OSI-Modells.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Schicht 1 verstärkt Signale, Schicht 2 wertet MAC aus."
+            ],
+            "erkl": "Hub und Repeater arbeiten auf **Schicht 1** (Bitübertragung)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Hub = Verstärker auf Schicht 1, ohne Adressen. Zwei Anschlüsse = Repeater.",
+          "handout": "**Hub:** bidirektionaler Verstärker, Schicht 1, wertet keine Adressen aus, gibt an alle anderen Ports weiter. Mit zwei Anschlüssen = **Repeater**."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Was gehört zur passiven Verkabelung?",
+        "optionen": [
+          {
+            "text": "Das Patchfeld",
+            "richtig": true
+          },
+          {
+            "text": "Der Switch",
+            "richtig": false
+          },
+          {
+            "text": "Der Router",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Adresse hat die Netzwerkkarte?",
+        "optionen": [
+          {
+            "text": "Die MAC-Adresse",
+            "richtig": true
+          },
+          {
+            "text": "Die IP-Adresse",
+            "richtig": false
+          },
+          {
+            "text": "Die Portnummer",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wie heißt ein Hub mit zwei Anschlüssen?",
+        "optionen": [
+          {
+            "text": "Repeater",
+            "richtig": true
+          },
+          {
+            "text": "Bridge",
+            "richtig": false
+          },
+          {
+            "text": "Switch",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Was kann ein Hub nicht?",
+        "optionen": [
+          {
+            "text": "Adressen auswerten",
+            "richtig": true
+          },
+          {
+            "text": "Signale verstärken",
+            "richtig": false
+          },
+          {
+            "text": "Daten weitergeben",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_GE1.id]: LF03_GE1 });
+})();
+
+/* ---- f_einheiten_geraete2.js ---- */
+//
+// Einheit 17: Bridge, Switch und Switch-Simulator (aus dem Kurs "Geraete & Routing", Stationen 2 bis 4). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_GE2 = {
+    "id": "lf03-geraete-switch",
+    "reihe": 17,
+    "titel": "Bridge, Switch und Switch-Simulator",
+    "untertitel": "wie der Switch lernt, weiterleitet und was in ihm steckt",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 340–341 (Bridge, Switch, Aufbau)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Bridge und Switch unterscheiden und die Tabelle benennen",
+        "kn": "Netzwerkgeräte"
+      },
+      {
+        "id": "lz2",
+        "text": "Das Lernen und Weiterleiten des Switches Frame für Frame nachvollziehen",
+        "kn": "Netzwerkgeräte"
+      },
+      {
+        "id": "lz3",
+        "text": "Den Aufbau eines Switches und das Verhalten bei vollem Puffer erklären",
+        "kn": "Netzwerkgeräte"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Switch = Multiport-Bridge mit Tabelle MAC ↔ Port",
+        "knoten": [
+          {
+            "id": "s",
+            "x": 320,
+            "y": 110,
+            "t": "Switch",
+            "sub": "Forwarding Table",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "p1",
+            "x": 110,
+            "y": 60,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "p2",
+            "x": 110,
+            "y": 160,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "p3",
+            "x": 530,
+            "y": 60,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "p4",
+            "x": 530,
+            "y": 160,
+            "t": "PC",
+            "w": 64
+          }
+        ],
+        "links": [
+          {
+            "von": "s",
+            "bis": "p1",
+            "t": "Port 1"
+          },
+          {
+            "von": "s",
+            "bis": "p2",
+            "t": "Port 2"
+          },
+          {
+            "von": "s",
+            "bis": "p3",
+            "t": "Port 3"
+          },
+          {
+            "von": "s",
+            "bis": "p4",
+            "t": "Port 4"
+          }
+        ]
+      },
+      "bridge": {
+        "art": "netz",
+        "titel": "Bridge: zwei Segmente, Frames nur bei Zielport auf der anderen Seite",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 110,
+            "t": "Segment A",
+            "sub": "mehrere Geräte",
+            "w": 150
+          },
+          {
+            "id": "b",
+            "x": 320,
+            "y": 110,
+            "t": "Bridge",
+            "sub": "Bridge Table",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "c",
+            "x": 530,
+            "y": 110,
+            "t": "Segment B",
+            "sub": "mehrere Geräte",
+            "w": 150
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "b",
+            "bis": "c"
+          }
+        ]
+      },
+      "swt": {
+        "art": "netz",
+        "titel": "Switch = Multiport-Bridge mit Tabelle MAC ↔ Port",
+        "knoten": [
+          {
+            "id": "s",
+            "x": 320,
+            "y": 110,
+            "t": "Switch",
+            "sub": "Forwarding Table",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "p1",
+            "x": 110,
+            "y": 60,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "p2",
+            "x": 110,
+            "y": 160,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "p3",
+            "x": 530,
+            "y": 60,
+            "t": "PC",
+            "w": 64
+          },
+          {
+            "id": "p4",
+            "x": 530,
+            "y": 160,
+            "t": "PC",
+            "w": 64
+          }
+        ],
+        "links": [
+          {
+            "von": "s",
+            "bis": "p1",
+            "t": "Port 1"
+          },
+          {
+            "von": "s",
+            "bis": "p2",
+            "t": "Port 2"
+          },
+          {
+            "von": "s",
+            "bis": "p3",
+            "t": "Port 3"
+          },
+          {
+            "von": "s",
+            "bis": "p4",
+            "t": "Port 4"
+          }
+        ]
+      },
+      "lern": {
+        "art": "netz",
+        "titel": "Gelernt wird aus der Quelle, weitergeleitet nach dem Ziel",
+        "knoten": [
+          {
+            "id": "l0",
+            "x": 110,
+            "y": 110,
+            "t": "Quelle lesen",
+            "sub": "MAC + Port merken",
+            "w": 180,
+            "rolle": "gelb"
+          },
+          {
+            "id": "l1",
+            "x": 320,
+            "y": 110,
+            "t": "Ziel suchen",
+            "sub": "in der Tabelle",
+            "w": 180
+          },
+          {
+            "id": "l2",
+            "x": 530,
+            "y": 110,
+            "t": "Weiterleiten",
+            "sub": "ein Port, sonst fluten",
+            "w": 180
+          }
+        ],
+        "links": [
+          {
+            "von": "l0",
+            "bis": "l1"
+          },
+          {
+            "von": "l1",
+            "bis": "l2"
+          }
+        ]
+      },
+      "inner": {
+        "art": "netz",
+        "titel": "Im Switch: Puffer je Port, Fabric in der Mitte",
+        "knoten": [
+          {
+            "id": "i",
+            "x": 110,
+            "y": 85,
+            "t": "Input-FIFO",
+            "sub": "Eingangspuffer",
+            "w": 170
+          },
+          {
+            "id": "f",
+            "x": 320,
+            "y": 85,
+            "t": "Fabric",
+            "sub": "Switching Fabric",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "o",
+            "x": 530,
+            "y": 85,
+            "t": "Output-FIFO",
+            "sub": "Ausgangspuffer",
+            "w": 170
+          },
+          {
+            "id": "t",
+            "x": 320,
+            "y": 165,
+            "t": "Forwarding Table",
+            "sub": "MAC ↔ Port",
+            "w": 190
+          }
+        ],
+        "links": [
+          {
+            "von": "i",
+            "bis": "f"
+          },
+          {
+            "von": "f",
+            "bis": "o"
+          },
+          {
+            "von": "f",
+            "bis": "t"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Woher lernt ein Switch die Zuordnung MAC ↔ Port?",
+        "optionen": [
+          {
+            "text": "Aus der Absender-MAC",
+            "richtig": true
+          },
+          {
+            "text": "Aus der Ziel-MAC",
+            "richtig": false
+          },
+          {
+            "text": "Der Admin trägt sie ein",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Was ist ein Switch?",
+        "optionen": [
+          {
+            "text": "Eine Multiport-Bridge",
+            "richtig": true
+          },
+          {
+            "text": "Ein Verstärker",
+            "richtig": false
+          },
+          {
+            "text": "Ein Router",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Von der Bridge zum Switch",
+        "kurz": "Tabelle mit drei Namen",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Zwei Büros hängen an einer Brücke. Ein Frame im Büro A soll nicht ins Büro B laufen.",
+          "frage": "Wie entscheidet das Gerät?"
+        },
+        "aufbau": [
+          {
+            "text": "Eine Bridge verbindet zwei Netzsegmente und leitet einen Frame nur weiter, wenn der Zielrechner am anderen Bridge-Port hängt.",
+            "diagramm": "bridge"
+          },
+          {
+            "text": "Nach dem Einschalten lernt sie, welche MAC an welchem Port hängt, und baut die Bridge Table.",
+            "diagramm": "bridge"
+          },
+          {
+            "text": "Mehrere Brücken in einem Gerät ergeben die Multiport-Bridge: den Switch, das wichtigste aktive Bauteil.",
+            "diagramm": "swt"
+          },
+          {
+            "text": "Die Tabelle heißt Weiterleitungstabelle, Forwarding Table, Switching Table oder Bridge Table. Alle meinen MAC ↔ Port.",
+            "diagramm": "swt"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche Bezeichnung meint nicht die Tabelle des Switches?",
+          "optionen": [
+            {
+              "text": "Routing-Tabelle",
+              "richtig": true,
+              "korrektur": "Richtig: Die Routing-Tabelle gehört zum Router und enthält Netze."
+            },
+            {
+              "text": "Forwarding Table",
+              "richtig": false,
+              "korrektur": "Das ist die englische Bezeichnung der Switch-Tabelle."
+            },
+            {
+              "text": "Bridge Table",
+              "richtig": false,
+              "korrektur": "Auch das meint die Switch-Tabelle."
+            }
+          ],
+          "loesung": "Routing-Tabelle gehört zum Router.",
+          "beleg": {
+            "seite": "340"
+          }
+        },
+        "wiederholung": {
+          "text": "Switch = Multiport-Bridge, Schicht 2, MAC ↔ Port.",
+          "diagramm": "swt"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welche dieser Bezeichnungen meint **nicht** die Tabelle des Switches?",
+            "optionen": [
+              "Forwarding Table",
+              "Routing-Tabelle (die gehört zum Router, sie enthält Netze)",
+              "Switching Table",
+              "Bridge Table"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Eine der vier steht für Netze, nicht für einzelne MAC-Adressen."
+            ],
+            "erkl": "Die Routing-Tabelle gehört zum **Router** und enthält Netzbereiche. Forwarding, Switching und Bridge Table sind Namen der MAC-Tabelle."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Switch = Multiport-Bridge auf Schicht 2 mit der Tabelle MAC ↔ Port.",
+          "handout": "**Bridge/Switch:** Bridge = zwei Segmente, filtert nach MAC. Switch = Multiport-Bridge. Tabelle: Weiterleitungs-/Forwarding-/Switching-/Bridge Table (MAC ↔ Port). Die Routing-Tabelle gehört zum Router."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Wie der Switch lernt",
+        "kurz": "Quelle lernen, Ziel suchen, notfalls fluten",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Der Switch ist neu, die Tabelle leer. Der erste Frame kommt.",
+          "frage": "Was tut er damit?"
+        },
+        "aufbau": [
+          {
+            "text": "Jeder Frame wird auf Schicht 2 angeschaut. Erst die Absender-MAC lesen und mit dem Eingangsport eintragen, falls neu. Das ist das Lernen.",
+            "diagramm": "lern"
+          },
+          {
+            "text": "Dann die Ziel-MAC suchen. Steht sie in der Tabelle, geht der Frame nur an diesen Port.",
+            "diagramm": "lern"
+          },
+          {
+            "text": "Praxis, nicht im Buch: Ist das Ziel unbekannt oder ein Broadcast, geht der Frame an alle anderen Ports. Das heißt fluten.",
+            "diagramm": "lern"
+          },
+          {
+            "text": "Wird ein PC auf einen anderen Port umgesteckt, aktualisiert der Switch beim nächsten Frame den Tabelleneintrag.",
+            "diagramm": "swt"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Switch lernt die MAC-Adresse aus dem Ziel-Feld des Frames.",
+          "optionen": [
+            {
+              "text": "Falsch, aus dem Absender-Feld",
+              "richtig": true,
+              "korrektur": "Richtig: Gelernt wird aus der Quelle, weitergeleitet nach dem Ziel."
+            },
+            {
+              "text": "Wahr",
+              "richtig": false,
+              "korrektur": "Das Ziel sagt nur, wohin der Frame soll, nicht, wo der Absender hängt."
+            }
+          ],
+          "loesung": "Lernen aus der Quell-MAC.",
+          "beleg": {
+            "seite": "340"
+          }
+        },
+        "wiederholung": {
+          "text": "Quelle immer lernen. Ziel bekannt: ein Port. Ziel unbekannt oder Broadcast: fluten.",
+          "diagramm": "lern"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Woher kennt der Switch die Zuordnung MAC ↔ Port?",
+            "optionen": [
+              "Der Administrator trägt jede Adresse von Hand ein",
+              "Er fragt per DHCP den Router",
+              "Er liest die Absender-MAC der ankommenden Frames und merkt sich den Eingangsport",
+              "Er liest die Ziel-MAC und rät den Port"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Gelernt wird aus der **Quelle** der Frames."
+            ],
+            "erkl": "Der Switch trägt neue **Absender**-MAC-Adressen samt Eingangsport in die Tabelle ein. Das nennt man Lernen."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Switch lernt die MAC-Adresse aus dem **Ziel**-Feld des Frames.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wer kennt man, wenn jemand etwas schickt? Den Absender."
+            ],
+            "erkl": "Er lernt aus dem **Absender**-Feld. Das Ziel-Feld benutzt er zum **Suchen** in der Tabelle."
+          },
+          {
+            "t": "wahl",
+            "f": "Was ist der Unterschied zwischen **Bridge** und **Switch**?",
+            "optionen": [
+              "Die Bridge hat zwei Ports, der Switch viele (Multiport-Bridge)",
+              "Die Bridge arbeitet auf Schicht 3, der Switch auf Schicht 2",
+              "Die Bridge wertet IP aus, der Switch MAC",
+              "Es gibt keinen, beides sind Router"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Beide arbeiten auf Schicht 2 mit MAC-Adressen."
+            ],
+            "erkl": "Beide leiten nach MAC-Adressen auf Schicht 2. Die Bridge verbindet **zwei** Segmente, der Switch ist eine **Multiport-Bridge**."
+          },
+          {
+            "t": "gen",
+            "gen": "macsim",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Der Switch sendet einen Frame an alle anderen Ports (fluten). Wann ist das richtig?",
+            "optionen": [
+              "Immer, wenn der Frame größer als 64 Byte ist",
+              "Wenn die Ziel-MAC noch nicht in der Tabelle steht oder der Frame ein Broadcast ist",
+              "Nur bei Frames mit VLAN-Tag",
+              "Wenn die Quell-MAC schon bekannt ist"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Es geht um das **Ziel**."
+            ],
+            "erkl": "Weiß der Switch nicht, wo das Ziel hängt (oder ist es ein Broadcast), bleibt nur der Weg an alle anderen Ports. Das Ziel antwortet, dabei lernt der Switch dessen Port."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein bekannter PC wird auf einen **anderen Port** umgesteckt und sendet. Was passiert mit seinem Tabelleneintrag?",
+            "optionen": [
+              "Der alte Eintrag bleibt für immer stehen",
+              "Der Switch ignoriert den PC, bis die Tabelle gelöscht wird",
+              "Der Eintrag wird auf den neuen Port aktualisiert (Praxis, steht nicht im Buch)",
+              "Der Switch fragt den Router um Erlaubnis"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Der Switch lernt bei **jedem** Frame die Quelle."
+            ],
+            "erkl": "Sendet der PC am neuen Port, trägt der Switch die MAC mit dem neuen Port ein. Der Eintrag wird überschrieben."
+          },
+          {
+            "t": "gen",
+            "gen": "macsim",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "macsim",
+            "stufen": [
+              2
+            ]
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Lernen aus der Quelle. Senden nach dem Ziel. Unbekannt oder Broadcast = fluten.",
+          "handout": "**Switch-Ablauf:** 1. Quell-MAC + Eingangsport eintragen (lernen). 2. Ziel-MAC suchen. 3. Bekannt: nur an diesen Port. Unbekannt oder Broadcast: an alle anderen Ports (fluten, Praxis)."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Im Inneren des Switches",
+        "kurz": "Puffer, Fabric, Forwarding Table und was bei vollem Puffer passiert",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Ein schneller Absender schickt viel an einen langsamen Port.",
+          "frage": "Was passiert im Switch?"
+        },
+        "aufbau": [
+          {
+            "text": "Jeder Port hat einen Eingangspuffer (Input-FIFO), einen Ausgangspuffer und eine Zugriffssteuerung gegen Kollisionen. FIFO heißt First In, First Out.",
+            "diagramm": "inner"
+          },
+          {
+            "text": "In der Mitte sitzt die Switching Fabric. Sie schaut in die Forwarding Table und leitet den Frame an den richtigen Ausgangsport.",
+            "diagramm": "inner"
+          },
+          {
+            "text": "Jeder Port kann eine eigene Rate fahren, etwa 10 Gbit/s und 10 Mbit/s. Vom Ausgangspuffer laufen die Daten mit der Rate des Ausgangsports hinaus.",
+            "diagramm": "inner"
+          },
+          {
+            "text": "Der Switch hat keine Datenflusssteuerung. Läuft ein Puffer über, gehen Daten verloren. Reparieren müssen das die Endgeräte, etwa TCP.",
+            "diagramm": "inner"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Der Ausgangspuffer eines langsamen Ports läuft über. Was passiert?",
+          "optionen": [
+            {
+              "text": "Überschüssige Frames gehen verloren",
+              "richtig": true,
+              "korrektur": "Richtig: Der Switch hat keine Datenflusssteuerung."
+            },
+            {
+              "text": "Der Switch bremst den Absender",
+              "richtig": false,
+              "korrektur": "Das könnte nur eine Datenflusssteuerung, die der Switch nicht hat."
+            },
+            {
+              "text": "Der Switch speichert sie dauerhaft",
+              "richtig": false,
+              "korrektur": "Puffer sind klein und nur Zwischenspeicher."
+            }
+          ],
+          "loesung": "Frames gehen verloren.",
+          "beleg": {
+            "seite": "341"
+          }
+        },
+        "wiederholung": {
+          "text": "Puffer pro Port, Fabric in der Mitte, Forwarding Table als Nachschlagewerk. Puffer voll = Daten weg.",
+          "diagramm": "inner"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches Bauteil macht was?",
+            "paare": [
+              [
+                "Input-FIFO",
+                "Eingangspuffer je Port"
+              ],
+              [
+                "Output-FIFO",
+                "Ausgangspuffer je Port"
+              ],
+              [
+                "Zugriffssteuerung",
+                "Verhindert Kollisionen beim Senden"
+              ],
+              [
+                "Switching Fabric",
+                "Leitet an den Ausgangsport weiter"
+              ],
+              [
+                "Forwarding Table",
+                "Ordnet MAC-Adressen Ports zu"
+              ]
+            ],
+            "tipps": [
+              "Die Fabric ist das schnelle interne Netz des Switches.",
+              "FIFO = Warteschlange."
+            ],
+            "erkl": "Puffer halten Daten kurz fest, die Zugriffssteuerung verhindert Kollisionen, die Fabric verteilt, und die Forwarding Table sagt, wohin."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bringe den Weg eines Frames durch den Switch in die richtige Reihenfolge (vereinfachtes Modell).",
+            "items": [
+              "Frame kommt am Eingangsport an",
+              "Er wartet im Eingangspuffer (Input-FIFO)",
+              "Die Switching Fabric schlägt in der Forwarding Table nach",
+              "Der Frame landet im Ausgangspuffer des Zielports",
+              "Die Zugriffssteuerung sendet ihn auf die Leitung"
+            ],
+            "tipps": [
+              "Erst rein, dann Warteschlange, dann Nachschlagen und Verteilen.",
+              "Gesendet wird ganz am Ende."
+            ],
+            "erkl": "Das Buch beschreibt die Bauteile, nicht eine feste Schrittfolge. Als Modell: Eingang → Input-FIFO → Fabric mit Forwarding Table → Output-FIFO → Senden."
+          },
+          {
+            "t": "wahl",
+            "f": "Der Ausgangspuffer eines langsamen Ports läuft über, weil ein schneller Absender viel schickt. Was passiert?",
+            "optionen": [
+              "Der Switch bremst den Absender per Datenflusssteuerung",
+              "Der Switch speichert unbegrenzt weiter",
+              "Der Switch schaltet sich ab",
+              "Weitere Daten gehen verloren, die Endgeräte müssen das beheben"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Das Buch sagt ausdrücklich: Es gibt keine Datenflusssteuerung."
+            ],
+            "erkl": "Ein voller Puffer verwirft weitere Daten. Der Switch ist nur zum Weiterleiten da, die Fehlerbehebung liegt bei den Endgeräten."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Switch kann an jedem Port eine andere Datenübertragungsrate fahren.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Der Port stellt sich auf das angeschlossene Gerät ein."
+            ],
+            "erkl": "Ja, z. B. 10 Gbit/s an einem Port und 10 Mbit/s an einem anderen. Die Fabric gleicht das über die Puffer aus."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Puffer pro Port, Fabric in der Mitte, Forwarding Table. Puffer voll = Daten weg.",
+          "handout": "**Aufbau:** je Port Input-FIFO, Output-FIFO und Zugriffssteuerung · Switching Fabric leitet per Forwarding Table zum Ausgangsport · Rate je Port frei · keine Datenflusssteuerung, überlaufende Puffer verlieren Daten (Endgeräte korrigieren)."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welche Tabelle gehört nicht zum Switch?",
+        "optionen": [
+          {
+            "text": "Routing-Tabelle",
+            "richtig": true
+          },
+          {
+            "text": "Forwarding Table",
+            "richtig": false
+          },
+          {
+            "text": "Bridge Table",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welches Feld liest der Switch zum Lernen?",
+        "optionen": [
+          {
+            "text": "Die Quell-MAC",
+            "richtig": true
+          },
+          {
+            "text": "Die Ziel-MAC",
+            "richtig": false
+          },
+          {
+            "text": "Den Typ",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Was tut der Switch bei unbekannter Ziel-MAC?",
+        "optionen": [
+          {
+            "text": "An alle anderen Ports senden",
+            "richtig": true
+          },
+          {
+            "text": "Den Frame verwerfen",
+            "richtig": false
+          },
+          {
+            "text": "An den Router schicken",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Hat ein Switch eine Datenflusssteuerung?",
+        "optionen": [
+          {
+            "text": "Nein, bei vollem Puffer gehen Daten verloren",
+            "richtig": true
+          },
+          {
+            "text": "Ja, er bremst den Absender",
+            "richtig": false
+          },
+          {
+            "text": "Ja, per TTL",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_GE2.id]: LF03_GE2 });
+})();
+
+/* ---- f_einheiten_geraete3.js ---- */
+//
+// Einheit 18: Switching-Verfahren und managebare Switches (aus dem Kurs "Geraete & Routing", Stationen 5 und 6). Erzeugt per Skript, Aufgaben unveraendert.
+// Zahlen: 8 Bit / 1 Gbit/s = 8 ns; 14*8 = 112 ns; 1526*8 = 12.208 ns.
+(function () {
+  "use strict";
+
+  const LF03_GE3 = {
+    "id": "lf03-geraete-verfahren-manage",
+    "reihe": 18,
+    "titel": "Switching-Verfahren und managebare Switches",
+    "untertitel": "Cut-Through, Store-and-Forward, Latenz rechnen, Mirrorport einsetzen",
+    "lernfeld": "LF03",
+    "dauer_min": 25,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 342–343 (Switching-Verfahren, managebare Switches)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Die drei Switching-Verfahren nach Latenz und Fehlerprüfung unterscheiden",
+        "kn": "Netzwerkgeräte"
+      },
+      {
+        "id": "lz2",
+        "text": "Die Latenz in Byte-Zeiten und in Zeit berechnen",
+        "kn": "Netzwerkgeräte"
+      },
+      {
+        "id": "lz3",
+        "text": "Einfache und managebare Switches abgrenzen und den Mirrorport einsetzen",
+        "kn": "Netzwerkgeräte"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Drei Switching-Verfahren: wann darf der Switch loslegen?",
+        "knoten": [
+          {
+            "id": "c",
+            "x": 110,
+            "y": 110,
+            "t": "Cut-Through",
+            "sub": "sofort nach Ziel-MAC",
+            "w": 180,
+            "rolle": "gelb"
+          },
+          {
+            "id": "f",
+            "x": 320,
+            "y": 110,
+            "t": "Fragment-free",
+            "sub": "nach 64 Byte",
+            "w": 180
+          },
+          {
+            "id": "s",
+            "x": 530,
+            "y": 110,
+            "t": "Store-and-Forward",
+            "sub": "ganzer Frame, FCS",
+            "w": 190,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "c",
+            "bis": "f",
+            "t": "später"
+          },
+          {
+            "von": "f",
+            "bis": "s",
+            "t": "später"
+          }
+        ]
+      },
+      "verf": {
+        "art": "netz",
+        "titel": "Drei Switching-Verfahren: wann darf der Switch loslegen?",
+        "knoten": [
+          {
+            "id": "c",
+            "x": 110,
+            "y": 110,
+            "t": "Cut-Through",
+            "sub": "sofort nach Ziel-MAC",
+            "w": 180,
+            "rolle": "gelb"
+          },
+          {
+            "id": "f",
+            "x": 320,
+            "y": 110,
+            "t": "Fragment-free",
+            "sub": "nach 64 Byte",
+            "w": 180
+          },
+          {
+            "id": "s",
+            "x": 530,
+            "y": 110,
+            "t": "Store-and-Forward",
+            "sub": "ganzer Frame, FCS",
+            "w": 190,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "c",
+            "bis": "f",
+            "t": "später"
+          },
+          {
+            "von": "f",
+            "bis": "s",
+            "t": "später"
+          }
+        ]
+      },
+      "lat": {
+        "art": "netz",
+        "titel": "Latenz bei 1 Gbit/s: eine Byte-Zeit = 8 ns",
+        "knoten": [
+          {
+            "id": "c",
+            "x": 170,
+            "y": 110,
+            "t": "Cut-Through",
+            "sub": "14 B = 112 ns",
+            "w": 220,
+            "rolle": "gelb"
+          },
+          {
+            "id": "s",
+            "x": 470,
+            "y": 110,
+            "t": "Store-and-Forward",
+            "sub": "1526 B = 12,2 µs",
+            "w": 220,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "c",
+            "bis": "s",
+            "t": "gut 100-mal länger"
+          }
+        ]
+      },
+      "mana": {
+        "art": "netz",
+        "titel": "Managebarer Switch: IP-Adresse und Web-Oberfläche",
+        "knoten": [
+          {
+            "id": "pc",
+            "x": 110,
+            "y": 110,
+            "t": "Admin-PC",
+            "sub": "gleiches Netz",
+            "w": 150
+          },
+          {
+            "id": "s",
+            "x": 450,
+            "y": 110,
+            "t": "Switch",
+            "sub": "hat eine IP-Adresse",
+            "w": 180,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "pc",
+            "bis": "s",
+            "t": "Web / SSH"
+          }
+        ]
+      },
+      "mirror": {
+        "art": "netz",
+        "titel": "Mirrorport: Kopie des Verkehrs zur Analyse",
+        "knoten": [
+          {
+            "id": "s",
+            "x": 200,
+            "y": 110,
+            "t": "Switch",
+            "sub": "Mirrorport",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "w",
+            "x": 480,
+            "y": 70,
+            "t": "Wireshark",
+            "sub": "Protokollanalyse",
+            "w": 150
+          },
+          {
+            "id": "i",
+            "x": 480,
+            "y": 155,
+            "t": "IDS",
+            "sub": "Eindringlinge",
+            "w": 150
+          }
+        ],
+        "links": [
+          {
+            "von": "s",
+            "bis": "w",
+            "t": "Kopie",
+            "stil": "quer"
+          },
+          {
+            "von": "s",
+            "bis": "i",
+            "t": "Kopie",
+            "stil": "quer"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welcher Switch-Typ prüft die FCS?",
+        "optionen": [
+          {
+            "text": "Store-and-Forward",
+            "richtig": true
+          },
+          {
+            "text": "Cut-Through",
+            "richtig": false
+          },
+          {
+            "text": "Fragment-free",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wozu dient ein Mirrorport?",
+        "optionen": [
+          {
+            "text": "Verkehr zur Analyse spiegeln",
+            "richtig": true
+          },
+          {
+            "text": "Zwei Switches verbinden",
+            "richtig": false
+          },
+          {
+            "text": "Ports abschalten",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Die drei Verfahren",
+        "kurz": "früh oder spät weiterleiten",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ein Frame beginnt mit 8 Byte Präambel, dann kommt die Ziel-MAC mit 6 Byte. Der Switch kennt das Ziel also schon früh.",
+          "frage": "Wann sollte er loslegen?"
+        },
+        "aufbau": [
+          {
+            "text": "Die Zeit, die ein Frame im Switch verbringt, heißt Latenzzeit. Sie soll kurz sein. Der Switch kann früh oder spät anfangen.",
+            "diagramm": "verf"
+          },
+          {
+            "text": "Cut-Through schaltet sofort nach der Ziel-MAC durch: 14 Byte-Zeiten (8 + 6). Schnell, kaum Speicher, aber auch fehlerhafte Frames gehen weiter.",
+            "diagramm": "verf"
+          },
+          {
+            "text": "Store-and-Forward empfängt den ganzen Frame und prüft die FCS. Fehlerhafte Frames werden gelöscht. Latenz bis 1518 + 8 Byte-Zeiten, viel Speicher.",
+            "diagramm": "verf"
+          },
+          {
+            "text": "Fragment-free wartet 64 Byte ab, denn abgebrochene Frames sind meist kurz. Ein Mittelweg bei Latenz und Speicher.",
+            "diagramm": "verf"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Frame mit defekter Prüfsumme kommt an. Welcher Switch leitet ihn nicht weiter?",
+          "optionen": [
+            {
+              "text": "Store-and-Forward",
+              "richtig": true,
+              "korrektur": "Richtig: Er prüft die FCS des ganzen Frames."
+            },
+            {
+              "text": "Cut-Through",
+              "richtig": false,
+              "korrektur": "Er hat die FCS beim Durchschalten noch gar nicht gesehen."
+            },
+            {
+              "text": "Fragment-free",
+              "richtig": false,
+              "korrektur": "Er prüft nur die ersten 64 Byte, nicht die FCS."
+            }
+          ],
+          "loesung": "Store-and-Forward.",
+          "beleg": {
+            "seite": "342"
+          }
+        },
+        "wiederholung": {
+          "text": "Cut-Through: schnell, ungeprüft. Store-and-Forward: geprüft, langsam. Fragment-free: dazwischen.",
+          "diagramm": "verf"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches Verfahren passt zur Beschreibung?",
+            "paare": [
+              [
+                "schaltet nach der Ziel-MAC durch",
+                "Cut-Through"
+              ],
+              [
+                "prüft die FCS des ganzen Frames",
+                "Store-and-Forward"
+              ],
+              [
+                "wartet 64 Byte ab",
+                "Fragment-free"
+              ],
+              [
+                "leitet auch defekte Frames weiter",
+                "Cut-Through"
+              ],
+              [
+                "braucht den meisten Speicher",
+                "Store-and-Forward"
+              ]
+            ],
+            "tipps": [
+              "Wer die FCS prüft, muss den ganzen Frame haben.",
+              "Die FCS steht am **Ende** des Frames."
+            ],
+            "erkl": "Cut-Through ist am schnellsten und prüft nichts. Store-and-Forward prüft die FCS und braucht deshalb den ganzen Frame. Fragment-free wartet 64 Byte."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Frame mit **defekter Prüfsumme** kommt an. Welcher Switch leitet ihn **nicht** weiter?",
+            "optionen": [
+              "Der Cut-Through-Switch",
+              "Der Store-and-Forward-Switch",
+              "Beide leiten ihn weiter",
+              "Keiner, die Prüfsumme prüft nur der Router"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Die FCS steht ganz am Ende des Frames. Wer hat da schon weitergeschickt?"
+            ],
+            "erkl": "Der Cut-Through-Switch hat den Frame meist längst weitergeschickt, bevor die FCS ankommt. Nur Store-and-Forward wartet und löscht fehlerhafte Frames."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Byte-Zeiten** beträgt die Verzögerung beim **Cut-Through**-Switch? (Präambel + Ziel-MAC)",
+            "art": "zahl",
+            "antwort": [
+              "14"
+            ],
+            "tipps": [
+              "Die Präambel hat 8 Byte, die Ziel-MAC 6 Byte."
+            ],
+            "erkl": "8 + 6 = **14** Byte-Zeiten."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Byte-Zeiten** braucht ein **Store-and-Forward**-Switch höchstens? (größter Frame + Präambel)",
+            "art": "zahl",
+            "antwort": [
+              "1526"
+            ],
+            "tipps": [
+              "Der größte Ethernet-Frame hat 1518 Byte, dazu die 8 Byte Präambel."
+            ],
+            "erkl": "1518 + 8 = **1526** Byte-Zeiten.",
+            "fallen": {
+              "14": "Das ist Cut-Through.",
+              "1518": "Die Präambel (8 Byte) kommt noch dazu."
+            }
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Cut-Through = schnell, aber ungeprüft. Store-and-Forward = geprüft, aber langsam.",
+          "handout": "**Verfahren:** Cut-Through (nach Ziel-MAC, 14 Byte-Zeiten, ungeprüft, wenig Speicher) · Fragment-free (nach 64 Byte, Mittelweg) · Store-and-Forward (ganzer Frame, FCS-Prüfung, bis 1518 + 8 Byte-Zeiten, viel Speicher)."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Latenz rechnen",
+        "kurz": "von Byte-Zeiten zu Nanosekunden",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Das Buch zählt in Byte-Zeiten. Die Praxis will wissen, wie viel Zeit das ist.",
+          "frage": "Wie rechnest du um?"
+        },
+        "aufbau": [
+          {
+            "text": "Eine Byte-Zeit ist die Zeit, die ein Byte auf der Leitung braucht. Bei 1 Gbit/s sind das 8 Bit durch 10^9 Bit/s = 8 ns.",
+            "diagramm": "lat"
+          },
+          {
+            "text": "Cut-Through: 14 Byte-Zeiten mal 8 ns = 112 ns.",
+            "diagramm": "lat"
+          },
+          {
+            "text": "Store-and-Forward: höchstens 1518 + 8 = 1526 Byte-Zeiten mal 8 ns = 12.208 ns, also etwa 12,2 µs.",
+            "diagramm": "lat"
+          },
+          {
+            "text": "Die Umrechnung steht nicht im Buch, sie macht aber den Unterschied greifbar: gut 100-mal länger.",
+            "diagramm": "lat"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wie viele Byte-Zeiten Verzögerung hat ein Cut-Through-Switch?",
+          "optionen": [
+            {
+              "text": "14",
+              "richtig": true,
+              "korrektur": "Richtig: 8 Byte Präambel plus 6 Byte Ziel-MAC."
+            },
+            {
+              "text": "64",
+              "richtig": false,
+              "korrektur": "64 Byte gelten für Fragment-free."
+            },
+            {
+              "text": "1526",
+              "richtig": false,
+              "korrektur": "So viel braucht Store-and-Forward im Höchstfall."
+            }
+          ],
+          "loesung": "14 Byte-Zeiten.",
+          "beleg": {
+            "seite": "342"
+          }
+        },
+        "wiederholung": {
+          "text": "Byte-Zeit bei 1 Gbit/s = 8 ns. Cut-Through 112 ns, Store-and-Forward 12.208 ns.",
+          "diagramm": "lat"
+        },
+        "uebung": [
+          {
+            "t": "weg",
+            "titel": "Latenz bei 1 Gbit/s",
+            "kopf": "Wie lang ist die Latenz bei **1 Gbit/s**? (Die Rechnung steht nicht im Buch, sie macht die Byte-Zeiten greifbar.)",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Nanosekunden** dauert **ein Byte** bei 1 Gbit/s? (8 Bit, 1 Bit = 1 ns)",
+                "art": "zahl",
+                "antwort": [
+                  "8"
+                ],
+                "tipps": [
+                  "1 Gbit/s sind 10⁹ Bit pro Sekunde, also dauert ein Bit 1 ns."
+                ],
+                "erkl": "8 Bit · 1 ns = **8 ns** pro Byte.",
+                "label": "1 Byte-Zeit"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Nanosekunden** dauert die Verzögerung beim **Cut-Through** (14 Byte-Zeiten)?",
+                "art": "zahl",
+                "antwort": [
+                  "112"
+                ],
+                "tipps": [
+                  "14 · 8 ns."
+                ],
+                "erkl": "14 · 8 ns = **112 ns**.",
+                "label": "Cut-Through"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Mikrosekunden** dauert es beim **Store-and-Forward** (1526 Byte-Zeiten)? (1000 ns = 1 µs)",
+                "art": "zahl",
+                "antwort": [
+                  "12,208"
+                ],
+                "tipps": [
+                  "1526 · 8 ns = 12.208 ns.",
+                  "Durch 1000 teilen, Komma beachten."
+                ],
+                "erkl": "1526 · 8 ns = 12.208 ns = **12,208 µs**.",
+                "fallen": {
+                  "12208": "Das sind Nanosekunden. Gefragt sind µs: durch 1000 teilen."
+                },
+                "label": "Store-and-Forward"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Typ hat den **geringsten Speicherbedarf**?",
+            "optionen": [
+              "Store-and-Forward",
+              "Fragment-free",
+              "Cut-Through (nur wenige Byte liegen im Eingangspuffer)",
+              "Alle gleich"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Wer nur 6 Byte lesen muss, braucht kaum Platz."
+            ],
+            "erkl": "Cut-Through schaltet nach der Ziel-MAC durch, bei freiem Ausgangsport liegen nur 6 Byte im Eingangspuffer."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Byte-Zeit bei 1 Gbit/s = 8 ns. Cut-Through = 14 Byte-Zeiten, Store-and-Forward höchstens 1526.",
+          "handout": "**Latenz:** Cut-Through 14 Byte-Zeiten (8 Präambel + 6 Ziel-MAC) · Store-and-Forward höchstens 1518 + 8 = 1526 · bei 1 Gbit/s ist eine Byte-Zeit 8 ns (112 ns gegen 12,2 µs)."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Managebare Switches",
+        "kurz": "Plug and Play gegen Konfiguration, Mirrorport",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Im Heimnetz steckst du den Switch einfach ein. Im Betrieb will man Ports abschalten und den Verkehr ansehen.",
+          "frage": "Was kann ein managebarer Switch mehr?"
+        },
+        "aufbau": [
+          {
+            "text": "Einfache Switches sind Plug and Play: einstecken, läuft. Sie reichen für Heimnetze und kleine Betriebe.",
+            "diagramm": "mana"
+          },
+          {
+            "text": "Managebare Switches konfiguriert man meist über eine Web-Oberfläche. Dafür braucht der Switch eine IP-Adresse.",
+            "diagramm": "mana"
+          },
+          {
+            "text": "Möglich sind: Ports ein- und ausschalten, Datenraten festlegen, Statistiken je Port und ein Mirrorport.",
+            "diagramm": "mana"
+          },
+          {
+            "text": "Am Mirrorport wird der Verkehr ausgesuchter Ports gespiegelt. Dort hängen Wireshark oder ein IDS. Praxis: konfigurieren per SSH oder HTTPS, nicht Telnet.",
+            "diagramm": "mirror"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was braucht ein managebarer Switch, damit man ihn über die Web-Oberfläche erreicht?",
+          "optionen": [
+            {
+              "text": "Eine IP-Adresse",
+              "richtig": true,
+              "korrektur": "Richtig: Ohne IP ist er im Netz nicht ansprechbar."
+            },
+            {
+              "text": "Eine zweite Bridge",
+              "richtig": false,
+              "korrektur": "Eine weitere Bridge ändert daran nichts."
+            },
+            {
+              "text": "Einen Hub",
+              "richtig": false,
+              "korrektur": "Ein Hub hilft nicht, es braucht eine eigene Adresse."
+            }
+          ],
+          "loesung": "Eine IP-Adresse.",
+          "beleg": {
+            "seite": "343"
+          }
+        },
+        "wiederholung": {
+          "text": "Managebar = IP-Adresse + Konfiguration. Einfach = Plug and Play. Mirrorport = Kopie zur Analyse.",
+          "diagramm": "mirror"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Was braucht ein managebarer Switch, damit man ihn über die Web-Oberfläche erreicht?",
+            "optionen": [
+              "Eine zweite Bridge",
+              "Einen Router als Zwischenstation",
+              "Eine eigene Portnummer pro Anschluss",
+              "Eine IP-Adresse"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Jedes Gerät, das man im Netz ansprechen will, braucht eine Adresse."
+            ],
+            "erkl": "Grundvoraussetzung, um ein Gerät im Netz anzusprechen, ist eine **IP-Adresse**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Was wird womit gemacht?",
+            "paare": [
+              [
+                "Ports ein- und ausschalten",
+                "Managebarer Switch"
+              ],
+              [
+                "Einstecken und läuft",
+                "Einfacher Switch"
+              ],
+              [
+                "Verkehr zur Analyse spiegeln",
+                "Mirrorport"
+              ],
+              [
+                "Protokollanalyse",
+                "Wireshark"
+              ],
+              [
+                "Eindringlinge aufspüren",
+                "IDS"
+              ]
+            ],
+            "tipps": [
+              "Mirrorport + Analysewerkzeug gehören zusammen."
+            ],
+            "erkl": "Managebare Switches können Ports schalten und spiegeln. Am Mirrorport hängen Analysewerkzeuge wie Wireshark oder ein IDS."
+          },
+          {
+            "t": "wahl",
+            "f": "Wozu dient ein **Mirrorport**?",
+            "optionen": [
+              "Er bekommt eine Kopie des Verkehrs ausgesuchter Ports, damit man ihn analysieren kann",
+              "Er verdoppelt die Bandbreite eines Ports",
+              "Er sichert die MAC-Tabelle",
+              "Er verbindet zwei Switches zur Ausfallsicherung"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Spiegeln heißt kopieren."
+            ],
+            "erkl": "Der Mirrorport spiegelt den Verkehr zu Analysezwecken (z. B. Wireshark, IDS). Er ändert nichts am eigentlichen Datenfluss."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher Wert im **Typ-Feld** des Ethernet-Frames steht wofür?",
+            "paare": [
+              [
+                "0x0800",
+                "IPv4"
+              ],
+              [
+                "0x0806",
+                "ARP"
+              ],
+              [
+                "0x8100",
+                "VLAN"
+              ],
+              [
+                "0x86DD",
+                "IPv6"
+              ],
+              [
+                "0x888E",
+                "802.1X"
+              ]
+            ],
+            "tipps": [
+              "0x0800 ist die „Standardzahl“ für IPv4.",
+              "0x86DD ist der IPv6-Wert."
+            ],
+            "erkl": "Das 2-Byte-Typ-Feld nennt die Art der Nutzdaten: 0x0800 IPv4, 0x0806 ARP, 0x8100 VLAN, 0x86DD IPv6, 0x888E 802.1X."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Managebar = IP-Adresse + Konfiguration. Mirrorport = Kopie des Verkehrs zur Analyse.",
+          "handout": "**Switches:** einfach = Plug and Play · managebar = IP-Adresse, Web-Oberfläche, Ports schalten, Raten, Statistiken, **Mirrorport** (Wireshark, IDS). Konfiguration per SSH/HTTPS statt Telnet."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welcher Typ leitet auch fehlerhafte Frames weiter?",
+        "optionen": [
+          {
+            "text": "Cut-Through",
+            "richtig": true
+          },
+          {
+            "text": "Store-and-Forward",
+            "richtig": false
+          },
+          {
+            "text": "Keiner",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie lang ist eine Byte-Zeit bei 1 Gbit/s?",
+        "optionen": [
+          {
+            "text": "8 ns",
+            "richtig": true
+          },
+          {
+            "text": "1 ns",
+            "richtig": false
+          },
+          {
+            "text": "80 ns",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wie viele Byte-Zeiten braucht Store-and-Forward höchstens?",
+        "optionen": [
+          {
+            "text": "1526",
+            "richtig": true
+          },
+          {
+            "text": "14",
+            "richtig": false
+          },
+          {
+            "text": "64",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wozu dient ein Mirrorport?",
+        "optionen": [
+          {
+            "text": "Zum Analysieren des Verkehrs",
+            "richtig": true
+          },
+          {
+            "text": "Zum Verbinden zweier Switches",
+            "richtig": false
+          },
+          {
+            "text": "Zum Erhöhen der Rate",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_GE3.id]: LF03_GE3 });
+})();
+
+/* ---- f_einheiten_geraete4.js ---- */
+//
+// Einheit 19: Router, Routing-Tabelle und TTL (aus dem Kurs "Geraete & Routing", Stationen 7 und 8; Abschlussuebung = Endgegner s9 und Abschlusstest s10). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_GE4 = {
+    "id": "lf03-geraete-router-ttl",
+    "reihe": 19,
+    "titel": "Router, Routing-Tabelle und TTL",
+    "untertitel": "Netze statt Einzeladressen, Default-Route, Router-Simulator und TTL",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 343–344 (Router, Routing-Tabelle, TTL), Gesamtübung S. 339–344",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Aufgabe und Inhalt von Router und Routing-Tabelle beschreiben",
+        "kn": "Netzwerkgeräte"
+      },
+      {
+        "id": "lz2",
+        "text": "Die Weiterleitung inklusive Default-Route und Fehlerfall entscheiden",
+        "kn": "Netzwerkgeräte"
+      },
+      {
+        "id": "lz3",
+        "text": "Die TTL erklären und Weiterleitungen im Router-Simulator berechnen",
+        "kn": "Netzwerkgeräte"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Router: Netze statt Einzeladressen",
+        "knoten": [
+          {
+            "id": "r",
+            "x": 320,
+            "y": 110,
+            "t": "Router",
+            "sub": "Routing-Tabelle",
+            "w": 150,
+            "rolle": "gruen"
+          },
+          {
+            "id": "lan",
+            "x": 100,
+            "y": 60,
+            "t": "LAN",
+            "sub": "192.168.1.0/24",
+            "w": 150
+          },
+          {
+            "id": "wlan",
+            "x": 100,
+            "y": 160,
+            "t": "WLAN",
+            "sub": "192.168.2.0/24",
+            "w": 150
+          },
+          {
+            "id": "wan",
+            "x": 540,
+            "y": 110,
+            "t": "WAN",
+            "sub": "0.0.0.0 = Default",
+            "w": 150,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "r",
+            "bis": "lan"
+          },
+          {
+            "von": "r",
+            "bis": "wlan"
+          },
+          {
+            "von": "r",
+            "bis": "wan"
+          }
+        ]
+      },
+      "rt": {
+        "art": "netz",
+        "titel": "Router: Netze statt Einzeladressen",
+        "knoten": [
+          {
+            "id": "r",
+            "x": 320,
+            "y": 110,
+            "t": "Router",
+            "sub": "Routing-Tabelle",
+            "w": 150,
+            "rolle": "gruen"
+          },
+          {
+            "id": "lan",
+            "x": 100,
+            "y": 60,
+            "t": "LAN",
+            "sub": "192.168.1.0/24",
+            "w": 150
+          },
+          {
+            "id": "wlan",
+            "x": 100,
+            "y": 160,
+            "t": "WLAN",
+            "sub": "192.168.2.0/24",
+            "w": 150
+          },
+          {
+            "id": "wan",
+            "x": 540,
+            "y": 110,
+            "t": "WAN",
+            "sub": "0.0.0.0 = Default",
+            "w": 150,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "r",
+            "bis": "lan"
+          },
+          {
+            "von": "r",
+            "bis": "wlan"
+          },
+          {
+            "von": "r",
+            "bis": "wan"
+          }
+        ]
+      },
+      "dr": {
+        "art": "netz",
+        "titel": "Wenn kein Netz passt: Default-Route, sonst Fehlermeldung",
+        "knoten": [
+          {
+            "id": "p",
+            "x": 70,
+            "y": 110,
+            "t": "Paket",
+            "w": 90
+          },
+          {
+            "id": "t",
+            "x": 235,
+            "y": 110,
+            "t": "Tabelle",
+            "sub": "Zielnetz?",
+            "w": 110,
+            "rolle": "gelb"
+          },
+          {
+            "id": "a",
+            "x": 480,
+            "y": 50,
+            "t": "Port",
+            "sub": "Netz gefunden",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 480,
+            "y": 110,
+            "t": "Default Gateway",
+            "sub": "0.0.0.0",
+            "w": 170
+          },
+          {
+            "id": "c",
+            "x": 480,
+            "y": 170,
+            "t": "Fehlermeldung",
+            "sub": "an den Absender",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "p",
+            "bis": "t"
+          },
+          {
+            "von": "t",
+            "bis": "a"
+          },
+          {
+            "von": "t",
+            "bis": "b"
+          },
+          {
+            "von": "t",
+            "bis": "c"
+          }
+        ]
+      },
+      "ttl": {
+        "art": "netz",
+        "titel": "TTL: jeder Router zieht 1 ab, bei 0 wird verworfen",
+        "knoten": [
+          {
+            "id": "r0",
+            "x": 75,
+            "y": 110,
+            "t": "PC",
+            "sub": "TTL 3",
+            "w": 130
+          },
+          {
+            "id": "r1",
+            "x": 225,
+            "y": 110,
+            "t": "Router 1",
+            "sub": "TTL 2",
+            "w": 130
+          },
+          {
+            "id": "r2",
+            "x": 375,
+            "y": 110,
+            "t": "Router 2",
+            "sub": "TTL 1",
+            "w": 130
+          },
+          {
+            "id": "r3",
+            "x": 525,
+            "y": 110,
+            "t": "Router 3",
+            "sub": "TTL 0: weg",
+            "w": 130,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "r0",
+            "bis": "r1"
+          },
+          {
+            "von": "r1",
+            "bis": "r2"
+          },
+          {
+            "von": "r2",
+            "bis": "r3"
+          }
+        ]
+      },
+      "weg": {
+        "art": "netz",
+        "titel": "Ziel-MAC = Router, Ziel-IP = Server",
+        "knoten": [
+          {
+            "id": "w0",
+            "x": 60,
+            "y": 110,
+            "t": "PC",
+            "sub": "192.168.1.10",
+            "w": 100
+          },
+          {
+            "id": "w1",
+            "x": 185,
+            "y": 110,
+            "t": "Switch 1",
+            "sub": "Schicht 2",
+            "w": 100
+          },
+          {
+            "id": "w2",
+            "x": 310,
+            "y": 110,
+            "t": "Router",
+            "sub": "Schicht 3",
+            "w": 100,
+            "rolle": "gelb"
+          },
+          {
+            "id": "w3",
+            "x": 435,
+            "y": 110,
+            "t": "Switch 2",
+            "sub": "Schicht 2",
+            "w": 100
+          },
+          {
+            "id": "w4",
+            "x": 560,
+            "y": 110,
+            "t": "Server",
+            "sub": "10.0.0.5",
+            "w": 100
+          }
+        ],
+        "links": [
+          {
+            "von": "w0",
+            "bis": "w1"
+          },
+          {
+            "von": "w1",
+            "bis": "w2"
+          },
+          {
+            "von": "w2",
+            "bis": "w3"
+          },
+          {
+            "von": "w3",
+            "bis": "w4"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Was steht in einer Routing-Tabelle?",
+        "optionen": [
+          {
+            "text": "Netzkennungen mit Ports",
+            "richtig": true
+          },
+          {
+            "text": "Einzelne MAC-Adressen",
+            "richtig": false
+          },
+          {
+            "text": "Portnummern",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was macht ein Router mit der TTL?",
+        "optionen": [
+          {
+            "text": "Zieht 1 ab",
+            "richtig": true
+          },
+          {
+            "text": "Addiert 1",
+            "richtig": false
+          },
+          {
+            "text": "Setzt sie auf 255",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Was ein Router tut",
+        "kurz": "Netze verbinden und Netzanteile auswerten",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Das Büronetz soll ins Internet. Ein Switch reicht dafür nicht.",
+          "frage": "Was braucht es stattdessen?"
+        },
+        "aufbau": [
+          {
+            "text": "Ein Router verbindet zwei oder mehr Netze und wertet den Netzanteil der IP-Adresse aus. Er arbeitet auf Schicht 3.",
+            "diagramm": "rt"
+          },
+          {
+            "text": "Seine Routing-Tabelle enthält keine Einzeladressen, sondern ganze Adressbereiche. Zu jedem Port steht, welche Netze dort erreichbar sind.",
+            "diagramm": "rt"
+          },
+          {
+            "text": "Subnetze behandelt der Router wie getrennte Netze.",
+            "diagramm": "rt"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was steht in einer Routing-Tabelle?",
+          "optionen": [
+            {
+              "text": "Netzkennungen (Adressbereiche) mit zugehörigem Port",
+              "richtig": true,
+              "korrektur": "Richtig: Router denken in Netzen, nicht in Einzeladressen."
+            },
+            {
+              "text": "Einzelne MAC-Adressen mit ihren Ports",
+              "richtig": false,
+              "korrektur": "Das ist die Tabelle des Switches."
+            },
+            {
+              "text": "Portnummern und Dienste",
+              "richtig": false,
+              "korrektur": "Das sind Portlisten, keine Routing-Tabelle."
+            }
+          ],
+          "loesung": "Netzkennungen mit Port.",
+          "beleg": {
+            "seite": "343"
+          }
+        },
+        "wiederholung": {
+          "text": "Router = Netze statt Einzeladressen, Schicht 3.",
+          "diagramm": "rt"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Was steht in einer **Routing-Tabelle**?",
+            "optionen": [
+              "Einzelne MAC-Adressen mit ihren Ports",
+              "Netzkennungen (Adressbereiche) mit dem Port, über den sie erreichbar sind",
+              "Die Passwörter der angeschlossenen Geräte",
+              "Nur die Adresse des DNS-Servers"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ein Router interessiert sich für Netze, nicht für einzelne Geräte."
+            ],
+            "erkl": "Die Routing-Tabelle ordnet **Netzen** Ports zu. Einzelne MAC-Adressen kennt der Switch."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Router = Netze statt Einzeladressen, Schicht 3.",
+          "handout": "**Router:** verbindet Netze, wertet den Netzanteil der IP aus (Schicht 3). Die Routing-Tabelle enthält Adressbereiche mit Port. Subnetze zählen wie getrennte Netze."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Wenn kein Netz passt",
+        "kurz": "Zielnetz suchen, Default-Route, Fehlermeldung",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Ein Paket will in ein Netz, das in der Tabelle fehlt.",
+          "frage": "Wohin schickt der Router es?"
+        },
+        "aufbau": [
+          {
+            "text": "Erst prüft er: Steht das Zielnetz in der Tabelle? Dann geht das Paket über den zugehörigen Port hinaus.",
+            "diagramm": "dr"
+          },
+          {
+            "text": "Nicht? Dann geht es an das Default Gateway, über die Default-Route 0.0.0.0, also alle anderen Netze, meist ins Internet.",
+            "diagramm": "dr"
+          },
+          {
+            "text": "Gibt es keine Default-Route, kann das Paket nicht weiter. Der Router erzeugt eine Fehlermeldung an den Absender.",
+            "diagramm": "dr"
+          },
+          {
+            "text": "Beim Heimrouter mit LAN 192.168.1.0/24 und WLAN 192.168.2.0/24 geht ein Paket an 192.168.2.x über den WLAN-Port.",
+            "diagramm": "rt"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was bedeutet der Eintrag 0.0.0.0 in der Routing-Tabelle des Heimrouters?",
+          "optionen": [
+            {
+              "text": "Die Default-Route für alle anderen Netze, also ins Internet",
+              "richtig": true,
+              "korrektur": "Richtig: Was nicht passt, geht über das Default Gateway."
+            },
+            {
+              "text": "Der Router selbst",
+              "richtig": false,
+              "korrektur": "Die eigene Adresse steht nicht als 0.0.0.0 in der Tabelle."
+            },
+            {
+              "text": "Ein ungültiger Eintrag",
+              "richtig": false,
+              "korrektur": "Der Eintrag ist gültig und sehr wichtig."
+            }
+          ],
+          "loesung": "Default-Route.",
+          "beleg": {
+            "seite": "344"
+          }
+        },
+        "wiederholung": {
+          "text": "Zielnetz in der Tabelle? Port. Sonst Default-Route. Keine Default-Route: Fehlermeldung.",
+          "diagramm": "dr"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Was passiert in diesem Fall?",
+            "paare": [
+              [
+                "Zielnetz steht in der Tabelle",
+                "Paket geht über den passenden Port"
+              ],
+              [
+                "Zielnetz fehlt, Default-Route vorhanden",
+                "Paket geht über die Default-Route"
+              ],
+              [
+                "Zielnetz fehlt, keine Default-Route",
+                "Fehlermeldung an den Absender"
+              ]
+            ],
+            "tipps": [
+              "Prüfreihenfolge: erst Tabelle, dann Default-Route, dann Fehler."
+            ],
+            "erkl": "Erst die Tabelle, dann die Default-Route, ohne beides gibt es eine Fehlermeldung an den Absender."
+          },
+          {
+            "t": "wahl",
+            "f": "Was bedeutet der Eintrag **0.0.0.0** in der Routing-Tabelle des Heimrouters?",
+            "optionen": [
+              "Der Router selbst",
+              "Das Heimnetz",
+              "Alle anderen Netze: die Default-Route ins Internet",
+              "Eine ungültige Adresse"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Er fängt alles auf, was sonst nirgends passt."
+            ],
+            "erkl": "0.0.0.0 steht für „alle anderen Netze“. Das ist die **Default-Route**, hier ins Internet (WAN)."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein kleiner Heimrouter hat LAN 192.168.1.0/24, WLAN 192.168.2.0/24 und WAN 0.0.0.0. Wohin geht ein Paket an **192.168.2.40**?",
+            "optionen": [
+              "Über den LAN-Port",
+              "Über den WAN-Port",
+              "Es wird verworfen",
+              "Über den WLAN-Port"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Welches Netz enthält .2.40?"
+            ],
+            "erkl": "192.168.2.40 liegt in 192.168.2.0/24, also in der Tabelle: Port **WLAN**. Die Default-Route greift nur, wenn kein Netz passt."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Router wertet die MAC-Adresse des Ziels aus, um das Netz zu finden.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Welche Schicht ist der Router? Welche Adresse gehört dazu?"
+            ],
+            "erkl": "Er wertet den **Netzanteil der IP-Adresse** aus. MAC-Adressen sind Sache von Switch und Bridge."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Gerät verbindet das Büronetz mit dem Internet. Welches?",
+            "optionen": [
+              "Switch",
+              "Router",
+              "Hub",
+              "Repeater"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Zwei verschiedene Netze zu verbinden ist die Aufgabe der Schicht 3."
+            ],
+            "erkl": "Netze miteinander (und mit dem Internet) verbindet ein **Router**."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Zielnetz in der Tabelle: Port. Sonst Default-Route 0.0.0.0. Ohne Default-Route: Fehlermeldung.",
+          "handout": "**Weiterleitung:** 1. Zielnetz in der Tabelle: Paket über den Port. 2. Sonst Default Gateway (Default-Route 0.0.0.0). 3. Keine Default-Route: Fehlermeldung an den Absender."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Router-Simulator und TTL",
+        "kurz": "Zieladresse gegen Netze prüfen, Lebensdauer begrenzen",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Bei einem Routing-Fehler könnte ein Paket ewig im Kreis laufen.",
+          "frage": "Was verhindert das?"
+        },
+        "aufbau": [
+          {
+            "text": "Prüfe jede Zieladresse gegen jedes Netz der Tabelle, mit Netzadresse und Präfix. Passt keins, greift die Default-Route, falls es sie gibt.",
+            "diagramm": "dr"
+          },
+          {
+            "text": "Das Subnetting hilft direkt: Gehört die Zieladresse in das Netz? Dann den dazugehörigen Port nehmen.",
+            "diagramm": "rt"
+          },
+          {
+            "text": "Jedes Paket trägt eine TTL (Time to Live, 8 Bit). Jeder Router zieht beim Weiterleiten 1 ab.",
+            "diagramm": "ttl"
+          },
+          {
+            "text": "Wird die TTL 0, verwirft der Router das Paket und meldet das dem Absender. Das Buch sagt Ziel nicht erreichbar, in der Praxis ist es ICMP Time Exceeded.",
+            "diagramm": "ttl"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Warum gibt es die TTL?",
+          "optionen": [
+            {
+              "text": "Damit Pakete bei Routing-Fehlern nicht ewig kreisen",
+              "richtig": true,
+              "korrektur": "Richtig: Spätestens nach der TTL vielen Routern ist Schluss."
+            },
+            {
+              "text": "Damit der Absender die Geschwindigkeit misst",
+              "richtig": false,
+              "korrektur": "Die TTL zählt Router, keine Zeit."
+            },
+            {
+              "text": "Damit der Switch die MAC lernt",
+              "richtig": false,
+              "korrektur": "Mit dem Lernen des Switches hat die TTL nichts zu tun."
+            }
+          ],
+          "loesung": "Schutz vor endlosen Schleifen.",
+          "beleg": {
+            "seite": "344"
+          }
+        },
+        "wiederholung": {
+          "text": "Jeder Router: TTL − 1. Bei 0 ist Schluss.",
+          "diagramm": "ttl"
+        },
+        "uebung": [
+          {
+            "t": "gen",
+            "gen": "routesim",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "routesim",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "ttl",
+            "stufen": [
+              1,
+              1,
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "routesim",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "routesim",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Warum gibt es die TTL?",
+            "optionen": [
+              "Damit der Absender weiß, wie schnell das Paket war",
+              "Damit der Switch die MAC lernen kann",
+              "Damit Pakete bei Routing-Schleifen nicht endlos kreisen",
+              "Damit Pakete verschlüsselt werden"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Wenn zwei Router sich ein Paket immer wieder zuschieben …"
+            ],
+            "erkl": "Die TTL begrenzt die Lebensdauer: Nach spätestens TTL Routern wird das Paket verworfen.",
+            "fallen": {
+              "1": "Denkfalle: Die TTL zählt nicht Millisekunden oder Sekunden im Router, sondern wird bei **jedem Router-Hop um genau 1 dekrementiert**, um Endlosschleifen zu verhindern!",
+              "2": "Wenn TTL = 0 erreicht, wird das Paket verworfen und eine ICMP Time Exceeded Nachricht zurückgesendet."
+            }
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Jeder Router zieht 1 von der TTL ab. Bei 0 wird das Paket verworfen.",
+          "handout": "**Router-Simulator:** Zieladresse in welches Netz? Keins: Default-Route. **TTL:** 8 Bit, jeder Router zieht 1 ab, bei 0 verwerfen und Fehlermeldung (Praxis: ICMP Time Exceeded)."
+        }
+      }
+    ],
+    "uebung": [
+      {
+        "t": "weg",
+        "titel": "Der Frame beim PC",
+        "kopf": "Der PC schickt sein Paket los. Was steht im **Frame**, der den PC verlässt?",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welche **Ziel-IP** steht im Paket?",
+            "optionen": [
+              "192.168.1.10 (der PC selbst)",
+              "Die IP des Routers",
+              "Die Broadcast-Adresse",
+              "10.0.0.5 (der Server)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Die Ziel-IP bleibt auf dem ganzen Weg gleich."
+            ],
+            "erkl": "Die Ziel-IP ist die Adresse des Servers und ändert sich unterwegs nicht.",
+            "label": "Ziel-IP"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Ziel-MAC** steht im Frame?",
+            "optionen": [
+              "Die MAC des Routers (LAN-Port)",
+              "Die MAC des Servers",
+              "ff-ff-ff-ff-ff-ff",
+              "Die MAC von Switch 1"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Der Server liegt in einem anderen Netz. An wen muss der PC den Frame übergeben?"
+            ],
+            "erkl": "Das Ziel liegt in einem anderen Netz, also geht der Frame an den **Router** (Standardgateway). Die Ziel-MAC ist die seines LAN-Ports.",
+            "label": "Ziel-MAC"
+          },
+          {
+            "t": "wahl",
+            "f": "Was macht **Switch 1** mit dem Frame?",
+            "optionen": [
+              "Er wertet die IP aus und routet ihn ins andere Netz",
+              "Er schaut in seine Forwarding Table und sendet ihn gezielt zum Router-Port",
+              "Er verwirft ihn, weil die Ziel-IP fremd ist",
+              "Er ändert die Ziel-MAC auf die des Servers"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Welche Adresse interessiert einen Switch?"
+            ],
+            "erkl": "Der Switch arbeitet auf Schicht 2: Ziel-MAC suchen, gezielt weiterleiten. IP-Adressen interessieren ihn nicht.",
+            "label": "Switch 1"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Der Router",
+        "kopf": "Der Frame kommt beim Router an. Der Router ist über einen zweiten Port mit Switch 2 verbunden.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Was macht der Router **zuerst** mit dem Paket?",
+            "optionen": [
+              "Er schaut auf die Quell-MAC und lernt sie",
+              "Er leitet es unverändert weiter",
+              "Er packt es aus Schicht 2 aus und schaut auf die Ziel-IP",
+              "Er sendet es per Broadcast in alle Netze"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Schicht 3 ist sein Revier."
+            ],
+            "erkl": "Der Router entfernt den Ethernet-Frame, liest die Ziel-IP und sucht das Zielnetz in der Routing-Tabelle.",
+            "label": "Router liest"
+          },
+          {
+            "t": "eingabe",
+            "f": "Das Paket kam mit **TTL = 64** an. Welchen Wert hat es nach dem Router?",
+            "art": "zahl",
+            "antwort": [
+              "63"
+            ],
+            "tipps": [
+              "Jeder Router zieht 1 ab."
+            ],
+            "erkl": "64 − 1 = **63**.",
+            "label": "TTL danach"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Ziel-MAC** hat der **neue Frame** in Richtung Switch 2?",
+            "optionen": [
+              "Die MAC des PCs",
+              "Die MAC des Routers",
+              "ff-ff-ff-ff-ff-ff",
+              "Die MAC des Servers"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Im Netz des Servers ist der Server selbst der nächste Empfänger."
+            ],
+            "erkl": "Der Router baut einen **neuen Frame**: Quell-MAC = sein Port Richtung Switch 2, Ziel-MAC = der Server (Praxis: die MAC kennt er per ARP).",
+            "label": "Neue Ziel-MAC"
+          }
+        ]
+      },
+      {
+        "t": "zuordnen",
+        "f": "Welches Gerät passt zum Anwendungsfall?",
+        "paare": [
+          [
+            "Mehrere PCs im Büro verbinden",
+            "Switch"
+          ],
+          [
+            "Büro-LAN mit dem Internet verbinden",
+            "Router"
+          ],
+          [
+            "Notebooks per Funk anbinden",
+            "Access Point"
+          ],
+          [
+            "Signal auf einer langen Strecke auffrischen, ohne Adressen",
+            "Repeater"
+          ],
+          [
+            "Zwei Segmente koppeln und Verkehr filtern",
+            "Bridge"
+          ]
+        ],
+        "tipps": [
+          "Netze verbinden = Schicht 3. Geräte im selben Netz verbinden = Schicht 2."
+        ],
+        "erkl": "Switch: Geräte im LAN. Router: Netze verbinden. Access Point: Funk. Repeater: Signal verstärken. Bridge: zwei Segmente mit Filter."
+      },
+      {
+        "t": "gen",
+        "gen": "macsim",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "gen",
+        "gen": "routesim",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "1. Ein **Hub** arbeitet auf welcher Schicht und welche Adressen wertet er aus?",
+        "optionen": [
+          "Schicht 1, keine Adressen",
+          "Schicht 2, MAC-Adressen",
+          "Schicht 3, IP-Adressen",
+          "Schicht 1, MAC-Adressen"
+        ],
+        "richtig": 0,
+        "erkl": "Hub und Repeater verstärken nur das Signal (Schicht 1) und werten keine Adresse aus."
+      },
+      {
+        "t": "zuordnen",
+        "f": "2. Welche Adresse wertet das Gerät aus?",
+        "paare": [
+          [
+            "Hub",
+            "keine Adresse"
+          ],
+          [
+            "Switch",
+            "MAC-Adresse"
+          ],
+          [
+            "Router",
+            "Netzanteil der IP-Adresse"
+          ],
+          [
+            "Bridge",
+            "MAC-Adresse"
+          ],
+          [
+            "Repeater",
+            "keine Adresse"
+          ]
+        ],
+        "erkl": "Hub/Repeater: keine. Bridge/Switch: MAC. Router: Netzanteil der IP."
+      },
+      {
+        "t": "wahl",
+        "f": "3. Woher bekommt ein Switch die Einträge seiner Weiterleitungstabelle?",
+        "optionen": [
+          "Aus den Ziel-MAC-Adressen der ankommenden Frames",
+          "Aus den Absender-MAC-Adressen der ankommenden Frames",
+          "Vom DHCP-Server",
+          "Vom Administrator, immer von Hand"
+        ],
+        "richtig": 1,
+        "erkl": "Der Switch lernt aus der Absender-MAC und dem Eingangsport."
+      },
+      {
+        "t": "gen",
+        "gen": "macsim",
+        "stufen": [
+          1
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "4. Welcher Switch-Typ leitet nur Frames mit korrekter Prüfsumme weiter?",
+        "optionen": [
+          "Cut-Through",
+          "Fragment-free",
+          "Store-and-Forward",
+          "Hub"
+        ],
+        "richtig": 2,
+        "erkl": "Nur Store-and-Forward empfängt den ganzen Frame und prüft die FCS."
+      },
+      {
+        "t": "eingabe",
+        "f": "5. Wie viele Byte-Zeiten Verzögerung hat ein Cut-Through-Switch?",
+        "art": "zahl",
+        "antwort": [
+          "14"
+        ],
+        "erkl": "Präambel 8 + Ziel-MAC 6 = **14**."
+      },
+      {
+        "t": "wahl",
+        "f": "6. Nach wie vielen empfangenen Bytes schaltet ein Fragment-free-Switch durch?",
+        "optionen": [
+          "Nach 14 Byte",
+          "Nach dem ganzen Frame",
+          "Nach 1518 Byte",
+          "Nach 64 Byte"
+        ],
+        "richtig": 3,
+        "erkl": "Fragment-free wartet 64 Byte ab, weil abgebrochene Frames meist kurz sind."
+      },
+      {
+        "t": "wahl",
+        "f": "7. Ein Switch hat eine Datenflusssteuerung und bremst Absender, wenn ein Puffer voll wird.",
+        "optionen": [
+          "falsch",
+          "wahr"
+        ],
+        "richtig": 0,
+        "erkl": "Der Switch hat **keine** Datenflusssteuerung. Läuft ein Puffer über, gehen Daten verloren, die Endgeräte beheben das."
+      },
+      {
+        "t": "wahl",
+        "f": "8. Wofür braucht man einen Mirrorport?",
+        "optionen": [
+          "Um zwei Switches redundant zu verbinden",
+          "Um den Verkehr ausgesuchter Ports zur Analyse zu spiegeln (z. B. für Wireshark oder ein IDS)",
+          "Um die Datenrate eines Ports zu verdoppeln",
+          "Um die MAC-Tabelle zu sichern"
+        ],
+        "richtig": 1,
+        "erkl": "Ein Mirrorport bekommt eine Kopie des Verkehrs, damit man ihn analysieren kann."
+      },
+      {
+        "t": "gen",
+        "gen": "routesim",
+        "stufen": [
+          1
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "9. Das Zielnetz eines Pakets fehlt in der Routing-Tabelle und es gibt **keine Default-Route**. Was passiert?",
+        "optionen": [
+          "Der Router sendet es per Broadcast in alle Netze",
+          "Der Router sendet es an den nächsten Switch",
+          "Der Router verwirft das Paket und schickt eine Fehlermeldung an den Absender",
+          "Der Router behält es, bis das Netz bekannt ist"
+        ],
+        "richtig": 2,
+        "erkl": "Ohne passenden Eintrag und ohne Default-Route kann das Paket nicht weiter. Es wird eine Fehlermeldung an den Absender geschickt.",
+        "fallen": {
+          "1": "Die Default Route wird als 0.0.0.0/0 (bzw. ::/0 bei IPv6) notiert – sie greift als letzter Ausweg, wenn keine spezifischere Route in der Routing-Tabelle existiert."
+        }
+      },
+      {
+        "t": "gen",
+        "gen": "ttl",
+        "stufen": [
+          1
+        ]
+      },
+      {
+        "t": "zuordnen",
+        "f": "10. Welches Gerät passt zum Anwendungsfall?",
+        "paare": [
+          [
+            "Mehrere PCs im LAN verbinden",
+            "Switch"
+          ],
+          [
+            "LAN mit dem Internet verbinden",
+            "Router"
+          ],
+          [
+            "Mobilgeräte per Funk ans LAN anbinden",
+            "Access Point"
+          ],
+          [
+            "Signal auffrischen ohne Adressen",
+            "Repeater"
+          ]
+        ],
+        "erkl": "Switch: Geräte im LAN. Router: Netze koppeln. Access Point: Funkzelle. Repeater: Signal verstärken."
+      },
+      {
+        "t": "wahl",
+        "f": "11. Ein PC schickt ein Paket an einen Server im Internet. Welche **Ziel-MAC** steht im Frame am PC?",
+        "optionen": [
+          "Die MAC des Servers",
+          "Die MAC des DNS-Servers",
+          "Die MAC des Switches",
+          "Die MAC des Standardgateways (Router)"
+        ],
+        "richtig": 3,
+        "erkl": "Liegt das Ziel in einem anderen Netz, geht der Frame an den Router. Nur die Ziel-IP bleibt die des Servers."
+      },
+      {
+        "t": "wahl",
+        "f": "12. Ein managebarer Switch braucht eine IP-Adresse, damit man ihn über das Netz konfigurieren kann.",
+        "optionen": [
+          "wahr",
+          "falsch"
+        ],
+        "richtig": 0,
+        "erkl": "Ohne IP-Adresse lässt sich ein Gerät im Netz nicht ansprechen."
+      }
+    ],
+    "uebungText": "Zum Abschluss der Weg durchs Netz: Frame am PC, Router, passende Geräte, Simulatoren. Danach ein Abschlusstest ohne Hilfen.",
+    "nachtest": [
+      {
+        "frage": "Auf welcher Schicht arbeitet ein Router?",
+        "optionen": [
+          {
+            "text": "Schicht 3",
+            "richtig": true
+          },
+          {
+            "text": "Schicht 1",
+            "richtig": false
+          },
+          {
+            "text": "Schicht 2",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Es gibt keine Default-Route und das Zielnetz fehlt. Was passiert?",
+        "optionen": [
+          {
+            "text": "Fehlermeldung an den Absender",
+            "richtig": true
+          },
+          {
+            "text": "Das Paket wird geflutet",
+            "richtig": false
+          },
+          {
+            "text": "Der Router fragt per ARP",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Was passiert bei TTL 0?",
+        "optionen": [
+          {
+            "text": "Das Paket wird verworfen",
+            "richtig": true
+          },
+          {
+            "text": "Es wird verdoppelt",
+            "richtig": false
+          },
+          {
+            "text": "Es geht an den Switch",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Welche Ziel-MAC trägt der Frame am PC bei einem Server im Internet?",
+        "optionen": [
+          {
+            "text": "Die MAC des Routers",
+            "richtig": true
+          },
+          {
+            "text": "Die MAC des Servers",
+            "richtig": false
+          },
+          {
+            "text": "Die Broadcast-MAC",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_GE4.id]: LF03_GE4 });
+})();
+
 /* ---- f_einheiten_ipv6.js ---- */
 //
 // Einheit 5: IPv6 schreiben, kuerzen, aufbauen (aus dem Kurs "Expedition Subnetting & IPv6", Stationen 6, 7, 8 und 9).
@@ -36830,7 +40326,7 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas"];
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing"];
     return `<div class="modalList">
       ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
