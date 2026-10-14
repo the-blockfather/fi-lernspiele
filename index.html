@@ -7638,6 +7638,14 @@ body.retro .vlPanelNeu { border-radius: 0; }
 .vlNetzLink.vlNetz_gestrichelt { stroke-dasharray: 7 5; }
 .vlNetzLinkText { fill: #cbd5e1; font-size: 11px; font-weight: 600; }
 
+/* Netz-Labor in der Uebung (f_uebung.js, zeigeLabor): volle Breite fuer die Arbeitsflaeche, Buehne aus, Handout-Panel unter das Labor */
+.vlLayout.vlLaborModus,
+.vlLayout.vlLaborModus.panelZu { grid-template-columns: 1fr; }
+.vlLayout.vlLaborModus .vlSidePanel { order: 2; }
+.vlLayout.vlLaborModus .vlSvgStage,
+.vlLayout.vlLaborModus .vlStageBubble,
+.vlLayout.vlLaborModus .vlStageIntroHero { display: none; }
+
 </style>
 </head>
 <body>
@@ -24317,6 +24325,4499 @@ GENERATORS.detektiv = function (level) {
   };
 
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_IPV6.id]: LF03_IPV6 });
+})();
+
+/* ---- f_einheiten_labor1.js ---- */
+//
+// Einheit 28: Netz-Labor, Geraete, Kabel, Adressen (aus dem Kurs "Netz-Labor", Stationen 0 und 1). Labor-Schritte unveraendert im Uebungsblock.
+(function () {
+  "use strict";
+
+  const LF03_LB1 = {
+    "id": "lf03-labor-geraete-adressen",
+    "reihe": 28,
+    "titel": "Netz-Labor: Geräte, Kabel und Adressen",
+    "untertitel": "ein erstes Netz selbst bauen, das richtige Kabel wählen und Geräte im Labor adressieren",
+    "lernfeld": "LF03",
+    "dauer_min": 40,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 309–320, 330–343 und 356–364 (Geräte, Kabel, IP-Konfiguration); praktisch im Netz-Labor nach Packet-Tracer-Art",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Geräte, Kabeltypen und Link-Punkte im Labor einsetzen und lesen",
+        "kn": "Labor"
+      },
+      {
+        "id": "lz2",
+        "text": "Geräte adressieren und die Gateway-Logik erklären",
+        "kn": "Labor"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Drei Geräteklassen",
+        "knoten": [
+          {
+            "id": "g0",
+            "x": 110,
+            "y": 110,
+            "t": "PC, Laptop, Server",
+            "sub": "Endgeräte",
+            "w": 170
+          },
+          {
+            "id": "g1",
+            "x": 320,
+            "y": 110,
+            "t": "Switch",
+            "sub": "gleiches Netz, Schicht 2",
+            "w": 170
+          },
+          {
+            "id": "g2",
+            "x": 530,
+            "y": 110,
+            "t": "Router",
+            "sub": "zwischen Netzen, Schicht 3",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "geraete": {
+        "art": "netz",
+        "titel": "Drei Geräteklassen",
+        "knoten": [
+          {
+            "id": "g0",
+            "x": 110,
+            "y": 110,
+            "t": "PC, Laptop, Server",
+            "sub": "Endgeräte",
+            "w": 170
+          },
+          {
+            "id": "g1",
+            "x": 320,
+            "y": 110,
+            "t": "Switch",
+            "sub": "gleiches Netz, Schicht 2",
+            "w": 170
+          },
+          {
+            "id": "g2",
+            "x": 530,
+            "y": 110,
+            "t": "Router",
+            "sub": "zwischen Netzen, Schicht 3",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "stern": {
+        "art": "netz",
+        "titel": "Der Stern: ein Switch in der Mitte",
+        "knoten": [
+          {
+            "id": "sw",
+            "x": 320,
+            "y": 110,
+            "t": "Switch0",
+            "w": 110,
+            "rolle": "gelb"
+          },
+          {
+            "id": "p0",
+            "x": 110,
+            "y": 60,
+            "t": "PC0",
+            "w": 90
+          },
+          {
+            "id": "p1",
+            "x": 110,
+            "y": 160,
+            "t": "PC1",
+            "w": 90
+          },
+          {
+            "id": "sv",
+            "x": 530,
+            "y": 110,
+            "t": "Server0",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "p0",
+            "bis": "sw"
+          },
+          {
+            "von": "p1",
+            "bis": "sw"
+          },
+          {
+            "von": "sv",
+            "bis": "sw"
+          }
+        ]
+      },
+      "kabel": {
+        "art": "netz",
+        "titel": "Kabelregel: gleich zu gleich ist Kreuz",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 170,
+            "y": 110,
+            "t": "Gerades Kabel",
+            "sub": "PC, Server, Router an Switch",
+            "w": 250,
+            "rolle": "gruen"
+          },
+          {
+            "id": "b",
+            "x": 470,
+            "y": 110,
+            "t": "Kreuzkabel",
+            "sub": "PC-PC, Switch-Switch, PC-Router",
+            "w": 250,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "punkte": {
+        "art": "netz",
+        "titel": "Link-Punkte am Kabelende",
+        "knoten": [
+          {
+            "id": "l0",
+            "x": 110,
+            "y": 110,
+            "t": "Grün",
+            "sub": "Link steht",
+            "w": 170
+          },
+          {
+            "id": "l1",
+            "x": 320,
+            "y": 110,
+            "t": "Gelb",
+            "sub": "Port startet",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "l2",
+            "x": 530,
+            "y": 110,
+            "t": "Rot",
+            "sub": "falscher Kabeltyp, Port aus",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "drei": {
+        "art": "netz",
+        "titel": "Drei Angaben pro Gerät",
+        "knoten": [
+          {
+            "id": "d0",
+            "x": 110,
+            "y": 110,
+            "t": "IP-Adresse",
+            "sub": "wer bin ich?",
+            "w": 170
+          },
+          {
+            "id": "d1",
+            "x": 320,
+            "y": 110,
+            "t": "Subnetzmaske",
+            "sub": "welcher Teil ist Netz?",
+            "w": 170
+          },
+          {
+            "id": "d2",
+            "x": 530,
+            "y": 110,
+            "t": "Gateway",
+            "sub": "Weg nach außen",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "ablauf": {
+        "art": "netz",
+        "titel": "Vor dem Senden: liegt das Ziel im eigenen Netz?",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 130,
+            "y": 110,
+            "t": "Ziel im eigenen Netz?",
+            "w": 190
+          },
+          {
+            "id": "b",
+            "x": 460,
+            "y": 60,
+            "t": "Ja",
+            "sub": "direkt senden",
+            "w": 170,
+            "rolle": "gruen"
+          },
+          {
+            "id": "c",
+            "x": 460,
+            "y": 160,
+            "t": "Nein",
+            "sub": "an das Gateway",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "a",
+            "bis": "c"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welches Kabel verbindet zwei gleichartige Geräte direkt?",
+        "optionen": [
+          {
+            "text": "Kreuzkabel",
+            "richtig": true
+          },
+          {
+            "text": "gerades Kabel",
+            "richtig": false
+          },
+          {
+            "text": "Rollover",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wohin schickt ein Gerät Pakete für fremde Netze?",
+        "optionen": [
+          {
+            "text": "ans Standardgateway",
+            "richtig": true
+          },
+          {
+            "text": "an den Switch",
+            "richtig": false
+          },
+          {
+            "text": "an den DNS-Server",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Geräte und Kabel",
+        "kurz": "Endgeräte, Switch, Router und das passende Kabel",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Im Labor baust du Netze selbst, klein und ohne Risiko. Es ist wie Cisco Packet Tracer, nur einfacher.",
+          "frage": "Welche Geräte und Kabel brauchst du?"
+        },
+        "aufbau": [
+          {
+            "text": "PC, Laptop und Server sind Endgeräte. Ein Switch verbindet Geräte im selben Netz (Schicht 2) und braucht keine eingestellte IP.",
+            "diagramm": "geraete"
+          },
+          {
+            "text": "Ein Router verbindet verschiedene Netze (Schicht 3). Jeder Port gehört zu einem anderen Netz und bekommt eine eigene IP-Adresse.",
+            "diagramm": "geraete"
+          },
+          {
+            "text": "Lehrbuchregel: Unterschiedliche Geräte verbindest du gerade (Straight-Through), gleichartige mit Kreuzkabel (Cross-Over).",
+            "diagramm": "kabel"
+          },
+          {
+            "text": "Gerade: PC-Switch, Server-Switch, Router-Switch. Gekreuzt: PC-PC, Switch-Switch, PC-Router, Router-Router. PC, Server und Router zählen als eine Gruppe.",
+            "diagramm": "kabel"
+          },
+          {
+            "text": "An jedem Kabelende sitzt ein Punkt: grün der Link steht, gelb der Port startet noch, rot stimmt etwas nicht (meist Kabeltyp oder Router-Port aus).",
+            "diagramm": "punkte"
+          },
+          {
+            "text": "Ein Switch-Port wartet nach dem Einstecken einige Sekunden, er prüft auf Schleifen (Spanning Tree).",
+            "diagramm": "punkte"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Du verbindest zwei PCs direkt. Welches Kabel brauchst du?",
+          "optionen": [
+            {
+              "text": "Ein Kreuzkabel",
+              "richtig": true,
+              "korrektur": "Richtig: Gleich zu gleich ist Kreuz."
+            },
+            {
+              "text": "Ein gerades Kabel",
+              "richtig": false,
+              "korrektur": "Gerade gilt für ungleiche Geräte wie PC und Switch."
+            },
+            {
+              "text": "Egal, der Switch erkennt es",
+              "richtig": false,
+              "korrektur": "Ohne Switch gibt es keine Erkennung."
+            }
+          ],
+          "loesung": "Kreuzkabel.",
+          "beleg": {
+            "seite": "309–320, 339–343"
+          }
+        },
+        "wiederholung": {
+          "text": "Ungleich = gerade, gleich = Kreuz. Grüner Punkt = Link steht, gelb = Port startet, rot = Kabeltyp oder Port prüfen.",
+          "diagramm": "kabel"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welches Gerät verbindest du, wenn zwei **verschiedene Netze** miteinander reden sollen?",
+            "optionen": [
+              "Router",
+              "Switch",
+              "PC",
+              "Server"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Ein Switch bleibt im selben Netz.",
+              "Es geht um Schicht 3."
+            ],
+            "erkl": "Der **Router** liegt zwischen den Netzen. Ein Switch verbindet nur Geräte innerhalb eines Netzes."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Kabel gehört dazwischen?",
+            "paare": [
+              [
+                "PC ↔ Switch",
+                "Gerade"
+              ],
+              [
+                "Switch ↔ Switch",
+                "Kreuz"
+              ],
+              [
+                "PC ↔ PC",
+                "Kreuz"
+              ],
+              [
+                "Router ↔ Switch",
+                "Gerade"
+              ],
+              [
+                "PC ↔ Router",
+                "Kreuz"
+              ]
+            ],
+            "tipps": [
+              "Sind die beiden Geräte gleichartig (PC, Server, Router) oder ist ein Switch dabei?",
+              "Switch + Nicht-Switch: gerade. Sonst: Kreuz."
+            ],
+            "erkl": "Ungleich = gerade. Gleichartig = Kreuz. Der Switch ist das Gegenstück zu allen anderen."
+          },
+          {
+            "t": "labor",
+            "f": "Zwei PCs verbinden",
+            "titel": "Zwei PCs verbinden",
+            "aufgabe": "Baue das kleinste Netz der Welt: zwei PCs, ein Kabel.",
+            "intro": "Willkommen im Labor! Ich bin dein Lehrer. Ziehe zwei **PCs** aus der Leiste auf die Fläche. Danach verbindest du sie mit dem richtigen Kabel.",
+            "vorgabe": {
+              "knoten": [],
+              "links": []
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 130,
+                  "y": 150,
+                  "cfg": {
+                    "ip": "",
+                    "mask": "",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "PC1",
+                  "typ": "pc",
+                  "x": 390,
+                  "y": 150,
+                  "cfg": {
+                    "ip": "",
+                    "mask": "",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "PC1",
+                  "kabel": "kreuz"
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Platziere zwei PCs",
+                "c": {
+                  "platziert": {
+                    "typ": "pc",
+                    "min": 2
+                  }
+                },
+                "h": [
+                  "Die Geräteleiste liegt über der Fläche. Zieh einen PC darauf, oder tippe den Knopf einmal an.",
+                  "Du brauchst zwei Stück: PC0 und PC1."
+                ],
+                "ok": "Zwei PCs stehen."
+              },
+              {
+                "t": "Verbinde beide mit dem passenden Kabel, beide Punkte grün",
+                "c": {
+                  "typlinks": {
+                    "a": "pc",
+                    "b": "pc",
+                    "min": 1,
+                    "kabel": "kreuz",
+                    "hoch": true
+                  }
+                },
+                "h": [
+                  "Wähle ein Kabelwerkzeug. Zwei PCs sind gleichartig. Welche Kabelart gehört dazu?",
+                  "Gleich zu gleich ist ein **Kreuzkabel** (gestrichelt). Ziehe mit dem Werkzeug „Kreuzkabel“ von PC0 zu PC1.",
+                  "Ist der Punkt rot? Tippe auf das Kabel und tausche den Typ."
+                ]
+              }
+            ],
+            "bauteile": [
+              "pc"
+            ],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Beide Punkte sind grün: Die Verbindung steht. Einen PC direkt mit einem PC zu verbinden gelingt nur mit einem Kreuzkabel. Gleich geht es mit einem Switch weiter.",
+            "erkl": "PC an PC = gleichartige Geräte = **Kreuzkabel**. Das Kabel ist gestrichelt dargestellt.",
+            "loesung": "Zwei PCs, dazwischen ein Kreuzkabel (gestrichelt).",
+            "maxGeraete": 4,
+            "platzText": {
+              "pc": "Ein PC hat eine Netzwerkkarte, in PT heißt ihr Anschluss FastEthernet0 (Fa0)."
+            }
+          },
+          {
+            "t": "labor",
+            "f": "Der erste Stern",
+            "titel": "Der erste Stern",
+            "aufgabe": "Baue einen Stern: ein Switch in der Mitte, zwei PCs und ein Server außen.",
+            "intro": "Jetzt wird es ein richtiges Netz. Stelle **einen Switch, zwei PCs und einen Server** auf und verbinde jeden mit dem Switch.",
+            "vorgabe": {
+              "knoten": [],
+              "links": []
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 260,
+                  "y": 160
+                },
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 90,
+                  "y": 80,
+                  "cfg": {
+                    "ip": "",
+                    "mask": "",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "PC1",
+                  "typ": "pc",
+                  "x": 90,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "",
+                    "mask": "",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 430,
+                  "y": 160,
+                  "cfg": {
+                    "ip": "",
+                    "mask": "",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "PC1",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Stelle einen Switch auf",
+                "c": {
+                  "platziert": {
+                    "typ": "switch",
+                    "min": 1
+                  }
+                },
+                "h": [
+                  "Der Switch ist in der Leiste neben dem PC."
+                ]
+              },
+              {
+                "t": "Stelle zwei PCs und einen Server auf",
+                "c": [
+                  {
+                    "platziert": {
+                      "typ": "pc",
+                      "min": 2
+                    }
+                  },
+                  {
+                    "platziert": {
+                      "typ": "server",
+                      "min": 1
+                    }
+                  }
+                ],
+                "h": [
+                  "Ziehe zwei PCs und einen Server auf die Fläche."
+                ]
+              },
+              {
+                "t": "Verbinde beide PCs mit dem Switch (gerades Kabel, grün)",
+                "c": {
+                  "typlinks": {
+                    "a": "pc",
+                    "b": "switch",
+                    "min": 2,
+                    "kabel": "gerade",
+                    "hoch": true
+                  }
+                },
+                "h": [
+                  "PC und Switch sind ungleiche Geräte. Welches Kabel?",
+                  "Ein **gerades** Kabel (durchgezogen). Zieh von jedem PC zum Switch.",
+                  "Rote Punkte? Dann liegt ein Kreuzkabel an. Tippe das Kabel an und tausche den Typ."
+                ]
+              },
+              {
+                "t": "Verbinde auch den Server mit dem Switch",
+                "c": {
+                  "typlinks": {
+                    "a": "server",
+                    "b": "switch",
+                    "min": 1,
+                    "kabel": "gerade",
+                    "hoch": true
+                  }
+                },
+                "h": [
+                  "Server und Switch: ebenfalls ungleich, also ein gerades Kabel."
+                ]
+              }
+            ],
+            "bauteile": [
+              "pc",
+              "server",
+              "switch"
+            ],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Dein erstes Netz steht. Die Punkte am Switch sind erst gelb, dann grün: Er prüft kurz seine Ports. Die Geräte haben noch keine IP-Adressen. Die kommen als Nächstes.",
+            "erkl": "PC–Switch und Server–Switch sind ungleiche Geräte, also **gerade** Kabel. Ein Switch braucht keine Einstellungen.",
+            "loesung": "Der Switch steht in der Mitte, jeder Endpunkt hängt mit einem geraden Kabel daran.",
+            "maxGeraete": 6,
+            "platzText": {
+              "switch": "Der Switch hat hier acht Ports (Fa0/1 bis Fa0/8). Das Labor wählt beim Anschließen den ersten freien Port. In Packet Tracer wählst du den Port selbst aus."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Der Punkt am Switch-Port ist **gelb**, gerade eben wurde das Kabel gesteckt. Was ist am sinnvollsten?",
+            "optionen": [
+              "Das Kabel sofort tauschen",
+              "Kurz warten, bis er grün wird",
+              "Den Switch löschen",
+              "Dem PC eine neue IP geben"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Gelb heißt nicht Fehler.",
+              "Der Switch prüft erst, ob eine Schleife entstehen würde."
+            ],
+            "erkl": "Gelb = der Port startet. Nach einigen Sekunden wird er grün. Rot wäre das Warnzeichen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Ungleiche Geräte gerade, gleichartige gekreuzt. Grün bedeutet: Der Link steht.",
+          "handout": "**Geräte:** Endgerät · Switch (gleiches Netz) · Router (zwischen Netzen). **Kabel:** ungleich gerade, gleich Kreuz. **Punkte:** grün Link, gelb startet, rot Fehler."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "IP, Maske, Gateway",
+        "kurz": "drei Angaben und die Entscheidung vor dem Senden",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Das Netz ist verkabelt, aber noch stumm. Es fehlen die Adressen.",
+          "frage": "Was braucht jedes Gerät, um zu senden?"
+        },
+        "aufbau": [
+          {
+            "text": "Jedes Gerät braucht drei Angaben: die IP-Adresse (wer bin ich), die Subnetzmaske (welcher Teil ist Netz) und das Standardgateway.",
+            "diagramm": "drei"
+          },
+          {
+            "text": "Beispiel: 192.168.1.10 mit 255.255.255.0, die ersten drei Zahlen sind das Netz.",
+            "diagramm": "drei"
+          },
+          {
+            "text": "Geräte im selben Netz erreichen sich direkt über den Switch. Alles andere geht an das Gateway.",
+            "diagramm": "ablauf"
+          },
+          {
+            "text": "Vor jedem Senden prüft ein Gerät mit der Maske: Liegt das Ziel in meinem Netz? Ja: direkt senden. Nein: an das Standardgateway.",
+            "diagramm": "ablauf"
+          },
+          {
+            "text": "Das Gateway ist die IP des Routers in deinem eigenen Netz und muss ohne Router erreichbar sein, also im eigenen Netz liegen.",
+            "diagramm": "ablauf"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Das Ziel liegt nicht im eigenen Netz. Wohin sendet das Gerät?",
+          "optionen": [
+            {
+              "text": "An das Standardgateway",
+              "richtig": true,
+              "korrektur": "Richtig: Der Router leitet das Paket weiter."
+            },
+            {
+              "text": "Direkt an das Ziel",
+              "richtig": false,
+              "korrektur": "Direkt geht es nur im eigenen Netz."
+            },
+            {
+              "text": "An einen beliebigen Switch-Port",
+              "richtig": false,
+              "korrektur": "Ein Switch kennt nur das eigene Netz."
+            }
+          ],
+          "loesung": "Standardgateway.",
+          "beleg": {
+            "seite": "330–338, 356–364"
+          }
+        },
+        "wiederholung": {
+          "text": "Maske entscheidet: eigenes Netz direkt, sonst Gateway. Das Gateway liegt im eigenen Netz.",
+          "diagramm": "ablauf"
+        },
+        "uebung": [
+          {
+            "t": "eingabe",
+            "f": "In welchem Netz liegt `192.168.1.10` mit der Maske `255.255.255.0`? (Netzadresse)",
+            "art": "ip",
+            "antwort": [
+              "192.168.1.0"
+            ],
+            "tipps": [
+              "Die Maske 255.255.255.0 behält die ersten drei Zahlen, die letzte wird 0."
+            ],
+            "erkl": "Die ersten drei Oktette bleiben, der Hostteil wird 0: **192.168.1.0**."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Adresse darf im Netz `192.168.1.0/24` **kein Gerät** bekommen?",
+            "optionen": [
+              "192.168.1.1",
+              "192.168.1.100",
+              "192.168.1.255",
+              "192.168.1.254"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Zwei Adressen jedes Netzes sind reserviert: die erste und die letzte."
+            ],
+            "erkl": "`192.168.1.0` ist die Netzadresse, `192.168.1.255` die Broadcast-Adresse. Beide gehören keinem Gerät."
+          },
+          {
+            "t": "wahl",
+            "f": "Zwei PCs hängen am selben Switch. PC A hat `192.168.1.10/24`, PC B hat `192.168.2.10/24`. Sie erreichen sich ohne Router.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Vergleiche die Netzadressen."
+            ],
+            "erkl": "Die beiden liegen in **verschiedenen Netzen** (…1.0 und …2.0). Dafür braucht es einen Router."
+          },
+          {
+            "t": "labor",
+            "f": "Drei Geräte, ein Netz",
+            "titel": "Drei Geräte, ein Netz",
+            "aufgabe": "Gib PC0, PC1 und dem Server Adressen im Netz 192.168.1.0/24 und teste mit ping.",
+            "intro": "Hier ist das Netz schon verkabelt. Dir fehlen die **Adressen**. Tippe ein Gerät an und trage unter **IP-Konfiguration** IP-Adresse und Subnetzmaske ein. Nimm das Netz `192.168.1.0/24`, also Maske `255.255.255.0`. Danach testest du in der **Eingabeaufforderung** mit `ping`.",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 100,
+                  "y": 80,
+                  "cfg": {
+                    "ip": "",
+                    "mask": "",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "PC1",
+                  "typ": "pc",
+                  "x": 100,
+                  "y": 240,
+                  "cfg": {
+                    "ip": "",
+                    "mask": "",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 260,
+                  "y": 160,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 430,
+                  "y": 160,
+                  "cfg": {
+                    "ip": "",
+                    "mask": "",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "PC1",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 100,
+                  "y": 80,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "PC1",
+                  "typ": "pc",
+                  "x": 100,
+                  "y": 240,
+                  "cfg": {
+                    "ip": "192.168.1.11",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 260,
+                  "y": 160,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 430,
+                  "y": 160,
+                  "cfg": {
+                    "ip": "192.168.1.100",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "PC1",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Alle drei Geräte haben eine eigene IP im Netz 192.168.1.0/24 (Maske 255.255.255.0)",
+                "c": {
+                  "hostips": {
+                    "min": 3,
+                    "netz": "192.168.1.0",
+                    "mask": "255.255.255.0"
+                  }
+                },
+                "h": [
+                  "Gerät antippen, im Reiter „IP-Konfiguration“ die Felder füllen. Jedes Gerät braucht eine **andere** Adresse.",
+                  "Zum Beispiel PC0 `192.168.1.10`, PC1 `192.168.1.11`, Server `192.168.1.100`, überall Maske `255.255.255.0`.",
+                  "Das Standardgateway lässt du frei: Alle liegen im selben Netz."
+                ]
+              },
+              {
+                "t": "PC0 pingt PC1 erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "PC1"
+                  }
+                },
+                "h": [
+                  "Öffne PC0, Reiter „Eingabeaufforderung“, tippe `ping 192.168.1.11` (die Adresse von PC1).",
+                  "Sind die Switch-Punkte noch gelb? Kurz warten."
+                ],
+                "ok": "Antwort von PC1. Der erste Request ging verloren: Das ist ARP (die MAC-Adresse wird erfragt)."
+              },
+              {
+                "t": "PC0 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "Gleicher Ablauf, nur mit der Adresse des Servers."
+                ]
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Alle drei antworten. Merke dir den ersten Ping: Er geht oft verloren, weil das Gerät erst per ARP die MAC-Adresse des Ziels erfragt. Ab dem zweiten Ping klappt es sofort.",
+            "erkl": "Im selben Netz brauchst du kein Gateway. Der Ping läuft nur über den Switch.",
+            "loesung": "PC0 192.168.1.10, PC1 192.168.1.11, Server 192.168.1.100, überall 255.255.255.0.",
+            "diagnose": true
+          }
+        ],
+        "sicherung": {
+          "merksatz": "IP, Maske, Gateway. Eigenes Netz direkt, alles andere über das Gateway.",
+          "handout": "**Drei Angaben:** IP-Adresse · Subnetzmaske · Standardgateway. **Entscheidung:** Ziel im eigenen Netz → direkt, sonst → Gateway (Router-IP im eigenen Netz)."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welches Kabel gehört zwischen PC und Switch?",
+        "optionen": [
+          {
+            "text": "gerades Kabel",
+            "richtig": true
+          },
+          {
+            "text": "Kreuzkabel",
+            "richtig": false
+          },
+          {
+            "text": "Rollover",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was bedeutet ein gelber Punkt am Switch-Port?",
+        "optionen": [
+          {
+            "text": "der Port startet noch",
+            "richtig": true
+          },
+          {
+            "text": "Link steht",
+            "richtig": false
+          },
+          {
+            "text": "falscher Kabeltyp",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wer entscheidet mit der Maske über direkt oder Gateway?",
+        "optionen": [
+          {
+            "text": "das sendende Gerät",
+            "richtig": true
+          },
+          {
+            "text": "der Switch",
+            "richtig": false
+          },
+          {
+            "text": "der DNS-Server",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wo muss das Gateway liegen?",
+        "optionen": [
+          {
+            "text": "im eigenen Netz",
+            "richtig": true
+          },
+          {
+            "text": "im Zielnetz",
+            "richtig": false
+          },
+          {
+            "text": "im Internet",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_LB1.id]: LF03_LB1 });
+})();
+
+/* ---- f_einheiten_labor2.js ---- */
+//
+// Einheit 29: Netz-Labor, Router und Gateway (Station 2). Labor-Schritte unveraendert im Uebungsblock.
+(function () {
+  "use strict";
+
+  const LF03_LB2 = {
+    "id": "lf03-labor-router-gateway",
+    "reihe": 29,
+    "titel": "Netz-Labor: Router und Gateway",
+    "untertitel": "einen Router in Betrieb nehmen, Gateways eintragen und ein Netz mit zwei Teilen komplett aufbauen",
+    "lernfeld": "LF03",
+    "dauer_min": 35,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 343–344 (Router, Gateway); praktisch im Netz-Labor nach Packet-Tracer-Art",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Einen Router in Betrieb nehmen: Ports einschalten und adressieren",
+        "kn": "Router"
+      },
+      {
+        "id": "lz2",
+        "text": "Gateways eintragen, TTL lesen und ein Zwei-Netz-Labor komplett aufbauen",
+        "kn": "Router"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Zwei Netze, ein Router",
+        "knoten": [
+          {
+            "id": "n0",
+            "x": 110,
+            "y": 110,
+            "t": "Netz links",
+            "sub": "192.168.1.0/24",
+            "w": 170
+          },
+          {
+            "id": "n1",
+            "x": 320,
+            "y": 110,
+            "t": "Router",
+            "sub": "192.168.1.1 | 192.168.2.1",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "n2",
+            "x": 530,
+            "y": 110,
+            "t": "Netz rechts",
+            "sub": "192.168.2.0/24",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "n0",
+            "bis": "n1"
+          },
+          {
+            "von": "n1",
+            "bis": "n2"
+          }
+        ]
+      },
+      "zwei": {
+        "art": "netz",
+        "titel": "Zwei Netze, ein Router",
+        "knoten": [
+          {
+            "id": "n0",
+            "x": 110,
+            "y": 110,
+            "t": "Netz links",
+            "sub": "192.168.1.0/24",
+            "w": 170
+          },
+          {
+            "id": "n1",
+            "x": 320,
+            "y": 110,
+            "t": "Router",
+            "sub": "192.168.1.1 | 192.168.2.1",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "n2",
+            "x": 530,
+            "y": 110,
+            "t": "Netz rechts",
+            "sub": "192.168.2.0/24",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "n0",
+            "bis": "n1"
+          },
+          {
+            "von": "n1",
+            "bis": "n2"
+          }
+        ]
+      },
+      "ports": {
+        "art": "netz",
+        "titel": "Router in Betrieb nehmen",
+        "knoten": [
+          {
+            "id": "r0",
+            "x": 90,
+            "y": 110,
+            "t": "Port aus",
+            "sub": "administratively down",
+            "w": 140
+          },
+          {
+            "id": "r1",
+            "x": 245,
+            "y": 110,
+            "t": "Port On",
+            "sub": "einschalten",
+            "w": 140
+          },
+          {
+            "id": "r2",
+            "x": 400,
+            "y": 110,
+            "t": "IP und Maske",
+            "sub": "z. B. 192.168.1.1",
+            "w": 140
+          },
+          {
+            "id": "r3",
+            "x": 555,
+            "y": 110,
+            "t": "Gateway",
+            "sub": "für die Endgeräte",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "r0",
+            "bis": "r1"
+          },
+          {
+            "von": "r1",
+            "bis": "r2"
+          },
+          {
+            "von": "r2",
+            "bis": "r3"
+          }
+        ]
+      },
+      "ttl": {
+        "art": "netz",
+        "titel": "TTL zählt die Router",
+        "knoten": [
+          {
+            "id": "t0",
+            "x": 110,
+            "y": 110,
+            "t": "TTL=128",
+            "sub": "kein Router dazwischen",
+            "w": 170
+          },
+          {
+            "id": "t1",
+            "x": 320,
+            "y": 110,
+            "t": "TTL=127",
+            "sub": "ein Router",
+            "w": 170
+          },
+          {
+            "id": "t2",
+            "x": 530,
+            "y": 110,
+            "t": "TTL=126",
+            "sub": "zwei Router",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "t0",
+            "bis": "t1"
+          },
+          {
+            "von": "t1",
+            "bis": "t2"
+          }
+        ]
+      },
+      "gesamt": {
+        "art": "netz",
+        "titel": "Alles selbst bauen: zwei Netze",
+        "knoten": [
+          {
+            "id": "p",
+            "x": 70,
+            "y": 110,
+            "t": "PC0",
+            "sub": "192.168.1.10",
+            "w": 96
+          },
+          {
+            "id": "s0",
+            "x": 195,
+            "y": 110,
+            "t": "Switch0",
+            "w": 96
+          },
+          {
+            "id": "r",
+            "x": 320,
+            "y": 110,
+            "t": "Router0",
+            "sub": "Ports .1",
+            "w": 96,
+            "rolle": "gelb"
+          },
+          {
+            "id": "s1",
+            "x": 445,
+            "y": 110,
+            "t": "Switch1",
+            "w": 96
+          },
+          {
+            "id": "sv",
+            "x": 570,
+            "y": 110,
+            "t": "Server0",
+            "sub": "192.168.2.10",
+            "w": 96
+          }
+        ],
+        "links": [
+          {
+            "von": "p",
+            "bis": "s0"
+          },
+          {
+            "von": "s0",
+            "bis": "r"
+          },
+          {
+            "von": "r",
+            "bis": "s1"
+          },
+          {
+            "von": "s1",
+            "bis": "sv"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "In welchem Zustand startet ein neuer Cisco-Router?",
+        "optionen": [
+          {
+            "text": "Ports ausgeschaltet",
+            "richtig": true
+          },
+          {
+            "text": "Ports an, ohne IP",
+            "richtig": false
+          },
+          {
+            "text": "Ports an, mit DHCP",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie viele Router liegen bei TTL=126 (Start 128) auf dem Weg?",
+        "optionen": [
+          {
+            "text": "zwei",
+            "richtig": true
+          },
+          {
+            "text": "einer",
+            "richtig": false
+          },
+          {
+            "text": "keiner",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Router in Betrieb nehmen",
+        "kurz": "Ports einschalten, Gateway-Adressen eintragen",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Zwei Netze reden nur über einen Router miteinander.",
+          "frage": "Was muss am Router passieren?"
+        },
+        "aufbau": [
+          {
+            "text": "Der Router hat für jedes Netz einen Port mit einer IP-Adresse aus diesem Netz. Diese Adresse ist das Standardgateway für alle Geräte dort.",
+            "diagramm": "zwei"
+          },
+          {
+            "text": "Beispiel: Port links 192.168.1.1 für das linke Netz, Port rechts 192.168.2.1 für das rechte Netz. Die .1 ist Gewohnheit, keine Pflicht.",
+            "diagramm": "zwei"
+          },
+          {
+            "text": "Ein neuer Cisco-Router hat alle Ports ausgeschaltet (administratively down). Jeden benutzten Port schaltest du ein und gibst ihm IP und Maske.",
+            "diagramm": "ports"
+          },
+          {
+            "text": "In PT: Router anklicken, Reiter Config, Port wählen, Port Status On, IP und Subnetzmaske eintragen. Das ist dasselbe wie in der Konsole.",
+            "diagramm": "ports"
+          },
+          {
+            "text": "Die Portnamen hängen vom Modell ab, etwa GigabitEthernet0/0, 0/1, 0/2. Das Labor hat drei Gig-Ports.",
+            "diagramm": "ports"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein neuer Router ist verkabelt, aber nichts geht. Was fehlt zuerst?",
+          "optionen": [
+            {
+              "text": "Die benutzten Ports einschalten und mit IP versehen",
+              "richtig": true,
+              "korrektur": "Richtig: Neue Ports sind administratively down."
+            },
+            {
+              "text": "Ein neues Kabel",
+              "richtig": false,
+              "korrektur": "Die Verkabelung steht schon."
+            },
+            {
+              "text": "Die Gateways an den Endgeräten",
+              "richtig": false,
+              "korrektur": "Das kommt danach, ein ausgeschalteter Port hilft damit nicht."
+            }
+          ],
+          "loesung": "Ports einschalten, IP eintragen.",
+          "beleg": {
+            "seite": "343–344"
+          }
+        },
+        "wiederholung": {
+          "text": "Router-Port: On, IP, Maske. Diese IP ist das Gateway des Netzes.",
+          "diagramm": "ports"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welche Adresse bekommt der Router-Port, der am Netz `192.168.1.0/24` hängt, wenn er das Gateway sein soll?",
+            "optionen": [
+              "Eine freie Adresse aus diesem Netz, z. B. 192.168.1.1",
+              "Eine Adresse aus dem anderen Netz, z. B. 192.168.2.1",
+              "Die Netzadresse 192.168.1.0",
+              "Die Broadcast-Adresse 192.168.1.255"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Das Gateway muss im eigenen Netz liegen."
+            ],
+            "erkl": "Der Port ist Teil des Netzes. Seine Adresse muss aus diesem Netz stammen und frei sein."
+          },
+          {
+            "t": "labor",
+            "f": "Router in Betrieb nehmen",
+            "titel": "Router in Betrieb nehmen",
+            "aufgabe": "Der Router ist verkabelt, aber noch unkonfiguriert. Schalte seine Ports ein und gib ihnen die Gateway-Adressen.",
+            "intro": "PC0 und Server0 sind fertig eingerichtet, samt Gateway. Der **Router** ist verkabelt, aber seine Ports sind **aus** und haben keine IP. Tippe den Router an, schalte **beide benutzten Ports** ein und trage die Gateway-Adressen ein: oben `192.168.1.1`, unten `192.168.2.1`, Maske jeweils `255.255.255.0`. Dann pingst du vom PC0 zum Server.",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Port Gig0/0 (Netz oben, am oberen Switch): Status On, IP 192.168.1.1, Maske 255.255.255.0",
+                "c": {
+                  "rip": {
+                    "n": "Router0",
+                    "port": "GigabitEthernet0/0",
+                    "ip": "192.168.1.1",
+                    "mask": "255.255.255.0",
+                    "an": true
+                  }
+                },
+                "h": [
+                  "Router anklicken. In der Tabelle gibt es eine Zeile je Port. Gig0/0 hängt am oberen Switch (Netz oben).",
+                  "Hake **On** an und trage IP und Maske ein: `192.168.1.1` / `255.255.255.0`."
+                ]
+              },
+              {
+                "t": "Port Gig0/1 (Netz unten, am unteren Switch): Status On, IP 192.168.2.1, Maske 255.255.255.0",
+                "c": {
+                  "rip": {
+                    "n": "Router0",
+                    "port": "GigabitEthernet0/1",
+                    "ip": "192.168.2.1",
+                    "mask": "255.255.255.0",
+                    "an": true
+                  }
+                },
+                "h": [
+                  "Die zweite Zeile, Gig0/1, hängt am unteren Switch.",
+                  "Auch hier **On** und `192.168.2.1` / `255.255.255.0`."
+                ]
+              },
+              {
+                "t": "PC0 pingt den Server (192.168.2.10) erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "Öffne PC0, Eingabeaufforderung, `ping 192.168.2.10`.",
+                  "Kommt nur „Request timed out“? Dann ist ein Router-Port noch aus oder hat keine Adresse, und PC0 erreicht sein Gateway nicht."
+                ],
+                "ok": "Der Ping geht über den Router. Achte auf TTL=127: Ein Router auf dem Weg zählt die TTL um eins herunter."
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Der Ping läuft über den Router von einem Netz ins andere. Die TTL zeigt es: Der Server startet mit 128, ein Router auf dem Rückweg zieht eins ab: 127.",
+            "erkl": "Jeder benutzte Router-Port braucht **On** und eine **IP aus seinem Netz**. Sie ist das Gateway für die Geräte in diesem Netz.",
+            "loesung": "Gig0/0: 192.168.1.1/24 On, Gig0/1: 192.168.2.1/24 On.",
+            "diagnose": true
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Neue Router-Ports sind aus. Einschalten, IP und Maske eintragen, die IP ist das Gateway.",
+          "handout": "**Router:** Port Status On · IP + Maske je Port · Port-IP = Gateway des Netzes."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Gateways, TTL und der freie Aufbau",
+        "kurz": "Endgeräte fertig machen und selbst bauen",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Der Router läuft. Die Endgeräte kennen den Weg dorthin aber noch nicht.",
+          "frage": "Was fehlt?"
+        },
+        "aufbau": [
+          {
+            "text": "Die Endgeräte brauchen das Standardgateway. Probiere zuerst den Ping und lies die Meldung, dann trägst du es ein.",
+            "diagramm": "zwei"
+          },
+          {
+            "text": "Jedes IP-Paket hat eine TTL (Time to Live). Jeder Router zieht eins ab. Ein Windows-PC startet mit 128, ein Router mit 255.",
+            "diagramm": "ttl"
+          },
+          {
+            "text": "TTL=128: kein Router dazwischen. TTL=127: ein Router. TTL=126: zwei Router. Bei TTL 0 wird das Paket verworfen, so sterben Endlosschleifen.",
+            "diagramm": "ttl"
+          },
+          {
+            "text": "Beim freien Aufbau brauchst du Router, zwei Switches, PC und Server. Denke an Kabeltypen, Router-Ports und Gateways, am Ende ping.",
+            "diagramm": "gesamt"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Ping kommt mit TTL=126 zurück. Wie viele Router lagen auf dem Weg?",
+          "optionen": [
+            {
+              "text": "Zwei",
+              "richtig": true,
+              "korrektur": "Richtig: 128 minus 2."
+            },
+            {
+              "text": "Einer",
+              "richtig": false,
+              "korrektur": "Bei einem Router wäre die TTL 127."
+            },
+            {
+              "text": "Keiner",
+              "richtig": false,
+              "korrektur": "Ohne Router wäre die TTL 128."
+            }
+          ],
+          "loesung": "Zwei Router.",
+          "beleg": {
+            "seite": "343–344"
+          }
+        },
+        "wiederholung": {
+          "text": "TTL sinkt je Router um 1. Gateway muss an jedem Endgerät stehen, in beide Richtungen.",
+          "diagramm": "ttl"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "PC0 (`192.168.1.10/24`) soll den Server in `192.168.2.0/24` erreichen. Welches Standardgateway trägt **PC0** ein?",
+            "optionen": [
+              "192.168.2.1 (Router-Port beim Server)",
+              "192.168.1.1 (Router-Port in seinem Netz)",
+              "192.168.2.10 (der Server selbst)",
+              "192.168.1.10 (PC0 selbst)"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Das Gateway erreicht PC0 direkt, ohne Router dazwischen."
+            ],
+            "erkl": "PC0 erreicht nur Adressen **seines Netzes** direkt. Darum ist sein Gateway der Router-Port im Netz 192.168.1.0."
+          },
+          {
+            "t": "labor",
+            "f": "Gateways eintragen",
+            "titel": "Gateways eintragen",
+            "aufgabe": "Router und IPs stehen. Es fehlen die Standardgateways an den Endgeräten.",
+            "intro": "Diesmal ist der **Router fertig**, auch die Endgeräte haben IP und Maske. Es fehlt das **Standardgateway**. Probiere zuerst den Ping vom PC0 zum Server (`192.168.2.10`) und lies die Meldung. Dann trägst du die Gateways ein.",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "PC0 kennt das Gateway 192.168.1.1",
+                "c": {
+                  "gw": {
+                    "n": "PC0",
+                    "gw": "192.168.1.1"
+                  }
+                },
+                "h": [
+                  "PC0 antippen, „IP-Konfiguration“, Feld Standardgateway.",
+                  "Der Router-Port in **PC0s Netz** ist `192.168.1.1`."
+                ]
+              },
+              {
+                "t": "Der Server kennt das Gateway 192.168.2.1",
+                "c": {
+                  "gw": {
+                    "n": "Server0",
+                    "gw": "192.168.2.1"
+                  }
+                },
+                "h": [
+                  "Der Ping braucht einen Rückweg. Auch der Server muss ein Gateway kennen.",
+                  "Der Router-Port in **seinem** Netz ist `192.168.2.1`."
+                ]
+              },
+              {
+                "t": "PC0 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "`ping 192.168.2.10` auf PC0."
+                ]
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Der Ping klappt. Wichtig: Ein Ping braucht **beide Richtungen**. Fehlt dem Server das Gateway, kommt die Anfrage an, aber die Antwort findet nicht zurück.",
+            "erkl": "Jedes Endgerät braucht das Gateway **seines eigenen** Netzes.",
+            "loesung": "PC0: Gateway 192.168.1.1. Server0: Gateway 192.168.2.1.",
+            "diagnose": true
+          },
+          {
+            "t": "labor",
+            "f": "Alles selbst bauen",
+            "titel": "Alles selbst bauen",
+            "aufgabe": "Baue zwei Netze mit einem Router komplett selbst auf, vom ersten Gerät bis zum erfolgreichen Ping.",
+            "intro": "Jetzt alles zusammen. Du brauchst **1 Router, 2 Switches, 1 PC und 1 Server**. Oberes Netz `192.168.1.0/24` mit dem PC, unteres Netz `192.168.2.0/24` mit dem Server. Die Router-Ports bekommen `.1`. Denke an Kabeltypen, Router-Ports einschalten und Gateways. Zum Schluss: ping.",
+            "vorgabe": {
+              "knoten": [],
+              "links": []
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  }
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0"
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1"
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade"
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Stelle auf: 1 Router, 2 Switches, 1 PC, 1 Server",
+                "c": [
+                  {
+                    "platziert": {
+                      "typ": "router",
+                      "min": 1
+                    }
+                  },
+                  {
+                    "platziert": {
+                      "typ": "switch",
+                      "min": 2
+                    }
+                  },
+                  {
+                    "platziert": {
+                      "typ": "pc",
+                      "min": 1
+                    }
+                  },
+                  {
+                    "platziert": {
+                      "typ": "server",
+                      "min": 1
+                    }
+                  }
+                ],
+                "h": [
+                  "Die Leiste bietet alle fünf Bauteile. Lass zwischen den Geräten Platz für die Kabel.",
+                  "Ordne oben den PC an, rechts den Router, unten den Server, mit je einem Switch dazwischen."
+                ]
+              },
+              {
+                "t": "Verkabele: PC–Switch, Server–Switch, beide Switches mit dem Router, alles grün",
+                "c": [
+                  {
+                    "typlinks": {
+                      "a": "pc",
+                      "b": "switch",
+                      "min": 1,
+                      "kabel": "gerade",
+                      "hoch": true
+                    }
+                  },
+                  {
+                    "typlinks": {
+                      "a": "server",
+                      "b": "switch",
+                      "min": 1,
+                      "kabel": "gerade",
+                      "hoch": true
+                    }
+                  },
+                  {
+                    "typlinks": {
+                      "a": "switch",
+                      "b": "router",
+                      "min": 2,
+                      "kabel": "gerade",
+                      "hoch": true
+                    }
+                  }
+                ],
+                "h": [
+                  "Alle Verbindungen sind Switch ↔ anderes Gerät, also ungleich. Welches Kabel?",
+                  "Überall **gerade** Kabel. Rot heißt: falscher Typ oder (beim Router) Port noch aus."
+                ]
+              },
+              {
+                "t": "Router: ein Port 192.168.1.1/24, einer 192.168.2.1/24, beide On",
+                "c": [
+                  {
+                    "rip": {
+                      "n": "Router0",
+                      "ip": "192.168.1.1",
+                      "mask": "255.255.255.0",
+                      "an": true
+                    }
+                  },
+                  {
+                    "rip": {
+                      "n": "Router0",
+                      "ip": "192.168.2.1",
+                      "mask": "255.255.255.0",
+                      "an": true
+                    }
+                  }
+                ],
+                "h": [
+                  "Router antippen, zwei Zeilen mit **On**, IP und Maske füllen.",
+                  "Der Port, der zum **PC-Switch** führt, bekommt `192.168.1.1`. Der andere `192.168.2.1`."
+                ]
+              },
+              {
+                "t": "PC0 im Netz 192.168.1.0/24, Server0 im Netz 192.168.2.0/24, jeweils mit dem richtigen Gateway",
+                "c": [
+                  {
+                    "hostips": {
+                      "min": 1,
+                      "netz": "192.168.1.0",
+                      "mask": "255.255.255.0"
+                    }
+                  },
+                  {
+                    "hostips": {
+                      "min": 1,
+                      "netz": "192.168.2.0",
+                      "mask": "255.255.255.0"
+                    }
+                  },
+                  {
+                    "gw": {
+                      "n": "PC0",
+                      "gw": "192.168.1.1"
+                    }
+                  },
+                  {
+                    "gw": {
+                      "n": "Server0",
+                      "gw": "192.168.2.1"
+                    }
+                  }
+                ],
+                "h": [
+                  "PC0 zum Beispiel `192.168.1.10`, Server0 `192.168.2.10`, Maske `255.255.255.0`.",
+                  "Gateway von PC0 `192.168.1.1`, vom Server `192.168.2.1`."
+                ]
+              },
+              {
+                "t": "PC0 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "`ping 192.168.2.10` auf PC0. Fehler? Gehe von unten nach oben: Kabel, Router-Ports, Adressen, Gateways."
+                ]
+              }
+            ],
+            "bauteile": [
+              "pc",
+              "server",
+              "switch",
+              "router"
+            ],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Du hast ein Netz mit zwei Teilen komplett selbst gebaut: Geräte, Kabel, Router-Ports, Adressen, Gateways, Test. Genau diese Reihenfolge brauchst du in Packet Tracer immer wieder.",
+            "erkl": "Aufbau-Reihenfolge: Geräte, Kabel, Router-Ports an, Adressen, Gateways, ping.",
+            "loesung": "Router0 mit Gig0/0 192.168.1.1 (zum PC-Switch) und Gig0/1 192.168.2.1 (zum Server-Switch), alle Kabel gerade, PC0 mit Gateway .1.1, Server0 mit Gateway .2.1.",
+            "maxGeraete": 8,
+            "diagnose": true
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Gateway an beiden Endgeräten, TTL zählt die Router, Netz erst Kabel, dann Ports, dann Adressen.",
+          "handout": "**Reihenfolge beim Aufbau:** Geräte · Kabel · Router-Ports On + IP · Endgeräte IP/Maske/Gateway · ping. **TTL:** Start 128, minus 1 je Router."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Wofür steht administratively down?",
+        "optionen": [
+          {
+            "text": "Port ist ausgeschaltet",
+            "richtig": true
+          },
+          {
+            "text": "Kabel defekt",
+            "richtig": false
+          },
+          {
+            "text": "Port ohne IP",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche IP ist das Gateway des linken Netzes?",
+        "optionen": [
+          {
+            "text": "die Router-Port-IP im linken Netz",
+            "richtig": true
+          },
+          {
+            "text": "die IP des Servers",
+            "richtig": false
+          },
+          {
+            "text": "die IP des Switches",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche TTL hat die Antwort des Nachbarn im selben Netz (Windows)?",
+        "optionen": [
+          {
+            "text": "128",
+            "richtig": true
+          },
+          {
+            "text": "127",
+            "richtig": false
+          },
+          {
+            "text": "255",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wo muss das Gateway eingetragen sein?",
+        "optionen": [
+          {
+            "text": "an beiden Endgeräten",
+            "richtig": true
+          },
+          {
+            "text": "nur am Router",
+            "richtig": false
+          },
+          {
+            "text": "nur am Server",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_LB2.id]: LF03_LB2 });
+})();
+
+/* ---- f_einheiten_labor3.js ---- */
+//
+// Einheit 30: Netz-Labor, Fehlersuche und Packet-Tracer-Spickzettel (Stationen 3 und 4). Labor-Schritte unveraendert im Uebungsblock.
+(function () {
+  "use strict";
+
+  const LF03_LB3 = {
+    "id": "lf03-labor-fehlersuche-pt",
+    "reihe": 30,
+    "titel": "Netz-Labor: Fehlersuche und Packet-Tracer-Spickzettel",
+    "untertitel": "systematisch von unten nach oben suchen, Ping-Meldungen deuten und den Ablauf in Packet Tracer mitnehmen",
+    "lernfeld": "LF03",
+    "dauer_min": 40,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 356–364 (Fehlersuche); Packet-Tracer-Praxis (steht nicht im Buch); Übungen im Netz-Labor",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Fehler systematisch von unten nach oben suchen und Ping-Meldungen deuten",
+        "kn": "Fehlersuche"
+      },
+      {
+        "id": "lz2",
+        "text": "Typische Fehlerbilder erkennen: Port, Gateway, Rückweg, Maske, Mehrfachfehler",
+        "kn": "Fehlersuche"
+      },
+      {
+        "id": "lz3",
+        "text": "Den Ablauf in Packet Tracer und die CLI-Basics kennen",
+        "kn": "Fehlersuche"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Fehlersuche von unten nach oben",
+        "knoten": [
+          {
+            "id": "m0",
+            "x": 90,
+            "y": 110,
+            "t": "Kabel, Link",
+            "sub": "alle Punkte grün",
+            "w": 140
+          },
+          {
+            "id": "m1",
+            "x": 245,
+            "y": 110,
+            "t": "Adresse",
+            "sub": "IP und Maske",
+            "w": 140
+          },
+          {
+            "id": "m2",
+            "x": 400,
+            "y": 110,
+            "t": "Gateway",
+            "sub": "im eigenen Netz",
+            "w": 140
+          },
+          {
+            "id": "m3",
+            "x": 555,
+            "y": 110,
+            "t": "Gegenseite",
+            "sub": "auch mit Gateway",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "m0",
+            "bis": "m1"
+          },
+          {
+            "von": "m1",
+            "bis": "m2"
+          },
+          {
+            "von": "m2",
+            "bis": "m3"
+          }
+        ]
+      },
+      "methode": {
+        "art": "netz",
+        "titel": "Fehlersuche von unten nach oben",
+        "knoten": [
+          {
+            "id": "m0",
+            "x": 90,
+            "y": 110,
+            "t": "Kabel, Link",
+            "sub": "alle Punkte grün",
+            "w": 140
+          },
+          {
+            "id": "m1",
+            "x": 245,
+            "y": 110,
+            "t": "Adresse",
+            "sub": "IP und Maske",
+            "w": 140
+          },
+          {
+            "id": "m2",
+            "x": 400,
+            "y": 110,
+            "t": "Gateway",
+            "sub": "im eigenen Netz",
+            "w": 140
+          },
+          {
+            "id": "m3",
+            "x": 555,
+            "y": 110,
+            "t": "Gegenseite",
+            "sub": "auch mit Gateway",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "m0",
+            "bis": "m1"
+          },
+          {
+            "von": "m1",
+            "bis": "m2"
+          },
+          {
+            "von": "m2",
+            "bis": "m3"
+          }
+        ]
+      },
+      "meldungen": {
+        "art": "netz",
+        "titel": "Ping-Meldungen deuten",
+        "knoten": [
+          {
+            "id": "p0",
+            "x": 110,
+            "y": 110,
+            "t": "Reply",
+            "sub": "Antwort kam an",
+            "w": 170
+          },
+          {
+            "id": "p1",
+            "x": 320,
+            "y": 110,
+            "t": "Timed out",
+            "sub": "nichts kam zurück",
+            "w": 170
+          },
+          {
+            "id": "p2",
+            "x": 530,
+            "y": 110,
+            "t": "Unreachable",
+            "sub": "niemand weiß den Weg",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "unreachable": {
+        "art": "netz",
+        "titel": "Wer meldet Unreachable?",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 70,
+            "t": "Eigene IP davor",
+            "sub": "meldet das Gerät selbst",
+            "w": 190
+          },
+          {
+            "id": "b",
+            "x": 440,
+            "y": 70,
+            "t": "Gateway fehlt",
+            "sub": "kein passendes Gateway",
+            "w": 190,
+            "rolle": "gelb"
+          },
+          {
+            "id": "c",
+            "x": 110,
+            "y": 150,
+            "t": "Router-IP davor",
+            "sub": "meldet der Router",
+            "w": 190
+          },
+          {
+            "id": "d",
+            "x": 440,
+            "y": 150,
+            "t": "Ziel unbekannt",
+            "sub": "z. B. Port aus",
+            "w": 190,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "c",
+            "bis": "d"
+          }
+        ]
+      },
+      "pt": {
+        "art": "netz",
+        "titel": "Packet Tracer: der Ablauf",
+        "knoten": [
+          {
+            "id": "a0",
+            "x": 70,
+            "y": 110,
+            "t": "Geräte",
+            "sub": "auf die Fläche",
+            "w": 110
+          },
+          {
+            "id": "a1",
+            "x": 195,
+            "y": 110,
+            "t": "Kabel",
+            "sub": "Port wählen",
+            "w": 110
+          },
+          {
+            "id": "a2",
+            "x": 320,
+            "y": 110,
+            "t": "Router",
+            "sub": "Config, Port On",
+            "w": 110
+          },
+          {
+            "id": "a3",
+            "x": 445,
+            "y": 110,
+            "t": "Endgeräte",
+            "sub": "IP Configuration",
+            "w": 110
+          },
+          {
+            "id": "a4",
+            "x": 570,
+            "y": 110,
+            "t": "Testen",
+            "sub": "Command Prompt",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "a0",
+            "bis": "a1"
+          },
+          {
+            "von": "a1",
+            "bis": "a2"
+          },
+          {
+            "von": "a2",
+            "bis": "a3"
+          },
+          {
+            "von": "a3",
+            "bis": "a4"
+          }
+        ]
+      },
+      "cli": {
+        "art": "netz",
+        "titel": "Router-Konsole (CLI)",
+        "knoten": [
+          {
+            "id": "c0",
+            "x": 70,
+            "y": 110,
+            "t": "enable",
+            "sub": "privilegiert",
+            "w": 110
+          },
+          {
+            "id": "c1",
+            "x": 195,
+            "y": 110,
+            "t": "configure",
+            "sub": "terminal",
+            "w": 110
+          },
+          {
+            "id": "c2",
+            "x": 320,
+            "y": 110,
+            "t": "interface",
+            "sub": "Gig0/0",
+            "w": 110
+          },
+          {
+            "id": "c3",
+            "x": 445,
+            "y": 110,
+            "t": "ip address",
+            "sub": "IP, Maske",
+            "w": 110
+          },
+          {
+            "id": "c4",
+            "x": 570,
+            "y": 110,
+            "t": "no shutdown",
+            "sub": "Port ein",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "c0",
+            "bis": "c1"
+          },
+          {
+            "von": "c1",
+            "bis": "c2"
+          },
+          {
+            "von": "c2",
+            "bis": "c3"
+          },
+          {
+            "von": "c3",
+            "bis": "c4"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wo beginnt die Fehlersuche?",
+        "optionen": [
+          {
+            "text": "unten: Kabel und Link",
+            "richtig": true
+          },
+          {
+            "text": "beim DNS-Server",
+            "richtig": false
+          },
+          {
+            "text": "beim Gateway-Eintrag",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was bedeutet Request timed out?",
+        "optionen": [
+          {
+            "text": "es kam nichts zurück",
+            "richtig": true
+          },
+          {
+            "text": "der Router kennt das Ziel nicht",
+            "richtig": false
+          },
+          {
+            "text": "die IP ist ungültig",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Methode und Ping-Meldungen",
+        "kurz": "vier Prüfpunkte, drei Meldungen",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Wenn ein Ping nicht klappt, rate nicht.",
+          "frage": "In welcher Reihenfolge suchst du?"
+        },
+        "aufbau": [
+          {
+            "text": "Gehe von unten nach oben vor: 1. Kabel und Link (Punkte grün, Kabeltyp, Router-Port On). 2. Adresse am Gerät. 3. Gateway. 4. Die Gegenseite.",
+            "diagramm": "methode"
+          },
+          {
+            "text": "Dabei helfen ipconfig für die eigenen Einstellungen und kleine Pings: erst das Gateway anpingen, dann das Ziel.",
+            "diagramm": "methode"
+          },
+          {
+            "text": "Reply: Antwort kam an, alles gut. Request timed out: Es kam nichts zurück, das Paket oder die Antwort ging verloren.",
+            "diagramm": "meldungen"
+          },
+          {
+            "text": "Destination host unreachable: Ein Gerät weiß nicht, wohin damit. Steht davor die eigene IP, fehlt ein passendes Gateway.",
+            "diagramm": "unreachable"
+          },
+          {
+            "text": "Steht davor die IP eines Routers, kennt dieser das Ziel nicht, zum Beispiel weil ein Port aus ist.",
+            "diagramm": "unreachable"
+          },
+          {
+            "text": "Der erste Request geht wegen ARP oft verloren und ist kein Fehler. Die genaue Meldung kann je nach PT-Version abweichen.",
+            "diagramm": "meldungen"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Unreachable mit der eigenen IP davor. Was fehlt?",
+          "optionen": [
+            {
+              "text": "Ein passendes Gateway am eigenen Gerät",
+              "richtig": true,
+              "korrektur": "Richtig: Das Gerät weiß nicht, wohin mit fremden Zielen."
+            },
+            {
+              "text": "Das Ziel ist ausgeschaltet",
+              "richtig": false,
+              "korrektur": "Dann gäbe es eher ein Timeout."
+            },
+            {
+              "text": "Der Router kennt das Ziel nicht",
+              "richtig": false,
+              "korrektur": "Dann stünde die Router-IP davor."
+            }
+          ],
+          "loesung": "Gateway fehlt.",
+          "beleg": {
+            "seite": "356–364"
+          }
+        },
+        "wiederholung": {
+          "text": "Von unten nach oben prüfen. Timed out: Rückweg oder Gegenseite. Unreachable: wer meldet sich?",
+          "diagramm": "unreachable"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Beim Ping kommt viermal „Reply from **192.168.1.1**: Destination host unreachable“ (192.168.1.1 ist der Router). Was heißt das?",
+            "optionen": [
+              "Das Ziel hat den Ping abgelehnt",
+              "Das Kabel am PC ist ab",
+              "Der Router hat den Ping erhalten, kennt aber keinen Weg zum Ziel",
+              "Der PC hat keine IP-Adresse"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Wer meldet sich hier? Der Router.",
+              "Ein Kabelproblem am PC käme nie bis zum Router."
+            ],
+            "erkl": "Die Meldung kommt **vom Router**: Er hat das Paket angenommen, findet aber kein passendes Netz in seiner Tabelle (z. B. weil der Port zum Zielnetz aus ist)."
+          },
+          {
+            "t": "labor",
+            "f": "Der rote Punkt",
+            "titel": "Der rote Punkt",
+            "aufgabe": "PC1 kommt nicht ins Netz. Finde und behebe den Fehler.",
+            "intro": "PC1 meldet: „Mein ping zum Server klappt nicht.“ PC0 hat keine Probleme. Such den Fehler wie ein Techniker, und beginne **unten**. Ich helfe nur, wenn du mich fragst.",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 260,
+                  "y": 160
+                },
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 90,
+                  "y": 80,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "PC1",
+                  "typ": "pc",
+                  "x": 90,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.1.11",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 430,
+                  "y": 160,
+                  "cfg": {
+                    "ip": "192.168.1.100",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "PC1",
+                  "b": "Switch0",
+                  "kabel": "kreuz"
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 260,
+                  "y": 160
+                },
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 90,
+                  "y": 80,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "PC1",
+                  "typ": "pc",
+                  "x": 90,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.1.11",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 430,
+                  "y": 160,
+                  "cfg": {
+                    "ip": "192.168.1.100",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "PC1",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Alle Punkte sind grün",
+                "c": {
+                  "linksok": {
+                    "min": 3
+                  }
+                },
+                "h": [
+                  "Schau dir die Punkte an den Kabeln an. Welcher ist nicht grün?",
+                  "Ein roter Punkt bedeutet meist: falscher Kabeltyp. PC an Switch braucht welches Kabel?",
+                  "Tippe das Kabel von PC1 an und tausche den Typ."
+                ]
+              },
+              {
+                "t": "PC1 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC1",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "Ping von PC1 an `192.168.1.100`. Er klappt erst, wenn die Verbindung grün ist."
+                ]
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Gefunden: Das Kreuzkabel zwischen PC1 und dem Switch war falsch, PC an Switch braucht ein gerades Kabel. Rote Punkte sind der schnellste Hinweis, schau immer zuerst dorthin.",
+            "erkl": "Rot = erst Kabeltyp und Ports prüfen, **bevor** du an IP-Adressen denkst.",
+            "loesung": "Das Kabel PC1–Switch war ein Kreuzkabel. Gerades Kabel einsetzen.",
+            "diagnose": false,
+            "maxGeraete": 6
+          },
+          {
+            "t": "labor",
+            "f": "Das falsche Gateway",
+            "titel": "Das falsche Gateway",
+            "aufgabe": "PC0 erreicht den Server nicht. Alle Punkte sind grün.",
+            "intro": "Alle Punkte sind grün, der Router ist eingerichtet, und trotzdem schweigt der Server. Teste mit **kleinen Schritten**: erst das Gateway anpingen, dann das Ziel.",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.254",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Behebe den Fehler an PC0",
+                "c": {
+                  "gw": {
+                    "n": "PC0",
+                    "gw": "192.168.1.1"
+                  }
+                },
+                "h": [
+                  "Pinge von PC0 zuerst `192.168.1.1`. Antwortet er?",
+                  "Kommt dort schon nichts, schau in `ipconfig`, an welche Adresse PC0 alles Fremde schickt.",
+                  "Das Gateway muss die Router-IP im eigenen Netz sein."
+                ]
+              },
+              {
+                "t": "PC0 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "`ping 192.168.2.10`."
+                ]
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Das Gateway war ein Tippfehler (.254 statt .1). Niemand im Netz hatte diese Adresse. Die Probe „erst das Gateway anpingen“ hätte es sofort gezeigt.",
+            "erkl": "Ping-Probe: eigene IP → Gateway → Ziel. Wo es zum ersten Mal scheitert, liegt der Fehler.",
+            "loesung": "Gateway von PC0 auf 192.168.1.1 setzen.",
+            "diagnose": false
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Von unten nach oben suchen. Erst das Gateway anpingen, dann das Ziel.",
+          "handout": "**Methode:** Kabel/Link · Adresse · Gateway · Gegenseite. **Meldungen:** Reply · Timed out (nichts zurück) · Unreachable (eigene IP: Gateway fehlt, Router-IP: Ziel unbekannt)."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Typische Fehlerbilder",
+        "kurz": "stiller Router, Rückweg, Maske, zwei Fehler",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Die Fehler sind versteckt, der Lehrer hilft nur auf Nachfrage.",
+          "frage": "Welche Fehlerbilder gibt es?"
+        },
+        "aufbau": [
+          {
+            "text": "Der stille Router: Der Ping bricht mit Unreachable ab, ein neuer Router bringt ausgeschaltete Ports mit.",
+            "diagramm": "unreachable"
+          },
+          {
+            "text": "Hin ja, zurück nein: Request timed out. Frage dich, ob der Server überhaupt antworten kann, also ob er ein Gateway hat.",
+            "diagramm": "methode"
+          },
+          {
+            "text": "Die falsche Maske: Zwei Geräte am selben Switch, alle Punkte grün, trotzdem kein Ping. Vergleiche die Konfigurationen beider Geräte.",
+            "diagramm": "methode"
+          },
+          {
+            "text": "Mehrere Fehler können gleichzeitig vorliegen. Behebe einen nach dem anderen und teste nach jeder Korrektur erneut.",
+            "diagramm": "methode"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Request timed out, Kabel grün, Router läuft, PC hat Gateway. Was prüfst du jetzt?",
+          "optionen": [
+            {
+              "text": "Die Gegenseite: Hat der Server eine Konfiguration mit Gateway?",
+              "richtig": true,
+              "korrektur": "Richtig: Die Anfrage kommt an, die Antwort findet nicht zurück."
+            },
+            {
+              "text": "Das Kabel tauschen",
+              "richtig": false,
+              "korrektur": "Alle Punkte sind grün, das Kabel passt."
+            },
+            {
+              "text": "Den Router neu starten",
+              "richtig": false,
+              "korrektur": "Der Router läuft schon, die Gegenseite ist verdächtig."
+            }
+          ],
+          "loesung": "Gegenseite prüfen.",
+          "beleg": {
+            "seite": "356–364"
+          }
+        },
+        "wiederholung": {
+          "text": "Immer beide Seiten prüfen. Nach jeder Korrektur erneut pingen.",
+          "diagramm": "methode"
+        },
+        "uebung": [
+          {
+            "t": "labor",
+            "f": "Der stille Router",
+            "titel": "Der stille Router",
+            "aufgabe": "Der Ping meldet „Destination host unreachable“.",
+            "intro": "Der Ping vom PC0 zum Server (`192.168.2.10`) bricht mit „Destination host unreachable“ ab. Lies, **wer** sich meldet, und denke an das, was neue Router mitbringen.",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": false,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Der Router-Port zum Server-Netz ist an",
+                "c": {
+                  "rip": {
+                    "n": "Router0",
+                    "port": "GigabitEthernet0/1",
+                    "ip": "192.168.2.1",
+                    "mask": "255.255.255.0",
+                    "an": true
+                  }
+                },
+                "h": [
+                  "Wer meldet „unreachable“? Die Adresse davor verrät es.",
+                  "Router antippen, **Status** der Ports prüfen. Hast du einen roten Punkt gesehen?",
+                  "Gig0/1 ist **aus**. Hake **On** an."
+                ]
+              },
+              {
+                "t": "PC0 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "Danach noch einmal pingen."
+                ]
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Ein ausgeschalteter Router-Port: Rot am Kabel, und der Router kannte das Zielnetz nicht mehr. Neue Router-Ports sind immer erst aus. In der CLI schaltet `no shutdown` sie ein.",
+            "erkl": "Rot am Router-Kabel: Port prüfen (On / `no shutdown`).",
+            "loesung": "Gig0/1 einschalten.",
+            "diagnose": false
+          },
+          {
+            "t": "labor",
+            "f": "Hin ja, zurück nein",
+            "titel": "Hin ja, zurück nein",
+            "aufgabe": "Die Anfrage kommt an, aber es kommt keine Antwort zurück.",
+            "intro": "PC0 pingt den Server, es kommt nur „Request timed out“. Kabel sind grün, der Router läuft, und PC0 hat ein Gateway. Frage dich: **Kann der Server überhaupt antworten?**",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70,
+                  "fest": true
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  },
+                  "fest": true
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250,
+                  "fest": true
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  },
+                  "fest": true
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade",
+                  "fest": true
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0",
+                  "fest": true
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1",
+                  "fest": true
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade",
+                  "fest": true
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Der Server kennt ein passendes Gateway",
+                "c": {
+                  "gw": {
+                    "n": "Server0",
+                    "gw": "192.168.2.1"
+                  }
+                },
+                "h": [
+                  "Ein Ping hat Hin- **und** Rückweg. Prüfe die Einstellungen des Servers.",
+                  "Der Server liegt im Netz 192.168.2.0. Wohin schickt er Antworten an 192.168.1.10?",
+                  "Er braucht das Gateway `192.168.2.1`."
+                ]
+              },
+              {
+                "t": "PC0 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "Nach der Korrektur noch einmal pingen."
+                ]
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Der Server bekam die Anfrage, wusste aber nicht, wohin mit der Antwort: Er kannte kein Gateway. Merke: **Timed out** heißt nicht immer „Anfrage kam nicht an“.",
+            "erkl": "Prüfe bei Timeouts immer auch die **Gegenseite**, inklusive Gateway.",
+            "loesung": "Server0: Gateway 192.168.2.1.",
+            "diagnose": false
+          },
+          {
+            "t": "labor",
+            "f": "Die falsche Maske",
+            "titel": "Die falsche Maske",
+            "aufgabe": "Zwei Geräte im selben Netz und trotzdem kein Ping.",
+            "intro": "PC0 und der Server hängen am selben Switch, alle Punkte sind grün. Der Ping schweigt trotzdem. Vergleiche die **Konfigurationen beider Geräte**, besonders die Maske.",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 100,
+                  "y": 150,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 260,
+                  "y": 150
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 420,
+                  "y": 150,
+                  "cfg": {
+                    "ip": "192.168.1.200",
+                    "mask": "255.255.255.128",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 100,
+                  "y": 150,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 260,
+                  "y": 150
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 420,
+                  "y": 150,
+                  "cfg": {
+                    "ip": "192.168.1.200",
+                    "mask": "255.255.255.0",
+                    "gw": "",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Der Server hat dieselbe Maske wie PC0",
+                "c": {
+                  "ip": {
+                    "n": "Server0",
+                    "mask": "255.255.255.0"
+                  }
+                },
+                "h": [
+                  "Rufe auf beiden Geräten die Konfiguration auf und vergleiche Zeile für Zeile.",
+                  "Der Server hat `255.255.255.128`. Welches Netz ergibt das für ihn?",
+                  "Mit /25 liegt PC0 für den Server außerhalb seines Netzes, er sucht ein Gateway, das es nicht gibt. Setze `255.255.255.0`."
+                ]
+              },
+              {
+                "t": "PC0 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "Dann noch einmal pingen."
+                ]
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Mit der Maske 255.255.255.128 liegt der Server im Netz 192.168.1.128/25. PC0 (…1.10) ist für ihn ein fremdes Netz, also Gateway: keines. Die Anfrage kam an, die Antwort nicht.",
+            "erkl": "Eine falsche Subnetzmaske macht aus Nachbarn Fremde. Vergleiche Netzadressen aller Beteiligten.",
+            "loesung": "Server0: Maske 255.255.255.0.",
+            "diagnose": false,
+            "w": 520,
+            "h": 300,
+            "maxGeraete": 4
+          },
+          {
+            "t": "labor",
+            "f": "Zwei Fehler auf einmal",
+            "titel": "Zwei Fehler auf einmal",
+            "aufgabe": "Mehrere Fehler können gleichzeitig vorliegen. Behebe einen nach dem anderen.",
+            "intro": "Das war's mit den Einzelfehlern: Hier stecken **zwei** Fehler gleichzeitig. Gehe die Technikermethode durch und teste nach jeder Korrektur erneut.",
+            "vorgabe": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  }
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "kreuz"
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0"
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1"
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade"
+                }
+              ]
+            },
+            "muster": {
+              "knoten": [
+                {
+                  "id": "PC0",
+                  "typ": "pc",
+                  "x": 80,
+                  "y": 70,
+                  "cfg": {
+                    "ip": "192.168.1.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.1.1",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                },
+                {
+                  "id": "Switch0",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 70
+                },
+                {
+                  "id": "Router0",
+                  "typ": "router",
+                  "x": 420,
+                  "y": 160,
+                  "cfg": {
+                    "ifs": {
+                      "GigabitEthernet0/0": {
+                        "an": true,
+                        "ip": "192.168.1.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/1": {
+                        "an": true,
+                        "ip": "192.168.2.1",
+                        "mask": "255.255.255.0"
+                      },
+                      "GigabitEthernet0/2": {
+                        "an": false,
+                        "ip": "",
+                        "mask": ""
+                      }
+                    },
+                    "routes": []
+                  }
+                },
+                {
+                  "id": "Switch1",
+                  "typ": "switch",
+                  "x": 250,
+                  "y": 250
+                },
+                {
+                  "id": "Server0",
+                  "typ": "server",
+                  "x": 80,
+                  "y": 250,
+                  "cfg": {
+                    "ip": "192.168.2.10",
+                    "mask": "255.255.255.0",
+                    "gw": "192.168.2.1",
+                    "dns": "",
+                    "dhcp": false
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "a": "PC0",
+                  "b": "Switch0",
+                  "kabel": "gerade"
+                },
+                {
+                  "a": "Switch0",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/0"
+                },
+                {
+                  "a": "Switch1",
+                  "b": "Router0",
+                  "kabel": "gerade",
+                  "pb": "GigabitEthernet0/1"
+                },
+                {
+                  "a": "Server0",
+                  "b": "Switch1",
+                  "kabel": "gerade"
+                }
+              ]
+            },
+            "ziele": [
+              {
+                "t": "Alle Punkte sind grün",
+                "c": {
+                  "linksok": {
+                    "min": 4
+                  }
+                },
+                "h": [
+                  "Beginne unten: Alle vier Kabel müssen grün sein.",
+                  "Ein Kabel hat den falschen Typ. Wo hängt ein Endgerät an einem Switch?"
+                ]
+              },
+              {
+                "t": "Der Server hat ein Gateway im eigenen Netz",
+                "c": {
+                  "gw": {
+                    "n": "Server0",
+                    "gw": "192.168.2.1"
+                  }
+                },
+                "h": [
+                  "Ist das Gateway des Servers ein Router-Port **in seinem Netz**?",
+                  "Der Server liegt in 192.168.2.0/24. Sein Gateway muss `192.168.2.1` sein."
+                ]
+              },
+              {
+                "t": "PC0 pingt den Server erfolgreich",
+                "c": {
+                  "pingt": {
+                    "a": "PC0",
+                    "b": "Server0"
+                  }
+                },
+                "h": [
+                  "Erst testen, wenn beide Fehler weg sind."
+                ]
+              }
+            ],
+            "bauteile": [],
+            "kabel": [
+              "gerade",
+              "kreuz"
+            ],
+            "lob": "Zwei Fehler, zwei Ebenen: ein falscher Kabeltyp (unten) und ein Gateway im falschen Netz (weiter oben). Von unten nach oben vorgehen findet beide.",
+            "erkl": "Behebe einen Fehler, **teste neu**, dann den nächsten. So weißt du immer, was geholfen hat.",
+            "loesung": "PC0–Switch0 mit geradem Kabel, Gateway des Servers auf 192.168.2.1.",
+            "diagnose": false
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Beide Seiten prüfen: Port, Adresse, Maske, Gateway. Nach jeder Korrektur neu testen.",
+          "handout": "**Fehlerbilder:** Port aus → Unreachable vom Router · Gegenseite ohne Gateway → Timed out · falsche Maske → Ping im selben Netz scheitert · mehrere Fehler nacheinander beheben."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Packet-Tracer-Spickzettel",
+        "kurz": "Ablauf, Fundorte und CLI-Basics",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Im Labor übst du die Handgriffe, die in Packet Tracer jedes Mal wiederkommen.",
+          "frage": "In welcher Reihenfolge gehst du in PT vor?"
+        },
+        "aufbau": [
+          {
+            "text": "Praxis, nicht im Buch: Geräte auf die Fläche, Kabel wählen und ziehen, Router-Ports einschalten und adressieren, Endgeräte einstellen, testen, speichern (.pkt).",
+            "diagramm": "pt"
+          },
+          {
+            "text": "PC oder Server: Desktop, IP Configuration. Ping und ipconfig: Desktop, Command Prompt. Router: Config für Ports, CLI für Befehle.",
+            "diagramm": "pt"
+          },
+          {
+            "text": "Realtime und Simulation: Simulation zeigt Pakete Schritt für Schritt. Fast Forward Time überspringt die Wartezeit gelber Ports.",
+            "diagramm": "pt"
+          },
+          {
+            "text": "CLI-Basics: enable, configure terminal, interface GigabitEthernet0/0, ip address mit Maske, no shutdown, danach show ip interface brief.",
+            "diagramm": "cli"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wo stellst du in Packet Tracer die IP eines PCs ein?",
+          "optionen": [
+            {
+              "text": "Desktop, IP Configuration",
+              "richtig": true,
+              "korrektur": "Richtig: Dort stehen IP, Maske und Gateway."
+            },
+            {
+              "text": "Im Config-Reiter des Routers",
+              "richtig": false,
+              "korrektur": "Der Config-Reiter des Routers ist für dessen Ports."
+            },
+            {
+              "text": "In der CLI mit no shutdown",
+              "richtig": false,
+              "korrektur": "no shutdown schaltet einen Router-Port ein."
+            }
+          ],
+          "loesung": "Desktop, IP Configuration.",
+          "beleg": {
+            "seite": "Praxis PT"
+          }
+        },
+        "wiederholung": {
+          "text": "Reihenfolge: Geräte, Kabel, Router-Ports, Endgeräte, Test, Speichern. CLI: enable, configure terminal, interface, ip address, no shutdown.",
+          "diagramm": "cli"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Wo stellst du das in Packet Tracer ein?",
+            "paare": [
+              [
+                "Desktop → IP Configuration",
+                "IP, Maske, Gateway eintragen"
+              ],
+              [
+                "Desktop → Command Prompt",
+                "ping und ipconfig ausführen"
+              ],
+              [
+                "Router → Config",
+                "Port einschalten per Mausklick"
+              ],
+              [
+                "Router → CLI",
+                "Befehle wie enable eintippen"
+              ],
+              [
+                "Fast Forward Time",
+                "Wartezeit gelber Ports überspringen"
+              ]
+            ],
+            "tipps": [
+              "Denke an den Ablauf: erst einstellen, dann testen."
+            ],
+            "erkl": "Einstellen im Desktop-Reiter (IP Configuration) und Config, Testen im Command Prompt, Konsole im CLI-Reiter."
+          },
+          {
+            "t": "eingabe",
+            "f": "Mit welchem Befehl schaltest du einen Router-Port in der CLI ein? (im Interface-Modus)",
+            "art": "text",
+            "antwort": [
+              "no shutdown",
+              "no shut"
+            ],
+            "tipps": [
+              "Der Befehl, der `shutdown` aufhebt."
+            ],
+            "erkl": "`no shutdown` hebt das Abschalten auf."
+          },
+          {
+            "t": "eingabe",
+            "f": "Welcher Befehl zeigt am Router alle Ports mit IP-Adresse und Status?",
+            "art": "text",
+            "antwort": [
+              "show ip interface brief",
+              "sh ip int br",
+              "show ip int brief"
+            ],
+            "tipps": [
+              "Er beginnt mit `show`.",
+              "show ip interface …"
+            ],
+            "erkl": "`show ip interface brief` zeigt Port, IP und Status auf einen Blick."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bringe den Aufbau in die richtige Reihenfolge.",
+            "items": [
+              "Geräte auf die Fläche ziehen",
+              "Passende Kabel stecken",
+              "Router-Ports einschalten und mit IP versehen",
+              "IP, Maske und Gateway an den Endgeräten eintragen",
+              "Mit ping testen",
+              "Bei Fehlern von unten nach oben suchen"
+            ],
+            "tipps": [
+              "Ohne Kabel keine Adressen, ohne Adressen kein Test."
+            ],
+            "erkl": "Erst die Physik (Geräte, Kabel), dann die Adressen (Router, Endgeräte), dann Test und Fehlersuche."
+          },
+          {
+            "t": "wahl",
+            "f": "Beim **ersten** Ping von PC0 zum Server geht der erste Request verloren, die nächsten kommen an. Was ist die Erklärung?",
+            "optionen": [
+              "Der Server hat den ersten Ping abgelehnt",
+              "Das Kabel war nicht richtig gesteckt",
+              "Die TTL war zu klein",
+              "ARP: Das Gerät muss erst die MAC-Adresse des Ziels (oder Gateways) erfragen"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Es ist ein einmaliger Effekt.",
+              "Ein Gerät kennt zunächst nur die IP, braucht aber die MAC-Adresse."
+            ],
+            "erkl": "ARP fragt „Wer hat diese IP?“ und merkt sich die Antwort. Das kostet das erste Paket."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "In PT: Geräte, Kabel, Ports, Endgeräte, Test, Speichern. CLI-Basis: enable bis no shutdown.",
+          "handout": "**PT-Ablauf:** Geräte · Kabel · Router-Ports · Endgeräte (Desktop, IP Configuration) · Test (Command Prompt) · speichern. **CLI:** enable · configure terminal · interface · ip address · no shutdown · show ip interface brief."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Womit beginnt die Fehlersuche?",
+        "optionen": [
+          {
+            "text": "Kabel und Link",
+            "richtig": true
+          },
+          {
+            "text": "DNS",
+            "richtig": false
+          },
+          {
+            "text": "Gateway-Eintrag",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was bedeutet Destination host unreachable mit Router-IP davor?",
+        "optionen": [
+          {
+            "text": "der Router kennt das Ziel nicht",
+            "richtig": true
+          },
+          {
+            "text": "das Gateway fehlt am PC",
+            "richtig": false
+          },
+          {
+            "text": "die Maske ist falsch",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Zwei Geräte am selben Switch, alles grün, kein Ping. Verdacht?",
+        "optionen": [
+          {
+            "text": "unterschiedliche Maske",
+            "richtig": true
+          },
+          {
+            "text": "falsches Kabel",
+            "richtig": false
+          },
+          {
+            "text": "TTL zu klein",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welcher Befehl schaltet einen Router-Port ein?",
+        "optionen": [
+          {
+            "text": "no shutdown",
+            "richtig": true
+          },
+          {
+            "text": "enable",
+            "richtig": false
+          },
+          {
+            "text": "ip address",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_LB3.id]: LF03_LB3 });
 })();
 
 /* ---- f_einheiten_normen.js ---- */
@@ -42127,7 +46628,9 @@ GENERATORS.triage = function (level) {
      zuordnen  { f, paare[[links, rechts]], tipps[], erkl }
      gen       { gen: "name", stufen: [1,2] }   frische Aufgaben aus KG.gen[name] (f_kurs.js)
      weg       { titel, kopf, schritte[] }       mehrstufiger Rechenweg mit Rechenblatt (eingabe-Schritte, label setzt Blattzeile)
-   Nicht dabei: labor (kommt mit dem Netz-Labor-Kurs).
+   labor     { f, titel, aufgabe, intro, vorgabe, muster, ziele[], bauteile[], kabel[], ... }   Netz-Labor (f_labor.js, f_laborsim.js), unveraendert aus dem Kurs-Paket.
+             Das Labor haengt am globalen Kurs-Zustand (KS, feste Element-IDs kBox/kAkt ...). Wie in der Live-Runde (s_zy_live.js, laborStartH)
+             baut zeigeLabor() dafuer eine Huelle mit diesen IDs und einen Mini-KS auf und raeumt danach wieder auf.
    Abhaengigkeiten aus f_kurs.js (gleicher Script-Scope): kMd, kPruefe, kLoesungText, KG.
    Ablauf je Aufgabe: falsch -> Hinweis, Tipps auf Wunsch; nach zwei Fehlern Loesung anzeigen und weiter (niemand wird festgehalten).
    start({ host, schritte, fertig(treffer, gesamt) })
@@ -42304,11 +46807,40 @@ GENERATORS.triage = function (level) {
       };
     }
 
+    // ---- Netz-Labor (Schritt t:"labor"): nutzt die Kurs-Oberflaeche des Labors in einer Huelle mit den Kurs-IDs
+    // Laborraum: die Einheit gibt dem Labor die volle Breite (Buehne aus, Handout-Panel nach unten), siehe vorlesung.css .vlLaborModus
+    const laborLayout = (an) => { const l = document.getElementById("vlLayoutBox"); if (l) l.classList.toggle("vlLaborModus", !!an); };
+    function laborWeg() {
+      try { laborAufraeumen(); } catch (e) { /* egal */ }
+      KS = null;
+      laborLayout(false);
+    }
+    function zeigeLabor(x) {
+      const kr = document.getElementById("kurs"); if (kr) kr.innerHTML = "";   // IDs des Kurs-Players freimachen (kBox, kAkt ...)
+      host.innerHTML =
+        '<div class="vlUebung vlLabor"><div class="vlUKopf"><span>Aufgabe ' + (pos + 1) + " von " + liste.length + " · Netz-Labor</span>" +
+        '<button type="button" class="vlTippBtn" id="vlUSkip">Übung überspringen ›</button></div>' +
+        '<div class="kSpiel lvLabSpiel"><div class="kFort" id="kFort" aria-hidden="true"></div><span id="kPos" hidden></span><span id="kPunkte" hidden></span>' +
+        '<div class="kBox glass" id="kBox" aria-live="polite"></div><div class="aktionen" id="kAkt"></div><div class="glass kKi hidden" id="kKi"></div></div></div>';
+      laborLayout(true);
+      KS = { i: -1, st: { titel: x.titel || "Netz-Labor", ohneHilfe: false }, liste: [x], pos: 0, res: [], blatt: {}, chat: [], t0: Date.now(), ki: false };
+      KS.s = { fehl: 0, tipps: 0, fertig: false, verraten: false, auswahl: [] };
+      laborStart(x);
+      const kw = document.getElementById("kWeiter");
+      if (kw) kw.onclick = () => {
+        const s = KS && KS.s;
+        if (s && s.fertig && !s.verraten && s.fehl === 0 && s.tipps === 0) treffer++;
+        laborWeg(); pos++; zeige();
+      };
+      host.querySelector("#vlUSkip").onclick = () => { laborWeg(); o.fertig(treffer, liste.length); };
+    }
+
     // ---- eine Aufgabe zeigen
     function zeige() {
       if (pos >= liste.length) { o.fertig(treffer, liste.length); return; }
       const x = liste[pos];
       z = { fehl: 0, tipps: 0, fertig: false };
+      if (x.t === "labor") { zeigeLabor(x); return; }
       let kopf = "";
       if (x.grp) {
         const b = x.grp.blatt;
@@ -49302,7 +53834,7 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen", "kurs-client-einbinden", "kurs-ip-dhcp-cloud"];
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen", "kurs-client-einbinden", "kurs-ip-dhcp-cloud", "kurs-netz-tutorial"];
     return `<div class="modalList">
       ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
