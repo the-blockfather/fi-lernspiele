@@ -8574,6 +8574,7 @@ GENERATORS.detektiv = function (level) {
 
   const LF03_ROUTER = {
     id: "lf03-router-grundlagen",
+    reihe: 1,
     titel: "Wie funktioniert ein Router?",
     untertitel: "Vom Broadcast-Problem zur Routing-Tabelle",
     lernfeld: "LF03",
@@ -8929,6 +8930,710 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = { [LF03_ROUTER.id]: LF03_ROUTER };
 })();
 
+/* ---- f_einheiten_cidr.js ---- */
+//
+// Einheit 4: CIDR-Praefix und Pruefungsrechnung (aus dem Kurs "Expedition Subnetting & IPv6", Stationen 2, 3 und 9).
+// Gleiches Format wie f_einheiten_subnetting.js (dort steht die Beschreibung der diagramme-Specs).
+// Die Uebungsbloecke (uebung) enthalten die Aufgaben der Kursstationen unveraendert; die Marker
+// "UE:pN" wurden beim Umbau durch die Kursdaten ersetzt.
+// Alle Zahlen sind mit Python (ipaddress) nachgerechnet, siehe docs/KI-LEHRER-PROTOKOLL.md.
+(function () {
+  "use strict";
+
+  const BELEG = { handout: "Subnetting verstehen und rechnen" };
+
+  const LF03_CIDR = {
+    id: "lf03-cidr-pruefung",
+    reihe: 3,
+    titel: "CIDR-Präfix und Prüfungsrechnung",
+    untertitel: "Maske und Präfix sicher umrechnen, mit der Blockgröße rechnen",
+    lernfeld: "LF03",
+    dauer_min: 20,
+    quelle: {
+      buch: "IT-Berufe Grundstufe (Westermann), S. 332–334 (CIDR, Netzadresse, Broadcast)",
+      handouts: ["Subnetting verstehen und rechnen"]
+    },
+
+    lernziele: [
+      { id: "lz1", text: "Subnetzmaske und Präfix in beide Richtungen umrechnen", kn: "Subnetting" },
+      { id: "lz2", text: "Blockgröße, Adressen und nutzbare Hosts aus dem Präfix ablesen", kn: "Subnetting" },
+      { id: "lz3", text: "Netzadresse, Broadcast und Hostbereich mit der Blockgröße bestimmen", kn: "Subnetting" }
+    ],
+
+    diagramme: {
+      start: { art: "bits", titel: "Maske und Präfix", balken: [{ titel: "/24 = 255.255.255.0", maske: 24 }] },
+      m27: { art: "bits", titel: "Maske /27", balken: [{ titel: "/27 = 255.255.255.224", maske: 27 }] },
+      m20: { art: "bits", titel: "Maske /20", balken: [{ titel: "/20 = 255.255.240.0", maske: 20 }] },
+      bl32: {
+        art: "raum", titel: "Blockgröße 32 im letzten Oktett (/27)",
+        teile: [
+          { von: 0, bis: 31, label: "Netz 1", rolle: "A", tick: "0" },
+          { von: 32, bis: 63, label: "Netz 2", rolle: "B2", tick: "32" },
+          { von: 64, bis: 95, label: "Netz 3", rolle: "C", tick: "64" },
+          { von: 96, bis: 127, label: "Netz 4", rolle: "D", tick: "96" },
+          { von: 128, bis: 255, label: "weitere Netze", rolle: "frei", tick: "128" }
+        ]
+      },
+      bl64: {
+        art: "raum", titel: "Blockgröße 64 im letzten Oktett (/26)",
+        teile: [
+          { von: 0, bis: 63, label: "Netz 1", rolle: "A", tick: "0" },
+          { von: 64, bis: 127, label: "Netz 2", rolle: "B2", tick: "64" },
+          { von: 128, bis: 191, label: "Netz 3", rolle: "C", tick: "128" },
+          { von: 192, bis: 255, label: "Netz 4", rolle: "D", tick: "192" }
+        ]
+      },
+      host77: {
+        art: "bits", titel: "Host 192.168.10.77 im /26",
+        balken: [
+          { titel: "Host 192.168.10.77", ip: "192.168.10.77", netz: 26 },
+          { titel: "Netzadresse 192.168.10.64", ip: "192.168.10.64", netz: 26 }
+        ]
+      },
+      netz64: {
+        art: "raum", titel: "Netz 192.168.10.64/26 (letztes Oktett)",
+        teile: [
+          { von: 0, bis: 63, label: "Nachbarnetz", rolle: "leer", tick: "0" },
+          { von: 64, bis: 64, label: "N", rolle: "N", tick: "64" },
+          { von: 65, bis: 126, label: "62 Hosts", rolle: "H", tick: "65" },
+          { von: 127, bis: 127, label: "B", rolle: "B", tick: "127" },
+          { von: 128, bis: 255, label: "Nachbarnetz", rolle: "leer", tick: "128" }
+        ]
+      }
+    },
+
+    vortest: [
+      {
+        frage: "Welches Präfix hat die Maske 255.255.255.0?",
+        optionen: [
+          { text: "/24", richtig: true },
+          { text: "/8", richtig: false },
+          { text: "/32", richtig: false }
+        ],
+        lernziel: "lz1"
+      },
+      {
+        frage: "Wie viele Hostbits hat ein /27-Netz?",
+        optionen: [
+          { text: "5", richtig: true },
+          { text: "27", richtig: false },
+          { text: "3", richtig: false }
+        ],
+        lernziel: "lz2"
+      }
+    ],
+
+    phasen: [
+      {
+        id: "p1",
+        titel: "Maske und Präfix",
+        kurz: "wie man zwischen 255.255.255.224 und /27 wechselt",
+        lernziel: "lz1",
+        anker: {
+          text: "In den Windows-Einstellungen steht 255.255.255.224, auf dem Router steht /27. Beides meint dasselbe.",
+          frage: "Wie kommt man sicher von der einen Schreibweise zur anderen?"
+        },
+        aufbau: [
+          {
+            text: "Das Präfix zählt die Einsen der Subnetzmaske. 255.255.255.0 hat 24 Einsen, also /24. Die übrigen 8 Bits sind Hostbits.",
+            diagramm: "start"
+          },
+          {
+            text: "Jedes 255 sind 8 Einsen. Bei 255.255.255.224 sind das drei Mal 8 Einsen, dazu kommen die Einsen im letzten Oktett.",
+            diagramm: "m27"
+          },
+          {
+            text: "224 ist binär 11100000, das sind 3 Einsen. Zusammen 8 + 8 + 8 + 3 = 27, also /27.",
+            diagramm: "m27"
+          },
+          {
+            text: "Rückwärts: /20 in Achter-Päckchen zerlegen, 8 + 8 + 4. Zwei volle Päckchen werden 255, vier Einsen sind 11110000 = 240. Maske 255.255.240.0.",
+            diagramm: "m20"
+          },
+          {
+            text: "Die Hostbits sind H = 32 - Präfix. Bei /27 sind das 5, bei /20 sind es 12. Größeres Präfix heißt kleineres Netz.",
+            diagramm: "m20"
+          },
+          {
+            text: "CIDR heißt klassenlos: Die Grenze darf an jeder Bitstelle liegen, nicht nur bei /8, /16 und /24 wie bei den alten Klassen.",
+            diagramm: "start"
+          }
+        ],
+        probe: {
+          art: "mc",
+          frage: "Welches Präfix hat die Maske 255.255.240.0?",
+          optionen: [
+            {
+              text: "/20, denn 8 + 8 + 4 Einsen",
+              richtig: true,
+              korrektur: "Richtig: zwei volle Oktette sind 16 Einsen, 240 = 11110000 hat 4 Einsen."
+            },
+            {
+              text: "/12, denn so viele Nullen hat die Maske",
+              richtig: false,
+              korrektur: "Das sind die Hostbits. Das Präfix zählt die Einsen, nicht die Nullen: 32 - 12 = 20."
+            },
+            {
+              text: "/16, denn nur die zwei vollen Oktette zählen",
+              richtig: false,
+              korrektur: "Das angebrochene Oktett 240 zählt mit: 11110000 hat 4 Einsen. Also 16 + 4 = 20."
+            }
+          ],
+          loesung: "/20. Zwei volle Oktette sind 16 Einsen, 240 = 11110000 hat 4 Einsen, zusammen 20.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Zähle die Einsen Oktett für Oktett: 255 sind 8, 255 sind 8, 240 = 11110000 sind 4, 0 sind keine. 8 + 8 + 4 = 20.",
+          diagramm: "m20"
+        },
+        uebung: [{"t": "gen", "gen": "maskePraefix", "stufen": [1, 1, 2, 2]}, {"t": "wahl", "f": "Welches Netz ist **kleiner**: /27 oder /24?", "optionen": ["/24", "/27", "Beide gleich groß", "Das hängt von der IP-Adresse ab"], "richtig": 1, "tipps": ["Vergleiche die Hostbits: 32 − 27 und 32 − 24."], "erkl": "/27 hat 5 Hostbits (32 Adressen), /24 hat 8 (256 Adressen). **Größeres Präfix = kleineres Netz.**", "fallen": {"1": "Klassische Denk-Falle! Eine **größere Zahl** beim Präfix (/27 > /24) bedeutet **mehr Netzbits** und somit **weniger Hostbits**. /27 hat nur 30 nutzbare Hosts, /24 hat 254!"}}],
+        sicherung: {
+          merksatz: "Das Präfix zählt die Einsen der Maske, Hostbits H = 32 - Präfix.",
+          handout: "**Maske und Präfix:** Präfix = Zahl der Einsen. 255.255.255.224 = /27 (8+8+8+3), 255.255.240.0 = /20 (8+8+4). **Hostbits H = 32 - Präfix.** Größeres Präfix = kleineres Netz. CIDR ist klassenlos."
+        }
+      },
+
+      {
+        id: "p2",
+        titel: "Blockgröße und Präfix-Tabelle",
+        kurz: "die Schrittweite der Netze und die wichtigsten Präfixe",
+        lernziel: "lz2",
+        anker: {
+          text: "Im angebrochenen Oktett springen die Netzadressen in festen Schritten. Wer diese Schrittweite kennt, spart sich in der Prüfung die Binärrechnung.",
+          frage: "Wie groß ist der Schritt bei /27?"
+        },
+        aufbau: [
+          {
+            text: "Die Blockgröße ist 256 minus Maskenwert im angebrochenen Oktett. Bei /27 ist das letzte Oktett 224, also 256 - 224 = 32.",
+            diagramm: "bl32"
+          },
+          {
+            text: "Blockgröße 32 heißt: Die Netze beginnen im letzten Oktett bei 0, 32, 64, 96 und so weiter.",
+            diagramm: "bl32"
+          },
+          {
+            text: "Dieselbe Zahl steckt in den Hostbits: 5 Hostbits ergeben 2^5 = 32 Adressen, nutzbar sind 30 (ohne Netzadresse und Broadcast).",
+            diagramm: "bl32"
+          },
+          {
+            text: "Die Reihe zum Merken: /24 256, /25 128, /26 64, /27 32, /28 16, /29 8, /30 4. Mit jedem Präfix mehr halbiert sich die Blockgröße.",
+            diagramm: "bl64"
+          },
+          {
+            text: "Nutzbare Hosts: /25 126, /26 62, /27 30, /28 14, /29 6, /30 2. Immer die Adressen des Blocks minus 2.",
+            diagramm: "bl64"
+          },
+          {
+            text: "Ab /23 liegt die Grenze im dritten Oktett: /23 hat 512 Adressen (510 nutzbar), /22 hat 1.024 (1.022 nutzbar), /21 hat 2.048.",
+            diagramm: "start"
+          }
+        ],
+        probe: {
+          art: "mc",
+          frage: "Wie viele nutzbare Hosts hat ein /28-Netz?",
+          optionen: [
+            {
+              text: "14",
+              richtig: true,
+              korrektur: "Richtig: 4 Hostbits geben 16 Adressen, minus Netzadresse und Broadcast sind 14."
+            },
+            {
+              text: "16",
+              richtig: false,
+              korrektur: "16 ist die Blockgröße, also alle Adressen des Netzes. Nutzbar sind 2 weniger."
+            },
+            {
+              text: "28",
+              richtig: false,
+              korrektur: "28 ist das Präfix, also die Netzbits. Für die Hosts zählen die übrigen 4 Bits."
+            }
+          ],
+          loesung: "14. /28 hat 32 - 28 = 4 Hostbits, 2^4 = 16 Adressen, minus 2 sind 14 nutzbar.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Hostbits H = 32 - 28 = 4. Adressen im Netz: 2^4 = 16. Davon sind Netzadresse und Broadcast belegt, also 16 - 2 = 14.",
+          diagramm: "bl32"
+        },
+        uebung: [{"t": "gen", "gen": "hostsBeiPraefix", "stufen": [1, 1, 1]}],
+        sicherung: {
+          merksatz: "Blockgröße = 256 - Maskenwert, nutzbare Hosts = 2^H - 2.",
+          handout: "**Blockgröße und Tabelle:** Blockgröße = 256 - Maskenwert (/27: 32). Präfix, Adressen, nutzbar: /24 256/254, /25 128/126, /26 64/62, /27 32/30, /28 16/14, /29 8/6, /30 4/2. Ab /23 im 3. Oktett: /23 510, /22 1.022 nutzbar."
+        }
+      },
+
+      {
+        id: "p3",
+        titel: "Netzadresse mit der Blockgröße",
+        kurz: "Netzadresse, Broadcast und Hostbereich in der Prüfung",
+        lernziel: "lz3",
+        anker: {
+          text: "Eine typische Prüfungsaufgabe: Der Host hat 192.168.10.77/26. Gesucht sind Netzadresse, Broadcast und Hostbereich.",
+          frage: "Welches Vielfache der Blockgröße liegt direkt unter 77?"
+        },
+        aufbau: [
+          {
+            text: "Bei /26 ist die Blockgröße 64. Die Netze beginnen im letzten Oktett bei 0, 64, 128 und 192.",
+            diagramm: "bl64"
+          },
+          {
+            text: "Die Netzadresse ist das größte Vielfache der Blockgröße, das nicht über dem Host liegt: 64 für den Host .77. Das Netz ist 192.168.10.64.",
+            diagramm: "host77"
+          },
+          {
+            text: "Der Broadcast ist die letzte Adresse des Blocks: Netzadresse + Blockgröße - 1 = 64 + 64 - 1 = 127. Also 192.168.10.127.",
+            diagramm: "netz64"
+          },
+          {
+            text: "Der Hostbereich: erste nutzbare Adresse Netz + 1 = .65, letzte Broadcast - 1 = .126. Das sind 62 nutzbare Hosts.",
+            diagramm: "netz64"
+          },
+          {
+            text: "Gegenprobe: .77 liegt zwischen .65 und .126, gehört also in dieses Netz. Die Adresse davor, .63, ist der Broadcast des Nachbarnetzes.",
+            diagramm: "netz64"
+          },
+          {
+            text: "Bei /20 rechnest du im dritten Oktett, Blockgröße 16. Host 172.16.35.5 liegt im Block ab 32: Netz 172.16.32.0, Broadcast 172.16.47.255.",
+            diagramm: "start"
+          }
+        ],
+        probe: {
+          art: "frei",
+          frage: "Host 192.168.10.77/26: Wie lautet die Netzadresse?",
+          akzeptiert: ["192.168.10.64"],
+          tipp: "Bei /26 beginnen die Netze im letzten Oktett bei 0, 64, 128 und 192.",
+          loesung: "192.168.10.64. Die Blockgröße ist 64, das größte Vielfache unter 77 ist 64.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Teile 77 durch die Blockgröße 64: 1 Rest 13. Ein Block mal 64 ergibt 64, das ist das letzte Oktett der Netzadresse.",
+          diagramm: "host77"
+        },
+        uebung: [{"t": "wahl", "f": "Welche Antwort ist bei „Wie viele Hosts hat ein /26-Netz?“ **die** Prüfungsfalle?", "optionen": ["62 ist falsch, es sind 64 nutzbar", "26 – das Präfix gibt die Hosts an", "64 – das sind alle Adressen, nutzbar sind nur 62", "128 – Hostbits mal 2"], "richtig": 2, "tipps": ["Zwei Adressen gehören keinem Gerät."], "erkl": "**2^H** sind alle Adressen, **2^H − 2** die nutzbaren. Gefragt sind fast immer die nutzbaren Hosts."}, {"t": "gen", "gen": "netzrechnung", "stufen": [2]}, {"t": "gen", "gen": "netzrechnung", "stufen": [2]}, {"t": "gen", "gen": "netzrechnung", "stufen": [3]}, {"t": "gen", "gen": "subnetzBilden", "stufen": [2]}, {"t": "gen", "gen": "vlsm", "stufen": [2]}],
+        sicherung: {
+          merksatz: "Netzadresse = größtes Vielfaches der Blockgröße unter dem Host, Broadcast = Netz + Blockgröße - 1.",
+          handout: "**Netzadresse mit Blockgröße:** Blockgröße = 256 - Maskenwert. Netz = größtes Vielfaches der Blockgröße ≤ Host. Broadcast = Netz + Blockgröße - 1. Hosts = Netz + 1 bis Broadcast - 1. Beispiel 192.168.10.77/26: Netz .64, Broadcast .127, Hosts .65 bis .126."
+        }
+      }
+    ],
+
+    nachtest: [
+      {
+        frage: "Welches Präfix hat die Maske 255.255.255.192?",
+        optionen: [
+          { text: "/26", richtig: true },
+          { text: "/25", richtig: false },
+          { text: "/27", richtig: false }
+        ],
+        lernziel: "lz1"
+      },
+      {
+        frage: "Welche Blockgröße hat ein /27 im letzten Oktett?",
+        optionen: [
+          { text: "32", richtig: true },
+          { text: "27", richtig: false },
+          { text: "224", richtig: false }
+        ],
+        lernziel: "lz2"
+      },
+      {
+        frage: "Host 10.1.1.200/25: Wie lautet die Netzadresse?",
+        optionen: [
+          { text: "10.1.1.128", richtig: true },
+          { text: "10.1.1.192", richtig: false },
+          { text: "10.1.1.0", richtig: false }
+        ],
+        lernziel: "lz3"
+      },
+      {
+        frage: "Wie lautet der Broadcast des Netzes 192.168.10.64/26?",
+        optionen: [
+          { text: "192.168.10.127", richtig: true },
+          { text: "192.168.10.128", richtig: false },
+          { text: "192.168.10.126", richtig: false }
+        ],
+        lernziel: "lz3"
+      }
+    ]
+  };
+
+  // Zu den bestehenden Einheiten dazulegen (Dateien werden alphabetisch geladen, f_einheiten.js zuerst).
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_CIDR.id]: LF03_CIDR });
+})();
+
+/* ---- f_einheiten_ipv6.js ---- */
+//
+// Einheit 5: IPv6 schreiben, kuerzen, aufbauen (aus dem Kurs "Expedition Subnetting & IPv6", Stationen 6, 7, 8 und 9).
+// Gleiches Format wie f_einheiten_subnetting.js. Die Buehne zeigt statt Bit-Leisten die 128 Bit als Adressraum
+// (Zahlen = Bitposition 0..127). Die Marker "UE:pN" wurden beim Umbau durch die Kursdaten ersetzt.
+// Alle Beispiele sind mit Python (ipaddress) nachgerechnet, siehe docs/KI-LEHRER-PROTOKOLL.md.
+(function () {
+  "use strict";
+
+  const BELEG = { handout: "IPv4, IPv6 und MAC-Adresse verstehen" };
+
+  const LF03_IPV6 = {
+    id: "lf03-ipv6-grundlagen",
+    reihe: 5,
+    titel: "IPv6: Schreiben, Kürzen, Aufbau",
+    untertitel: "128 Bit lesbar machen und in Subnetze teilen",
+    lernfeld: "LF03",
+    dauer_min: 25,
+    quelle: {
+      buch: "IT-Berufe Grundstufe (Westermann), S. 334–336 (IPv6)",
+      handouts: ["IPv4, IPv6 und MAC-Adresse verstehen"]
+    },
+
+    lernziele: [
+      { id: "lz1", text: "IPv6-Adressen mit den zwei Kürzungsregeln schreiben", kn: "IPv6" },
+      { id: "lz2", text: "Gekürzte Adressen ausschreiben und ::1 sowie :: einordnen", kn: "IPv6" },
+      { id: "lz3", text: "Den Aufbau 64 + 64 erklären und Subnetze zählen", kn: "IPv6" },
+      { id: "lz4", text: "Eine IPv6-Adresse mit Port in eine URL schreiben", kn: "IPv6" }
+    ],
+
+    diagramme: {
+      start: {
+        art: "raum", titel: "IPv6: 128 Bit = 8 Blöcke zu je 16 Bit", bereich: [0, 127],
+        teile: [
+          { von: 0, bis: 15, label: "Block 1", rolle: "A", tick: "0" },
+          { von: 16, bis: 31, label: "Block 2", rolle: "B2", tick: "16" },
+          { von: 32, bis: 47, label: "Block 3", rolle: "A", tick: "32" },
+          { von: 48, bis: 63, label: "Block 4", rolle: "B2", tick: "48" },
+          { von: 64, bis: 79, label: "Block 5", rolle: "A", tick: "64" },
+          { von: 80, bis: 95, label: "Block 6", rolle: "B2", tick: "80" },
+          { von: 96, bis: 111, label: "Block 7", rolle: "A", tick: "96" },
+          { von: 112, bis: 127, label: "Block 8", rolle: "B2", tick: "112" }
+        ]
+      },
+      halb: {
+        art: "raum", titel: "Feste Grenze: 64 Bit Netz + 64 Bit Interface-ID", bereich: [0, 127],
+        teile: [
+          { von: 0, bis: 63, label: "Netzpräfix (64 Bit)", rolle: "A", tick: "0" },
+          { von: 64, bis: 127, label: "Interface-ID (64 Bit)", rolle: "H", tick: "64" }
+        ]
+      },
+      ebenen: {
+        art: "raum", titel: "Die Ebenen: Provider, Kunde, Subnetz, Gerät", bereich: [0, 127],
+        teile: [
+          { von: 0, bis: 31, label: "Provider /32", rolle: "A", tick: "0" },
+          { von: 32, bis: 47, label: "Kunde /48", rolle: "B2", tick: "32" },
+          { von: 48, bis: 63, label: "Subnetz /64", rolle: "C", tick: "48" },
+          { von: 64, bis: 127, label: "Gerät (Interface-ID)", rolle: "H", tick: "64" }
+        ]
+      }
+    },
+
+    vortest: [
+      {
+        frage: "Wie viele Bit hat eine IPv6-Adresse?",
+        optionen: [
+          { text: "128", richtig: true },
+          { text: "64", richtig: false },
+          { text: "48", richtig: false }
+        ],
+        lernziel: "lz1"
+      },
+      {
+        frage: "Wie viele Hexadezimalziffern hat ein IPv6-Block?",
+        optionen: [
+          { text: "4", richtig: true },
+          { text: "2", richtig: false },
+          { text: "8", richtig: false }
+        ],
+        lernziel: "lz1"
+      }
+    ],
+
+    phasen: [
+      {
+        id: "p1",
+        titel: "Aufbau und Kürzungsregeln",
+        kurz: "wie man IPv6-Adressen lesbar schreibt",
+        lernziel: "lz1",
+        anker: {
+          text: "Die Adresse 2001:0db8:0000:0000:0001:0000:0000:0001 ist lang und unhandlich. Es gibt zwei Regeln, sie zu kürzen.",
+          frage: "Welche Nullen darf man weglassen?"
+        },
+        aufbau: [
+          {
+            text: "Eine IPv6-Adresse hat 128 Bit, geschrieben als 8 Blöcke zu je 16 Bit. Jeder Block hat 4 Hexadezimalziffern, getrennt durch Doppelpunkte.",
+            diagramm: "start"
+          },
+          {
+            text: "Regel 1: Führende Nullen jedes Blocks weglassen. 0db8 wird db8, 0001 wird 1, 0000 wird 0. Aus 1200 darf nicht 12 werden.",
+            diagramm: "start"
+          },
+          {
+            text: "Nach Regel 1 steht da 2001:db8:0:0:1:0:0:1. Es gibt jetzt zwei Folgen aus Nullblöcken.",
+            diagramm: "start"
+          },
+          {
+            text: "Regel 2: Eine zusammenhängende Folge von Nullblöcken wird zu ::. Das darf nur ein einziges Mal in einer Adresse passieren.",
+            diagramm: "start"
+          },
+          {
+            text: "Warum nur einmal? Beim Zurückübersetzen füllt man :: mit so vielen Nullblöcken auf, bis es 8 Blöcke sind. Bei zwei :: wäre das nicht eindeutig.",
+            diagramm: "start"
+          },
+          {
+            text: "Man kürzt die längste Nullfolge. Sind beide gleich lang, nimmt man die erste: 2001:db8::1:0:0:1.",
+            diagramm: "start"
+          }
+        ],
+        probe: {
+          art: "mc",
+          frage: "Welche Schreibweise ist die vollständig gekürzte Form von 2001:0db8:0000:0000:0000:0000:0000:0001?",
+          optionen: [
+            {
+              text: "2001:db8::1",
+              richtig: true,
+              korrektur: "Richtig: führende Nullen weg, die fünf Nullblöcke in der Mitte werden zu ::."
+            },
+            {
+              text: "2001:db8:1",
+              richtig: false,
+              korrektur: "Das wären nur drei Blöcke. Die Nullblöcke müssen als :: stehen bleiben, sonst fehlen sie."
+            },
+            {
+              text: "2001:0db8::1",
+              richtig: false,
+              korrektur: "Das ist gültig, aber nicht so weit wie möglich gekürzt: Die führende Null in 0db8 darf weg."
+            }
+          ],
+          loesung: "2001:db8::1. Führende Nullen weg ergibt 2001:db8:0:0:0:0:0:1, die fünf Nullblöcke in der Mitte werden zu ::.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Schreibe erst jede Zahl kurz: 0db8 zu db8, 0001 zu 1, 0000 zu 0. Dann ersetze die längste Folge von 0-Blöcken durch ::.",
+          diagramm: "start"
+        },
+        uebung: [{"t": "eingabe", "f": "Wie viele **Bit** hat ein Block einer IPv6-Adresse?", "art": "zahl", "antwort": ["16"], "tipps": ["4 Hexziffern × 4 Bit.", "128 Bit geteilt durch 8 Blöcke."], "erkl": "4 × 4 = **16 Bit**; 8 × 16 = 128."}, {"t": "gen", "gen": "ipv6kuerzen", "stufen": [1, 1, 2], "modus": "kurz"}],
+        sicherung: {
+          merksatz: "Führende Nullen weg, eine Nullfolge einmal als ::.",
+          handout: "**IPv6 kürzen:** 128 Bit = 8 Blöcke zu je 4 Hexziffern. **Regel 1:** führende Nullen weg (nie aus 1200 ein 12). **Regel 2:** eine Folge von Nullblöcken wird zu ::, nur ein Mal. Gleich lange Folgen: die erste. Beispiel: 2001:0db8:0000:0000:0001:0000:0000:0001 wird 2001:db8::1:0:0:1."
+        }
+      },
+
+      {
+        id: "p2",
+        titel: "Ausschreiben und Sonderfälle",
+        kurz: "wie viele Nullblöcke im :: stecken, ::1 und ::",
+        lernziel: "lz2",
+        anker: {
+          text: "Gegeben ist die gekürzte Adresse 2001:db8::8a2e:370:7334. Wie sieht die volle Schreibweise aus?",
+          frage: "Wie viele Nullblöcke stecken im ::?"
+        },
+        aufbau: [
+          {
+            text: "Zähle die sichtbaren Blöcke: 2001, db8, 8a2e, 370 und 7334 sind 5. Eine vollständige Adresse hat immer 8 Blöcke.",
+            diagramm: "start"
+          },
+          {
+            text: "Fehlende Blöcke: 8 - 5 = 3. Genau so viele Nullblöcke stecken im ::.",
+            diagramm: "start"
+          },
+          {
+            text: "Setze die drei Nullblöcke ein: 2001:db8:0:0:0:8a2e:370:7334. Jetzt sind es 8 Blöcke.",
+            diagramm: "start"
+          },
+          {
+            text: "Fülle jeden Block auf 4 Ziffern auf: 2001:0db8:0000:0000:0000:8a2e:0370:7334. Das ist die volle Schreibweise.",
+            diagramm: "start"
+          },
+          {
+            text: "Sonderfall ::1 ist der Loopback, die Adresse für den eigenen Rechner, wie 127.0.0.1 bei IPv4.",
+            diagramm: "start"
+          },
+          {
+            text: "Sonderfall :: allein bedeutet alle Bits 0, also noch keine Adresse, wie 0.0.0.0 bei IPv4.",
+            diagramm: "start"
+          }
+        ],
+        probe: {
+          art: "frei",
+          frage: "Wie viele Nullblöcke stecken im :: von fe80::1ff:fe23:4567:890a?",
+          akzeptiert: ["3", "drei"],
+          tipp: "Eine Adresse hat 8 Blöcke. Zähle die sichtbaren Blöcke.",
+          loesung: "3. Sichtbar sind 5 Blöcke (fe80, 1ff, fe23, 4567, 890a), 8 - 5 = 3 Nullblöcke.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Zähle die Blöcke links und rechts vom ::, hier 1 + 4 = 5. Die Adresse braucht 8 Blöcke, also stecken 8 - 5 = 3 Nullblöcke im ::.",
+          diagramm: "start"
+        },
+        uebung: [{"t": "wahl", "f": "Ist **2001:db8::1::1** eine gültige IPv6-Adresse?", "optionen": ["Ja, das ist die gekürzte Schreibweise", "Ja, wenn beide :: gleich viele Blöcke ersetzen", "Nein, weil sie zu kurz ist", "Nein: `::` darf nur einmal vorkommen"], "richtig": 3, "tipps": ["Wie viele Nullblöcke ersetzt jedes `::`? Kann man das eindeutig sagen?"], "erkl": "Bei zwei `::` ist nicht eindeutig, wie viele Nullblöcke wo fehlen.", "fallen": {"1": "Denkfalle: Wenn `::` zweimal vorkommt, ist nicht mehr eindeutig bestimmbar, wie viele Nullblöcke an welcher Stelle stehen. Daher ist `::` strengstens auf **maximal 1 Mal** begrenzt!"}}, {"t": "wahl", "f": "Was darf man aus dem Block **1200** machen?", "optionen": ["Nichts: nur *führende* Nullen dürfen weg, 1200 bleibt 1200", "12", "12:00", "1:2"], "richtig": 0, "tipps": ["Die Nullen stehen hinten, nicht vorne."], "erkl": "Aus 0012 wird 12, aus 1200 bleibt 1200 – sonst würde sich der Wert ändern.", "fallen": {"1": "Riesige Denkfalle! 1200 ist dezimal 4608, 12 ist 18! Nachfolgende Nullen verändern den Wert komplett. Nur **führende** Nullen (z.B. 0012 -> 12) dürfen entfallen!", "2": "Auch 120 verändert den Wert eines 16-Bit-Blocks!"}}, {"t": "gen", "gen": "ipv6kuerzen", "stufen": [1, 2], "modus": "voll"}, {"t": "wahl", "f": "Was bedeutet die Adresse **::1** ?", "optionen": ["Das Standardgateway", "Loopback: das Gerät selbst", "Die Broadcast-Adresse", "Eine private Adresse im Firmennetz"], "richtig": 1, "tipps": ["Denk an 127.0.0.1."], "erkl": "`::1` ist die Loopback-Adresse, das IPv6-Gegenstück zu 127.0.0.1.", "fallen": {"1": "Ein Standard-Gateway hat eine eigene Link-Local oder Global Unicast Adresse.", "2": "IPv6 hat **keinen** Broadcast mehr! Broadcast existiert bei IPv6 nicht (wurde durch Multicast ersetzt)."}}],
+        sicherung: {
+          merksatz: "Sichtbare Blöcke zählen: 8 minus Anzahl sind die Nullblöcke im ::.",
+          handout: "**Ausschreiben:** sichtbare Blöcke zählen, 8 minus Anzahl = Nullblöcke im ::, einsetzen, jeden Block auf 4 Ziffern auffüllen. **Sonderfälle:** ::1 = Loopback (wie 127.0.0.1), :: = noch keine Adresse (wie 0.0.0.0)."
+        }
+      },
+
+      {
+        id: "p3",
+        titel: "64 plus 64 und Subnetze zählen",
+        kurz: "Provider, Kunde, Subnetz, Gerät und wie viele Subnetze passen",
+        lernziel: "lz3",
+        anker: {
+          text: "Ein Kunde bekommt vom Provider das Netz 2001:db8:abcd::/48. Er will wissen, wie viele Subnetze er daraus bauen kann.",
+          frage: "Wie viele /64-Subnetze passen in ein /48?"
+        },
+        aufbau: [
+          {
+            text: "IPv6 hat keine Subnetzmaske mehr, nur die Präfixlänge. Die Grenze zwischen Netz und Host liegt fest bei 64 Bit: 64 Netzbit, 64 Bit Interface-ID.",
+            diagramm: "halb"
+          },
+          {
+            text: "Die Ebenen: Provider meist /32, Kunde /48 oder /56, ein LAN oder VLAN /64, ein einzelnes Gerät /128.",
+            diagramm: "ebenen"
+          },
+          {
+            text: "Subnetzbits = 64 - Kundenpräfix. Beim /48 sind das 16 Bit, die der Kunde selbst verteilen darf.",
+            diagramm: "ebenen"
+          },
+          {
+            text: "Anzahl der Subnetze = 2^Subnetzbits. Im /48 sind das 2^16 = 65.536 Subnetze, im /56 sind es 2^8 = 256.",
+            diagramm: "ebenen"
+          },
+          {
+            text: "Beim /48 endet das Kundennetz an einer Blockgrenze, Block 4 ist die Subnetz-ID. Beim /56 geht die Grenze mitten durch Block 4.",
+            diagramm: "start"
+          },
+          {
+            text: "Beispiel /56: Kundennetz 2001:db8:abcd:ab00::/56. Subnetz Nr. 7 ist 2001:db8:abcd:ab07::/64, die Subnetze laufen von ab00 bis abff.",
+            diagramm: "start"
+          }
+        ],
+        probe: {
+          art: "mc",
+          frage: "Wie viele /64-Subnetze enthält ein /56-Kundennetz?",
+          optionen: [
+            {
+              text: "256",
+              richtig: true,
+              korrektur: "Richtig: 64 - 56 = 8 Subnetzbits, 2^8 = 256."
+            },
+            {
+              text: "65.536",
+              richtig: false,
+              korrektur: "Das ist die Zahl für ein /48 (16 Subnetzbits). Beim /56 sind es nur 8 Bits."
+            },
+            {
+              text: "56",
+              richtig: false,
+              korrektur: "56 ist die Präfixlänge, nicht die Anzahl. Rechne 2 hoch (64 - 56)."
+            }
+          ],
+          loesung: "256. Subnetzbits = 64 - 56 = 8, und 2^8 = 256.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Rechne 64 minus das Kundenpräfix: 64 - 56 = 8 Subnetzbits. Dann 2 hoch 8 = 256 Subnetze.",
+          diagramm: "ebenen"
+        },
+        uebung: [{"t": "weg", "titel": "Ebenen zuordnen", "kopf": "Ordne die Präfixe den Ebenen zu.", "schritte": [{"t": "wahl", "f": "**2001:db8::/32** ist ein …", "optionen": ["Kundennetz", "Kundensubnetz", "Providernetz", "Interface-Adresse"], "richtig": 2, "tipps": ["Das kürzeste Präfix gehört zur größten Ebene."], "label": "2001:db8::/32"}, {"t": "wahl", "f": "**2001:db8:3a7c::/48** ist ein …", "optionen": ["Providernetz", "Kundensubnetz", "Interface-Adresse", "Kundennetz"], "richtig": 3, "tipps": ["Ein /48 bekommt der Kunde vom Provider."], "label": "2001:db8:3a7c::/48"}, {"t": "wahl", "f": "**2001:db8:3a7c:5::/64** ist ein …", "optionen": ["Kundensubnetz", "Providernetz", "Kundennetz", "Interface-Adresse"], "richtig": 0, "tipps": ["Ein /64 ist ein einzelnes LAN."], "label": "2001:db8:3a7c:5::/64"}]}, {"t": "gen", "gen": "ipv6subnetze", "stufen": [1, 1, 2]}, {"t": "wahl", "f": "Wie viele Bit hat die **Interface-ID**?", "optionen": ["32 Bit", "64 Bit (die letzten 4 Blöcke)", "48 Bit", "128 Bit"], "richtig": 1, "tipps": ["Die Hälfte der Adresse."], "erkl": "64 Netzbits + **64 Bit Interface-ID** = 128."}, {"t": "wahl", "f": "Gibt es bei IPv6 einen **Broadcast**?", "optionen": ["Ja, wie bei IPv4", "Ja, aber nur im Link-Local-Bereich", "Nein, nur Multicast (und Unicast/Anycast)", "Nur bei /64-Netzen"], "richtig": 2, "tipps": ["Broadcast wurde abgeschafft."], "erkl": "Bei IPv6 gibt es **keinen Broadcast** mehr, nur Multicast.", "fallen": {"1": "Häufige Prüfungsfalle! Bei IPv4 gab es Broadcast. In IPv6 existiert Broadcast nicht mehr – alle Mehrpunkt-Nachrichten nutzen gezielte **Multicast-Gruppen** (z. B. `ff02::1`)."}}, {"t": "wahl", "f": "Welche Adressart ist **fe80::/10** ?", "optionen": ["Global Unicast", "Unique Local", "Multicast", "Link-Local (nur im eigenen Segment)"], "richtig": 3, "tipps": ["fe80 ist die Link-Local-Adresse, die jedes IPv6-Interface von selbst bekommt."], "erkl": "`fe80::/10` = **Link-Local**, gilt nur im eigenen Segment.", "fallen": {"1": "Global Unicast beginnt mit 2000::/3.", "2": "Unique Local beginnt mit fc00::/7 (meist fd00::)."}}],
+        sicherung: {
+          merksatz: "Subnetzbits = 64 - Kundenpräfix, Anzahl = 2^Subnetzbits, die Interface-ID ist immer 64 Bit.",
+          handout: "**IPv6-Aufbau:** 64 Bit Netzpräfix + 64 Bit Interface-ID, feste Grenze. Ebenen: Provider /32, Kunde /48 oder /56, Subnetz /64, Gerät /128. **Subnetze = 2^(64 - Kundenpräfix):** /48 gibt 65.536, /56 gibt 256. Typen: 2000::/3 global, fe80::/10 link-local, fc00::/7 unique local, ff00::/8 Multicast."
+        }
+      },
+
+      {
+        id: "p4",
+        titel: "IPv6 in der Adresszeile",
+        kurz: "warum eckige Klammern in der URL stehen",
+        lernziel: "lz4",
+        anker: {
+          text: "Ein Webserver hat die Adresse 2001:db8::1 und lauscht auf Port 8080. Du willst ihn im Browser öffnen.",
+          frage: "Wie schreibt man das in die Adresszeile?"
+        },
+        aufbau: [
+          {
+            text: "In einer URL trennt ein Doppelpunkt Host und Port: http://192.168.10.5:8080/. Eine IPv6-Adresse enthält aber selbst viele Doppelpunkte.",
+            diagramm: "start"
+          },
+          {
+            text: "Ohne Schutz wäre unklar, ob 8080 der Port oder der letzte Adressblock ist. Deshalb steht die IPv6-Adresse in eckigen Klammern.",
+            diagramm: "start"
+          },
+          {
+            text: "Die Regel: http://[Adresse]:Port/. Der Port ist optional und steht hinter der schließenden Klammer.",
+            diagramm: "start"
+          },
+          {
+            text: "Beispiele: http://[2001:db8::1]/ ohne Port, http://[2001:db8::1]:8080/ mit Port, https://[::1]:8443/admin für den eigenen Rechner.",
+            diagramm: "start"
+          },
+          {
+            text: "Falsch ist http://2001:db8::1:8080/, weil nicht erkennbar ist, was Adresse und was Port sein soll.",
+            diagramm: "start"
+          }
+        ],
+        probe: {
+          art: "frei",
+          frage: "Schreibe die URL für den Webserver 2001:db8::1 auf Port 8080 (http).",
+          akzeptiert: ["http://[2001:db8::1]:8080/", "http://[2001:db8::1]:8080"],
+          tipp: "Die Adresse kommt in eckige Klammern, der Port steht dahinter nach einem Doppelpunkt.",
+          loesung: "http://[2001:db8::1]:8080/. Die Adresse steht in eckigen Klammern, der Port dahinter.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Baue die URL in drei Teilen: http:// dann die Adresse in [ ] dann :Port und ein Schrägstrich. Also http://[2001:db8::1]:8080/.",
+          diagramm: "start"
+        },
+        uebung: [{"t": "wahl", "f": "Welche Schreibweise ist **falsch**?", "optionen": ["`http://::1:80/`", "`http://[::1]:80/`", "`http://[2001:db8::1]/`", "`https://[2001:db8::10]:443/`"], "richtig": 0, "tipps": ["Wo endet bei der falschen Variante die Adresse und wo beginnt der Port?"], "erkl": "Ohne Klammern ist nicht erkennbar, wo die Adresse aufhört."}, {"t": "gen", "gen": "urlbauen", "stufen": [1, 1, 1]}, {"t": "wahl", "f": "Brauchen Werkzeuge wie `ping` die Klammern auch? (`ping 2001:db8::1`)", "optionen": ["Ja, überall", "Nein: die Klammern gelten für URLs, nicht für reine Adressen", "Nur unter Linux", "Nur bei Link-Local-Adressen"], "richtig": 1, "tipps": ["Wo kommt das Problem mit dem Doppelpunkt vor, und wo nicht?"], "erkl": "Werkzeuge, die nur eine Adresse erwarten, brauchen keine Klammern. In URLs (Browser, curl) schon."}, {"t": "gen", "gen": "ipv6komplett", "stufen": [1]}],
+        sicherung: {
+          merksatz: "IPv6 in der URL: eckige Klammern um die Adresse, der Port kommt dahinter.",
+          handout: "**IPv6 in der URL:** Adresse in eckige Klammern, danach optional :Port. Beispiele: http://[2001:db8::1]/ · http://[2001:db8::1]:8080/ · https://[::1]:8443/admin. Ohne Klammern wäre der Port nicht vom letzten Adressblock zu unterscheiden."
+        }
+      }
+    ],
+
+    uebungText: "Zum Schluss alles zusammen: IPv4-Subnetting und IPv6 in einer Abschlussübung. Danach kommt der Abschlusstest.",
+    uebung: [{"t": "wahl", "f": "1. Wozu ist die **Subnetzmaske** da?", "optionen": ["Sie verschlüsselt die Adresse auf dem Weg durchs Netz", "Sie weist dem Rechner automatisch eine IP-Adresse zu", "Sie teilt die Adresse in Netz- und Hostteil; damit erkennt ein Rechner, ob das Ziel im eigenen Netz liegt oder über den Router erreichbar sein muss", "Sie gibt an, welcher Router der Standardgateway ist"], "richtig": 2, "erkl": "Die Maske trennt Netz- und Hostteil. Daran entscheidet der Rechner: direkt oder über den Router."}, {"t": "eingabe", "f": "2. Welches Präfix hat **255.255.255.240** ?", "art": "praefix", "antwort": ["28"], "erkl": "8 + 8 + 8 + 4 = **/28** (240 hat 4 Einsen)."}, {"t": "weg", "titel": "Netz berechnen", "kopf": "3. Bestimme für **172.20.130.77/22** die Netzadresse, die Broadcast-Adresse und die Zahl der nutzbaren Hosts.", "schritte": [{"t": "eingabe", "f": "Netzadresse?", "art": "ip", "antwort": ["172.20.128.0"], "erkl": "Maske 255.255.252.0, Blockgröße 4 im 3. Oktett; 130 liegt im Block ab 128 → **172.20.128.0**.", "label": "Netzadresse"}, {"t": "eingabe", "f": "Broadcast?", "art": "ip", "antwort": ["172.20.131.255"], "erkl": "Nächster Block ab 172.20.132.0 minus 1 → **172.20.131.255**.", "label": "Broadcast"}, {"t": "eingabe", "f": "Nutzbare Hosts?", "art": "zahl", "antwort": ["1022"], "erkl": "H = 10 → 2¹⁰ − 2 = **1.022**.", "fallen": {"1024": "Das sind alle Adressen. Nutzbar: 2^H − 2."}, "label": "Nutzbare Hosts"}]}, {"t": "eingabe", "f": "4. Wie viele **nutzbare Hosts** hat ein /27-Netz?", "art": "zahl", "antwort": ["30"], "erkl": "H = 5 → 2⁵ − 2 = **30**.", "fallen": {"32": "Das sind alle Adressen (2^H). Nutzbar: 2^H − 2."}}, {"t": "weg", "titel": "In vier Netze teilen", "kopf": "5. 192.168.1.0/24 soll in **4 gleich große Subnetze** geteilt werden.", "schritte": [{"t": "eingabe", "f": "Neues Präfix?", "art": "praefix", "antwort": ["26"], "erkl": "2² = 4 → 2 Bits leihen → **/26**.", "label": "Neues Präfix"}, {"t": "eingabe", "f": "Nutzbare Hosts je Subnetz?", "art": "zahl", "antwort": ["62"], "erkl": "H = 6 → 2⁶ − 2 = **62**.", "label": "Hosts je Subnetz"}]}, {"t": "weg", "titel": "VLSM-Präfixe", "kopf": "6. Welche Präfixe brauchen Netze mit **30**, **12** und **5** Geräten (VLSM)?", "schritte": [{"t": "eingabe", "f": "Präfix für 30 Geräte?", "art": "praefix", "antwort": ["27"], "erkl": "2⁵ − 2 = 30 → **/27**.", "label": "30 Geräte"}, {"t": "eingabe", "f": "Präfix für 12 Geräte?", "art": "praefix", "antwort": ["28"], "erkl": "2⁴ − 2 = 14 ≥ 12 → **/28**.", "label": "12 Geräte"}, {"t": "eingabe", "f": "Präfix für 5 Geräte?", "art": "praefix", "antwort": ["29"], "erkl": "2³ − 2 = 6 ≥ 5 → **/29**.", "label": "5 Geräte"}]}, {"t": "eingabe", "f": "7. Kürze **2001:0db8:0000:0000:0000:0000:0000:0001** so weit wie möglich.", "art": "ipv6kurz", "antwort": ["2001:db8::1"], "erkl": "Regel 1: 2001:db8:0:0:0:0:0:1. Regel 2: fünf Nullblöcke → **2001:db8::1**."}, {"t": "wahl", "f": "8. Schreibe **::1** voll aus und sage, was die Adresse bedeutet. Was stimmt?", "optionen": ["0000:0000:0000:0000:0000:0000:0000:0001 – Broadcast", "0001:0000:0000:0000:0000:0000:0000:0000 – Loopback", "0000:0000:0000:0000:0000:0000:0000:0000 – noch keine Adresse", "0000:0000:0000:0000:0000:0000:0000:0001 – Loopback (wie 127.0.0.1)"], "richtig": 3, "erkl": "`::1` = Loopback, das Gegenstück zu 127.0.0.1."}, {"t": "weg", "titel": "Subnetze zählen", "kopf": "9. Wie viele /64-Subnetze enthalten ein /48- und ein /56-Kundennetz?", "schritte": [{"t": "eingabe", "f": "Anzahl bei /48?", "art": "zahl", "antwort": ["65536"], "erkl": "2¹⁶ = **65.536**.", "label": "/48"}, {"t": "eingabe", "f": "Anzahl bei /56?", "art": "zahl", "antwort": ["256"], "erkl": "2⁸ = **256**.", "label": "/56"}]}, {"t": "weg", "titel": "Hierarchie", "kopf": "10. Ordne den Ebenen die Präfixlänge zu.", "schritte": [{"t": "wahl", "f": "Providernetz", "optionen": ["/32", "/48 oder /56", "/64", "/128"], "richtig": 0, "label": "Providernetz", "erkl": "Das Providernetz ist meist ein **/32**."}, {"t": "wahl", "f": "Kundennetz", "optionen": ["/32", "/48 oder /56", "/64", "/128"], "richtig": 1, "label": "Kundennetz", "erkl": "Das Kundennetz ist ein **/48 oder /56**."}, {"t": "wahl", "f": "Kundensubnetz", "optionen": ["/32", "/48 oder /56", "/64", "/128"], "richtig": 2, "label": "Kundensubnetz", "erkl": "Das Kundensubnetz ist ein **/64**."}, {"t": "wahl", "f": "Interface-Adresse", "optionen": ["/32", "/48 oder /56", "/64", "/128"], "richtig": 3, "label": "Interface-Adresse", "erkl": "Die einzelne Interface-Adresse ist ein **/128**; die Interface-ID sind die letzten 64 Bit."}]}, {"t": "weg", "titel": "Wahr oder falsch", "kopf": "11. Wahr oder falsch?", "schritte": [{"t": "wahl", "f": "„IPv6 kennt Broadcast.“", "optionen": ["falsch", "wahr"], "richtig": 0, "label": "Broadcast", "erkl": "IPv6 kennt nur Multicast, **keinen Broadcast**."}, {"t": "wahl", "f": "„Die Interface-ID ist 64 Bit lang.“", "optionen": ["falsch", "wahr"], "richtig": 1, "label": "Interface-ID", "erkl": "Die Interface-ID sind die letzten **64 Bit**."}]}, {"t": "eingabe", "f": "12. Schreibe die URL für den Server **2001:db8::10** auf **Port 443** (https).", "art": "url", "antwort": ["https://[2001:db8::10]:443/", "https://[2001:db8::10]/"], "erkl": "Eckige Klammern um die Adresse: **https://[2001:db8::10]:443/** (bei Port 443 darf `:443` auch wegfallen)."}],
+
+    nachtest: [
+      {
+        frage: "Welche Adresse ist regelkonform gekürzt?",
+        optionen: [
+          { text: "2001:db8::1", richtig: true },
+          { text: "2001::db8::1", richtig: false },
+          { text: "2001:db8:1", richtig: false }
+        ],
+        lernziel: "lz1"
+      },
+      {
+        frage: "Wie viele Nullblöcke stecken im :: von fe80::1?",
+        optionen: [
+          { text: "6", richtig: true },
+          { text: "7", richtig: false },
+          { text: "2", richtig: false }
+        ],
+        lernziel: "lz2"
+      },
+      {
+        frage: "Wie viele /64-Subnetze enthält ein /48-Kundennetz?",
+        optionen: [
+          { text: "65.536", richtig: true },
+          { text: "256", richtig: false },
+          { text: "48", richtig: false }
+        ],
+        lernziel: "lz3"
+      },
+      {
+        frage: "Welche URL ist richtig für den Server 2001:db8::5 auf Port 443 (https)?",
+        optionen: [
+          { text: "https://[2001:db8::5]:443/", richtig: true },
+          { text: "https://2001:db8::5:443/", richtig: false },
+          { text: "https://[2001:db8::5:443]/", richtig: false }
+        ],
+        lernziel: "lz4"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_IPV6.id]: LF03_IPV6 });
+})();
+
 /* ---- f_einheiten_subnetting.js ---- */
 // f_einheiten_subnetting.js - Lerneinheit 2: Subnetting und die Fachbegriffe (Daten, kein Code).
 //
@@ -8953,6 +9658,7 @@ GENERATORS.detektiv = function (level) {
 
   const LF03_SUBNETTING = {
     id: "lf03-subnetting-grundlagen",
+    reihe: 2,
     titel: "Subnetting und die Fachbegriffe",
     untertitel: "Von der Subnetzmaske bis zum VLSM-Plan",
     lernfeld: "LF03",
@@ -9053,6 +9759,7 @@ GENERATORS.detektiv = function (level) {
           text: "Zähle von links: /26 heißt 26 Einsen in der Maske, also 26 Netzbits. Die Adresse hat 32 Bit, übrig bleiben 32 − 26 = 6 Bits. Genau diese 6 gehören dem Hostteil.",
           diagramm: "adr26"
         },
+        uebung: [{"t": "wahl", "f": "Was steht **rechts** der Grenze in einer Adresse?", "optionen": ["Der Hostteil (welches Gerät)", "Der Netzteil (welches Netz)", "Der Standardgateway", "Die Broadcast-Adresse"], "richtig": 0, "tipps": ["Denk an eine Telefonnummer: Die Vorwahl sagt das Ortsnetz, der Rest den Anschluss.", "Links = Netz. Was bleibt für rechts?"], "erkl": "Rechts steht der **Hostteil**: Er sagt, welches Gerät im Netz gemeint ist.", "fallen": {"1": "Denkfalle: Der Netzanteil steht immer **links** (die höchstwertigen Bits), ähnlich wie die Ortsvorwahl bei einer Telefonnummer.", "2": "Denkfalle: Die Subnetzmaske ist ein separater 32-Bit-Filter, der die Grenze markiert – sie steht nicht innerhalb der IP-Adresse selbst."}}, {"t": "wahl", "f": "Wodurch wird die Grenze bei **IPv4** festgelegt?", "optionen": ["Durch den DNS-Server", "Durch die Subnetzmaske (bzw. das /Präfix)", "Durch die MAC-Adresse", "Durch den Standardgateway"], "richtig": 1, "tipps": ["Es ist eine Zahl, die man hinter die Adresse schreibt – oder eine zweite Adresse, die aussieht wie 255.255.255.0."], "erkl": "Die **Subnetzmaske** (oder kurz /Präfix) markiert die Grenze.", "fallen": {"1": "Klassische Falle! Früher dachte man in starren Klassen (Class C nach dem 3. Punkt), doch seit CIDR (1993) kann die Grenze an **jedem beliebigen Bit** liegen!", "2": "Nein, Standards und Grenzen werden durch RFCs der IETF festgelegt, nicht durch Hardware-Hersteller."}}, {"t": "wahl", "f": "Du **schiebst die Grenze nach rechts**. Was passiert?", "optionen": ["Das Netz wird größer", "Die Adresse wird länger", "Es entstehen mehr, aber kleinere Netze", "Nichts, nur die Schreibweise ändert sich"], "richtig": 2, "tipps": ["Mehr Bits gehören zum Netzteil – weniger bleiben für Geräte."], "erkl": "Jedes Bit mehr im Netzteil verdoppelt die Zahl der Netze und halbiert deren Größe.", "fallen": {"1": "Umgekehrt! Wenn du Bits an den Netzteil abgibst, bleiben weniger Bits für Hosts übrig (Hostbits schrumpfen -> weniger Hosts je Subnetz).", "2": "Nein! Jedes verschobene Bit halbiert die Anzahl möglicher Hosts pro Subnetz und verdoppelt die Anzahl der Subnetze."}}, {"t": "eingabe", "f": "Wie viele **Bit** hat ein Oktett?", "art": "zahl", "antwort": ["8"], "tipps": ["Ein Oktett ist ein Achter-Päckchen."], "erkl": "Ein Oktett hat **8 Bit**."}, {"t": "eingabe", "f": "Was ist der größte Wert eines Oktetts (dezimal)?", "art": "zahl", "antwort": ["255"], "tipps": ["Alle 8 Bit auf 1: 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1."], "erkl": "11111111 = **255**."}, {"t": "eingabe", "f": "Wie lautet **192** im Binärsystem (8 Stellen)?", "art": "text", "antwort": ["11000000"], "tipps": ["192 = 128 + 64. Welche Stellen sind gesetzt?"], "erkl": "128 + 64 = 192 → **11000000**.", "fallen": {"1100": "Es müssen 8 Stellen sein (mit Nullen auffüllen)."}}, {"t": "eingabe", "f": "Was ergibt 2⁷ − 2 ?", "art": "zahl", "antwort": ["126"], "tipps": ["2⁷ = 128."], "erkl": "128 − 2 = **126**."}, {"t": "wahl", "f": "Der Netzteil des Ziels ist **gleich** dem eigenen Netzteil. Wohin schickt der Rechner das Paket?", "optionen": ["An den Standardgateway", "An den DNS-Server", "Das Paket wird verworfen", "Direkt zum Ziel (über den Switch)"], "richtig": 3, "tipps": ["Gleiches Netz heißt: kein Router nötig."], "erkl": "Gleicher Netzteil → gleiches Netz → direkt, ohne Router.", "fallen": {"1": "Denkfalle: Das Standard-Gateway wird **nur** gebraucht, wenn das Ziel in einem **fremden** Netz liegt. Im gleichen Netz kommunizieren Hosts direkt über Switch & ARP!", "2": "Warum verwerfen? Ein lokaler Rechner im selben Netz kann direkt adressiert werden."}}, {"t": "wahl", "f": "Der Netzteil des Ziels ist **anders**. Wohin schickt der Rechner das Paket?", "optionen": ["An den Standardgateway (Router)", "Direkt zum Ziel über den Switch", "An den DHCP-Server", "Als Broadcast an alle"], "richtig": 0, "tipps": ["Ein anderes Netz erreicht man nur über einen Router."], "erkl": "Anderes Netz → der Router (Standardgateway) muss das Paket weiterleiten.", "fallen": {"1": "Ein Broadcast verlässt das eigene Subnetz niemals! Router blockieren Broadcasts (Broadcast-Domäne). Fremde Netze erreicht man nur über das Standard-Gateway.", "2": "Der DNS-Server löst nur Domain-Namen in IP-Adressen auf, leitet aber keine Datenpakete weiter."}}, {"t": "eingabe", "f": "Welcher Wert fehlt? **128, 192, 224, 240, ?, 252, 254, 255**", "art": "zahl", "antwort": ["248"], "tipps": ["Bisher kamen 1, 2, 3, 4 Einsen. Hier sind es 5: 128 + 64 + 32 + 16 + ?", "Die Zahl, die zu 240 noch +8 dazubekommt."], "erkl": "240 + 8 = **248** (5 Einsen)."}, {"t": "gen", "gen": "maskeGueltig", "stufen": [1, 1, 2]}, {"t": "eingabe", "f": "Ist **255.255.255.100** eine gültige Subnetzmaske? (ja/nein)", "art": "text", "antwort": ["nein", "n"], "tipps": ["Schreib 100 binär: 01100100. Stehen die Einsen lückenlos links?"], "erkl": "100 = 01100100 hat Einsen, die nicht lückenlos links stehen → **nein**."}],
         sicherung: {
           merksatz: "Subnetzmaske und Präfix zeigen dieselbe Grenze: Das Präfix zählt die Einsen (Netzbits), der Rest sind Hostbits (32 − Präfix).",
           handout: "Die **Subnetzmaske** trennt Netz- und Hostteil einer IPv4-Adresse: links lückenlos Einsen, rechts Nullen. Das **/Präfix** zählt die Einsen, **Hostbits = 32 − Präfix**. Größeres Präfix heißt kleineres Netz."
@@ -9106,6 +9813,7 @@ GENERATORS.detektiv = function (level) {
           text: "Stell dir 64 Parkplätze in einer Reihe vor, so groß ist unser Netz. Platz 1 trägt das Straßenschild (Netzadresse), Platz 64 die Lautsprecheranlage für alle (Broadcast). Parken dürfen nur die 62 dazwischen. Ein /27 hat 32 Plätze, also bleiben dort 30.",
           diagramm: "nraum2"
         },
+        uebung: [{"t": "gen", "gen": "binaerUnd", "stufen": [1, 1]}, {"t": "gen", "gen": "netzrechnung", "stufen": [1]}],
         sicherung: {
           merksatz: "Netzadresse = alle Hostbits 0, Broadcast = alle Hostbits 1, dazwischen liegen 2^H − 2 nutzbare Hosts.",
           handout: "**Netzadresse:** alle Hostbits 0. **Broadcast:** alle Hostbits 1. Beide gehören keinem Gerät. **Nutzbare Hosts = 2^H − 2** (H = Hostbits). Beispiel 192.168.10.77/26: Netz .64, Broadcast .127, Hosts .65 bis .126, das sind 62."
@@ -9174,6 +9882,7 @@ GENERATORS.detektiv = function (level) {
           text: "Stell dir eine Torte vor (das /24). Ein Schnitt ergibt 2 Stücke, zwei Schnitte 4, drei Schnitte 8. Jeder Schnitt ist ein geliehenes Bit, und das Präfix wächst um einen Schnitt.",
           diagramm: "s2"
         },
+        uebung: [{"t": "wahl", "f": "Aus einem /24 wird ein /27. Wie viele **Bits** wurden geliehen, wie viele Subnetze entstehen?", "optionen": ["3 Bits, 3 Subnetze", "5 Bits, 32 Subnetze", "27 Bits, 27 Subnetze", "3 Bits, 8 Subnetze"], "richtig": 3, "tipps": ["Geliehene Bits = neues Präfix − altes Präfix.", "Jedes Bit verdoppelt: 2³."], "erkl": "27 − 24 = 3 Bits; 2³ = **8** Subnetze.", "fallen": {"1": "8 Bits waren die gesamten Hostbits von /24.", "2": "5 Bits sind die **verbleibenden** Hostbits (32 − 27 = 5), nicht die geliehenen!"}}, {"t": "gen", "gen": "subnetzBilden", "stufen": [1, 1]}, {"t": "gen", "gen": "hostsZuPraefix", "stufen": [1, 2]}, {"t": "gen", "gen": "subnetzBilden", "stufen": [2]}],
         sicherung: {
           merksatz: "Subnetze bilden: n Bits leihen ergibt 2ⁿ Subnetze, das Präfix wächst um n. Blockgröße = 256 − Maskenwert im geteilten Oktett.",
           handout: "**Subnetze bilden:** Es werden n Bits vom Hostteil geliehen, das ergibt **2ⁿ Subnetze**, das Präfix wächst um n. Beispiel /24 in 4 Teile: 2 Bits, /26, Blockgröße 256 − 192 = 64, Netze .0, .64, .128, .192."
@@ -9227,6 +9936,7 @@ GENERATORS.detektiv = function (level) {
           text: "Wie beim Kofferpacken: erst die großen Koffer, dann die mittleren, zuletzt die kleinen. So bleiben keine Lücken. Lauter gleich große Fächer wären für die kleinen Koffer Platzverschwendung und für die großen zu eng.",
           diagramm: "v4"
         },
+        uebung: [{"t": "wahl", "f": "Warum fängt man bei VLSM mit dem **größten** Netz an?", "optionen": ["Jedes Netz muss bei einem Vielfachen seiner Blockgröße beginnen; große zuerst vermeidet schiefe Adressen und Lücken", "Weil große Netze mehr Strom brauchen", "Weil der Router sonst die Maske nicht erkennt", "Das ist nur Gewohnheit, die Reihenfolge ist egal"], "richtig": 0, "tipps": ["Ein /25 darf nur bei .0 oder .128 beginnen. Was passiert, wenn davor schon kleine Netze liegen?"], "erkl": "Fängst du mit kleinen an, landet das große Netz auf einer „schiefen“ Adresse, du musst Lücken lassen oder verschieben."}, {"t": "wahl", "f": "Welches Präfix passt für die **Verbindung zwischen zwei Routern**?", "optionen": ["/24 (254 nutzbare Adressen)", "/30 (2 nutzbare Adressen)", "/29 (6 nutzbare Adressen)", "/32 (keine nutzbaren Hosts)"], "richtig": 1, "tipps": ["Du brauchst genau 2 Adressen. 2^H − 2 ≥ 2 → H = ?"], "erkl": "H = 2: 2² − 2 = 2 nutzbare Adressen. Größere Netze verschwenden nur Adressen."}, {"t": "gen", "gen": "vlsm", "stufen": [1, 2]}, {"t": "gen", "gen": "vlsm", "stufen": [2]}, {"t": "wahl", "f": "Wer ist wer: **CIDR** und **VLSM**?", "optionen": ["VLSM ist die Schreibweise, CIDR die Technik", "Beides ist dasselbe", "CIDR = klassenlose /Präfix-Schreibweise, VLSM = Teilnetze mit verschiedenen Präfixen (nutzt die CIDR-Schreibweise)", "CIDR gibt es nur bei IPv6"], "richtig": 2, "tipps": ["Eine ist die Schreibweise, die andere die Planungstechnik."], "erkl": "CIDR = Schreibweise und Klassenlosigkeit. VLSM = unterschiedlich große Teilnetze, und es nutzt dafür die CIDR-Schreibweise."}],
         sicherung: {
           merksatz: "VLSM: Netze nach Größe sortieren, größtes zuerst, jedem das kleinste passende Präfix geben, lückenlos hintereinander vergeben.",
           handout: "**VLSM** (Variable Length Subnet Mask): größtes Netz zuerst, jedem Netz das kleinste passende Präfix (2^H − 2 ≥ Bedarf), lückenlos vergeben. Beispiel 192.168.20.0/24: A /25 (.0), B /26 (.128), C /27 (.192), D /30 (.224), frei ab .228."
@@ -9384,6 +10094,7 @@ GENERATORS.detektiv = function (level) {
 
   const LF03_VLSM = {
     id: "lf03-vlsm-aufgabe",
+    reihe: 4,
     titel: "VLSM-Aufgabe: 172.16.0.0/22 aufteilen",
     untertitel: "Fünf Netze, ein Adressblock, ein lückenloser Plan",
     lernfeld: "LF03",
@@ -16227,6 +16938,7 @@ GENERATORS.vlan = function (level) {
     const k = $v("vlKarte");
     if (!k) return;
     if (modus === "begruessung") return zeichneBegruessung(k);
+    if (modus === "abschluss") return zeichneAbschluss(k);
     if (modus === "vortest") return zeichneTest(k, E.vortest, "Einstiegstest", "Kurz vorher: Was weißt du schon? Das zählt nicht, es zeigt dir nur nachher, was sich geändert hat.");
     if (modus === "nachtest") return zeichneTest(k, E.nachtest, "Abschlusstest", "Dieselben Lernziele wie am Anfang. Jetzt zählt es.");
     if (modus === "fertig") return zeichneBilanz(k);
@@ -16469,6 +17181,20 @@ GENERATORS.vlan = function (level) {
     zeichne();
   }
 
+  // Abschlussuebung der ganzen Einheit (E.uebung): alles zusammen, vor dem Abschlusstest
+  function zeichneAbschluss(k) {
+    zeigeDiagramm(null, null);
+    k.innerHTML = sprecher(
+      '<span class="vlPhaseLabel">Abschlussübung</span>' + esc(E.uebungText || "Zum Schluss alles zusammen. Danach kommt der Abschlusstest."),
+      '<div id="vlUebungHost"></div>'
+    );
+    window.Uebung.start({
+      host: $v("vlUebungHost"),
+      schritte: E.uebung,
+      fertig: (treffer, gesamt) => { uebungErgebnis["abschluss"] = { treffer: treffer, gesamt: gesamt }; modus = (E.nachtest && E.nachtest.length) ? "nachtest" : "fertig"; testIdx = 0; testTreffer = 0; zeichne(); }
+    });
+  }
+
   function zeichneUebung(k, p) {
     zeigeDiagramm(null, null);
     k.innerHTML = sprecher(
@@ -16499,7 +17225,8 @@ GENERATORS.vlan = function (level) {
     );
     $v("vlWeiter").onclick = () => {
       ton("click");
-      if (letzte) { modus = (E.nachtest && E.nachtest.length) ? "nachtest" : "fertig"; testIdx = 0; testTreffer = 0; }
+      if (letzte && E.uebung && E.uebung.length && window.Uebung) { modus = "abschluss"; }
+      else if (letzte) { modus = (E.nachtest && E.nachtest.length) ? "nachtest" : "fertig"; testIdx = 0; testTreffer = 0; }
       else { phaseIdx++; schrittIdx = 0; versuche = 0; modus = "anker"; }
       zeichne();
     };
@@ -22212,15 +22939,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           <div style="font-size:10px; color:#94a3b8; margin-bottom:10px; background:rgba(0,0,0,0.3); padding:5px 8px; border-radius:3px;">
             📚 <b>Fachbuch:</b> Westermann S. 330–334 · <b>Obsidian:</b> 20_Begriffe/Router.md · <b>Tutor:</b> Live & Offline
           </div>
-          <button type="button" class="primary" id="hubStartVorlesungDevBtn" style="font-weight:700; background:#0284c7; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer;">
-            🎓 Einheit 1: Wie funktioniert ein Router? ➔
-          </button>
-          <button type="button" class="primary" id="hubStartSubnettingBtn" style="font-weight:700; background:#0369a1; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer; margin-top:6px;">
-            🎓 Einheit 2: Subnetting und Fachbegriffe ➔
-          </button>
-          <button type="button" class="primary" id="hubStartVlsmBtn" style="font-weight:700; background:#075985; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer; margin-top:6px;">
-            🎓 Einheit 3: VLSM-Aufgabe 172.16.0.0/22 ➔
-          </button>
+          <div id="hubEinheitenListe">${einheitenListeHtml()}</div>
         </div>
 
         <div class="modalTrenner">Lernkurse mit KI-Lehrer</div>
@@ -22295,33 +23014,13 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     `);
 
     bindeKursStart();
-    const startSubBtn = $("hubStartSubnettingBtn");
-    if (startSubBtn) {
-      startSubBtn.onclick = () => {
+    document.querySelectorAll("#hubEinheitenListe [data-einheit]").forEach((b) => {
+      b.onclick = () => {
         schliesseModal();
         stoppeHub();
-        if (typeof window.startVorlesung === "function") window.startVorlesung("lf03-subnetting-grundlagen");
+        if (typeof window.startVorlesung === "function") window.startVorlesung(b.dataset.einheit);
       };
-    }
-
-    const startVlsmBtn = $("hubStartVlsmBtn");
-    if (startVlsmBtn) {
-      startVlsmBtn.onclick = () => {
-        schliesseModal();
-        stoppeHub();
-        if (typeof window.startVorlesung === "function") window.startVorlesung("lf03-vlsm-aufgabe");
-      };
-    }
-
-    const startVorlBtn = $("hubStartVorlesungDevBtn");
-    if (startVorlBtn) {
-      startVorlBtn.onclick = () => {
-        schliesseModal();
-        stoppeHub();
-        if (typeof window.starteKiLehrer === "function") window.starteKiLehrer();
-        else if (typeof window.startVorlesung === "function") window.startVorlesung("lf03-router-grundlagen");
-      };
-    }
+    });
 
     const devTurmBtn = $("hubDevTurmBtn");
     if (devTurmBtn) {
@@ -22368,9 +23067,17 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   }
 
   // 1c. Lernkurse als Teil des KI-Lehrers: Liste mit Sternen, Start ueber den Kurs-Player (mit KI-Lehrer-Rahmen)
-  function kursListeHtml() {
+  // Alle KI-Lehrer-Einheiten aus window.LERNEINHEITEN, sortiert nach "reihe" (neue Einheiten erscheinen von selbst)
+function einheitenListeHtml() {
+  const alle = Object.values(window.LERNEINHEITEN || {}).sort((a, b) => (a.reihe || 99) - (b.reihe || 99) || String(a.id).localeCompare(b.id));
+  const e = (t) => String(t == null ? "" : t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  return alle.map((u, i) => `<button type="button" class="primary hubEinheitBtn" data-einheit="${e(u.id)}" style="font-weight:700; background:#0369a1; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer; margin-top:${i ? 6 : 0}px; text-align:left;">🎓 ${e(u.reihe || i + 1)}. ${e(u.titel)} · ${e(u.dauer_min || 20)} min ➔</button>`).join("");
+}
+function kursListeHtml() {
+    // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
+    const ersetzt = ["kurs-subnetting"];
     return `<div class="modalList">
-      ${kurseInfo().map((k) => `
+      ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
           <div class="modalItemHeader">
             <b>${esc(k.p.titel)}</b>
