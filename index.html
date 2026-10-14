@@ -12838,6 +12838,3520 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_CIDR.id]: LF03_CIDR });
 })();
 
+/* ---- f_einheiten_client1.js ---- */
+//
+// Einheit 21: Client einbinden, Last und Ladezeit (aus dem Kurs "Client einbinden", Stationen 0 bis 2). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_CL1 = {
+    "id": "lf03-client-last-ladezeit",
+    "reihe": 21,
+    "titel": "Client einbinden: Last und Ladezeit",
+    "untertitel": "was vor dem Anschließen zu klären ist, wie du Last misst und Byte in Bit umrechnest",
+    "lernfeld": "LF03",
+    "dauer_min": 35,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 346–348 (Datenübertragungsrate, Messen, Ladezeit)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Messen und Abschätzen, was ein Arbeitsplatz im Netz überträgt",
+        "kn": "Last"
+      },
+      {
+        "id": "lz2",
+        "text": "Byte pro Sekunde in Mbit/s umrechnen und die Zahl tragbarer Rechner bestimmen",
+        "kn": "Last"
+      },
+      {
+        "id": "lz3",
+        "text": "Ladezeiten berechnen und binäre Mengen von dezimalen Raten trennen",
+        "kn": "Last"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Vor dem Anschließen: drei Dinge klären",
+        "knoten": [
+          {
+            "id": "v0",
+            "x": 110,
+            "y": 110,
+            "t": "Datenrate",
+            "sub": "hängt an Anwendungen",
+            "w": 170
+          },
+          {
+            "id": "v1",
+            "x": 320,
+            "y": 110,
+            "t": "IP-Konfiguration",
+            "sub": "Maske, Gateway, DNS",
+            "w": 170
+          },
+          {
+            "id": "v2",
+            "x": 530,
+            "y": 110,
+            "t": "Material",
+            "sub": "Patchkabel, Messgerät",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "vorplanung": {
+        "art": "netz",
+        "titel": "Vor dem Anschließen: drei Dinge klären",
+        "knoten": [
+          {
+            "id": "v0",
+            "x": 110,
+            "y": 110,
+            "t": "Datenrate",
+            "sub": "hängt an Anwendungen",
+            "w": 170
+          },
+          {
+            "id": "v1",
+            "x": 320,
+            "y": 110,
+            "t": "IP-Konfiguration",
+            "sub": "Maske, Gateway, DNS",
+            "w": 170
+          },
+          {
+            "id": "v2",
+            "x": 530,
+            "y": 110,
+            "t": "Material",
+            "sub": "Patchkabel, Messgerät",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "messen": {
+        "art": "netz",
+        "titel": "Last messen: je nach Betriebssystem",
+        "knoten": [
+          {
+            "id": "m0",
+            "x": 110,
+            "y": 110,
+            "t": "Windows",
+            "sub": "Ressourcenmonitor",
+            "w": 170
+          },
+          {
+            "id": "m1",
+            "x": 320,
+            "y": 110,
+            "t": "Linux",
+            "sub": "Systemüberwachung",
+            "w": 170
+          },
+          {
+            "id": "m2",
+            "x": 530,
+            "y": 110,
+            "t": "Wireshark",
+            "sub": "einzelne Anwendungen",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "abschaetzen": {
+        "art": "netz",
+        "titel": "Abschätzen: vier Punkte",
+        "knoten": [
+          {
+            "id": "a0",
+            "x": 90,
+            "y": 110,
+            "t": "Netztechnologie",
+            "sub": "Datenrate",
+            "w": 140
+          },
+          {
+            "id": "a1",
+            "x": 245,
+            "y": 110,
+            "t": "Start",
+            "sub": "Profile laden",
+            "w": 140
+          },
+          {
+            "id": "a2",
+            "x": 400,
+            "y": 110,
+            "t": "Beenden",
+            "sub": "Dateien speichern",
+            "w": 140
+          },
+          {
+            "id": "a3",
+            "x": 555,
+            "y": 110,
+            "t": "Arbeit",
+            "sub": "laufende Daten",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "a0",
+            "bis": "a1"
+          },
+          {
+            "von": "a1",
+            "bis": "a2"
+          },
+          {
+            "von": "a2",
+            "bis": "a3"
+          }
+        ]
+      },
+      "umrechnung": {
+        "art": "netz",
+        "titel": "Byte pro Sekunde in Mbit/s",
+        "knoten": [
+          {
+            "id": "u0",
+            "x": 110,
+            "y": 110,
+            "t": "300 kByte/s",
+            "sub": "Anzeige im Monitor",
+            "w": 170
+          },
+          {
+            "id": "u1",
+            "x": 320,
+            "y": 110,
+            "t": "mal 8",
+            "sub": "Byte zu Bit",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "u2",
+            "x": 530,
+            "y": 110,
+            "t": "2,4 Mbit/s",
+            "sub": "Leitungsrate",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "u0",
+            "bis": "u1"
+          },
+          {
+            "von": "u1",
+            "bis": "u2"
+          }
+        ]
+      },
+      "tragfaehig": {
+        "art": "netz",
+        "titel": "Wie viele Rechner trägt eine Leitung?",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 70,
+            "t": "100BaseT",
+            "sub": "100 Mbit/s : 2,4",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 420,
+            "y": 70,
+            "t": "ca. 41 Rechner",
+            "sub": "genau 41,7",
+            "w": 170,
+            "rolle": "gruen"
+          },
+          {
+            "id": "c",
+            "x": 110,
+            "y": 150,
+            "t": "Gigabit",
+            "sub": "1000 Mbit/s : 2,4",
+            "w": 170
+          },
+          {
+            "id": "d",
+            "x": 420,
+            "y": 150,
+            "t": "ca. 416 Rechner",
+            "sub": "genau 416,7",
+            "w": 170,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "c",
+            "bis": "d"
+          }
+        ]
+      },
+      "ladezeit": {
+        "art": "netz",
+        "titel": "Ladezeit in drei Schritten",
+        "knoten": [
+          {
+            "id": "l0",
+            "x": 110,
+            "y": 110,
+            "t": "Menge in Bit",
+            "sub": "8 mal Byte",
+            "w": 170
+          },
+          {
+            "id": "l1",
+            "x": 320,
+            "y": 110,
+            "t": "Rate in bit/s",
+            "sub": "Mbit/s mal 1.000.000",
+            "w": 170
+          },
+          {
+            "id": "l2",
+            "x": 530,
+            "y": 110,
+            "t": "Menge : Rate",
+            "sub": "ergibt Sekunden",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "l0",
+            "bis": "l1"
+          },
+          {
+            "von": "l1",
+            "bis": "l2"
+          }
+        ]
+      },
+      "binaer": {
+        "art": "netz",
+        "titel": "Binär für Mengen, dezimal für Raten",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 170,
+            "y": 110,
+            "t": "Datenmenge",
+            "sub": "binär: 1 MiB = 1.048.576 B",
+            "w": 250,
+            "rolle": "gelb"
+          },
+          {
+            "id": "b",
+            "x": 470,
+            "y": 110,
+            "t": "Übertragungsrate",
+            "sub": "dezimal: 1 Mbit/s = 10^6 bit/s",
+            "w": 250
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wie rechnest du Byte pro Sekunde in Bit pro Sekunde um?",
+        "optionen": [
+          {
+            "text": "mal 8",
+            "richtig": true
+          },
+          {
+            "text": "geteilt durch 8",
+            "richtig": false
+          },
+          {
+            "text": "mal 1024",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wie wird 1 Mbit/s gezählt?",
+        "optionen": [
+          {
+            "text": "dezimal: 1.000.000 bit/s",
+            "richtig": true
+          },
+          {
+            "text": "binär: 1.048.576 bit/s",
+            "richtig": false
+          },
+          {
+            "text": "mal 8 Byte",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Vorplanung und Messen",
+        "kurz": "was geklärt und womit gemessen wird",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ein neuer Rechner kommt nicht einfach an die Dose. Vorher musst du wissen, was er ans Netz bringt.",
+          "frage": "Welche drei Dinge klärst du?"
+        },
+        "aufbau": [
+          {
+            "text": "Vorher klärst du drei Dinge: die nötige Datenübertragungsrate, die IP-Konfiguration und das Material samt Werkzeug.",
+            "diagramm": "vorplanung"
+          },
+          {
+            "text": "Die nötige Rate hängt von den Anwendungen ab: wie viele Daten, wie oft, in welchen Abständen.",
+            "diagramm": "vorplanung"
+          },
+          {
+            "text": "Gemessen wird unter Windows mit dem Ressourcenmonitor, unter Linux mit der Systemüberwachung, einzelne Anwendungen mit Wireshark.",
+            "diagramm": "messen"
+          },
+          {
+            "text": "Beim Abschätzen gehst du vier Punkte durch: Netztechnologie, Datenmenge beim Start, beim Beenden und während der Arbeit.",
+            "diagramm": "abschaetzen"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Womit misst du unter Windows die Last eines Arbeitsplatzes?",
+          "optionen": [
+            {
+              "text": "Ressourcenmonitor",
+              "richtig": true,
+              "korrektur": "Richtig: Er zeigt die Übertragung in Byte pro Sekunde."
+            },
+            {
+              "text": "Systemüberwachung",
+              "richtig": false,
+              "korrektur": "Die Systemüberwachung ist das Linux-Gegenstück."
+            },
+            {
+              "text": "ipconfig",
+              "richtig": false,
+              "korrektur": "ipconfig zeigt die IP-Konfiguration, nicht die Last."
+            }
+          ],
+          "loesung": "Ressourcenmonitor.",
+          "beleg": {
+            "seite": "346"
+          }
+        },
+        "wiederholung": {
+          "text": "Windows: Ressourcenmonitor, Linux: Systemüberwachung, einzelne Anwendungen: Wireshark. Alle zeigen Byte pro Sekunde.",
+          "diagramm": "messen"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welche drei Dinge klärst du **vor** dem Anschließen eines neuen Clients?",
+            "optionen": [
+              "Datenrate abschätzen, IP-Konfiguration festlegen, Material bereitlegen",
+              "Datenrate abschätzen, Cloud-Anbieter wählen, Benutzerkonto anlegen",
+              "Switch tauschen, Gateway neu vergeben, Lizenzen für die Software kaufen",
+              "Verteiler öffnen, VLAN anlegen, Port für Gäste sperren"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Es sind eine Zahl, eine Konfiguration und die Ausrüstung."
+            ],
+            "erkl": "Vor dem Einbinden gehören drei Punkte in die Planung: **Datenrate, IP-Konfiguration, Material und Werkzeug**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Last erzeugt der Arbeitsplatz?",
+            "paare": [
+              [
+                "CAD-Workstation mit Serverdaten",
+                "regelmäßig hohe Last"
+              ],
+              [
+                "Büro-PC für Korrespondenz",
+                "geringe Last"
+              ],
+              [
+                "Streaming-Server",
+                "Dauerlast"
+              ]
+            ],
+            "tipps": [
+              "Überlege, wie oft und wie viele Daten übertragen werden.",
+              "Ein Streaming-Server liefert ununterbrochen."
+            ],
+            "erkl": "CAD mit Daten vom Server belastet das Netz regelmäßig stark, ein Büro-PC kaum, ein Streaming-Server dauerhaft."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Werkzeug misst was?",
+            "paare": [
+              [
+                "Last unter Windows",
+                "Ressourcenmonitor"
+              ],
+              [
+                "Last unter Linux",
+                "Systemüberwachung"
+              ],
+              [
+                "Pakete einer Anwendung mitschneiden",
+                "Wireshark"
+              ],
+              [
+                "Open-Source-Sniffer",
+                "Wireshark"
+              ]
+            ],
+            "tipps": [
+              "Wireshark ist ein Sniffer, er arbeitet mit einzelnen Paketen.",
+              "Das Betriebssystem bringt seine eigene Überwachung mit."
+            ],
+            "erkl": "Ressourcenmonitor (Windows) und Systemüberwachung (Linux) zeigen die Auslastung, Wireshark zerlegt den Verkehr einzelner Anwendungen."
+          },
+          {
+            "t": "wahl",
+            "f": "Kurze Lastspitzen dürfen bis an die maximale Leitungsrate gehen, der mittlere Durchsatz liegt deutlich darunter.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ein Dateitransfer von zwei Sekunden macht die Leitung nicht dauerhaft voll."
+            ],
+            "erkl": "Richtig. Eine Spitze von wenigen Sekunden ist normal. Für die Planung zählt, was **dauerhaft** anliegt."
+          },
+          {
+            "t": "wahl",
+            "f": "Wann wird ein **servergestütztes Profil** geladen, und wann gespeichert?",
+            "optionen": [
+              "Beim Einschalten des Switches geladen, beim Ausschalten gespeichert",
+              "Nur einmal bei der Einrichtung des Clients",
+              "Nach der Anmeldung geladen, beim Beenden gespeichert",
+              "Geladen beim Beenden, gespeichert nach der Anmeldung"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Das Profil gehört zum Benutzer, nicht zum Gerät."
+            ],
+            "erkl": "Das Profil kommt **nach der Anmeldung** vom Server. Beim **Beenden** geht die geänderte Fassung zurück. Beides belastet das Netz."
+          },
+          {
+            "t": "wahl",
+            "f": "Für einen Büro-PC mit Korrespondenz musst du dieselbe Netzreserve einplanen wie für eine CAD-Workstation.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wie viele Daten, wie oft?"
+            ],
+            "erkl": "Falsch. Die Last hängt von den Anwendungen ab: Ein Büro-PC erzeugt geringe Last, die CAD-Workstation mit Serverdaten regelmäßig hohe."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Vorher klären: Datenrate, IP-Konfiguration, Material. Messen mit Ressourcenmonitor, Systemüberwachung oder Wireshark.",
+          "handout": "**Vorplanung:** Datenrate · IP-Konfiguration · Material/Werkzeug. **Messen:** Windows Ressourcenmonitor · Linux Systemüberwachung · Wireshark pro Anwendung. **Abschätzen:** Netztechnologie, Start, Beenden, Arbeit."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Byte und Bit",
+        "kurz": "mal 8 und wie viele Rechner eine Leitung trägt",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Der Monitor zeigt Byte pro Sekunde, die Leitung ist in Bit pro Sekunde angegeben.",
+          "frage": "Wie bringst du beides zusammen?"
+        },
+        "aufbau": [
+          {
+            "text": "Monitore zeigen Byte pro Sekunde, Leitungen werden in Bit pro Sekunde angegeben. Also gilt: mal 8.",
+            "diagramm": "umrechnung"
+          },
+          {
+            "text": "Beispiel aus dem Buch: Spitzen von 300 kByte/s sind etwa 2,4 Mbit/s.",
+            "diagramm": "umrechnung"
+          },
+          {
+            "text": "Teile die Leitungsrate durch die Last eines Rechners, beide in Mbit/s. Ganze Rechner: abrunden.",
+            "diagramm": "tragfaehig"
+          },
+          {
+            "text": "100BaseT trägt rund 40 solcher Rechner, Gigabit rund 400. Genau sind es 41,7 und 416,7, das Buch rundet.",
+            "diagramm": "tragfaehig"
+          },
+          {
+            "text": "Das gilt nur für Dauerlast. Spitzen sind meist kurz, die Rechnung ist eine vorsichtige Schätzung (Praxis, nicht im Buch).",
+            "diagramm": "tragfaehig"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Rechner erzeugt 300 kByte/s. Wie viel ist das in Mbit/s?",
+          "optionen": [
+            {
+              "text": "2,4 Mbit/s",
+              "richtig": true,
+              "korrektur": "Richtig: 300 kByte/s mal 8 = 2.400 kbit/s = 2,4 Mbit/s."
+            },
+            {
+              "text": "0,3 Mbit/s",
+              "richtig": false,
+              "korrektur": "Hier fehlt der Faktor 8 von Byte auf Bit."
+            },
+            {
+              "text": "37,5 Mbit/s",
+              "richtig": false,
+              "korrektur": "Du hast durch 8 geteilt statt mit 8 multipliziert."
+            }
+          ],
+          "loesung": "2,4 Mbit/s.",
+          "beleg": {
+            "seite": "347"
+          }
+        },
+        "wiederholung": {
+          "text": "Byte mal 8 = Bit. Leitungsrate : Last pro Rechner = Zahl der Rechner, abgerundet.",
+          "diagramm": "tragfaehig"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Warum darfst du den Wert aus dem Ressourcenmonitor nicht direkt mit „100 Mbit/s“ der Leitung vergleichen?",
+            "optionen": [
+              "Der Monitor zeigt Byte/s, die Leitungsrate ist in Bit/s angegeben",
+              "Der Monitor zeigt Kilobit statt Megabit, es fehlt nur der Faktor 1000",
+              "Beide Werte sind gleich, nur die Schreibweise unterscheidet sich",
+              "Der Monitor zeigt Paketzahlen statt Datenmengen pro Sekunde"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Schau auf die Einheiten: Byte oder Bit?"
+            ],
+            "erkl": "Die Messwerkzeuge liefern **Byte/s**, Leitungen sind in **Bit/s** angegeben. Ohne den Faktor 8 liegst du um das Achtfache daneben."
+          },
+          {
+            "t": "eingabe",
+            "f": "Ein Arbeitsplatz zeigt Spitzen von **500 kByte/s**. Wie viele **Mbit/s** sind das?",
+            "art": "zahl",
+            "antwort": [
+              "4"
+            ],
+            "tipps": [
+              "500 kByte/s mal 8 ergibt kbit/s.",
+              "Dann durch 1000 für Mbit/s."
+            ],
+            "erkl": "500 · 8 = 4000 kbit/s = **4 Mbit/s**.",
+            "fallen": {
+              "4000": "Das sind kbit/s. Durch 1000 teilen für Mbit/s.",
+              "0.5": "Du hast durch 1000 geteilt, aber den Faktor 8 (Byte → Bit) vergessen."
+            },
+            "label": "Mbit/s"
+          },
+          {
+            "t": "weg",
+            "titel": "Das Buchbeispiel nachrechnen",
+            "kopf": "Ein Arbeitsplatz erzeugt Spitzen von **300 kByte/s**, angenommen dauerhaft.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Mbit/s** sind 300 kByte/s?",
+                "art": "zahl",
+                "antwort": [
+                  "2,4"
+                ],
+                "tipps": [
+                  "300 · 8 = 2400 kbit/s.",
+                  "Durch 1000 teilen, Komma beachten."
+                ],
+                "erkl": "300 · 8 = 2400 kbit/s = **2,4 Mbit/s**.",
+                "fallen": {
+                  "24": "Als Dezimalzeichen gilt hier das Komma (z. B. 2,4).",
+                  "2400": "Das sind kbit/s. Durch 1000 teilen."
+                },
+                "label": "Last je Rechner"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele solcher Rechner trägt eine **Gigabit-Leitung** (1000 Mbit/s)? Genau gerechnet, auf ganze Rechner abgerundet.",
+                "art": "zahl",
+                "antwort": [
+                  "416"
+                ],
+                "tipps": [
+                  "1000 / 2,4 = 416,66 …"
+                ],
+                "erkl": "1000 / 2,4 = 416,7 → abgerundet **416**. Das Buch nennt als Überschlag „rund 400“.",
+                "fallen": {
+                  "400": "Das Buch nennt 400 als Überschlag. Genau gerechnet und abgerundet sind es 416.",
+                  "417": "Abrunden: Der 417. Rechner passt nicht mehr komplett."
+                },
+                "label": "an 1 Gbit/s"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Jeder Rechner belastet eine 100BaseT-Leitung **dauerhaft** mit 2,4 Mbit/s. Wie viele Rechner passen laut Buchbeispiel ungefähr drauf?",
+            "optionen": [
+              "Rund 4",
+              "Rund 40",
+              "Rund 240",
+              "Rund 400"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "100 geteilt durch 2,4."
+            ],
+            "erkl": "100 / 2,4 = 41,7, das Buch nennt **rund 40**. Rund 400 gilt für die Gigabit-Leitung."
+          },
+          {
+            "t": "wahl",
+            "f": "1 kByte/s entspricht 8 kbit/s.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Byte → Bit: Faktor 8."
+            ],
+            "erkl": "Richtig: 1 Byte = 8 Bit, also **mal 8**."
+          },
+          {
+            "t": "gen",
+            "gen": "lastRate",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "lastRate",
+            "stufen": [
+              2
+            ]
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Byte pro Sekunde mal 8 = Bit pro Sekunde. Leitungsrate geteilt durch Last pro Rechner, abrunden.",
+          "handout": "**Umrechnen:** Byte/s · 8 = bit/s. **Beispiel:** 300 kByte/s = 2,4 Mbit/s. **Tragfähigkeit:** 100 : 2,4 = 41,7 (41), 1000 : 2,4 = 416,7 (416)."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Ladezeit",
+        "kurz": "binäre Mengen, dezimale Raten",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Ein Profil von 1 MiB soll über 100 Mbit/s geladen werden.",
+          "frage": "Wie lange dauert das?"
+        },
+        "aufbau": [
+          {
+            "text": "Datenmengen werden meist binär gezählt: 1 MiB = 1.048.576 Byte.",
+            "diagramm": "binaer"
+          },
+          {
+            "text": "Übertragungsraten sind immer dezimal: 1 Mbit/s = 1.000.000 bit/s, 1 Gbit/s = 10^9 bit/s.",
+            "diagramm": "binaer"
+          },
+          {
+            "text": "Für die Ladezeit rechnest du in drei Schritten: Menge in Bit, Rate in bit/s, dann teilen.",
+            "diagramm": "ladezeit"
+          },
+          {
+            "text": "1 MiB = 8.388.608 bit. Geteilt durch 100.000.000 bit/s ergibt rund 0,084 s.",
+            "diagramm": "ladezeit"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wie lange braucht 1 MiB über 100 Mbit/s?",
+          "optionen": [
+            {
+              "text": "rund 0,084 s",
+              "richtig": true,
+              "korrektur": "Richtig: 8.388.608 bit : 100.000.000 bit/s."
+            },
+            {
+              "text": "rund 0,01 s",
+              "richtig": false,
+              "korrektur": "Hier wurde Byte nicht in Bit umgerechnet."
+            },
+            {
+              "text": "rund 0,84 s",
+              "richtig": false,
+              "korrektur": "Hier wurde mit 10 statt 100 Mbit/s gerechnet."
+            }
+          ],
+          "loesung": "0,084 s.",
+          "beleg": {
+            "seite": "347–348"
+          }
+        },
+        "wiederholung": {
+          "text": "Menge in Bit (binär gezählt mal 8) durch Rate in bit/s (dezimal) = Zeit in Sekunden.",
+          "diagramm": "ladezeit"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welcher Wert gehört zu welcher Angabe?",
+            "paare": [
+              [
+                "1 MiB",
+                "1.048.576 Byte"
+              ],
+              [
+                "1 MB (dezimal)",
+                "1.000.000 Byte"
+              ],
+              [
+                "1 Mbit/s",
+                "1.000.000 bit/s"
+              ],
+              [
+                "1 Gbit/s",
+                "10⁹ bit/s"
+              ]
+            ],
+            "tipps": [
+              "Das „i“ in MiB steht für binär.",
+              "Datenraten nimmt man immer dezimal."
+            ],
+            "erkl": "MiB ist binär (1.048.576 Byte), MB dezimal (1.000.000 Byte). Raten sind dezimal: 1 Mbit/s = 10⁶ bit/s, 1 Gbit/s = 10⁹ bit/s."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Rechnung liefert die Ladezeit eines **200-MiB-Profils** bei **100 Mbit/s** richtig?",
+            "optionen": [
+              "200 · 1.000.000 · 8 bit geteilt durch 100.000.000 bit/s",
+              "200 · 1.048.576 bit geteilt durch 100.000.000 bit/s",
+              "200 · 1.048.576 · 8 bit geteilt durch 104.857.600 bit/s",
+              "200 · 1.048.576 · 8 bit geteilt durch 100.000.000 bit/s"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Zwei Dinge sind zu prüfen: Byte → Bit und die Zählweise von MiB und Mbit/s."
+            ],
+            "erkl": "Die Menge ist **binär** (1.048.576) und in Bit umzurechnen (mal 8). Die Rate ist **dezimal** (100 Mbit/s = 100.000.000 bit/s)."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Byte** sind **3 MiB**?",
+            "art": "zahl",
+            "antwort": [
+              "3145728"
+            ],
+            "tipps": [
+              "1 MiB = 1.048.576 Byte."
+            ],
+            "erkl": "3 · 1.048.576 = **3.145.728** Byte.",
+            "fallen": {
+              "3000000": "Das rechnet 1 MiB als 1.000.000 Byte. MiB ist binär: 1.048.576 Byte."
+            },
+            "label": "Byte"
+          },
+          {
+            "t": "weg",
+            "titel": "Profil mit 500 MiB laden",
+            "kopf": "Ein servergestütztes Profil von **500 MiB** wird beim Anmelden geladen.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Bit** sind 500 MiB? (1 MiB = 1.048.576 Byte)",
+                "art": "zahl",
+                "antwort": [
+                  "4194304000"
+                ],
+                "tipps": [
+                  "500 · 1.048.576 · 8"
+                ],
+                "erkl": "500 · 1.048.576 = 524.288.000 Byte, mal 8 = **4.194.304.000 bit**.",
+                "label": "Datenmenge in Bit"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Sekunden** dauert das bei **100 Mbit/s**? (eine Nachkommastelle)",
+                "art": "zahl",
+                "antwort": [
+                  "41,9"
+                ],
+                "tipps": [
+                  "Bit geteilt durch 100.000.000 bit/s."
+                ],
+                "erkl": "4.194.304.000 / 100.000.000 = 41,94 → **41,9 s**.",
+                "fallen": {
+                  "40": "Das rechnet 1 MiB als 1.000.000 Byte. Datenmengen in MiB sind binär.",
+                  "419": "Als Dezimalzeichen gilt hier das Komma (z. B. 41,9)."
+                },
+                "label": "bei 100 Mbit/s"
+              },
+              {
+                "t": "eingabe",
+                "f": "Und bei **1 Gbit/s**? (eine Nachkommastelle)",
+                "art": "zahl",
+                "antwort": [
+                  "4,2"
+                ],
+                "tipps": [
+                  "Gleiche Rechnung, die Rate ist zehnmal so hoch."
+                ],
+                "erkl": "4.194.304.000 / 1.000.000.000 = 4,19 → **4,2 s**.",
+                "fallen": {
+                  "4": "Das ist die dezimale Rechnung. Mit 1 MiB = 1.048.576 Byte sind es 4,2 s.",
+                  "42": "Als Dezimalzeichen gilt hier das Komma (z. B. 4,2)."
+                },
+                "label": "bei 1 Gbit/s"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Eine Leitung mit 100 Mbit/s überträgt 100 MiB pro Sekunde.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Erst Faktor 8, dann die Zählweise."
+            ],
+            "erkl": "Falsch. 100 Mbit/s sind durch 8 geteilt **12,5 MByte/s** (dezimal), rund 11,9 MiB/s. Zwei Fallen auf einmal: Bit gegen Byte und dezimal gegen binär."
+          },
+          {
+            "t": "gen",
+            "gen": "ladezeit",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "ladezeit",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Die berechnete Ladezeit ist ein **theoretischer** Wert. Warum dauert es in der Praxis meist länger?",
+            "optionen": [
+              "Weil MiB größer ist als MB und dadurch etwas fehlt",
+              "Header, Serverlast und andere Nutzer kosten zusätzlich Zeit",
+              "Weil Bits langsamer übertragen werden als Bytes",
+              "Weil Switches die Datenrate immer halbieren"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Die Rechnung nimmt ideale Bedingungen an: Die Leitung gehört dem Client allein."
+            ],
+            "erkl": "Die Rechnung nimmt an, dass die ganze Leitungsrate nur für Nutzdaten zur Verfügung steht. In der Praxis kommen Header, Serverlast und andere Clients dazu (Praxis, steht nicht im Buch)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Mengen binär (MiB), Raten dezimal (Mbit/s). Ladezeit = Menge in Bit : Rate in bit/s.",
+          "handout": "**Ladezeit:** Menge in Bit : Rate in bit/s. 1 MiB = 1.048.576 B = 8.388.608 bit. 1 Mbit/s = 1.000.000 bit/s."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Womit misst du unter Linux die Last?",
+        "optionen": [
+          {
+            "text": "Systemüberwachung",
+            "richtig": true
+          },
+          {
+            "text": "Ressourcenmonitor",
+            "richtig": false
+          },
+          {
+            "text": "ipconfig",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie viele Dauerlast-Rechner à 2,4 Mbit/s trägt Gigabit etwa?",
+        "optionen": [
+          {
+            "text": "rund 400",
+            "richtig": true
+          },
+          {
+            "text": "rund 40",
+            "richtig": false
+          },
+          {
+            "text": "rund 4.000",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Was gilt für Übertragungsraten?",
+        "optionen": [
+          {
+            "text": "immer dezimal",
+            "richtig": true
+          },
+          {
+            "text": "immer binär",
+            "richtig": false
+          },
+          {
+            "text": "mal 1024",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Wie viele Bit hat 1 MiB?",
+        "optionen": [
+          {
+            "text": "8.388.608",
+            "richtig": true
+          },
+          {
+            "text": "1.048.576",
+            "richtig": false
+          },
+          {
+            "text": "8.000.000",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_CL1.id]: LF03_CL1 });
+})();
+
+/* ---- f_einheiten_client2.js ---- */
+//
+// Einheit 22: Client einbinden, IP-Plan, Ist-Aufnahme, Dokumentation (Stationen 3 bis 5). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_CL2 = {
+    "id": "lf03-client-ip-ist-doku",
+    "reihe": 22,
+    "titel": "Client einbinden: IP-Plan, Ist-Aufnahme und Dokumentation",
+    "untertitel": "was die IP-Planung klärt, wie du den Netzzustand aufnimmst und was dokumentiert wird",
+    "lernfeld": "LF03",
+    "dauer_min": 35,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 348–354 (IP-Konfiguration, Ist-Aufnahme, Dokumentation)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Adressbereich, Gateway, DNS und DHCP planen und die Gateway-Lage prüfen",
+        "kn": "Planung"
+      },
+      {
+        "id": "lz2",
+        "text": "Den Netzzustand vor Ort aufnehmen",
+        "kn": "Planung"
+      },
+      {
+        "id": "lz3",
+        "text": "Wissen, welche Dokumente zu einem Netz gehören und was ein Messprotokoll enthält",
+        "kn": "Planung"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "IP-Planung: fünf Fragen",
+        "knoten": [
+          {
+            "id": "i0",
+            "x": 70,
+            "y": 110,
+            "t": "Net-ID",
+            "sub": "Bereich, Maske",
+            "w": 110
+          },
+          {
+            "id": "i1",
+            "x": 195,
+            "y": 110,
+            "t": "Gateway",
+            "sub": "erste/letzte IP",
+            "w": 110
+          },
+          {
+            "id": "i2",
+            "x": 320,
+            "y": 110,
+            "t": "DNS",
+            "sub": "oft der Router",
+            "w": 110
+          },
+          {
+            "id": "i3",
+            "x": 445,
+            "y": 110,
+            "t": "DHCP",
+            "sub": "meist vorhanden",
+            "w": 110
+          },
+          {
+            "id": "i4",
+            "x": 570,
+            "y": 110,
+            "t": "Subnetze",
+            "sub": "laut Subnetzplan",
+            "w": 110
+          }
+        ],
+        "links": []
+      },
+      "ipplan": {
+        "art": "netz",
+        "titel": "IP-Planung: fünf Fragen",
+        "knoten": [
+          {
+            "id": "i0",
+            "x": 70,
+            "y": 110,
+            "t": "Net-ID",
+            "sub": "Bereich, Maske",
+            "w": 110
+          },
+          {
+            "id": "i1",
+            "x": 195,
+            "y": 110,
+            "t": "Gateway",
+            "sub": "erste/letzte IP",
+            "w": 110
+          },
+          {
+            "id": "i2",
+            "x": 320,
+            "y": 110,
+            "t": "DNS",
+            "sub": "oft der Router",
+            "w": 110
+          },
+          {
+            "id": "i3",
+            "x": 445,
+            "y": 110,
+            "t": "DHCP",
+            "sub": "meist vorhanden",
+            "w": 110
+          },
+          {
+            "id": "i4",
+            "x": 570,
+            "y": 110,
+            "t": "Subnetze",
+            "sub": "laut Subnetzplan",
+            "w": 110
+          }
+        ],
+        "links": []
+      },
+      "vier": {
+        "art": "netz",
+        "titel": "Vollständige IP-Konfiguration: vier Angaben",
+        "knoten": [
+          {
+            "id": "q0",
+            "x": 90,
+            "y": 110,
+            "t": "IP-Adresse",
+            "sub": "eindeutig",
+            "w": 140
+          },
+          {
+            "id": "q1",
+            "x": 245,
+            "y": 110,
+            "t": "Subnetzmaske",
+            "sub": "z. B. /24",
+            "w": 140
+          },
+          {
+            "id": "q2",
+            "x": 400,
+            "y": 110,
+            "t": "Default Gateway",
+            "sub": "Weg nach außen",
+            "w": 140
+          },
+          {
+            "id": "q3",
+            "x": 555,
+            "y": 110,
+            "t": "DNS-Server",
+            "sub": "Namensauflösung",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "gateway": {
+        "art": "netz",
+        "titel": "Gateway im selben Subnetz?",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 80,
+            "t": "Client",
+            "sub": "192.168.1.210/25",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 320,
+            "y": 80,
+            "t": "Netz",
+            "sub": "192.168.1.128/25",
+            "w": 170,
+            "rolle": "gruen"
+          },
+          {
+            "id": "c",
+            "x": 110,
+            "y": 160,
+            "t": "Gateway",
+            "sub": "192.168.1.1",
+            "w": 170
+          },
+          {
+            "id": "d",
+            "x": 320,
+            "y": 160,
+            "t": "Netz",
+            "sub": "192.168.1.0/25",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "e",
+            "x": 540,
+            "y": 120,
+            "t": "Anderes Subnetz",
+            "sub": "Gateway nicht direkt",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "c",
+            "bis": "d"
+          },
+          {
+            "von": "b",
+            "bis": "e"
+          },
+          {
+            "von": "d",
+            "bis": "e"
+          }
+        ]
+      },
+      "ist": {
+        "art": "netz",
+        "titel": "Ist-Aufnahme: vier Bereiche",
+        "knoten": [
+          {
+            "id": "s0",
+            "x": 90,
+            "y": 110,
+            "t": "Dokumentation",
+            "sub": "Soll gegen Ist",
+            "w": 140
+          },
+          {
+            "id": "s1",
+            "x": 245,
+            "y": 110,
+            "t": "Verkabelung",
+            "sub": "Dosen, Verteiler",
+            "w": 140
+          },
+          {
+            "id": "s2",
+            "x": 400,
+            "y": 110,
+            "t": "Ortsbegehung",
+            "sub": "vor Ort prüfen",
+            "w": 140
+          },
+          {
+            "id": "s3",
+            "x": 555,
+            "y": 110,
+            "t": "WLAN",
+            "sub": "APs, Feldstärke",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "s0",
+            "bis": "s1"
+          },
+          {
+            "von": "s1",
+            "bis": "s2"
+          },
+          {
+            "von": "s2",
+            "bis": "s3"
+          }
+        ]
+      },
+      "doku": {
+        "art": "netz",
+        "titel": "Dokumente zum Netz",
+        "knoten": [
+          {
+            "id": "d0",
+            "x": 90,
+            "y": 110,
+            "t": "Netzplan",
+            "sub": "Visio, Dia, jNetMap",
+            "w": 140
+          },
+          {
+            "id": "d1",
+            "x": 245,
+            "y": 110,
+            "t": "Messprotokoll",
+            "sub": "PASS oder FAIL",
+            "w": 140
+          },
+          {
+            "id": "d2",
+            "x": 400,
+            "y": 110,
+            "t": "Erfassungsbogen",
+            "sub": "Rechner, Drucker",
+            "w": 140
+          },
+          {
+            "id": "d3",
+            "x": 555,
+            "y": 110,
+            "t": "Lageplan",
+            "sub": "APs, Funkmessung",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "messprotokoll": {
+        "art": "netz",
+        "titel": "Messprotokoll je Leitung",
+        "knoten": [
+          {
+            "id": "p0",
+            "x": 110,
+            "y": 110,
+            "t": "Tertiärbereich",
+            "sub": "Verteiler zu Dose",
+            "w": 190
+          },
+          {
+            "id": "p1",
+            "x": 320,
+            "y": 110,
+            "t": "Primär, Sekundär",
+            "sub": "Verteiler zu Verteiler",
+            "w": 190
+          },
+          {
+            "id": "p2",
+            "x": 530,
+            "y": 110,
+            "t": "Ergebnis",
+            "sub": "PASS oder FAIL",
+            "w": 190,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wie viele Angaben gehören zu einer vollständigen IP-Konfiguration?",
+        "optionen": [
+          {
+            "text": "vier",
+            "richtig": true
+          },
+          {
+            "text": "zwei",
+            "richtig": false
+          },
+          {
+            "text": "sechs",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wem gehört die Netzdokumentation?",
+        "optionen": [
+          {
+            "text": "dem Netzbetreiber",
+            "richtig": true
+          },
+          {
+            "text": "dem Errichter",
+            "richtig": false
+          },
+          {
+            "text": "dem Kabelhersteller",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "IP-Konfiguration planen",
+        "kurz": "fünf Fragen, vier Angaben, Gateway-Check",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Der Client soll logisch im Netz funktionieren. Dafür muss die IP-Planung stimmen.",
+          "frage": "Was klärst du dabei?"
+        },
+        "aufbau": [
+          {
+            "text": "Die IP-Planung ist laut Buch das Wichtigste. Du klärst Net-ID samt Größe, Router-IP, DNS-Server, DHCP und Subnetze.",
+            "diagramm": "ipplan"
+          },
+          {
+            "text": "Das Gateway ist meist die erste oder letzte Adresse im Netz. Den DNS übernimmt oft der Router.",
+            "diagramm": "ipplan"
+          },
+          {
+            "text": "Jedes Gerät braucht vier Angaben: IP-Adresse, Subnetzmaske, Default Gateway, DNS-Server. Normalerweise liefert sie DHCP.",
+            "diagramm": "vier"
+          },
+          {
+            "text": "Anzeigen: ipconfig und ipconfig /all unter Windows, ip address und ip route unter Linux.",
+            "diagramm": "vier"
+          },
+          {
+            "text": "Errata: Das Buch spricht von der Klasse-C-Maske. Adressklassen sind veraltet, heute sagt man /24.",
+            "diagramm": "vier"
+          },
+          {
+            "text": "Das Gateway muss im selben Subnetz liegen wie der Client. Prüfe beide Adressen mit der Maske des Clients.",
+            "diagramm": "gateway"
+          },
+          {
+            "text": "Client 192.168.1.210/25 liegt in 192.168.1.128/25. Gateway 192.168.1.1 liegt in 192.168.1.0/25 und ist nicht direkt erreichbar.",
+            "diagramm": "gateway"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Client 192.168.1.210/25, Gateway 192.168.1.1. Was stimmt?",
+          "optionen": [
+            {
+              "text": "Das Gateway liegt in einem anderen Subnetz und ist nicht direkt erreichbar.",
+              "richtig": true,
+              "korrektur": "Richtig: Client in .128/25, Gateway in .0/25."
+            },
+            {
+              "text": "Passt, beide liegen in 192.168.1.0/24.",
+              "richtig": false,
+              "korrektur": "Mit der Maske des Clients (/25) sind es zwei Subnetze."
+            },
+            {
+              "text": "Passt, ein Gateway ist immer die erste Adresse.",
+              "richtig": false,
+              "korrektur": "Die erste Adresse gilt nur im eigenen Subnetz des Clients."
+            }
+          ],
+          "loesung": "Gateway nicht im Subnetz des Clients.",
+          "beleg": {
+            "seite": "348, 350"
+          }
+        },
+        "wiederholung": {
+          "text": "Vier Angaben: IP, Maske, Gateway, DNS. Gateway-Check immer mit der Maske des Clients.",
+          "diagramm": "gateway"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche Frage wird wie beantwortet?",
+            "paare": [
+              [
+                "Wie groß ist der Adressbereich?",
+                "Net-ID und Subnetzmaske"
+              ],
+              [
+                "Welche IP hat das Gateway?",
+                "Meist erste oder letzte Adresse"
+              ],
+              [
+                "Wer löst Namen auf?",
+                "Oft der Router, sonst eigener Server"
+              ],
+              [
+                "Gibt es einen DHCP-Server?",
+                "Meist ja, sonst Handeintrag"
+              ],
+              [
+                "Gibt es Subnetze im LAN?",
+                "Im Subnetz-Plan nachsehen"
+              ]
+            ],
+            "tipps": [
+              "Die Größe folgt aus der Maske.",
+              "Gateway und Router sind dasselbe Gerät."
+            ],
+            "erkl": "Der Adressbereich folgt aus Net-ID und Maske, das Gateway ist meist die erste oder letzte Adresse, DNS oft der Router, DHCP meist vorhanden, Subnetze stehen im Subnetz-Plan."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Wozu dient welche Pflichtangabe?",
+            "paare": [
+              [
+                "IP-Adresse",
+                "Kennzeichnet das Gerät eindeutig"
+              ],
+              [
+                "Subnetzmaske",
+                "Trennt Netz- und Hostanteil"
+              ],
+              [
+                "Default Gateway",
+                "Weg in andere Netze"
+              ],
+              [
+                "DNS-Server",
+                "Wandelt Namen in IP-Adressen um"
+              ]
+            ],
+            "tipps": [
+              "Namen wie www.beispiel.de braucht der DNS-Server.",
+              "Ohne Gateway bleibt der Client im eigenen Subnetz."
+            ],
+            "erkl": "IP-Adresse = Identität, Maske = Netz/Host-Trennung, Gateway = Ausgang aus dem Subnetz, DNS = Namensauflösung."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Angabe gehört **nicht** zu den vier Pflichtangaben einer IP-Konfiguration?",
+            "optionen": [
+              "Die Subnetzmaske des Netzes",
+              "Das Default Gateway des Routers",
+              "Die Broadcastadresse",
+              "Der DNS-Server des Netzes"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Eine Angabe musst du nicht eintragen, sie lässt sich aus den anderen ausrechnen.",
+              "Die Broadcastadresse ergibt sich aus Netz und Maske."
+            ],
+            "erkl": "Pflicht sind IP-Adresse, Subnetzmaske, Default Gateway und DNS-Server. Die Broadcastadresse rechnet das Gerät selbst aus."
+          },
+          {
+            "t": "weg",
+            "titel": "Das Netz 10.10.5.64/26 planen",
+            "kopf": "Ein neuer Client soll in das Netz **10.10.5.64/26**.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie lautet die **Subnetzmaske** zu /26?",
+                "art": "ip",
+                "antwort": [
+                  "255.255.255.192"
+                ],
+                "tipps": [
+                  "26 Bit Netzanteil: 24 + 2 Bit im letzten Oktett."
+                ],
+                "erkl": "/26 = 255.255.255.**192** (zwei Bit im letzten Oktett: 128 + 64).",
+                "label": "Subnetzmaske"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Adressen** umfasst das Netz insgesamt (mit Netz- und Broadcastadresse)?",
+                "art": "zahl",
+                "antwort": [
+                  "64"
+                ],
+                "tipps": [
+                  "2 hoch (32 − 26)."
+                ],
+                "erkl": "2⁶ = **64** Adressen, davon 62 für Hosts.",
+                "label": "Adressen gesamt"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie lautet die **erste nutzbare** Adresse (ein typischer Gateway-Platz)?",
+                "art": "ip",
+                "antwort": [
+                  "10.10.5.65"
+                ],
+                "tipps": [
+                  "Die Netzadresse ist .64. Eine weiter."
+                ],
+                "erkl": "Netzadresse 10.10.5.64, erste nutzbare **10.10.5.65**.",
+                "label": "Erste nutzbare"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie lautet die **letzte nutzbare** Adresse (der andere typische Gateway-Platz)?",
+                "art": "ip",
+                "antwort": [
+                  "10.10.5.126"
+                ],
+                "tipps": [
+                  "Broadcast ist die letzte Adresse des Blocks: .64 + 64 − 1 = .127."
+                ],
+                "erkl": "Broadcast 10.10.5.127, letzte nutzbare **10.10.5.126**.",
+                "label": "Letzte nutzbare"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Der Client hat **172.16.4.130** mit Maske **255.255.255.128**. Welches Gateway passt?",
+            "optionen": [
+              "172.16.4.1",
+              "172.16.5.129",
+              "172.16.4.127",
+              "172.16.4.129"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "130 liegt im Block 128 bis 255."
+            ],
+            "erkl": "Die Maske /25 teilt das letzte Oktett bei 128. Der Client liegt in **172.16.4.128/25** (Hosts .129 bis .254), also passt **172.16.4.129**. .1 und .127 liegen im Netz 172.16.4.0/25, 172.16.5.129 in einem anderen /24.",
+            "label": "Passendes Gateway",
+            "fallen": {
+              "1": "Denkfalle: Das Standard-Gateway muss zwingend eine IP-Adresse im **gleichen** IP-Subnetz wie der Client haben, sonst kann der Client es nicht direkt per ARP erreichen!",
+              "2": "Ein Gateway routet nur Pakete in fremde Netze. Für lokale PCs im selben Subnetz wird kein Gateway benötigt."
+            }
+          },
+          {
+            "t": "gen",
+            "gen": "gwSubnetz",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "gwSubnetz",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Gibt es im Netz keinen DHCP-Server, müssen die Werte der IP-Konfiguration von Hand eingetragen werden.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wer verteilt sonst die Adressen?"
+            ],
+            "erkl": "Richtig. Ohne DHCP musst du IP, Maske, Gateway und DNS selbst eintragen, und zwar fehlerfrei und ohne doppelte Adressen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Vier Angaben: IP, Maske, Gateway, DNS. Das Gateway muss im Subnetz des Clients liegen.",
+          "handout": "**IP-Plan:** Net-ID/Größe · Gateway · DNS · DHCP · Subnetze. **Vier Angaben:** IP, Maske, Gateway, DNS. **Check:** Gateway mit der Client-Maske im selben Netz?"
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Ist-Aufnahme",
+        "kurz": "Dokumentation, Verkabelung, Ortsbegehung, WLAN",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Bevor du etwas veränderst, musst du wissen, was tatsächlich vorhanden ist.",
+          "frage": "Was nimmst du auf?"
+        },
+        "aufbau": [
+          {
+            "text": "Zuerst sichtest du die vorhandene Dokumentation und prüfst, ob sie mit der Realität übereinstimmt.",
+            "diagramm": "ist"
+          },
+          {
+            "text": "Bei der Verkabelung prüfst du Lage und Bezeichnung von Dosen und Verteilern, Kategorie, Verkabelungsklasse, Messprotokolle und Patch-Pläne.",
+            "diagramm": "ist"
+          },
+          {
+            "text": "Meist ist die Ortsbesichtigung nötig. Am Verteiler suchst du den Anschluss zur Dose und prüfst die Patch-Dokumentation.",
+            "diagramm": "ist"
+          },
+          {
+            "text": "Errata: Das Buch verweist auf S. 309, Verteiler und Patchfelder stehen aber auf S. 313 bis 314.",
+            "diagramm": "ist"
+          },
+          {
+            "text": "Zum WLAN gehören Zahl der WLANs, Standorte der Access Points (oft versteckt) und die Funkfeldstärke, z. B. per Analyse-App.",
+            "diagramm": "ist"
+          },
+          {
+            "text": "Achte auf Störquellen wie Bluetooth-Geräte und Mikrowellenherde.",
+            "diagramm": "ist"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was tust du zuerst bei der Ist-Aufnahme?",
+          "optionen": [
+            {
+              "text": "Die vorhandene Dokumentation sichten und gegen die Realität prüfen.",
+              "richtig": true,
+              "korrektur": "Richtig: Erst der Soll-Ist-Vergleich."
+            },
+            {
+              "text": "Die Verkabelung neu patchen.",
+              "richtig": false,
+              "korrektur": "Die Ist-Aufnahme zeigt den Zustand, bevor etwas verändert wird."
+            },
+            {
+              "text": "Ein neues Messprotokoll schreiben.",
+              "richtig": false,
+              "korrektur": "Zuerst sichtest du die vorhandenen Messprotokolle."
+            }
+          ],
+          "loesung": "Dokumentation sichten.",
+          "beleg": {
+            "seite": "348–349"
+          }
+        },
+        "wiederholung": {
+          "text": "Ist-Aufnahme: Dokumentation gegen Realität, Verkabelung, Ortsbegehung, WLAN. Vor jeder Änderung.",
+          "diagramm": "ist"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Die vorhandene Netzwerkdokumentation kannst du ungeprüft für die Planung übernehmen.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wer hat sie zuletzt aktualisiert?"
+            ],
+            "erkl": "Falsch. Sie muss mit der Realität abgeglichen werden. Veraltete Pläne sind eine klassische Fehlerquelle."
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Punkt gehört **nicht** zu den Checkpunkten der LAN-Ist-Aufnahme?",
+            "optionen": [
+              "Lage und Bezeichnung der Dosen und Verteiler",
+              "Dokumentierte Leitungen und Patch-Pläne",
+              "Lizenzen und Versionen der Software auf den Clients",
+              "Kategorie der Bauteile und erreichte Verkabelungsklasse"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Die Ist-Aufnahme des LAN-Ausbaus betrifft die Verkabelung."
+            ],
+            "erkl": "Bei der Verkabelung geht es um Dosen, Verteiler, Leitungen, Kategorie, Klasse, Messprotokolle und Patch-Pläne. Software-Lizenzen gehören zu einer anderen Bestandsaufnahme."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bringe die Ortsbesichtigung eines Anschlusses in eine sinnvolle Reihenfolge (vereinfachtes Modell).",
+            "items": [
+              "Dose im Raum finden und Bezeichnung lesen",
+              "Im Verteiler den zugehörigen Anschluss suchen",
+              "Prüfen, ob gepatcht ist wie dokumentiert",
+              "Abweichungen in der Dokumentation nachtragen"
+            ],
+            "tipps": [
+              "Du gehst von der Dose zum Verteiler.",
+              "Korrigiert wird zum Schluss."
+            ],
+            "erkl": "Das Buch nennt die Prüfpunkte, nicht eine feste Schrittfolge. Als Modell: Dose → Verteiler → Vergleich mit der Doku → Doku berichtigen."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Frage klärst du womit?",
+            "paare": [
+              [
+                "Wie stark ist das Signal am Arbeitsplatz?",
+                "Feldstärke messen (Messgerät oder App)"
+              ],
+              [
+                "Wo stehen die Access Points?",
+                "Ortsbesichtigung, auch hinter Verkleidungen"
+              ],
+              [
+                "Was stört den Funk?",
+                "Bluetooth-Geräte, Mikrowellenherd"
+              ]
+            ],
+            "tipps": [
+              "Signalstärke ist ein Messwert.",
+              "Störquellen sind Geräte, die auf ähnlichen Frequenzen funken."
+            ],
+            "erkl": "Feldstärke misst man, Access Points findet man vor Ort, und Störer wie Bluetooth oder Mikrowelle entdeckt man beim Rundgang."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Störquelle** nennt das Buch bei der WLAN-Prüfung?",
+            "optionen": [
+              "Cat-6-Leitung in der Wand",
+              "Glasfaserleitung im Steigschacht",
+              "Patchfeld im Verteiler",
+              "Mikrowellenherd in der Teeküche"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Überlege, wer sonst noch im Raum funkt oder stört.",
+              "Es geht um Funk, nicht um Kabel."
+            ],
+            "erkl": "Neben Bluetooth-Geräten nennt das Buch **Mikrowellenherde** als Störer. Kabel und Patchfelder funken nicht."
+          },
+          {
+            "t": "wahl",
+            "f": "Access Points hängen immer sichtbar an der Wand, ein Rundgang mit Blick auf Wand und Decke genügt.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Nicht jeder AP sieht aus wie im Katalog."
+            ],
+            "erkl": "Falsch. Access Points können **hinter Wand- oder Deckenverkleidungen** versteckt sein. Dann helfen Plan, WLAN-Analyse und Nachfragen beim Betreiber."
+          },
+          {
+            "t": "wahl",
+            "f": "Wozu dient die Ist-Aufnahme **vor** dem Einbinden eines Clients?",
+            "optionen": [
+              "Sie ersetzt die Planung der IP-Konfiguration",
+              "Sie deckt Abweichungen zwischen Doku und Realität auf",
+              "Sie legt fest, welche Software der Client bekommt",
+              "Sie ist nur nach Störungen im Netz nötig"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Planung auf falscher Datenbasis geht schief."
+            ],
+            "erkl": "Wer plant, braucht verlässliche Daten. Die Ist-Aufnahme deckt auf, wo Dokumentation und Wirklichkeit auseinanderlaufen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Ist-Aufnahme vor der Änderung: Dokumentation, Verkabelung, Ortsbegehung, WLAN.",
+          "handout": "**Ist-Aufnahme:** Dokumentation gegen Realität · Verkabelung (Dosen, Verteiler, Klasse, Protokolle, Patch-Pläne) · Ortsbegehung · WLAN (APs, Feldstärke, Störquellen)."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Netz dokumentieren",
+        "kurz": "Dokumente, Werkzeuge, Messprotokoll",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Die Dokumentation ist nur nützlich, wenn sie aktuell bleibt.",
+          "frage": "Was gehört dazu, und wem gehört sie?"
+        },
+        "aufbau": [
+          {
+            "text": "Die Dokumentation muss jederzeit aktuell sein und gehört dem Netzbetreiber. Wer das Netz ändert, dokumentiert die Änderung.",
+            "diagramm": "doku"
+          },
+          {
+            "text": "Pläne zeichnest du mit Visio, Dia oder NetworkNotepad, Messprotokolle führst du in der Tabellenkalkulation.",
+            "diagramm": "doku"
+          },
+          {
+            "text": "Der Bogen Bestandserfassung Rechner hält Standort, Hardware, Betriebssystem, Netzanbindung und IP-Adresse fest. Drucker bekommen Papiervorrat und Interface dazu.",
+            "diagramm": "doku"
+          },
+          {
+            "text": "Jede Leitung hat ein Messprotokoll: Verteiler zu Dose (Tertiär) und Verteiler zu Verteiler (Primär, Sekundär).",
+            "diagramm": "messprotokoll"
+          },
+          {
+            "text": "Gemessen werden Länge, Pinbelegung, Dämpfung, Übersprechdämpfung, Signallaufzeit und Laufzeitunterschiede. Ergebnis: PASS oder FAIL.",
+            "diagramm": "messprotokoll"
+          },
+          {
+            "text": "jNetMap scannt einen IP-Bereich, listet erreichbare Geräte auf einer Karte und kann Ports scannen. Praxis: SSH statt Telnet, Telnet ist unverschlüsselt.",
+            "diagramm": "doku"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wem gehört die Netzdokumentation?",
+          "optionen": [
+            {
+              "text": "Dem Netzbetreiber.",
+              "richtig": true,
+              "korrektur": "Richtig: Der Errichter erstellt die Protokolle und übergibt sie."
+            },
+            {
+              "text": "Dem Errichter, der gemessen hat.",
+              "richtig": false,
+              "korrektur": "Der Errichter übergibt die Protokolle an den Betreiber."
+            },
+            {
+              "text": "Dem Hersteller der Kabel.",
+              "richtig": false,
+              "korrektur": "Der Hersteller hat mit der Dokumentation nichts zu tun."
+            }
+          ],
+          "loesung": "Dem Netzbetreiber.",
+          "beleg": {
+            "seite": "351–354"
+          }
+        },
+        "wiederholung": {
+          "text": "Dokumentation: aktuell, beim Betreiber, jede Änderung eintragen. Messprotokoll je Leitung mit PASS oder FAIL.",
+          "diagramm": "messprotokoll"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Wem gehört die Netzwerkdokumentation?",
+            "optionen": [
+              "Dem Errichter, der die Leitungen verlegt hat",
+              "Dem Hersteller der Switches",
+              "Dem Netzbetreiber, sie bleibt bei ihm",
+              "Dem Techniker, der sie zuletzt geändert hat"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Wer das Netz betreibt, muss es verstehen."
+            ],
+            "erkl": "Der **Netzbetreiber** besitzt die Dokumentation. Der Errichter übergibt seine Unterlagen (z. B. Messprotokolle) an ihn."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Werkzeug passt zu welchem Dokument?",
+            "paare": [
+              [
+                "Lageplan",
+                "Zeichenprogramm"
+              ],
+              [
+                "Netzwerkplan",
+                "Zeichenprogramm"
+              ],
+              [
+                "Messprotokoll",
+                "Tabellenkalkulation"
+              ],
+              [
+                "Liste der Bestandsgeräte",
+                "Textverarbeitung"
+              ]
+            ],
+            "tipps": [
+              "Pläne zeichnet man, Messwerte trägt man in Tabellen ein."
+            ],
+            "erkl": "Lage- und Netzwerkpläne entstehen in Zeichenprogrammen (Visio, Dia, NetworkNotepad), Messprotokolle in der Tabellenkalkulation, Listen in der Textverarbeitung (laut Buch evtl. auch in der Tabellenkalkulation)."
+          },
+          {
+            "t": "wahl",
+            "f": "Was kommt beim **Drucker-Erfassungsbogen** gegenüber dem Rechner-Bogen neu hinzu?",
+            "optionen": [
+              "CPU",
+              "Betriebssystem",
+              "Monitor",
+              "Papiervorrat"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Ein Drucker verbraucht etwas, das ein Rechner nicht braucht."
+            ],
+            "erkl": "Zusätzlich erfasst man beim Drucker den **Papiervorrat** (und die Schnittstelle, das Interface). CPU, Betriebssystem und Monitor stehen schon im Rechner-Bogen."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Werte gehören **nicht** in ein Kabel-Messprotokoll?",
+            "optionen": [
+              "Anzahl der Benutzerkonten auf dem Server",
+              "Länge und Pinbelegung der Leitung",
+              "Dämpfung und Übersprechdämpfung",
+              "Signallaufzeit und Laufzeitunterschiede"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Messprotokolle beschreiben die Leitung, nicht die Benutzer."
+            ],
+            "erkl": "Gemessen werden physikalische Leitungsgrößen: Länge, Pinbelegung, Dämpfung, Übersprechdämpfung und Laufzeiten. Benutzerkonten gehören nicht dazu."
+          },
+          {
+            "t": "wahl",
+            "f": "Eine Leitung zeigt im Messprotokoll **FAIL**. Was ist die sinnvolle Folge?",
+            "optionen": [
+              "Die Leitung bleibt in Betrieb, nur der Switchport wird gewechselt",
+              "Ursache suchen, nachbessern und die Leitung erneut messen",
+              "Sie wird mit geringerer Rate freigegeben, ohne neue Messung",
+              "Nur das Protokoll wird auf PASS korrigiert"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ein Messwert wird nicht schöngerechnet."
+            ],
+            "erkl": "Bei FAIL ist die Leitung nicht in Ordnung. Man behebt den Fehler (z. B. Anschluss neu auflegen) und misst nach (Praxis, steht nicht im Buch). Das Buch nennt nur PASS oder FAIL als Ergebnis."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Werkzeug löst welche Aufgabe?",
+            "paare": [
+              [
+                "IP-Bereich nach erreichbaren Geräten absuchen",
+                "jNetMap"
+              ],
+              [
+                "Funkfeldstärke grob prüfen",
+                "WLAN-Analyse-App"
+              ],
+              [
+                "Pakete einer Anwendung mitschneiden",
+                "Wireshark"
+              ],
+              [
+                "Last am Windows-PC beobachten",
+                "Ressourcenmonitor"
+              ]
+            ],
+            "tipps": [
+              "Zwei dieser Werkzeuge kamen schon in der Vorplanung vor."
+            ],
+            "erkl": "jNetMap scannt und kartiert, die App misst die Funkfeldstärke, Wireshark schneidet Pakete mit, der Ressourcenmonitor zeigt die Last unter Windows."
+          },
+          {
+            "t": "wahl",
+            "f": "jNetMap misst die Dämpfung einer Leitung und erstellt damit das Messprotokoll.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "jNetMap arbeitet mit IP-Adressen, nicht mit Kabeleigenschaften."
+            ],
+            "erkl": "Falsch. jNetMap scannt IP-Bereiche und zeigt Geräte. Dämpfung und Übersprechen misst ein Kabelmessgerät."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Dokumentation aktuell halten, Eigentum des Betreibers. Messprotokoll je Leitung mit PASS oder FAIL.",
+          "handout": "**Dokumente:** Netzplan · Messprotokoll · Erfassungsbogen · Lageplan. **Messprotokoll:** Länge, Pinbelegung, Dämpfung, Übersprechdämpfung, Laufzeit(unterschiede), PASS/FAIL. **Werkzeuge:** Visio, Dia, NetworkNotepad, jNetMap."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welche vier Angaben braucht eine IP-Konfiguration?",
+        "optionen": [
+          {
+            "text": "IP, Maske, Gateway, DNS",
+            "richtig": true
+          },
+          {
+            "text": "IP, MAC, Gateway, DHCP",
+            "richtig": false
+          },
+          {
+            "text": "IP, Port, Maske, Proxy",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Client 10.0.0.77/25: Welches Gateway ist direkt erreichbar?",
+        "optionen": [
+          {
+            "text": "10.0.0.1",
+            "richtig": true
+          },
+          {
+            "text": "10.0.0.129",
+            "richtig": false
+          },
+          {
+            "text": "10.0.1.1",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was kommt bei der Ist-Aufnahme zuerst?",
+        "optionen": [
+          {
+            "text": "Dokumentation sichten",
+            "richtig": true
+          },
+          {
+            "text": "Neu patchen",
+            "richtig": false
+          },
+          {
+            "text": "Switch tauschen",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welche Ergebnisse hat ein Messprotokoll?",
+        "optionen": [
+          {
+            "text": "PASS oder FAIL",
+            "richtig": true
+          },
+          {
+            "text": "gut oder schlecht",
+            "richtig": false
+          },
+          {
+            "text": "grün oder rot",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_CL2.id]: LF03_CL2 });
+})();
+
+/* ---- f_einheiten_client3.js ---- */
+//
+// Einheit 23: Client einbinden, Anschluss, Drucker, WLAN (Stationen 6 und 7; Endgegner s8 + Abschlusstest s9 als Abschlussuebung). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_CL3 = {
+    "id": "lf03-client-einbinden-wlan",
+    "reihe": 23,
+    "titel": "Client einbinden: Anschluss, Drucker und WLAN",
+    "untertitel": "Client in vier Schritten einbinden, Drucker einrichten und die WLAN-Anmeldung wählen",
+    "lernfeld": "LF03",
+    "dauer_min": 35,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 354–355 (Client einbinden, Drucker, WLAN-Anmeldung; AAA S. 364)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Einen Client in vier Schritten einbinden und testen",
+        "kn": "Einbinden"
+      },
+      {
+        "id": "lz2",
+        "text": "Einen Netzwerkdrucker einrichten",
+        "kn": "Einbinden"
+      },
+      {
+        "id": "lz3",
+        "text": "Begründen, wann PSK genügt und wann ein Authentifizierungsserver nötig ist",
+        "kn": "Einbinden"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Einbinden in vier Schritten",
+        "knoten": [
+          {
+            "id": "e0",
+            "x": 90,
+            "y": 110,
+            "t": "Hardware",
+            "sub": "Dose, Switchport",
+            "w": 140
+          },
+          {
+            "id": "e1",
+            "x": 245,
+            "y": 110,
+            "t": "Logisch",
+            "sub": "IP, Server",
+            "w": 140
+          },
+          {
+            "id": "e2",
+            "x": 400,
+            "y": 110,
+            "t": "Internet",
+            "sub": "Ping auf Webseite",
+            "w": 140
+          },
+          {
+            "id": "e3",
+            "x": 555,
+            "y": 110,
+            "t": "Dokumentieren",
+            "sub": "Name, Dose, IP, OS",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "e0",
+            "bis": "e1"
+          },
+          {
+            "von": "e1",
+            "bis": "e2"
+          },
+          {
+            "von": "e2",
+            "bis": "e3"
+          }
+        ]
+      },
+      "vier": {
+        "art": "netz",
+        "titel": "Einbinden in vier Schritten",
+        "knoten": [
+          {
+            "id": "e0",
+            "x": 90,
+            "y": 110,
+            "t": "Hardware",
+            "sub": "Dose, Switchport",
+            "w": 140
+          },
+          {
+            "id": "e1",
+            "x": 245,
+            "y": 110,
+            "t": "Logisch",
+            "sub": "IP, Server",
+            "w": 140
+          },
+          {
+            "id": "e2",
+            "x": 400,
+            "y": 110,
+            "t": "Internet",
+            "sub": "Ping auf Webseite",
+            "w": 140
+          },
+          {
+            "id": "e3",
+            "x": 555,
+            "y": 110,
+            "t": "Dokumentieren",
+            "sub": "Name, Dose, IP, OS",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "e0",
+            "bis": "e1"
+          },
+          {
+            "von": "e1",
+            "bis": "e2"
+          },
+          {
+            "von": "e2",
+            "bis": "e3"
+          }
+        ]
+      },
+      "ping": {
+        "art": "netz",
+        "titel": "Ein Ping auf einen Namen prüft drei Dinge",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 130,
+            "y": 110,
+            "t": "Ping",
+            "sub": "auf eine Internetseite",
+            "w": 190
+          },
+          {
+            "id": "b",
+            "x": 460,
+            "y": 50,
+            "t": "DNS",
+            "sub": "Namensauflösung",
+            "w": 170
+          },
+          {
+            "id": "c",
+            "x": 460,
+            "y": 110,
+            "t": "Router",
+            "sub": "Weg nach außen",
+            "w": 170
+          },
+          {
+            "id": "d",
+            "x": 460,
+            "y": 170,
+            "t": "Internetzugang",
+            "sub": "Verbindung steht",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "a",
+            "bis": "c"
+          },
+          {
+            "von": "a",
+            "bis": "d"
+          }
+        ]
+      },
+      "drucker": {
+        "art": "netz",
+        "titel": "Netzwerkdrucker einrichten",
+        "knoten": [
+          {
+            "id": "r0",
+            "x": 90,
+            "y": 110,
+            "t": "Drucker & Scanner",
+            "sub": "Systemeinstellungen",
+            "w": 140
+          },
+          {
+            "id": "r1",
+            "x": 245,
+            "y": 110,
+            "t": "Netz durchsuchen",
+            "sub": "Drucker finden",
+            "w": 140
+          },
+          {
+            "id": "r2",
+            "x": 400,
+            "y": 110,
+            "t": "Drucker wählen",
+            "sub": "Treiber automatisch",
+            "w": 140
+          },
+          {
+            "id": "r3",
+            "x": 555,
+            "y": 110,
+            "t": "Testseite",
+            "sub": "Warteschlange prüfen",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "r0",
+            "bis": "r1"
+          },
+          {
+            "von": "r1",
+            "bis": "r2"
+          },
+          {
+            "von": "r2",
+            "bis": "r3"
+          }
+        ]
+      },
+      "wlan": {
+        "art": "netz",
+        "titel": "WLAN-Anmeldung: zwei Wege",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 320,
+            "y": 55,
+            "t": "WLAN-Anmeldung",
+            "w": 190
+          },
+          {
+            "id": "b",
+            "x": 170,
+            "y": 150,
+            "t": "PSK",
+            "sub": "ein gemeinsamer Schlüssel",
+            "w": 240,
+            "rolle": "gelb"
+          },
+          {
+            "id": "c",
+            "x": 470,
+            "y": 150,
+            "t": "802.1X und RADIUS",
+            "sub": "eigenes Konto pro Person",
+            "w": 240,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "a",
+            "bis": "c"
+          }
+        ]
+      },
+      "vergleich": {
+        "art": "netz",
+        "titel": "Heimnetz oder Unternehmen",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 70,
+            "t": "Heimnetz",
+            "sub": "wenige, man kennt sich",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 420,
+            "y": 70,
+            "t": "PSK genügt",
+            "sub": "Wechsel selten",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "c",
+            "x": 110,
+            "y": 150,
+            "t": "Unternehmen",
+            "sub": "viele, Personal wechselt",
+            "w": 170
+          },
+          {
+            "id": "d",
+            "x": 420,
+            "y": 150,
+            "t": "Server nötig",
+            "sub": "zentrale Konten",
+            "w": 170,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "c",
+            "bis": "d"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Was prüft ein Ping auf eine Internetseite mit?",
+        "optionen": [
+          {
+            "text": "DNS, Router, Internetzugang",
+            "richtig": true
+          },
+          {
+            "text": "nur den Switchport",
+            "richtig": false
+          },
+          {
+            "text": "nur die MAC-Adresse",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wofür steht RADIUS?",
+        "optionen": [
+          {
+            "text": "Remote Authentication Dial-In User Service",
+            "richtig": true
+          },
+          {
+            "text": "Remote Access Data Interface Server",
+            "richtig": false
+          },
+          {
+            "text": "Router Address Dial-In Unit Service",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Client einbinden",
+        "kurz": "vier Schritte und der Ping-Test",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Der Rechner steht am Arbeitsplatz, jetzt soll er ins Netz.",
+          "frage": "In welchen Schritten gehst du vor?"
+        },
+        "aufbau": [
+          {
+            "text": "Ein Client wird in vier Schritten eingebunden: Hardwareanschluss, logischer Anschluss, Internet testen, prüfen und dokumentieren.",
+            "diagramm": "vier"
+          },
+          {
+            "text": "Hardware: Rechner an die Dose patchen, Switchport mit der Buchse im Verteiler verbinden. Logisch: Bekommt er seine IP-Konfiguration?",
+            "diagramm": "vier"
+          },
+          {
+            "text": "Normalerweise kommt sie per DHCP aus einem Pool. Fehlt sie, stellst du IP-Adresse automatisch beziehen ein. Das ist eine Faustregel: Server und Drucker bekommen oft feste Adressen.",
+            "diagramm": "vier"
+          },
+          {
+            "text": "Ein Ping auf eine Internetseite prüft DNS, Router und Internetzugang zugleich. Danach schaust du mit ipconfig, ob die IP stimmt.",
+            "diagramm": "ping"
+          },
+          {
+            "text": "Dokumentiert werden Rechnername, Dosennummer, IP-Adresse und Betriebssystem.",
+            "diagramm": "vier"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Ping auf eine Internetseite klappt. Was ist damit geprüft?",
+          "optionen": [
+            {
+              "text": "DNS, Router und Internetzugang zugleich.",
+              "richtig": true,
+              "korrektur": "Richtig: Die Namensauflösung gehört mit dazu."
+            },
+            {
+              "text": "Nur die Verbindung zum Switch.",
+              "richtig": false,
+              "korrektur": "Der Switch ist nur ein Teil des Weges."
+            },
+            {
+              "text": "Nur die IP-Konfiguration des Clients.",
+              "richtig": false,
+              "korrektur": "Die prüfst du mit ipconfig."
+            }
+          ],
+          "loesung": "DNS, Router und Internetzugang.",
+          "beleg": {
+            "seite": "354–355"
+          }
+        },
+        "wiederholung": {
+          "text": "Vier Schritte: Hardware, logisch, Internet (Ping auf Namen), dokumentieren.",
+          "diagramm": "vier"
+        },
+        "uebung": [
+          {
+            "t": "ordnen",
+            "f": "Bringe die Einbindung in die richtige Reihenfolge.",
+            "items": [
+              "Rechner mit Dose und Switchport verbinden (patchen)",
+              "Rechner hochfahren, IP-Konfiguration prüfen",
+              "Ping auf eine Internetseite",
+              "ipconfig prüfen und Daten dokumentieren"
+            ],
+            "tipps": [
+              "Erst muss die Verbindung stehen, dann kommt die Konfiguration.",
+              "Dokumentiert wird am Ende."
+            ],
+            "erkl": "Hardware, dann logischer Anschluss, dann Internettest, zuletzt prüfen und dokumentieren."
+          },
+          {
+            "t": "wahl",
+            "f": "Was gehört zum **Hardwareanschluss**?",
+            "optionen": [
+              "Dem Rechner per DHCP eine IP-Adresse zuweisen lassen",
+              "Einen Ping auf eine Internetseite senden und auswerten",
+              "Den Rechnernamen in die Bestandsliste eintragen",
+              "Rechner und Switchport an Dose bzw. Verteiler patchen"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Hardware heißt: Kabel."
+            ],
+            "erkl": "Der Hardwareanschluss ist das **Patchen**: Rechner ↔ Anschlussdose und Switchport ↔ Buchse im Verteiler."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein neuer Client bekommt keine IP-Konfiguration. Was stellst du als Erstes ein?",
+            "optionen": [
+              "„IP-Adresse automatisch beziehen“ aktivieren",
+              "Eine beliebige freie IP-Adresse von Hand",
+              "Den DHCP-Server auf dem Client installieren",
+              "Am Switch den Port abschalten und neu starten"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Der Client soll sich selbst versorgen lassen."
+            ],
+            "erkl": "Steht der Client noch auf manueller Konfiguration, schaltest du auf **automatisch beziehen**, damit der DHCP-Server ihm Adresse, Maske, Gateway und DNS gibt."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein **Ping auf eine Internetseite** klappt. Was ist damit gleichzeitig bestätigt?",
+            "optionen": [
+              "Nur die Verkabelung bis zur Dose",
+              "DNS, Router und Internetzugang",
+              "Nur die Subnetzmaske des Clients",
+              "Nur der DHCP-Pool des Netzes"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ein Name muss erst aufgelöst werden, und das Paket muss ins Internet."
+            ],
+            "erkl": "Der Name wird per DNS aufgelöst, das Paket läuft über das Gateway (Router) ins Internet und zurück. Klappt der Ping, stimmt die ganze Kette."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Fehlerbild deutet auf welche Ursache? (Vorgriff auf Kapitel 3.6)",
+            "paare": [
+              [
+                "Ping auf IP im Internet geht, auf einen Namen nicht",
+                "DNS-Server falsch"
+              ],
+              [
+                "Eigenes Subnetz geht, alles außerhalb nicht",
+                "Default Gateway falsch"
+              ],
+              [
+                "Zwei fest konfigurierte Geräte stören sich",
+                "Doppelt vergebene IP-Adresse"
+              ]
+            ],
+            "tipps": [
+              "Namen löst DNS auf, ins fremde Netz führt das Gateway.",
+              "Zwei Geräte mit derselben Adresse stören sich gegenseitig."
+            ],
+            "erkl": "Funktionieren IP-Adressen, aber keine Namen, ist der DNS-Server falsch. Geht nur das eigene Subnetz, stimmt das Gateway nicht. Doppelt vergebene IPs führen zu Fehlfunktionen. (Die Zuordnung ist Vorgriff auf Kapitel 3.6 und steht so nicht auf diesen Seiten.)"
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Einbinden: Hardware, logisch, Internet-Ping, dokumentieren. Der Ping auf einen Namen prüft DNS, Router und Internetzugang.",
+          "handout": "**Einbinden:** Hardware (Dose, Switchport) · logisch (DHCP) · Ping auf Webseite · dokumentieren (Name, Dose, IP, OS)."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Netzwerkdrucker",
+        "kurz": "suchen, wählen, Testseite",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Der Client läuft, jetzt soll er auch drucken.",
+          "frage": "Wie richtest du einen Netzwerkdrucker ein?"
+        },
+        "aufbau": [
+          {
+            "text": "Öffne in den Systemeinstellungen Drucker & Scanner und durchsuche das Netz. Wähle den Drucker aus.",
+            "diagramm": "drucker"
+          },
+          {
+            "text": "Das Betriebssystem installiert den Treiber. Zum Schluss druckst du eine Testseite.",
+            "diagramm": "drucker"
+          },
+          {
+            "text": "Über den Drucker erreichst du die Warteschlange und Verwalten.",
+            "diagramm": "drucker"
+          },
+          {
+            "text": "Praxis, nicht im Buch: Drucker bekommen meist eine feste Adresse oder DHCP-Reservierung, damit der Treiber ihn immer findet.",
+            "diagramm": "drucker"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was ist der letzte Schritt beim Einrichten eines Netzwerkdruckers?",
+          "optionen": [
+            {
+              "text": "Eine Testseite drucken.",
+              "richtig": true,
+              "korrektur": "Richtig: Erst die Testseite zeigt, dass Treiber und Verbindung stimmen."
+            },
+            {
+              "text": "Den Drucker patchen.",
+              "richtig": false,
+              "korrektur": "Das Patchen gehört zum Hardwareanschluss, nicht zum Schluss."
+            },
+            {
+              "text": "Die IP des Clients ändern.",
+              "richtig": false,
+              "korrektur": "Der Client behält seine Konfiguration."
+            }
+          ],
+          "loesung": "Testseite.",
+          "beleg": {
+            "seite": "354–355"
+          }
+        },
+        "wiederholung": {
+          "text": "Drucker & Scanner, Netz durchsuchen, Drucker wählen, Testseite drucken.",
+          "diagramm": "drucker"
+        },
+        "uebung": [
+          {
+            "t": "ordnen",
+            "f": "Bringe die Druckereinrichtung in die richtige Reihenfolge.",
+            "items": [
+              "„Drucker & Scanner“ in den Systemeinstellungen öffnen",
+              "Netz nach Druckern durchsuchen",
+              "Drucker aus der Liste auswählen",
+              "Betriebssystem installiert den Treiber",
+              "Testseite drucken"
+            ],
+            "tipps": [
+              "Erst suchen, dann wählen.",
+              "Die Testseite beweist, dass es klappt."
+            ],
+            "erkl": "Drucker & Scanner öffnen, Netz durchsuchen, Drucker wählen, Treiber installieren lassen, Testseite drucken."
+          },
+          {
+            "t": "wahl",
+            "f": "Wozu dient die **Testseite** nach der Druckereinrichtung?",
+            "optionen": [
+              "Sie weist dem Drucker eine feste IP-Adresse zu",
+              "Sie leert die Warteschlange des Druckers",
+              "Sie zeigt, dass Treiber und Druckweg funktionieren",
+              "Sie richtet den DHCP-Server im Router ein"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Gedruckt wird erst, wenn alles stimmt."
+            ],
+            "erkl": "Kommt die Testseite sauber heraus, sind Treiber, Netzverbindung und Druckweg in Ordnung."
+          },
+          {
+            "t": "wahl",
+            "f": "Clients holen ihre Einstellungen normalerweise per DHCP, Server und Drucker können aber trotzdem eine feste Adresse haben.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Die Regel hat Ausnahmen."
+            ],
+            "erkl": "Richtig. Als Faustregel bekommen Clients ihre Konfiguration automatisch. Server und Drucker haben oft statische Adressen oder DHCP-Reservierungen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Drucker einrichten: Drucker & Scanner, suchen, wählen, Testseite.",
+          "handout": "**Drucker:** Drucker & Scanner → Netz durchsuchen → Drucker wählen → Treiber automatisch → Testseite. Praxis: feste Adresse oder Reservierung."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "WLAN-Anmeldung",
+        "kurz": "PSK gegen RADIUS",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Im WLAN steckt kein Kabel. Wer darf sich trotzdem anmelden?",
+          "frage": "Wann genügt ein gemeinsamer Schlüssel?"
+        },
+        "aufbau": [
+          {
+            "text": "Bei Ethernet ist der Rechner mit dem Einstecken im Netz. Im WLAN gibt es zwei Wege: PSK oder einen Authentifizierungsserver.",
+            "diagramm": "wlan"
+          },
+          {
+            "text": "Beim PSK muss der Schlüssel vorher bekannt sein. Du meldest dich erst am Funknetz an, dann am Netzwerk. Praxis: auch WPA Personal.",
+            "diagramm": "wlan"
+          },
+          {
+            "text": "Größere Firmen setzen einen Authentifizierungsserver wie RADIUS ein. Die Access Points werden auf 802.1X gestellt, auch WPA Enterprise genannt.",
+            "diagramm": "wlan"
+          },
+          {
+            "text": "Errata: RADIUS heißt Remote Authentication Dial-In User Service. Die Fußnote im Buch ist falsch, Seite 364 stimmt.",
+            "diagramm": "wlan"
+          },
+          {
+            "text": "Heimnetz: wenige Personen, selten Wechsel, PSK genügt. Firma: Wer geht, kennt den Schlüssel weiter, und niemand ist einzeln erkennbar.",
+            "diagramm": "vergleich"
+          },
+          {
+            "text": "Mit einem Server hat jeder ein eigenes Konto, Zugang wird zentral vergeben und entzogen. Die Begründung ist Praxislogik, nicht Buchtext.",
+            "diagramm": "vergleich"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Warum reicht in einer Firma ein gemeinsamer WLAN-Schlüssel nicht?",
+          "optionen": [
+            {
+              "text": "Wer die Firma verlässt, kennt ihn weiter, und niemand ist einzeln erkennbar.",
+              "richtig": true,
+              "korrektur": "Richtig: Ein Server vergibt eigene Konten zentral."
+            },
+            {
+              "text": "PSK verschlüsselt nicht.",
+              "richtig": false,
+              "korrektur": "PSK verschlüsselt, es fehlt aber die Einzelkennung."
+            },
+            {
+              "text": "PSK funktioniert nur am Kabel.",
+              "richtig": false,
+              "korrektur": "PSK ist ein WLAN-Verfahren."
+            }
+          ],
+          "loesung": "Keine Einzelkonten, Schlüssel bleibt bekannt.",
+          "beleg": {
+            "seite": "355"
+          }
+        },
+        "wiederholung": {
+          "text": "PSK: ein gemeinsamer Schlüssel für wenige. RADIUS und 802.1X: eigenes Konto, zentral verwaltet.",
+          "diagramm": "vergleich"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Was muss beim **PSK-Verfahren** vorher feststehen?",
+            "optionen": [
+              "Der gemeinsame Schlüssel (Passwort) des WLANs",
+              "Der Benutzername auf dem RADIUS-Server",
+              "Die MAC-Adresse jedes Clients",
+              "Die IP-Adresse des Access Points"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "PSK steht für Pre-Shared Key."
+            ],
+            "erkl": "Beim PSK kennen alle Geräte denselben, **vorab bekannten Schlüssel**. Erst danach gelangt man ins Netzwerk."
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür steht **RADIUS**?",
+            "optionen": [
+              "Remote Authentication Dial-In Server Protocol",
+              "Remote Authentication Dial-In User Service",
+              "Radio Access Dial-In User System",
+              "Remote Access Directory Information Service"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Es geht um Benutzer, die sich einwählen und authentifiziert werden."
+            ],
+            "erkl": "RADIUS = **Remote Authentication Dial-In User Service**. Die Variante „Server Protocol“ steht als Fehler in der Fußnote auf S. 355."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Merkmal gehört zu welchem Verfahren?",
+            "paare": [
+              [
+                "Ein gemeinsamer Schlüssel für alle",
+                "PSK"
+              ],
+              [
+                "Access Points auf 802.1X eingestellt",
+                "Authentifizierungsserver"
+              ],
+              [
+                "Passend für Privatnutzer und Kleinbetriebe",
+                "PSK"
+              ],
+              [
+                "Regelt auch den Zugriff auf Ressourcen",
+                "Authentifizierungsserver"
+              ],
+              [
+                "RADIUS",
+                "Authentifizierungsserver"
+              ]
+            ],
+            "tipps": [
+              "802.1X gehört zur Enterprise-Variante.",
+              "Der Schlüssel liegt auf jedem Gerät."
+            ],
+            "erkl": "PSK: ein Schlüssel für alle, geeignet für Privat und Kleinbetrieb. Authentifizierungsserver (RADIUS, 802.1X): zentrale Anmeldung samt Ressourcenzugriff."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Mitarbeiter verlässt die Firma. Das WLAN nutzt **PSK**. Was ist die Folge?",
+            "optionen": [
+              "Nur sein Gerät wird vom Access Point automatisch gesperrt",
+              "Der Schlüssel läuft nach 24 Stunden von selbst ab",
+              "Der Schlüssel muss auf allen Geräten gewechselt werden",
+              "Der Access Point löscht den Schlüssel aus der Firmware"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Gibt es beim PSK ein Konto pro Person?"
+            ],
+            "erkl": "Beim PSK gibt es kein persönliches Konto. Wer den Schlüssel kennt, kommt ins WLAN, bis er für alle geändert wurde (Praxis, steht nicht im Buch)."
+          },
+          {
+            "t": "wahl",
+            "f": "Was bringt ein **Authentifizierungsserver** im Firmen-WLAN?",
+            "optionen": [
+              "Alle Nutzer teilen sich ein Passwort, das nur deutlich länger ist",
+              "Der Access Point benötigt keine Funkkanäle mehr für die Clients",
+              "Die Funkfeldstärke steigt, weil der Server selbst als Sender dient",
+              "Jeder hat ein eigenes Konto, Zugang wird zentral vergeben und entzogen"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Zentral heißt: an einer Stelle."
+            ],
+            "erkl": "Der Server prüft persönliche Konten und regelt den Zugriff auf Ressourcen. Dass Austritte und Rechteänderungen an einer Stelle erledigt werden, ist Praxislogik (Praxis, steht nicht im Buch)."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Anmeldeverfahren passt zur Situation?",
+            "paare": [
+              [
+                "Familie mit fünf Geräten und einem Router",
+                "PSK"
+              ],
+              [
+                "Kleinbetrieb mit vier Mitarbeitern",
+                "PSK"
+              ],
+              [
+                "Unternehmen mit 200 Mitarbeitern",
+                "Authentifizierungsserver"
+              ],
+              [
+                "Firma mit Rechten pro Abteilung",
+                "Authentifizierungsserver"
+              ]
+            ],
+            "tipps": [
+              "Privatnutzer und Kleinbetriebe: PSK.",
+              "Wo Rechte pro Person gelten, braucht man den Server."
+            ],
+            "erkl": "Familie und Kleinbetrieb kommen mit PSK aus. Ab größeren Unternehmen, besonders mit Rechten pro Abteilung, nimmt man einen Authentifizierungsserver."
+          },
+          {
+            "t": "wahl",
+            "f": "Auf welche Betriebsart stellst du die Access Points für ein Firmen-WLAN mit RADIUS ein?",
+            "optionen": [
+              "802.1X (WPA Enterprise)",
+              "PSK mit besonders langem Schlüssel",
+              "Offenes WLAN ohne Anmeldung",
+              "WPS mit PIN-Eingabe"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Die Zahl hinter dem Punkt nennt den Standard für Port-basierte Anmeldung."
+            ],
+            "erkl": "Mit einem Authentifizierungsserver laufen die Access Points im Modus **802.1X (WPA Enterprise)**."
+          },
+          {
+            "t": "wahl",
+            "f": "Die Autorisierung prüft Benutzername und Kennwort („Wer bist du?“).",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Erst wer, dann was."
+            ],
+            "erkl": "Falsch. Das prüft die **Authentifizierung**. Die **Autorisierung** vergibt danach die Rechte („Was darfst du?“). Das dritte A ist das Accounting (Nutzung erfassen)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "PSK für Heim und Kleinbetrieb, RADIUS mit 802.1X für Unternehmen mit eigenen Konten.",
+          "handout": "**PSK (WPA Personal):** ein Schlüssel, wenige Nutzer. **RADIUS/802.1X (WPA Enterprise):** eigenes Konto je Person, zentral vergeben und entzogen. **RADIUS** = Remote Authentication Dial-In User Service."
+        }
+      }
+    ],
+    "uebung": [
+      {
+        "t": "weg",
+        "titel": "Szenario 1: Last und Ladezeit",
+        "kopf": "Am Referenzplatz zeigt der Ressourcenmonitor Spitzen von **750 kByte/s**. Beim Anmelden wird ein servergestütztes Profil von **250 MiB** geladen.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Mbit/s** sind 750 kByte/s?",
+            "art": "zahl",
+            "antwort": [
+              "6"
+            ],
+            "tipps": [
+              "Mal 8, dann durch 1000."
+            ],
+            "erkl": "750 · 8 = 6000 kbit/s = **6 Mbit/s**.",
+            "fallen": {
+              "6000": "Das sind kbit/s. Durch 1000 teilen für Mbit/s.",
+              "0.75": "Der Faktor 8 (Byte → Bit) fehlt."
+            },
+            "label": "Last in Mbit/s"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lange dauert das Laden des Profils über **100 Mbit/s**? (Sekunden, eine Nachkommastelle)",
+            "art": "zahl",
+            "antwort": [
+              "21"
+            ],
+            "tipps": [
+              "250 · 1.048.576 · 8 bit durch 100.000.000 bit/s."
+            ],
+            "erkl": "250 MiB = 2.097.152.000 bit; geteilt durch 100.000.000 bit/s = 20,97 → **21,0 s**.",
+            "fallen": {
+              "20": "Das rechnet 1 MiB als 1.000.000 Byte. MiB ist binär: 1.048.576 Byte.",
+              "210": "Als Dezimalzeichen gilt hier das Komma."
+            },
+            "label": "bei 100 Mbit/s"
+          },
+          {
+            "t": "eingabe",
+            "f": "Und über **1 Gbit/s**? (Sekunden, eine Nachkommastelle)",
+            "art": "zahl",
+            "antwort": [
+              "2,1"
+            ],
+            "tipps": [
+              "Zehnfache Rate, also ein Zehntel der Zeit."
+            ],
+            "erkl": "2.097.152.000 / 1.000.000.000 = 2,10 → **2,1 s**.",
+            "fallen": {
+              "2": "Das ist die dezimale Rechnung (250 · 8 / 1000). Mit MiB sind es 2,1 s.",
+              "21": "Als Dezimalzeichen gilt hier das Komma (z. B. 2,1)."
+            },
+            "label": "bei 1 Gbit/s"
+          },
+          {
+            "t": "wahl",
+            "f": "Mit welchem Werkzeug untersuchst du die Last **einer einzelnen Anwendung** genauer?",
+            "optionen": [
+              "jNetMap",
+              "WLAN-Analyse-App",
+              "Wireshark",
+              "Messprotokoll in der Tabellenkalkulation"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Es muss Pakete mitschneiden können."
+            ],
+            "erkl": "Wireshark schneidet den Verkehr einer Anwendung mit. jNetMap scannt IP-Bereiche, die App misst Funkfeldstärke.",
+            "label": "Werkzeug"
+          }
+        ]
+      },
+      {
+        "t": "gen",
+        "gen": "lastRate",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Szenario 2: IP-Planung",
+        "kopf": "Das Abteilungsnetz ist **192.168.30.96/27**. Der Router liegt auf der **letzten nutzbaren** Adresse. Ein Rechner im Netz hat die Adresse **192.168.30.100**.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Hostadressen** sind in diesem Netz nutzbar?",
+            "art": "zahl",
+            "antwort": [
+              "30"
+            ],
+            "tipps": [
+              "2 hoch (32 − 27) minus Netz- und Broadcastadresse."
+            ],
+            "erkl": "2⁵ = 32 Adressen, minus 2 = **30** nutzbare Hosts.",
+            "label": "Nutzbare Hosts"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **IP-Adresse des Routers** (letzte nutzbare Adresse)?",
+            "art": "ip",
+            "antwort": [
+              "192.168.30.126"
+            ],
+            "tipps": [
+              "Broadcast ist die letzte Adresse des Blocks (.96 + 32 − 1 = .127)."
+            ],
+            "erkl": "Broadcast 192.168.30.127, also Router **192.168.30.126**.",
+            "label": "Router-IP"
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Kollege trägt als Gateway **192.168.30.1** ein. Was stimmt?",
+            "optionen": [
+              "Richtig: .1 ist immer die Gateway-Adresse eines Netzes",
+              "Richtig: Beide Adressen beginnen mit 192.168.30",
+              "Falsch: Das Gateway darf nur die Broadcastadresse sein",
+              "Falsch: .1 liegt in einem anderen /27-Block als der Client"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Vergleiche die Netzadressen mit der Maske /27."
+            ],
+            "erkl": "Der Client liegt im Block ab .96, das Gateway .1 im Block ab .0. Es ist nicht direkt erreichbar: Der Client kommt nicht aus seinem Subnetz.",
+            "label": "Gateway-Urteil"
+          },
+          {
+            "t": "wahl",
+            "f": "Der Router hat einen **DHCP-Server**. Was stellst du an einem **neuen** Client ein?",
+            "optionen": [
+              "„IP-Adresse automatisch beziehen“, auch für den DNS-Server",
+              "Alle vier Werte von Hand, weil Clients nie DHCP nutzen",
+              "Nur das Gateway von Hand, den Rest per Funk",
+              "Nichts, ein Client braucht keine IP-Konfiguration"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Normalerweise holt der Client die Werte beim Hochfahren."
+            ],
+            "erkl": "Mit DHCP trägt der Client nichts von Hand ein, auch der DNS-Server kommt automatisch.",
+            "label": "Einstellung"
+          }
+        ]
+      },
+      {
+        "t": "gen",
+        "gen": "gwSubnetz",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Szenario 3: Einbinden und Fehlersuche",
+        "kopf": "Der Techniker steckt den CAD-PC an Dose 2.14. Er will ihn sauber einbinden und danach dokumentieren.",
+        "schritte": [
+          {
+            "t": "ordnen",
+            "f": "Bringe die Arbeitsschritte in die richtige Reihenfolge.",
+            "items": [
+              "Vorplanung: Rate, IP-Konfiguration, Material",
+              "Ist-Aufnahme und Ortsbesichtigung",
+              "Patchen: Dose und Switchport",
+              "Hochfahren, IP-Konfiguration prüfen",
+              "Ping auf eine Internetseite",
+              "Rechnername, Dose, IP, Betriebssystem notieren"
+            ],
+            "tipps": [
+              "Planung und Ist-Aufnahme kommen vor dem Anschließen.",
+              "Dokumentiert wird zum Schluss."
+            ],
+            "erkl": "Planen, vor Ort aufnehmen, patchen, logisch prüfen, Internet testen, dokumentieren.",
+            "label": "Reihenfolge"
+          },
+          {
+            "t": "wahl",
+            "f": "Der PC hat eine gültige IP, der Ping auf die **IP-Adresse eines Internetservers** klappt, der Ping auf einen **Namen** nicht. Wo liegt der Fehler?",
+            "optionen": [
+              "Beim Default Gateway",
+              "Beim DNS-Server",
+              "Bei der Subnetzmaske des Switches",
+              "Bei der Patchung an der Dose"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wenn IPs im Internet gehen, ist der Weg nach draußen in Ordnung."
+            ],
+            "erkl": "IP-Verbindungen ins Internet laufen, also stimmen Gateway und Verkabelung. Nur die Namensauflösung fehlt: **DNS-Server** falsch (Praxis, Vorgriff auf 3.6).",
+            "label": "Fehlerort"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Angaben gehören in die Dokumentation der Einbindung?",
+            "optionen": [
+              "Nur die Seriennummer des Monitors und der Tastatur",
+              "Das Passwort des Benutzers und der WLAN-Schlüssel",
+              "Rechnername, Dosennummer, IP-Adresse und Betriebssystem",
+              "Nur das Datum der Einbindung und der Name des Technikers"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Es geht darum, den Platz später wiederzufinden."
+            ],
+            "erkl": "Das Buch nennt Rechnername, Dosennummer, IP-Adresse und Betriebssystem. Passwörter gehören nicht in eine Netzdokumentation (Praxis, steht nicht im Buch).",
+            "label": "Doku-Inhalt"
+          },
+          {
+            "t": "wahl",
+            "f": "Der Konstrukteur nutzt später auch ein Notebook im **Firmen-WLAN** mit RADIUS. Wie meldet es sich an?",
+            "optionen": [
+              "Mit dem PSK, den alle Mitarbeiter kennen",
+              "Ohne Anmeldung, weil der Access Point im Haus steht",
+              "Mit der MAC-Adresse als Passwort",
+              "Mit persönlichem Konto über 802.1X (WPA Enterprise)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Das Firmen-WLAN ist auf den Authentifizierungsserver eingestellt."
+            ],
+            "erkl": "Bei RADIUS und 802.1X meldet sich jeder mit eigenem Konto an. Der Server prüft Identität und Zugriff.",
+            "label": "WLAN-Anmeldung"
+          }
+        ]
+      },
+      {
+        "t": "zuordnen",
+        "f": "Welche Phase gehört zu welcher Tätigkeit?",
+        "paare": [
+          [
+            "Dosen und Verteiler mit der Doku vergleichen",
+            "Ist-Aufnahme"
+          ],
+          [
+            "Lastspitzen mit dem Ressourcenmonitor messen",
+            "Vorplanung"
+          ],
+          [
+            "Rechner mit Switchport verbinden",
+            "Hardwareanschluss"
+          ],
+          [
+            "Ping auf eine Internetseite senden",
+            "Test nach dem Einbinden"
+          ],
+          [
+            "Messprotokoll mit PASS oder FAIL erstellen",
+            "Dokumentation"
+          ]
+        ],
+        "tipps": [
+          "Planung kommt zuerst, Doku zum Schluss."
+        ],
+        "erkl": "Vorplanung: Last messen. Ist-Aufnahme: Soll-Ist-Vergleich. Hardwareanschluss: patchen. Test: Ping. Dokumentation: Messprotokoll und Eintrag."
+      },
+      {
+        "t": "gen",
+        "gen": "ladezeit",
+        "stufen": [
+          1,
+          2
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "1. Der Ressourcenmonitor zeigt 400 kByte/s. Was gilt für den Vergleich mit der Leitungsrate?",
+        "optionen": [
+          "Mal 8 rechnen, Leitungen sind in Bit/s angegeben",
+          "Direkt vergleichen, beide Werte sind gleich skaliert",
+          "Durch 8 teilen, weil Byte kleiner ist als Bit",
+          "Mal 1.024 rechnen, wegen der binären Zählung"
+        ],
+        "richtig": 0,
+        "erkl": "Messwerkzeuge zeigen Byte/s, Leitungen werden in Bit/s angegeben: **mal 8** (400 kByte/s = 3,2 Mbit/s)."
+      },
+      {
+        "t": "gen",
+        "gen": "lastRate",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "3. Wie viele Byte hat 1 MiB?",
+        "optionen": [
+          "1.000.000 Byte",
+          "1.048.576 Byte",
+          "1.024 Byte",
+          "1.048.576 Bit"
+        ],
+        "richtig": 1,
+        "erkl": "1 MiB ist binär: 1.048.576 Byte. Datenraten wie Mbit/s zählen dagegen dezimal."
+      },
+      {
+        "t": "gen",
+        "gen": "ladezeit",
+        "stufen": [
+          1
+        ]
+      },
+      {
+        "t": "zuordnen",
+        "f": "5. Welche Pflichtangabe der IP-Konfiguration dient wozu?",
+        "paare": [
+          [
+            "IP-Adresse",
+            "Eindeutige Adresse des Geräts"
+          ],
+          [
+            "Subnetzmaske",
+            "Trennt Netz- und Hostanteil"
+          ],
+          [
+            "Default Gateway",
+            "Weg in andere Netze"
+          ],
+          [
+            "DNS-Server",
+            "Wandelt Namen in IP-Adressen um"
+          ]
+        ],
+        "erkl": "IP-Adresse = Identität, Maske = Netz/Host-Trennung, Gateway = Weg nach außen, DNS = Namensauflösung."
+      },
+      {
+        "t": "wahl",
+        "f": "6. Wo liegt das Default Gateway laut IP-Planung typischerweise im Netz?",
+        "optionen": [
+          "Auf der Netzadresse des Subnetzes",
+          "Auf der Broadcastadresse des Subnetzes",
+          "Auf der ersten oder letzten nutzbaren Adresse",
+          "Auf der Mitte des Adressbereichs"
+        ],
+        "richtig": 2,
+        "erkl": "Das Buch nennt als Hinweis: meist die erste oder letzte Adresse im Netz.",
+        "fallen": {
+          "1": "Denkfalle: Das Standard-Gateway muss zwingend eine IP-Adresse im **gleichen** IP-Subnetz wie der Client haben, sonst kann der Client es nicht direkt per ARP erreichen!",
+          "2": "Ein Gateway routet nur Pakete in fremde Netze. Für lokale PCs im selben Subnetz wird kein Gateway benötigt."
+        }
+      },
+      {
+        "t": "wahl",
+        "f": "7. Der Client hat 192.168.7.75 mit /26. Welches Gateway liegt im selben Subnetz?",
+        "optionen": [
+          "192.168.7.1",
+          "192.168.7.129",
+          "192.168.7.254",
+          "192.168.7.65"
+        ],
+        "richtig": 3,
+        "erkl": "/26 = Blöcke zu 64 Adressen. 192.168.7.75 liegt in **192.168.7.64/26** (Hosts .65 bis .126). Nur .65 passt, die anderen Adressen liegen in fremden Blöcken.",
+        "fallen": {
+          "1": "Denkfalle: Das Standard-Gateway muss zwingend eine IP-Adresse im **gleichen** IP-Subnetz wie der Client haben, sonst kann der Client es nicht direkt per ARP erreichen!",
+          "2": "Ein Gateway routet nur Pakete in fremde Netze. Für lokale PCs im selben Subnetz wird kein Gateway benötigt."
+        }
+      },
+      {
+        "t": "wahl",
+        "f": "8. Das Buch nennt die Standard-Subnetzmaske der „Klasse C“. Welche Maske ist das heute?",
+        "optionen": [
+          "255.255.255.0 (/24)",
+          "255.255.0.0 (/16)",
+          "255.0.0.0 (/8)",
+          "255.255.255.128 (/25)"
+        ],
+        "richtig": 0,
+        "erkl": "Adressklassen sind veraltet. Die frühere Klasse C entspricht heute einem **/24**-Netz mit 255.255.255.0."
+      },
+      {
+        "t": "ordnen",
+        "f": "9. Bringe die Einbindung eines Clients in die richtige Reihenfolge.",
+        "items": [
+          "Rechner patchen (Dose und Switchport)",
+          "Hochfahren, IP-Konfiguration prüfen",
+          "Ping auf eine Internetseite",
+          "ipconfig prüfen und dokumentieren"
+        ],
+        "erkl": "Hardwareanschluss, logischer Anschluss, Internettest, Prüfen und Dokumentieren."
+      },
+      {
+        "t": "wahl",
+        "f": "10. Ein Ping auf eine Internetseite klappt. Was ist damit bestätigt?",
+        "optionen": [
+          "Nur die Dose und das Patchkabel",
+          "DNS, Router und Internetzugang",
+          "Nur die Subnetzmaske",
+          "Nur der DHCP-Pool"
+        ],
+        "richtig": 1,
+        "erkl": "Der Name wird per DNS aufgelöst, das Paket läuft über den Router ins Internet. Damit sind alle drei Teile bestätigt."
+      },
+      {
+        "t": "wahl",
+        "f": "11. Die Netzwerkdokumentation gehört dem Errichter, der die Leitungen verlegt hat.",
+        "optionen": [
+          "falsch",
+          "wahr"
+        ],
+        "richtig": 0,
+        "erkl": "Die Dokumentation gehört dem **Netzbetreiber**. Der Errichter erstellt die Messprotokolle (PASS oder FAIL) und übergibt sie."
+      },
+      {
+        "t": "zuordnen",
+        "f": "12. Welches Werkzeug löst welche Aufgabe?",
+        "paare": [
+          [
+            "IP-Bereich scannen und Geräte kartieren",
+            "jNetMap"
+          ],
+          [
+            "Funkfeldstärke grob prüfen",
+            "WLAN-Analyse-App"
+          ],
+          [
+            "Pakete einer Anwendung mitschneiden",
+            "Wireshark"
+          ],
+          [
+            "Last unter Windows beobachten",
+            "Ressourcenmonitor"
+          ]
+        ],
+        "erkl": "jNetMap scannt und kartiert, die App misst Funkfeldstärke, Wireshark schneidet Pakete mit, der Ressourcenmonitor zeigt die Auslastung."
+      },
+      {
+        "t": "wahl",
+        "f": "13. Ein Kleinbetrieb mit vier Mitarbeitern und ein Konzern mit 500 Mitarbeitern planen ihr WLAN. Was passt?",
+        "optionen": [
+          "Beide setzen PSK ein, weil das am einfachsten ist",
+          "Kleinbetrieb: 802.1X, Konzern: ein gemeinsamer PSK",
+          "Beide: offenes WLAN mit Anmeldeseite im Browser",
+          "Kleinbetrieb: PSK, Konzern: Server mit 802.1X (RADIUS)"
+        ],
+        "richtig": 3,
+        "erkl": "PSK ist für Privatnutzer und Kleinbetriebe gedacht. Größere Unternehmen nutzen einen Authentifizierungsserver (RADIUS) und stellen die Access Points auf 802.1X (WPA Enterprise) ein."
+      },
+      {
+        "t": "wahl",
+        "f": "14. Ein Mitarbeiter verlässt die Firma, das WLAN arbeitet mit PSK. Was ist das Problem?",
+        "optionen": [
+          "Der Schlüssel muss auf allen Geräten gewechselt werden",
+          "Der Access Point sperrt sein Gerät von selbst",
+          "Der Schlüssel gilt automatisch nur eine Woche",
+          "Der Authentifizierungsserver löscht sein Gerät"
+        ],
+        "richtig": 0,
+        "erkl": "Beim PSK gibt es kein persönliches Konto. Das ist ein Grund, im Unternehmen einen Authentifizierungsserver einzusetzen (Praxis, steht nicht im Buch)."
+      }
+    ],
+    "uebungText": "Zum Abschluss der ganze Fall: Last und Ladezeit, IP-Planung, Einbindung mit Fehlersuche (CAD-Arbeitsplatz). Danach ein Abschlusstest ohne Tipps.",
+    "nachtest": [
+      {
+        "frage": "Welcher Schritt kommt beim Einbinden direkt nach der Hardware?",
+        "optionen": [
+          {
+            "text": "logischer Anschluss",
+            "richtig": true
+          },
+          {
+            "text": "Dokumentieren",
+            "richtig": false
+          },
+          {
+            "text": "Internet-Ping",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was druckst du zum Abschluss der Druckereinrichtung?",
+        "optionen": [
+          {
+            "text": "eine Testseite",
+            "richtig": true
+          },
+          {
+            "text": "das Messprotokoll",
+            "richtig": false
+          },
+          {
+            "text": "die IP-Liste",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welche Einstellung heißt WPA Enterprise?",
+        "optionen": [
+          {
+            "text": "802.1X mit RADIUS",
+            "richtig": true
+          },
+          {
+            "text": "PSK",
+            "richtig": false
+          },
+          {
+            "text": "WEP",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Wo steht die korrekte Auflösung von RADIUS?",
+        "optionen": [
+          {
+            "text": "S. 364",
+            "richtig": true
+          },
+          {
+            "text": "S. 355 Fußnote",
+            "richtig": false
+          },
+          {
+            "text": "S. 346",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_CL3.id]: LF03_CL3 });
+})();
+
 /* ---- f_einheiten_geraete1.js ---- */
 //
 // Einheit 16: Aktive Geraete, Netzwerkkarte und Hub (aus dem Kurs "Geraete & Routing", Stationen 0 und 1). Erzeugt per Skript, Aufgaben unveraendert.
@@ -41690,7 +45204,7 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen"];
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen", "kurs-client-einbinden"];
     return `<div class="modalList">
       ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
