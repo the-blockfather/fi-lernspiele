@@ -6755,17 +6755,6 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
 
 /* Retro-Palette: die Retro-Regeln gewinnen sonst ueber Spezifitaet, deshalb
    hier ausdruecklich mit body.retro davor. */
-body.retro .vlNode > rect { fill: #101010; stroke: #39ff14; }
-body.retro .vlNode.vlNodeAkt > rect { stroke: #ffe600; filter: none; }
-body.retro .vlNode.vlNodeRouter > rect { stroke: #00e5ff; filter: none; }
-body.retro .vlNodeIcon { fill: #e8ffe8; }
-body.retro .vlNodeSub { fill: #7bd87b; }
-body.retro .vlPath line { stroke: #2f6f2f; }
-body.retro .vlZone rect { fill: rgba(57, 255, 20, 0.06); stroke: #39ff14; }
-body.retro .vlZoneText { fill: #39ff14; }
-body.retro .vlFlood line { stroke: #ff3b3b; }
-body.retro .vlFloodText { fill: #ff8a8a; }
-body.retro .vlPaket circle { fill: #ffe600; filter: none; }
 
 
 /* ---- Lernkarte: Sprecher, Text, Antworten ---- */
@@ -6928,6 +6917,140 @@ body.lp #lpPanel .lpMsg.ki { border-left: 3px solid #a78bfa; }
   background: rgba(14, 116, 144, 0.35); border: 1px solid #38bdf8; color: #e0f2fe; box-shadow: none; border-radius: 6px;
 }
 .lpTutorEinheiten .lpBtnEinheit:hover { background: rgba(56, 189, 248, 0.3); }
+
+/* ==========================================================================
+   Einheitlicher Stil der Einheiten (14.10.): alles im Navy/Cyan-Look, auch im Retro-Modus
+   (retro.css faerbt sonst jeden Knopf braun/orange). Gleiche Groessen, Hover, Rueckmeldungen.
+   ========================================================================== */
+body .vlWrap button.primary, body.retro .vlWrap button.primary, body .vlWrap .vlBtn.primary, body.retro .vlWrap .vlBtn.primary {
+  background: linear-gradient(135deg, #0284c7, #0e7490); border: 1px solid #38bdf8; border-image: none; border-radius: 8px;
+  color: #fff; text-shadow: none; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4); min-height: 38px;
+  padding: 8px 16px !important; font-size: 13px !important; font-weight: 700 !important; white-space: normal;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+}
+body .vlWrap button.primary:hover:not(:disabled), body.retro .vlWrap button.primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0ea5e9, #0891b2); border-image: none; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(56, 189, 248, 0.45);
+}
+body .vlWrap button.primary:active:not(:disabled), body.retro .vlWrap button.primary:active:not(:disabled) { transform: translateY(1px); border-image: none; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.4); }
+body .vlWrap button:disabled, body.retro .vlWrap button:disabled { opacity: 0.45; cursor: not-allowed; }
+body .vlWrap button.ghost, body.retro .vlWrap button.ghost, body .vlWrap .vlBtn:not(.primary), body.retro .vlWrap .vlBtn:not(.primary),
+body .vlWrap .vlTippBtn, body.retro .vlWrap .vlTippBtn {
+  background: rgba(15, 23, 42, 0.7); border: 1px solid #1e3a5f; border-image: none; border-radius: 8px; box-shadow: none; color: #cbd5e1;
+  min-height: 34px; padding: 6px 12px !important; font-size: 12.5px !important; font-weight: 600 !important; text-decoration: none;
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+}
+body .vlWrap button.ghost:hover:not(:disabled), body.retro .vlWrap button.ghost:hover:not(:disabled),
+body .vlWrap .vlBtn:not(.primary):hover:not(:disabled), body.retro .vlWrap .vlBtn:not(.primary):hover:not(:disabled),
+body .vlWrap .vlTippBtn:hover:not(:disabled), body.retro .vlWrap .vlTippBtn:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.14); border-color: #38bdf8; box-shadow: none; transform: translateY(-1px);
+}
+/* Auswahl-Antworten im Uebungsblock */
+body .vlWrap .kOpt button, body.retro .vlWrap .kOpt button {
+  background: rgba(15, 23, 42, 0.92); border: 1px solid #1e3a5f; border-radius: 10px; box-shadow: none; color: #e2e8f0;
+  min-height: 46px; text-align: left; font-size: 14px; transition: background 0.18s, border-color 0.18s, transform 0.18s;
+}
+body .vlWrap .kOpt button:hover:not(:disabled), body.retro .vlWrap .kOpt button:hover:not(:disabled) { background: rgba(30, 58, 95, 0.7); border-color: #38bdf8; box-shadow: none; transform: translateX(3px); }
+body .vlWrap .kOpt button.richtig, body.retro .vlWrap .kOpt button.richtig { background: rgba(34, 197, 94, 0.16); border-color: #4ade80; animation: vlPopIn 0.45s cubic-bezier(.2, 1.4, .4, 1); }
+body .vlWrap .kOpt button.falsch, body.retro .vlWrap .kOpt button.falsch { background: rgba(239, 68, 68, 0.16); border-color: #f87171; animation: vlWack 0.4s; }
+body .vlWrap .kOpt .taste, body.retro .vlWrap .kOpt .taste { background: rgba(56, 189, 248, 0.16); color: #7dd3fc; border: 0; border-radius: 6px; }
+body .vlWrap input[type="text"], body .vlWrap input:not([type]), body.retro .vlWrap input:not([type]), body.retro .vlWrap input[type="text"] {
+  background: rgba(2, 6, 23, 0.7); border: 1px solid #1e3a5f; border-radius: 8px; color: #e2e8f0; padding: 9px 12px; font: inherit; font-size: 14px;
+}
+body .vlWrap input:focus-visible, body .vlWrap button:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
+/* Rueckmeldung (Uebung): Navy-Karte mit farbigem Rand statt gelb/braun */
+.vlWrap .kFb .fb { background: rgba(15, 23, 42, 0.92); border: 1px solid #1e3a5f; border-left: 4px solid #38bdf8; border-radius: 10px; color: #e2e8f0; animation: vlSlideEin 0.35s ease-out; }
+.vlWrap .kFb .fb.ok { background: rgba(34, 197, 94, 0.1); border-color: rgba(74, 222, 128, 0.5); border-left-color: #4ade80; }
+.vlWrap .kFb .fb.bad { background: rgba(239, 68, 68, 0.1); border-color: rgba(248, 113, 113, 0.5); border-left-color: #f87171; }
+.vlWrap .kFb .fb.mid { background: rgba(251, 191, 36, 0.08); border-color: rgba(251, 191, 36, 0.4); border-left-color: #fbbf24; }
+.vlWrap .kFb .fb .titel { font-weight: 700; font-size: 15px; }
+.vlWrap .kFb .fb.ok .titel { color: #4ade80; } .vlWrap .kFb .fb.bad .titel { color: #f87171; } .vlWrap .kFb .fb.mid .titel { color: #fbbf24; }
+/* Auftritt-Overlay: "Ueberspringen" im Retro-Modus nicht braun */
+body .vlWrap .kiSkip, body.retro .vlWrap .kiSkip, body.retro .kiSkip {
+  background: rgba(15, 23, 42, 0.7); border: 1px solid #1e3a5f; border-image: none; border-radius: 8px; box-shadow: none; color: #cbd5e1; min-height: 34px; font-size: 12.5px;
+}
+body.retro .kiSkip:hover:not(:disabled) { background: rgba(56, 189, 248, 0.14); border-color: #38bdf8; transform: none; box-shadow: none; }
+/* Uebergaenge: jede neue Karte/Aufgabe gleitet ein, Rueckmeldungen rutschen nach */
+@keyframes vlSlideEin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.vlDialogZeile, .vlUebung > .vlUFrage, .vlUebung > .vlUEin, .vlRueck { animation: vlSlideEin 0.35s ease-out backwards; }
+.vlUebung > .vlUEin { animation-delay: 0.08s; }
+@media (prefers-reduced-motion: reduce) { .vlDialogZeile, .vlUebung > .vlUFrage, .vlUebung > .vlUEin, .vlRueck, .vlWrap .kFb .fb { animation: none; } }
+
+/* ==========================================================================
+   Ziehen & Verbinden (f_dragdrop.js): Sortierlisten und Linien-Zuordnung
+   ========================================================================== */
+/* gemeinsam: Griff und Zieh-Zustand (Einheiten und Haupt-Quiz) */
+.dndGriff { flex: none; width: 22px; text-align: center; cursor: grab; font-size: 18px; line-height: 1; padding: 8px 2px; touch-action: none; user-select: none; color: var(--muted, #94a3b8); }
+li.dndZieht { position: relative; z-index: 6; cursor: grabbing; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 0 2px #38bdf8; }
+.dndAktiv, .dndAktiv * { cursor: grabbing !important; }
+.dndAktiv li { user-select: none; }
+.dndGesperrt .dndGriff { opacity: 0.25; cursor: default; }
+.reih li { user-select: none; }
+
+/* Einheiten: Ordnen */
+.vlOrdHinweis { margin: 0 0 8px; font-size: 13px; color: #94a3b8; }
+.vlOrdListe { list-style: none; margin: 6px 0 12px; padding: 0; display: grid; gap: 8px; }
+.vlOrdListe li {
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px 9px 6px;
+  background: rgba(15, 23, 42, 0.92); border: 1px solid #1e3a5f; border-radius: 10px; color: #e2e8f0;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; animation: vlPopIn 0.35s ease-out backwards;   /* backwards: sonst blockiert die Endstellung das Ziehen (transform) */
+}
+.vlOrdListe li:nth-child(2) { animation-delay: 0.04s; } .vlOrdListe li:nth-child(3) { animation-delay: 0.08s; }
+.vlOrdListe li:nth-child(4) { animation-delay: 0.12s; } .vlOrdListe li:nth-child(5) { animation-delay: 0.16s; }
+.vlOrdListe li:nth-child(n+6) { animation-delay: 0.2s; }
+.vlOrdListe li.dndZieht { background: #0e2a47; animation: none; }
+.dndNr { flex: none; display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: rgba(56, 189, 248, 0.16); color: #7dd3fc; font-weight: 700; font-size: 13px; }
+.dndText { flex: 1; min-width: 0; line-height: 1.4; }
+.dndPfeile { display: flex; gap: 4px; }
+.dndPfeile button { min-width: 34px; min-height: 34px; padding: 0 6px; border-radius: 8px; border: 1px solid #1e3a5f; background: rgba(2, 6, 23, 0.6); color: #7dd3fc; cursor: pointer; }
+.dndPfeile button:hover:not(:disabled) { background: rgba(56, 189, 248, 0.2); }
+.dndPfeile button:disabled { opacity: 0.3; cursor: default; }
+.vlOrdListe li.richtig { border-color: #4ade80; background: rgba(34, 197, 94, 0.14); }
+.vlOrdListe li.falsch { border-color: #f87171; background: rgba(239, 68, 68, 0.14); animation: vlWack 0.4s; }
+
+/* Einheiten: Zuordnen mit Linien */
+.vlZu { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(36px, 12vw, 96px); margin: 6px 0 10px; }
+.vlZuSvg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 3; }
+.vlZuSp { display: grid; gap: 10px; align-content: start; position: relative; z-index: 1; }
+.vlZuK {
+  position: relative; display: flex; align-items: center; width: 100%; min-height: 46px; padding: 8px 14px; text-align: left;
+  background: rgba(15, 23, 42, 0.92); border: 1px solid #1e3a5f; border-radius: 10px; color: #e2e8f0; cursor: pointer; font: inherit; font-size: 14px; line-height: 1.35;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.2s; animation: vlPopIn 0.35s ease-out backwards;
+}
+.vlZuK .port { position: absolute; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; border: 2px solid #38bdf8; background: #0b1220; transition: background 0.2s, box-shadow 0.2s; touch-action: none; }
+.vlZuK .port::after { content: ""; position: absolute; inset: -12px; }
+.vlZuK.links .port { right: -8px; cursor: grab; }
+.vlZuK.rechts .port { left: -8px; }
+.vlZuK.hat .port { background: var(--lk, #38bdf8); border-color: var(--lk, #38bdf8); }
+.vlZuK.links.sel { border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.5), 0 6px 18px rgba(56, 189, 248, 0.2); transform: translateY(-1px); }
+.vlZuK.links.sel .port { animation: vlPortPuls 1s ease-in-out infinite; }
+.vlZuK.rechts.bereit { border-color: #1e6a8f; border-style: dashed; }
+.vlZuK.rechts.heiss { border-color: #38bdf8; border-style: solid; background: rgba(56, 189, 248, 0.16); box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.45); transform: translateX(-3px); }
+.vlZuK.richtig { border-color: #4ade80; background: rgba(34, 197, 94, 0.14); }
+.vlZuK.falsch { border-color: #f87171; background: rgba(239, 68, 68, 0.14); animation: vlWack 0.4s; }
+.vlZuGesperrt .vlZuK { cursor: default; }
+.vlZp { fill: none; stroke-width: 3.5; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.35)); transition: stroke-dashoffset 0.45s cubic-bezier(.3,.7,.3,1), stroke 0.3s, opacity 0.3s; }
+.vlZk { transform-box: fill-box; transform-origin: center; animation: vlPopIn 0.3s ease-out; }
+.vlZl.richtig .vlZp { stroke: #4ade80 !important; stroke-dasharray: 9 7; animation: vlFluss 1.1s linear 2; }
+.vlZl.richtig .vlZk { fill: #4ade80 !important; }
+.vlZl.falsch .vlZp { stroke: #f87171 !important; stroke-dasharray: 3 7; opacity: 0.8; }
+.vlZl.falsch .vlZk { fill: #f87171 !important; }
+.vlZl.geist .vlZp { stroke: #4ade80; stroke-dasharray: 8 6; opacity: 0.9; }
+.vlZl.geist .vlZk { fill: #4ade80; }
+.vlZl.zieh .vlZp { stroke-dasharray: 2 7; opacity: 0.85; }
+/* Der Retro-Look (retro.css) faerbt alle Knoepfe braun und eckig; Karten und Pfeile hier bleiben im Navy-Stil der Einheiten */
+body.retro button.vlZuK { background: rgba(15, 23, 42, 0.92); border: 1px solid #1e3a5f; border-radius: 10px; min-height: 46px; box-shadow: none; color: #e2e8f0; font-size: 14px; }
+body.retro button.vlZuK:hover:not(:disabled) { background: rgba(30, 58, 95, 0.7); border-color: #38bdf8; transform: none; box-shadow: none; }
+body.retro button.vlZuK.links.sel { border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.5), 0 6px 18px rgba(56, 189, 248, 0.2); }
+body.retro button.vlZuK.rechts.bereit { border: 1px dashed #1e6a8f; }
+body.retro button.vlZuK.rechts.heiss { border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.16); box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.45); }
+body.retro button.vlZuK.richtig { border-color: #4ade80; background: rgba(34, 197, 94, 0.14); }
+body.retro button.vlZuK.falsch { border-color: #f87171; background: rgba(239, 68, 68, 0.14); }
+body.retro .dndPfeile button { background: rgba(2, 6, 23, 0.6); border: 1px solid #1e3a5f; border-radius: 8px; min-height: 34px; box-shadow: none; color: #7dd3fc; }
+body.retro .dndPfeile button:hover:not(:disabled) { background: rgba(56, 189, 248, 0.2); transform: none; box-shadow: none; }
+@keyframes vlPortPuls { 50% { box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.25); } }
+@keyframes vlFluss { to { stroke-dashoffset: -32; } }
+@media (max-width: 560px) { .vlZuK { font-size: 13px; padding: 7px 10px; } .vlZu { column-gap: 30px; } }
+@media (prefers-reduced-motion: reduce) { .vlOrdListe li, .vlZuK, .vlZk, .vlZl.richtig .vlZp { animation: none !important; } .vlZp { transition: none; } }
 
 .vlDialogBox {
   background: rgba(2, 6, 23, 0.6);
@@ -7274,17 +7397,6 @@ body.lp #lpPanel .lpMsg.ki { border-left: 3px solid #a78bfa; }
 }
 
 /* Retro-Palette: die Retro-Regeln gewinnen sonst ueber Spezifitaet. */
-body.retro .vlBuehneKarte,
-body.retro .vlFortschritt { background: #0b0b0b; border-color: #2f6f2f; }
-body.retro .vlDialogBox { background: #050505; border-color: #2f6f2f; border-left-color: #39ff14; }
-body.retro .vlDialogText { color: #d8ffd8; }
-body.retro .vlFortschrittText { color: #39ff14; }
-body.retro .vlPhaseLabel { color: #5c9f5c; }
-body.retro .vlOption { background: #0b0b0b; border-color: #2f6f2f; color: #d8ffd8; }
-body.retro .vlOption:hover:not(:disabled) { border-color: #39ff14; background: #111; }
-body.retro .vlAnkerFrage { background: rgba(255, 230, 0, 0.09); border-color: #ffe600; color: #ffe600; }
-body.retro .vlMerksatz,
-body.retro .vlMerksatzGross { background: rgba(57, 255, 20, 0.08); border-color: #39ff14; color: #b6ffb6; }
 
 
 /* ---- Fahrplan vor dem Start ---- */
@@ -7361,10 +7473,6 @@ body.retro .vlMerksatzGross { background: rgba(57, 255, 20, 0.08); border-color:
   .vlFahrplanZeile { animation: none; opacity: 1; }
 }
 
-body.retro .vlFahrplan { background: #050505; border-color: #2f6f2f; }
-body.retro .vlFahrplanNr { background: rgba(57, 255, 20, 0.12); border-color: #39ff14; color: #39ff14; }
-body.retro .vlFahrplanZeile { color: #d8ffd8; }
-body.retro .vlFahrplanKurz { color: #7bd87b; }
 
 /* ---- Trenner im Menuefenster ---- */
 /* Uebernommen aus dem Stand von main: trennt im Hauptmenue die Unterrichtseinheit
@@ -7702,6 +7810,13 @@ body.retro .vlPanelNeu { border-radius: 0; }
 .vlLayout.vlLaborModus .vlSvgStage,
 .vlLayout.vlLaborModus .vlStageBubble,
 .vlLayout.vlLaborModus .vlStageIntroHero { display: none; }
+
+/* Einheitlicher Stil: Panel-Knopf und Tabs der Seitenspalte bleiben auch im Retro-Modus Navy/Cyan */
+body.retro .vlWrap .vlPanelToggle, body.retro .vlWrap .vlTabBtn {
+  background: rgba(15, 23, 42, 0.9); border: 1px solid #1e3a5f; border-image: none; box-shadow: none; color: #cbd5e1; min-height: 0; border-radius: 8px;
+}
+body.retro .vlWrap .vlTabBtn.aktiv, body.retro .vlWrap .vlTabBtn.akt { background: rgba(2, 6, 23, 0.9); border-bottom: 2px solid #38bdf8; color: #7dd3fc; }
+body.retro .vlWrap .vlPanelToggle:hover:not(:disabled), body.retro .vlWrap .vlTabBtn:hover:not(:disabled) { background: rgba(56, 189, 248, 0.14); border-color: #38bdf8; transform: none; box-shadow: none; }
 
 </style>
 </head>
@@ -8617,6 +8732,321 @@ GENERATORS.detektiv = function (level) {
   const u = detektivUrsachen(q);
   return u && u.length === 1 && u[0] === urs ? q : GENERATORS.detektiv(level);                      // Sicherheitsnetz: nur eindeutige Aufgaben ausgeben
 };
+
+/* ---- f_dragdrop.js ---- */
+/* ==========================================================================
+   f_dragdrop.js - Ziehen statt Antippen (window.VlDnd), gemeinsam fuer Uebungsblock und Haupt-Quiz
+
+   sortier(ol, opt)   Eine <ol> mit <li data-id="..."> per Drag & Drop umsortieren (Maus, Stift, Touch),
+                      mit weichem Verschieben der Nachbarn (FLIP). Optional je Eintrag:
+                      .dndGriff (Anfasser; auf Touch nur dort ziehbar, damit die Seite scrollbar bleibt),
+                      .dndNr (Nummer wird mitgefuehrt), Knoepfe [data-d="-1"|"1"] (nach oben/unten, auch per Tastatur).
+                      opt: { onChange(ids), gesperrt() }
+                      Rueckgabe: { ids(), sperren(an), ordneNach(ids), aktualisiere() }
+
+   verbinden(host, opt)  Zwei Spalten, Begriffe mit Antworten durch Linien verbinden: erst links, dann rechts
+                      antippen - oder die Linie von links nach rechts ziehen. Linien zeichnen sich animiert.
+                      opt: { links[], rechts[], onAenderung(zu) }  (zu[i] = Index in rechts oder -1)
+                      Rueckgabe: { zu(), status(i), markiere(i, "richtig"|"falsch"), sperren(), zeigeLoesung(zuSoll[]) }
+
+   Beides respektiert prefers-reduced-motion (dann ohne Bewegung, aber voll bedienbar).
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const reduziert = () => !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  // ---- FLIP: Lagen merken, nach der Aenderung weich an den neuen Platz gleiten lassen
+  function rechtecke(liste) {
+    const m = new Map();
+    liste.forEach((el) => m.set(el, el.getBoundingClientRect()));
+    return m;
+  }
+  function flip(vorher, ausser) {
+    if (reduziert()) return;
+    vorher.forEach((r0, el) => {
+      if (el === ausser) return;
+      const dy = r0.top - el.getBoundingClientRect().top;
+      if (!dy) return;
+      el.style.transition = "none";
+      el.style.transform = "translateY(" + dy + "px)";
+      void el.offsetHeight;
+      el.style.transition = "transform .22s cubic-bezier(.2,.8,.3,1)";
+      el.style.transform = "";
+      setTimeout(() => { el.style.transition = ""; }, 260);
+    });
+  }
+
+  // ======================================================================= sortieren
+  function sortier(ol, opt) {
+    opt = opt || {};
+    let gesperrt = false;
+    const lis = () => Array.from(ol.children).filter((e) => e.tagName === "LI");
+    const ids = () => lis().map((li) => li.dataset.id);
+    const zu = () => gesperrt || !!(opt.gesperrt && opt.gesperrt());
+
+    function aktualisiere() {
+      const l = lis();
+      l.forEach((li, k) => {
+        const nr = li.querySelector(".dndNr"); if (nr) nr.textContent = String(k + 1);
+        const auf = li.querySelector('[data-d="-1"]'), ab = li.querySelector('[data-d="1"]');
+        if (auf) auf.disabled = zu() || k === 0;
+        if (ab) ab.disabled = zu() || k === l.length - 1;
+      });
+    }
+    function melde() { aktualisiere(); if (opt.onChange) opt.onChange(ids()); }
+
+    // Pfeilknoepfe (Tastatur, Fallback)
+    ol.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-d]");
+      if (!b || zu()) return;
+      const li = b.closest("li"), d = Number(b.dataset.d), l = lis(), k = l.indexOf(li), j = k + d;
+      if (k < 0 || j < 0 || j >= l.length) return;
+      const v = rechtecke(l);
+      if (d < 0) ol.insertBefore(li, l[j]); else ol.insertBefore(l[j], li);
+      flip(v);
+      melde();
+      const nb = li.querySelector('button[data-d="' + b.dataset.d + '"]:not(:disabled)') || li.querySelector("button:not(:disabled)");
+      if (nb) nb.focus({ preventScroll: true });
+    });
+
+    // Ziehen
+    ol.addEventListener("pointerdown", (e) => {
+      if (zu()) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      const li = e.target.closest("li");
+      if (!li || li.parentNode !== ol || e.target.closest("button")) return;
+      if (e.pointerType === "touch" && !e.target.closest(".dndGriff")) return;
+      zieh(li, e);
+    });
+
+    function zieh(li, e) {
+      e.preventDefault();
+      const grab = e.clientY - li.getBoundingClientRect().top;
+      const vorStart = ids().join();
+      try { li.setPointerCapture(e.pointerId); } catch (_) {}
+      li.classList.add("dndZieht"); ol.classList.add("dndAktiv");
+      li.style.transition = "none";
+
+      function bewege(ev) {
+        const zielTop = ev.clientY - grab;
+        li.style.transform = "none";
+        const hoehe = li.getBoundingClientRect().height;
+        const mitte = zielTop + hoehe / 2;
+        const l = lis(), k = l.indexOf(li);
+        let neu = k;
+        for (let i = 0; i < k; i++) { const r = l[i].getBoundingClientRect(); if (mitte < r.top + r.height / 2) { neu = i; break; } }
+        if (neu === k) for (let i = l.length - 1; i > k; i--) { const r = l[i].getBoundingClientRect(); if (mitte > r.top + r.height / 2) { neu = i; break; } }
+        if (neu !== k) {
+          const v = rechtecke(l);
+          if (neu < k) ol.insertBefore(li, l[neu]); else ol.insertBefore(li, l[neu].nextSibling);
+          flip(v, li);
+        }
+        li.style.transform = "none";
+        const nat = li.getBoundingClientRect().top;
+        li.style.transform = "translateY(" + (zielTop - nat) + "px) scale(1.02)";
+      }
+      function ende(ev) {
+        li.removeEventListener("pointermove", bewege);
+        li.removeEventListener("pointerup", ende);
+        li.removeEventListener("pointercancel", ende);
+        try { li.releasePointerCapture(ev.pointerId); } catch (_) {}
+        li.style.transition = "transform .2s cubic-bezier(.2,.8,.3,1)";
+        li.style.transform = "";
+        li.classList.remove("dndZieht"); ol.classList.remove("dndAktiv");
+        setTimeout(() => { li.style.transition = ""; }, 240);
+        if (ids().join() !== vorStart) melde(); else aktualisiere();
+      }
+      li.addEventListener("pointermove", bewege);
+      li.addEventListener("pointerup", ende);
+      li.addEventListener("pointercancel", ende);
+      bewege(e);
+    }
+
+    aktualisiere();
+    return {
+      ids: ids,
+      aktualisiere: aktualisiere,
+      sperren: function (an) { gesperrt = an !== false; ol.classList.toggle("dndGesperrt", gesperrt); aktualisiere(); },
+      // Reihenfolge von aussen setzen (z. B. Loesung zeigen), weich animiert
+      ordneNach: function (reihe) {
+        const v = rechtecke(lis());
+        reihe.forEach((id) => { const li = lis().find((x) => x.dataset.id === String(id)); if (li) ol.appendChild(li); });
+        flip(v);
+        aktualisiere();
+      }
+    };
+  }
+
+  // ======================================================================= verbinden
+  function verbinden(host, o) {
+    const L = o.links, R = o.rechts, SV = "http://www.w3.org/2000/svg";
+    const zu = L.map(() => -1), stat = {}, linien = {};
+    let sel = null, gesperrt = false, letzterZug = 0;
+
+    host.innerHTML = '<div class="vlZu"><svg class="vlZuSvg" aria-hidden="true"></svg>' +
+      '<div class="vlZuSp">' + L.map((t, i) => '<button type="button" class="vlZuK links" data-i="' + i + '"><span class="vlZuT">' + esc(t) + '</span><span class="port"></span></button>').join("") + "</div>" +
+      '<div class="vlZuSp">' + R.map((t, j) => '<button type="button" class="vlZuK rechts" data-j="' + j + '"><span class="port"></span><span class="vlZuT">' + esc(t) + "</span></button>").join("") + "</div></div>";
+    const wrap = host.querySelector(".vlZu"), svg = wrap.querySelector("svg");
+    const lb = (i) => wrap.querySelector('.vlZuK.links[data-i="' + i + '"]');
+    const rb = (j) => wrap.querySelector('.vlZuK.rechts[data-j="' + j + '"]');
+    const farbe = (i) => "hsl(" + ((i * 47 + 195) % 360) + " 80% 60%)";
+    const pt = (el, seite) => {
+      const r = el.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+      return { x: (seite === "r" ? r.right : r.left) - w.left, y: r.top + r.height / 2 - w.top };
+    };
+    const bahn = (a, b) => { const dx = Math.max(24, Math.abs(b.x - a.x) * 0.5); return "M" + a.x + "," + a.y + " C" + (a.x + dx) + "," + a.y + " " + (b.x - dx) + "," + b.y + " " + b.x + "," + b.y; };
+    const neu = (tag, attr) => { const e = document.createElementNS(SV, tag); for (const k in attr) e.setAttribute(k, attr[k]); return e; };
+    const frei = () => zu.findIndex((v, k) => v < 0 && stat[k] !== "richtig");
+
+    function gruppe(cls) {
+      const g = neu("g", { class: "vlZl " + (cls || "") });
+      g.appendChild(neu("path", { class: "vlZp" })); g.appendChild(neu("circle", { class: "vlZk", r: 5.5 })); g.appendChild(neu("circle", { class: "vlZk", r: 5.5 }));
+      svg.appendChild(g); return g;
+    }
+    function setzeLinie(g, a, b, col, anim) {
+      const p = g.querySelector("path"), k = g.querySelectorAll("circle");
+      p.setAttribute("d", bahn(a, b)); p.style.stroke = col;
+      k[0].setAttribute("cx", a.x); k[0].setAttribute("cy", a.y); k[1].setAttribute("cx", b.x); k[1].setAttribute("cy", b.y);
+      k[0].style.fill = k[1].style.fill = col;
+      if (anim && !reduziert() && !/richtig|falsch|geist/.test(g.getAttribute("class"))) {
+        const len = p.getTotalLength();
+        p.style.transition = "none"; p.style.strokeDasharray = len; p.style.strokeDashoffset = len; void p.getBoundingClientRect();
+        p.style.transition = ""; p.style.strokeDashoffset = 0;
+        setTimeout(() => { if (!/richtig/.test(g.getAttribute("class"))) p.style.strokeDasharray = ""; }, 480);
+      }
+    }
+    function zeichne(i, anim) {
+      const a = pt(lb(i), "r"), b = pt(rb(zu[i]), "l");
+      setzeLinie(linien[i], a, b, farbe(i), anim);
+    }
+    function ui() {
+      L.forEach((t, i) => {
+        const b = lb(i), hat = zu[i] >= 0;
+        b.classList.toggle("sel", sel === i); b.classList.toggle("hat", hat);
+        b.classList.toggle("richtig", stat[i] === "richtig"); b.classList.toggle("falsch", stat[i] === "falsch");
+        b.style.setProperty("--lk", hat ? farbe(i) : "");
+      });
+      R.forEach((t, j) => {
+        const b = rb(j), von = zu.map((v, i) => (v === j ? i : -1)).filter((i) => i >= 0);
+        b.classList.toggle("hat", von.length > 0);
+        b.classList.toggle("bereit", sel !== null && !gesperrt);
+        b.classList.toggle("richtig", von.length > 0 && von.every((i) => stat[i] === "richtig"));
+        b.classList.toggle("falsch", von.some((i) => stat[i] === "falsch"));
+        b.style.setProperty("--lk", von.length ? farbe(von[0]) : "");
+      });
+    }
+    function verbinde(i, j) {
+      if (gesperrt || stat[i] === "richtig") return;
+      if (linien[i]) linien[i].remove();
+      zu[i] = j; delete stat[i];
+      linien[i] = gruppe(); zeichne(i, true);
+      ui(); if (o.onAenderung) o.onAenderung(zu.slice());
+    }
+    function loese(i) {
+      if (stat[i] === "richtig") return;
+      zu[i] = -1; delete stat[i];
+      if (linien[i]) { linien[i].remove(); delete linien[i]; }
+      ui(); if (o.onAenderung) o.onAenderung(zu.slice());
+    }
+    function waehleLinks(i) {
+      if (gesperrt || stat[i] === "richtig") return;
+      if (sel === i) { if (zu[i] >= 0) loese(i); sel = null; } else sel = i;
+      ui();
+    }
+    function waehleRechts(j) {
+      if (gesperrt) return;
+      let i = sel;
+      if (i === null || stat[i] === "richtig") i = frei();
+      if (i < 0) return;
+      verbinde(i, j);
+      sel = frei(); if (sel < 0) sel = null;
+      ui();
+    }
+
+    wrap.querySelectorAll(".vlZuK.rechts").forEach((b) => { b.onclick = () => waehleRechts(Number(b.dataset.j)); });
+    wrap.querySelectorAll(".vlZuK.links").forEach((b) => {
+      const i = Number(b.dataset.i);
+      b.onclick = () => { if (Date.now() - letzterZug < 350) return; waehleLinks(i); };
+      b.addEventListener("pointerdown", (e) => {
+        if (gesperrt || stat[i] === "richtig") return;
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        if (e.pointerType === "touch" && !e.target.closest(".port")) return;   // Touch: nur am Punkt ziehen, Antippen waehlt
+        const x0 = e.clientX, y0 = e.clientY;
+        let zieht = false, g = null;
+        try { b.setPointerCapture(e.pointerId); } catch (_) {}
+        const a = pt(b, "r");
+        function bewege(ev) {
+          if (!zieht) {
+            if (Math.hypot(ev.clientX - x0, ev.clientY - y0) < 7) return;
+            zieht = true; sel = i; ui();
+            g = gruppe("zieh");
+          }
+          const w = wrap.getBoundingClientRect();
+          setzeLinie(g, a, { x: ev.clientX - w.left, y: ev.clientY - w.top }, farbe(i), false);
+          const ziel = document.elementFromPoint(ev.clientX, ev.clientY);
+          const zb = ziel && ziel.closest ? ziel.closest(".vlZuK.rechts") : null;
+          wrap.querySelectorAll(".vlZuK.rechts").forEach((r) => r.classList.toggle("heiss", r === zb));
+        }
+        function ende(ev) {
+          b.removeEventListener("pointermove", bewege); b.removeEventListener("pointerup", ende); b.removeEventListener("pointercancel", ende);
+          try { b.releasePointerCapture(ev.pointerId); } catch (_) {}
+          wrap.querySelectorAll(".heiss").forEach((r) => r.classList.remove("heiss"));
+          if (!zieht) return;
+          letzterZug = Date.now();
+          if (g) g.remove();
+          const ziel = ev.type === "pointerup" ? document.elementFromPoint(ev.clientX, ev.clientY) : null;
+          const zb = ziel && ziel.closest ? ziel.closest(".vlZuK.rechts") : null;
+          if (zb) { verbinde(i, Number(zb.dataset.j)); sel = frei(); if (sel < 0) sel = null; }
+          ui();
+        }
+        b.addEventListener("pointermove", bewege); b.addEventListener("pointerup", ende); b.addEventListener("pointercancel", ende);
+      });
+    });
+
+    function neuZeichnen() {
+      Object.keys(linien).forEach((i) => { if (zu[i] >= 0) zeichne(Number(i), false); });
+      wrap.querySelectorAll(".vlZl.geist").forEach((g) => { const i = Number(g.dataset.i); if (g.dataset.j !== undefined) setzeLinie(g, pt(lb(i), "r"), pt(rb(Number(g.dataset.j)), "l"), "", false); });
+    }
+    if (window.ResizeObserver) { const ro = new ResizeObserver(() => { if (!wrap.isConnected) ro.disconnect(); else neuZeichnen(); }); ro.observe(wrap); }
+    sel = 0; ui();
+
+    return {
+      zu: () => zu.slice(),
+      status: (i) => stat[i] || "",
+      markiere: function (i, art) {
+        stat[i] = art;
+        const g = linien[i]; if (g) { g.classList.remove("richtig", "falsch"); g.classList.add(art); g.querySelector("path").style.strokeDasharray = ""; }
+        ui();
+      },
+      sperren: function () { gesperrt = true; sel = null; wrap.classList.add("vlZuGesperrt"); ui(); },
+      // alle noch nicht als richtig bestaetigten Linien loesen
+      loeseAlle: function () {
+        zu.forEach((v, i) => { if (v >= 0 && stat[i] !== "richtig") { zu[i] = -1; delete stat[i]; if (linien[i]) { linien[i].remove(); delete linien[i]; } } });
+        sel = frei(); if (sel < 0) sel = null;
+        ui(); if (o.onAenderung) o.onAenderung(zu.slice());
+      },
+      // Loesung als gestrichelte gruene Linien einblenden (nur fuer falsch verbundene Zeilen)
+      zeigeLoesung: function (soll) {
+        setTimeout(() => {
+          soll.forEach((j, i) => {
+            if (zu[i] === j) return;
+            const g = gruppe("geist"); g.dataset.i = i; g.dataset.j = j;
+            setzeLinie(g, pt(lb(i), "r"), pt(rb(j), "l"), "", false);
+            const p = g.querySelector("path"), len = p.getTotalLength();
+            if (!reduziert()) {
+              p.style.transition = "none"; p.style.strokeDashoffset = len; p.style.strokeDasharray = String(len); void p.getBoundingClientRect();
+              p.style.transition = ""; p.style.strokeDashoffset = 0; setTimeout(() => { p.style.strokeDasharray = ""; }, 500);
+            }
+          });
+        }, 450);
+      }
+    };
+  }
+
+  window.VlDnd = { sortier: sortier, verbinden: verbinden };
+})();
 
 /* ---- f_einheiten.js ---- */
 // f_einheiten.js - Lerneinheiten fuer die interaktive Vorlesung (Daten, kein Code).
@@ -37704,6 +38134,51 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_SUBNETTING.id]: LF03_SUBNETTING });
 })();
 
+/* ---- f_einheiten_tutoren.js ---- */
+// f_einheiten_tutoren.js - Die KI-Tutoren der Einheiten: ein Name mit Wortspiel zum Thema, eine Figur
+// aus der Animationspalette (window.FANCY_A.chars) und ein Motto fuer den Auftritt.
+// Format: window.TUTOREN[einheitId] = [Name, Figur, Motto]
+// Fehlt eine Einheit hier, nimmt f_vorlesung.js einen Ersatznamen (stabil nach Einheit-ID).
+(function () {
+  "use strict";
+  window.TUTOREN = {
+    "lf03-router-grundlagen": ["Hops-Heinz", "Villager", "ich hüpfe von Router zu Router"],
+    "lf03-adressen-mac-ipv4": ["Mac Adresso", "Hunter", "ich kenne jede Adresse im Haus"],
+    "lf03-adressen-privat-ipv6": ["Privat-Petra", "Woman", "ich verrate nur öffentliche Adressen"],
+    "lf03-adressen-ports-gesamt": ["Port-Paul", "Boy", "bei mir ist immer eine Tür offen"],
+    "lf03-cidr-pruefung": ["Slash-Sven", "NinjaBlue", "ich schneide Netze in Scheiben"],
+    "lf03-client-last-ladezeit": ["Lade-Lotte", "Princess", "ich rechne dir jede Wartezeit aus"],
+    "lf03-client-ip-ist-doku": ["Doku-Dieter", "Knight", "was nicht dokumentiert ist, gibt es nicht"],
+    "lf03-client-einbinden-wlan": ["WLAN-Wilma", "Cavegirl", "ich finde Empfang auch im Keller"],
+    "lf03-geraete-aktiv-hub": ["Hub-Herbert", "Monk", "ich schicke alles an alle"],
+    "lf03-geraete-switch": ["Switch-Susi", "Woman", "ich merke mir jede MAC-Adresse"],
+    "lf03-geraete-verfahren-manage": ["Manage-Manni", "Knight", "ich bin managebar, du kannst mich konfigurieren"],
+    "lf03-geraete-router-ttl": ["TTL-Toni", "NinjaRed", "ich lebe nur 64 Hops lang"],
+    "lf03-ipdhcp-konfiguration": ["Ipconfig-Ingo", "Hunter", "ich zeige dir, was dein Rechner wirklich weiß"],
+    "lf03-ipdhcp-dhcp": ["Frau Lease", "Princess", "ich verleihe Adressen, aber nur auf Zeit"],
+    "lf03-ipdhcp-fehler-cloud": ["Wolke Sieben", "SorcererBlack", "ich schwebe über den Fehlern"],
+    "lf03-ipdhcp-anmeldung": ["Radius-Rudi", "Samurai", "ohne Anmeldung kommt keiner rein"],
+    "lf03-ipv6-grundlagen": ["Hexa-Hilde", "SorcererBlack", "ich zaubere mit acht Blöcken"],
+    "lf03-labor-geraete-adressen": ["Laborant Ping", "Hunter", "ich antworte immer, wenn du rufst"],
+    "lf03-labor-router-gateway": ["Gateway-Günther", "Knight", "ich halte das Tor zum anderen Netz auf"],
+    "lf03-labor-fehlersuche-pt": ["Detektiv Traceroute", "NinjaBlue", "ich verfolge jedes Paket"],
+    "lf03-normen-gremien-ieee": ["Norm-Norbert", "Samurai", "bei mir ist alles genormt, sogar die Pause"],
+    "lf03-paketreise-schichten": ["Schicht-Schorsch", "Villager", "ich arbeite in sieben Schichten"],
+    "lf03-paketreise-frame-transport": ["Frame-Franzi", "Woman", "ich rahme jedes Datenpaket ein"],
+    "lf03-paketreise-verkapselung-protokolle": ["Kapsel-Kalle", "Boy", "ich packe Pakete in Pakete"],
+    "lf03-paketreise-verschluesselung-ipsec": ["Chiffre-Cäsar", "Monk", "ich verschlüssele sogar meine Mittagspause"],
+    "lf03-pruefungsflug-1": ["Kapitän Kabelbruch", "NinjaRed", "anschnallen, wir fliegen durch die Prüfung"],
+    "lf03-pruefungsflug-2": ["Pilotin Paula", "Princess", "Landung nach Plan, wenn du übst"],
+    "lf03-subnetting-grundlagen": ["Doktor Subnetz", "SorcererBlack", "ich teile und herrsche"],
+    "lf03-verkabelung-topologie": ["Stern-Stefan", "Hunter", "ich laufe nie im Kreis, ich bin ein Stern"],
+    "lf03-verkabelung-doku-kupfer": ["Kupfer-Kalle", "Knight", "ich leite, was du mir gibst"],
+    "lf03-verkabelung-glas-funk": ["Glasfaser-Gundula", "Princess", "bei mir geht das Licht nie aus"],
+    "lf03-vlsm-aufgabe": ["VLSM-Vroni", "Woman", "ich verschwende keine einzige Adresse"]
+  };
+  // Ersatznamen fuer neue Einheiten ohne eigenen Eintrag
+  window.TUTOREN_ERSATZ = ["Prof. Byte", "Frau Bit", "Kernel-Kurt", "Doktor Datagramm", "Paket-Pia", "Bandbreiten-Bruno"];
+})();
+
 /* ---- f_einheiten_verkabelung1.js ---- */
 //
 // Einheit 6: Topologien und Gebäudeverkabelung (aus dem Kurs "Verkabelungs-Baustelle", Stationen 0 bis 2).
@@ -48836,56 +49311,61 @@ GENERATORS.triage = function (level) {
       const inp = host.querySelector("#vlUIn"); if (inp) inp.focus();
     }
 
+    // Ordnen: Eintraege per Drag & Drop (Griff) oder mit ▲ ▼ in die richtige Reihenfolge bringen (siehe f_dragdrop.js)
     function zeichneOrdnen(x) {
-      const s = z.o || (z.o = { pool: null, auswahl: [] });
-      if (!s.pool) { do { s.pool = mischen(x.items.map((t, i) => i)); } while (s.pool.every((v, i) => v === i)); }
+      const s = z.o || (z.o = { ord: null, ctl: null });
+      if (!s.ord) { do { s.ord = mischen(x.items.map((t, i) => i)); } while (s.ord.every((v, i) => v === i)); }
       const ein = host.querySelector("#vlUEin");
-      const frei = s.pool.filter((i) => s.auswahl.indexOf(i) < 0);
-      ein.innerHTML = '<div class="kOrd"><div class="kOrdFolge">' + (s.auswahl.length
-        ? s.auswahl.map((i, k) => '<button type="button" class="gesetzt ' + (s.bewertet ? (x.items[k] === x.items[i] ? "richtig" : "falsch") : "") + '" data-r="' + k + '"><span class="taste">' + (k + 1) + "</span>" + esc(x.items[i]) + "</button>").join("")
-        : '<span class="muted">Tippe die Einträge unten in der richtigen Reihenfolge an.</span>') + "</div>" +
-        '<div class="kOrdPool">' + frei.map((i) => '<button type="button" data-p="' + i + '">' + esc(x.items[i]) + "</button>").join("") + "</div>" +
-        '<div class="aktionen"><button type="button" class="ghost mini" id="vlUZur" ' + (s.auswahl.length ? "" : "disabled") + '>↩ Letzten zurücknehmen</button><button type="button" class="primary" id="vlUPruef" ' + (s.auswahl.length === x.items.length ? "" : "disabled") + ">Prüfen</button></div></div>";
-      if (z.fertig) { ein.querySelectorAll("button").forEach((b) => { b.disabled = true; }); return; }
-      ein.querySelectorAll("button[data-p]").forEach((b) => { b.onclick = () => { s.auswahl.push(Number(b.dataset.p)); s.bewertet = false; zeichneOrdnen(x); }; });
-      ein.querySelectorAll("button[data-r]").forEach((b) => { b.onclick = () => { s.auswahl.splice(Number(b.dataset.r), 1); s.bewertet = false; zeichneOrdnen(x); }; });
-      host.querySelector("#vlUZur").onclick = () => { s.auswahl.pop(); s.bewertet = false; zeichneOrdnen(x); };
-      host.querySelector("#vlUPruef").onclick = () => {
-        s.bewertet = true;
-        const ok = s.auswahl.every((i, k) => x.items[i] === x.items[k]);
-        if (ok) { richtig(x); zeichneOrdnen(x); }
-        else { zeichneOrdnen(x); falsch(x, "Die Reihenfolge stimmt noch nicht. Grün steht richtig, rot ist falsch: tippe auf einen Eintrag, um ihn zurückzunehmen."); }
+      ein.innerHTML = '<div class="vlOrd"><p class="vlOrdHinweis">Zieh die Einträge am Griff ⠿ in die richtige Reihenfolge (oder nimm ▲ ▼). Erster Schritt oben.</p>' +
+        '<ol class="vlOrdListe" id="vlUOl">' + s.ord.map((i, k) =>
+          '<li data-id="' + i + '"><span class="dndGriff" aria-hidden="true">⠿</span><span class="dndNr">' + (k + 1) + '</span><span class="dndText">' + esc(x.items[i]) + "</span>" +
+          '<span class="dndPfeile"><button type="button" data-d="-1" aria-label="nach oben">▲</button><button type="button" data-d="1" aria-label="nach unten">▼</button></span></li>').join("") +
+        '</ol><div class="aktionen"><button type="button" class="primary" id="vlUPruef">Prüfen</button></div></div>';
+      const ol = ein.querySelector("#vlUOl");
+      s.ctl = window.VlDnd.sortier(ol, {
+        onChange: (ids) => { s.ord = ids.map(Number); ol.querySelectorAll("li").forEach((li) => li.classList.remove("richtig", "falsch")); },
+        gesperrt: () => z.fertig
+      });
+      ein.querySelector("#vlUPruef").onclick = () => {
+        if (z.fertig) return;
+        const ids = s.ctl.ids().map(Number), lis = Array.from(ol.children);
+        let ok = true;
+        ids.forEach((i, k) => {
+          const gut = x.items[i] === x.items[k];
+          if (!gut) ok = false;
+          setTimeout(() => lis[k].classList.add(gut ? "richtig" : "falsch"), k * 70);   // nacheinander aufleuchten
+        });
+        if (ok) { richtig(x); s.ctl.sperren(); return; }
+        falsch(x, "Die Reihenfolge stimmt noch nicht. Grün steht richtig, rot ist falsch: zieh die roten Einträge an eine andere Stelle.");
+        if (z.fertig) { s.ctl.sperren(); setTimeout(() => s.ctl.ordneNach(x.items.map((t, i) => i)), 600); }   // Loesung: Eintraege gleiten an den richtigen Platz
       };
     }
 
+    // Zuordnen: Begriffe mit Antworten verbinden, Linien zeichnen sich animiert (siehe f_dragdrop.js)
     function zeichneZuordnen(x) {
-      const s = z.u || (z.u = { optR: mischen(Array.from(new Set(x.paare.map((q) => q[1])))), zu: x.paare.map(() => null), falsch: {}, ok: {}, aktiv: 0 });
+      const s = z.u || (z.u = { optR: mischen(Array.from(new Set(x.paare.map((q) => q[1])))), ctl: null });
       const ein = host.querySelector("#vlUEin");
-      const alle = s.zu.every((v) => v !== null), offenFalsch = Object.keys(s.falsch).length > 0;
-      ein.innerHTML = '<div class="kZu"><div class="kZuZeilen">' + x.paare.map((q, i) => {
-        const k = s.ok[i] ? "richtig" : s.falsch[i] ? "falsch" : s.aktiv === i && !z.fertig ? "aktiv" : "";
-        return '<button type="button" class="kZuZ ' + k + '" data-z="' + i + '" ' + (s.ok[i] || z.fertig ? "disabled" : "") + '><span class="kZuL">' + esc(q[0]) + '</span><span class="kZuR">' + (s.zu[i] === null ? "—" : esc(s.zu[i])) + "</span></button>";
-      }).join("") + "</div>" +
-        '<div class="kZuPool" aria-label="Antworten">' + s.optR.map((r, j) => '<button type="button" data-o="' + j + '" ' + (z.fertig ? "disabled" : "") + ">" + esc(r) + "</button>").join("") + "</div>" +
-        '<div class="aktionen"><button class="primary" type="button" id="vlUZuPruef" ' + (alle && !offenFalsch && !z.fertig ? "" : "disabled") + ">Prüfen</button></div></div>";
-      if (z.fertig) return;
-      ein.querySelectorAll("button[data-z]").forEach((b) => { b.onclick = () => { s.aktiv = Number(b.dataset.z); zeichneZuordnen(x); }; });
-      ein.querySelectorAll("button[data-o]").forEach((b) => {
-        b.onclick = () => {
-          let i = s.aktiv;
-          if (i === null || s.ok[i]) i = s.zu.findIndex((v, k) => v === null && !s.ok[k]);
-          if (i < 0) return;
-          s.zu[i] = s.optR[Number(b.dataset.o)]; delete s.falsch[i];
-          const next = s.zu.findIndex((v, k) => k !== i && !s.ok[k] && (v === null || s.falsch[k]));
-          s.aktiv = next >= 0 ? next : null; zeichneZuordnen(x);
-        };
+      ein.innerHTML = '<div class="vlZuBox"><p class="vlOrdHinweis">Verbinde jeden Begriff mit der passenden Antwort: erst links antippen, dann rechts – oder die Linie vom Punkt aus ziehen. Antippen einer Quelle löst die Linie.</p>' +
+        '<div id="vlZuHost"></div><div class="aktionen"><button class="ghost mini" type="button" id="vlUZuReset">Alle Linien löschen</button>' +
+        '<button class="primary" type="button" id="vlUZuPruef" disabled>Prüfen</button></div></div>';
+      const pruef = ein.querySelector("#vlUZuPruef");
+      s.ctl = window.VlDnd.verbinden(ein.querySelector("#vlZuHost"), {
+        links: x.paare.map((q) => q[0]), rechts: s.optR,
+        onAenderung: (zu) => { pruef.disabled = zu.some((v) => v < 0) || z.fertig; }
       });
-      host.querySelector("#vlUZuPruef").onclick = () => {
+      ein.querySelector("#vlUZuReset").onclick = () => { if (!z.fertig) s.ctl.loeseAlle(); };
+      pruef.onclick = () => {
+        if (z.fertig) return;
+        const zu = s.ctl.zu();
         let f = 0;
-        x.paare.forEach((q, i) => { if (s.ok[i]) return; if (s.zu[i] === q[1]) s.ok[i] = true; else { s.falsch[i] = true; f++; } });
-        if (!f) { richtig(x); zeichneZuordnen(x); return; }
-        s.aktiv = Number(Object.keys(s.falsch)[0]); zeichneZuordnen(x);
-        falsch(x, (x.paare.length - f) + " von " + x.paare.length + " Paaren stimmen. Grün ist richtig und gesperrt. Ordne die roten Zeilen neu zu.");
+        x.paare.forEach((q, i) => {
+          if (s.ctl.status(i) === "richtig") return;
+          if (s.optR[zu[i]] === q[1]) s.ctl.markiere(i, "richtig"); else { s.ctl.markiere(i, "falsch"); f++; }
+        });
+        if (!f) { richtig(x); s.ctl.sperren(); return; }
+        pruef.disabled = true;   // erst wieder, wenn eine rote Linie geaendert wurde
+        falsch(x, (x.paare.length - f) + " von " + x.paare.length + " Paaren stimmen. Grün ist richtig und gesperrt. Verbinde die roten Linien neu.");
+        if (z.fertig) { s.ctl.sperren(); s.ctl.zeigeLoesung(x.paare.map((q) => s.optR.indexOf(q[1]))); }
       };
     }
 
@@ -49084,7 +49564,26 @@ GENERATORS.vlan = function (level) {
   const LEHRER_POOL = ["Monk", "Samurai", "Woman", "Hunter", "Princess", "SorcererBlack",
     "NinjaBlue", "Villager", "Knight", "NinjaRed", "Cavegirl", "Boy"];
   let LEHRER_FIGUR = "Monk";
-  const LEHRER_NAME = "Dozent";
+  let LEHRER_NAME = "Dozent";
+  let LEHRER_MOTTO = "";
+
+  // Tutor einer Einheit: Name, Figur, Motto. Reihenfolge: Felder der Einheit (name/figur/motto),
+  // dann window.TUTOREN (f_einheiten_tutoren.js), dann Ersatzname + Figur nach Hash.
+  function waehleLehrer(einheit) {
+    const FA = window.FANCY_A;
+    const ok = (k) => !!(FA && FA.chars && FA.chars[k]);
+    const id = String((einheit && (einheit.id || einheit.titel)) || "");
+    const t = (window.TUTOREN || {})[id] || [];
+    const ers = window.TUTOREN_ERSATZ || ["Dozent"];
+    let h = 0;
+    for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+    const figur = (einheit && einheit.figur) || t[1];
+    return {
+      name: (einheit && einheit.tutor) || t[0] || ers[h % ers.length],
+      figur: ok(figur) ? figur : waehleLehrerFigur(einheit),
+      motto: (einheit && einheit.motto) || t[2] || ""
+    };
+  }
 
   function waehleLehrerFigur(einheit) {
     const FA = window.FANCY_A;
@@ -49173,9 +49672,14 @@ GENERATORS.vlan = function (level) {
     },
     reset: function () { serieRichtig = 0; },
     // Tutor-Figur fuer den Wissensbaum: je Kapitel stabil dieselbe, gleiche Animation wie in den Einheiten
-    figurHtml: function (schluessel) {
+    // Tutor (Name/Figur/Motto) einer Einheit-ID oder eines beliebigen Schluessels (Hash-Ersatz)
+    tutorFuer: function (einheitId) {
+      const alle = window.LERNEINHEITEN || {};
+      return waehleLehrer(alle[einheitId] || { id: String(einheitId || "") });
+    },
+    figurHtml: function (schluessel, einheitId) {
       const FA = window.FANCY_A;
-      const key = waehleLehrerFigur({ id: String(schluessel || "") });
+      const key = einheitId ? this.tutorFuer(einheitId).figur : waehleLehrerFigur({ id: String(schluessel || "") });
       const src = FA && FA.chars ? (FA.chars[key] || FA.chars.Monk || FA.chars.Knight) : "";
       if (!src) return '<span class="vlLehrerErsatz">🎓</span>';
       return '<span class="vlLehrerSprite"><span style="background-image: url(\'' + src + '\');"></span></span>';
@@ -49463,7 +49967,7 @@ GENERATORS.vlan = function (level) {
     const alle = window.LERNEINHEITEN || {};
     E = alle[einheitId] || alle[Object.keys(alle)[0]];
     if (!E) return;
-    LEHRER_FIGUR = waehleLehrerFigur(E);
+    { const lh = waehleLehrer(E); LEHRER_FIGUR = lh.figur; LEHRER_NAME = lh.name; LEHRER_MOTTO = lh.motto; }
     if (window.VlFx) window.VlFx.reset();
 
     phaseIdx = 0; schrittIdx = 0; versuche = 0; testIdx = 0; testTreffer = 0;
@@ -49766,7 +50270,7 @@ GENERATORS.vlan = function (level) {
       host: lay, layout: lay, name: LEHRER_NAME, figurHtml: getLehrerSpriteHtml(),
       ohne: !!auftrittGesehen[id],
       zeilen: [
-        (name ? "Hallo " + name + "." : "Hallo.") + " Ich bin dein " + LEHRER_NAME + " für diese Einheit.",
+        (name ? "Hallo " + name + "." : "Hallo.") + " Ich bin " + LEHRER_NAME + (LEHRER_MOTTO ? ": " + LEHRER_MOTTO + "." : ", dein KI-Tutor für diese Einheit."),
         "Wir gehen das in kleinen Schritten durch, du bestimmst das Tempo.",
         "Bei Fragen schau ins Handout oder frag mich über das Textfeld."
       ],
@@ -49948,7 +50452,7 @@ GENERATORS.vlan = function (level) {
     const gruss = grussKurz
       ? "Wir gehen das in " + E.phasen.length + " Schritten durch. So sieht der Weg aus:"
       : (name ? "Hallo " + name + ". " : "Hallo. ") +
-        "Ich bin dein " + LEHRER_NAME + " für diese Einheit. Wir gehen das in " + E.phasen.length + " Schritten durch, " +
+        "Ich bin " + LEHRER_NAME + ", dein KI-Tutor für diese Einheit. Wir gehen das in " + E.phasen.length + " Schritten durch, " +
         "du bestimmst das Tempo. Fragen kannst du mich jederzeit.";
 
     const fahrplan = E.phasen.map((p, i) =>
@@ -51489,14 +51993,12 @@ function zuordnenUi(q, box, kopf) {
 function reihenfolgeUi(q, box, kopf) {
   const n = q.schritte.length;
   let ord = shuffle([...Array(n).keys()]); for (let k = 0; k < 20 && ord.every((x, i) => x === i); k++) ord = shuffle(ord);   // nie schon gelöst anzeigen
-  box.innerHTML = kopf + `<div class="text">${fText(q)}</div><ol class="reih${q.code ? " code" : ""}" id="reih"></ol><div class="aktionen"><button class="primary" id="rPruef">Prüfen</button></div><div class="tasten">Mit ▲ ▼ verschieben: erste Position oben.</div><div id="fb"></div>`;
+  box.innerHTML = kopf + `<div class="text">${fText(q)}</div><ol class="reih${q.code ? " code" : ""}" id="reih"></ol><div class="aktionen"><button class="primary" id="rPruef">Prüfen</button></div><div class="tasten">Zieh die Schritte am Griff ⠿ in die richtige Reihenfolge oder nimm ▲ ▼: erste Position oben.</div><div id="fb"></div>`;
   const ol = $("reih");
+  // Drag & Drop (f_dragdrop.js): ord folgt der Reihenfolge im DOM, die Nummern zaehlt das CSS
   const zeichne = () => {
-    ol.innerHTML = ord.map((x, k) => `<li data-k="${k}"><span class="rt">${esc(q.schritte[x])}</span><span class="rb"><button type="button" data-d="-1" aria-label="nach oben"${k === 0 ? " disabled" : ""}>▲</button><button type="button" data-d="1" aria-label="nach unten"${k === n - 1 ? " disabled" : ""}>▼</button></span></li>`).join("");
-    ol.querySelectorAll("button[data-d]").forEach((b) => b.onclick = () => {
-      const k = Number(b.closest("li").dataset.k), j = k + Number(b.dataset.d); if (j < 0 || j >= n) return;
-      [ord[k], ord[j]] = [ord[j], ord[k]]; zeichne(); const nb = ol.querySelector(`li[data-k="${j}"] button[data-d="${b.dataset.d}"]:not(:disabled)`) || ol.querySelector(`li[data-k="${j}"] button:not(:disabled)`); if (nb) nb.focus({ preventScroll: true });
-    });
+    ol.innerHTML = ord.map((x) => `<li data-id="${x}"><span class="dndGriff" aria-hidden="true">⠿</span><span class="rt">${esc(q.schritte[x])}</span><span class="rb"><button type="button" data-d="-1" aria-label="nach oben">▲</button><button type="button" data-d="1" aria-label="nach unten">▼</button></span></li>`).join("");
+    window.VlDnd.sortier(ol, { onChange: (ids) => { ord = ids.map(Number); }, gesperrt: () => !!(S && S.locked) });
   };
   $("rPruef").onclick = () => {
     const c = ord.filter((x, k) => x === k).length, [urteil, punkte] = teilUrteil(c, n);
@@ -52289,8 +52791,10 @@ function lpBaum(aktuell) {
   const liste = (themenJeKap.find(([x]) => x === k) || [k, []])[1];
 
   // KI-Tutor fürs aktive Kapitel: dieselbe Figur-Auswahl wie in den Einheiten, Einheiten zum Kapitel als Einstieg
-  const sprHtml = (window.VlFx && window.VlFx.figurHtml) ? window.VlFx.figurHtml("kap" + k) : `<span class="lvEmoji" style="font-size:28px">🎓</span>`;
   const einheiten = (window.VlFx && window.VlFx.einheitenFuer) ? window.VlFx.einheitenFuer(liste) : [];
+  // Der Tutor des Kapitels ist der Tutor der ersten passenden Einheit (gleicher Name, gleiche Figur); ohne Einheit ein Ersatz
+  const tutor = (window.VlFx && window.VlFx.tutorFuer) ? window.VlFx.tutorFuer(einheiten.length ? einheiten[0].id : "kap" + k) : { name: "KI-Tutor" };
+  const sprHtml = (window.VlFx && window.VlFx.figurHtml) ? window.VlFx.figurHtml("kap" + k, einheiten.length ? einheiten[0].id : "") : `<span class="lvEmoji" style="font-size:28px">🎓</span>`;
   const luecken = liste.filter((kn) => lpStatus(st.themen[kn]) === "luecke");
   const festigen = liste.filter((kn) => lpStatus(st.themen[kn]) === "festigen");
   const sitzt = liste.filter((kn) => lpStatus(st.themen[kn]) === "sitzt");
@@ -52303,7 +52807,7 @@ function lpBaum(aktuell) {
   } else if (sitzt.length === liste.length && liste.length > 0) {
     bossSpruch = `Kapitel <b>${esc(k)}</b> sitzt. Teste dich im Duell oder im Klassen-Raid, oder nimm dir das nächste Kapitel vor.`;
   } else {
-    bossSpruch = `Ich bin dein KI-Tutor für Kapitel <b>${esc(k)}</b>. Eine kurze Einstufung zeigt, wo du stehst.`;
+    bossSpruch = `Ich bin ${esc(tutor.name)}${tutor.motto ? ": " + esc(tutor.motto) : ""}. Eine kurze Einstufung zeigt, wo du in Kapitel <b>${esc(k)}</b> stehst.`;
   }
 
   const gw = $("lpGuardianWrap");
@@ -52313,7 +52817,7 @@ function lpBaum(aktuell) {
         <div class="lpTutorTop">
           <div class="lpTutorFigur">${sprHtml}</div>
           <div class="lpTutorInfo">
-            <div class="lpTutorName"><b>KI-Tutor</b></div>
+            <div class="lpTutorName"><b>${esc(tutor.name)}</b> · KI-Tutor</div>
             <div class="muted klein">Kapitel ${esc(k)} · ${esc((BAUM.kap[k] || {}).titel || "")}</div>
           </div>
         </div>
@@ -58596,28 +59100,32 @@ function kursListeHtml() {
     if (k) k.onclick = (e) => { const b = e.target.closest("button[data-s]"); if (!b || !SP.ant[key]) return; SP.ant[key].s = +b.dataset.s; for (const x of k.querySelectorAll("button")) x.classList.toggle("sel", x === b); sendeAnt(); };
   }
 
-  /* ------------------------------------------------------------------ Handy: Reihenfolge und Zuordnen */
+  /* ------------------------------------------------------------------ Handy: Reihenfolge und Zuordnen (Ziehen, f_dragdrop.js) */
+  // Reihenfolge: Eintraege am Griff ziehen (oder mit den Pfeilen). Zuordnen: Linie vom Punkt zur Antwort ziehen
+  // (oder links, dann rechts antippen). Gleiche Bausteine wie in den Einheiten (window.VlDnd).
+  const planText = (t) => String(t == null ? "" : t).replace(/[`*]/g, "");
+  function dndOrdnen(box, items, start, onChange) {
+    box.innerHTML = `<p class="vlOrdHinweis">Zieh die Einträge am Griff ⠿ in die richtige Reihenfolge, der erste steht oben.</p><ol class="vlOrdListe">${start.map((i, k) => `<li data-id="${i}" style="border-left:6px solid ${FORMEN[i][2]}"><span class="dndGriff" aria-hidden="true">⠿</span><span class="dndNr">${k + 1}</span><span class="dndText">${inl(items[i])}</span><span class="dndPfeile"><button type="button" data-d="-1" aria-label="nach oben">▲</button><button type="button" data-d="1" aria-label="nach unten">▼</button></span></li>`).join("")}</ol>`;
+    return window.VlDnd.sortier(box.querySelector("ol"), { onChange: (ids) => onChange(ids.map(Number)) });
+  }
   function sOrdnen(g, key, setze, hinweis) {
     const box = $("lvSpOrd"), n = g.items.length;
-    const w = SP.wip[key] || (SP.wip[key] = SP.ant[key] && Array.isArray(SP.ant[key].a) ? SP.ant[key].a.slice() : []);
-    const zeichne = () => {
-      const frei = g.items.map((_, i) => i).filter((i) => !w.includes(i)), gesendet = !!SP.ant[key];
-      box.innerHTML = `<div class="lvOrdFolge" aria-label="Deine Reihenfolge">${w.length ? w.map((i, k) => `<button type="button" class="lvSpO gesetzt" data-r="${k}" style="--c:${FORMEN[i][2]}"><b>${k + 1}.</b><span>${inl(g.items[i])}</span></button>`).join("") : `<span class="lvSm">Tippe die Einträge in der richtigen Reihenfolge an, der erste zuerst.</span>`}</div>
-        <div class="lvOrdPool">${frei.map((i) => `<button type="button" class="lvSpO" data-p="${i}" style="--c:${FORMEN[i][2]}"><b aria-hidden="true">${FORMEN[i][0]} ${FORMEN[i][1]}</b><span>${inl(g.items[i])}</span></button>`).join("")}</div>
-        <div class="lvOrdAkt"><button type="button" class="ghost" id="lvOrdZ" ${w.length ? "" : "disabled"}>↩ Zurück</button><button type="button" class="primary" id="lvOrdS" ${w.length === n ? "" : "disabled"}>${gesendet ? "Ändern" : "Senden"}</button></div>`;
-      for (const b of box.querySelectorAll("[data-p]")) b.onclick = () => { w.push(+b.dataset.p); zeichne(); };
-      for (const b of box.querySelectorAll("[data-r]")) b.onclick = () => { w.splice(+b.dataset.r, 1); zeichne(); };
-      $("lvOrdZ").onclick = () => { w.pop(); zeichne(); };
-      $("lvOrdS").onclick = () => { setze(w.slice()); zeichne(); };
-    };
-    zeichne();
+    const vor = SP.wip[key] || (SP.ant[key] && Array.isArray(SP.ant[key].a) ? SP.ant[key].a : null);
+    const start = vor && vor.length === n ? vor.slice() : g.items.map((_, i) => i);
+    const w = SP.wip[key] = start.slice();
+    box.innerHTML = `<div id="lvDnd"></div><div class="lvOrdAkt"><button type="button" class="primary" id="lvOrdS">${SP.ant[key] ? "Ändern" : "Senden"}</button></div>`;
+    dndOrdnen($("lvDnd"), g.items, start, (ids) => { w.length = 0; ids.forEach((i) => w.push(i)); });
+    $("lvOrdS").onclick = () => { setze(w.slice()); const b = $("lvOrdS"); if (b) b.textContent = "Ändern"; };
+  }
+  function dndZuordnen(box, links, rechts, onChange) {
+    box.innerHTML = `<p class="vlOrdHinweis">Verbinde jeden Begriff mit der passenden Antwort: Linie vom Punkt ziehen, oder links und dann rechts antippen.</p><div id="lvZuHost"></div>`;
+    return window.VlDnd.verbinden(box.querySelector("#lvZuHost"), { links: links.map(planText), rechts: rechts.map((r, j) => FORMEN[j][1] + ": " + planText(r)), onAenderung: onChange });
   }
   function sZuordnen(g, key, setze, hinweis) {
-    const box = $("lvSpZu"), n = g.links.length;
-    const w = SP.wip[key] || (SP.wip[key] = SP.ant[key] && Array.isArray(SP.ant[key].a) ? SP.ant[key].a.slice() : g.links.map(() => -1));
-    box.innerHTML = `<ul class="lvZuRows">${g.links.map((l, i) => `<li><label for="lvZs${i}">${inl(l)}</label><select id="lvZs${i}" data-z="${i}"><option value="-1">wählen …</option>${g.rechts.map((r, j) => `<option value="${j}" ${w[i] === j ? "selected" : ""}>${FORMEN[j][1]}: ${esc(r)}</option>`).join("")}</select></li>`).join("")}</ul>
-      <div class="lvOrdAkt"><button type="button" class="primary" id="lvZuS" ${w.every((x) => x >= 0) ? "" : "disabled"}>${SP.ant[key] ? "Ändern" : "Senden"}</button></div>`;
-    box.onchange = (e) => { const sel = e.target.closest("select[data-z]"); if (!sel) return; w[+sel.dataset.z] = +sel.value; $("lvZuS").disabled = !w.every((x) => x >= 0); };
+    const box = $("lvSpZu");
+    const w = SP.wip[key] = g.links.map(() => -1);
+    box.innerHTML = `<div id="lvZuBox"></div><div class="lvOrdAkt"><button type="button" class="primary" id="lvZuS" disabled>${SP.ant[key] ? "Ändern" : "Senden"}</button></div>`;
+    dndZuordnen($("lvZuBox"), g.links, g.rechts, (zu) => { zu.forEach((v, i) => { w[i] = v; }); $("lvZuS").disabled = !zu.every((x) => x >= 0); });
     $("lvZuS").onclick = () => { if (w.every((x) => x >= 0)) setze(w.slice()); const b = $("lvZuS"); if (b) b.textContent = "Ändern"; };
   }
 
@@ -58678,21 +59186,15 @@ function kursListeHtml() {
         main.innerHTML = `<div class="lvSpK lvEin">${kopf}<div class="lvSpOpts">${it.opt.map((o, i) => sOptBtn({ opt: it.opt }, i)).join("")}</div></div>`;
         main.querySelectorAll(".lvSpO").forEach((b) => b.onclick = () => { const ok = +b.dataset.i === it.korr; ergebnis(it, ok); rueck(it, ok); });
       } else if (it.art === "ordnen") {
-        const w = []; const zeichne = () => {
-          const frei = it.items.map((_, i) => i).filter((i) => !w.includes(i));
-          main.innerHTML = `<div class="lvSpK lvEin">${kopf}<div class="lvOrdFolge">${w.length ? w.map((i, k) => `<button type="button" class="lvSpO gesetzt" data-r="${k}" style="--c:${FORMEN[i][2]}"><b>${k + 1}.</b><span>${inl(it.items[i])}</span></button>`).join("") : `<span class="lvSm">Tippe die Einträge in der richtigen Reihenfolge an.</span>`}</div>
-            <div class="lvOrdPool">${frei.map((i) => `<button type="button" class="lvSpO" data-p="${i}" style="--c:${FORMEN[i][2]}"><b aria-hidden="true">${FORMEN[i][0]} ${FORMEN[i][1]}</b><span>${inl(it.items[i])}</span></button>`).join("")}</div>
-            <div class="lvOrdAkt"><button type="button" class="ghost" id="lvOrdZ" ${w.length ? "" : "disabled"}>↩ Zurück</button><button type="button" class="primary" id="lvOrdS" ${w.length === it.items.length ? "" : "disabled"}>Prüfen</button></div></div>`;
-          main.querySelectorAll("[data-p]").forEach((b) => b.onclick = () => { w.push(+b.dataset.p); zeichne(); });
-          main.querySelectorAll("[data-r]").forEach((b) => b.onclick = () => { w.splice(+b.dataset.r, 1); zeichne(); });
-          $("lvOrdZ").onclick = () => { w.pop(); zeichne(); };
-          $("lvOrdS").onclick = () => { const ok = w.every((i, k) => it.items[i] === it.ordT[k]); ergebnis(it, ok); rueck(it, ok); };
-        }; zeichne();
+        const w = it.items.map((_, i) => i);
+        main.innerHTML = `<div class="lvSpK lvEin">${kopf}<div id="lvDnd"></div><div class="lvOrdAkt"><button type="button" class="primary" id="lvOrdS">Prüfen</button></div></div>`;
+        dndOrdnen($("lvDnd"), it.items, w.slice(), (ids) => { w.length = 0; ids.forEach((i) => w.push(i)); });
+        $("lvOrdS").onclick = () => { const ok = w.every((i, k) => it.items[i] === it.ordT[k]); ergebnis(it, ok); rueck(it, ok); };
       } else if (it.art === "zuordnen") {
-        main.innerHTML = `<div class="lvSpK lvEin">${kopf}<ul class="lvZuRows">${it.links.map((l, i) => `<li><label for="lvUz${i}">${inl(l)}</label><select id="lvUz${i}" data-z="${i}"><option value="-1">wählen …</option>${it.rechts.map((r, j) => `<option value="${j}">${FORMEN[j][1]}: ${esc(r)}</option>`).join("")}</select></li>`).join("")}</ul><div class="lvOrdAkt"><button type="button" class="primary" id="lvZuS" disabled>Prüfen</button></div></div>`;
         const w = it.links.map(() => -1);
-        main.onchange = (e) => { const sel = e.target.closest("select[data-z]"); if (!sel) return; w[+sel.dataset.z] = +sel.value; $("lvZuS").disabled = !w.every((x) => x >= 0); };
-        $("lvZuS").onclick = () => { main.onchange = null; const ok = w.every((j, i) => it.rechts[j] === it.paareT[i][1]); ergebnis(it, ok); rueck(it, ok); };
+        main.innerHTML = `<div class="lvSpK lvEin">${kopf}<div id="lvZuBox"></div><div class="lvOrdAkt"><button type="button" class="primary" id="lvZuS" disabled>Prüfen</button></div></div>`;
+        dndZuordnen($("lvZuBox"), it.links, it.rechts, (zu) => { zu.forEach((v, i) => { w[i] = v; }); $("lvZuS").disabled = !zu.every((x) => x >= 0); });
+        $("lvZuS").onclick = () => { const ok = w.every((j, i) => it.rechts[j] === it.paareT[i][1]); ergebnis(it, ok); rueck(it, ok); };
       } else if (it.check) {
         main.innerHTML = `<div class="lvSpK lvEin">${kopf}<form class="lvSpForm" id="lvUebF" autocomplete="off"><input id="lvUebIn" maxlength="40" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Dein Ergebnis" aria-label="Deine Antwort"><button class="primary" type="submit">Prüfen</button></form></div>`;
         $("lvUebF").onsubmit = (e) => { e.preventDefault(); const v = $("lvUebIn").value.trim(); if (!v) return; let ok = false; try { ok = !!it.check(v); } catch (x) { ok = false; } ergebnis(it, ok); rueck(it, ok); }; $("lvUebIn").focus();
