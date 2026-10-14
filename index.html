@@ -7469,6 +7469,132 @@ body.retro .modalTrenner { color: #dcc3a4; border-top-color: rgba(255, 166, 80, 
 body.retro .vlPanelToggle,
 body.retro .vlPanelNeu { border-radius: 0; }
 
+
+/* ==========================================================================
+   Auftritt des KI-Lehrers (f_auftritt.js): Dozent allein im Bild, danach baut sich die Oberflaeche
+   in drei Stufen auf. Stufe 1 Buehne, Stufe 2 Seitenspalte (Handout/Tutor), Stufe 3 Textkarte und Eingaben.
+   Gilt fuer Einheiten (.vlLayout) und Kurse (.vlLayout.kLayout). Die Klassen kiAuftrittAktiv/kiS1..3 setzt
+   das Skript und nimmt sie am Ende wieder weg; ohne Skript ist alles normal sichtbar.
+   ========================================================================== */
+.vlLayout { position: relative; }
+.kiAuftrittAktiv { min-height: min(80vh, 640px); }
+
+.kiAuftrittAktiv :is(.vlSvgStage, .vlFortschritt, .kHud, .kFort, .kBossBox),
+.kiAuftrittAktiv :is(.vlSidePanel),
+.kiAuftrittAktiv :is(#vlKarte, .vlStageBubble, #kBox, #kAkt) {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.kiAuftrittAktiv :is(.vlSvgStage, .vlFortschritt, .kHud, .kFort, .kBossBox) { transform: translateY(10px); }
+.kiAuftrittAktiv :is(.vlSidePanel) { transform: translateX(-26px); }
+.kiAuftrittAktiv :is(#vlKarte, .vlStageBubble, #kBox, #kAkt) { transform: translateY(14px); }
+
+.kiAuftrittAktiv.kiS1 :is(.vlSvgStage, .vlFortschritt, .kHud, .kFort, .kBossBox),
+.kiAuftrittAktiv.kiS2 :is(.vlSidePanel),
+.kiAuftrittAktiv.kiS3 :is(#vlKarte, .vlStageBubble, #kBox, #kAkt) {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.kiAuftritt {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: min(7vh, 56px);
+  background: radial-gradient(ellipse at 50% 28%, #1a2542 0%, #0b1020 72%);
+  border-radius: 14px;
+  transition: opacity 0.8s ease;
+}
+.kiAuftritt.geht { opacity: 0; pointer-events: none; }
+
+.kiAuftrittInnen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 560px;
+  padding: 0 16px;
+}
+
+/* Figur gross, ruhig stehend; sie tritt von unten ein und bekommt einen weichen Schatten */
+.kiFigur {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: kiEintritt 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.kiFigur::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 150px;
+  height: 18px;
+  margin-left: -75px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.55), transparent 70%);
+}
+.kiFigurGross { position: relative; z-index: 1; }
+.kiFigurGross .vlLehrerSprite { transform: scale(4.6); transform-origin: 50% 100%; }
+.kiFigurGross .vlLehrerErsatz { font-size: 90px; }
+
+.kiName {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7dd3fc;
+  animation: kiBlaseEin 0.6s 0.7s ease both;
+}
+
+.kiBlase {
+  width: 100%;
+  min-height: 118px;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  color: #e2e8f0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  text-align: left;
+  animation: kiBlaseEin 0.6s 0.8s ease both;
+}
+.kiBlase p { margin: 0 0 0.45em; }
+.kiBlase p:last-child { margin-bottom: 0; }
+
+.kiSkip {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  background: transparent;
+  border: 1px solid #475569;
+  color: #94a3b8;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.kiSkip:hover, .kiSkip:focus-visible { color: #e2e8f0; border-color: #94a3b8; }
+
+@keyframes kiEintritt {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes kiBlaseEin {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
 </style>
 </head>
 <body>
@@ -7842,6 +7968,133 @@ ARTEN.arcade = {
     $("arcIn").focus();
   },
 };
+
+/* ---- f_auftritt.js ---- */
+/* ==========================================================================
+   f_auftritt.js – Auftritt des KI-Lehrers (window.KiAuftritt), gemeinsam fuer
+   Lerneinheiten (f_vorlesung.js) und Lernkurse (f_rahmen.js).
+
+   Ablauf: Der Dozent steht allein im Bild (Figur gross, Sprechblase), sagt in drei kurzen Saetzen Hallo,
+   was jetzt passiert und wo es Hilfe gibt (Handout, Textfeld). Danach blendet das Overlay aus, und die
+   Oberflaeche baut sich langsam auf: Stufe 1 (Buehne), Stufe 2 (Handout/Tutor-Spalte), Stufe 3 (Textkarte
+   und Eingaben). Welche Elemente zu welcher Stufe gehoeren, steht als Selektorliste in vorlesung.css.
+
+   spiele({ host, layout, figurHtml, name, zeilen[], ende(), ohne })
+     host     Element, ueber dem das Overlay liegt (position: relative)
+     layout   Element, das die Klassen kiAuftrittAktiv / kiS1..kiS3 bekommt
+     stufe2   optional, beim Erscheinen der Seitenspalte (z. B. Griff pulsen)
+     ende     ende(gespielt) wird genau einmal aufgerufen, sobald die Textkarte erscheinen soll (zeichnet den ersten Schritt)
+     ohne     true = kein Auftritt (Wiederholung, Folgestation), ende() sofort
+   Bewegung abgestellt (prefers-reduced-motion): kein Auftritt. Ueberspringen: Knopf im Overlay.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  let lauf = null;   // aktueller Auftritt (nur einer zur Zeit)
+
+  const sanft = () => !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  // Willkommens- und Hinweisfenster (erster Start) verdecken alles: erst danach beginnt der Auftritt.
+  function dialogOffen() {
+    return Array.from(document.querySelectorAll(".modal")).some((m) => {
+      const s = getComputedStyle(m);
+      return s.display !== "none" && s.visibility !== "hidden" && m.getClientRects().length > 0;
+    });
+  }
+
+  function abbrechen() {
+    if (lauf) { lauf.stopp(); lauf = null; }
+  }
+
+  function spiele(o) {
+    abbrechen();
+    const host = o && o.host, layout = o && o.layout;
+    if (!host || !layout || o.ohne || sanft() || !document.body.contains(host)) {
+      if (o && o.ende) o.ende(false);
+      return;
+    }
+
+    const timer = [], intervalle = [];
+    let erledigt = false, endeGerufen = false, ov = null;
+
+    const zeit = (fn, ms) => { timer.push(setTimeout(fn, ms)); };
+    const ende = () => { if (!endeGerufen) { endeGerufen = true; if (o.ende) o.ende(true); } };
+    const aufraeumen = () => {
+      timer.forEach(clearTimeout); intervalle.forEach(clearInterval);
+      layout.classList.remove("kiAuftrittAktiv", "kiS1", "kiS2", "kiS3");
+      if (ov) ov.remove();
+    };
+    const fertig = () => {
+      if (erledigt) return;
+      erledigt = true;
+      aufraeumen();
+      ende();
+      if (lauf === handle) lauf = null;
+    };
+    const handle = { stopp: () => { erledigt = true; aufraeumen(); } };
+    lauf = handle;
+
+    layout.classList.add("kiAuftrittAktiv");
+    ov = document.createElement("div");
+    ov.className = "kiAuftritt";
+    ov.innerHTML =
+      '<div class="kiAuftrittInnen">' +
+      '<div class="kiFigur"><div class="kiFigurGross">' + (o.figurHtml || "") + '</div></div>' +
+      '<div class="kiName">' + esc(o.name || "Dozent") + '</div>' +
+      '<div class="kiBlase" aria-live="polite"></div>' +
+      '<button type="button" class="kiSkip">Überspringen ›</button>' +
+      '</div>';
+    host.appendChild(ov);
+    ov.querySelector(".kiSkip").onclick = fertig;
+    const blase = ov.querySelector(".kiBlase");
+
+    // Eine Zeile Buchstabe fuer Buchstabe schreiben, danach weiter.
+    const tippe = (text, weiter) => {
+      if (erledigt) return;
+      const p = document.createElement("p");
+      blase.appendChild(p);
+      let i = 0;
+      const iv = setInterval(() => {
+        if (erledigt) { clearInterval(iv); return; }
+        i++;
+        p.textContent = text.slice(0, i);
+        if (i >= text.length) { clearInterval(iv); zeit(weiter, 650); }
+      }, 26);
+      intervalle.push(iv);
+    };
+
+    // Danach: Overlay aus, Oberflaeche baut sich in drei Stufen auf, dann erscheint die Textkarte.
+    const enthuellen = () => {
+      if (erledigt) return;
+      ov.classList.add("geht");
+      zeit(() => layout.classList.add("kiS1"), 250);
+      zeit(() => { layout.classList.add("kiS2"); if (o.stufe2) o.stufe2(); }, 1000);
+      zeit(() => { layout.classList.add("kiS3"); ende(); }, 1750);
+      zeit(() => { if (!erledigt) { erledigt = true; aufraeumen(); if (lauf === handle) lauf = null; } }, 2700);
+    };
+
+    const zeilen = (o.zeilen || []).slice();
+    const naechste = () => {
+      if (erledigt) return;
+      const z = zeilen.shift();
+      if (z === undefined) return enthuellen();
+      tippe(z, naechste);
+    };
+
+    // Start: Figur tritt ein (CSS-Animation, ca. 1 s), dann beginnt die erste Zeile, sobald kein Fenster mehr verdeckt.
+    let gewartet = 0;
+    const los = () => {
+      if (erledigt) return;
+      if (!document.body.contains(host)) return handle.stopp();
+      if (dialogOffen() && gewartet < 120000) { gewartet += 300; zeit(los, 300); return; }
+      zeit(naechste, 1000);
+    };
+    zeit(los, 200);
+  }
+
+  window.KiAuftritt = { spiele, abbrechen };
+})();
 
 /* ---- f_blocks.js ---- */
 // f_blocks.js - Block-Allocator (Konzept 2): Ein Netz nach Platzbedarf in Teilnetze verschiedener Größe zerlegen (VLSM, Zusatzwissen).
@@ -10683,8 +10936,10 @@ function kursStation(i) {
       }
     };
   }
-  if (window.KursRahmen) window.KursRahmen.start();
-  kursSchritt(); show("kurs"); window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  // Mit Rahmen zeichnet erst der Auftritt-Rueckruf den ersten Schritt (wer inzwischen "Karte" gewaehlt hat, bekommt nichts mehr)
+  const ersterSchritt = () => { if (KS && $("kBox")) kursSchritt(); };
+  if (window.KursRahmen) { window.KursRahmen.start(ersterSchritt, KS_PACK.id); } else kursSchritt();
+  show("kurs"); window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 }
 function kFortschritt() {
   const x = KS.liste;
@@ -13902,7 +14157,7 @@ const LABSIM = (() => {
 /* ==========================================================================
    f_rahmen.js – KI-Lehrer-Rahmen um den Kurs-Player (window.KursRahmen)
    Jeder Lernkurs bekommt dieselbe Spalte wie die handgeschriebenen KI-Lehrer-Einheiten:
-   links Handout und KI-Tutor (ausklappbar, klappt beim Start kurz von selbst zu, Hinweis bei Neuem),
+   links Handout und KI-Tutor (ausklappbar, erscheint im Auftritt des Dozenten, Hinweis bei Neuem),
    rechts der unveraenderte Kurs-Player. Das Handout entsteht automatisch aus den Erklaerkarten
    (Schritt "lies") der Stationen; die Kursdaten bleiben die einzige Quelle.
    Haken in f_kurs.js: kursStation() (Markup + start) und kursSchritt() (aktualisieren).
@@ -13910,8 +14165,8 @@ const LABSIM = (() => {
    ========================================================================== */
 (function () {
   const g = (id) => document.getElementById(id);
-  const AUTO_MS = 3800;           // so lange bleibt die Spalte beim Start offen
-  let timer = null, letzteAnzahl = 0, letzteStation = null;
+  let letzteAnzahl = 0, letzteStation = null;
+  const gesehen = {};             // Auftritt nur einmal je Kurs und Sitzung
 
   function zu() { const l = g("kLayoutBox"); return !!(l && l.classList.contains("panelZu")); }
 
@@ -13922,8 +14177,6 @@ const LABSIM = (() => {
     t.setAttribute("aria-expanded", zuklappen ? "false" : "true");
     if (!zuklappen) { const b = g("krPanelNeu"); if (b) b.hidden = true; t.classList.remove("puls"); }
   }
-
-  function stopp() { if (timer) { clearTimeout(timer); timer = null; } }
 
   function tab(ziel) {
     const h = ziel === "handout";
@@ -13958,37 +14211,40 @@ const LABSIM = (() => {
     </div>`;
   }
 
-  // Nach dem Aufbau des Stationsbildschirms: Knoepfe verdrahten, Einklapp-Uhr starten.
-  function start() {
+  function spielerName() {
+    try { if (typeof store !== "undefined" && typeof K !== "undefined") { const n = store.get(K.nick, ""); if (n) return String(n).slice(0, 24); } } catch (e) {}
+    return "";
+  }
+
+  // Nach dem Aufbau des Stationsbildschirms: Knoepfe verdrahten. Beim ersten Mal je Kurs tritt der Dozent auf
+  // (f_auftritt.js), danach ruft start() den Rueckruf "weiter" (zeichnet den ersten Schritt) sofort.
+  function start(weiter, packId) {
     const t = g("krPanelToggle");
-    if (!t) return;
-    stopp(); letzteAnzahl = 0; letzteStation = null;
-    setze(false);
-    t.onclick = () => { stopp(); if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("click"); setze(!zu()); };
+    if (!t) { if (weiter) weiter(); return; }
+    letzteAnzahl = 0; letzteStation = null;
+    // Am Handy zu, am Rechner offen; die Wahl des Lernenden gilt (gleicher Schluessel wie in den Einheiten).
+    let zuStart = !!(window.matchMedia && window.matchMedia("(max-width: 920px)").matches);
+    try { const s = localStorage.getItem("fi-vl-panel"); if (s === "zu") zuStart = true; else if (s === "auf") zuStart = false; } catch (e) {}
+    setze(zuStart);
+    t.onclick = () => { if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("click"); const z = !zu(); setze(z); try { localStorage.setItem("fi-vl-panel", z ? "zu" : "auf"); } catch (e) {} };
     g("krTabHandout").onclick = () => tab("handout");
     g("krTabCoach").onclick = () => tab("coach");
-    const sp = g("krSidePanel");
-    sp.addEventListener("pointerdown", stopp, { once: true });
-    sp.addEventListener("focusin", stopp, { once: true });
-    // Uhr erst, wenn kein Hinweisfenster mehr verdeckt
-    const dialog = () => Array.from(document.querySelectorAll(".modal")).some((m) => {
-      const s = getComputedStyle(m); return s.display !== "none" && s.visibility !== "hidden" && m.getClientRects().length > 0;
+    const lay = g("kLayoutBox"), name = spielerName(), A = window.KiAuftritt;
+    if (!A) { if (weiter) weiter(); return; }
+    A.spiele({
+      host: lay, layout: lay, name: "Dozent", figurHtml: lehrerHtml(),
+      ohne: !!gesehen[packId],
+      zeilen: [
+        (name ? "Hallo " + name + "." : "Hallo.") + " Ich bin dein Dozent für diesen Kurs.",
+        "Ich begleite dich Station für Station, du bestimmst das Tempo.",
+        "Bei Fragen schau ins Handout oder frag mich im Tutor-Reiter."
+      ],
+      stufe2: () => {
+        const tg = g("krPanelToggle");
+        if (zu() && tg) { tg.classList.remove("puls"); void tg.offsetWidth; tg.classList.add("puls"); }
+      },
+      ende: () => { gesehen[packId] = true; if (weiter) weiter(); }
     });
-    let gewartet = 0;
-    const warte = () => {
-      timer = null;
-      if (!g("kLayoutBox")) return;
-      if (dialog() && gewartet < 120000) { gewartet += 300; timer = setTimeout(warte, 300); return; }
-      timer = setTimeout(() => {
-        timer = null;
-        if (g("kLayoutBox") && !zu()) {
-          setze(true);
-          const tg = g("krPanelToggle");
-          if (tg) { tg.classList.remove("puls"); void tg.offsetWidth; tg.classList.add("puls"); }
-        }
-      }, AUTO_MS);
-    };
-    timer = setTimeout(warte, 300);
   }
 
   const md = (t) => (typeof kMd === "function" ? kMd(t) : esc(t));
@@ -15420,7 +15676,7 @@ GENERATORS.vlan = function (level) {
     richtePanelEin();
 
     zeichneHandout();
-    zeichne();
+    starteAuftritt();
   }
 
   function wechsleTab(ziel) {
@@ -15517,41 +15773,44 @@ GENERATORS.vlan = function (level) {
     if (merken) { try { localStorage.setItem(PANEL_KEY, zu ? "zu" : "auf"); } catch (e) {} }
   }
 
-  // Beim Start ist die Spalte kurz offen und klappt dann von selbst mit Animation zu, damit jeder sieht,
-  // dass es Handout und Tutor gibt. Greift der Lernende vorher selbst ein (Griff, Reiter, Eingabe), bleibt sie offen.
-  const PANEL_AUTO_MS = 3800;
-  let panelTimer = null;
-
-  function panelTimerStopp() {
-    if (panelTimer) { clearTimeout(panelTimer); panelTimer = null; }
-  }
-
+  // Die Spalte steht beim Start so, wie der Lernende sie zuletzt gelassen hat (Handy: zu, Rechner: offen).
+  // Sichtbar wird sie erst im Auftritt des Dozenten (f_auftritt.js); ein Einklappen von selbst gibt es nicht mehr.
   function richtePanelEin() {
     const t = $v("vlPanelToggle");
     if (!t) return;
-    panelTimerStopp();
-    setzePanel(false, false);
-    t.onclick = () => { panelTimerStopp(); ton("click"); setzePanel(!panelIstZu(), true); };
-    const sp = $v("vlSidePanel");
-    if (sp) sp.addEventListener("pointerdown", panelTimerStopp, { once: true });
-    sp && sp.addEventListener("focusin", panelTimerStopp, { once: true });
-    // Die Uhr laeuft erst, wenn kein Willkommens-/Hinweisfenster mehr verdeckt (beim ersten Start gibt es welche).
-    const sichtbarerDialog = () => Array.from(document.querySelectorAll(".modal")).some((m) => { const s = getComputedStyle(m); return s.display !== "none" && s.visibility !== "hidden" && m.getClientRects().length > 0; });
-    let gewartet = 0;
-    const warte = () => {
-      panelTimer = null;
-      if (!$v("vlLayoutBox")) return;
-      if (sichtbarerDialog() && gewartet < 120000) { gewartet += 300; panelTimer = setTimeout(warte, 300); return; }
-      panelTimer = setTimeout(() => {
-        panelTimer = null;
-        if ($v("vlLayoutBox") && !panelIstZu()) {
-          setzePanel(true, false);
-          const tg = $v("vlPanelToggle");
-          if (tg) { tg.classList.remove("puls"); void tg.offsetWidth; tg.classList.add("puls"); }
-        }
-      }, PANEL_AUTO_MS);
-    };
-    panelTimer = setTimeout(warte, 300);
+    setzePanel(panelStartZu(), false);
+    t.onclick = () => { ton("click"); setzePanel(!panelIstZu(), true); };
+  }
+
+  // Auftritt nur einmal je Einheit und Sitzung: wer dieselbe Einheit nochmals oeffnet, will nicht warten.
+  const auftrittGesehen = {};
+  let grussKurz = false;
+
+  function starteAuftritt() {
+    const lay = $v("vlLayoutBox");
+    const name = spielerName();
+    const id = E.id || E.titel;
+    const A = window.KiAuftritt;
+    if (!A) { zeichne(); return; }
+    A.spiele({
+      host: lay, layout: lay, name: LEHRER_NAME, figurHtml: getLehrerSpriteHtml(),
+      ohne: !!auftrittGesehen[id],
+      zeilen: [
+        (name ? "Hallo " + name + "." : "Hallo.") + " Ich bin dein " + LEHRER_NAME + " für diese Einheit.",
+        "Wir gehen das in kleinen Schritten durch, du bestimmst das Tempo.",
+        "Bei Fragen schau ins Handout oder frag mich über das Textfeld."
+      ],
+      stufe2: () => {
+        const tg = $v("vlPanelToggle");
+        if (panelIstZu() && tg) { tg.classList.remove("puls"); void tg.offsetWidth; tg.classList.add("puls"); }
+      },
+      ende: (gespielt) => {
+        if (!$v("vlLayoutBox") || modus !== "begruessung") return;
+        auftrittGesehen[id] = true;
+        grussKurz = !!gespielt;
+        zeichne();
+      }
+    });
   }
 
   // Neuer Handout-Abschnitt: Der Abschnitt selbst blinkt auf (CSS-Klasse "neu").
@@ -15712,9 +15971,12 @@ GENERATORS.vlan = function (level) {
   function zeichneBegruessung(k) {
     zeigeDiagramm("tabelle", null);
     const name = spielerName();
-    const gruss = (name ? "Hallo " + name + ". " : "Hallo. ") +
-      "Ich bin dein " + LEHRER_NAME + " für diese Einheit. Wir gehen das in vier Schritten durch, " +
-      "du bestimmst das Tempo. Fragen kannst du mich jederzeit.";
+    // Nach dem Auftritt ist die Begruessung schon gesprochen: hier nur noch der Uebergang zum Fahrplan.
+    const gruss = grussKurz
+      ? "Wir gehen das in " + E.phasen.length + " Schritten durch. So sieht der Weg aus:"
+      : (name ? "Hallo " + name + ". " : "Hallo. ") +
+        "Ich bin dein " + LEHRER_NAME + " für diese Einheit. Wir gehen das in " + E.phasen.length + " Schritten durch, " +
+        "du bestimmst das Tempo. Fragen kannst du mich jederzeit.";
 
     const fahrplan = E.phasen.map((p, i) =>
       '<li class="vlFahrplanZeile" style="animation-delay:' + (i * 110) + 'ms">' +
@@ -16152,6 +16414,7 @@ GENERATORS.vlan = function (level) {
 
   // ---------------------------------------------------------------- Ende
   function beenden() {
+    if (window.KiAuftritt) window.KiAuftritt.abbrechen();
     clearInterval(schreibLauf);
     speichereLernstand();
     if (typeof window.show === "function") window.show("home");
