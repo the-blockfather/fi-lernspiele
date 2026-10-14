@@ -9078,6 +9078,427 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_SUBNETTING.id]: LF03_SUBNETTING });
 })();
 
+/* ---- f_einheiten_vlsm.js ---- */
+// f_einheiten_vlsm.js - Lerneinheit 3: VLSM-Aufgabe "172.16.0.0/22 aufteilen" (Daten, kein Code).
+//
+// Gleiches Format wie f_einheiten_subnetting.js (dort steht die Beschreibung der diagramme-Specs).
+// Die Aufgabe stammt aus dem Unterricht: Verwaltung 300 Hosts, Produktion 200, Lager 60, Server 20,
+// WAN-Strecke 2. Je Netz: Praefix, Netzadresse, Hostbereich, Broadcast, freie Adressen.
+// Alle Zahlen sind mit Python (ipaddress) nachgerechnet, siehe docs/KI-LEHRER-PROTOKOLL.md.
+//
+// Raum-Diagramme dieser Einheit:
+//   plan*   : ganzer /22-Block, Zahlen = Offset 0..1023 ab 172.16.0.0 (Ticks "2.0" = 172.16.2.0)
+//   zoom*   : Ausschnitt 172.16.3.0/24, Zahlen = letztes Oktett 0..255 (Ticks ".64" = 172.16.3.64)
+(function () {
+  "use strict";
+
+  const BELEG = { handout: "Subnetting verstehen und rechnen" };
+
+  const LF03_VLSM = {
+    id: "lf03-vlsm-aufgabe",
+    titel: "VLSM-Aufgabe: 172.16.0.0/22 aufteilen",
+    untertitel: "Fünf Netze, ein Adressblock, ein lückenloser Plan",
+    lernfeld: "LF03",
+    dauer_min: 25,
+    quelle: {
+      buch: "IT-Berufe Grundstufe (Westermann), S. 331-334 (Subnetting); Aufgabe aus dem Unterricht",
+      handouts: ["Subnetting verstehen und rechnen"]
+    },
+
+    lernziele: [
+      { id: "lz1", text: "Den Bedarf eines Netzes in Hostbits und kleinstes passendes Präfix umrechnen", kn: "VLSM" },
+      { id: "lz2", text: "Netze nach Größe ordnen und ausgerichtet lückenlos im Adressblock verteilen", kn: "VLSM" },
+      { id: "lz3", text: "Netzadresse, Hostbereich und Broadcast jedes Netzes bestimmen", kn: "Subnetting" },
+      { id: "lz4", text: "Freie Adressen berechnen und den Plan auf Überschneidungen prüfen", kn: "VLSM" }
+    ],
+
+    vortest: [
+      {
+        frage: "Wie viele nutzbare Hosts hat ein /24-Netz?",
+        optionen: [
+          { text: "254", richtig: true },
+          { text: "256", richtig: false },
+          { text: "24", richtig: false }
+        ],
+        lernziel: "lz1"
+      },
+      {
+        frage: "Ein Netz hat 9 Hostbits. Wie viele nutzbare Hosts passen hinein?",
+        optionen: [
+          { text: "510", richtig: true },
+          { text: "512", richtig: false },
+          { text: "9", richtig: false }
+        ],
+        lernziel: "lz1"
+      }
+    ],
+
+    phasen: [
+      {
+        id: "p1",
+        titel: "Vom Bedarf zum Präfix",
+        kurz: "wie viele Hostbits und welches Präfix jedes Netz braucht",
+        lernziel: "lz1",
+        anker: {
+          text: "Die Firma hat den Adressblock 172.16.0.0/22. Gebraucht werden fünf Netze: Verwaltung 300 Hosts, Produktion 200, Lager 60, Server 20 und eine WAN-Strecke mit 2.",
+          frage: "Wie viele Adressen hat der Block, und welches Präfix bekommt jedes Netz?"
+        },
+        aufbau: [
+          {
+            text: "Das Präfix /22 lässt 32 - 22 = 10 Hostbits. Der Block hat 2^10 = 1024 Adressen, von 172.16.0.0 bis 172.16.3.255.",
+            diagramm: "block"
+          },
+          {
+            text: "In jedem Netz sind zwei Adressen belegt: Netzadresse und Broadcast. Nutzbar sind 2^H - 2 Hosts. Gesucht ist das kleinste H, bei dem der Bedarf reicht.",
+            diagramm: "block"
+          },
+          {
+            text: "Verwaltung, 300 Hosts: 8 Hostbits geben nur 254, 9 Hostbits geben 510. Also H = 9, Präfix 32 - 9 = /23, 512 Adressen.",
+            diagramm: "v23"
+          },
+          {
+            text: "Produktion, 200 Hosts: 8 Hostbits geben 254 und reichen. Präfix /24, 256 Adressen.",
+            diagramm: "v24"
+          },
+          {
+            text: "Lager, 60 Hosts: 6 Hostbits geben 62, also /26 mit 64 Adressen. Server, 20 Hosts: 5 Hostbits geben 30, also /27 mit 32 Adressen.",
+            diagramm: "v26"
+          },
+          {
+            text: "WAN, 2 Hosts: 2 Hostbits geben genau 2 nutzbare Adressen, Präfix /30 mit 4 Adressen. Zusammen 512 + 256 + 64 + 32 + 4 = 868 von 1024.",
+            diagramm: "plan"
+          }
+        ],
+        probe: {
+          art: "mc",
+          frage: "Ein Netz braucht 100 Hosts. Welches ist das kleinste passende Präfix?",
+          optionen: [
+            {
+              text: "/25, denn 7 Hostbits geben 126 Hosts",
+              richtig: true,
+              korrektur: "Richtig: 2^7 - 2 = 126 reicht, 6 Hostbits wären mit 62 zu wenig."
+            },
+            {
+              text: "/26, denn 6 Hostbits geben 62 Hosts",
+              richtig: false,
+              korrektur: "Nein, 62 Hosts reichen für 100 Geräte nicht. Es braucht ein Hostbit mehr, also /25."
+            },
+            {
+              text: "/24, denn 8 Hostbits geben 254 Hosts",
+              richtig: false,
+              korrektur: "Das passt zwar, verschwendet aber über 150 Adressen. Gesucht ist das kleinste passende Netz, und das ist /25."
+            }
+          ],
+          loesung: "/25. Mit 6 Hostbits gibt es nur 2^6 - 2 = 62 Hosts, mit 7 Hostbits 2^7 - 2 = 126. Also H = 7 und das Präfix 32 - 7 = 25.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Gehe die Hostbits der Reihe nach durch: 5 Bits geben 30, 6 geben 62, 7 geben 126, 8 geben 254. Nimm die erste Zahl, die für den Bedarf reicht. Das Präfix ist 32 minus diese Bitzahl.",
+          diagramm: "plan"
+        },
+        sicherung: {
+          merksatz: "Kleinstes H mit 2^H - 2 mindestens gleich Bedarf wählen, dann Präfix = 32 - H.",
+          handout: "**Bedarf zum Präfix:** kleinstes H mit **2^H - 2 ≥ Bedarf**, Präfix = 32 - H. Hier: Verwaltung (300) H=9, /23 · Produktion (200) H=8, /24 · Lager (60) H=6, /26 · Server (20) H=5, /27 · WAN (2) H=2, /30. Summe 868 von 1024 Adressen im /22."
+        }
+      },
+
+      {
+        id: "p2",
+        titel: "Reihenfolge und Ausrichtung",
+        kurz: "wo jedes Netz im Adressblock beginnt",
+        lernziel: "lz2",
+        anker: {
+          text: "Die fünf Blöcke sollen lückenlos in den /22 passen. Ob das klappt, hängt von der Reihenfolge ab und davon, wo ein Block beginnen darf.",
+          frage: "Womit fängt man an, und bei welcher Adresse darf ein Block starten?"
+        },
+        aufbau: [
+          {
+            text: "Regel 1: Das größte Netz kommt zuerst. Sortiert: Verwaltung /23, Produktion /24, Lager /26, Server /27, WAN /30.",
+            diagramm: "plan"
+          },
+          {
+            text: "Regel 2: Ein Block beginnt nur dort, wo alle seine Hostbits 0 sind. Seine Startadresse ist also ein Vielfaches der Blockgröße.",
+            diagramm: "ausricht"
+          },
+          {
+            text: "Verwaltung beginnt bei 172.16.0.0 und belegt 512 Adressen bis 172.16.1.255. Der Block läuft über zwei Oktette.",
+            diagramm: "plan1"
+          },
+          {
+            text: "Produktion folgt direkt dahinter bei 172.16.2.0 und belegt 256 Adressen bis 172.16.2.255.",
+            diagramm: "plan2"
+          },
+          {
+            text: "Lager beginnt bei 172.16.3.0 und belegt 64 Adressen. Server, 32 Adressen, beginnt bei 172.16.3.64: 64 ist ein Vielfaches von 32.",
+            diagramm: "zoom1"
+          },
+          {
+            text: "WAN beginnt bei 172.16.3.96, ein Vielfaches von 4, und belegt 4 Adressen. Der Rest ab 172.16.3.100 bleibt frei.",
+            diagramm: "zoom2"
+          }
+        ],
+        probe: {
+          art: "frei",
+          frage: "Bei welcher Adresse beginnt das Server-Netz (/27), wenn das Lager-Netz 172.16.3.0/26 belegt?",
+          akzeptiert: ["172.16.3.64"],
+          tipp: "Das Lager belegt 64 Adressen, also .0 bis .63. Was kommt direkt danach, und ist es ein Vielfaches von 32?",
+          loesung: "172.16.3.64. Das Lager endet bei .63, die nächste freie Adresse ist .64. Ein /27 hat 32 Adressen, und 64 ist ein Vielfaches von 32, der Start ist also ausgerichtet.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Stell dir Parkreihen vor: erst die großen Busse, dann Autos, zuletzt Roller. Jede Gruppe hat ihr Feld an einer Markierung, die zur Größe passt. Beim Server liegt sie bei 64, weil ab dort Felder zu 32 beginnen dürfen.",
+          diagramm: "zoom2"
+        },
+        sicherung: {
+          merksatz: "Große Blöcke zuerst, jeder Block beginnt bei einem Vielfachen seiner Größe, dann passt alles lückenlos.",
+          handout: "**Reihenfolge:** größtes Netz zuerst. **Ausrichtung:** Die Startadresse eines Blocks ist ein Vielfaches seiner Größe (Hostbits der Netzadresse = 0). Plan: Verwaltung 172.16.0.0, Produktion 172.16.2.0, Lager 172.16.3.0, Server 172.16.3.64, WAN 172.16.3.96."
+        }
+      },
+
+      {
+        id: "p3",
+        titel: "Netzadresse, Hostbereich, Broadcast",
+        kurz: "die fünf Angaben, die jedes Netz im Plan braucht",
+        lernziel: "lz3",
+        anker: {
+          text: "Zu jedem Netz im Plan gehören Netzadresse, Hostbereich, Broadcast und freie Adressen. Wir rechnen das Server-Netz 172.16.3.64/27 Schritt für Schritt.",
+          frage: "Wie kommt man von 172.16.3.64/27 zu Hostbereich und Broadcast?"
+        },
+        aufbau: [
+          {
+            text: "Server: 172.16.3.64/27. Das letzte Oktett 64 ist binär 010|00000: drei Netzbits, fünf Hostbits. Alle Hostbits sind 0, also ist 64 die Netzadresse.",
+            diagramm: "srvbits"
+          },
+          {
+            text: "Broadcast: alle Hostbits auf 1. Aus 010|00000 wird 010|11111, das ist 95. Broadcast 172.16.3.95.",
+            diagramm: "srvbc"
+          },
+          {
+            text: "Hosts: vom ersten (Netzadresse + 1 = .65) bis zum letzten (Broadcast - 1 = .94). Das sind 30 Hosts, gebraucht werden 20, also bleiben 10 frei.",
+            diagramm: "srvraum"
+          },
+          {
+            text: "Verwaltung 172.16.0.0/23: Hosts 172.16.0.1 bis 172.16.1.254, Broadcast 172.16.1.255. 510 Hosts, gebraucht 300, also 210 frei.",
+            diagramm: "verwraum"
+          },
+          {
+            text: "Produktion 172.16.2.0/24: Hosts .2.1 bis .2.254, Broadcast .2.255, 54 frei. Lager 172.16.3.0/26: Hosts .3.1 bis .3.62, Broadcast .3.63, 2 frei.",
+            diagramm: "plan"
+          },
+          {
+            text: "WAN 172.16.3.96/30: Netzadresse .96, Hosts .97 und .98, Broadcast .99. Alle vier Adressen sind belegt, nichts bleibt frei.",
+            diagramm: "zoom2"
+          }
+        ],
+        probe: {
+          art: "frei",
+          frage: "Wie lautet die Broadcast-Adresse des Server-Netzes 172.16.3.64/27?",
+          akzeptiert: ["172.16.3.95"],
+          tipp: "Alle Hostbits auf 1: Im letzten Oktett steht 010|11111. Welche Zahl ist das?",
+          loesung: "172.16.3.95. Ein /27 hat 5 Hostbits. Mit allen Hostbits auf 1 wird aus 010|00000 (64) die Zahl 010|11111 (95). Das ist die letzte Adresse des Blocks.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Das Netz ist ein Haus mit 32 Zimmern: Zimmer 64 trägt das Namensschild, Zimmer 95 hat die Lautsprecheranlage. Wohnen dürfen nur die 30 dazwischen, von 65 bis 94.",
+          diagramm: "srvraum"
+        },
+        sicherung: {
+          merksatz: "Netzadresse = Hostbits 0, Broadcast = Hostbits 1, die Hosts liegen dazwischen.",
+          handout: "**Je Netz:** Netzadresse (Hostbits 0), Broadcast (Hostbits 1), Hosts dazwischen. Verwaltung 172.16.0.0/23: .0.1 bis .1.254, BC 172.16.1.255, 210 frei · Produktion 172.16.2.0/24: .2.1 bis .2.254, BC .2.255, 54 frei · Lager 172.16.3.0/26: .3.1 bis .3.62, BC .3.63, 2 frei · Server 172.16.3.64/27: .3.65 bis .3.94, BC .3.95, 10 frei · WAN 172.16.3.96/30: .3.97 bis .3.98, BC .3.99, 0 frei."
+        }
+      },
+
+      {
+        id: "p4",
+        titel: "Freie Adressen und Gegenprobe",
+        kurz: "wie man den Plan auf Fehler prüft",
+        lernziel: "lz4",
+        anker: {
+          text: "Der Plan steht. Bevor du ihn abgibst, prüfst du ihn: Ist der Bedarf gedeckt, überschneidet sich nichts, und wie viele Adressen sind übrig?",
+          frage: "Woran erkennst du, dass der Plan stimmt?"
+        },
+        aufbau: [
+          {
+            text: "Frei im Netz = nutzbare Hosts - Bedarf: Verwaltung 210, Produktion 54, Lager 2, Server 10, WAN 0.",
+            diagramm: "plan"
+          },
+          {
+            text: "Belegt sind 512 + 256 + 64 + 32 + 4 = 868 Adressen. Der Block hat 1024, also bleiben 1024 - 868 = 156 Adressen ungenutzt.",
+            diagramm: "plan"
+          },
+          {
+            text: "Sie liegen am Ende: 172.16.3.100 bis 172.16.3.255. Dort lassen sich später neue Netze anlegen, zum Beispiel ein /25 ab 172.16.3.128.",
+            diagramm: "zoom2"
+          },
+          {
+            text: "Warum überschneidet sich nichts? Hinter dem /22-Teil hat jeder Block sein eigenes Bitmuster, und keines ist der Anfang eines anderen.",
+            diagramm: "plan"
+          },
+          {
+            text: "Probe mit UND: 172.16.1.200 mit der /23-Maske ergibt 172.16.0.0 und gehört zur Verwaltung. 172.16.2.5 ergibt 172.16.2.0 und gehört nicht dazu.",
+            diagramm: "undprobe"
+          },
+          {
+            text: "Fertig: fünf Netze, lückenlos ab 172.16.0.0, jedes mit dem kleinsten passenden Präfix. Das ist die VLSM-Lösung der Aufgabe.",
+            diagramm: "plan"
+          }
+        ],
+        probe: {
+          art: "frei",
+          frage: "Wie viele Adressen des /22-Blocks bleiben nach allen fünf Netzen ungenutzt?",
+          akzeptiert: ["156"],
+          tipp: "Belegt sind 512 + 256 + 64 + 32 + 4 Adressen. Der Block hat 2^10.",
+          loesung: "156. Der /22 hat 1024 Adressen, die fünf Blöcke belegen 512 + 256 + 64 + 32 + 4 = 868. Es bleiben 1024 - 868 = 156, nämlich 172.16.3.100 bis 172.16.3.255.",
+          beleg: BELEG
+        },
+        wiederholung: {
+          text: "Rechne in zwei Zeilen: Block minus Summe der belegten Blöcke ergibt den Rest. Die Hosts in den Netzen zählen dabei nicht, denn sie liegen ja schon im Block, den das Netz belegt.",
+          diagramm: "plan"
+        },
+        sicherung: {
+          merksatz: "Plan prüfen: Bedarf gedeckt, keine Überschneidung, Rest = Blockgröße minus Summe der Blöcke.",
+          handout: "**Gegenprobe:** frei im Netz = nutzbare Hosts - Bedarf (210, 54, 2, 10, 0). Belegt 868 von 1024, **156 Adressen** ungenutzt (172.16.3.100 bis 172.16.3.255). Ein UND mit der Maske zeigt, zu welchem Netz eine Adresse gehört."
+        }
+      }
+    ],
+
+    nachtest: [
+      {
+        frage: "Wie viele nutzbare Hosts hat ein /26-Netz?",
+        optionen: [
+          { text: "62", richtig: true },
+          { text: "64", richtig: false },
+          { text: "26", richtig: false }
+        ],
+        lernziel: "lz1"
+      },
+      {
+        frage: "Das Lager-Netz 172.16.3.0/26 endet bei 172.16.3.63. Wo beginnt das nächste /27-Netz?",
+        optionen: [
+          { text: "172.16.3.64", richtig: true },
+          { text: "172.16.3.63", richtig: false },
+          { text: "172.16.3.65", richtig: false }
+        ],
+        lernziel: "lz2"
+      },
+      {
+        frage: "Welche Broadcast-Adresse hat das Netz 172.16.0.0/23?",
+        optionen: [
+          { text: "172.16.1.255", richtig: true },
+          { text: "172.16.0.255", richtig: false },
+          { text: "172.16.2.0", richtig: false }
+        ],
+        lernziel: "lz3"
+      },
+      {
+        frage: "Ein /22 hat 1024 Adressen, die Netze belegen 868. Wie viele bleiben ungenutzt?",
+        optionen: [
+          { text: "156", richtig: true },
+          { text: "146", richtig: false },
+          { text: "256", richtig: false }
+        ],
+        lernziel: "lz4"
+      }
+    ],
+
+    // ---- Bilder dieser Einheit (Format: siehe f_einheiten_subnetting.js)
+    diagramme: (function () {
+      const BLOCK = "172.16.0.0";
+      const PLAN_TITEL = "Adressblock 172.16.0.0/22 (Zahlen: 3. und 4. Oktett)";
+      const ZOOM_TITEL = "Ausschnitt 172.16.3.0/24";
+
+      // Gesamtplan: Offsets 0..1023 ab 172.16.0.0
+      const VERW = { von: 0, bis: 511, label: "Verwaltung /23", rolle: "A", tick: "0.0" };
+      const PROD = { von: 512, bis: 767, label: "Produktion /24", rolle: "B2", tick: "2.0" };
+      const REST = { von: 768, bis: 867, label: "Lager, Server, WAN", rolle: "C", tick: "3.0" };
+      const FREI = { von: 868, bis: 1023, label: "frei", rolle: "frei", tick: "3.100" };
+
+      // Ausschnitt 172.16.3.0/24: letztes Oktett 0..255
+      const LAG = { von: 0, bis: 63, label: "Lager", rolle: "A", tick: ".0" };
+      const SRV = { von: 64, bis: 95, label: "Server", rolle: "B2", tick: ".64" };
+      const WAN = { von: 96, bis: 99, label: "WAN", rolle: "D", tick: ".96" };
+
+      return {
+        start: { art: "bits", titel: "Der Block 172.16.0.0 /22", balken: [{ titel: "Block " + BLOCK + " /22", ip: BLOCK, netz: 22 }] },
+        block: { art: "bits", titel: "10 Hostbits: 1024 Adressen", balken: [{ titel: "Block " + BLOCK + " /22", ip: BLOCK, netz: 22, hebe: [22, 31] }] },
+        v23: {
+          art: "bits", titel: "Verwaltung: 9 Hostbits, /23",
+          balken: [
+            { titel: "vorher: /22", ip: BLOCK, netz: 22 },
+            { titel: "Verwaltung /23 (1 Bit geliehen)", ip: BLOCK, netz: 22, sub: 1, hebe: [22, 22] }
+          ]
+        },
+        v24: {
+          art: "bits", titel: "Produktion: 8 Hostbits, /24",
+          balken: [
+            { titel: "vorher: /22", ip: "172.16.2.0", netz: 22 },
+            { titel: "Produktion /24 (2 Bits geliehen)", ip: "172.16.2.0", netz: 22, sub: 2, hebe: [22, 23] }
+          ]
+        },
+        v26: {
+          art: "bits", titel: "Lager: 6 Hostbits, /26",
+          balken: [
+            { titel: "vorher: /22", ip: "172.16.3.0", netz: 22 },
+            { titel: "Lager /26 (4 Bits geliehen)", ip: "172.16.3.0", netz: 22, sub: 4, hebe: [22, 25] }
+          ]
+        },
+        ausricht: {
+          art: "bits", titel: "Ausgerichtet: alle Hostbits 0",
+          balken: [{ titel: "Verwaltung " + BLOCK + " /23", ip: BLOCK, netz: 23, hebe: [23, 31] }]
+        },
+
+        plan: { art: "raum", titel: PLAN_TITEL, bereich: [0, 1023], teile: [VERW, PROD, REST, FREI] },
+        plan1: { art: "raum", titel: PLAN_TITEL, bereich: [0, 1023], teile: [VERW, { von: 512, bis: 1023, label: "frei", rolle: "frei", tick: "2.0" }] },
+        plan2: { art: "raum", titel: PLAN_TITEL, bereich: [0, 1023], teile: [VERW, PROD, { von: 768, bis: 1023, label: "frei", rolle: "frei", tick: "3.0" }] },
+
+        zoom1: {
+          art: "raum", titel: ZOOM_TITEL,
+          teile: [LAG, SRV, { von: 96, bis: 255, label: "frei", rolle: "frei", tick: ".96" }]
+        },
+        zoom2: {
+          art: "raum", titel: ZOOM_TITEL,
+          teile: [LAG, SRV, WAN, { von: 100, bis: 255, label: "156 frei", rolle: "frei", tick: ".255", tickPos: "ende" }]
+        },
+
+        srvbits: { art: "bits", titel: "Server 172.16.3.64 /27", balken: [{ titel: "Server 172.16.3.64 /27", ip: "172.16.3.64", netz: 27, hebe: [24, 31] }] },
+        srvbc: {
+          art: "bits", titel: "Broadcast: alle Hostbits auf 1",
+          balken: [
+            { titel: "Netzadresse 172.16.3.64", ip: "172.16.3.64", netz: 27 },
+            { titel: "Broadcast 172.16.3.95", ip: "172.16.3.95", netz: 27, hebe: [27, 31] }
+          ]
+        },
+        srvraum: {
+          art: "raum", titel: "Das Netz 172.16.3.64/27 hat 32 Adressen", bereich: [64, 95],
+          teile: [
+            { von: 64, bis: 64, label: "Netzadresse", rolle: "N", tick: ".64" },
+            { von: 65, bis: 94, label: "30 nutzbare Hosts", rolle: "H", tick: ".65 bis .94", tickPos: "mitte" },
+            { von: 95, bis: 95, label: "Broadcast", rolle: "B", tick: ".95", tickPos: "ende" }
+          ]
+        },
+        verwraum: {
+          art: "raum", titel: "Das Netz 172.16.0.0/23 hat 512 Adressen", bereich: [0, 511],
+          teile: [
+            { von: 0, bis: 0, label: "Netzadresse", rolle: "N", tick: "0.0" },
+            { von: 1, bis: 510, label: "510 nutzbare Hosts", rolle: "H", tick: "0.1 bis 1.254", tickPos: "mitte" },
+            { von: 511, bis: 511, label: "Broadcast", rolle: "B", tick: "1.255", tickPos: "ende" }
+          ]
+        },
+        undprobe: {
+          art: "bits", titel: "UND mit der Maske /23",
+          balken: [
+            { titel: "Adresse 172.16.1.200", ip: "172.16.1.200", netz: 23 },
+            { titel: "Maske /23 = 255.255.254.0", maske: 23, netz: 23 }
+          ]
+        }
+      };
+    })()
+  };
+
+  // Zu den bestehenden Einheiten dazulegen (Dateien werden alphabetisch geladen, f_einheiten.js zuerst).
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_VLSM.id]: LF03_VLSM });
+})();
+
 /* ---- f_fsrs.js ---- */
 // f_fsrs.js - Free Spaced Repetition Scheduler (FSRS v4.5+) für Fachinformatik
 // Basiert auf modernen kognitionswissenschaftlichen Modellen (Stabilität S, Schwierigkeit D, Retrievability R).
@@ -21192,7 +21613,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
               <span style="font-size:22px;">🎓</span>
               <div>
                 <h3 style="color:#38bdf8; margin:0; font-size:14px;">Interaktive-KI-Vorlesung</h3>
-                <span style="font-size:10px; color:#7dd3fc;">Pilot: Router und Subnetting (LF03)</span>
+                <span style="font-size:10px; color:#7dd3fc;">Router, Subnetting und VLSM (LF03)</span>
               </div>
             </div>
             <span class="devStatusBadge live">🟢 Spielbereit</span>
@@ -21209,6 +21630,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           </button>
           <button type="button" class="primary" id="hubStartSubnettingBtn" style="font-weight:700; background:#0369a1; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer; margin-top:6px;">
             🎓 Einheit 2: Subnetting und Fachbegriffe ➔
+          </button>
+          <button type="button" class="primary" id="hubStartVlsmBtn" style="font-weight:700; background:#075985; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer; margin-top:6px;">
+            🎓 Einheit 3: VLSM-Aufgabe 172.16.0.0/22 ➔
           </button>
         </div>
 
@@ -21290,6 +21714,15 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         schliesseModal();
         stoppeHub();
         if (typeof window.startVorlesung === "function") window.startVorlesung("lf03-subnetting-grundlagen");
+      };
+    }
+
+    const startVlsmBtn = $("hubStartVlsmBtn");
+    if (startVlsmBtn) {
+      startVlsmBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (typeof window.startVorlesung === "function") window.startVorlesung("lf03-vlsm-aufgabe");
       };
     }
 
