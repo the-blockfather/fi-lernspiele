@@ -4284,6 +4284,19 @@ section.kurs {
   }
 }
 
+/* KI-Lehrer-Rahmen um den Kurs-Player (f_rahmen.js); Spalte selbst: Klassen vlSidePanel/... aus vorlesung.css */
+section.kurs:has(.kLayout) { max-width: 1240px; }
+.kLayout { align-items: start; }
+.kHaupt { min-width: 0; }
+.kRahmen .kKi { margin: 8px 0 0; }
+.krKarte { margin-bottom: 10px; }
+.krKarteTitel { font-weight: 700; margin-bottom: 4px; color: #e2e8f0; }
+.krKarte details summary { cursor: pointer; color: #7dd3fc; font-size: 12px; margin-top: 4px; }
+.krKarte.neu { animation: vlHoNeu 1.6s ease-out 1; border-radius: 8px; }
+.vlHoAbschnitt.krAkt { border-color: #38bdf8; }
+@media (prefers-reduced-motion: reduce) { .krKarte.neu { animation: none; } }
+.modalGridCards > .modalList { grid-column: 1 / -1; }
+
 /* ---- labor.css ---- */
 /* labor.css - Netz-Labor (Kurs-Schritt t:"labor"): Lehrer mit Sprechblase, Arbeitsfläche, Geräteleiste, Konfig-Panel, Konsole */
 .lab { display: grid; gap: 12px; margin-top: 10px; min-width: 0; }
@@ -10211,7 +10224,7 @@ function kursStation(i) {
   if (window.BOSS_PHASEN) window.BOSS_PHASEN.initKampf(boss.id);
   KS = { i, st, liste, pos: 0, res: [], blatt: {}, chat: [], t0: Date.now(), ki: false, boss };
   if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("whoosh");
-  $("kurs").innerHTML = `<div class="kSpiel">
+  $("kurs").innerHTML = `<div class="kSpiel"><div class="vlLayout kLayout" id="kLayoutBox">${window.KursRahmen ? window.KursRahmen.panelHtml() : ""}<div class="kHaupt">
     <div class="kHud glass">
       <button class="ghost" id="kKarte">← Karte</button>
       <span class="kTitel">${esc(st.icon || "")} ${esc(st.titel)}</span>
@@ -10232,7 +10245,7 @@ function kursStation(i) {
     ${window.BOSS_PHASEN ? window.BOSS_PHASEN.renderHudHtml() : ""}
     <div class="kBox glass" id="kBox" aria-live="polite"></div>
     <div class="aktionen" id="kAkt"></div>
-    <div class="glass kKi hidden" id="kKi"></div></div>`;
+    ${window.KursRahmen ? "" : '<div class="glass kKi hidden" id="kKi"></div>'}</div></div></div>`;
   $("kKarte").onclick = () => { KS = null; kursKarte(); window.scrollTo({ top: 0, left: 0, behavior: "instant" }); };
   const stSpickBtn = $("kStationSpickzettelBtn");
   if (stSpickBtn) {
@@ -10261,6 +10274,7 @@ function kursStation(i) {
       }
     };
   }
+  if (window.KursRahmen) window.KursRahmen.start();
   kursSchritt(); show("kurs"); window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 }
 function kFortschritt() {
@@ -10297,6 +10311,7 @@ function kursSchritt() {
     kTippKnopf(x);
   }
   kKiZeichnen();
+  if (window.KursRahmen) window.KursRahmen.aktualisieren(KS_PACK, KS);
   const f = $("kIn"); if (f) f.focus();
 }
 function kGrpKopf(x) {
@@ -13472,6 +13487,155 @@ const LABSIM = (() => {
   }
 
   window.startPacketDefender = startPacketDefender;
+})();
+
+/* ---- f_rahmen.js ---- */
+/* ==========================================================================
+   f_rahmen.js – KI-Lehrer-Rahmen um den Kurs-Player (window.KursRahmen)
+   Jeder Lernkurs bekommt dieselbe Spalte wie die handgeschriebenen KI-Lehrer-Einheiten:
+   links Handout und KI-Tutor (ausklappbar, klappt beim Start kurz von selbst zu, Hinweis bei Neuem),
+   rechts der unveraenderte Kurs-Player. Das Handout entsteht automatisch aus den Erklaerkarten
+   (Schritt "lies") der Stationen; die Kursdaten bleiben die einzige Quelle.
+   Haken in f_kurs.js: kursStation() (Markup + start) und kursSchritt() (aktualisieren).
+   Stile: Klassen vlLayout/vlSidePanel/... aus vorlesung.css, Ergaenzungen unten in kurs.css.
+   ========================================================================== */
+(function () {
+  const g = (id) => document.getElementById(id);
+  const AUTO_MS = 3800;           // so lange bleibt die Spalte beim Start offen
+  let timer = null, letzteAnzahl = 0, letzteStation = null;
+
+  function zu() { const l = g("kLayoutBox"); return !!(l && l.classList.contains("panelZu")); }
+
+  function setze(zuklappen) {
+    const l = g("kLayoutBox"), t = g("krPanelToggle");
+    if (!l || !t) return;
+    l.classList.toggle("panelZu", zuklappen);
+    t.setAttribute("aria-expanded", zuklappen ? "false" : "true");
+    if (!zuklappen) { const b = g("krPanelNeu"); if (b) b.hidden = true; t.classList.remove("puls"); }
+  }
+
+  function stopp() { if (timer) { clearTimeout(timer); timer = null; } }
+
+  function tab(ziel) {
+    const h = ziel === "handout";
+    g("krTabHandout").classList.toggle("aktiv", h);
+    g("krTabCoach").classList.toggle("aktiv", !h);
+    g("krPaneHandout").classList.toggle("aktiv", h);
+    g("krPaneCoach").classList.toggle("aktiv", !h);
+    if (h) { const d = document.querySelector("#krTabHandout .vlTabPunkt"); if (d) d.remove(); }
+  }
+
+  // Markup der Spalte (steht in kursStation() vor dem Kurs-Player). #kKi (KI-Hilfe des Players) liegt im Tutor-Reiter.
+  function panelHtml() {
+    return `<div class="vlSidePanel kRahmen" id="krSidePanel">
+      <div class="vlPanelKopf">
+        <button type="button" class="vlPanelToggle" id="krPanelToggle" aria-expanded="true" aria-controls="krPanelKoerper" title="Handout ein- oder ausklappen">
+          <span class="vlPanelPfeil" aria-hidden="true">◀</span>
+          <span class="vlPanelTitel">📝 Handout &amp; Tutor</span>
+          <span class="vlPanelNeu" id="krPanelNeu" hidden>neu</span>
+        </button>
+      </div>
+      <div class="vlPanelKoerper" id="krPanelKoerper">
+        <div class="vlTabs">
+          <button type="button" class="vlTabBtn aktiv" id="krTabHandout">📝 Handout</button>
+          <button type="button" class="vlTabBtn" id="krTabCoach">💬 KI-Tutor</button>
+        </div>
+        <div class="vlTabInhalt aktiv" id="krPaneHandout"><div id="krHandoutListe"></div></div>
+        <div class="vlTabInhalt" id="krPaneCoach">
+          <div class="vlCoachHinweis">Frag den KI-Tutor zur aktuellen Stelle. Er sieht nur die Aufgabe, keine persönlichen Daten.</div>
+          <div class="glass kKi hidden" id="kKi"></div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Nach dem Aufbau des Stationsbildschirms: Knoepfe verdrahten, Einklapp-Uhr starten.
+  function start() {
+    const t = g("krPanelToggle");
+    if (!t) return;
+    stopp(); letzteAnzahl = 0; letzteStation = null;
+    setze(false);
+    t.onclick = () => { stopp(); if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("click"); setze(!zu()); };
+    g("krTabHandout").onclick = () => tab("handout");
+    g("krTabCoach").onclick = () => tab("coach");
+    const sp = g("krSidePanel");
+    sp.addEventListener("pointerdown", stopp, { once: true });
+    sp.addEventListener("focusin", stopp, { once: true });
+    // Uhr erst, wenn kein Hinweisfenster mehr verdeckt
+    const dialog = () => Array.from(document.querySelectorAll(".modal")).some((m) => {
+      const s = getComputedStyle(m); return s.display !== "none" && s.visibility !== "hidden" && m.getClientRects().length > 0;
+    });
+    let gewartet = 0;
+    const warte = () => {
+      timer = null;
+      if (!g("kLayoutBox")) return;
+      if (dialog() && gewartet < 120000) { gewartet += 300; timer = setTimeout(warte, 300); return; }
+      timer = setTimeout(() => {
+        timer = null;
+        if (g("kLayoutBox") && !zu()) {
+          setze(true);
+          const tg = g("krPanelToggle");
+          if (tg) { tg.classList.remove("puls"); void tg.offsetWidth; tg.classList.add("puls"); }
+        }
+      }, AUTO_MS);
+    };
+    timer = setTimeout(warte, 300);
+  }
+
+  const md = (t) => (typeof kMd === "function" ? kMd(t) : esc(t));
+
+  // Handout neu zeichnen: freigeschaltete Stationen komplett, in der laufenden Station alle bisher gelesenen Karten.
+  function aktualisieren(pack, ks) {
+    const el = g("krHandoutListe");
+    if (!el || !pack || !ks) return;
+    const stand = (typeof kStand === "function") ? kStand(pack.id) : { st: {} };
+    const aktId = ks.st.id;
+    let sichtbar = 0;
+    const teile = pack.stationen.map((s, i) => {
+      const lies = (s.schritte || []).filter((x) => x.t === "lies");
+      const fertig = ((stand.st[s.id] || {}).sterne || 0) > 0;
+      const aktuell = s.id === aktId;
+      let karten;
+      if (aktuell) {
+        const bisher = ks.liste.slice(0, ks.pos + 1).filter((x) => x.t === "lies");
+        karten = bisher; sichtbar = bisher.length;
+      } else karten = fertig ? lies : [];
+      const kopf = `<div class="vlHoKopf"><span>${i + 1}. ${esc(s.titel)}</span></div>`;
+      if (!karten.length) {
+        return `<div class="vlHoAbschnitt zu">${kopf}<div class="vlHoText gesperrt">🔒 Wird freigeschaltet, sobald du die Station gespielt hast</div></div>`;
+      }
+      const neuIdx = aktuell ? karten.length - 1 : -1;
+      const inhalt = karten.map((x, k) => `<div class="krKarte${k === neuIdx && aktuell && (karten.length > letzteAnzahl || letzteStation !== aktId) ? " neu" : ""}">
+          ${x.titel ? `<div class="krKarteTitel">${esc(x.titel)}</div>` : ""}
+          ${x.merke ? `<div class="vlMerksatz">🔑 ${esc(x.merke)}</div>` : ""}
+          <details><summary>Erklärung</summary><div class="vlHoText">${md(x.text || "")}${x.block ? `<pre class="kBlock">${esc(x.block)}</pre>` : ""}</div></details>
+        </div>`).join("");
+      return `<div class="vlHoAbschnitt auf${aktuell ? " krAkt" : ""}">${kopf}${inhalt}</div>`;
+    }).join("");
+    const neu = letzteStation === aktId ? sichtbar > letzteAnzahl : false;
+    el.innerHTML = teile;
+    letzteStation = aktId; letzteAnzahl = sichtbar;
+    if (neu) hinweis();
+  }
+
+  // Neue Erklaerkarte im Handout: Griff pulst bei zugeklappter Spalte, Punkt am Reiter, sonst blinkt die Karte selbst.
+  function hinweis() {
+    if (zu()) {
+      const b = g("krPanelNeu"), t = g("krPanelToggle");
+      if (b) b.hidden = false;
+      if (t) { t.classList.remove("puls"); void t.offsetWidth; t.classList.add("puls"); }
+      return;
+    }
+    const tb = g("krTabHandout");
+    if (tb && !tb.classList.contains("aktiv")) {
+      if (!tb.querySelector(".vlTabPunkt")) tb.insertAdjacentHTML("beforeend", '<span class="vlTabPunkt" title="Neu im Handout"></span>');
+      return;
+    }
+    const n = document.querySelector("#krHandoutListe .krKarte.neu");
+    if (n && n.scrollIntoView) n.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  window.KursRahmen = { panelHtml, start, aktualisieren };
 })();
 
 /* ---- f_sandboxes.js ---- */
@@ -20481,18 +20645,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   /* ---------- Die 6 Ringmenü-Kategorien ---------- */
   const RING_ITEMS = [
     {
-      id: "kurse",
-      titel: "📘 LERNKURSE",
-      kurz: "Lernkurse",
-      desc: "9 geführte Lehrpfade mit Stationen, Rechenwegen & Sternen",
-      wichtel: "In den Lernkursen lernst du Schritt für Schritt mit Rechenwegen!",
-      icon: A.item ? A.item["Book"] : null
-    },
-    {
       id: "ki_lehrer",
       titel: "🎓 KI-LEHRER",
       kurz: "KI-Lehrer",
-      desc: "Unterrichtseinheit mit Dozent, mitwachsendem Handout und Fragen jederzeit",
+      desc: "Alle Lernkurse und Einheiten mit Dozent, mitwachsendem Handout und Fragen jederzeit",
       wichtel: "Setz dich hin! Ich erkläre dir das Lernfeld Schritt für Schritt – frag mich jederzeit.",
       icon: A.item ? (A.item["ScrollFire"] || A.item["Book"]) : null
     },
@@ -20596,7 +20752,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       <div class="hubFocusPlaque">
         <button type="button" class="hubArrowBtn" id="hubArrowLeft" title="Nach links drehen (◀ / A)">◀</button>
         <div class="hubFocusInfo" id="hubFocusInfo">
-          <h2 id="hubFocusTitle">📘 LERNKURSE</h2>
+          <h2 id="hubFocusTitle">🎓 KI-LEHRER</h2>
           <p id="hubFocusDesc">9 geführte Lehrpfade mit Stationen, Rechenwegen & Sternen</p>
           <button type="button" class="hubOpenBtn" id="hubOpenBtn">Öffnen (Enter / ↵)</button>
         </div>
@@ -21012,9 +21168,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
   /* ---------- Bereichs-Aktionen ---------- */
   function oeffneBereich(id) {
-    if (id === "kurse") {
-      oeffneKurseModal();
-    } else if (id === "ki_lehrer" || id === "in_entwicklung" || id === "dev" || id === "vorlesung") {
+    if (id === "kurse" || id === "ki_lehrer" || id === "in_entwicklung" || id === "dev" || id === "vorlesung") {
       oeffneInEntwicklungModal();
     } else if (id === "lern") {
       oeffneWissensbaum();
@@ -21033,7 +21187,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   function oeffneInEntwicklungModal() {
     const turmStand = window.PRUEFUNGSTURM ? window.PRUEFUNGSTURM.getStand() : { maxEtage: 1, aktuelleEtage: 1 };
     zeigeModal("🎓 KI-Lehrer", `
-      <p class="modalLead">Eine Unterrichtseinheit, die sich Schritt für Schritt aufbaut: Der Dozent erklärt, du antwortest zwischendurch, rechts wächst dein Handout mit Buchseiten mit – und du kannst jederzeit nachfragen.</p>
+      <p class="modalLead">Eine Unterrichtseinheit, die sich Schritt für Schritt aufbaut: Der Dozent erklärt, du antwortest zwischendurch, links wächst dein Handout mit Buchseiten mit – und du kannst jederzeit nachfragen.</p>
       <div class="modalGridCards">
         <!-- 1. Interaktive KI-Vorlesung -->
         <div class="arenaCard full devHighlightCard" style="border: 2px solid #38bdf8; background: rgba(15, 23, 42, 0.95); margin-bottom: 8px;">
@@ -21061,6 +21215,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
             🎓 Einheit 2: Subnetting und Fachbegriffe ➔
           </button>
         </div>
+
+        <div class="modalTrenner">Lernkurse mit KI-Lehrer</div>
+        ${kursListeHtml()}
 
         <div class="modalTrenner">Weitere Experimente</div>
 
@@ -21130,6 +21287,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       </div>
     `);
 
+    bindeKursStart();
     const startSubBtn = $("hubStartSubnettingBtn");
     if (startSubBtn) {
       startSubBtn.onclick = () => {
@@ -21193,29 +21351,27 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     oeffneInEntwicklungModal();
   }
 
-  // 1. Lernkurse Übersicht
-  function oeffneKurseModal() {
-    const kurse = kurseInfo();
-    zeigeModal("📘 Lernkurse (Syllabus & Stationen)", `
-      <p class="modalLead">Wähle einen Lernkurs: Station für Station mit Erklärungen, Rechenwegen und Sternen.</p>
-      <div class="modalList">
-        ${kurse.map((k) => `
-          <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
-            <div class="modalItemHeader">
-              <b>${esc(k.p.titel)}</b>
-              <span class="modalBadge">⭐ ${k.sterne} / ${k.max} Sterne (${k.ok}/${k.n} Stationen)</span>
-            </div>
-            <p class="modalItemSub">${esc(k.p.beschreibung || "Lerne die wichtigsten IHK-Grundlagen.")}</p>
-            <div class="modalItemAktion">
-              <button type="button" class="primary hubStartBtn" data-kurs="${esc(k.p.id)}">
-                ${k.ok > 0 ? (k.fertig ? "Wiederholen" : "Fortsetzen") : "Starten"} →
-              </button>
-            </div>
+  // 1c. Lernkurse als Teil des KI-Lehrers: Liste mit Sternen, Start ueber den Kurs-Player (mit KI-Lehrer-Rahmen)
+  function kursListeHtml() {
+    return `<div class="modalList">
+      ${kurseInfo().map((k) => `
+        <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
+          <div class="modalItemHeader">
+            <b>${esc(k.p.titel)}</b>
+            <span class="modalBadge">⭐ ${k.sterne} / ${k.max} Sterne (${k.ok}/${k.n} Stationen)</span>
           </div>
-        `).join("")}
-      </div>
-    `);
+          <p class="modalItemSub">${esc(k.p.beschreibung || "Lerne die wichtigsten IHK-Grundlagen.")}</p>
+          <div class="modalItemAktion">
+            <button type="button" class="primary hubStartBtn" data-kurs="${esc(k.p.id)}">
+              ${k.ok > 0 ? (k.fertig ? "Wiederholen" : "Fortsetzen") : "Starten"} ➔
+            </button>
+          </div>
+        </div>
+      `).join("")}
+    </div>`;
+  }
 
+  function bindeKursStart() {
     modalBody.querySelectorAll(".hubStartBtn").forEach((btn) => {
       btn.onclick = () => {
         schliesseModal();
