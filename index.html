@@ -7595,6 +7595,33 @@ body.retro .vlPanelNeu { border-radius: 0; }
   to   { opacity: 1; transform: none; }
 }
 
+
+/* ==========================================================================
+   Seitenspalte: drei Bloecke (Handout / KI-Tutor / Material) und Scrollen.
+   Fehler vorher: die Bloecke (.vlTabInhalt) hatten kein overflow, die Spalte schnitt den Inhalt unten ab.
+   ========================================================================== */
+.vlSidePanel { max-height: min(84vh, 740px); }
+.vlTabs {
+  display: flex;
+  flex: 0 0 auto;
+  border-bottom: 2px solid #1e293b;
+  background: #090d16;
+}
+.vlTabs .vlTabBtn { position: relative; }
+.vlTabBtn.aktiv {
+  color: #38bdf8;
+  border-bottom-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+}
+.vlTabInhalt { min-height: 0; overflow-y: auto; overflow-x: hidden; }
+.vlTabInhalt.aktiv { flex: 1 1 auto; }
+.vlMaterial { padding: 12px; display: flex; flex-direction: column; gap: 10px; font-size: 13px; line-height: 1.5; }
+.vlMatZ, .vlMatSt { color: #cbd5e1; }
+.vlMatSt { border: 1px solid #1e293b; border-radius: 8px; padding: 8px 10px; background: rgba(15, 23, 42, 0.6); }
+.vlMatSt > b { display: block; margin-bottom: 4px; color: #e2e8f0; }
+.vlMaterial a { color: #7dd3fc; }
+@media (max-width: 920px) { .vlSidePanel { max-height: 75vh; } }
+
 </style>
 </head>
 <body>
@@ -14179,12 +14206,22 @@ const LABSIM = (() => {
   }
 
   function tab(ziel) {
-    const h = ziel === "handout";
-    g("krTabHandout").classList.toggle("aktiv", h);
-    g("krTabCoach").classList.toggle("aktiv", !h);
-    g("krPaneHandout").classList.toggle("aktiv", h);
-    g("krPaneCoach").classList.toggle("aktiv", !h);
-    if (h) { const d = document.querySelector("#krTabHandout .vlTabPunkt"); if (d) d.remove(); }
+    const namen = { handout: "Handout", coach: "Coach", material: "Material" };
+    Object.keys(namen).forEach((k) => {
+      const an = k === ziel;
+      g("krTab" + namen[k]).classList.toggle("aktiv", an);
+      g("krPane" + namen[k]).classList.toggle("aktiv", an);
+    });
+    if (ziel === "handout") { const d = document.querySelector("#krTabHandout .vlTabPunkt"); if (d) d.remove(); }
+  }
+
+  // Material: je Station Buchseiten, Handouts und Videos (Daten und Links wie die Karte "Zum Vertiefen" in f_kurs.js)
+  function materialHtml(pack) {
+    if (!pack || typeof kVertiefenDaten !== "function") return "";
+    return pack.stationen.map((st) => {
+      const d = kVertiefenDaten([st]);
+      return d.n || d.buch.length ? `<div class="vlMatSt"><b>${esc(st.icon || "")} ${esc(st.titel)}</b>${kVertiefenZeilen(d)}</div>` : "";
+    }).join("") || '<div class="vlMatZ">Zu diesem Kurs ist noch kein Material hinterlegt.</div>';
   }
 
   // Markup der Spalte (steht in kursStation() vor dem Kurs-Player). #kKi (KI-Hilfe des Players) liegt im Tutor-Reiter.
@@ -14201,8 +14238,10 @@ const LABSIM = (() => {
         <div class="vlTabs">
           <button type="button" class="vlTabBtn aktiv" id="krTabHandout">📝 Handout</button>
           <button type="button" class="vlTabBtn" id="krTabCoach">💬 KI-Tutor</button>
+          <button type="button" class="vlTabBtn" id="krTabMaterial">📚 Material</button>
         </div>
         <div class="vlTabInhalt aktiv" id="krPaneHandout"><div id="krHandoutListe"></div></div>
+        <div class="vlTabInhalt" id="krPaneMaterial"><div class="vlMaterial" id="krMaterialListe"></div></div>
         <div class="vlTabInhalt" id="krPaneCoach">
           <div class="vlCoachHinweis">Frag den KI-Tutor zur aktuellen Stelle. Er sieht nur die Aufgabe, keine persönlichen Daten.</div>
           <div class="glass kKi hidden" id="kKi"></div>
@@ -14229,6 +14268,8 @@ const LABSIM = (() => {
     t.onclick = () => { if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.play("click"); const z = !zu(); setze(z); try { localStorage.setItem("fi-vl-panel", z ? "zu" : "auf"); } catch (e) {} };
     g("krTabHandout").onclick = () => tab("handout");
     g("krTabCoach").onclick = () => tab("coach");
+    g("krTabMaterial").onclick = () => tab("material");
+    try { g("krMaterialListe").innerHTML = materialHtml(typeof KS_PACK !== "undefined" ? KS_PACK : null); } catch (e) {}
     const lay = g("kLayoutBox"), name = spielerName(), A = window.KiAuftritt;
     if (!A) { if (weiter) weiter(); return; }
     A.spiele({
@@ -15559,12 +15600,13 @@ GENERATORS.vlan = function (level) {
             <div class="vlTabs">
               <button type="button" class="vlTabBtn aktiv" id="vlTabHandout">📝 Handout</button>
               <button type="button" class="vlTabBtn" id="vlTabCoach">💬 KI-Tutor</button>
+              <button type="button" class="vlTabBtn" id="vlTabMaterial">📚 Material</button>
             </div>
             <div class="vlTabInhalt aktiv" id="vlPaneHandout">
               <div id="vlHandoutListe"></div>
-              <div class="vlQuelle">📚 <b>Quelle:</b> ${esc((E.quelle || {}).buch || "")}${
-                (E.quelle && E.quelle.handouts || []).length
-                  ? " · Handouts: " + esc((E.quelle.handouts || []).join(", ")) : ""}</div>
+            </div>
+            <div class="vlTabInhalt" id="vlPaneMaterial">
+              <div class="vlMaterial" id="vlMaterialListe"></div>
             </div>
             <div class="vlTabInhalt" id="vlPaneCoach">
               <div class="vlCoachHistory" id="vlCoachHistory">
@@ -15672,6 +15714,8 @@ GENERATORS.vlan = function (level) {
     $v("vlExitBtn").onclick = beenden;
     $v("vlTabHandout").onclick = () => wechsleTab("handout");
     $v("vlTabCoach").onclick = () => wechsleTab("coach");
+    $v("vlTabMaterial").onclick = () => wechsleTab("material");
+    $v("vlMaterialListe").innerHTML = materialHtml();
     $v("vlCoachForm").onsubmit = frageAbsenden;
     richtePanelEin();
 
@@ -15679,14 +15723,43 @@ GENERATORS.vlan = function (level) {
     starteAuftritt();
   }
 
+  // Drei Bloecke: Handout (Stoff), KI-Tutor (Chat), Material (Quellen, Handouts, Videos)
   function wechsleTab(ziel) {
-    const istH = ziel === "handout";
-    $v("vlTabHandout").classList.toggle("aktiv", istH);
-    $v("vlTabCoach").classList.toggle("aktiv", !istH);
-    $v("vlPaneHandout").classList.toggle("aktiv", istH);
-    $v("vlPaneCoach").classList.toggle("aktiv", !istH);
-    if (istH) { const d = document.querySelector("#vlTabHandout .vlTabPunkt"); if (d) d.remove(); }
-    if (!istH) { const i = $v("vlCoachIn"); if (i) i.focus(); }
+    const namen = { handout: "Handout", coach: "Coach", material: "Material" };
+    Object.keys(namen).forEach((k) => {
+      const an = k === ziel;
+      $v("vlTab" + namen[k]).classList.toggle("aktiv", an);
+      $v("vlPane" + namen[k]).classList.toggle("aktiv", an);
+    });
+    if (ziel === "handout") { const d = document.querySelector("#vlTabHandout .vlTabPunkt"); if (d) d.remove(); }
+    if (ziel === "coach") { const i = $v("vlCoachIn"); if (i) i.focus(); }
+  }
+
+  // Material der Einheit: Buch, Handouts (mit Links, soweit das Handout-System des Quiz sie kennt), Videos.
+  // Optionales Feld E.videos = [{ titel, url }] fuer Links, die nicht im Quiz-Handout-System stehen.
+  function materialHtml() {
+    const q = E.quelle || {};
+    const teile = [];
+    if (q.buch) teile.push('<div class="vlMatZ">📖 <b>Buch:</b> ' + esc(q.buch) + "</div>");
+    const o = [], p = [], vid = [], seen = {};
+    (q.handouts || []).forEach((name) => {
+      let h = null;
+      try { if (typeof hoFuer === "function") h = hoFuer(name); } catch (e) {}
+      let treffer = false;
+      if (h) ["o", "p", "v"].forEach((k) => (h[k] || []).forEach((d) => {
+        treffer = true;
+        if (!seen[d.url]) { seen[d.url] = 1; (k === "o" ? o : k === "p" ? p : vid).push(d); }
+      }));
+      if (!treffer) o.push({ nur: name });
+    });
+    const link = (d, f) => d.nur ? esc(d.nur) : (typeof f === "function" ? f(d) : esc(d.titel || d.url));
+    const zeile = (ico, name, arr, f) => arr.length ? '<div class="vlMatZ">' + ico + " <b>" + name + ":</b> " + arr.map((d) => link(d, f)).join(" · ") + "</div>" : "";
+    teile.push(zeile("📝", "Handouts", o, typeof hoLink === "function" ? hoLink : null));
+    teile.push(zeile("📄", "PDF-Handouts", p, typeof hoLink === "function" ? hoLink : null));
+    (E.videos || []).forEach((d) => vid.push(d));
+    teile.push(zeile("🎬", vid.length > 1 ? "Erklärvideos" : "Erklärvideo", vid,
+      (d) => typeof vidLink === "function" && !d.titel ? vidLink(d) : '<a href="' + esc(d.url) + '" target="_blank" rel="noopener">' + esc(d.titel || d.url) + "</a>"));
+    return teile.join("") || '<div class="vlMatZ">Zu dieser Einheit ist noch kein Material hinterlegt.</div>';
   }
 
   // ---------------------------------------------------------------- Fortschritt & Handout
