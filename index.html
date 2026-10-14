@@ -52412,6 +52412,9 @@ function lpStartDialog() {
       const n = pool.filter((q) => q.kap === k).length, an = !letzt.kaps || letzt.lf !== l || letzt.kaps.includes(k);
       return `<label class="einst"><input type="checkbox" value="${esc(k)}"${an ? " checked" : ""}> ${esc(k)} ${esc((BAUM.kap[k] || {}).titel || "")} <span class="muted">(${n})</span></label>`;
     }).join("");
+    // Gemerkte Auswahl passt zu keinem aktuellen Kapitel (z. B. nach Umbenennung/Erweiterung): alle anhaken,
+    // sonst startet "Los" nicht und der Wissensbaum wirkt kaputt.
+    if (!$("lpKaps").querySelector("input:checked")) $("lpKaps").querySelectorAll("input").forEach((i) => { i.checked = true; });
   };
   $("lpLf").onchange = kapListe; kapListe();
   const bekannt = Object.values(st.themen).filter((t) => t.n).length;
@@ -52422,8 +52425,10 @@ function lpStartDialog() {
   $("lpAbbr").onclick = () => $("lpModal").classList.add("hidden");
   $("lpReset").onclick = () => { if (confirm("Lernstand in diesem Browser wirklich löschen?")) { store.set(KLP, {}); lpStartDialog(); } };
   $("lpLos").onclick = () => {
+    // Nichts angehakt: statt Warnung (alert wird in Handy-/Standalone-Browsern oft unterdrückt) alle Kapitel nehmen
+    if (!$("lpKaps").querySelector("input:checked")) $("lpKaps").querySelectorAll("input").forEach((i) => { i.checked = true; });
     const kaps = [...$("lpKaps").querySelectorAll("input:checked")].map((i) => i.value);
-    if (!kaps.length) { alert("Mindestens ein Kapitel wählen."); return; }
+    if (!kaps.length) { $("lpInfo").textContent = "Für dieses Lernfeld gibt es noch keine Kapitel."; return; }
     const [art, wert] = $("lpZiel").value.split(":");
     store.set("fi-quiz-lernpfad-auswahl-v1", { lf: $("lpLf").value, kaps, ziel: $("lpZiel").value, frei: $("lpFrei").value });
     $("lpModal").classList.add("hidden");
