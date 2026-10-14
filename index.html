@@ -35183,6 +35183,2028 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_PR4.id]: LF03_PR4 });
 })();
 
+/* ---- f_einheiten_pruefungsflug1.js ---- */
+//
+// Einheit 31: Pruefungsflug 1 (aus dem Kurs "Pruefungsflug", Stationen 0 bis 2). Pruefungsmodus: Tipps der Kursaufgaben entfernt (gen-Aufgaben erzeugen eigene Tipps auf Wunsch).
+(function () {
+  "use strict";
+
+  const LF03_PF1 = {
+    "id": "lf03-pruefungsflug-1",
+    "reihe": 31,
+    "titel": "Prüfungsflug 1: Verkabelung, Schichten und Adressen",
+    "untertitel": "gemischter Abschlusstest über S. 306 bis 338, ohne Tipps, Teil 1 von 2",
+    "lernfeld": "LF03",
+    "dauer_min": 45,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 306–338 (Verkabelung, Schichten, Adressen)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Verkabelung und Medien ohne Hilfe beantworten",
+        "kn": "Prüfung"
+      },
+      {
+        "id": "lz2",
+        "text": "Schichten, Frame, TCP/UDP und Verschlüsselung ohne Hilfe beantworten",
+        "kn": "Prüfung"
+      },
+      {
+        "id": "lz3",
+        "text": "MAC, IPv4, IPv6 und Ports ohne Hilfe beantworten",
+        "kn": "Prüfung"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Prüfungsflug 1: Verkabelung und Medien",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Topologie",
+            "sub": "Einheit 6",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "Kupfer",
+            "sub": "Einheit 7",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "Glasfaser, Funk",
+            "sub": "Einheit 8",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "verkabelung": {
+        "art": "netz",
+        "titel": "Prüfungsflug 1: Verkabelung und Medien",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Topologie",
+            "sub": "Einheit 6",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "Kupfer",
+            "sub": "Einheit 7",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "Glasfaser, Funk",
+            "sub": "Einheit 8",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "schichten": {
+        "art": "netz",
+        "titel": "Prüfungsflug 2: Schichten und Protokolle",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Schichtenmodelle",
+            "sub": "Einheit 9 und 11",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "Frame, TCP, UDP",
+            "sub": "Einheit 10",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "Verschlüsselung",
+            "sub": "Einheit 12",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "adressen": {
+        "art": "netz",
+        "titel": "Prüfungsflug 3: Adressen",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "MAC, IPv4",
+            "sub": "Einheit 13",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "Privat, IPv6",
+            "sub": "Einheit 14",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "Ports",
+            "sub": "Einheit 15",
+            "w": 170
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wie viele Bit hat eine MAC-Adresse?",
+        "optionen": [
+          {
+            "text": "48",
+            "richtig": true
+          },
+          {
+            "text": "32",
+            "richtig": false
+          },
+          {
+            "text": "128",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Welche Schicht des OSI-Modells ist für Routing zuständig?",
+        "optionen": [
+          {
+            "text": "Vermittlungsschicht (3)",
+            "richtig": true
+          },
+          {
+            "text": "Sicherungsschicht (2)",
+            "richtig": false
+          },
+          {
+            "text": "Transportschicht (4)",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Abschnitt 1: Verkabelung und Medien",
+        "kurz": "Topologie, Gebäudeverkabelung, Kupfer, Glasfaser, Funk",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ab hier gilt Prüfungsmodus: gemischte Aufgaben über alles ab Seite 306.",
+          "frage": "Was weißt du ohne Nachschlagen?"
+        },
+        "aufbau": [
+          {
+            "text": "Dieser Abschnitt prüft Topologie, Gebäudeverkabelung, Kupfer, Glasfaser und Funk aus S. 309 bis 321.",
+            "diagramm": "verkabelung"
+          },
+          {
+            "text": "Kein Tipp und keine KI-Hilfe, bevor du geantwortet hast. Weiß ich nicht ist erlaubt, dann siehst du die Lösung.",
+            "diagramm": "verkabelung"
+          },
+          {
+            "text": "Schwache Aufgaben merkst du dir und wiederholst sie in zwei Tagen. Nachschlagen kannst du in den Einheiten 6 bis 8.",
+            "diagramm": "verkabelung"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche Topologie hat einen zentralen Verteiler, an dem jedes Gerät einzeln hängt?",
+          "optionen": [
+            {
+              "text": "Stern",
+              "richtig": true,
+              "korrektur": "Richtig: Jedes Gerät hat seine eigene Leitung zum zentralen Verteiler."
+            },
+            {
+              "text": "Bus",
+              "richtig": false,
+              "korrektur": "Beim Bus teilen sich alle Geräte eine Leitung."
+            },
+            {
+              "text": "Ring",
+              "richtig": false,
+              "korrektur": "Beim Ring hängen die Geräte hintereinander im Kreis."
+            }
+          ],
+          "loesung": "Stern.",
+          "beleg": {
+            "seite": "309–321"
+          }
+        },
+        "wiederholung": {
+          "text": "Prüfungsmodus: Aufgaben erst beantworten, dann nachschlagen. Schwache Themen in zwei Tagen wiederholen.",
+          "diagramm": "verkabelung"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welche Topologie ist in heutigen LAN-Verkabelungen Standard?",
+            "optionen": [
+              "Der Bus mit gemeinsamer Leitung",
+              "Der Ring mit Vorgänger und Nachfolger",
+              "Die Zelle mit Funkversorgung",
+              "Der erweiterte Stern (Baum)"
+            ],
+            "richtig": 3,
+            "erkl": "Der **erweiterte Stern** über drei Ebenen ist der Standard. Bus ist im LAN nicht mehr üblich, Ring kaum, Zelle ist Funk."
+          },
+          {
+            "t": "gen",
+            "gen": "masche",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "zuordnen",
+            "f": "Ordne jeder Ebene die Strecke zu.",
+            "paare": [
+              [
+                "Primär",
+                "Standortverteiler → Gebäudeverteiler"
+              ],
+              [
+                "Sekundär",
+                "Gebäudeverteiler → Etagenverteiler"
+              ],
+              [
+                "Tertiär",
+                "Etagenverteiler → Dose (TA)"
+              ]
+            ],
+            "erkl": "Primär SV → GV, Sekundär GV → EV, Tertiär EV → TA."
+          },
+          {
+            "t": "eingabe",
+            "f": "Ein Gebäude hat auf einer Etage **5.000 m²**. Wie viele Etagenverteiler ergibt die Faustformel?",
+            "art": "zahl",
+            "antwort": [
+              "5"
+            ],
+            "erkl": "5.000 m² / 1.000 m² = **5** Etagenverteiler.",
+            "fallen": {
+              "1": "Die Faustformel: pro 1.000 m² ein Verteiler."
+            }
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele Meter darf der **Permanent Link** höchstens lang sein?",
+            "art": "zahl",
+            "antwort": [
+              "90"
+            ],
+            "erkl": "Permanent Link **90 m**, Channel Link 100 m.",
+            "fallen": {
+              "100": "100 m gilt für den Channel Link, nicht für den Permanent Link."
+            }
+          },
+          {
+            "t": "weg",
+            "titel": "Längen prüfen",
+            "kopf": "6. Festverkabelung **88 m**, Patchkabel **5 m**, Anschlusskabel **8 m**.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Channel-Link-Länge (m)?",
+                "art": "zahl",
+                "antwort": [
+                  "101"
+                ],
+                "erkl": "88 + 5 + 8 = **101 m**.",
+                "label": "Channel Link"
+              },
+              {
+                "t": "wahl",
+                "f": "Channel Link zulässig?",
+                "optionen": [
+                  "Nein, 101 m sind mehr als 100 m",
+                  "Ja, weil der Permanent Link zulässig ist",
+                  "Ja, bis 110 m ist alles erlaubt",
+                  "Nein, er muss unter 90 m liegen"
+                ],
+                "richtig": 0,
+                "erkl": "101 m > 100 m → **unzulässig**.",
+                "label": "Channel Link zulässig?"
+              },
+              {
+                "t": "wahl",
+                "f": "Permanent Link zulässig?",
+                "optionen": [
+                  "Nein, er muss unter 85 m liegen",
+                  "Ja, 88 m sind höchstens 90 m",
+                  "Nein, weil der Channel Link überschritten ist",
+                  "Das hängt von der Kabelkategorie ab"
+                ],
+                "richtig": 1,
+                "erkl": "88 m ≤ 90 m → **zulässig**. Die Überschreitung entsteht erst durch die Patchkabel.",
+                "label": "Permanent Link zulässig?"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Was unterscheidet **Kategorie** und **Klasse**?",
+            "optionen": [
+              "Kategorie = fertige Strecke, Klasse = Bauteil",
+              "Beide sind austauschbare Wörter für dasselbe",
+              "Kategorie = Bauteil, Klasse = gemessene fertige Strecke",
+              "Kategorie gilt nur für Glasfaser, Klasse nur für Kupfer"
+            ],
+            "richtig": 2,
+            "erkl": "**Kategorie** = Bauteil (Cat), **Klasse** = gemessene Strecke (D, E, EA …)."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **MHz** hat Cat 6A?",
+            "art": "zahl",
+            "antwort": [
+              "500"
+            ],
+            "erkl": "Cat 6A: **500 MHz**, Klasse EA.",
+            "fallen": {
+              "250": "250 MHz hat Cat 6 ohne A.",
+              "600": "600 MHz hat Cat 7."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Wogegen wirkt das **Verdrillen** der Adernpaare?",
+            "optionen": [
+              "Gegen elektrische Störstrahlung",
+              "Gegen Dämpfung",
+              "Gegen Laufzeitunterschiede",
+              "Gegen magnetische Störstrahlung"
+            ],
+            "richtig": 3,
+            "erkl": "Verdrillen wirkt gegen **magnetische**, Schirmung gegen **elektrische** Störungen."
+          },
+          {
+            "t": "wahl",
+            "f": "Was beschreibt das Kürzel **F/UTP**?",
+            "optionen": [
+              "Gemeinsamer Folienschirm, Paare ungeschirmt",
+              "Gemeinsamer Geflechtschirm, Paare mit Folie",
+              "Kein Gesamtschirm, Paare mit Folie",
+              "Gemeinsamer Folien- und Geflechtschirm, Paare mit Folie"
+            ],
+            "richtig": 0,
+            "erkl": "Vor dem Schrägstrich der Gesamtschirm (F = Folie), danach die Paare (UTP = ungeschirmt)."
+          },
+          {
+            "t": "gen",
+            "gen": "lwl",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "eingabe",
+            "f": "Welchen Kerndurchmesser hat eine **Singlemode**-Faser (in µm)?",
+            "art": "zahl",
+            "antwort": [
+              "9"
+            ],
+            "erkl": "Singlemode: Kern etwa **9 µm**. Multimode hat 50 oder 62,5 µm.",
+            "fallen": {
+              "50": "50 µm ist Multimode.",
+              "62.5": "62,5 µm ist Multimode.",
+              "625": "62,5 µm ist Multimode."
+            }
+          },
+          {
+            "t": "weg",
+            "titel": "Ethernet-Namen",
+            "kopf": "13. Du siehst die Bezeichnung **40GBase-LR4** und willst sie einordnen.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Datenrate in Mbit/s?",
+                "art": "zahl",
+                "antwort": [
+                  "40000"
+                ],
+                "erkl": "40G = 40 Gbit/s = **40.000 Mbit/s**.",
+                "fallen": {
+                  "40": "Das G steht für Gbit/s: mal 1000."
+                },
+                "label": "Datenrate"
+              },
+              {
+                "t": "wahl",
+                "f": "Welches Medium?",
+                "optionen": [
+                  "Multimode-Glasfaser",
+                  "Singlemode-Glasfaser",
+                  "Kupfer-Twinax",
+                  "Twisted Pair"
+                ],
+                "richtig": 1,
+                "erkl": "**LR4** = Long Reach, Singlemode-LWL (Buch: 10 km).",
+                "label": "Medium"
+              },
+              {
+                "t": "wahl",
+                "f": "Wofür steht Base?",
+                "optionen": [
+                  "Basisstation",
+                  "Basiskategorie",
+                  "Basisband ohne Trägerfrequenz",
+                  "Basisversion"
+                ],
+                "richtig": 2,
+                "erkl": "**Base = Basisband**.",
+                "label": "Base"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Wi-Fi-Bezeichnung gehört zu **802.11ax**?",
+            "optionen": [
+              "Wi-Fi 5",
+              "Wi-Fi 7",
+              "WiGig",
+              "Wi-Fi 6"
+            ],
+            "richtig": 3,
+            "erkl": "**802.11ax = Wi-Fi 6** (Wi-Fi 6E ergänzt 6 GHz). 802.11ad ist WiGig (60 GHz); das Buch bezeichnet es irrtümlich als Wi-Fi 6."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Erst antworten, dann nachschlagen. Schwache Aufgaben nach zwei Tagen wiederholen.",
+          "handout": "**Abschnitt 1:** Topologie, Gebäudeverkabelung, Kupfer, Glasfaser, Funk. Nachschlagen: Einheiten 6 bis 8. Wiederholung nach 2 Tagen und nach einer Woche."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Abschnitt 2: Schichten und Protokolle",
+        "kurz": "Schichtenmodelle, Frame, TCP/UDP, Dienste, Verschlüsselung",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Weiter mit den Schichtenmodellen und Protokollen.",
+          "frage": "Welche Schicht macht was?"
+        },
+        "aufbau": [
+          {
+            "text": "Dieser Abschnitt prüft Schichtenmodelle, Frame, TCP und UDP, Dienste und Verschlüsselung aus S. 306 bis 308 und 321 bis 330.",
+            "diagramm": "schichten"
+          },
+          {
+            "text": "Kein Tipp und keine KI-Hilfe, bevor du geantwortet hast. Weiß ich nicht ist erlaubt, dann siehst du die Lösung.",
+            "diagramm": "schichten"
+          },
+          {
+            "text": "Nachschlagen kannst du in den Einheiten 9 bis 12. Notiere dir, bei welchen Aufgaben du Weiß ich nicht gewählt hast.",
+            "diagramm": "schichten"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche OSI-Schicht ist für Routing zuständig?",
+          "optionen": [
+            {
+              "text": "Vermittlungsschicht (Schicht 3)",
+              "richtig": true,
+              "korrektur": "Richtig: Hier arbeiten IP-Adressen und Router."
+            },
+            {
+              "text": "Sicherungsschicht (Schicht 2)",
+              "richtig": false,
+              "korrektur": "Schicht 2 arbeitet mit MAC-Adressen."
+            },
+            {
+              "text": "Transportschicht (Schicht 4)",
+              "richtig": false,
+              "korrektur": "Schicht 4 trennt Dienste über Ports."
+            }
+          ],
+          "loesung": "Vermittlungsschicht.",
+          "beleg": {
+            "seite": "306–308, 321–330"
+          }
+        },
+        "wiederholung": {
+          "text": "Schicht 3 routet mit IP, Schicht 2 schaltet mit MAC, Schicht 4 trennt per Port.",
+          "diagramm": "schichten"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Auf welcher OSI-Schicht arbeiten Switches, auf welcher Router, und was werten sie aus?",
+            "optionen": [
+              "Switch Schicht 2 (Ziel-MAC), Router Schicht 3 (Netzanteil der Ziel-IP)",
+              "Switch Schicht 3 (Ziel-IP), Router Schicht 2 (Ziel-MAC)",
+              "Switch Schicht 1 (keine Adressen), Router Schicht 2 (Ziel-MAC)",
+              "Beide Schicht 3, beide werten die Ziel-IP aus"
+            ],
+            "richtig": 0,
+            "erkl": "Der Switch liest die Ziel-MAC (**Schicht 2**), der Router den Netzanteil der Ziel-IP (**Schicht 3**)."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Ordne die OSI-Schichten der **TCP/IP-Schicht** zu.",
+            "paare": [
+              [
+                "7 Anwendung",
+                "Anwendung"
+              ],
+              [
+                "5 Sitzung",
+                "Anwendung"
+              ],
+              [
+                "4 Transport",
+                "Transport"
+              ],
+              [
+                "3 Vermittlung",
+                "Internet"
+              ],
+              [
+                "2 Sicherung",
+                "Netzzugang"
+              ],
+              [
+                "1 Bitübertragung",
+                "Netzzugang"
+              ]
+            ],
+            "erkl": "OSI 7 bis 5 → **Anwendung**, 4 → **Transport**, 3 → **Internet**, 2 und 1 → **Netzzugang**."
+          },
+          {
+            "t": "gen",
+            "gen": "schichtProto",
+            "stufen": [
+              1
+            ],
+            "modus": "schicht"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele Byte **Overhead** hat ein Ethernet-Frame (ohne VLAN-Tag und ohne Präambel)?",
+            "art": "zahl",
+            "antwort": [
+              "18"
+            ],
+            "erkl": "Ziel-MAC 6 + Quell-MAC 6 + Typ 2 + Prüfsumme 4 = **18 Byte**.",
+            "fallen": {
+              "14": "Das ist nur der Header. Die Prüfsumme (4 Byte) kommt dazu."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Was bedeutet **MTU = 1500 Byte** bei Ethernet?",
+            "optionen": [
+              "Der gesamte Frame ist höchstens 1500 Byte groß",
+              "Die Nutzdaten eines Frames sind höchstens 1500 Byte groß",
+              "Ein Frame hat immer exakt 1500 Byte Nutzdaten",
+              "Es sind höchstens 1500 Frames pro Sekunde erlaubt"
+            ],
+            "richtig": 1,
+            "erkl": "Die MTU beschreibt nur die **Nutzdaten**. Der Frame ist wegen des Overheads größer (1518 Byte ohne Präambel)."
+          },
+          {
+            "t": "weg",
+            "titel": "VLAN-Tag",
+            "kopf": "5. Ein VLAN-Tag besteht aus TPID (2 Byte), 3 Bit Priorität, 1 Bit CF/DEI und 12 Bit VLAN-ID.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Prioritätsstufen** gibt es?",
+                "art": "zahl",
+                "antwort": [
+                  "8"
+                ],
+                "erkl": "2³ = **8**.",
+                "label": "Prioritätsstufen"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele VLAN-IDs sind **nutzbar**?",
+                "art": "zahl",
+                "antwort": [
+                  "4094"
+                ],
+                "erkl": "2¹² = 4096 unterscheidbar, abzüglich der reservierten IDs 0 und 4095 → **4094** nutzbar.",
+                "fallen": {
+                  "4096": "Das sind alle unterscheidbaren IDs. 0 und 4095 sind reserviert."
+                },
+                "label": "Nutzbare IDs"
+              }
+            ]
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher **Typwert** steht für welchen Inhalt?",
+            "paare": [
+              [
+                "0x0800",
+                "IPv4"
+              ],
+              [
+                "0x86DD",
+                "IPv6"
+              ],
+              [
+                "0x0806",
+                "ARP"
+              ],
+              [
+                "0x8100",
+                "VLAN"
+              ]
+            ],
+            "erkl": "**0x0800** IPv4, **0x86DD** IPv6, **0x0806** ARP, **0x8100** VLAN."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Aussage zu **TCP und UDP** stimmt?",
+            "optionen": [
+              "UDP quittiert jede Zustellung, TCP verzichtet darauf",
+              "TCP ist verbindungslos, UDP baut vorher eine Verbindung auf",
+              "TCP quittiert und liefert nach, UDP hat kleineren Header und ist schneller",
+              "Beide fordern fehlende Daten automatisch neu an und quittieren"
+            ],
+            "richtig": 2,
+            "erkl": "**TCP**: verbindungsorientiert, Quittung, Nachlieferung. **UDP**: kleiner Header, schnell, ohne Quittung. UDP = User Datagram Protocol."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein **Socket** besteht aus …",
+            "optionen": [
+              "MAC-Adresse und IP-Adresse",
+              "Port und Subnetzmaske",
+              "Protokollname und Prüfsumme",
+              "IP-Adresse und Port"
+            ],
+            "richtig": 3,
+            "erkl": "**IP-Adresse + Port = Socket.** Eine Kommunikation braucht zwei Sockets."
+          },
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1
+            ],
+            "modus": "port"
+          },
+          {
+            "t": "wahl",
+            "f": "Ein PC ruft einen Webserver im Internet auf. Welche **Ziel-MAC** und welche **Ziel-IP** stehen im Frame bzw. Paket?",
+            "optionen": [
+              "Ziel-MAC: Router (Standardgateway), Ziel-IP: Webserver",
+              "Ziel-MAC: Webserver, Ziel-IP: Router",
+              "Ziel-MAC: Webserver, Ziel-IP: Webserver",
+              "Ziel-MAC: Router, Ziel-IP: Router"
+            ],
+            "richtig": 0,
+            "erkl": "Der Frame geht im eigenen Netz an den **Router**, das Paket nennt als Ziel den **Webserver**. (Das Buch schreibt auf S. 324 im Layer-2-Schritt „Ziel-IP“, gemeint ist die Ziel-MAC.)"
+          },
+          {
+            "t": "ordnen",
+            "f": "Bring die **DHCP-Schritte** in die richtige Reihenfolge.",
+            "items": [
+              "Discover",
+              "Offer",
+              "Request",
+              "Acknowledge"
+            ],
+            "erkl": "**Discover → Offer → Request → Acknowledge.**"
+          },
+          {
+            "t": "wahl",
+            "f": "Wie wird ein **ARP-Request** verschickt und wonach fragt er?",
+            "optionen": [
+              "Als Unicast an den DNS-Server: Welche IP gehört zu diesem Namen?",
+              "Als Broadcast: Wer hat diese IP-Adresse, wie lautet ihre MAC?",
+              "Als Multicast an alle Router: Wohin geht dieses Paket?",
+              "Als Broadcast: Wer vergibt eine IP-Konfiguration?"
+            ],
+            "richtig": 1,
+            "erkl": "ARP löst **IP in MAC** auf. Der Request geht als **Broadcast** an alle, nur der Besitzer der IP antwortet."
+          },
+          {
+            "t": "wahl",
+            "f": "Warum nutzt TLS eine **hybride** Verschlüsselung?",
+            "optionen": [
+              "Asymmetrisch ist schneller, symmetrisch dafür sicherer",
+              "Symmetrisch wird nur beim Handshake benutzt",
+              "Asymmetrisch tauscht den Schlüssel aus, symmetrisch läuft schnell",
+              "Hybride Verfahren kommen ohne Schlüssel aus"
+            ],
+            "richtig": 2,
+            "erkl": "Hybrid verbindet die Vorteile: **asymmetrisch** den Schlüssel sicher austauschen, **symmetrisch** die Daten schnell verschlüsseln. Aktuell: TLS 1.2 und 1.3. (Dass TLS hybrid arbeitet, ist Praxis und steht nicht im Buch.)"
+          },
+          {
+            "t": "wahl",
+            "f": "Zwei Niederlassungen sollen vertraulich verbunden werden. Welche Kombination aus IPsec-Modus und Verfahren passt?",
+            "optionen": [
+              "Transportmodus mit AH",
+              "Tunnelmodus mit AH allein",
+              "Transportmodus mit TLS",
+              "Tunnelmodus mit ESP"
+            ],
+            "richtig": 3,
+            "erkl": "Ganze Netze → **Tunnelmodus**. Vertraulichkeit gibt es erst mit **ESP**; AH allein authentifiziert nur und lässt die Daten lesbar."
+          },
+          {
+            "t": "wahl",
+            "f": "Wo sitzt **TLS** im Schichtenmodell?",
+            "optionen": [
+              "Oberhalb von TCP (Buchtabelle: Schicht 5)",
+              "Auf Schicht 3, als Teil von IP neben IPsec",
+              "Auf Schicht 2, unterhalb von IP neben Ethernet",
+              "Auf Schicht 1, bei den Signalen auf dem Kabel"
+            ],
+            "richtig": 0,
+            "erkl": "TLS verschlüsselt die oberen Schichten, bevor TCP sie bekommt. Im Buch steht es in der Tabelle auf Schicht 5, im Text auf Schicht 4; TLS liegt **oberhalb von TCP**."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Schicht 2 MAC, Schicht 3 IP, Schicht 4 Ports. Erst antworten, dann nachschlagen.",
+          "handout": "**Abschnitt 2:** Schichtenmodelle, Frame, TCP/UDP, Dienste, Verschlüsselung. Nachschlagen: Einheiten 9 bis 12."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Abschnitt 3: Adressen",
+        "kurz": "MAC, IPv4, IPv6 und Ports",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Adressen gibt es auf allen Ebenen.",
+          "frage": "Welche Adresse gehört wohin?"
+        },
+        "aufbau": [
+          {
+            "text": "Dieser Abschnitt prüft MAC, IPv4, IPv6 und Ports aus S. 330 bis 338.",
+            "diagramm": "adressen"
+          },
+          {
+            "text": "Kein Tipp und keine KI-Hilfe, bevor du geantwortet hast. Weiß ich nicht ist erlaubt, dann siehst du die Lösung.",
+            "diagramm": "adressen"
+          },
+          {
+            "text": "Nachschlagen kannst du in den Einheiten 13 bis 15. Rechenaufgaben löst du mit Zettel und Stift.",
+            "diagramm": "adressen"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wie lang ist eine MAC-Adresse?",
+          "optionen": [
+            {
+              "text": "48 Bit",
+              "richtig": true,
+              "korrektur": "Richtig: sechs Oktette zu je 8 Bit."
+            },
+            {
+              "text": "32 Bit",
+              "richtig": false,
+              "korrektur": "32 Bit hat eine IPv4-Adresse."
+            },
+            {
+              "text": "128 Bit",
+              "richtig": false,
+              "korrektur": "128 Bit hat eine IPv6-Adresse."
+            }
+          ],
+          "loesung": "48 Bit.",
+          "beleg": {
+            "seite": "330–338"
+          }
+        },
+        "wiederholung": {
+          "text": "MAC 48 Bit, IPv4 32 Bit, IPv6 128 Bit, Port 16 Bit.",
+          "diagramm": "adressen"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "In welcher OSI-Schicht arbeitet welche Adresse?",
+            "paare": [
+              [
+                "MAC-Adresse",
+                "Schicht 2"
+              ],
+              [
+                "IPv4-Adresse",
+                "Schicht 3"
+              ],
+              [
+                "IPv6-Adresse",
+                "Schicht 3"
+              ],
+              [
+                "Portnummer",
+                "Schicht 4"
+              ]
+            ],
+            "erkl": "MAC = **Schicht 2**, IPv4/IPv6 = **Schicht 3**, Port = **Schicht 4**."
+          },
+          {
+            "t": "wahl",
+            "f": "Das erste Oktett einer MAC-Adresse ist `0x03` (binär `0000 0011`). Was gilt?",
+            "optionen": [
+              "Multicast, lokal verwaltet",
+              "Unicast, global eindeutig",
+              "Unicast, lokal verwaltet",
+              "Multicast, global eindeutig"
+            ],
+            "richtig": 0,
+            "erkl": "Bit 0 = 1 → **Multicast**, Bit 1 = 1 → **lokal verwaltet**."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Adresse gehört zur **Klasse C**?",
+            "optionen": [
+              "172.20.1.1",
+              "200.1.2.3",
+              "224.0.0.5",
+              "126.1.1.1"
+            ],
+            "richtig": 1,
+            "erkl": "Das erste Oktett 192–223 → Klasse C. 172 = B, 224 = D (Multicast), 126 = A."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **Net-ID** von **172.20.99.14** mit Maske /16?",
+            "art": "ip",
+            "antwort": [
+              "172.20.0.0"
+            ],
+            "erkl": "Hostbits (die letzten zwei Bytes) auf 0 → **172.20.0.0**.",
+            "fallen": {
+              "0.0.99.14": "Das ist die Host-ID (Netzbits 0). Die Net-ID setzt die Hostbits auf 0.",
+              "172.20.255.255": "Das ist die Broadcast-ID (Hostbits 1)."
+            }
+          },
+          {
+            "t": "gen",
+            "gen": "ipTyp",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Adresse ist **privat**?",
+            "optionen": [
+              "172.32.0.10",
+              "192.169.1.1",
+              "172.31.200.7",
+              "11.0.0.1"
+            ],
+            "richtig": 2,
+            "erkl": "Privat sind 10.x.x.x, 172.16–172.31 und 192.168.x.x. **172.31.200.7** liegt im Bereich B."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **nutzbare Hosts** hat ein privates Netz der **Klasse B** (/16)?",
+            "art": "zahl",
+            "antwort": [
+              "65534"
+            ],
+            "erkl": "2¹⁶ − 2 = **65.534**.",
+            "fallen": {
+              "65536": "Netz- und Broadcast-Adresse noch abziehen."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Aussage zu **IPv6** stimmt?",
+            "optionen": [
+              "IPv6 nutzt Broadcast statt Multicast für Rundsendungen",
+              "Die IPv6-Adresse besteht aus insgesamt 64 Bit",
+              "Der IPv6-Basisheader ist genau 20 Byte lang",
+              "Große Pakete fragmentiert nur der Absender, nicht der Router"
+            ],
+            "richtig": 3,
+            "erkl": "Bei IPv6 fragmentiert **nur der Absender**. IPv6 hat 128 Bit, keinen Broadcast und einen **40-Byte**-Basisheader (nach Norm plus optionale Extension Header; im Buch steht „keine Zusatzheader“)."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Ordne das Präfix der IPv6-Adressart zu.",
+            "paare": [
+              [
+                "2000::/3",
+                "Global Unicast"
+              ],
+              [
+                "FE80::/10",
+                "Link-Local"
+              ],
+              [
+                "FC00::/7",
+                "Unique Local"
+              ],
+              [
+                "::1",
+                "Loopback"
+              ],
+              [
+                "FF00::/8",
+                "Multicast"
+              ]
+            ],
+            "erkl": "**2000::/3** Global Unicast, **FE80::/10** Link-Local, **FC00::/7** Unique Local, **::1** Loopback, **FF00::/8** Multicast."
+          },
+          {
+            "t": "wahl",
+            "f": "Wie bekommt ein Client bei **SLAAC** seine Adresse?",
+            "optionen": [
+              "Er erhält das Präfix vom Router und bildet die Adresse selbst",
+              "Ein DHCP-Server vergibt jede Adresse einzeln",
+              "Er bekommt sie vom DNS-Server",
+              "Sie ist fest in der Netzwerkkarte gespeichert"
+            ],
+            "richtig": 0,
+            "erkl": "SLAAC: Präfix vom **Router**, Adresse selbst gebildet. Gateway und DNS kommen laut Buch meist zusätzlich per **DHCP(v6)**."
+          },
+          {
+            "t": "eingabe",
+            "f": "Schreibe die URL für den Server **2001:db8::10** auf Port **443** (https).",
+            "art": "url",
+            "antwort": [
+              "https://[2001:db8::10]:443/",
+              "https://[2001:db8::10]/"
+            ],
+            "erkl": "IPv6 in **eckigen Klammern**, dahinter der Port: **https://[2001:db8::10]:443/** (bei 443 darf `:443` auch fehlen)."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Socket besteht aus MAC-Adresse und Portnummer.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "erkl": "Ein Socket ist **IP-Adresse + Portnummer**. Jede Verbindung hat einen Quell- und einen Ziel-Socket."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher Port gehört zu welchem Dienst?",
+            "paare": [
+              [
+                "22",
+                "SSH"
+              ],
+              [
+                "25",
+                "SMTP"
+              ],
+              [
+                "53",
+                "DNS"
+              ],
+              [
+                "110",
+                "POP3"
+              ],
+              [
+                "143",
+                "IMAP"
+              ],
+              [
+                "443",
+                "HTTPS"
+              ]
+            ],
+            "erkl": "22 **SSH**, 25 **SMTP**, 53 **DNS**, 110 **POP3**, 143 **IMAP**, 443 **HTTPS**."
+          },
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1
+            ],
+            "modus": "bereich"
+          },
+          {
+            "t": "wahl",
+            "f": "Beim Seitenaufruf geht der Frame vom PC zum Router. Welche **Ziel-MAC** steht darin?",
+            "optionen": [
+              "Die MAC des Webservers",
+              "Die MAC des PCs",
+              "Die MAC des Router-Interfaces",
+              "ff-ff-ff-ff-ff-ff"
+            ],
+            "richtig": 2,
+            "erkl": "Der Frame geht zum **nächsten Hop**, dem Router. Die Ziel-IP bleibt der Server. (Das Buch schreibt hier irrtümlich „Ziel-IP-Adresse“, gemeint ist die Ziel-MAC.)"
+          }
+        ],
+        "sicherung": {
+          "merksatz": "MAC 48 Bit, IPv4 32 Bit, IPv6 128 Bit, Port 16 Bit.",
+          "handout": "**Abschnitt 3:** MAC (48 Bit), IPv4 (32 Bit), IPv6 (128 Bit), Ports (16 Bit). Nachschlagen: Einheiten 13 bis 15."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Wie viele Bit hat eine IPv6-Adresse?",
+        "optionen": [
+          {
+            "text": "128",
+            "richtig": true
+          },
+          {
+            "text": "32",
+            "richtig": false
+          },
+          {
+            "text": "64",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Welche Topologie nutzt einen zentralen Switch?",
+        "optionen": [
+          {
+            "text": "Stern",
+            "richtig": true
+          },
+          {
+            "text": "Bus",
+            "richtig": false
+          },
+          {
+            "text": "Ring",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Schicht arbeitet mit MAC-Adressen?",
+        "optionen": [
+          {
+            "text": "Sicherungsschicht (2)",
+            "richtig": true
+          },
+          {
+            "text": "Vermittlungsschicht (3)",
+            "richtig": false
+          },
+          {
+            "text": "Transportschicht (4)",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wie viele Bit hat ein Port?",
+        "optionen": [
+          {
+            "text": "16",
+            "richtig": true
+          },
+          {
+            "text": "8",
+            "richtig": false
+          },
+          {
+            "text": "32",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_PF1.id]: LF03_PF1 });
+})();
+
+/* ---- f_einheiten_pruefungsflug2.js ---- */
+//
+// Einheit 32: Pruefungsflug 2 (Stationen 3 bis 5). Pruefungsmodus: Tipps der Kursaufgaben entfernt (gen-Aufgaben erzeugen eigene Tipps auf Wunsch).
+(function () {
+  "use strict";
+
+  const LF03_PF2 = {
+    "id": "lf03-pruefungsflug-2",
+    "reihe": 32,
+    "titel": "Prüfungsflug 2: Geräte, Normen und Rechnen",
+    "untertitel": "gemischter Abschlusstest über S. 331 bis 345, ohne Tipps, Teil 2 von 2",
+    "lernfeld": "LF03",
+    "dauer_min": 45,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 331–345 (Geräte, Routing, Normen, Subnetting und IPv6)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Hub, Switch, Router und Routing-Tabelle ohne Hilfe beantworten",
+        "kn": "Prüfung"
+      },
+      {
+        "id": "lz2",
+        "text": "Normungsgremien, EN/DIN und IEEE 802 ohne Hilfe beantworten",
+        "kn": "Prüfung"
+      },
+      {
+        "id": "lz3",
+        "text": "Subnetting, VLSM und IPv6-Kürzen ohne Hilfe rechnen",
+        "kn": "Prüfung"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Prüfungsflug 4: Geräte und Routing",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Hub, Switch",
+            "sub": "Einheit 16 und 17",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "Verfahren",
+            "sub": "Einheit 18",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "Router, TTL",
+            "sub": "Einheit 19",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "geraete": {
+        "art": "netz",
+        "titel": "Prüfungsflug 4: Geräte und Routing",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Hub, Switch",
+            "sub": "Einheit 16 und 17",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "Verfahren",
+            "sub": "Einheit 18",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "Router, TTL",
+            "sub": "Einheit 19",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "normen": {
+        "art": "netz",
+        "titel": "Prüfungsflug 5: Normen",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Gremien",
+            "sub": "Einheit 20",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "EN und DIN",
+            "sub": "Einheit 20",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "IEEE 802",
+            "sub": "Einheit 20",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "rechnen": {
+        "art": "netz",
+        "titel": "Prüfungsflug 6: Rechnen",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Netzrechnung",
+            "sub": "Einheit 2 und 3",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "VLSM",
+            "sub": "Einheit 4",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "IPv6 kürzen",
+            "sub": "Einheit 5",
+            "w": 170
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welches Gerät wertet MAC-Adressen aus?",
+        "optionen": [
+          {
+            "text": "Switch",
+            "richtig": true
+          },
+          {
+            "text": "Router",
+            "richtig": false
+          },
+          {
+            "text": "Hub",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie viele nutzbare Hosts hat ein /26?",
+        "optionen": [
+          {
+            "text": "62",
+            "richtig": true
+          },
+          {
+            "text": "64",
+            "richtig": false
+          },
+          {
+            "text": "30",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Abschnitt 4: Geräte und Routing",
+        "kurz": "Hub, Switch, Router, Routing-Tabelle",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Wer wertet was aus? Dazu MAC-Tabelle und Routing-Tabelle.",
+          "frage": "Welches Gerät entscheidet wonach?"
+        },
+        "aufbau": [
+          {
+            "text": "Dieser Abschnitt prüft Hub, Switch, Router und die Routing-Tabelle aus S. 339 bis 344.",
+            "diagramm": "geraete"
+          },
+          {
+            "text": "Kein Tipp und keine KI-Hilfe, bevor du geantwortet hast. Weiß ich nicht ist erlaubt, dann siehst du die Lösung.",
+            "diagramm": "geraete"
+          },
+          {
+            "text": "Nachschlagen kannst du in den Einheiten 16 bis 19. Bei Weiß ich nicht schaust du dir die Lösung in Ruhe an.",
+            "diagramm": "geraete"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welches Gerät entscheidet anhand der MAC-Tabelle, an welchen Port ein Frame geht?",
+          "optionen": [
+            {
+              "text": "Switch",
+              "richtig": true,
+              "korrektur": "Richtig: Er lernt MAC-Adressen und schaltet gezielt."
+            },
+            {
+              "text": "Hub",
+              "richtig": false,
+              "korrektur": "Ein Hub wiederholt Signale an alle Ports."
+            },
+            {
+              "text": "Router",
+              "richtig": false,
+              "korrektur": "Ein Router entscheidet anhand der Routing-Tabelle."
+            }
+          ],
+          "loesung": "Switch.",
+          "beleg": {
+            "seite": "339–344"
+          }
+        },
+        "wiederholung": {
+          "text": "Switch: MAC-Tabelle. Router: Routing-Tabelle. Hub: wiederholt alles.",
+          "diagramm": "geraete"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Ein **Hub** arbeitet auf welcher Schicht und welche Adressen wertet er aus?",
+            "optionen": [
+              "Schicht 1, keine Adressen",
+              "Schicht 2, MAC-Adressen",
+              "Schicht 3, IP-Adressen",
+              "Schicht 1, MAC-Adressen"
+            ],
+            "richtig": 0,
+            "erkl": "Hub und Repeater verstärken nur das Signal (Schicht 1) und werten keine Adresse aus."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Adresse wertet das Gerät aus?",
+            "paare": [
+              [
+                "Hub",
+                "keine Adresse"
+              ],
+              [
+                "Switch",
+                "MAC-Adresse"
+              ],
+              [
+                "Router",
+                "Netzanteil der IP-Adresse"
+              ],
+              [
+                "Bridge",
+                "MAC-Adresse"
+              ],
+              [
+                "Repeater",
+                "keine Adresse"
+              ]
+            ],
+            "erkl": "Hub/Repeater: keine. Bridge/Switch: MAC. Router: Netzanteil der IP."
+          },
+          {
+            "t": "wahl",
+            "f": "Woher bekommt ein Switch die Einträge seiner Weiterleitungstabelle?",
+            "optionen": [
+              "Aus den Ziel-MAC-Adressen der ankommenden Frames",
+              "Aus den Absender-MAC-Adressen der ankommenden Frames",
+              "Vom DHCP-Server",
+              "Vom Administrator, immer von Hand"
+            ],
+            "richtig": 1,
+            "erkl": "Der Switch lernt aus der Absender-MAC und dem Eingangsport."
+          },
+          {
+            "t": "gen",
+            "gen": "macsim",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Switch-Typ leitet nur Frames mit korrekter Prüfsumme weiter?",
+            "optionen": [
+              "Cut-Through",
+              "Fragment-free",
+              "Store-and-Forward",
+              "Hub"
+            ],
+            "richtig": 2,
+            "erkl": "Nur Store-and-Forward empfängt den ganzen Frame und prüft die FCS."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele Byte-Zeiten Verzögerung hat ein Cut-Through-Switch?",
+            "art": "zahl",
+            "antwort": [
+              "14"
+            ],
+            "erkl": "Präambel 8 + Ziel-MAC 6 = **14**."
+          },
+          {
+            "t": "wahl",
+            "f": "Nach wie vielen empfangenen Bytes schaltet ein Fragment-free-Switch durch?",
+            "optionen": [
+              "Nach 14 Byte",
+              "Nach dem ganzen Frame",
+              "Nach 1518 Byte",
+              "Nach 64 Byte"
+            ],
+            "richtig": 3,
+            "erkl": "Fragment-free wartet 64 Byte ab, weil abgebrochene Frames meist kurz sind."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Switch hat eine Datenflusssteuerung und bremst Absender, wenn ein Puffer voll wird.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "erkl": "Der Switch hat **keine** Datenflusssteuerung. Läuft ein Puffer über, gehen Daten verloren, die Endgeräte beheben das."
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür braucht man einen Mirrorport?",
+            "optionen": [
+              "Um zwei Switches redundant zu verbinden",
+              "Um den Verkehr ausgesuchter Ports zur Analyse zu spiegeln (z. B. für Wireshark oder ein IDS)",
+              "Um die Datenrate eines Ports zu verdoppeln",
+              "Um die MAC-Tabelle zu sichern"
+            ],
+            "richtig": 1,
+            "erkl": "Ein Mirrorport bekommt eine Kopie des Verkehrs, damit man ihn analysieren kann."
+          },
+          {
+            "t": "gen",
+            "gen": "routesim",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Das Zielnetz eines Pakets fehlt in der Routing-Tabelle und es gibt **keine Default-Route**. Was passiert?",
+            "optionen": [
+              "Der Router sendet es per Broadcast in alle Netze",
+              "Der Router sendet es an den nächsten Switch",
+              "Der Router verwirft das Paket und schickt eine Fehlermeldung an den Absender",
+              "Der Router behält es, bis das Netz bekannt ist"
+            ],
+            "richtig": 2,
+            "erkl": "Ohne passenden Eintrag und ohne Default-Route kann das Paket nicht weiter. Es wird eine Fehlermeldung an den Absender geschickt."
+          },
+          {
+            "t": "gen",
+            "gen": "ttl",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Gerät passt zum Anwendungsfall?",
+            "paare": [
+              [
+                "Mehrere PCs im LAN verbinden",
+                "Switch"
+              ],
+              [
+                "LAN mit dem Internet verbinden",
+                "Router"
+              ],
+              [
+                "Mobilgeräte per Funk ans LAN anbinden",
+                "Access Point"
+              ],
+              [
+                "Signal auffrischen ohne Adressen",
+                "Repeater"
+              ]
+            ],
+            "erkl": "Switch: Geräte im LAN. Router: Netze koppeln. Access Point: Funkzelle. Repeater: Signal verstärken."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein PC schickt ein Paket an einen Server im Internet. Welche **Ziel-MAC** steht im Frame am PC?",
+            "optionen": [
+              "Die MAC des Servers",
+              "Die MAC des DNS-Servers",
+              "Die MAC des Switches",
+              "Die MAC des Standardgateways (Router)"
+            ],
+            "richtig": 3,
+            "erkl": "Liegt das Ziel in einem anderen Netz, geht der Frame an den Router. Nur die Ziel-IP bleibt die des Servers."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein managebarer Switch braucht eine IP-Adresse, damit man ihn über das Netz konfigurieren kann.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 0,
+            "erkl": "Ohne IP-Adresse lässt sich ein Gerät im Netz nicht ansprechen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Switch wertet MAC aus, Router wertet IP aus, Hub wiederholt.",
+          "handout": "**Abschnitt 4:** Hub, Switch, Router, Routing-Tabelle. Nachschlagen: Einheiten 16 bis 19."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Abschnitt 5: Normen",
+        "kurz": "Gremien, EN und DIN, IEEE 802",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Kurz und knackig: Wer legt Normen fest?",
+          "frage": "Welches Gremium macht was?"
+        },
+        "aufbau": [
+          {
+            "text": "Dieser Abschnitt prüft Gremien, EN und DIN sowie IEEE 802 aus S. 344 bis 345.",
+            "diagramm": "normen"
+          },
+          {
+            "text": "Kein Tipp und keine KI-Hilfe, bevor du geantwortet hast. Weiß ich nicht ist erlaubt, dann siehst du die Lösung.",
+            "diagramm": "normen"
+          },
+          {
+            "text": "Nachschlagen kannst du in Einheit 20. Merke ZigBee: nach Norm 802.15.4, das Buch nennt fälschlich 802.15.1.",
+            "diagramm": "normen"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welches Gremium ist für Elektrotechnik zuständig?",
+          "optionen": [
+            {
+              "text": "IEC",
+              "richtig": true,
+              "korrektur": "Richtig: Sie sitzt in Genf, die ISO macht den Rest."
+            },
+            {
+              "text": "ISO",
+              "richtig": false,
+              "korrektur": "Die ISO macht Normen für alles außer Elektrotechnik."
+            },
+            {
+              "text": "IETF",
+              "richtig": false,
+              "korrektur": "Die IETF entwickelt Internetprotokolle weiter."
+            }
+          ],
+          "loesung": "IEC.",
+          "beleg": {
+            "seite": "344–345"
+          }
+        },
+        "wiederholung": {
+          "text": "ISO alles außer Elektrotechnik, IEC Elektrotechnik, IEEE 802 Schicht 1 und 2.",
+          "diagramm": "normen"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches Gremium ist wofür zuständig?",
+            "paare": [
+              [
+                "ISO",
+                "alle Gebiete außer Elektrotechnik"
+              ],
+              [
+                "IEC",
+                "Elektrotechnik und Elektronik"
+              ],
+              [
+                "IETF",
+                "Internetprotokolle"
+              ],
+              [
+                "NIST",
+                "Verschlüsselungsverfahren"
+              ],
+              [
+                "IEEE",
+                "Ingenieurverband mit IEEE 802"
+              ]
+            ],
+            "erkl": "**ISO** alles außer Elektrotechnik, **IEC** Elektrotechnik, **IETF** Internet, **NIST** Verschlüsselung, **IEEE** Ingenieurverband."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Wo hat das Gremium seinen Sitz?",
+            "paare": [
+              [
+                "ISO",
+                "Genf"
+              ],
+              [
+                "IEEE",
+                "New York"
+              ],
+              [
+                "ANSI",
+                "Washington D.C."
+              ],
+              [
+                "DIN",
+                "Berlin"
+              ]
+            ],
+            "erkl": "ISO **Genf**, IEEE **New York**, ANSI **Washington D.C.**, DIN **Berlin**."
+          },
+          {
+            "t": "wahl",
+            "f": "Ab wann haben Empfehlungen der **ITU** Normcharakter?",
+            "optionen": [
+              "Wenn nationale Behörden (z. B. die Bundesnetzagentur) sie übernehmen",
+              "Sobald sie von der ITU veröffentlicht worden sind",
+              "Wenn das IEEE sie nach einer Prüfung bestätigt",
+              "Wenn das DIN sie ins Deutsche übersetzt und herausgibt"
+            ],
+            "richtig": 0,
+            "erkl": "ITU gibt zunächst nur **Empfehlungen**. Normcharakter bekommen sie erst durch Übernahme durch **nationale Regulierungsbehörden**."
+          },
+          {
+            "t": "wahl",
+            "f": "Welches europäische Komitee ist für **Elektrotechnik** zuständig?",
+            "optionen": [
+              "CEN",
+              "CENELEC",
+              "ETSI",
+              "IEC"
+            ],
+            "richtig": 1,
+            "erkl": "**CENELEC** = Europäisches Komitee für elektrotechnische Normung. CEN ist allgemein, ETSI Telekommunikation, die IEC ist international."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Schreibweise der OSI-Norm stimmt?",
+            "optionen": [
+              "OSI/IEC 7498-1",
+              "IEEE 7498-1",
+              "ISO/IEC 7498-1",
+              "DIN EN 7498-1"
+            ],
+            "richtig": 2,
+            "erkl": "**ISO/IEC 7498-1** (OSI-Referenzmodell). Das Buch schreibt „OSI/IEC“: das ist falsch, OSI ist der Name des Modells, nicht einer Organisation."
+          },
+          {
+            "t": "wahl",
+            "f": "Was regelt **DIN EN 50173**?",
+            "optionen": [
+              "Das OSI-Referenzmodell der Schichten",
+              "Power over Ethernet über Datenkabel",
+              "Verschlüsselung der Daten im WLAN",
+              "Anwendungsneutrale Kommunikationskabelanlagen"
+            ],
+            "richtig": 3,
+            "erkl": "**DIN EN 50173**: anwendungsneutrale Kommunikationskabelanlagen. D = DIN (deutsch), EN = Europäische Norm."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher IEEE-Standard gehört zu welcher Technik?",
+            "paare": [
+              [
+                "IEEE 802.3",
+                "Ethernet"
+              ],
+              [
+                "IEEE 802.3at",
+                "Power over Ethernet"
+              ],
+              [
+                "IEEE 802.11",
+                "Wireless LAN"
+              ],
+              [
+                "IEEE 802.15.1",
+                "Bluetooth"
+              ],
+              [
+                "IEEE 802.15.4",
+                "ZigBee"
+              ]
+            ],
+            "erkl": "**802.3** Ethernet, **802.3at** PoE, **802.11** WLAN, **802.15.1** Bluetooth, **802.15.4** ZigBee (das Buch nennt ZigBee fälschlich bei 802.15.1)."
+          },
+          {
+            "t": "wahl",
+            "f": "Zu welchem Standard gehört **ZigBee**?",
+            "optionen": [
+              "IEEE 802.15.4",
+              "IEEE 802.15.1",
+              "IEEE 802.11",
+              "IEEE 802.3an"
+            ],
+            "richtig": 0,
+            "erkl": "ZigBee = **802.15.4**. 802.15.1 ist Bluetooth. (Buch S. 345 nennt beides zusammen bei 802.15.1.)"
+          },
+          {
+            "t": "ordnen",
+            "f": "Sortiere nach Datenrate, die **langsamste zuerst**.",
+            "items": [
+              "802.3 (Ethernet)",
+              "802.3u (Fast Ethernet)",
+              "802.3z (Gigabit-Ethernet)",
+              "802.3ae (10-Gigabit-Ethernet)"
+            ],
+            "erkl": "10 Mbit/s → 100 Mbit/s → 1 Gbit/s → 10 Gbit/s. (802.3 meint hier das ursprüngliche 10-Mbit/s-Ethernet; Praxis, steht nicht im Buch.)"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche OSI-Schichten decken die IEEE-802-Standards ab?",
+            "optionen": [
+              "Schicht 2 und 3",
+              "Schicht 1 und 2",
+              "Schicht 3 und 4",
+              "Alle sieben Schichten"
+            ],
+            "richtig": 1,
+            "erkl": "IEEE 802 regelt **Schicht 1 und Schicht 2**."
+          },
+          {
+            "t": "wahl",
+            "f": "Die Buchstaben EN in einer Normnummer stehen für „Ethernet“.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "erkl": "**EN** = **Europäische Norm**, verabschiedet von CEN, CENELEC oder ETSI."
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Standard ist **Wi-Fi 6**?",
+            "optionen": [
+              "IEEE 802.11ac",
+              "IEEE 802.11ad",
+              "IEEE 802.11be",
+              "IEEE 802.11ax"
+            ],
+            "richtig": 3,
+            "erkl": "**Wi-Fi 6 = 802.11ax**. ac = Wi-Fi 5, be = Wi-Fi 7, ad = WiGig (60 GHz). Das Buch (S. 320) beschriftet 802.11ad irrtümlich als Wi-Fi 6."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "ISO ohne Elektrotechnik, IEC Elektrotechnik, EN = Europäische Norm, IEEE 802 Schicht 1 und 2.",
+          "handout": "**Abschnitt 5:** Gremien, EN/DIN, IEEE 802. Nachschlagen: Einheit 20."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Abschnitt 6: Rechnen",
+        "kurz": "Subnetting, VLSM und IPv6-Kürzen",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Rechenaufgaben aus den ersten Einheiten. Nimm Zettel und Stift.",
+          "frage": "Wie viele Hosts passen ins Netz?"
+        },
+        "aufbau": [
+          {
+            "text": "Dieser Abschnitt prüft Netzrechnung, VLSM und IPv6-Kürzen aus S. 331 bis 336.",
+            "diagramm": "rechnen"
+          },
+          {
+            "text": "Kein Tipp und keine KI-Hilfe, bevor du geantwortet hast. Weiß ich nicht ist erlaubt, dann siehst du die Lösung.",
+            "diagramm": "rechnen"
+          },
+          {
+            "text": "Nachschlagen kannst du in den Einheiten 2 bis 5. Rechne jede Aufgabe auf Papier, bevor du die Lösung ansiehst.",
+            "diagramm": "rechnen"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wie viele nutzbare Hosts hat ein /26?",
+          "optionen": [
+            {
+              "text": "62",
+              "richtig": true,
+              "korrektur": "Richtig: 2^6 = 64 Adressen minus Netz- und Broadcastadresse."
+            },
+            {
+              "text": "64",
+              "richtig": false,
+              "korrektur": "Davon gehen Netz- und Broadcastadresse ab."
+            },
+            {
+              "text": "30",
+              "richtig": false,
+              "korrektur": "30 nutzbare Hosts hat ein /27."
+            }
+          ],
+          "loesung": "62.",
+          "beleg": {
+            "seite": "331–336"
+          }
+        },
+        "wiederholung": {
+          "text": "Hostbits h: nutzbare Hosts = 2^h minus 2. /26 hat 6 Hostbits.",
+          "diagramm": "rechnen"
+        },
+        "uebung": [
+          {
+            "t": "gen",
+            "gen": "maskeGueltig",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "hostsBeiPraefix",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "netzrechnung",
+            "stufen": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "subnetzBilden",
+            "stufen": [
+              1,
+              2
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "hostsZuPraefix",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "vlsm",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "ipv6kuerzen",
+            "stufen": [
+              1
+            ],
+            "modus": "kurz"
+          },
+          {
+            "t": "gen",
+            "gen": "ipv6subnetze",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "urlbauen",
+            "stufen": [
+              1
+            ]
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Nutzbare Hosts = 2^Hostbits minus 2. /26: 62 Hosts.",
+          "handout": "**Abschnitt 6:** Netzrechnung, VLSM, IPv6-Kürzen. Nachschlagen: Einheiten 2 bis 5."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Wie viele nutzbare Hosts hat ein /24?",
+        "optionen": [
+          {
+            "text": "254",
+            "richtig": true
+          },
+          {
+            "text": "256",
+            "richtig": false
+          },
+          {
+            "text": "255",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Welches Gerät arbeitet mit der Routing-Tabelle?",
+        "optionen": [
+          {
+            "text": "Router",
+            "richtig": true
+          },
+          {
+            "text": "Switch",
+            "richtig": false
+          },
+          {
+            "text": "Hub",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welches Gremium legt AES und DES fest?",
+        "optionen": [
+          {
+            "text": "NIST",
+            "richtig": true
+          },
+          {
+            "text": "IETF",
+            "richtig": false
+          },
+          {
+            "text": "ANSI",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wofür steht EN in DIN EN?",
+        "optionen": [
+          {
+            "text": "Europäische Norm",
+            "richtig": true
+          },
+          {
+            "text": "Ethernet-Norm",
+            "richtig": false
+          },
+          {
+            "text": "Elektronik-Norm",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_PF2.id]: LF03_PF2 });
+})();
+
 /* ---- f_einheiten_subnetting.js ---- */
 // f_einheiten_subnetting.js - Lerneinheit 2: Subnetting und die Fachbegriffe (Daten, kein Code).
 //
@@ -53686,7 +55708,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
               <span style="font-size:22px;">🎓</span>
               <div>
                 <h3 style="color:#38bdf8; margin:0; font-size:14px;">Interaktive-KI-Vorlesung</h3>
-                <span style="font-size:10px; color:#7dd3fc;">Router, Subnetting und VLSM (LF03)</span>
+                <span style="font-size:10px; color:#7dd3fc;">${Object.keys(window.LERNEINHEITEN || {}).length} Einheiten zu Lernfeld 3: Router und Subnetting bis Prüfungsflug</span>
               </div>
             </div>
             <span class="devStatusBadge live">🟢 Spielbereit</span>
@@ -53696,12 +55718,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
             synchronen Obsidian-Handouts, didaktischen Checkpoints mit Gegenfragen & interaktiver Routing-Sandbox.
           </p>
           <div style="font-size:10px; color:#94a3b8; margin-bottom:10px; background:rgba(0,0,0,0.3); padding:5px 8px; border-radius:3px;">
-            📚 <b>Fachbuch:</b> Westermann S. 330–334 · <b>Obsidian:</b> 20_Begriffe/Router.md · <b>Tutor:</b> Live & Offline
+            📚 <b>Fachbuch:</b> Westermann S. 306–364 · <b>Obsidian:</b> 20_Begriffe/Router.md · <b>Tutor:</b> Live & Offline
           </div>
           <div id="hubEinheitenListe">${einheitenListeHtml()}</div>
         </div>
 
-        <div class="modalTrenner">Lernkurse mit KI-Lehrer</div>
         ${kursListeHtml()}
 
         <div class="modalTrenner">Weitere Experimente</div>
@@ -53834,9 +55855,11 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen", "kurs-client-einbinden", "kurs-ip-dhcp-cloud", "kurs-netz-tutorial"];
-    return `<div class="modalList">
-      ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen", "kurs-client-einbinden", "kurs-ip-dhcp-cloud", "kurs-netz-tutorial", "kurs-pruefungsflug"];
+    const rest = kurseInfo().filter((k) => !ersetzt.includes(k.p.id));
+    if (!rest.length) return "";   // alle Kurse sind Einheiten: der Abschnitt entfaellt komplett (der Kurs-Player bleibt als Code fuer kuenftige Kurse)
+    return `<div class="modalTrenner">Lernkurse mit KI-Lehrer</div><div class="modalList">
+      ${rest.map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
           <div class="modalItemHeader">
             <b>${esc(k.p.titel)}</b>
