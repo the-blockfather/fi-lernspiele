@@ -7630,6 +7630,14 @@ body.retro .vlPanelNeu { border-radius: 0; }
 .vlUFrage p { margin: 0 0 0.4em; }
 #vlUFb .vlTipp { margin-top: 8px; }
 
+
+/* Diagrammart "netz" (zeichneNetzSpec in f_vorlesung.js) */
+.vlNetzLink { stroke: #64748b; stroke-width: 3; stroke-linecap: round; }
+.vlNetzLink.vlNetz_dick { stroke: #38bdf8; stroke-width: 6; }
+.vlNetzLink.vlNetz_quer { stroke: #f59e0b; stroke-width: 3; stroke-dasharray: 7 5; }
+.vlNetzLink.vlNetz_gestrichelt { stroke-dasharray: 7 5; }
+.vlNetzLinkText { fill: #cbd5e1; font-size: 11px; font-weight: 600; }
+
 </style>
 </head>
 <body>
@@ -10074,6 +10082,5162 @@ GENERATORS.detektiv = function (level) {
 
   // Zur bestehenden Einheit dazulegen (f_einheiten.js wird vorher geladen: Dateien sind alphabetisch sortiert).
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_SUBNETTING.id]: LF03_SUBNETTING });
+})();
+
+/* ---- f_einheiten_verkabelung1.js ---- */
+//
+// Einheit 6: Topologien und Gebäudeverkabelung (aus dem Kurs "Verkabelungs-Baustelle", Stationen 0 bis 2).
+// Erzeugt per Skript aus den Kursdaten (Aufgaben unverändert); Diagramme als art:"netz" (siehe zeichneNetzSpec in f_vorlesung.js).
+// Alle Zahlen nachgerechnet (n·(n−1)/2, 85+3+5=93, 19 Zoll = 482,6 mm), siehe docs/KI-LEHRER-PROTOKOLL.md.
+(function () {
+  "use strict";
+
+  const LF03_VK1 = {
+    "id": "lf03-verkabelung-topologie",
+    "reihe": 6,
+    "titel": "Topologien und Gebäudeverkabelung",
+    "untertitel": "vom Stern bis zur Dose: Ebenen, Verteiler und Längengrenzen",
+    "lernfeld": "LF03",
+    "dauer_min": 25,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 309–313 (Topologien, Gebäudeverkabelung, Verteiler)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Topologien unterscheiden und den erweiterten Stern als LAN-Standard erklären",
+        "kn": "Verkabelung"
+      },
+      {
+        "id": "lz2",
+        "text": "Die drei Ebenen der Gebäudeverkabelung (SV, GV, EV, TA) zuordnen",
+        "kn": "Verkabelung"
+      },
+      {
+        "id": "lz3",
+        "text": "Permanent Link und Channel Link mit ihren Längengrenzen auseinanderhalten",
+        "kn": "Verkabelung"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Physische Topologie: so liegen die Kabel",
+        "knoten": [
+          {
+            "id": "pat",
+            "x": 110,
+            "y": 110,
+            "t": "Patchfeld",
+            "w": 110,
+            "rolle": "gruen"
+          },
+          {
+            "id": "r1",
+            "x": 320,
+            "y": 70,
+            "t": "Raum 1",
+            "w": 90
+          },
+          {
+            "id": "r2",
+            "x": 320,
+            "y": 150,
+            "t": "Raum 2",
+            "w": 90
+          },
+          {
+            "id": "r3",
+            "x": 530,
+            "y": 110,
+            "t": "Raum 3",
+            "w": 90
+          }
+        ],
+        "links": [
+          {
+            "von": "pat",
+            "bis": "r1"
+          },
+          {
+            "von": "pat",
+            "bis": "r2"
+          },
+          {
+            "von": "pat",
+            "bis": "r3"
+          }
+        ]
+      },
+      "stern": {
+        "art": "netz",
+        "titel": "Stern: alle Leitungen laufen zur Mitte",
+        "knoten": [
+          {
+            "id": "sw",
+            "x": 320,
+            "y": 120,
+            "t": "Switch",
+            "rolle": "gruen"
+          },
+          {
+            "id": "a",
+            "x": 110,
+            "y": 70,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "b",
+            "x": 110,
+            "y": 170,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "c",
+            "x": 530,
+            "y": 70,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "d",
+            "x": 530,
+            "y": 170,
+            "t": "PC",
+            "w": 60
+          }
+        ],
+        "links": [
+          {
+            "von": "sw",
+            "bis": "a"
+          },
+          {
+            "von": "sw",
+            "bis": "b"
+          },
+          {
+            "von": "sw",
+            "bis": "c"
+          },
+          {
+            "von": "sw",
+            "bis": "d"
+          }
+        ]
+      },
+      "baum": {
+        "art": "netz",
+        "titel": "Erweiterter Stern (Baum): Sterne an Sterne",
+        "knoten": [
+          {
+            "id": "sv",
+            "x": 320,
+            "y": 60,
+            "t": "Switch",
+            "rolle": "gruen"
+          },
+          {
+            "id": "e1",
+            "x": 170,
+            "y": 120,
+            "t": "Switch"
+          },
+          {
+            "id": "e2",
+            "x": 470,
+            "y": 120,
+            "t": "Switch"
+          },
+          {
+            "id": "p1",
+            "x": 90,
+            "y": 180,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "p2",
+            "x": 250,
+            "y": 180,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "p3",
+            "x": 390,
+            "y": 180,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "p4",
+            "x": 550,
+            "y": 180,
+            "t": "PC",
+            "w": 60
+          }
+        ],
+        "links": [
+          {
+            "von": "sv",
+            "bis": "e1"
+          },
+          {
+            "von": "sv",
+            "bis": "e2"
+          },
+          {
+            "von": "e1",
+            "bis": "p1"
+          },
+          {
+            "von": "e1",
+            "bis": "p2"
+          },
+          {
+            "von": "e2",
+            "bis": "p3"
+          },
+          {
+            "von": "e2",
+            "bis": "p4"
+          }
+        ]
+      },
+      "masche": {
+        "art": "netz",
+        "titel": "Vollständige Masche: 4 Stationen = 6 Leitungen",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 160,
+            "y": 70,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "b",
+            "x": 480,
+            "y": 70,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "c",
+            "x": 160,
+            "y": 170,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "d",
+            "x": 480,
+            "y": 170,
+            "t": "PC",
+            "w": 60
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "a",
+            "bis": "c"
+          },
+          {
+            "von": "a",
+            "bis": "d"
+          },
+          {
+            "von": "b",
+            "bis": "c"
+          },
+          {
+            "von": "b",
+            "bis": "d"
+          },
+          {
+            "von": "c",
+            "bis": "d"
+          }
+        ]
+      },
+      "mascheUnv": {
+        "art": "netz",
+        "titel": "Unvollständige Masche: Stern + Querverbindung",
+        "knoten": [
+          {
+            "id": "sv",
+            "x": 320,
+            "y": 60,
+            "t": "Switch",
+            "rolle": "gruen"
+          },
+          {
+            "id": "e1",
+            "x": 170,
+            "y": 120,
+            "t": "Switch"
+          },
+          {
+            "id": "e2",
+            "x": 470,
+            "y": 120,
+            "t": "Switch"
+          },
+          {
+            "id": "p1",
+            "x": 90,
+            "y": 180,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "p2",
+            "x": 250,
+            "y": 180,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "p3",
+            "x": 390,
+            "y": 180,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "p4",
+            "x": 550,
+            "y": 180,
+            "t": "PC",
+            "w": 60
+          }
+        ],
+        "links": [
+          {
+            "von": "sv",
+            "bis": "e1"
+          },
+          {
+            "von": "sv",
+            "bis": "e2"
+          },
+          {
+            "von": "e1",
+            "bis": "p1"
+          },
+          {
+            "von": "e1",
+            "bis": "p2"
+          },
+          {
+            "von": "e2",
+            "bis": "p3"
+          },
+          {
+            "von": "e2",
+            "bis": "p4"
+          },
+          {
+            "von": "e1",
+            "bis": "e2",
+            "t": "Querverbindung",
+            "stil": "quer"
+          }
+        ]
+      },
+      "bus": {
+        "art": "netz",
+        "titel": "Bus: alle Stationen an einer Leitung",
+        "knoten": [
+          {
+            "id": "bus",
+            "x": 320,
+            "y": 110,
+            "t": "Gemeinsame Leitung",
+            "w": 420,
+            "rolle": "gelb"
+          },
+          {
+            "id": "a",
+            "x": 110,
+            "y": 50,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "b",
+            "x": 260,
+            "y": 50,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "c",
+            "x": 400,
+            "y": 50,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "d",
+            "x": 530,
+            "y": 50,
+            "t": "PC",
+            "w": 60
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "bus"
+          },
+          {
+            "von": "b",
+            "bis": "bus"
+          },
+          {
+            "von": "c",
+            "bis": "bus"
+          },
+          {
+            "von": "d",
+            "bis": "bus"
+          }
+        ]
+      },
+      "ring": {
+        "art": "netz",
+        "titel": "Ring: Vorgänger und Nachfolger, eine Richtung",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 160,
+            "y": 70,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "b",
+            "x": 480,
+            "y": 70,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "c",
+            "x": 480,
+            "y": 170,
+            "t": "PC",
+            "w": 60
+          },
+          {
+            "id": "d",
+            "x": 160,
+            "y": 170,
+            "t": "PC",
+            "w": 60
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b",
+            "t": "→"
+          },
+          {
+            "von": "b",
+            "bis": "c",
+            "t": "↓"
+          },
+          {
+            "von": "c",
+            "bis": "d",
+            "t": "←"
+          },
+          {
+            "von": "d",
+            "bis": "a",
+            "t": "↑"
+          }
+        ]
+      },
+      "ebenen": {
+        "art": "netz",
+        "titel": "Drei Ebenen vom Standortverteiler bis zur Dose",
+        "knoten": [
+          {
+            "id": "sv",
+            "x": 70,
+            "y": 110,
+            "t": "SV",
+            "sub": "Standortverteiler",
+            "w": 112
+          },
+          {
+            "id": "gv",
+            "x": 235,
+            "y": 110,
+            "t": "GV",
+            "sub": "Gebäudeverteiler",
+            "w": 112
+          },
+          {
+            "id": "ev",
+            "x": 400,
+            "y": 110,
+            "t": "EV",
+            "sub": "Etagenverteiler",
+            "w": 112
+          },
+          {
+            "id": "ta",
+            "x": 565,
+            "y": 110,
+            "t": "TA",
+            "sub": "Anschluss (Dose)",
+            "w": 112
+          }
+        ],
+        "links": [
+          {
+            "von": "sv",
+            "bis": "gv",
+            "t": "Primär"
+          },
+          {
+            "von": "gv",
+            "bis": "ev",
+            "t": "Sekundär"
+          },
+          {
+            "von": "ev",
+            "bis": "ta",
+            "t": "Tertiär"
+          }
+        ]
+      },
+      "prim": {
+        "art": "netz",
+        "titel": "Primär: SV → GV (Gelände, meist LWL)",
+        "knoten": [
+          {
+            "id": "sv",
+            "x": 70,
+            "y": 110,
+            "t": "SV",
+            "sub": "Standortverteiler",
+            "w": 112,
+            "rolle": "gelb"
+          },
+          {
+            "id": "gv",
+            "x": 235,
+            "y": 110,
+            "t": "GV",
+            "sub": "Gebäudeverteiler",
+            "w": 112,
+            "rolle": "gelb"
+          },
+          {
+            "id": "ev",
+            "x": 400,
+            "y": 110,
+            "t": "EV",
+            "sub": "Etagenverteiler",
+            "w": 112
+          },
+          {
+            "id": "ta",
+            "x": 565,
+            "y": 110,
+            "t": "TA",
+            "sub": "Anschluss (Dose)",
+            "w": 112
+          }
+        ],
+        "links": [
+          {
+            "von": "sv",
+            "bis": "gv",
+            "t": "Primär · LWL",
+            "stil": "dick"
+          },
+          {
+            "von": "gv",
+            "bis": "ev",
+            "t": "Sekundär"
+          },
+          {
+            "von": "ev",
+            "bis": "ta",
+            "t": "Tertiär"
+          }
+        ]
+      },
+      "sek": {
+        "art": "netz",
+        "titel": "Sekundär: GV → EV (Steigleitung)",
+        "knoten": [
+          {
+            "id": "sv",
+            "x": 70,
+            "y": 110,
+            "t": "SV",
+            "sub": "Standortverteiler",
+            "w": 112
+          },
+          {
+            "id": "gv",
+            "x": 235,
+            "y": 110,
+            "t": "GV",
+            "sub": "Gebäudeverteiler",
+            "w": 112,
+            "rolle": "gelb"
+          },
+          {
+            "id": "ev",
+            "x": 400,
+            "y": 110,
+            "t": "EV",
+            "sub": "Etagenverteiler",
+            "w": 112,
+            "rolle": "gelb"
+          },
+          {
+            "id": "ta",
+            "x": 565,
+            "y": 110,
+            "t": "TA",
+            "sub": "Anschluss (Dose)",
+            "w": 112
+          }
+        ],
+        "links": [
+          {
+            "von": "sv",
+            "bis": "gv",
+            "t": "Primär"
+          },
+          {
+            "von": "gv",
+            "bis": "ev",
+            "t": "Sekundär · LWL/Cu",
+            "stil": "dick"
+          },
+          {
+            "von": "ev",
+            "bis": "ta",
+            "t": "Tertiär"
+          }
+        ]
+      },
+      "ter": {
+        "art": "netz",
+        "titel": "Tertiär: EV → TA (Horizontal, meist Kupfer)",
+        "knoten": [
+          {
+            "id": "sv",
+            "x": 70,
+            "y": 110,
+            "t": "SV",
+            "sub": "Standortverteiler",
+            "w": 112
+          },
+          {
+            "id": "gv",
+            "x": 235,
+            "y": 110,
+            "t": "GV",
+            "sub": "Gebäudeverteiler",
+            "w": 112
+          },
+          {
+            "id": "ev",
+            "x": 400,
+            "y": 110,
+            "t": "EV",
+            "sub": "Etagenverteiler",
+            "w": 112,
+            "rolle": "gelb"
+          },
+          {
+            "id": "ta",
+            "x": 565,
+            "y": 110,
+            "t": "TA",
+            "sub": "Anschluss (Dose)",
+            "w": 112,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "sv",
+            "bis": "gv",
+            "t": "Primär"
+          },
+          {
+            "von": "gv",
+            "bis": "ev",
+            "t": "Sekundär"
+          },
+          {
+            "von": "ev",
+            "bis": "ta",
+            "t": "Tertiär · Cu",
+            "stil": "dick"
+          }
+        ]
+      },
+      "ugv": {
+        "art": "netz",
+        "titel": "Dienstneutral: eine Verkabelung für alles",
+        "knoten": [
+          {
+            "id": "ugv",
+            "x": 320,
+            "y": 110,
+            "t": "UGV",
+            "sub": "Gebäudekabel",
+            "w": 120,
+            "rolle": "gruen"
+          },
+          {
+            "id": "d",
+            "x": 110,
+            "y": 60,
+            "t": "Daten",
+            "w": 90
+          },
+          {
+            "id": "t",
+            "x": 110,
+            "y": 160,
+            "t": "Telefon",
+            "w": 90
+          },
+          {
+            "id": "tv",
+            "x": 530,
+            "y": 60,
+            "t": "TV",
+            "w": 90
+          },
+          {
+            "id": "m",
+            "x": 530,
+            "y": 160,
+            "t": "Melder",
+            "w": 90
+          }
+        ],
+        "links": [
+          {
+            "von": "ugv",
+            "bis": "d"
+          },
+          {
+            "von": "ugv",
+            "bis": "t"
+          },
+          {
+            "von": "ugv",
+            "bis": "tv"
+          },
+          {
+            "von": "ugv",
+            "bis": "m"
+          }
+        ]
+      },
+      "perm": {
+        "art": "netz",
+        "titel": "Permanent Link ≤ 90 m: nur Patchfeld bis Dose",
+        "knoten": [
+          {
+            "id": "sw",
+            "x": 70,
+            "y": 110,
+            "t": "Switch",
+            "w": 90
+          },
+          {
+            "id": "pf",
+            "x": 235,
+            "y": 110,
+            "t": "Patchfeld",
+            "w": 100
+          },
+          {
+            "id": "ta",
+            "x": 400,
+            "y": 110,
+            "t": "Dose (TA)",
+            "w": 100
+          },
+          {
+            "id": "pc",
+            "x": 565,
+            "y": 110,
+            "t": "Endgerät",
+            "w": 96
+          }
+        ],
+        "links": [
+          {
+            "von": "sw",
+            "bis": "pf",
+            "t": "Patchkabel"
+          },
+          {
+            "von": "pf",
+            "bis": "ta",
+            "t": "Festverkabelung",
+            "stil": "dick"
+          },
+          {
+            "von": "ta",
+            "bis": "pc",
+            "t": "Anschlusskabel"
+          }
+        ]
+      },
+      "chan": {
+        "art": "netz",
+        "titel": "Channel Link ≤ 100 m: Switch bis Endgerät",
+        "knoten": [
+          {
+            "id": "sw",
+            "x": 70,
+            "y": 110,
+            "t": "Switch",
+            "w": 90
+          },
+          {
+            "id": "pf",
+            "x": 235,
+            "y": 110,
+            "t": "Patchfeld",
+            "w": 100
+          },
+          {
+            "id": "ta",
+            "x": 400,
+            "y": 110,
+            "t": "Dose (TA)",
+            "w": 100
+          },
+          {
+            "id": "pc",
+            "x": 565,
+            "y": 110,
+            "t": "Endgerät",
+            "w": 96
+          }
+        ],
+        "links": [
+          {
+            "von": "sw",
+            "bis": "pf",
+            "t": "Patchkabel",
+            "stil": "dick"
+          },
+          {
+            "von": "pf",
+            "bis": "ta",
+            "t": "Festverkabelung",
+            "stil": "dick"
+          },
+          {
+            "von": "ta",
+            "bis": "pc",
+            "t": "Anschlusskabel",
+            "stil": "dick"
+          }
+        ]
+      },
+      "rack": {
+        "art": "netz",
+        "titel": "19-Zoll-Schrank: Patchfeld und Switch",
+        "knoten": [
+          {
+            "id": "sw",
+            "x": 150,
+            "y": 70,
+            "t": "Switch",
+            "sub": "aktiv",
+            "w": 110,
+            "rolle": "gruen"
+          },
+          {
+            "id": "pp",
+            "x": 150,
+            "y": 160,
+            "t": "Patchpanel",
+            "sub": "passiv",
+            "w": 110
+          },
+          {
+            "id": "ta",
+            "x": 500,
+            "y": 160,
+            "t": "Dose (TA)",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "sw",
+            "bis": "pp",
+            "t": "Patchkabel"
+          },
+          {
+            "von": "pp",
+            "bis": "ta",
+            "t": "Festverkabelung",
+            "stil": "dick"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welche Topologie ist in heutigen LAN-Verkabelungen Standard?",
+        "optionen": [
+          {
+            "text": "Erweiterter Stern",
+            "richtig": true
+          },
+          {
+            "text": "Bus",
+            "richtig": false
+          },
+          {
+            "text": "Ring",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie lang darf ein Channel Link höchstens sein?",
+        "optionen": [
+          {
+            "text": "100 m",
+            "richtig": true
+          },
+          {
+            "text": "90 m",
+            "richtig": false
+          },
+          {
+            "text": "55 m",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Topologien",
+        "kurz": "wie ein Netz verschaltet ist: Stern, Masche, Bus, Ring",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Du hast einen Plan vor dir: Welche Kabel liegen in welchem Raum, in welchem Schrank enden sie? Das ist die Landkarte des Netzes.",
+          "frage": "Wie nennt man diese Landkarte, und welche Formen gibt es?"
+        },
+        "aufbau": [
+          {
+            "text": "Die Topologie beschreibt, wie ein Netz verschaltet ist. Physisch heißt: wie die Kabel tatsächlich liegen. Logisch heißt: wie die Daten fließen.",
+            "diagramm": "start"
+          },
+          {
+            "text": "Beim Stern laufen alle Leitungen von einem Mittelpunkt zu den Endpunkten, meist zu einem Switch.",
+            "diagramm": "stern"
+          },
+          {
+            "text": "Wird ein Endpunkt selbst zum Mittelpunkt eines weiteren Sterns, entsteht der erweiterte Stern, auch Baum. Das ist heute der Standard im LAN.",
+            "diagramm": "baum"
+          },
+          {
+            "text": "Vollständige Masche: jeder mit jedem. Leitungen = n · (n − 1) / 2. Bei 4 Stationen sind das 6, bei 10 schon 45. Deshalb im LAN kaum gebaut.",
+            "diagramm": "masche"
+          },
+          {
+            "text": "Unvollständige Masche: ein erweiterter Stern mit Querverbindungen zwischen Verteilern. Die Querverbindung sichert gegen Ausfall.",
+            "diagramm": "mascheUnv"
+          },
+          {
+            "text": "Bus: alle an einer Leitung, in LANs nicht mehr üblich. Ring: Vorgänger und Nachfolger, Daten laufen in eine Richtung, Wartezeit berechenbar.",
+            "diagramm": "ring"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Du ergänzt einen erweiterten Stern um Querverbindungen zwischen Verteilern. Welche Topologie entsteht?",
+          "optionen": [
+            {
+              "text": "Eine unvollständige Masche",
+              "richtig": true,
+              "korrektur": "Genau: nur die wichtigen Stationen sind mehrfach verbunden."
+            },
+            {
+              "text": "Eine vollständige Masche",
+              "richtig": false,
+              "korrektur": "Vollständig hieße: jeder mit jedem. Hier sind nur einzelne Verteiler quer verbunden."
+            },
+            {
+              "text": "Ein Ring",
+              "richtig": false,
+              "korrektur": "Ein Ring hat Vorgänger und Nachfolger. Hier bleibt der Baum bestehen, es kommen nur Querverbindungen dazu."
+            }
+          ],
+          "loesung": "Unvollständige Masche: Stern plus Querverbindungen.",
+          "beleg": {
+            "seite": "309"
+          }
+        },
+        "wiederholung": {
+          "text": "Vollständige Masche mit 5 Stationen: n · (n − 1) / 2 = 5 · 4 / 2 = 10 Leitungen. Jede Leitung hat zwei Enden, darum wird durch 2 geteilt.",
+          "diagramm": "masche"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Ein Plan zeigt, welche Kabel in welchem Raum liegen und in welchen Schrank sie laufen. Welche Topologie ist das?",
+            "optionen": [
+              "Die physische Topologie",
+              "Die logische Topologie",
+              "Weder noch, das ist ein Adressplan",
+              "Die Topologie der Anwendungsschicht"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Es geht um die Kabel, nicht um die Frage, welches Gerät wann mit wem redet."
+            ],
+            "erkl": "Wo die Leitungen liegen, beschreibt die **physische Topologie**. Der tatsächliche Datenfluss ist die logische."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Topologie ist in heutigen LAN-Verkabelungen der Standard?",
+            "optionen": [
+              "Der Bus (gemeinsame Leitung)",
+              "Der erweiterte Stern (Baum)",
+              "Der Ring (eine Richtung)",
+              "Die vollständige Masche (jeder mit jedem)"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Denk an Etagenverteiler, die sternförmig zu den Dosen führen, und an Gebäudeverteiler, die sternförmig zu den Etagen führen."
+            ],
+            "erkl": "Der **erweiterte Stern** ist der Standard. Bus und Ring sind im LAN nicht mehr üblich, die vollständige Masche ist zu aufwendig.",
+            "fallen": {
+              "1": "Bus-Topologien (Koaxialkabel mit T-Stücken und Abschlusswiderständen) sind seit den 1990er-Jahren veraltet.",
+              "2": "Vollvermaschung wird in Core-Backbones oder Flugleitsystemen genutzt, ist aber für gewöhnliche Büro-LANs viel zu aufwendig und teuer."
+            }
+          },
+          {
+            "t": "gen",
+            "gen": "masche",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Du ergänzt einen erweiterten Stern um Querverbindungen zwischen Verteilern. Welche Topologie entsteht?",
+            "optionen": [
+              "Eine vollständige Masche",
+              "Ein Ring mit Vorgänger und Nachfolger",
+              "Eine unvollständige Masche",
+              "Ein Bus mit gemeinsamer Leitung"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Nicht jede Station ist mit jeder verbunden, aber wichtige Stationen sind mehrfach angebunden."
+            ],
+            "erkl": "Stern plus Querverbindungen ergibt eine **unvollständige Masche**: mehrfach angebunden, aber nicht jeder mit jedem."
+          },
+          {
+            "t": "gen",
+            "gen": "masche",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Beschreibung passt zu welcher Topologie?",
+            "paare": [
+              [
+                "Alle Stationen an einer Leitung",
+                "Bus"
+              ],
+              [
+                "Vorgänger und Nachfolger, eine Richtung",
+                "Ring"
+              ],
+              [
+                "Funkzellen decken Bereiche ab",
+                "Zelle"
+              ],
+              [
+                "Verbindung von nur zwei Stationen",
+                "Punkt-zu-Punkt"
+              ],
+              [
+                "Jede Station mit jeder anderen verbunden",
+                "Vollständige Masche"
+              ]
+            ],
+            "tipps": [
+              "Fang mit der Beschreibung an, die nur eine Topologie meinen kann, z. B. „nur zwei Stationen“."
+            ],
+            "erkl": "Bus = gemeinsame Leitung, Ring = Vorgänger/Nachfolger, Zelle = Funk, Punkt-zu-Punkt = zwei Stationen, vollständige Masche = jeder mit jedem."
+          },
+          {
+            "t": "wahl",
+            "f": "„Der Ring ist die vorherrschende Topologie im LAN.“",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Welche Topologie hatten wir eben als Standard festgehalten?"
+            ],
+            "erkl": "**Falsch.** Im LAN dominiert der (erweiterte) Stern. Der Ring hat sichere Übertragung und berechenbare Wartezeit, wird aber kaum gebaut."
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Vorteil gehört laut Buch zum **Ring**?",
+            "optionen": [
+              "Berechenbare Wartezeit, bis eine Station senden darf",
+              "Sehr einfache Fehlersuche und einfacher Aufbau",
+              "Jede Station hat eine eigene Leitung zum Mittelpunkt",
+              "Daten laufen gleichzeitig in beide Richtungen"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Beim Ring wartet jede Station, bis sie dran ist."
+            ],
+            "erkl": "Beim Ring ist die **Wartezeit berechenbar**, weil die Daten geordnet in eine Richtung laufen. Fehlersuche und Aufbau sind dagegen etwas schwieriger."
+          },
+          {
+            "t": "wahl",
+            "f": "Aus Gründen der Ausfallsicherheit wäre die vollständige Masche ideal. Warum baut man sie im LAN trotzdem kaum?",
+            "optionen": [
+              "Ihre Ausfallsicherheit ist für den Einsatz im LAN zu gering",
+              "Sie ist sehr aufwendig: jede Station braucht Leitungen zu allen anderen",
+              "Sie lässt sich technisch nur mit Funkverbindungen umsetzen",
+              "Sie verträgt keine zusätzlichen Querverbindungen zwischen Verteilern"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Rechne an einem Beispiel: 10 Stationen brauchen 45 Leitungen."
+            ],
+            "erkl": "Die vollständige Masche bietet sehr hohe Redundanz, die Leitungszahl wächst aber quadratisch. Darum nimmt man den Stern mit ausgewählten Querverbindungen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Standard im LAN ist der erweiterte Stern. Vollständige Masche: n · (n − 1) / 2 Leitungen.",
+          "handout": "**Topologien:** physisch = wie die Kabel liegen, logisch = wie die Daten fließen. Standard im LAN: **erweiterter Stern** (Baum). Vollständige Masche braucht n·(n−1)/2 Leitungen (4 → 6, 5 → 10, 10 → 45). Querverbindungen machen aus dem Baum eine unvollständige Masche. Bus nur noch in Altanlagen, Ring mit Vorgänger/Nachfolger."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Gebäudeverkabelung",
+        "kurz": "drei Ebenen vom Standortverteiler bis zur Wanddose",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Früher wuchs besonders die Telefonverkabelung wild. Heute liegt ein einheitliches System im Gebäude.",
+          "frage": "Wie ist so ein System aufgebaut, und welche Norm steckt dahinter?"
+        },
+        "aufbau": [
+          {
+            "text": "Die strukturierte Gebäudeverkabelung (UGV) ist dienstneutral: Daten, Telefon, TV und Melder laufen über dieselbe Infrastruktur.",
+            "diagramm": "ugv"
+          },
+          {
+            "text": "Genormt ist sie in EN 50173 (EU), ISO/IEC 11801 (international) und TIA 568 (USA).",
+            "diagramm": "ugv"
+          },
+          {
+            "text": "Vom Standortverteiler SV führt die Verkabelung sternförmig in drei Stufen bis zur Dose.",
+            "diagramm": "ebenen"
+          },
+          {
+            "text": "Primär: SV bis Gebäudeverteiler GV, die Geländeverkabelung. Meist Lichtwellenleiter.",
+            "diagramm": "prim"
+          },
+          {
+            "text": "Sekundär: GV bis Etagenverteiler EV, die Vertikalverkabelung im Steigleitungsbereich. LWL und Kupfer.",
+            "diagramm": "sek"
+          },
+          {
+            "text": "Tertiär: EV bis zum Anschluss TA, die Wanddose. Horizontalverkabelung, meist Kupfer. Faustformel: ein EV je 1.000 m² Fläche.",
+            "diagramm": "ter"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wie heißt die Verkabelung vom Etagenverteiler zur Wanddose?",
+          "optionen": [
+            {
+              "text": "Tertiär (Horizontalverkabelung)",
+              "richtig": true,
+              "korrektur": "Richtig: EV bis TA ist die Tertiärebene, meist Kupfer."
+            },
+            {
+              "text": "Primär (Geländeverkabelung)",
+              "richtig": false,
+              "korrektur": "Primär ist SV bis GV, also zwischen den Gebäuden."
+            },
+            {
+              "text": "Sekundär (Vertikalverkabelung)",
+              "richtig": false,
+              "korrektur": "Sekundär ist GV bis EV, also die Steigleitung durchs Gebäude."
+            }
+          ],
+          "loesung": "Tertiär: EV → TA.",
+          "beleg": {
+            "seite": "311"
+          }
+        },
+        "wiederholung": {
+          "text": "Merkreihe von oben nach unten: SV, GV, EV, TA. Dazu Primär, Sekundär, Tertiär. Pro 1.000 m² ein Etagenverteiler.",
+          "diagramm": "ebenen"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Wo gilt welche Norm?",
+            "paare": [
+              [
+                "EN 50173",
+                "EU-Norm"
+              ],
+              [
+                "ISO/IEC 11801",
+                "Internationale Norm"
+              ],
+              [
+                "TIA 568A/B",
+                "US-Norm"
+              ]
+            ],
+            "tipps": [
+              "Die Buchstaben am Anfang verraten das Gremium: EN = europäisch, ISO = international, TIA = amerikanisch."
+            ],
+            "erkl": "**EN 50173** ist die EU-Norm, **ISO/IEC 11801** die internationale, **TIA 568A/B** die US-Norm. Alle drei beschreiben dieselbe Idee."
+          },
+          {
+            "t": "wahl",
+            "f": "Was heißt bei einer Verkabelung „dienstneutral“?",
+            "optionen": [
+              "Sie funktioniert nur ohne Telefonanschlüsse im Gebäude",
+              "Sie ist von allen Diensten räumlich getrennt verlegt",
+              "Eine Verkabelung trägt Daten, Telefon, TV und weitere Dienste",
+              "Sie darf ausschließlich Daten übertragen, keine anderen Dienste"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Neutral heißt: die Kabelanlage legt sich auf keinen Dienst fest."
+            ],
+            "erkl": "**Dienstneutral** bedeutet: Ein Kabelsystem für alle Dienste, statt für jeden Dienst eine eigene Anlage."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Was bedeutet die Abkürzung?",
+            "paare": [
+              [
+                "SV",
+                "Standortverteiler"
+              ],
+              [
+                "GV",
+                "Gebäudeverteiler"
+              ],
+              [
+                "EV",
+                "Etagenverteiler"
+              ],
+              [
+                "TA",
+                "Informationstechnischer Anschluss (Dose)"
+              ]
+            ],
+            "tipps": [
+              "SV steht ganz oben im Gelände, TA ganz unten an der Wand."
+            ],
+            "erkl": "SV = **S**tandort-, GV = **G**ebäude-, EV = **E**tagenverteiler. TA ist der **i**nformations**t**echnische **A**nschluss, also die Wanddose."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher Name gehört zu welcher Ebene?",
+            "paare": [
+              [
+                "Flächenverkabelung",
+                "Primär"
+              ],
+              [
+                "Vertikalverkabelung",
+                "Sekundär"
+              ],
+              [
+                "Steigleitungsbereich",
+                "Sekundär"
+              ],
+              [
+                "Horizontalverkabelung",
+                "Tertiär"
+              ]
+            ],
+            "tipps": [
+              "Vertikal = Steigleitungen nach oben im Gebäude. Horizontal = auf der Etage zu den Zimmern.",
+              "Die Fläche ist das Gelände zwischen den Gebäuden."
+            ],
+            "erkl": "Fläche → **Primär**, vertikal und Steigleitung → **Sekundär**, horizontal → **Tertiär**."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bringe die Stationen in die Reihenfolge, wie ein Kabel vom Gelände bis zum Arbeitsplatz läuft.",
+            "items": [
+              "Standortverteiler (SV)",
+              "Gebäudeverteiler (GV)",
+              "Etagenverteiler (EV)",
+              "Dose (TA)"
+            ],
+            "tipps": [
+              "Vom Großen zum Kleinen: Gelände, Gebäude, Etage, Zimmer."
+            ],
+            "erkl": "SV → GV → EV → TA: Gelände, Gebäude, Etage, Zimmer."
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Medium wird in der **Primärverkabelung** meist verwendet?",
+            "optionen": [
+              "Koaxialkabel (Yellow Cable)",
+              "Ungeschirmtes Cat-5-Kupferkabel",
+              "WLAN-Funkstrecken",
+              "Lichtwellenleiter"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Zwischen Gebäuden zählen Distanz und Datendurchsatz."
+            ],
+            "erkl": "Zwischen den Gebäuden nimmt man meist **Lichtwellenleiter**: hoher Durchsatz und große Distanzen. Im Tertiärbereich ist Kupfer üblich."
+          },
+          {
+            "t": "wahl",
+            "f": "Was bedeutet **FTTD** in der Tertiärverkabelung?",
+            "optionen": [
+              "Glasfaser bis zum Arbeitsplatz (Fibre to the Desk)",
+              "Funkanbindung der Endgeräte an den Etagenverteiler",
+              "Glasfaser nur zwischen den einzelnen Gebäuden",
+              "Kupferverkabelung bis zum Standortverteiler"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Fibre = Glasfaser, Desk = Schreibtisch."
+            ],
+            "erkl": "**FTTD** = Fibre to the Desk: Glasfaser bis zum Endgerät, wenn ein sehr hoher Durchsatz nötig ist."
+          },
+          {
+            "t": "eingabe",
+            "f": "Eine Etage hat **4.000 m²** Fläche. Wie viele Etagenverteiler brauchst du nach der Faustformel?",
+            "art": "zahl",
+            "antwort": [
+              "4"
+            ],
+            "tipps": [
+              "Pro 1.000 m² ein Etagenverteiler."
+            ],
+            "erkl": "4.000 m² / 1.000 m² = **4** Etagenverteiler.",
+            "fallen": {
+              "1": "Das wäre bei 1.000 m². Teile die Fläche durch 1.000.",
+              "4000": "4.000 ist die Fläche. Gefragt ist die Zahl der Verteiler."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Bauteil gehört zur **passiven** Verkabelung?",
+            "optionen": [
+              "Der Switch im Etagenverteiler",
+              "Das Patchpanel im Etagenverteiler",
+              "Der Router im Gebäudeverteiler",
+              "Der Layer-3-Switch im Standortverteiler"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Passiv heißt: keine Elektronik, die Daten verarbeitet."
+            ],
+            "erkl": "Kabel, Dosen und **Patchpanel** sind passiv. Switches und Router sind aktive Komponenten und zählen nicht zur Verkabelung."
+          },
+          {
+            "t": "wahl",
+            "f": "Wozu dienen **Querverbindungen** zwischen Verteilern auf derselben Ebene?",
+            "optionen": [
+              "Sie ersetzen die Primärverkabelung zwischen den Gebäuden",
+              "Sie erhöhen die Kategorie der Kabel auf der Ebene",
+              "Zur Ausfallsicherung: ein zweiter Weg bei Leitungsausfall",
+              "Sie trennen Telefon- und Datendienste voneinander"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Denk an die unvollständige Masche."
+            ],
+            "erkl": "Querverbindungen sind **Ausfallsicherung**: Jeder Verteiler ist dann mehrfach angebunden, es entsteht eine unvollständige Masche."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Primär SV→GV, Sekundär GV→EV, Tertiär EV→TA. Genormt in EN 50173, ISO/IEC 11801, TIA 568.",
+          "handout": "**UGV:** dienstneutral, genormt in EN 50173 / ISO/IEC 11801 / TIA 568. **Ebenen:** Primär SV→GV (Gelände, meist LWL), Sekundär GV→EV (Steigleitung, LWL+Cu), Tertiär EV→TA (Horizontal, meist Kupfer). Faustformel: 1 EV je 1.000 m². Switches und Router sind aktiv, das Schema beschreibt die passive Verkabelung."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Verteiler und Längen",
+        "kurz": "Permanent Link, Channel Link und der Verteilerschrank",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Ein Platz liegt bei 92 m Festverkabelung. Dazu kommen Patch- und Anschlusskabel.",
+          "frage": "Geht das noch, oder ist die Strecke zu lang?"
+        },
+        "aufbau": [
+          {
+            "text": "Der Permanent Link ist die fest verlegte Strecke vom Patchfeld bis zur Dose. Maximal 90 m.",
+            "diagramm": "perm"
+          },
+          {
+            "text": "Der Channel Link ist die ganze Strecke vom Switch bis zum Endgerät, inklusive Patch- und Anschlusskabel. Maximal 100 m.",
+            "diagramm": "chan"
+          },
+          {
+            "text": "Rechnung: 85 m fest + 3 m Patchkabel + 5 m Anschlusskabel = 93 m. Das passt in beide Grenzen.",
+            "diagramm": "chan"
+          },
+          {
+            "text": "Die Falle: 92 m Festverkabelung überschreiten schon den Permanent Link von 90 m, auch wenn der Channel mit 100 m gerade noch passt.",
+            "diagramm": "perm"
+          },
+          {
+            "text": "Verteiler sind meist 19-Zoll-Schränke: 19 Zoll × 25,4 mm = 482,6 mm, also etwa 48,3 cm breit.",
+            "diagramm": "rack"
+          },
+          {
+            "text": "Rangieren oder Patchen heißt Patchkabel umstecken. Die Festverkabelung bleibt dabei unberührt.",
+            "diagramm": "rack"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Der Permanent Link ist voll ausgereizt (90 m). Wie viel bleibt maximal für Patch- und Anschlusskabel zusammen?",
+          "optionen": [
+            {
+              "text": "10 m",
+              "richtig": true,
+              "korrektur": "Richtig: Channel Link 100 m minus Permanent Link 90 m."
+            },
+            {
+              "text": "100 m",
+              "richtig": false,
+              "korrektur": "100 m ist die Gesamtgrenze des Channel Links, nicht der Rest."
+            },
+            {
+              "text": "90 m",
+              "richtig": false,
+              "korrektur": "90 m sind schon durch die Festverkabelung belegt."
+            }
+          ],
+          "loesung": "100 m − 90 m = 10 m.",
+          "beleg": {
+            "seite": "313"
+          }
+        },
+        "wiederholung": {
+          "text": "Zwei Grenzen prüfen: Festverkabelung gegen 90 m, Gesamtstrecke gegen 100 m. Beide müssen eingehalten sein.",
+          "diagramm": "chan"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welche Strecke ist der **Permanent Link**?",
+            "optionen": [
+              "Switch bis Endgerät inklusive aller Patchkabel",
+              "Die Strecke vom Standortverteiler zum Gebäudeverteiler",
+              "Die Anschlussleitung von der Dose zum Endgerät",
+              "Festverkabelung von der Patchfeld-Buchse bis zur Dose"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Permanent = dauerhaft verlegt. Patchkabel steckt man um, die gehören nicht dazu."
+            ],
+            "erkl": "Der **Permanent Link** ist die dauerhaft verlegte Strecke Patchfeld → TA. Die Strecke Switch → Endgerät heißt Channel Link."
+          },
+          {
+            "t": "wahl",
+            "f": "„Der Permanent Link darf maximal 100 m lang sein.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Welche Strecke ist länger, wenn Patchkabel dazukommen?"
+            ],
+            "erkl": "**Falsch.** Der Permanent Link darf höchstens **90 m** lang sein. Die 100 m gelten für den Channel Link.",
+            "fallen": {
+              "1": "Denkfalle: Die 100 m gelten für den gesamten **Channel Link** (inklusive Patchkabel auf beiden Seiten)! Der feste Teil in Wand/Kanal (**Permanent Link**) darf nur maximal **90 m** lang sein (10 m Reserve für Geräte- und Verteiler-Patchkabel)."
+            }
+          },
+          {
+            "t": "eingabe",
+            "f": "Der Permanent Link ist voll ausgereizt (90 m). Wie viele Meter bleiben maximal für **Patch- und Anschlusskabel zusammen**?",
+            "art": "zahl",
+            "antwort": [
+              "10"
+            ],
+            "tipps": [
+              "Channel Link minus Permanent Link."
+            ],
+            "erkl": "100 m − 90 m = **10 m**. Diese Reserve gehört den Patchkabeln.",
+            "fallen": {
+              "90": "90 m ist schon der Permanent Link. Rechne Channel minus Permanent.",
+              "100": "100 m ist die Gesamtgrenze des Channel Links."
+            }
+          },
+          {
+            "t": "weg",
+            "titel": "Längen prüfen",
+            "kopf": "Von der Patchfeld-Buchse zur Dose liegen **85 m** Festverkabelung. Das Patchkabel im Schrank ist **3 m**, das Anschlusskabel am Arbeitsplatz **5 m** lang.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie lang ist der **Channel Link** insgesamt (in m)?",
+                "art": "zahl",
+                "antwort": [
+                  "93"
+                ],
+                "tipps": [
+                  "Alle drei Stücke addieren."
+                ],
+                "erkl": "85 + 3 + 5 = **93 m**.",
+                "label": "Channel Link"
+              },
+              {
+                "t": "wahl",
+                "f": "Ist der **Permanent Link** zulässig?",
+                "optionen": [
+                  "Nein, weil die Patchkabel mitzählen und 93 m zu viel sind",
+                  "Ja, 85 m sind höchstens 90 m",
+                  "Nein, er darf höchstens 80 m lang sein",
+                  "Ja, aber nur, wenn der Channel Link über 100 m liegt"
+                ],
+                "richtig": 1,
+                "tipps": [
+                  "Vergleiche nur die Festverkabelung mit der Grenze 90 m."
+                ],
+                "erkl": "85 m ≤ 90 m → **zulässig**.",
+                "label": "Permanent Link zulässig?"
+              },
+              {
+                "t": "wahl",
+                "f": "Ist der **Channel Link** zulässig?",
+                "optionen": [
+                  "Nein, er darf maximal 90 m lang sein",
+                  "Nein, weil Patchkabel nicht mitzählen dürfen",
+                  "Ja, 93 m sind höchstens 100 m",
+                  "Ja, aber nur, wenn der Permanent Link unter 80 m liegt"
+                ],
+                "richtig": 2,
+                "tipps": [
+                  "Vergleiche die Gesamtlänge mit 100 m."
+                ],
+                "erkl": "93 m ≤ 100 m → **zulässig**.",
+                "label": "Channel Link zulässig?"
+              }
+            ]
+          },
+          {
+            "t": "weg",
+            "titel": "Die Falle",
+            "kopf": "Ein anderer Platz: **92 m** Festverkabelung, **3 m** Patchkabel, **5 m** Anschlusskabel.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie lang ist der **Channel Link** (in m)?",
+                "art": "zahl",
+                "antwort": [
+                  "100"
+                ],
+                "tipps": [
+                  "92 + 3 + 5."
+                ],
+                "erkl": "92 + 3 + 5 = **100 m**.",
+                "label": "Channel Link"
+              },
+              {
+                "t": "wahl",
+                "f": "Ist der **Channel Link** zulässig?",
+                "optionen": [
+                  "Nein, er liegt über 100 m",
+                  "Nein, er muss unter 100 m liegen",
+                  "Nur mit Cat 7",
+                  "Ja, er überschreitet 100 m nicht"
+                ],
+                "richtig": 3,
+                "tipps": [
+                  "Die Regel sagt: darf 100 m nicht überschreiten."
+                ],
+                "erkl": "Genau 100 m überschreiten die Grenze nicht → **zulässig**.",
+                "label": "Channel Link zulässig?"
+              },
+              {
+                "t": "wahl",
+                "f": "Ist der **Permanent Link** zulässig?",
+                "optionen": [
+                  "Nein, 92 m sind mehr als 90 m",
+                  "Ja, weil der Channel Link zulässig ist",
+                  "Ja, weil Patchkabel mitzählen",
+                  "Ja, bis 100 m ist alles erlaubt"
+                ],
+                "richtig": 0,
+                "tipps": [
+                  "Die Grenze gilt für die feste Strecke allein."
+                ],
+                "erkl": "92 m > 90 m → **unzulässig**, obwohl der Channel Link stimmt. Beide Grenzen müssen eingehalten werden.",
+                "label": "Permanent Link zulässig?"
+              }
+            ]
+          },
+          {
+            "t": "weg",
+            "titel": "19 Zoll nachgerechnet",
+            "kopf": "Der Schrank ist 19 Zoll breit. 1 Zoll entspricht 25,4 mm.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Millimeter** sind 19 Zoll?",
+                "art": "zahl",
+                "antwort": [
+                  "482,6"
+                ],
+                "tipps": [
+                  "19 · 25,4."
+                ],
+                "erkl": "19 · 25,4 = **482,6 mm**.",
+                "fallen": {
+                  "4826": "Dezimalzeichen ist hier das Komma: 482,6."
+                },
+                "label": "Millimeter"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Zentimeter** sind das, gerundet auf eine Nachkommastelle?",
+                "art": "zahl",
+                "antwort": [
+                  "48,3"
+                ],
+                "tipps": [
+                  "Durch 10 teilen: 48,26 …"
+                ],
+                "erkl": "482,6 mm = 48,26 cm, gerundet **48,3 cm**.",
+                "fallen": {
+                  "483": "Komma beachten: 48,3."
+                },
+                "label": "Zentimeter"
+              }
+            ]
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Rolle spielt das Bauteil?",
+            "paare": [
+              [
+                "Patchpanel",
+                "Hier endet jede fest verlegte Leitung"
+              ],
+              [
+                "Patchkabel",
+                "Verbindet Switchport und Patchpanel-Buchse"
+              ],
+              [
+                "19-Zoll-Schrank",
+                "Standardgehäuse, 48,3 cm breit"
+              ],
+              [
+                "Bodentank",
+                "Im Boden versenkte Dose (Großraumbüro)"
+              ]
+            ],
+            "tipps": [
+              "Das Patchkabel ist die kurze, umsteckbare Verbindung."
+            ],
+            "erkl": "Patchpanel = feste Leitungen enden dort, Patchkabel = rangieren, 19-Zoll-Schrank = Standardgehäuse, Bodentank = Dosen im Boden bei Großraumbüros."
+          },
+          {
+            "t": "wahl",
+            "f": "Unterverteiler kennt die Norm nicht. Welche **Ausnahme** ist erlaubt?",
+            "optionen": [
+              "Ein zweiter Gebäudeverteiler in jeder Etage",
+              "Ein TA auf der Tertiärebene darf als Sammelpunkt dienen",
+              "Ein Switch im Flur darf als Unterverteiler dienen",
+              "Ein eigener Standortverteiler in jedem Gebäude"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Es ist eine Dose, die im Raum weitere Dosen versorgt."
+            ],
+            "erkl": "Auf der dritten Ebene darf ein **TA als Sammelpunkt** dienen, an dem im Raum weitere TAs hängen. Sinnvoll z. B. im Schulungsraum mit vielen Rechnern."
+          },
+          {
+            "t": "wahl",
+            "f": "Warum nimmt man in einem Schulungsraum mit vielen Rechnern einen Sammelpunkt?",
+            "optionen": [
+              "Damit die Kategorie der Kabel automatisch steigt",
+              "Damit der Permanent Link länger als 90 m sein darf",
+              "Man spart Leitungen zwischen Raum und Etagenverteiler",
+              "Damit in diesem Raum keine Dokumentation nötig ist"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Überlege, wie viele Leitungen sonst vom Etagenverteiler bis in den Raum liegen müssten."
+            ],
+            "erkl": "Zum Sammelpunkt gehen nur **wenige** Leitungen vom Etagenverteiler, im Raum wird dann weiterverteilt."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bringe die Bauteile eines Channel Links in die Reihenfolge vom Switch zum Endgerät.",
+            "items": [
+              "Switch",
+              "Patchkabel",
+              "Patchfeld",
+              "Festverkabelung",
+              "Dose (TA)",
+              "Anschlusskabel",
+              "Endgerät"
+            ],
+            "tipps": [
+              "Zuerst das aktive Gerät, am Ende das Endgerät. Dazwischen: Patchkabel, Patchfeld, feste Leitung, Dose, Anschlusskabel."
+            ],
+            "erkl": "Switch → Patchkabel → Patchfeld → Festverkabelung → Dose → Anschlusskabel → Endgerät. Das Stück **Patchfeld bis Dose** ist der Permanent Link."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Permanent Link 90 m (Patchfeld bis Dose), Channel Link 100 m (Switch bis Endgerät).",
+          "handout": "**Längen:** Permanent Link = fest verlegt, Patchfeld bis TA, max. **90 m**. Channel Link = Switch bis Endgerät inkl. Patch- und Anschlusskabel, max. **100 m**. Rest bei vollem Permanent Link: 10 m. **19-Zoll** = 482,6 mm (1 Zoll = 25,4 mm). Rangieren = Patchkabel umstecken."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Was entsteht, wenn ein erweiterter Stern Querverbindungen bekommt?",
+        "optionen": [
+          {
+            "text": "Eine unvollständige Masche",
+            "richtig": true
+          },
+          {
+            "text": "Ein Ring",
+            "richtig": false
+          },
+          {
+            "text": "Ein bloßer Bus",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie viele Leitungen braucht eine vollständige Masche mit 5 Stationen?",
+        "optionen": [
+          {
+            "text": "10",
+            "richtig": true
+          },
+          {
+            "text": "5",
+            "richtig": false
+          },
+          {
+            "text": "20",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Ebene führt vom Gebäudeverteiler zum Etagenverteiler?",
+        "optionen": [
+          {
+            "text": "Sekundär",
+            "richtig": true
+          },
+          {
+            "text": "Primär",
+            "richtig": false
+          },
+          {
+            "text": "Tertiär",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "92 m Festverkabelung, 3 m Patchkabel, 5 m Anschlusskabel. Was stimmt?",
+        "optionen": [
+          {
+            "text": "Der Permanent Link ist mit 92 m zu lang",
+            "richtig": true
+          },
+          {
+            "text": "Alles im Rahmen, Channel Link 100 m",
+            "richtig": false
+          },
+          {
+            "text": "Der Channel Link ist zu lang",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_VK1.id]: LF03_VK1 });
+})();
+
+/* ---- f_einheiten_verkabelung2.js ---- */
+//
+// Einheit 7: Dokumentation, Kategorie und Kupferkabel (aus dem Kurs "Verkabelungs-Baustelle", Stationen 3 bis 5).
+// Erzeugt per Skript aus den Kursdaten (Aufgaben unverändert); Diagramme als art:"netz".
+// Bandbreiten und AWG-Werte stammen aus dem Kurs/Buch (S. 315, 318).
+(function () {
+  "use strict";
+
+  const LF03_VK2 = {
+    "id": "lf03-verkabelung-doku-kupfer",
+    "reihe": 7,
+    "titel": "Dokumentation, Kategorie und Kupferkabel",
+    "untertitel": "Beschriftung lesen, Kategorie und Klasse trennen, Schirmkürzel entschlüsseln",
+    "lernfeld": "LF03",
+    "dauer_min": 25,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 314–315 und 318 (Dokumentation, Kategorie und Klasse, Kupferkabel)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Ein Beschriftungsschema lesen und selbst anwenden",
+        "kn": "Verkabelung"
+      },
+      {
+        "id": "lz2",
+        "text": "Kategorie (Bauteil) und Klasse (Strecke) unterscheiden und Bandbreiten nennen",
+        "kn": "Verkabelung"
+      },
+      {
+        "id": "lz3",
+        "text": "Aufbau, AWG und Schirmkürzel eines Kupferkabels erklären",
+        "kn": "Verkabelung"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Beschriftung nach Schema: C-IV.1-2.9",
+        "knoten": [
+          {
+            "id": "g",
+            "x": 70,
+            "y": 110,
+            "t": "C",
+            "sub": "Gebäude",
+            "w": 100
+          },
+          {
+            "id": "s",
+            "x": 195,
+            "y": 110,
+            "t": "IV",
+            "sub": "Stock (römisch)",
+            "w": 110
+          },
+          {
+            "id": "v",
+            "x": 320,
+            "y": 110,
+            "t": "1",
+            "sub": "Verteiler",
+            "w": 100,
+            "rolle": "gelb"
+          },
+          {
+            "id": "p",
+            "x": 445,
+            "y": 110,
+            "t": "2",
+            "sub": "Patchfeld",
+            "w": 100
+          },
+          {
+            "id": "o",
+            "x": 570,
+            "y": 110,
+            "t": "9",
+            "sub": "Port",
+            "w": 100
+          }
+        ],
+        "links": [
+          {
+            "von": "g",
+            "bis": "s"
+          },
+          {
+            "von": "s",
+            "bis": "v"
+          },
+          {
+            "von": "v",
+            "bis": "p"
+          },
+          {
+            "von": "p",
+            "bis": "o"
+          }
+        ]
+      },
+      "doku": {
+        "art": "netz",
+        "titel": "Beschriftung nach Schema: C-IV.1-2.9",
+        "knoten": [
+          {
+            "id": "g",
+            "x": 70,
+            "y": 110,
+            "t": "C",
+            "sub": "Gebäude",
+            "w": 100
+          },
+          {
+            "id": "s",
+            "x": 195,
+            "y": 110,
+            "t": "IV",
+            "sub": "Stock (römisch)",
+            "w": 110
+          },
+          {
+            "id": "v",
+            "x": 320,
+            "y": 110,
+            "t": "1",
+            "sub": "Verteiler",
+            "w": 100,
+            "rolle": "gelb"
+          },
+          {
+            "id": "p",
+            "x": 445,
+            "y": 110,
+            "t": "2",
+            "sub": "Patchfeld",
+            "w": 100
+          },
+          {
+            "id": "o",
+            "x": 570,
+            "y": 110,
+            "t": "9",
+            "sub": "Port",
+            "w": 100
+          }
+        ],
+        "links": [
+          {
+            "von": "g",
+            "bis": "s"
+          },
+          {
+            "von": "s",
+            "bis": "v"
+          },
+          {
+            "von": "v",
+            "bis": "p"
+          },
+          {
+            "von": "p",
+            "bis": "o"
+          }
+        ]
+      },
+      "schwach": {
+        "art": "netz",
+        "titel": "Die Strecke ist so gut wie ihr schwächstes Bauteil",
+        "knoten": [
+          {
+            "id": "pf",
+            "x": 70,
+            "y": 110,
+            "t": "Patchfeld",
+            "sub": "Cat 7",
+            "w": 100
+          },
+          {
+            "id": "k",
+            "x": 235,
+            "y": 110,
+            "t": "Kabel",
+            "sub": "Cat 6A",
+            "w": 100
+          },
+          {
+            "id": "d",
+            "x": 400,
+            "y": 110,
+            "t": "Dose",
+            "sub": "Cat 5e",
+            "w": 100,
+            "rolle": "gelb"
+          },
+          {
+            "id": "st",
+            "x": 565,
+            "y": 110,
+            "t": "Strecke",
+            "sub": "max. 100 MHz",
+            "w": 110,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "pf",
+            "bis": "k"
+          },
+          {
+            "von": "k",
+            "bis": "d"
+          },
+          {
+            "von": "d",
+            "bis": "st",
+            "t": "gemessen",
+            "stil": "quer"
+          }
+        ]
+      },
+      "kat": {
+        "art": "netz",
+        "titel": "Kategorie (Bauteil), Bandbreite und Klasse (Strecke)",
+        "knoten": [
+          {
+            "id": "c5",
+            "x": 110,
+            "y": 85,
+            "t": "Cat 5e",
+            "sub": "100 MHz · D",
+            "w": 150
+          },
+          {
+            "id": "c6",
+            "x": 320,
+            "y": 85,
+            "t": "Cat 6",
+            "sub": "250 MHz · E",
+            "w": 150
+          },
+          {
+            "id": "c6a",
+            "x": 530,
+            "y": 85,
+            "t": "Cat 6A",
+            "sub": "500 MHz · EA",
+            "w": 150
+          },
+          {
+            "id": "c7",
+            "x": 110,
+            "y": 160,
+            "t": "Cat 7",
+            "sub": "600 MHz · F",
+            "w": 150
+          },
+          {
+            "id": "c7a",
+            "x": 320,
+            "y": 160,
+            "t": "Cat 7A",
+            "sub": "1000 MHz · FA",
+            "w": 150
+          },
+          {
+            "id": "c8",
+            "x": 530,
+            "y": 160,
+            "t": "Cat 8",
+            "sub": "2000 MHz · G",
+            "w": 150
+          }
+        ],
+        "links": []
+      },
+      "kb": {
+        "art": "netz",
+        "titel": "Kategorie gehört zum Bauteil, Klasse zur fertigen Strecke",
+        "knoten": [
+          {
+            "id": "b",
+            "x": 150,
+            "y": 110,
+            "t": "Kategorie",
+            "sub": "Kabel, Dose, Patchfeld",
+            "w": 170
+          },
+          {
+            "id": "s",
+            "x": 490,
+            "y": 110,
+            "t": "Klasse",
+            "sub": "fertige Strecke",
+            "w": 170,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "b",
+            "bis": "s",
+            "t": "wird gemessen",
+            "stil": "quer"
+          }
+        ]
+      },
+      "kabel": {
+        "art": "netz",
+        "titel": "Twisted-Pair-Kabel: 4 verdrillte Adernpaare",
+        "knoten": [
+          {
+            "id": "k",
+            "x": 320,
+            "y": 60,
+            "t": "Kabel",
+            "sub": "8 Adern",
+            "w": 110,
+            "rolle": "gruen"
+          },
+          {
+            "id": "p1",
+            "x": 100,
+            "y": 160,
+            "t": "Paar 1",
+            "sub": "2 Adern",
+            "w": 100
+          },
+          {
+            "id": "p2",
+            "x": 240,
+            "y": 160,
+            "t": "Paar 2",
+            "sub": "2 Adern",
+            "w": 100
+          },
+          {
+            "id": "p3",
+            "x": 400,
+            "y": 160,
+            "t": "Paar 3",
+            "sub": "2 Adern",
+            "w": 100
+          },
+          {
+            "id": "p4",
+            "x": 540,
+            "y": 160,
+            "t": "Paar 4",
+            "sub": "2 Adern",
+            "w": 100
+          }
+        ],
+        "links": [
+          {
+            "von": "k",
+            "bis": "p1"
+          },
+          {
+            "von": "k",
+            "bis": "p2"
+          },
+          {
+            "von": "k",
+            "bis": "p3"
+          },
+          {
+            "von": "k",
+            "bis": "p4"
+          }
+        ]
+      },
+      "awg": {
+        "art": "netz",
+        "titel": "AWG: kleinere Zahl = dickerer Draht",
+        "knoten": [
+          {
+            "id": "a22",
+            "x": 110,
+            "y": 110,
+            "t": "AWG 22",
+            "sub": "0,644 mm",
+            "w": 150
+          },
+          {
+            "id": "a23",
+            "x": 320,
+            "y": 110,
+            "t": "AWG 23",
+            "sub": "0,572 mm",
+            "w": 150
+          },
+          {
+            "id": "a24",
+            "x": 530,
+            "y": 110,
+            "t": "AWG 24",
+            "sub": "0,511 mm",
+            "w": 150
+          }
+        ],
+        "links": [
+          {
+            "von": "a22",
+            "bis": "a23",
+            "t": "dünner"
+          },
+          {
+            "von": "a23",
+            "bis": "a24",
+            "t": "dünner"
+          }
+        ]
+      },
+      "schirm": {
+        "art": "netz",
+        "titel": "S/FTP: Gesamtschirm / Paarschirm",
+        "knoten": [
+          {
+            "id": "k",
+            "x": 320,
+            "y": 60,
+            "t": "S/FTP",
+            "w": 110,
+            "rolle": "gruen"
+          },
+          {
+            "id": "g",
+            "x": 170,
+            "y": 150,
+            "t": "Gesamt: S = Geflecht",
+            "w": 170
+          },
+          {
+            "id": "p",
+            "x": 470,
+            "y": 150,
+            "t": "Paare: F = Folie",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "k",
+            "bis": "g"
+          },
+          {
+            "von": "k",
+            "bis": "p"
+          }
+        ]
+      },
+      "schutz": {
+        "art": "netz",
+        "titel": "Verdrillen gegen magnetische, Schirm gegen elektrische Störungen",
+        "knoten": [
+          {
+            "id": "v",
+            "x": 160,
+            "y": 110,
+            "t": "Verdrillen",
+            "sub": "magnetisch",
+            "w": 150
+          },
+          {
+            "id": "s",
+            "x": 480,
+            "y": 110,
+            "t": "Schirmung",
+            "sub": "elektrisch",
+            "w": 150
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wie viele Adernpaare hat ein Standard-Netzwerkkabel?",
+        "optionen": [
+          {
+            "text": "4",
+            "richtig": true
+          },
+          {
+            "text": "2",
+            "richtig": false
+          },
+          {
+            "text": "8",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Welche Bandbreite hat Cat 6A?",
+        "optionen": [
+          {
+            "text": "500 MHz",
+            "richtig": true
+          },
+          {
+            "text": "250 MHz",
+            "richtig": false
+          },
+          {
+            "text": "1000 MHz",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Dokumentation",
+        "kurz": "Lagepläne, Beschriftungsschema und Portlisten",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "An einer Dose steht C-IV.1-2.9. Ohne Doku weiß niemand, was das heißt.",
+          "frage": "Wie liest und schreibt man so eine Beschriftung?"
+        },
+        "aufbau": [
+          {
+            "text": "Dosen, Leitungen und Verteiler gehören in Lagepläne, und alles bekommt eine eindeutige Kennzeichnung.",
+            "diagramm": "doku"
+          },
+          {
+            "text": "Gebäude bekommen Buchstaben. Stockwerke beginnen im Erdgeschoss bei 0, das 1. Obergeschoss ist die 1.",
+            "diagramm": "doku"
+          },
+          {
+            "text": "Mehrere Verteiler pro Stockwerk werden durchnummeriert.",
+            "diagramm": "doku"
+          },
+          {
+            "text": "Schema: Gebäude, Bindestrich, Stock römisch, Punkt, Verteiler, Bindestrich, Patchfeld, Punkt, Port. Also C-IV.1-2.9.",
+            "diagramm": "doku"
+          },
+          {
+            "text": "Am Patchfeld führt man zusätzlich eine Liste: Panel und Port, Leitungstyp, Zimmer. Der Leitungstyp hilft bei gemischten Kabeln.",
+            "diagramm": "doku"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Gebäude C, Stock 4, Verteiler 1, Patchfeld 2, Port 9. Wie lautet die Beschriftung?",
+          "optionen": [
+            {
+              "text": "C-IV.1-2.9",
+              "richtig": true,
+              "korrektur": "Genau: Gebäude-Stock(römisch).Verteiler-Patchfeld.Port."
+            },
+            {
+              "text": "C-4.1-2.9",
+              "richtig": false,
+              "korrektur": "Der Stock wird römisch geschrieben, also IV statt 4."
+            },
+            {
+              "text": "C.IV-1.2-9",
+              "richtig": false,
+              "korrektur": "Die Trennzeichen stimmen nicht: nach dem Stock steht ein Punkt, dann Verteiler-Patchfeld, dann Punkt und Port."
+            }
+          ],
+          "loesung": "C-IV.1-2.9",
+          "beleg": {
+            "seite": "314"
+          }
+        },
+        "wiederholung": {
+          "text": "Stock römisch, Erdgeschoss = 0. Danach Verteiler, Patchfeld und Port. Die Liste am Verteiler nennt Leitungstyp und Zimmer.",
+          "diagramm": "doku"
+        },
+        "uebung": [
+          {
+            "t": "gen",
+            "gen": "dose",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Warum beginnt man bei den Stockwerken im Erdgeschoss mit **0**?",
+            "optionen": [
+              "Weil die Norm Stockwerke als Binärzahlen vorschreibt",
+              "Weil das Erdgeschoss kein Stockwerk ist und keine Nummer erhält",
+              "Damit der Verteiler im Erdgeschoss automatisch die Nummer 0 trägt",
+              "Damit das 1. OG die Nummer 1 bekommt und Zählfehler entfallen"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Es geht um das Durchzählen der Etagen im Kopf und auf dem Plan."
+            ],
+            "erkl": "Mit **0 im Erdgeschoss** passt die Nummer zum Obergeschoss (1. OG = 1). Beginnt man im EG mit 1, entstehen Zählfehler."
+          },
+          {
+            "t": "eingabe",
+            "f": "Beschrifte nach dem Schema: Gebäude **C**, Stock **4**, Verteiler **1**, Patchfeld **2**, Port **9**.",
+            "art": "text",
+            "antwort": [
+              "C-IV.1-2.9"
+            ],
+            "tipps": [
+              "Aufbau: Gebäude-Stock(römisch).Verteiler-Patchfeld.Port",
+              "4 römisch ist IV."
+            ],
+            "erkl": "Gebäude C, Stock IV, Verteiler 1, Patchfeld 2, Port 9 → **C-IV.1-2.9**.",
+            "fallen": {
+              "c-4.1-2.9": "Das Stockwerk steht als römische Zahl (IV)."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Laut Liste: Welcher Leitungstyp liegt auf Panel.Port **3.5** und in welches Zimmer führt er?",
+            "optionen": [
+              "CAT6a, Zimmer 13",
+              "CAT5e, Zimmer 12",
+              "CAT6, Zimmer 13",
+              "CAT6a, Zimmer 12"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Suche die Zeile 3.5 in der Tabelle der letzten Karte."
+            ],
+            "erkl": "Zeile 3.5: Leitungstyp **CAT6a**, Zimmer **13**.",
+            "block": "Panel.Port  Leitungstyp  Zimmer\n3.1         CAT6         12\n3.2         CAT6         12\n3.3         CAT5e        12\n3.4         CAT5e        12\n3.5         CAT6a        13"
+          },
+          {
+            "t": "zuordnen",
+            "f": "Ordne jedem Port den Leitungstyp zu (Liste von eben).",
+            "paare": [
+              [
+                "3.1",
+                "CAT6"
+              ],
+              [
+                "3.2",
+                "CAT6"
+              ],
+              [
+                "3.3",
+                "CAT5e"
+              ],
+              [
+                "3.4",
+                "CAT5e"
+              ],
+              [
+                "3.5",
+                "CAT6a"
+              ]
+            ],
+            "tipps": [
+              "Die Ports 3.1 und 3.2 sind gleich, ebenso 3.3 und 3.4."
+            ],
+            "erkl": "3.1 und 3.2 sind **CAT6**, 3.3 und 3.4 **CAT5e**, 3.5 **CAT6a**. Alle Zimmer-12-Ports außer 3.1/3.2 sind also schwächer als CAT6."
+          },
+          {
+            "t": "wahl",
+            "f": "Was gehört zu einer vollständigen Verkabelungsdokumentation?",
+            "optionen": [
+              "Nur die Rechnungen der Kabellieferanten und Monteure",
+              "Lagepläne, Beschriftung an Dosen und Verteilern, Portlisten",
+              "Nur eine Liste der vergebenen IP-Adressen im Netz",
+              "Fotos der Dosen, aber ohne jede Beschriftung"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Man muss eine Dose finden und ihren Port im Verteiler nachvollziehen können."
+            ],
+            "erkl": "Lagepläne, eindeutige Beschriftung an Dosen und Verteilern und die Portliste (Port ↔ Leitungstyp ↔ Zimmer) machen die Verkabelung nachvollziehbar."
+          },
+          {
+            "t": "wahl",
+            "f": "„Eine strukturierte Verkabelung ist selbsterklärend und braucht keine Dokumentation.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wie findest du ohne Liste heraus, wo ein Port endet?"
+            ],
+            "erkl": "**Falsch.** Gerade große Anlagen sind ohne Lagepläne, Beschriftung und Portlisten nicht zu überblicken."
+          },
+          {
+            "t": "wahl",
+            "f": "Eine bestehende Netzwerkdokumentation: Was passiert nach Abschluss von Umbauten?",
+            "optionen": [
+              "Sie bleibt unverändert, weil sie ja schon existiert",
+              "Sie wird vernichtet, damit niemand sie missbraucht",
+              "Sie gehört dem Ersteller und darf nicht beim Kunden bleiben",
+              "Sie wird aktualisiert und bleibt beim Kunden"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Eine veraltete Doku ist fast so schlecht wie keine."
+            ],
+            "erkl": "Eine Doku, die nicht zum Ist-Zustand passt, führt in die Irre: Sie wird **aktualisiert** und dem Kunden übergeben. (Praxis; das Buch stellt die Frage im Kompetenzcheck, die Antwort steht dort nicht ausdrücklich.)"
+          },
+          {
+            "t": "gen",
+            "gen": "dose",
+            "stufen": [
+              2
+            ]
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Gebäude = Buchstabe, Stock ab 0 (EG), Beschriftung C-IV.1-2.9, dazu eine Portliste.",
+          "handout": "**Doku:** Lagepläne plus Kennzeichnung. Gebäude = Buchstabe, Stockwerke ab 0 (EG), Verteiler durchnummeriert. Schema **Gebäude-Stock(röm.).Verteiler-Patchfeld.Port**, z. B. C-IV.1-2.9. Portliste: Panel.Port, Leitungstyp, Zimmer. Nach Umbauten aktualisieren."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Kategorie und Klasse",
+        "kurz": "Bauteil gegen fertige Strecke, mit der Bandbreitentabelle",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Nach einem Umzug steckt jemand im Verteiler selbst um, danach wird das Netz langsam. Cat-6-Kabel sind trotzdem verbaut.",
+          "frage": "Wie kann das sein?"
+        },
+        "aufbau": [
+          {
+            "text": "Kategorie ist die Eigenschaft eines Bauteils: Kabel, Dose, Patchpanel. Sie legt die Bandbreite in MHz fest.",
+            "diagramm": "kb"
+          },
+          {
+            "text": "Klasse ist die Eigenschaft der fertigen Strecke. Nach dem Verlegen wird jede Leitung vermessen und einer Klasse zugeordnet.",
+            "diagramm": "kb"
+          },
+          {
+            "text": "Tabelle: Cat 5e 100 MHz (D), Cat 6 250 (E), Cat 6A 500 (EA), Cat 7 600 (F), Cat 7A 1000 (FA), Cat 8 2000 (G).",
+            "diagramm": "kat"
+          },
+          {
+            "text": "Die Strecke ist so gut wie ihr schwächstes Teil: Patchfeld Cat 7, Kabel Cat 6A, Dose Cat 5e ergibt höchstens 100 MHz.",
+            "diagramm": "schwach"
+          },
+          {
+            "text": "Auch mit passenden Bauteilen kann die Klasse verfehlt werden, wenn schlampig verlegt oder umgesteckt wurde. Erst die Messung zeigt es.",
+            "diagramm": "kb"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Patchfeld Cat 7, Kabel Cat 6A, Dose Cat 5e. Mit welcher Bandbreite darfst du für die Strecke höchstens rechnen?",
+          "optionen": [
+            {
+              "text": "100 MHz (Klasse D), das schwächste Teil bestimmt",
+              "richtig": true,
+              "korrektur": "Richtig: die Dose Cat 5e begrenzt die ganze Strecke."
+            },
+            {
+              "text": "600 MHz, weil das Patchfeld das beste Teil ist",
+              "richtig": false,
+              "korrektur": "Das beste Teil hilft nicht. Die Kette ist so gut wie ihr schwächstes Glied."
+            },
+            {
+              "text": "500 MHz, der Mittelwert der Kabel",
+              "richtig": false,
+              "korrektur": "Es wird nicht gemittelt. Das schwächste Bauteil gibt die Grenze vor."
+            }
+          ],
+          "loesung": "100 MHz, Klasse D.",
+          "beleg": {
+            "seite": "315"
+          }
+        },
+        "wiederholung": {
+          "text": "Kategorie steht auf dem Bauteil, Klasse wird an der fertigen Strecke gemessen. Das schwächste Bauteil begrenzt die Strecke.",
+          "diagramm": "kb"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Kategorie oder Klasse?",
+            "paare": [
+              [
+                "Eigenschaft eines Bauteils",
+                "Kategorie"
+              ],
+              [
+                "Wird nach dem Verlegen gemessen",
+                "Klasse"
+              ],
+              [
+                "Gilt für Kabel, Dose, Patchpanel",
+                "Kategorie"
+              ],
+              [
+                "Gilt für die fertige Strecke",
+                "Klasse"
+              ]
+            ],
+            "tipps": [
+              "Frag dich: Kann man es vor dem Einbau auf der Verpackung lesen?"
+            ],
+            "erkl": "**Kategorie** = Bauteil, **Klasse** = gemessene Strecke."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Bandbreite hat die Kategorie?",
+            "paare": [
+              [
+                "Cat 5",
+                "100 MHz"
+              ],
+              [
+                "Cat 5e",
+                "100 MHz"
+              ],
+              [
+                "Cat 6",
+                "250 MHz"
+              ],
+              [
+                "Cat 6A",
+                "500 MHz"
+              ],
+              [
+                "Cat 7",
+                "600 MHz"
+              ],
+              [
+                "Cat 8",
+                "2000 MHz"
+              ]
+            ],
+            "tipps": [
+              "Cat 5 und 5e unterscheiden sich nicht in der Bandbreite.",
+              "Cat 6A hat doppelt so viel wie Cat 6."
+            ],
+            "erkl": "Cat 5/5e **100 MHz**, Cat 6 **250 MHz**, Cat 6A **500 MHz**, Cat 7 **600 MHz**, Cat 8 **2000 MHz**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Klasse gehört zur Kategorie?",
+            "paare": [
+              [
+                "Cat 5e",
+                "Klasse D"
+              ],
+              [
+                "Cat 6",
+                "Klasse E"
+              ],
+              [
+                "Cat 6A",
+                "Klasse EA"
+              ],
+              [
+                "Cat 7",
+                "Klasse F"
+              ],
+              [
+                "Cat 7A",
+                "Klasse FA"
+              ],
+              [
+                "Cat 8",
+                "Klasse G"
+              ]
+            ],
+            "tipps": [
+              "Die Buchstaben laufen D, E, F, G. Das A steht für die erweiterte Variante (6A, 7A)."
+            ],
+            "erkl": "Cat 5e → D, Cat 6 → E, Cat 6A → EA, Cat 7 → F, Cat 7A → FA, Cat 8 → G. (Nach ISO/IEC 11801 heißen die Klassen für Cat 8 eigentlich I und II; Praxis, steht nicht im Buch.)"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **MHz** hat Cat 6?",
+            "art": "zahl",
+            "antwort": [
+              "250"
+            ],
+            "tipps": [
+              "Zwischen Cat 5e (100 MHz) und Cat 6A (500 MHz)."
+            ],
+            "erkl": "Cat 6: **250 MHz**, Klasse E.",
+            "fallen": {
+              "100": "100 MHz haben Cat 5 und 5e.",
+              "500": "500 MHz hat Cat 6A, nicht Cat 6."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Für welche Anwendungen nennt das Buch **Cat 8**?",
+            "optionen": [
+              "25GBase-T und 40GBase-T",
+              "10 Mbit/s Ethernet",
+              "Multimedia-Anwendungen",
+              "Datenraten bis 100 Mbit/s"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Cat 8 hat mit 2000 MHz die höchste Bandbreite der Tabelle."
+            ],
+            "erkl": "Cat 8 (2000 MHz, Klasse G) ist für **25GBase-T und 40GBase-T** vorgesehen."
+          },
+          {
+            "t": "ordnen",
+            "f": "Sortiere die Kategorien nach Bandbreite, aufsteigend.",
+            "items": [
+              "Cat 5e",
+              "Cat 6",
+              "Cat 6A",
+              "Cat 7",
+              "Cat 7A",
+              "Cat 8"
+            ],
+            "tipps": [
+              "100, 250, 500, 600, 1000, 2000 MHz."
+            ],
+            "erkl": "100 → 250 → 500 → 600 → 1000 → 2000 MHz."
+          },
+          {
+            "t": "wahl",
+            "f": "Patchfeld **Cat 7**, Verlegekabel **Cat 6A**, Dose **Cat 5e**. Mit welcher Bandbreite darfst du für die Strecke höchstens rechnen?",
+            "optionen": [
+              "600 MHz, weil das Patchfeld das beste Teil ist",
+              "100 MHz (Klasse D), das schwächste Bauteil bestimmt es",
+              "500 MHz, weil das Kabel den größten Anteil ausmacht",
+              "Den Durchschnitt aus allen drei Werten"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Eine Kette ist so stark wie ihr schwächstes Glied.",
+              "Welches Bauteil hat die kleinste Kategorie?"
+            ],
+            "erkl": "Das **schwächste Bauteil** (Cat 5e, 100 MHz) bestimmt die Strecke → höchstens Klasse D. (Folgerung; das Buch stellt genau diese Aufgabe im Kompetenzcheck S. 317.)",
+            "fallen": {
+              "0": "Cat 7 Bauteile bringen nichts, wenn eine Komponente bremst.",
+              "1": "Cat 6A reicht nicht, wenn die Dose schlechter ist.",
+              "2": "Denkfalle vermieden: Das schwächste Glied bestimmt die Gesamtübertragung! Eine Cat 5e-Dose begrenzt den gesamten Link auf Klasse D (1 Gbit/s)."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Nach einem Umzug steckt ein Mitarbeiter im Etagenverteiler selbst um, danach ist das Netz „weitaus langsamer“. Welche Ursache passt zu diesem Kapitel?",
+            "optionen": [
+              "Durch das Umstecken hat sich die Kategorie der Festverkabelung geändert",
+              "Die Klasse einer Strecke sinkt automatisch, je länger man sie benutzt",
+              "Er hat ein ungeeignetes Patchkabel gewählt (z. B. zu niedrige Kategorie)",
+              "Der Permanent Link ist durch das Umpatchen länger als 90 m geworden"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Was hat er geändert? Nur das Patchen, also die kurzen Kabel im Schrank.",
+              "Das schwächste Bauteil bremst die ganze Strecke."
+            ],
+            "erkl": "Beim Patchen ändert sich nur das **Patchkabel**. Ein ungeeignetes Kabel bremst als schwächstes Glied die ganze Strecke. (Das Buch stellt die Frage ohne Musterlösung; andere Ursachen wie ein falscher Port sind möglich.)"
+          },
+          {
+            "t": "wahl",
+            "f": "„Wenn nur Cat-6-Bauteile verbaut wurden, ist Klasse E garantiert.“",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wodurch wird die Klasse festgestellt?"
+            ],
+            "erkl": "**Falsch.** Schlampige Verarbeitung oder Verlegung kann die Klasse trotz passender Bauteile verfehlen. Erst die **Messung** der fertigen Strecke zeigt die Klasse."
+          },
+          {
+            "t": "wahl",
+            "f": "Wie wird die **Klasse** einer Strecke nachgewiesen?",
+            "optionen": [
+              "Durch Vermessen der fertigen Leitung",
+              "Durch die Aufschrift auf dem Kabel",
+              "Durch die Angabe des Händlers",
+              "Durch die Länge der Strecke"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Die Klasse steht nicht auf Bauteilen, sondern ist eine Eigenschaft der Strecke."
+            ],
+            "erkl": "Jede Leitung wird **nach Fertigstellung vermessen** und dann in die Klasse eingetragen. So ist sichergestellt, dass die Übertragungsraten möglich sind."
+          },
+          {
+            "t": "wahl",
+            "f": "Cat 6 gilt laut Buch „bis 10 Gbit/s“. Wie ist das für **volle 100 m** einzuordnen?",
+            "optionen": [
+              "Cat 6 reicht auch über volle 100 m ohne Einschränkung",
+              "Über 100 m nur mit Cat 6A, Cat 6 schafft es nur kurz (ca. 55 m)",
+              "Cat 6 schafft maximal 1 Gbit/s, mehr nur mit Cat 7",
+              "Erst Cat 8 erlaubt überhaupt 10 Gbit/s über Kupfer"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Das Buch nennt keine Länge. Die Praxis schon."
+            ],
+            "erkl": "Das Buch nennt für Cat 6 und 6A beide „bis 10 Gbit/s“. Praxis (steht nicht im Buch): Cat 6 schafft 10 Gbit/s nur auf ca. **55 m**, für volle 100 m braucht man **Cat 6A**."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Kategorie = Bauteil, Klasse = gemessene Strecke. Cat 5e 100, Cat 6 250, Cat 6A 500, Cat 7 600, Cat 7A 1000, Cat 8 2000 MHz.",
+          "handout": "**Kategorie** (Bauteil, MHz): Cat 5e 100 · Cat 6 250 · Cat 6A 500 · Cat 7 600 · Cat 7A 1000 · Cat 8 2000. **Klasse** (Strecke, gemessen): D, E, EA, F, FA, G. Das schwächste Bauteil begrenzt die Strecke. Schlampige Verlegung kann die Klasse verfehlen."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Kupferkabel",
+        "kurz": "Adernpaare, AWG, Verdrillen, Schirmung und die Kürzel",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Auf einem Kabel steht S/FTP. Das sagt dir, wie es gegen Störungen gebaut ist.",
+          "frage": "Wie liest man das Kürzel, und was bringt Verdrillen und Schirmen?"
+        },
+        "aufbau": [
+          {
+            "text": "Ein Netzwerkkabel enthält vier verdrillte Adernpaare, also 8 Adern. Jede Ader ist einzeln mit Kunststoff isoliert.",
+            "diagramm": "kabel"
+          },
+          {
+            "text": "Die Drahtdicke wird nach AWG angegeben: AWG 22 = 0,644 mm, AWG 23 = 0,572 mm, AWG 24 = 0,511 mm. Kleinere Zahl heißt dicker.",
+            "diagramm": "awg"
+          },
+          {
+            "text": "Verdrillen verhindert magnetische Störungen: das Kabel sendet keine aus, eingestrahlte heben sich auf.",
+            "diagramm": "schutz"
+          },
+          {
+            "text": "Schirmung (Folie oder Geflecht) hält elektrische Störstrahlung im Kabel und schirmt gegen äußere elektrische Felder ab.",
+            "diagramm": "schutz"
+          },
+          {
+            "text": "Kürzel: Gesamtschirm/Paarschirm. U = ungeschirmt, F = Folie, S = Geflecht. S/FTP: Geflecht außen, Paare je mit Folie.",
+            "diagramm": "schirm"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was bedeutet F/UTP?",
+          "optionen": [
+            {
+              "text": "Folie als Gesamtschirm, Paare ungeschirmt",
+              "richtig": true,
+              "korrektur": "Richtig: vor dem Schrägstrich der Gesamtschirm, dahinter die Paare."
+            },
+            {
+              "text": "Geflecht als Gesamtschirm, Paare mit Folie",
+              "richtig": false,
+              "korrektur": "Das wäre S/FTP."
+            },
+            {
+              "text": "Kein Schirm, nur verdrillt",
+              "richtig": false,
+              "korrektur": "Das wäre U/UTP."
+            }
+          ],
+          "loesung": "Gesamtschirm Folie (F), Paare ungeschirmt (U).",
+          "beleg": {
+            "seite": "318"
+          }
+        },
+        "wiederholung": {
+          "text": "Vor dem Schrägstrich steht der Gesamtschirm, dahinter der Paarschirm. U ungeschirmt, F Folie, S Geflecht.",
+          "diagramm": "schirm"
+        },
+        "uebung": [
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Adernpaare** hat ein Standard-Netzwerkkabel?",
+            "art": "zahl",
+            "antwort": [
+              "4"
+            ],
+            "tipps": [
+              "Insgesamt hat das Kabel doppelt so viele Adern wie Paare."
+            ],
+            "erkl": "Vier Paare, also **4** Paare (8 Adern).",
+            "fallen": {
+              "8": "8 ist die Zahl der Adern. Gefragt sind die Paare."
+            }
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher Durchmesser gehört zu welcher AWG-Größe?",
+            "paare": [
+              [
+                "AWG 22",
+                "0,644 mm"
+              ],
+              [
+                "AWG 23",
+                "0,572 mm"
+              ],
+              [
+                "AWG 24",
+                "0,511 mm"
+              ]
+            ],
+            "tipps": [
+              "Eine kleinere AWG-Zahl bedeutet einen dickeren Draht."
+            ],
+            "erkl": "AWG 22 = **0,644 mm**, AWG 23 = **0,572 mm**, AWG 24 = **0,511 mm**."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Aussage über die AWG-Zahl folgt aus der Tabelle?",
+            "optionen": [
+              "Je größer die AWG-Zahl, desto dicker der Draht",
+              "Die AWG-Zahl gibt die Anzahl der Adernpaare an",
+              "Je größer die AWG-Zahl, desto dünner der Draht",
+              "Die AWG-Zahl gibt die Kategorie an"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Vergleiche 0,644 mm bei AWG 22 mit 0,511 mm bei AWG 24."
+            ],
+            "erkl": "AWG 24 (0,511 mm) ist dünner als AWG 22 (0,644 mm): **größere AWG-Zahl = dünnerer Draht**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Gegen welche Störung wirkt die Maßnahme?",
+            "paare": [
+              [
+                "Verdrillen der Adernpaare",
+                "Magnetische Störstrahlung"
+              ],
+              [
+                "Schirmfolie um die Paare",
+                "Elektrische Störstrahlung"
+              ],
+              [
+                "Drahtgeflecht um das Kabel",
+                "Elektrische Störstrahlung"
+              ]
+            ],
+            "tipps": [
+              "Schirm = Metall um die Adern. Verdrillung = die Adern winden sich umeinander."
+            ],
+            "erkl": "**Verdrillen** → magnetisch. **Folie und Geflecht** (Schirmung) → elektrisch."
+          },
+          {
+            "t": "wahl",
+            "f": "„Das Verdrillen schützt vor elektrischen Störungen, die Schirmung vor magnetischen.“",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Welche Maßnahme ist rein mechanisch (Adern umeinander gewunden)?"
+            ],
+            "erkl": "**Falsch**, das ist vertauscht: Verdrillen wirkt gegen **magnetische**, Schirmung gegen **elektrische** Störungen.",
+            "fallen": {
+              "1": "Umgekehrt! Das Verdrillen (Twisted Pair) schützt vor **symmetrischen Störungen / Nahübersprechen (NEXT)** durch Auslöschung gegensinniger Magnetfelder. Die Schirmung (Folie/Geflecht) schützt vor **äußeren elektromagnetischen Störfeldern (EMI)**."
+            }
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher Aufbau gehört zum Kürzel?",
+            "paare": [
+              [
+                "S/FTP",
+                "Geflecht außen, Paare je mit Folie"
+              ],
+              [
+                "F/UTP",
+                "Folie außen, Paare ungeschirmt"
+              ],
+              [
+                "SF/UTP",
+                "Geflecht + Folie außen, Paare frei"
+              ],
+              [
+                "U/UTP",
+                "Gar keine Schirmung"
+              ]
+            ],
+            "tipps": [
+              "Vor dem Schrägstrich steht der Gesamtschirm.",
+              "Ein einzelnes U vor dem Schrägstrich heißt: kein Gesamtschirm."
+            ],
+            "erkl": "S/FTP: Gesamtgeflecht und Paarfolien. F/UTP: Gesamtfolie, Paare frei. SF/UTP: Geflecht plus Folie, Paare frei. U/UTP: gar nichts."
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Kürzel beschreibt den **aufwendigsten** Kabelaufbau?",
+            "optionen": [
+              "S/FTP",
+              "U/UTP",
+              "F/UTP",
+              "SF/UTP"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Gesucht: Gesamtschirm und zusätzlich jedes Paar einzeln geschirmt."
+            ],
+            "erkl": "**S/FTP**: gemeinsamer Geflechtschirm und jedes Adernpaar einzeln mit Folie. Der einfachste Aufbau ist U/UTP."
+          },
+          {
+            "t": "wahl",
+            "f": "Was bedeutet das **U** im Kürzel U/UTP?",
+            "optionen": [
+              "Universal: für alle Dienste",
+              "Unshielded: ungeschirmt",
+              "Ultra: besonders hohe Bandbreite",
+              "Unterputz: für die Dose"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Es steht für das Gegenteil von Schirmung."
+            ],
+            "erkl": "**U = ungeschirmt** (unshielded), hier sowohl Gesamtschirm als auch Paare."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Kabel ist mit **F/UTP** bezeichnet. Wie ist es aufgebaut?",
+            "optionen": [
+              "Gemeinsamer Geflechtschirm, Paare mit Folie",
+              "Weder Gesamtschirm noch Paarschirm vorhanden",
+              "Gemeinsamer Folienschirm, einzelne Paare ungeschirmt",
+              "Nur die einzelnen Paare haben einen Folienschirm"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "F vor dem Schrägstrich = Gesamtschirm aus Folie."
+            ],
+            "erkl": "**F/UTP**: ein gemeinsamer Folienschirm um alle vier Paare, die Paare selbst sind ungeschirmt (UTP)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "4 Adernpaare. Verdrillen gegen magnetische, Schirmung gegen elektrische Störungen. Kürzel Gesamtschirm/Paarschirm.",
+          "handout": "**Kupferkabel:** 4 verdrillte Paare (8 Adern). AWG 22/23/24 = 0,644/0,572/0,511 mm (größere Zahl = dünner). Verdrillen gegen magnetische, Schirmung gegen elektrische Störungen. Kürzel **Gesamt/Paar**: U = ungeschirmt, F = Folie, S = Geflecht. S/FTP ist am aufwendigsten, U/UTP gar nicht geschirmt."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Wie lautet die Beschriftung für Gebäude A, Stock 2, Verteiler 3, Patchfeld 1, Port 12?",
+        "optionen": [
+          {
+            "text": "A-II.3-1.12",
+            "richtig": true
+          },
+          {
+            "text": "A-2.3-1.12",
+            "richtig": false
+          },
+          {
+            "text": "A.II-3.1-12",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was legt die Kategorie fest?",
+        "optionen": [
+          {
+            "text": "Die Bandbreite eines Bauteils",
+            "richtig": true
+          },
+          {
+            "text": "Die Länge der Strecke",
+            "richtig": false
+          },
+          {
+            "text": "Die Klasse nach der Messung",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welches Bauteil begrenzt die Strecke, wenn Patchfeld Cat 6A, Kabel Cat 6A und Dose Cat 5e verbaut sind?",
+        "optionen": [
+          {
+            "text": "Die Dose (Cat 5e)",
+            "richtig": true
+          },
+          {
+            "text": "Das Kabel",
+            "richtig": false
+          },
+          {
+            "text": "Das Patchfeld",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wogegen wirkt das Verdrillen der Adernpaare?",
+        "optionen": [
+          {
+            "text": "Magnetische Störungen",
+            "richtig": true
+          },
+          {
+            "text": "Elektrische Störungen",
+            "richtig": false
+          },
+          {
+            "text": "Zu lange Strecken",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_VK2.id]: LF03_VK2 });
+})();
+
+/* ---- f_einheiten_verkabelung3.js ---- */
+//
+// Einheit 8: Glasfaser, Ethernet-Namen und Funk (aus dem Kurs "Verkabelungs-Baustelle", Stationen 6 bis 8; Abschlussuebung = Endgegner s9 und Abschlusstest s10).
+// Erzeugt per Skript aus den Kursdaten (Aufgaben unverändert); Diagramme als art:"netz".
+// Zahlen nachgerechnet: 500/2,5 = 200 MHz, 1500/0,3 = 5000 MHz, 3,0 · 0,3 = 0,9 dB.
+(function () {
+  "use strict";
+
+  const LF03_VK3 = {
+    "id": "lf03-verkabelung-glas-funk",
+    "reihe": 8,
+    "titel": "Glasfaser, Ethernet-Namen und Funk",
+    "untertitel": "LWL rechnen, Bezeichnungen entschlüsseln, WLAN-Normen zuordnen",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 315–316 und 318–321 (Ethernet-Bezeichnungen, Glasfaser, Funk)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Multimode, Singlemode und OM/OS unterscheiden und die LWL-Rechnung ausführen",
+        "kn": "Verkabelung"
+      },
+      {
+        "id": "lz2",
+        "text": "Ethernet-Bezeichnungen wie 1000Base-T entschlüsseln und Buch von Norm trennen",
+        "kn": "Verkabelung"
+      },
+      {
+        "id": "lz3",
+        "text": "WLAN-Generationen den IEEE-Normen zuordnen und Funknetze nach Reichweite einordnen",
+        "kn": "Verkabelung"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Multimode: Laufzeitunterschiede begrenzen die Länge",
+        "knoten": [
+          {
+            "id": "s",
+            "x": 70,
+            "y": 110,
+            "t": "Sender",
+            "w": 90
+          },
+          {
+            "id": "f",
+            "x": 320,
+            "y": 110,
+            "t": "Multimode",
+            "sub": "Kern 50 oder 62,5 µm",
+            "w": 190,
+            "rolle": "gelb"
+          },
+          {
+            "id": "e",
+            "x": 570,
+            "y": 110,
+            "t": "Empfänger",
+            "w": 96
+          }
+        ],
+        "links": [
+          {
+            "von": "s",
+            "bis": "f",
+            "t": "Licht"
+          },
+          {
+            "von": "f",
+            "bis": "e",
+            "t": "begrenzt"
+          }
+        ]
+      },
+      "mm": {
+        "art": "netz",
+        "titel": "Multimode: Laufzeitunterschiede begrenzen die Länge",
+        "knoten": [
+          {
+            "id": "s",
+            "x": 70,
+            "y": 110,
+            "t": "Sender",
+            "w": 90
+          },
+          {
+            "id": "f",
+            "x": 320,
+            "y": 110,
+            "t": "Multimode",
+            "sub": "Kern 50 oder 62,5 µm",
+            "w": 190,
+            "rolle": "gelb"
+          },
+          {
+            "id": "e",
+            "x": 570,
+            "y": 110,
+            "t": "Empfänger",
+            "w": 96
+          }
+        ],
+        "links": [
+          {
+            "von": "s",
+            "bis": "f",
+            "t": "Licht"
+          },
+          {
+            "von": "f",
+            "bis": "e",
+            "t": "begrenzt"
+          }
+        ]
+      },
+      "sm": {
+        "art": "netz",
+        "titel": "Singlemode: nur die Dämpfung begrenzt die Länge",
+        "knoten": [
+          {
+            "id": "s",
+            "x": 70,
+            "y": 110,
+            "t": "Sender",
+            "w": 90
+          },
+          {
+            "id": "f",
+            "x": 320,
+            "y": 110,
+            "t": "Singlemode",
+            "sub": "Kern ca. 9 µm",
+            "w": 190,
+            "rolle": "gelb"
+          },
+          {
+            "id": "e",
+            "x": 570,
+            "y": 110,
+            "t": "Empfänger",
+            "w": 96
+          }
+        ],
+        "links": [
+          {
+            "von": "s",
+            "bis": "f",
+            "t": "Licht"
+          },
+          {
+            "von": "f",
+            "bis": "e",
+            "t": "Weitverkehr"
+          }
+        ]
+      },
+      "om": {
+        "art": "netz",
+        "titel": "Leistungsklassen: OM1 bis OM5 (Multimode), OS1/OS2 (Singlemode)",
+        "knoten": [
+          {
+            "id": "o1",
+            "x": 70,
+            "y": 85,
+            "t": "OM1",
+            "sub": "62,5 µm",
+            "w": 100
+          },
+          {
+            "id": "o2",
+            "x": 195,
+            "y": 85,
+            "t": "OM2",
+            "sub": "orange",
+            "w": 100
+          },
+          {
+            "id": "o3",
+            "x": 320,
+            "y": 85,
+            "t": "OM3",
+            "sub": "aqua",
+            "w": 100
+          },
+          {
+            "id": "o4",
+            "x": 445,
+            "y": 85,
+            "t": "OM4",
+            "sub": "violett",
+            "w": 100
+          },
+          {
+            "id": "o5",
+            "x": 570,
+            "y": 85,
+            "t": "OM5",
+            "sub": "lime",
+            "w": 100
+          },
+          {
+            "id": "s1",
+            "x": 255,
+            "y": 160,
+            "t": "OS1",
+            "sub": "gelb, 9/125 µm",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "s2",
+            "x": 385,
+            "y": 160,
+            "t": "OS2",
+            "sub": "gelb, 9/125 µm",
+            "w": 130,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "bpl": {
+        "art": "netz",
+        "titel": "OM2: B = B′ / l = 500 MHz·km / 2,5 km = 200 MHz",
+        "knoten": [
+          {
+            "id": "b",
+            "x": 110,
+            "y": 110,
+            "t": "B′ = 500",
+            "sub": "MHz·km",
+            "w": 150
+          },
+          {
+            "id": "l",
+            "x": 320,
+            "y": 110,
+            "t": "l = 2,5 km",
+            "sub": "Länge",
+            "w": 150
+          },
+          {
+            "id": "r",
+            "x": 530,
+            "y": 110,
+            "t": "B = 200 MHz",
+            "sub": "nutzbar",
+            "w": 150,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "b",
+            "bis": "l",
+            "t": "geteilt durch"
+          },
+          {
+            "von": "l",
+            "bis": "r",
+            "t": "ergibt"
+          }
+        ]
+      },
+      "om3": {
+        "art": "netz",
+        "titel": "OM3 auf 300 m: B = 1500 / 0,3 = 5000 MHz, Dämpfung 3,0 · 0,3 = 0,9 dB",
+        "knoten": [
+          {
+            "id": "b",
+            "x": 110,
+            "y": 110,
+            "t": "B′ = 1500",
+            "sub": "MHz·km",
+            "w": 150
+          },
+          {
+            "id": "l",
+            "x": 320,
+            "y": 110,
+            "t": "l = 0,3 km",
+            "sub": "300 m",
+            "w": 150
+          },
+          {
+            "id": "r",
+            "x": 530,
+            "y": 110,
+            "t": "B = 5000 MHz",
+            "sub": "Dämpfung 0,9 dB",
+            "w": 150,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "b",
+            "bis": "l",
+            "t": "geteilt durch"
+          },
+          {
+            "von": "l",
+            "bis": "r",
+            "t": "ergibt"
+          }
+        ]
+      },
+      "eth": {
+        "art": "netz",
+        "titel": "1000Base-T entschlüsseln",
+        "knoten": [
+          {
+            "id": "z",
+            "x": 130,
+            "y": 110,
+            "t": "1000",
+            "sub": "Mbit/s",
+            "w": 140
+          },
+          {
+            "id": "b",
+            "x": 320,
+            "y": 110,
+            "t": "Base",
+            "sub": "Basisband",
+            "w": 140
+          },
+          {
+            "id": "m",
+            "x": 510,
+            "y": 110,
+            "t": "T",
+            "sub": "Twisted Pair",
+            "w": 140,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "z",
+            "bis": "b"
+          },
+          {
+            "von": "b",
+            "bis": "m"
+          }
+        ]
+      },
+      "med": {
+        "art": "netz",
+        "titel": "40-Gigabit-Varianten und ihr Medium",
+        "knoten": [
+          {
+            "id": "cr",
+            "x": 90,
+            "y": 110,
+            "t": "40G-CR4",
+            "sub": "Twinax, 10 m",
+            "w": 130
+          },
+          {
+            "id": "sr",
+            "x": 250,
+            "y": 110,
+            "t": "40G-SR4",
+            "sub": "Multimode",
+            "w": 130
+          },
+          {
+            "id": "lr",
+            "x": 410,
+            "y": 110,
+            "t": "40G-LR4",
+            "sub": "Singlemode 10 km",
+            "w": 130
+          },
+          {
+            "id": "er",
+            "x": 570,
+            "y": 110,
+            "t": "40G-ER4",
+            "sub": "Singlemode 40 km",
+            "w": 130
+          }
+        ],
+        "links": []
+      },
+      "wifi": {
+        "art": "netz",
+        "titel": "Wi-Fi-Namen und IEEE-Normen",
+        "knoten": [
+          {
+            "id": "w4",
+            "x": 70,
+            "y": 110,
+            "t": "Wi-Fi 4",
+            "sub": "802.11n",
+            "w": 100
+          },
+          {
+            "id": "w5",
+            "x": 195,
+            "y": 110,
+            "t": "Wi-Fi 5",
+            "sub": "802.11ac",
+            "w": 100
+          },
+          {
+            "id": "w6",
+            "x": 320,
+            "y": 110,
+            "t": "Wi-Fi 6",
+            "sub": "802.11ax",
+            "w": 100,
+            "rolle": "gelb"
+          },
+          {
+            "id": "w7",
+            "x": 445,
+            "y": 110,
+            "t": "Wi-Fi 7",
+            "sub": "802.11be",
+            "w": 100
+          },
+          {
+            "id": "wg",
+            "x": 570,
+            "y": 110,
+            "t": "WiGig",
+            "sub": "802.11ad",
+            "w": 100
+          }
+        ],
+        "links": []
+      },
+      "ap": {
+        "art": "netz",
+        "titel": "Access Point: verlängert die Tertiärebene per Funk",
+        "knoten": [
+          {
+            "id": "ev",
+            "x": 70,
+            "y": 110,
+            "t": "EV",
+            "sub": "Etagenverteiler",
+            "w": 110
+          },
+          {
+            "id": "ta",
+            "x": 235,
+            "y": 110,
+            "t": "TA",
+            "sub": "Dose",
+            "w": 100
+          },
+          {
+            "id": "ap",
+            "x": 400,
+            "y": 110,
+            "t": "AP",
+            "sub": "per PoE",
+            "w": 100,
+            "rolle": "gelb"
+          },
+          {
+            "id": "nb",
+            "x": 565,
+            "y": 110,
+            "t": "Laptop",
+            "w": 96
+          }
+        ],
+        "links": [
+          {
+            "von": "ev",
+            "bis": "ta",
+            "t": "Kupfer"
+          },
+          {
+            "von": "ta",
+            "bis": "ap",
+            "t": "Kabel"
+          },
+          {
+            "von": "ap",
+            "bis": "nb",
+            "t": "Funk",
+            "stil": "quer"
+          }
+        ]
+      },
+      "reich": {
+        "art": "netz",
+        "titel": "Funknetze nach Reichweite",
+        "knoten": [
+          {
+            "id": "pan",
+            "x": 110,
+            "y": 110,
+            "t": "WPAN",
+            "sub": "Bluetooth, ZigBee",
+            "w": 170
+          },
+          {
+            "id": "lan",
+            "x": 320,
+            "y": 110,
+            "t": "WLAN",
+            "sub": "802.11, im Gebäude",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "wan",
+            "x": 530,
+            "y": 110,
+            "t": "WWAN",
+            "sub": "Mobilfunk, Richtfunk",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "pan",
+            "bis": "lan",
+            "t": "größer"
+          },
+          {
+            "von": "lan",
+            "bis": "wan",
+            "t": "größer"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welche Faser nimmst du für eine Weitverkehrsstrecke?",
+        "optionen": [
+          {
+            "text": "Singlemode (OS2)",
+            "richtig": true
+          },
+          {
+            "text": "Multimode OM1",
+            "richtig": false
+          },
+          {
+            "text": "Kunststofffaser POF",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Norm gehört zu Wi-Fi 6?",
+        "optionen": [
+          {
+            "text": "802.11ax",
+            "richtig": true
+          },
+          {
+            "text": "802.11ac",
+            "richtig": false
+          },
+          {
+            "text": "802.11ad",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Glasfaser",
+        "kurz": "Totalreflexion, Multimode und Singlemode, die Bandbreitenrechnung",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Zwischen zwei Gebäuden liegen 300 m. Kupfer ist zu lang, du brauchst Glasfaser.",
+          "frage": "Welche Faser, und wie viel Bandbreite bleibt auf der Strecke?"
+        },
+        "aufbau": [
+          {
+            "text": "Ein Lichtwellenleiter leitet Licht per Totalreflexion an der Grenze zwischen Kern und Mantel. Die Dämpfung ist gering, darum sind große Distanzen möglich.",
+            "diagramm": "mm"
+          },
+          {
+            "text": "Multimode hat 50 oder 62,5 µm Kern. Das Licht läuft in verschiedenen Winkeln, Laufzeitunterschiede begrenzen die Länge.",
+            "diagramm": "mm"
+          },
+          {
+            "text": "Singlemode hat etwa 9 µm Kern, das Licht läuft gerade. Nur die Dämpfung begrenzt die Länge, daher Weitverkehr.",
+            "diagramm": "sm"
+          },
+          {
+            "text": "Multimode ist in OM1 bis OM5 eingeteilt, Singlemode in OS1 und OS2. Kennfarben: OM3 aqua, OM4 violett, OM5 lime, Singlemode gelb.",
+            "diagramm": "om"
+          },
+          {
+            "text": "Das Bandbreiten-Längen-Produkt gilt für die Faser als Ganzes: B = B′ / l, mit l in km. OM2: 500 / 2,5 = 200 MHz.",
+            "diagramm": "bpl"
+          },
+          {
+            "text": "OM3 mit 1500 MHz·km auf 300 m: B = 1500 / 0,3 = 5000 MHz. Dämpfung = Belag · l = 3,0 dB/km · 0,3 km = 0,9 dB.",
+            "diagramm": "om3"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Eine OM3-Faser hat 1500 MHz·km und ist 300 m lang. Welche Bandbreite ist nutzbar?",
+          "optionen": [
+            {
+              "text": "5000 MHz",
+              "richtig": true,
+              "korrektur": "Richtig: 1500 / 0,3 km = 5000 MHz."
+            },
+            {
+              "text": "500 MHz",
+              "richtig": false,
+              "korrektur": "Die Länge muss in km eingesetzt werden: 0,3 km, nicht 3 und nicht 300."
+            },
+            {
+              "text": "450000 MHz",
+              "richtig": false,
+              "korrektur": "Das wäre multipliziert. Es wird geteilt: B = B′ / l."
+            }
+          ],
+          "loesung": "1500 / 0,3 = 5000 MHz.",
+          "beleg": {
+            "seite": "319"
+          }
+        },
+        "wiederholung": {
+          "text": "Länge immer in km: 300 m = 0,3 km. Dann B = B′ / l und Dämpfung = Belag · l.",
+          "diagramm": "om3"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Auf welchem Prinzip beruht die Lichtleitung in der Glasfaser?",
+            "optionen": [
+              "Elektromagnetische Induktion zwischen Kern und Mantel",
+              "Beugung des Lichts an den Enden der Faser",
+              "Reflexion an der Grenze zwischen Mantel und Schutzmantel",
+              "Totalreflexion an der Grenze zwischen Kern und Mantel"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Das Licht bleibt im Kern, weil es an der Kerngrenze nicht austritt."
+            ],
+            "erkl": "Die **Totalreflexion** an der Grenzschicht Kern/Mantel hält das Licht im Kern."
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür steht die Abkürzung **POF**?",
+            "optionen": [
+              "Polymeroptische Faser (Kunststofffaser)",
+              "Polarisierte Optik-Faser für den Weitverkehr",
+              "Passive Optical Fiber (Singlemode-Variante)",
+              "Power over Fiber: Strom über Glasfaser"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Es ist die Variante für kurze Strecken."
+            ],
+            "erkl": "**POF** = polymeroptische Faser, also eine Kunststofffaser für kurze Distanzen."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Multimode oder Singlemode?",
+            "paare": [
+              [
+                "Kern 9 µm",
+                "Singlemode"
+              ],
+              [
+                "Kern 50 oder 62,5 µm",
+                "Multimode"
+              ],
+              [
+                "Laufzeitunterschiede begrenzen die Länge",
+                "Multimode"
+              ],
+              [
+                "Weitverkehr",
+                "Singlemode"
+              ],
+              [
+                "Klassen OS1 und OS2",
+                "Singlemode"
+              ],
+              [
+                "Klassen OM1 bis OM5",
+                "Multimode"
+              ]
+            ],
+            "tipps": [
+              "OM = Optical Multimode, OS = Optical Singlemode."
+            ],
+            "erkl": "Singlemode: 9 µm, Weitverkehr, OS1/OS2. Multimode: 50 oder 62,5 µm, Laufzeitunterschiede, OM1 bis OM5."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Farbe hat der Mantel?",
+            "paare": [
+              [
+                "OM2",
+                "orange"
+              ],
+              [
+                "OM3",
+                "aqua"
+              ],
+              [
+                "OM4",
+                "violett"
+              ],
+              [
+                "OM5",
+                "lime"
+              ],
+              [
+                "OS2",
+                "gelb"
+              ]
+            ],
+            "tipps": [
+              "Singlemode ist gelb. Aqua und Violett sind die Kennfarben der besseren Multimode-Fasern."
+            ],
+            "erkl": "OM2 orange, OM3 aqua, OM4 violett, OM5 lime, OS2 gelb."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Faser setzt du für eine **Weitverkehrsstrecke** ein?",
+            "optionen": [
+              "OM1 (Multimode, 62,5/125 µm)",
+              "OS2 (Singlemode, 9/125 µm)",
+              "OM3 (Multimode, 50/125 µm)",
+              "OM5 (Multimode, 50/125 µm)"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Weitverkehr ist immer Singlemode."
+            ],
+            "erkl": "Für große Distanzen nimmt man **Singlemode**: OS2 hat mit 0,4 dB/km die geringste Dämpfung.",
+            "fallen": {
+              "1": "Denkfalle: **Multimode** leidet unter Modendispersion und reicht bei Gigabit typischerweise nur ca. 300 bis 550 m. Für Weitverkehr (Kilometer) ist ausschließlich **Singlemode (Monomode)** mit Laserlichtquelle geeignet!"
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "„Je länger die Faser, desto größer die nutzbare Bandbreite.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Das Produkt aus Bandbreite und Länge bleibt gleich."
+            ],
+            "erkl": "**Falsch.** B = B′ / l: Mit wachsender Länge **sinkt** die nutzbare Bandbreite."
+          },
+          {
+            "t": "weg",
+            "titel": "OM3 auf 300 m",
+            "kopf": "Eine **OM3**-Faser hat **1500 MHz·km** bei 850 nm und **3,0 dB/km**. Sie ist **300 m** lang.",
+            "schritte": [
+              {
+                "t": "wahl",
+                "f": "Wie kommst du auf die nutzbare Bandbreite?",
+                "optionen": [
+                  "B′ mit der Länge in km multiplizieren",
+                  "B′ durch die Dämpfung teilen",
+                  "B′ von der Länge in m abziehen",
+                  "B′ durch die Länge in km teilen"
+                ],
+                "richtig": 3,
+                "tipps": [
+                  "Je länger, desto kleiner die Bandbreite."
+                ],
+                "erkl": "Teilen: **B = B′ / l**.",
+                "label": "Rechenweg"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie groß ist die nutzbare **Bandbreite** in MHz?",
+                "art": "zahl",
+                "antwort": [
+                  "5000"
+                ],
+                "tipps": [
+                  "300 m = 0,3 km.",
+                  "1500 / 0,3."
+                ],
+                "erkl": "1500 MHz·km / 0,3 km = **5.000 MHz**.",
+                "fallen": {
+                  "450": "Du hast multipliziert (1500 · 0,3). Je länger die Faser, desto kleiner die Bandbreite: teilen."
+                },
+                "label": "Bandbreite"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie groß ist die **Dämpfung** der Strecke in dB?",
+                "art": "zahl",
+                "antwort": [
+                  "0,9"
+                ],
+                "tipps": [
+                  "3,0 dB/km · 0,3 km."
+                ],
+                "erkl": "3,0 · 0,3 = **0,9 dB**.",
+                "fallen": {
+                  "9": "Dezimalzeichen ist das Komma: 0,9.",
+                  "900": "Setze die Länge in km ein: 300 m = 0,3 km."
+                },
+                "label": "Dämpfung"
+              }
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "lwl",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Klasse hat bei 1300 nm die **geringste Dämpfung**?",
+            "optionen": [
+              "OS2 mit 0,4 dB/km",
+              "OS1 mit 1,0 dB/km",
+              "OM3 mit 1,5 dB/km",
+              "OM1 mit 1,5 dB/km"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Schau in die Dämpfungstabelle, Spalte 1300 nm."
+            ],
+            "erkl": "Bei 1300 nm dämpft **OS2** mit 0,4 dB/km am wenigsten, OS1 mit 1,0 und die OM-Fasern mit 1,5 dB/km."
+          },
+          {
+            "t": "gen",
+            "gen": "lwl",
+            "stufen": [
+              2
+            ]
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Singlemode = 9 µm, Weitverkehr. B = B′ / l (l in km), Dämpfung = Belag · l.",
+          "handout": "**LWL:** Totalreflexion Kern/Mantel. Multimode 50/62,5 µm, Laufzeitunterschiede begrenzen. Singlemode 9 µm, nur Dämpfung begrenzt, Weitverkehr. OM1–OM5, OS1/OS2 (gelb). **B = B′ / l** (l in km), **Dämpfung = Belag · l**. Beispiel OM3, 300 m: 5000 MHz und 0,9 dB."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Ethernet-Namen",
+        "kurz": "10Base-X lesen: Zahl, Base und Medium",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Auf dem Datenblatt steht 1000Base-T, auf dem nächsten 40GBase-LR4.",
+          "frage": "Was verraten solche Namen, und wo weicht das Buch von der Norm ab?"
+        },
+        "aufbau": [
+          {
+            "text": "Ethernet-Namen haben die Form 10Base-X. Die Zahl vorn ist die Datenrate in Mbit/s, ein G dahinter heißt Gbit/s.",
+            "diagramm": "eth"
+          },
+          {
+            "text": "Base steht für Basisband: keine Trägerfrequenz wie beim Rundfunk. Der Rest nennt das Medium.",
+            "diagramm": "eth"
+          },
+          {
+            "text": "T ist Twisted Pair. 1000Base-T heißt also 1000 Mbit/s über Kupfer. T1 nutzt nur ein Adernpaar.",
+            "diagramm": "eth"
+          },
+          {
+            "text": "S, L und E nach Base: Glasfaser. SR4 ist Multimode, LR4 Singlemode (10 km), ER4 Singlemode (40 km), CR4 Kupfer-Twinax mit nur 10 m.",
+            "diagramm": "med"
+          },
+          {
+            "text": "Die 4 in SR4 zählt Kanäle, sie ist keine Kabelkategorie. Das Buch nennt für 10GBase-T Cat 7, die Norm verlangt für 100 m nur Cat 6A.",
+            "diagramm": "med"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was bedeutet 1000Base-T?",
+          "optionen": [
+            {
+              "text": "1000 Mbit/s, Basisband, Twisted Pair",
+              "richtig": true,
+              "korrektur": "Richtig: Zahl = Rate, Base = Basisband, T = Twisted Pair."
+            },
+            {
+              "text": "1000 m Reichweite über Twinax",
+              "richtig": false,
+              "korrektur": "Die Zahl vorn ist die Datenrate, keine Länge."
+            },
+            {
+              "text": "1000 Mbit/s über Glasfaser",
+              "richtig": false,
+              "korrektur": "Glasfaser wäre S, L oder E. T steht für Twisted Pair."
+            }
+          ],
+          "loesung": "1000 Mbit/s, Basisband, Twisted Pair.",
+          "beleg": {
+            "seite": "315"
+          }
+        },
+        "wiederholung": {
+          "text": "Zahl = Datenrate, Base = Basisband, Rest = Medium. In der Prüfung zählt die Buchangabe, in der Praxis die Norm.",
+          "diagramm": "eth"
+        },
+        "uebung": [
+          {
+            "t": "gen",
+            "gen": "ethName",
+            "stufen": [
+              1
+            ],
+            "modus": "rate"
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür steht **Base** in 10Base-T?",
+            "optionen": [
+              "Basisversion des Standards",
+              "Basisband: ohne Trägerfrequenz",
+              "Basisstation",
+              "Basis-Kategorie des Kabels"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der Begriff stammt aus der Übertragungstechnik, nicht aus der Produktpolitik."
+            ],
+            "erkl": "**Base = Basisband**. Das Signal geht ohne Trägerfrequenz direkt aufs Kabel."
+          },
+          {
+            "t": "gen",
+            "gen": "ethName",
+            "stufen": [
+              1
+            ],
+            "modus": "medium"
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Medium steckt in der Bezeichnung (Buchtabelle)?",
+            "paare": [
+              [
+                "1000Base-T",
+                "Twisted Pair"
+              ],
+              [
+                "40GBase-CR4",
+                "Kupfer-Twinax"
+              ],
+              [
+                "40GBase-SR4",
+                "Multimode-Glasfaser"
+              ],
+              [
+                "40GBase-LR4",
+                "Singlemode-Glasfaser"
+              ],
+              [
+                "100GBase-ER4",
+                "Singlemode-Glasfaser"
+              ],
+              [
+                "10Base2",
+                "Koaxialkabel"
+              ]
+            ],
+            "tipps": [
+              "C = Copper (Kupfer), S = Short (Multimode), L und E = lang (Singlemode).",
+              "Eine nackte Zahl 2 oder 5 nach Base deutet auf Koax."
+            ],
+            "erkl": "T = Twisted Pair, CR = Twinax, SR = Multimode, LR und ER = Singlemode, 10Base2 = Koax (veraltet)."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Variante überbrückt laut Buch **10 km**?",
+            "optionen": [
+              "40GBase-CR4 (Twinax)",
+              "40GBase-SR4 (Multimode)",
+              "40GBase-LR4 (Singlemode)",
+              "100GBase-ER4 (Singlemode)"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Zwei Varianten haben ähnliche Zahlen: 10 m und 10 km. Welche läuft über Singlemode?",
+              "ER4 schafft 40 km."
+            ],
+            "erkl": "**LR4** (Long Reach, Singlemode) schafft 10 km. CR4 nur 10 **m**, SR4 100 m, ER4 sogar 40 km."
+          },
+          {
+            "t": "weg",
+            "titel": "1000Base-T entschlüsseln",
+            "kopf": "Du liest die Bezeichnung **1000Base-T** auf einem Datenblatt.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Datenrate in **Mbit/s**?",
+                "art": "zahl",
+                "antwort": [
+                  "1000"
+                ],
+                "tipps": [
+                  "Die Zahl vorn, kein G."
+                ],
+                "erkl": "Die Zahl vorn: **1000 Mbit/s**.",
+                "fallen": {
+                  "1": "Das wäre Gbit/s. Gefragt ist Mbit/s."
+                },
+                "label": "Datenrate Mbit/s"
+              },
+              {
+                "t": "eingabe",
+                "f": "Datenrate in **Gbit/s**?",
+                "art": "zahl",
+                "antwort": [
+                  "1"
+                ],
+                "tipps": [
+                  "1000 Mbit/s durch 1000."
+                ],
+                "erkl": "1000 Mbit/s = **1 Gbit/s** (Gigabit-Ethernet).",
+                "label": "Datenrate Gbit/s"
+              },
+              {
+                "t": "wahl",
+                "f": "Welches Medium?",
+                "optionen": [
+                  "Multimode-Glasfaser",
+                  "Koaxialkabel",
+                  "Kupfer-Twinax",
+                  "Twisted Pair"
+                ],
+                "richtig": 3,
+                "tipps": [
+                  "Das T am Ende."
+                ],
+                "erkl": "T = **Twisted Pair**. Das Buch nennt dafür Cat 5e.",
+                "label": "Medium"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie lang darf das Segment höchstens sein (in m)?",
+                "art": "zahl",
+                "antwort": [
+                  "100"
+                ],
+                "tipps": [
+                  "Wie beim Permanent-/Channel-Link-Thema: die bekannte Obergrenze für Twisted Pair."
+                ],
+                "erkl": "Twisted-Pair-Ethernet läuft bis **100 m**.",
+                "fallen": {
+                  "90": "90 m ist die Grenze des Permanent Links. Die Segmentlänge ist die Gesamtstrecke: 100 m."
+                },
+                "label": "Max. Länge"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Wie viele Adernpaare nutzt **100Base-T1** (aus der Kfz-Technik)?",
+            "optionen": [
+              "Ein einziges Adernpaar",
+              "Zwei Adernpaare",
+              "Vier Adernpaare",
+              "Acht Adernpaare"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Die 1 steht für die Zahl der Paare."
+            ],
+            "erkl": "**T1** = ein Adernpaar. 100Base-T1 ist ungeschirmt, 1000Base-T1 geschirmt, beide für kurze Strecken (15 m, 40 m). Ein normales Netzwerkkabel hat dagegen vier Paare."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Kategorie ist nach Norm **mindestens** für 10GBase-T über 100 m nötig? (Das Buch nennt Cat 7.)",
+            "optionen": [
+              "Cat 5e",
+              "Cat 6A",
+              "Cat 6",
+              "Cat 8"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Cat 6 schafft 10 Gbit/s nur auf kurzen Strecken.",
+              "Es ist die Kategorie mit 500 MHz."
+            ],
+            "erkl": "Nach Norm genügt **Cat 6A** (500 MHz, Klasse EA) für 100 m. Cat 7 funktioniert auch, ist aber nicht das Minimum. Das Buch nennt Cat 7 (Errata).",
+            "fallen": {
+              "0": "Cat 5e unterstützt maximal 1 Gbit/s (Klasse D).",
+              "1": "Cat 6 unterstützt 10 Gbit/s nur bis maximal ca. 37-55 m Dämpfungsgrenze. Für die vollen genormten 100 m ist **mindestens Cat 6A** (Klasse EA, 500 MHz) vorgeschrieben!"
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Wie heißt 100-Mbit/s-Ethernet über Twisted Pair in der Norm genau?",
+            "optionen": [
+              "100Base-T1",
+              "100Base-FX",
+              "100Base-TX",
+              "10Base-T"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Das Buch schreibt kurz 100Base-T. In der Norm ist ein X dabei."
+            ],
+            "erkl": "Fast Ethernet über Twisted Pair heißt genau **100Base-TX**. 100Base-T1 ist die Ein-Paar-Variante, 100Base-FX läuft über Glasfaser."
+          },
+          {
+            "t": "wahl",
+            "f": "„Die 4 in 40GBase-SR4 ist die Kabelkategorie Cat 4.“",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Kategorien beschreiben Kupferbauteile. SR4 ist eine Glasfaservariante."
+            ],
+            "erkl": "**Falsch.** Die 4 zählt bei SR4/LR4/ER4 die **Kanäle** (die Buchtabelle schreibt „mit 4 Kanälen“). Es ist keine Kategorie, 40 Gbit/s laufen hier über Glasfaser."
+          },
+          {
+            "t": "wahl",
+            "f": "Das Buch nennt für **100Base-FX** „LWL Monomode, 400 m“. Was gilt laut Errata üblicherweise?",
+            "optionen": [
+              "Üblicherweise Multimode-LWL",
+              "Singlemode, genau wie im Buch",
+              "Twisted Pair Cat 5",
+              "Koaxialkabel"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "FX = Fiber, also Glasfaser. Die Frage ist, welche Art."
+            ],
+            "erkl": "100Base-FX läuft üblicherweise über **Multimode**-LWL, das Buch nennt Monomode. Für Prüfungen die Buchangabe kennen, bei Unsicherheit den Dozenten fragen (die Angabe ist im Buch strittig)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Zahl = Datenrate, Base = Basisband, Rest = Medium. Buch für die Prüfung, Norm für die Praxis.",
+          "handout": "**Ethernet-Namen:** Zahl = Mbit/s (G = Gbit/s), Base = Basisband, Rest = Medium. T = Twisted Pair, T1 = ein Paar, SR4 = Multimode, LR4 = Singlemode 10 km, ER4 = Singlemode 40 km, CR4 = Twinax 10 m. 10GBase-T: Buch Cat 7, Norm Cat 6A. 100Base-T heißt in der Norm 100Base-TX."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Funk",
+        "kurz": "WLAN-Betriebsarten, Wi-Fi-Namen, WPAN und WWAN",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Im Flur hängt ein Access Point an der Dose. Die Geräte verbinden sich ohne Kabel.",
+          "frage": "Wie fügt sich Funk in die Verkabelung ein, und wie heißen die Standards?"
+        },
+        "aufbau": [
+          {
+            "text": "WLAN (IEEE 802.11) verlängert die Tertiärebene: Access Points hängen an einer Dose, oft per PoE. Alle Teilnehmer teilen sich die Bandbreite.",
+            "diagramm": "ap"
+          },
+          {
+            "text": "Ad-hoc: gleichberechtigte Teilnehmer verbinden sich direkt. Infrastructure: Geräte melden sich an einem zentralen Access Point an.",
+            "diagramm": "ap"
+          },
+          {
+            "text": "Wi-Fi 4 = 802.11n, Wi-Fi 5 = 802.11ac, Wi-Fi 6 = 802.11ax, Wi-Fi 7 = 802.11be. 802.11ad ist WiGig im 60-GHz-Band.",
+            "diagramm": "wifi"
+          },
+          {
+            "text": "Wi-Fi 6E bringt das 6-GHz-Band dazu. Die Buchtabelle nennt 802.11ad fälschlich Wi-Fi 6, richtig ist 802.11ax.",
+            "diagramm": "wifi"
+          },
+          {
+            "text": "Nach Reichweite: WPAN ersetzt Kabel an Maus und Kopfhörer (Bluetooth, ZigBee). WWAN ist Weitverkehr (Mobilfunk, Richtfunk).",
+            "diagramm": "reich"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche Norm gehört zu Wi-Fi 6?",
+          "optionen": [
+            {
+              "text": "802.11ax",
+              "richtig": true,
+              "korrektur": "Richtig, auch wenn die Buchtabelle hier durcheinandergeraten ist."
+            },
+            {
+              "text": "802.11ad",
+              "richtig": false,
+              "korrektur": "802.11ad ist WiGig im 60-GHz-Band, nicht Wi-Fi 6."
+            },
+            {
+              "text": "802.11ac",
+              "richtig": false,
+              "korrektur": "802.11ac ist Wi-Fi 5."
+            }
+          ],
+          "loesung": "802.11ax = Wi-Fi 6.",
+          "beleg": {
+            "seite": "320"
+          }
+        },
+        "wiederholung": {
+          "text": "Die Namen zählen hoch: n = 4, ac = 5, ax = 6, be = 7. 802.11ad ist WiGig.",
+          "diagramm": "wifi"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Ad-hoc oder Infrastructure?",
+            "paare": [
+              [
+                "Sofort-Netz",
+                "Ad-hoc"
+              ],
+              [
+                "Gleichberechtigte Teilnehmer",
+                "Ad-hoc"
+              ],
+              [
+                "Zentraler Access Point",
+                "Infrastructure"
+              ],
+              [
+                "Anmeldung am AP oder Anmeldeserver",
+                "Infrastructure"
+              ]
+            ],
+            "tipps": [
+              "Ohne zentralen Punkt = ad hoc."
+            ],
+            "erkl": "Ad-hoc: kein zentraler Punkt, gleichberechtigt. Infrastructure: zentraler **Access Point** mit Anmeldung."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Norm gehört zum Namen?",
+            "paare": [
+              [
+                "Wi-Fi 4",
+                "802.11n"
+              ],
+              [
+                "Wi-Fi 5",
+                "802.11ac"
+              ],
+              [
+                "Wi-Fi 6",
+                "802.11ax"
+              ],
+              [
+                "Wi-Fi 7",
+                "802.11be"
+              ],
+              [
+                "WiGig",
+                "802.11ad"
+              ]
+            ],
+            "tipps": [
+              "Die Namen zählen hoch (4, 5, 6, 7), die Normen enden auf n, ac, ax, be.",
+              "WiGig ist die 60-GHz-Variante."
+            ],
+            "erkl": "Wi-Fi 4 = **n**, Wi-Fi 5 = **ac**, Wi-Fi 6 = **ax**, Wi-Fi 7 = **be**, WiGig = **ad**. Im Buch ist die Zeile von 802.11ad fälschlich als Wi-Fi 6 bezeichnet."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Wi-Fi-Generation ist **802.11ax**?",
+            "optionen": [
+              "Wi-Fi 5",
+              "Wi-Fi 6",
+              "Wi-Fi 7",
+              "WiGig"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Fünf ist 802.11ac, sieben ist 802.11be."
+            ],
+            "erkl": "**802.11ax = Wi-Fi 6** (Buch: bis 4,8 Gbit/s). Das Buch nennt in der Zeile darüber irrtümlich 802.11ad als Wi-Fi 6."
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Frequenzband nutzt **802.11ac (Wi-Fi 5)**?",
+            "optionen": [
+              "Nur das 2,4-GHz-Band",
+              "2,4 und 5 GHz",
+              "Nur das 5-GHz-Band",
+              "Das 60-GHz-Band"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Wi-Fi 4 arbeitet auf zwei Bändern, Wi-Fi 5 nur auf einem."
+            ],
+            "erkl": "802.11ac arbeitet im **5-GHz-Band** (Buch: bis 867 Mbit/s, theoretisch 6.936 Mbit/s). Wi-Fi 4 nutzt 2,4 und 5 GHz."
+          },
+          {
+            "t": "wahl",
+            "f": "Was kommt bei **Wi-Fi 6E** gegenüber Wi-Fi 6 dazu?",
+            "optionen": [
+              "Das 60-GHz-Band",
+              "Ein zweiter Access Point",
+              "Verschlüsselung per Kabel",
+              "Das 6-GHz-Band"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Der Zusatz E betrifft das Frequenzband. Die Bänder bisher: 2,4 und 5 GHz."
+            ],
+            "erkl": "**6E** erweitert Wi-Fi 6 um das **6-GHz-Band**. Das 60-GHz-Band gehört zu WiGig (802.11ad)."
+          },
+          {
+            "t": "zuordnen",
+            "f": "WLAN, WPAN oder WWAN?",
+            "paare": [
+              [
+                "Bluetooth",
+                "WPAN"
+              ],
+              [
+                "ZigBee",
+                "WPAN"
+              ],
+              [
+                "LTE",
+                "WWAN"
+              ],
+              [
+                "5G",
+                "WWAN"
+              ],
+              [
+                "Richtfunkstrecke",
+                "WWAN"
+              ],
+              [
+                "Wi-Fi 6",
+                "WLAN"
+              ]
+            ],
+            "tipps": [
+              "WPAN = Personal Area (Mensch/Schreibtisch), WWAN = Wide Area (Weitverkehr)."
+            ],
+            "erkl": "**WPAN** = Bluetooth, ZigBee. **WWAN** = Mobilfunk (LTE, 5G) und Richtfunk. **WLAN** = Wi-Fi."
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür wird **ZigBee** laut Buch häufig eingesetzt?",
+            "optionen": [
+              "Heimautomatisierung (Lampen, Schalter, Kontakte)",
+              "Weitverkehrsverbindungen zwischen Standorten",
+              "Kabellose Tastaturen im Schreibtischbereich",
+              "Hochgeschwindigkeits-WLAN im Großraumbüro"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Es ist ein Kleinst-Datennetz für Haus und Smart Home."
+            ],
+            "erkl": "ZigBee (868/915 MHz und 2,4 GHz) steuert **Heimautomatisierung**: Lampen, Schalter, Tür- und Fensterkontakte. ZigBee gehört zu IEEE 802.15.4, nicht zu Bluetooth (Errata)."
+          },
+          {
+            "t": "wahl",
+            "f": "Wie wird ein WLAN-Access-Point in die strukturierte Verkabelung eingebunden?",
+            "optionen": [
+              "Er ersetzt den Etagenverteiler der jeweiligen Etage",
+              "Er hängt an einem TA und verlängert die Tertiärebene",
+              "Er hängt direkt am Standortverteiler im Gelände",
+              "Er gehört zur Primärverkabelung zwischen Gebäuden"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der AP ist ein Endgerät der Etage."
+            ],
+            "erkl": "Der **Access Point** wird an einen TA angeschlossen und verlängert so die Tertiärverkabelung, oft mit PoE-Versorgung."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Wi-Fi 4/5/6/7 = 802.11n/ac/ax/be. WPAN = Nahbereich, WWAN = Weitverkehr.",
+          "handout": "**Funk:** WLAN = IEEE 802.11, Access Point an der Dose (PoE). Ad-hoc direkt, Infrastructure über AP. **Wi-Fi 4/5/6/7 = 802.11n/ac/ax/be**, 802.11ad = WiGig (60 GHz), Wi-Fi 6E = zusätzlich 6 GHz. WPAN: Bluetooth, ZigBee. WWAN: Mobilfunk, Richtfunk."
+        }
+      }
+    ],
+    "uebung": [
+      {
+        "t": "weg",
+        "titel": "Struktur planen",
+        "kopf": "Plane die Struktur der Verkabelung für das Gelände: Gebäude A (3 Etagen à 2.000 m²), B (1.000 m²), C (2 Etagen à 1.000 m²).",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Primärstrecken** gehen vom SV aus?",
+            "art": "zahl",
+            "antwort": [
+              "3"
+            ],
+            "tipps": [
+              "Jedes Gebäude hat einen Gebäudeverteiler, an den der SV sternförmig anbindet: eine Strecke je Gebäude."
+            ],
+            "erkl": "Drei Gebäude, je eine Strecke: **3** Primärstrecken.",
+            "label": "Primärstrecken"
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Medium nimmst du für die Primärstrecken?",
+            "optionen": [
+              "Ungeschirmtes Kupferkabel",
+              "Koaxialkabel",
+              "Lichtwellenleiter",
+              "WLAN-Funkstrecken"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Zwischen Gebäuden sind Distanz und Durchsatz gefragt."
+            ],
+            "erkl": "Primär = meist **LWL**.",
+            "label": "Medium Primär"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Etagenverteiler** ergibt die Faustformel (1 je 1.000 m²) insgesamt?",
+            "art": "zahl",
+            "antwort": [
+              "9"
+            ],
+            "tipps": [
+              "A: 3 Etagen · 2.000 m² = 6.000 m². B: 1.000 m². C: 2.000 m². Gesamtfläche durch 1.000.",
+              "6 + 1 + 2."
+            ],
+            "erkl": "A: 6.000 m² → 6 EV, B: 1.000 m² → 1 EV, C: 2.000 m² → 2 EV. Zusammen **9** Etagenverteiler.",
+            "fallen": {
+              "3": "Das wären die Gebäudeverteiler.",
+              "9000": "9.000 m² ist die Gesamtfläche. Gefragt ist die Zahl der Verteiler."
+            },
+            "label": "Etagenverteiler"
+          },
+          {
+            "t": "wahl",
+            "f": "Wie heißt die Strecke von einem Etagenverteiler zur Wanddose?",
+            "optionen": [
+              "Sekundärverkabelung (Steigleitung)",
+              "Primärverkabelung (Flächenverkabelung)",
+              "Querverbindung",
+              "Tertiärverkabelung (Horizontalverkabelung)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Die dritte und letzte Ebene."
+            ],
+            "erkl": "EV → TA ist die **Tertiärverkabelung**, meist Kupfer.",
+            "label": "Ebene EV→TA"
+          },
+          {
+            "t": "wahl",
+            "f": "Zwischen den Verteilern ziehst du zusätzlich Querverbindungen. Welche Topologie ergibt sich?",
+            "optionen": [
+              "Unvollständige Masche",
+              "Vollständige Masche",
+              "Ring",
+              "Bus"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Ein erweiterter Stern mit Querverbindungen."
+            ],
+            "erkl": "Der erweiterte Stern über drei Ebenen wird mit Querverbindungen zur **unvollständigen Masche**.",
+            "label": "Topologie"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Dose und Länge",
+        "kopf": "Im Gebäude A, 2. Obergeschoss (Stock 2), hängt eine Dose am **2. Verteiler** dieser Etage, **Patchfeld 3**, **Port 14**. Die Festverkabelung ist **78 m** lang, das Patchkabel **4 m**, das Anschlusskabel **6 m**.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **Beschriftung** der Dose nach dem Buchschema?",
+            "art": "text",
+            "antwort": [
+              "A-II.2-3.14"
+            ],
+            "tipps": [
+              "Gebäude-Stock(römisch).Verteiler-Patchfeld.Port",
+              "Stock 2 = II."
+            ],
+            "erkl": "Gebäude A, Stock II, Verteiler 2, Patchfeld 3, Port 14 → **A-II.2-3.14**.",
+            "fallen": {
+              "a-2.2-3.14": "Das Stockwerk steht römisch (II)."
+            },
+            "label": "Beschriftung"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lang ist der **Channel Link** (in m)?",
+            "art": "zahl",
+            "antwort": [
+              "88"
+            ],
+            "tipps": [
+              "78 + 4 + 6."
+            ],
+            "erkl": "78 + 4 + 6 = **88 m**.",
+            "label": "Channel Link"
+          },
+          {
+            "t": "wahl",
+            "f": "Sind **Permanent Link** und **Channel Link** zulässig?",
+            "optionen": [
+              "Nein, der Permanent Link ist über 90 m",
+              "Ja, beide: 78 m ≤ 90 m und 88 m ≤ 100 m",
+              "Nein, der Channel Link ist über 88 m",
+              "Nur der Channel Link ist zulässig"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Zwei Vergleiche: 78 mit 90 und 88 mit 100."
+            ],
+            "erkl": "Permanent Link 78 m ≤ 90 m, Channel Link 88 m ≤ 100 m → beide **zulässig**.",
+            "label": "Zulässig?"
+          },
+          {
+            "t": "wahl",
+            "f": "Bei einer anderen Dose liegen 91 m Festverkabelung, dazu je 2 m Patch- und Anschlusskabel. Was stimmt?",
+            "optionen": [
+              "Beide Links sind zulässig, weil 95 m unter 100 m liegt",
+              "Beide Links sind unzulässig, weil 91 m über 90 m liegt",
+              "Channel Link 95 m passt, Permanent Link 91 m überschreitet 90 m",
+              "Der Channel Link ist unzulässig, der Permanent Link passt"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Rechne beide Längen einzeln: 91 m und 91 + 2 + 2."
+            ],
+            "erkl": "Permanent Link 91 m > 90 m → **unzulässig**. Channel Link 91 + 2 + 2 = 95 m ≤ 100 m. Beide Grenzen müssen halten.",
+            "label": "Zweite Dose"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Faser zwischen den Gebäuden",
+        "kopf": "Gebäude C liegt **500 m** vom SV entfernt. Du verlegst eine **OM4**-Faser (**3500 MHz·km** bei 850 nm, **3,0 dB/km**). Ein weiterer Standort liegt **25 km** entfernt.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Welche **Bandbreite** (in MHz) ist auf den 500 m nutzbar?",
+            "art": "zahl",
+            "antwort": [
+              "7000"
+            ],
+            "tipps": [
+              "500 m = 0,5 km.",
+              "3500 / 0,5."
+            ],
+            "erkl": "3500 MHz·km / 0,5 km = **7.000 MHz**.",
+            "fallen": {
+              "1750": "Du hast multipliziert (3500 · 0,5). Teile durch die Länge in km."
+            },
+            "label": "Bandbreite"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie groß ist die **Dämpfung** der Strecke in dB?",
+            "art": "zahl",
+            "antwort": [
+              "1,5"
+            ],
+            "tipps": [
+              "3,0 dB/km · 0,5 km."
+            ],
+            "erkl": "3,0 · 0,5 = **1,5 dB**.",
+            "fallen": {
+              "15": "Dezimalzeichen ist das Komma: 1,5.",
+              "1500": "Setze die Länge in km ein: 500 m = 0,5 km."
+            },
+            "label": "Dämpfung"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Fasergruppe wählst du für den Standort in 25 km Entfernung?",
+            "optionen": [
+              "Multimode OM4",
+              "Multimode OM1",
+              "Kunststofffaser (POF)",
+              "Singlemode (OS2)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Weitverkehr ist immer Singlemode."
+            ],
+            "erkl": "Weitverkehr braucht **Singlemode**, z. B. OS2 mit 0,4 dB/km.",
+            "label": "Faserart"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie groß ist die Dämpfung einer OS2-Strecke (0,4 dB/km) über 25 km (in dB)?",
+            "art": "zahl",
+            "antwort": [
+              "10"
+            ],
+            "tipps": [
+              "0,4 · 25."
+            ],
+            "erkl": "0,4 dB/km · 25 km = **10 dB**.",
+            "fallen": {
+              "100": "Rechne 0,4 · 25, nicht 4 · 25."
+            },
+            "label": "Dämpfung OS2"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Kabel und Bezeichnung wählen",
+        "kopf": "Im Verwaltungsgebäude sollen Arbeitsplätze **10 Gbit/s** über volle **100 m** Kupfer bekommen. Zwischen zwei Gebäuden liegen **8 km** Singlemode-Faser, dort sollen **40 Gbit/s** laufen.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welche Kategorie ist **mindestens** nötig (nach Norm; das Buch nennt Cat 7)?",
+            "optionen": [
+              "Cat 6A",
+              "Cat 5e",
+              "Cat 6",
+              "Cat 8"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Cat 6 schafft 10 Gbit/s nur kurz."
+            ],
+            "erkl": "Nach Norm genügt **Cat 6A** für 10GBase-T über 100 m.",
+            "label": "Kategorie"
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Klasse entspricht Cat 6A?",
+            "optionen": [
+              "Klasse D",
+              "Klasse EA",
+              "Klasse F",
+              "Klasse G"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Cat 6 = E, Cat 6A = E mit Zusatz A."
+            ],
+            "erkl": "Cat 6A entspricht **Klasse EA**, aber nur, wenn die gemessene Strecke das auch erreicht.",
+            "label": "Klasse"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Ethernet-Variante passt für 40 Gbit/s über 8 km Singlemode?",
+            "optionen": [
+              "40GBase-SR4",
+              "40GBase-CR4",
+              "40GBase-LR4",
+              "10GBase-T"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "SR4 = 100 m Multimode, CR4 = 10 m Twinax."
+            ],
+            "erkl": "**40GBase-LR4** schafft laut Buch 10 km über Singlemode, 8 km passen.",
+            "label": "Ethernet-Variante"
+          },
+          {
+            "t": "ordnen",
+            "f": "Wie läuft ein Datenpaket vom Switch im Schrank bis zum PC? Ordne die Bauteile.",
+            "items": [
+              "Switch",
+              "Patchkabel",
+              "Patchfeld",
+              "Festverkabelung",
+              "Dose (TA)",
+              "PC"
+            ],
+            "tipps": [
+              "Zuerst das aktive Gerät, am Ende der PC."
+            ],
+            "erkl": "Switch → Patchkabel → Patchfeld → Festverkabelung → Dose → PC.",
+            "label": "Reihenfolge"
+          }
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "1. Welche Topologie ist in heutigen LAN-Verkabelungen Standard?",
+        "optionen": [
+          "Der Bus mit gemeinsamer Leitung",
+          "Der Ring mit Vorgänger und Nachfolger",
+          "Die Zelle mit Funkversorgung",
+          "Der erweiterte Stern (Baum)"
+        ],
+        "richtig": 3,
+        "erkl": "Der **erweiterte Stern** über drei Ebenen ist der Standard. Bus ist im LAN nicht mehr üblich, Ring kaum, Zelle ist Funk."
+      },
+      {
+        "t": "gen",
+        "gen": "masche",
+        "stufen": [
+          1
+        ]
+      },
+      {
+        "t": "zuordnen",
+        "f": "3. Ordne jeder Ebene die Strecke zu.",
+        "paare": [
+          [
+            "Primär",
+            "Standortverteiler → Gebäudeverteiler"
+          ],
+          [
+            "Sekundär",
+            "Gebäudeverteiler → Etagenverteiler"
+          ],
+          [
+            "Tertiär",
+            "Etagenverteiler → Dose (TA)"
+          ]
+        ],
+        "erkl": "Primär SV → GV, Sekundär GV → EV, Tertiär EV → TA."
+      },
+      {
+        "t": "eingabe",
+        "f": "4. Ein Gebäude hat auf einer Etage **5.000 m²**. Wie viele Etagenverteiler ergibt die Faustformel?",
+        "art": "zahl",
+        "antwort": [
+          "5"
+        ],
+        "erkl": "5.000 m² / 1.000 m² = **5** Etagenverteiler.",
+        "fallen": {
+          "1": "Die Faustformel: pro 1.000 m² ein Verteiler."
+        }
+      },
+      {
+        "t": "eingabe",
+        "f": "5. Wie viele Meter darf der **Permanent Link** höchstens lang sein?",
+        "art": "zahl",
+        "antwort": [
+          "90"
+        ],
+        "erkl": "Permanent Link **90 m**, Channel Link 100 m.",
+        "fallen": {
+          "100": "100 m gilt für den Channel Link, nicht für den Permanent Link."
+        }
+      },
+      {
+        "t": "weg",
+        "titel": "Längen prüfen",
+        "kopf": "6. Festverkabelung **88 m**, Patchkabel **5 m**, Anschlusskabel **8 m**.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Channel-Link-Länge (m)?",
+            "art": "zahl",
+            "antwort": [
+              "101"
+            ],
+            "erkl": "88 + 5 + 8 = **101 m**.",
+            "label": "Channel Link"
+          },
+          {
+            "t": "wahl",
+            "f": "Channel Link zulässig?",
+            "optionen": [
+              "Nein, 101 m sind mehr als 100 m",
+              "Ja, weil der Permanent Link zulässig ist",
+              "Ja, bis 110 m ist alles erlaubt",
+              "Nein, er muss unter 90 m liegen"
+            ],
+            "richtig": 0,
+            "erkl": "101 m > 100 m → **unzulässig**.",
+            "label": "Channel Link zulässig?"
+          },
+          {
+            "t": "wahl",
+            "f": "Permanent Link zulässig?",
+            "optionen": [
+              "Nein, er muss unter 85 m liegen",
+              "Ja, 88 m sind höchstens 90 m",
+              "Nein, weil der Channel Link überschritten ist",
+              "Das hängt von der Kabelkategorie ab"
+            ],
+            "richtig": 1,
+            "erkl": "88 m ≤ 90 m → **zulässig**. Die Überschreitung entsteht erst durch die Patchkabel.",
+            "label": "Permanent Link zulässig?"
+          }
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "7. Was unterscheidet **Kategorie** und **Klasse**?",
+        "optionen": [
+          "Kategorie = fertige Strecke, Klasse = Bauteil",
+          "Beide sind austauschbare Wörter für dasselbe",
+          "Kategorie = Bauteil, Klasse = gemessene fertige Strecke",
+          "Kategorie gilt nur für Glasfaser, Klasse nur für Kupfer"
+        ],
+        "richtig": 2,
+        "erkl": "**Kategorie** = Bauteil (Cat), **Klasse** = gemessene Strecke (D, E, EA …)."
+      },
+      {
+        "t": "eingabe",
+        "f": "8. Wie viele **MHz** hat Cat 6A?",
+        "art": "zahl",
+        "antwort": [
+          "500"
+        ],
+        "erkl": "Cat 6A: **500 MHz**, Klasse EA.",
+        "fallen": {
+          "250": "250 MHz hat Cat 6 ohne A.",
+          "600": "600 MHz hat Cat 7."
+        }
+      },
+      {
+        "t": "wahl",
+        "f": "9. Wogegen wirkt das **Verdrillen** der Adernpaare?",
+        "optionen": [
+          "Gegen elektrische Störstrahlung",
+          "Gegen Dämpfung",
+          "Gegen Laufzeitunterschiede",
+          "Gegen magnetische Störstrahlung"
+        ],
+        "richtig": 3,
+        "erkl": "Verdrillen wirkt gegen **magnetische**, Schirmung gegen **elektrische** Störungen."
+      },
+      {
+        "t": "wahl",
+        "f": "10. Was beschreibt das Kürzel **F/UTP**?",
+        "optionen": [
+          "Gemeinsamer Folienschirm, Paare ungeschirmt",
+          "Gemeinsamer Geflechtschirm, Paare mit Folie",
+          "Kein Gesamtschirm, Paare mit Folie",
+          "Gemeinsamer Folien- und Geflechtschirm, Paare mit Folie"
+        ],
+        "richtig": 0,
+        "erkl": "Vor dem Schrägstrich der Gesamtschirm (F = Folie), danach die Paare (UTP = ungeschirmt)."
+      },
+      {
+        "t": "gen",
+        "gen": "lwl",
+        "stufen": [
+          1
+        ]
+      },
+      {
+        "t": "eingabe",
+        "f": "12. Welchen Kerndurchmesser hat eine **Singlemode**-Faser (in µm)?",
+        "art": "zahl",
+        "antwort": [
+          "9"
+        ],
+        "erkl": "Singlemode: Kern etwa **9 µm**. Multimode hat 50 oder 62,5 µm.",
+        "fallen": {
+          "50": "50 µm ist Multimode.",
+          "625": "62,5 µm ist Multimode.",
+          "62.5": "62,5 µm ist Multimode."
+        }
+      },
+      {
+        "t": "weg",
+        "titel": "Ethernet-Namen",
+        "kopf": "13. Du siehst die Bezeichnung **40GBase-LR4** und willst sie einordnen.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Datenrate in Mbit/s?",
+            "art": "zahl",
+            "antwort": [
+              "40000"
+            ],
+            "erkl": "40G = 40 Gbit/s = **40.000 Mbit/s**.",
+            "fallen": {
+              "40": "Das G steht für Gbit/s: mal 1000."
+            },
+            "label": "Datenrate"
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Medium?",
+            "optionen": [
+              "Multimode-Glasfaser",
+              "Singlemode-Glasfaser",
+              "Kupfer-Twinax",
+              "Twisted Pair"
+            ],
+            "richtig": 1,
+            "erkl": "**LR4** = Long Reach, Singlemode-LWL (Buch: 10 km).",
+            "label": "Medium"
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür steht Base?",
+            "optionen": [
+              "Basisstation",
+              "Basiskategorie",
+              "Basisband ohne Trägerfrequenz",
+              "Basisversion"
+            ],
+            "richtig": 2,
+            "erkl": "**Base = Basisband**.",
+            "label": "Base"
+          }
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "14. Welche Wi-Fi-Bezeichnung gehört zu **802.11ax**?",
+        "optionen": [
+          "Wi-Fi 5",
+          "Wi-Fi 7",
+          "WiGig",
+          "Wi-Fi 6"
+        ],
+        "richtig": 3,
+        "erkl": "**802.11ax = Wi-Fi 6** (Wi-Fi 6E ergänzt 6 GHz). 802.11ad ist WiGig (60 GHz); das Buch bezeichnet es irrtümlich als Wi-Fi 6."
+      }
+    ],
+    "uebungText": "Zum Abschluss das ganze Gelände: Struktur planen, Längen prüfen, Fasern und Bezeichnungen wählen. Danach ein Abschlusstest ohne Hilfen.",
+    "nachtest": [
+      {
+        "frage": "OM2-Faser, 500 MHz·km, 2,5 km lang: Welche Bandbreite ist nutzbar?",
+        "optionen": [
+          {
+            "text": "200 MHz",
+            "richtig": true
+          },
+          {
+            "text": "1250 MHz",
+            "richtig": false
+          },
+          {
+            "text": "20 MHz",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Faser eignet sich für Weitverkehr?",
+        "optionen": [
+          {
+            "text": "OS2 (Singlemode)",
+            "richtig": true
+          },
+          {
+            "text": "OM3 (Multimode)",
+            "richtig": false
+          },
+          {
+            "text": "OM1 (Multimode)",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was bedeutet das T in 1000Base-T?",
+        "optionen": [
+          {
+            "text": "Twisted Pair",
+            "richtig": true
+          },
+          {
+            "text": "Terabit",
+            "richtig": false
+          },
+          {
+            "text": "Twinax",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welche Norm gehört zu Wi-Fi 7?",
+        "optionen": [
+          {
+            "text": "802.11be",
+            "richtig": true
+          },
+          {
+            "text": "802.11ax",
+            "richtig": false
+          },
+          {
+            "text": "802.11ad",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_VK3.id]: LF03_VK3 });
 })();
 
 /* ---- f_einheiten_vlsm.js ---- */
@@ -16474,6 +21638,29 @@ GENERATORS.vlan = function (level) {
     return s;
   }
 
+  // Diagrammart "netz": Knoten und Leitungen (Topologien, Verteiler, Kabel). Koordinaten 0..640 mal 0..220 (Mitte der Knoten).
+  //   knoten: [ { id, x, y, t, sub?, w?, rolle?: "gelb"|"gruen" } ]
+  //   links:  [ { von, bis, t?, stil?: "dick"|"quer"|"gestrichelt" } ]
+  function zeichneNetzSpec(spec) {
+    const pos = {};
+    (spec.knoten || []).forEach((n) => { pos[n.id] = { x: n.x, y: n.y, w: n.w || 92, h: n.sub ? 40 : 30 }; });
+    let s = `<text x="${BIT_X0}" y="14" class="vlBitUeber">${esc(spec.titel || "")}</text>`;
+    (spec.links || []).forEach((l) => {
+      const a = pos[l.von], b = pos[l.bis];
+      if (!a || !b) return;
+      s += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" class="vlNetzLink${l.stil ? " vlNetz_" + esc(l.stil) : ""}"/>`;
+      if (l.t) s += `<text x="${(a.x + b.x) / 2}" y="${(a.y + b.y) / 2 - 8}" text-anchor="middle" class="vlNetzLinkText">${esc(l.t)}</text>`;
+    });
+    (spec.knoten || []).forEach((n) => {
+      const q = pos[n.id];
+      const rolle = n.rolle === "gelb" ? " vlNodeAkt" : (n.rolle === "gruen" ? " vlNodeRouter" : "");
+      s += `<g class="vlNode${rolle}"><rect x="${q.x - q.w / 2}" y="${q.y - q.h / 2}" width="${q.w}" height="${q.h}" rx="7"/>` +
+           `<text x="${q.x}" y="${n.sub ? q.y - 3 : q.y + 5}" class="vlNodeIcon">${esc(n.t)}</text>` +
+           (n.sub ? `<text x="${q.x}" y="${q.y + 12}" class="vlNodeSub">${esc(n.sub)}</text>` : "") + "</g>";
+    });
+    return s;
+  }
+
   let letztesDiagramm = null;
 
   function zeigeDiagramm(name, hinweis) {
@@ -16488,7 +21675,7 @@ GENERATORS.vlan = function (level) {
     });
     const bits = $v("vlBits");
     if (bits) {
-      bits.innerHTML = eigene ? (eigene.art === "raum" ? zeichneRaumSpec(eigene) : zeichneBitSpec(eigene)) : "";
+      bits.innerHTML = eigene ? (eigene.art === "raum" ? zeichneRaumSpec(eigene) : eigene.art === "netz" ? zeichneNetzSpec(eigene) : zeichneBitSpec(eigene)) : "";
       bits.style.opacity = eigene ? "1" : "0";
     }
     fahreKamera(eigene ? AUSSCHNITT_BITS : (AUSSCHNITT[name] || AUSSCHNITT_START));
@@ -23075,7 +28262,7 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting"];
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung"];
     return `<div class="modalList">
       ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
