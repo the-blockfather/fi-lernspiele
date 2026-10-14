@@ -8938,6 +8938,3575 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = { [LF03_ROUTER.id]: LF03_ROUTER };
 })();
 
+/* ---- f_einheiten_adressen1.js ---- */
+//
+// Einheit 13: Drei Adressarten, MAC und IPv4-Klassen (aus dem Kurs "Adressen-Atlas", Stationen 0 bis 2). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_AD1 = {
+    "id": "lf03-adressen-mac-ipv4",
+    "reihe": 13,
+    "titel": "Drei Adressarten, MAC und IPv4-Klassen",
+    "untertitel": "wer womit adressiert wird, wie die MAC aufgebaut ist und was Spezialadressen bedeuten",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 330–334 (Adressarten, MAC, IPv4-Klassen)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "MAC, IP und Port den Schichten, Längen und Aufgaben zuordnen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz2",
+        "text": "Eine MAC-Adresse in OUI und Sonderbits zerlegen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz3",
+        "text": "IPv4-Klassen und Spezialadressen erkennen",
+        "kn": "Netzwerkgrundlagen"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Drei Adressarten: Interface, Rechner/Netz, Anwendung",
+        "knoten": [
+          {
+            "id": "m",
+            "x": 110,
+            "y": 110,
+            "t": "MAC",
+            "sub": "Interface, Schicht 2",
+            "w": 170
+          },
+          {
+            "id": "i",
+            "x": 320,
+            "y": 110,
+            "t": "IP",
+            "sub": "Rechner und Netz, Schicht 3",
+            "w": 190,
+            "rolle": "gelb"
+          },
+          {
+            "id": "p",
+            "x": 530,
+            "y": 110,
+            "t": "Port",
+            "sub": "Anwendung, Schicht 4",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "m",
+            "bis": "i"
+          },
+          {
+            "von": "i",
+            "bis": "p"
+          }
+        ]
+      },
+      "adr3": {
+        "art": "netz",
+        "titel": "Drei Adressarten: Interface, Rechner/Netz, Anwendung",
+        "knoten": [
+          {
+            "id": "m",
+            "x": 110,
+            "y": 110,
+            "t": "MAC",
+            "sub": "Interface, Schicht 2",
+            "w": 170
+          },
+          {
+            "id": "i",
+            "x": 320,
+            "y": 110,
+            "t": "IP",
+            "sub": "Rechner und Netz, Schicht 3",
+            "w": 190,
+            "rolle": "gelb"
+          },
+          {
+            "id": "p",
+            "x": 530,
+            "y": 110,
+            "t": "Port",
+            "sub": "Anwendung, Schicht 4",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "m",
+            "bis": "i"
+          },
+          {
+            "von": "i",
+            "bis": "p"
+          }
+        ]
+      },
+      "laenge": {
+        "art": "netz",
+        "titel": "Länge und Schreibweise",
+        "knoten": [
+          {
+            "id": "m",
+            "x": 110,
+            "y": 85,
+            "t": "MAC",
+            "sub": "48 Bit, 6 Bytes hex",
+            "w": 170
+          },
+          {
+            "id": "v4",
+            "x": 320,
+            "y": 85,
+            "t": "IPv4",
+            "sub": "32 Bit, 4 Bytes dezimal",
+            "w": 170
+          },
+          {
+            "id": "v6",
+            "x": 530,
+            "y": 85,
+            "t": "IPv6",
+            "sub": "128 Bit, 8 Blöcke hex",
+            "w": 170
+          },
+          {
+            "id": "p",
+            "x": 320,
+            "y": 160,
+            "t": "Port",
+            "sub": "16 Bit, Dezimalzahl",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "mac": {
+        "art": "netz",
+        "titel": "MAC: 3 Oktette Hersteller (OUI), 3 Oktette Nummer",
+        "knoten": [
+          {
+            "id": "o0",
+            "x": 60,
+            "y": 110,
+            "t": "Oktett 1",
+            "sub": "Hersteller",
+            "w": 96,
+            "rolle": "gelb"
+          },
+          {
+            "id": "o1",
+            "x": 165,
+            "y": 110,
+            "t": "Oktett 2",
+            "sub": "Hersteller",
+            "w": 96,
+            "rolle": "gelb"
+          },
+          {
+            "id": "o2",
+            "x": 270,
+            "y": 110,
+            "t": "Oktett 3",
+            "sub": "Hersteller",
+            "w": 96,
+            "rolle": "gelb"
+          },
+          {
+            "id": "o3",
+            "x": 375,
+            "y": 110,
+            "t": "Oktett 4",
+            "sub": "Nummer",
+            "w": 96
+          },
+          {
+            "id": "o4",
+            "x": 480,
+            "y": 110,
+            "t": "Oktett 5",
+            "sub": "Nummer",
+            "w": 96
+          },
+          {
+            "id": "o5",
+            "x": 585,
+            "y": 110,
+            "t": "Oktett 6",
+            "sub": "Nummer",
+            "w": 96
+          }
+        ],
+        "links": []
+      },
+      "bits": {
+        "art": "netz",
+        "titel": "Erstes Oktett: zwei Sonderbits, von rechts gezählt",
+        "knoten": [
+          {
+            "id": "b7",
+            "x": 50,
+            "y": 110,
+            "t": "Bit 7",
+            "w": 70
+          },
+          {
+            "id": "b6",
+            "x": 127,
+            "y": 110,
+            "t": "Bit 6",
+            "w": 70
+          },
+          {
+            "id": "b5",
+            "x": 204,
+            "y": 110,
+            "t": "Bit 5",
+            "w": 70
+          },
+          {
+            "id": "b4",
+            "x": 281,
+            "y": 110,
+            "t": "Bit 4",
+            "w": 70
+          },
+          {
+            "id": "b3",
+            "x": 358,
+            "y": 110,
+            "t": "Bit 3",
+            "w": 70
+          },
+          {
+            "id": "b2",
+            "x": 435,
+            "y": 110,
+            "t": "Bit 2",
+            "w": 70
+          },
+          {
+            "id": "b1",
+            "x": 512,
+            "y": 110,
+            "t": "Bit 1",
+            "sub": "lokal?",
+            "w": 70,
+            "rolle": "gelb"
+          },
+          {
+            "id": "b0",
+            "x": 589,
+            "y": 110,
+            "t": "Bit 0",
+            "sub": "Multicast?",
+            "w": 70,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "klassen": {
+        "art": "netz",
+        "titel": "Klassen A bis E: die Anfangsbits zeigen die Klasse",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 70,
+            "y": 110,
+            "t": "Klasse A",
+            "sub": "Bits 0",
+            "w": 108
+          },
+          {
+            "id": "k1",
+            "x": 195,
+            "y": 110,
+            "t": "Klasse B",
+            "sub": "Bits 10",
+            "w": 108
+          },
+          {
+            "id": "k2",
+            "x": 320,
+            "y": 110,
+            "t": "Klasse C",
+            "sub": "Bits 110",
+            "w": 108
+          },
+          {
+            "id": "k3",
+            "x": 445,
+            "y": 110,
+            "t": "Klasse D",
+            "sub": "Bits 1110",
+            "w": 108
+          },
+          {
+            "id": "k4",
+            "x": 570,
+            "y": 110,
+            "t": "Klasse E",
+            "sub": "Bits 1111",
+            "w": 108
+          }
+        ],
+        "links": []
+      },
+      "spezial": {
+        "art": "netz",
+        "titel": "Spezialadressen am Beispiel 10.1.2.3 mit /8",
+        "knoten": [
+          {
+            "id": "n",
+            "x": 75,
+            "y": 110,
+            "t": "Net-ID",
+            "sub": "10.0.0.0",
+            "w": 130
+          },
+          {
+            "id": "h",
+            "x": 225,
+            "y": 110,
+            "t": "Host-ID",
+            "sub": "0.1.2.3",
+            "w": 130
+          },
+          {
+            "id": "b",
+            "x": 375,
+            "y": 110,
+            "t": "Broadcast",
+            "sub": "10.255.255.255",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "l",
+            "x": 525,
+            "y": 110,
+            "t": "Loopback",
+            "sub": "127.0.0.0/8",
+            "w": 130
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wie viele Bit hat eine MAC-Adresse?",
+        "optionen": [
+          {
+            "text": "48",
+            "richtig": true
+          },
+          {
+            "text": "32",
+            "richtig": false
+          },
+          {
+            "text": "64",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Adresse ist die MAC-Broadcast-Adresse?",
+        "optionen": [
+          {
+            "text": "ff-ff-ff-ff-ff-ff",
+            "richtig": true
+          },
+          {
+            "text": "00-00-00-00-00-00",
+            "richtig": false
+          },
+          {
+            "text": "01-00-5e-00-00-01",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Drei Adressen",
+        "kurz": "MAC, IP und Port: wer wird adressiert, wie lang, auf welcher Schicht",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ein Paket muss ein einzelnes Interface, einen Rechner und eine Anwendung finden.",
+          "frage": "Welche Adressart löst welche Aufgabe?"
+        },
+        "aufbau": [
+          {
+            "text": "MAC adressiert das einzelne Interface (Schicht 2), IP den Rechner im Netz (Schicht 3), der Port die Anwendung (Schicht 4).",
+            "diagramm": "adr3"
+          },
+          {
+            "text": "Ganze Netze adressieren Router anhand des Netzanteils der IP-Adresse.",
+            "diagramm": "adr3"
+          },
+          {
+            "text": "Längen: MAC 48 Bit in 6 Bytes hex, IPv4 32 Bit in 4 Bytes dezimal, IPv6 128 Bit in 8 Blöcken hex, Port 16 Bit als Dezimalzahl.",
+            "diagramm": "laenge"
+          },
+          {
+            "text": "Ein Notebook mit LAN- und WLAN-Karte hat zwei MAC-Adressen, denn jede Karte ist ein Interface.",
+            "diagramm": "adr3"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche Zahl ist als Portnummer ungültig?",
+          "optionen": [
+            {
+              "text": "70000",
+              "richtig": true,
+              "korrektur": "Richtig: Ein Port hat 16 Bit, der Höchstwert ist 65535."
+            },
+            {
+              "text": "443",
+              "richtig": false,
+              "korrektur": "443 ist gültig, es ist der Port für HTTPS."
+            },
+            {
+              "text": "65535",
+              "richtig": false,
+              "korrektur": "65535 ist der größte gültige Port, 2^16 − 1."
+            }
+          ],
+          "loesung": "Ports gehen von 0 bis 65535.",
+          "beleg": {
+            "seite": "330"
+          }
+        },
+        "wiederholung": {
+          "text": "48 / 32 / 128 / 16 Bit: MAC, IPv4, IPv6, Port. MAC = Interface, IP = Rechner, Port = Anwendung.",
+          "diagramm": "laenge"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche Adresse wird wofür gebraucht?",
+            "paare": [
+              [
+                "MAC-Adresse",
+                "Netzwerkkarte (Interface)"
+              ],
+              [
+                "IPv4-Adresse",
+                "Rechner im Netz"
+              ],
+              [
+                "IPv6-Adresse",
+                "Rechner im Netz"
+              ],
+              [
+                "Portnummer",
+                "Anwendung auf dem Rechner"
+              ]
+            ],
+            "tipps": [
+              "Drei Adressen, drei Ebenen: Karte, Rechner, Programm.",
+              "IPv4 und IPv6 haben denselben Zweck, nur eine andere Länge."
+            ],
+            "erkl": "**MAC** → Interface, **IP** (v4 und v6) → Rechner im Netz, **Port** → Anwendung."
+          },
+          {
+            "t": "zuordnen",
+            "f": "In welcher OSI-Schicht lebt die Adresse?",
+            "paare": [
+              [
+                "MAC-Adresse",
+                "Schicht 2"
+              ],
+              [
+                "IPv4-Adresse",
+                "Schicht 3"
+              ],
+              [
+                "IPv6-Adresse",
+                "Schicht 3"
+              ],
+              [
+                "Portnummer",
+                "Schicht 4"
+              ]
+            ],
+            "tipps": [
+              "Hub = 1, Switch = 2, Router = 3. Der Switch arbeitet mit MAC-Adressen, der Router mit IP.",
+              "Ports gehören zu TCP/UDP, also zur Transportschicht."
+            ],
+            "erkl": "MAC = **Schicht 2**, IP = **Schicht 3**, Port = **Schicht 4** (OSI-Zählung)."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Schreibweise gehört zu welcher Adressart?",
+            "paare": [
+              [
+                "00-1A-2B-3C-4D-5E",
+                "MAC-Adresse"
+              ],
+              [
+                "172.16.4.9",
+                "IPv4-Adresse"
+              ],
+              [
+                "fe80::1",
+                "IPv6-Adresse"
+              ],
+              [
+                "30123",
+                "Portnummer"
+              ]
+            ],
+            "tipps": [
+              "Hex mit Bindestrichen = Hardware, Punkte = IPv4, Doppelpunkte = IPv6.",
+              "Eine einzelne Dezimalzahl ohne Trennzeichen bleibt übrig."
+            ],
+            "erkl": "Bindestriche + Hex → **MAC**, vier Dezimalzahlen mit Punkt → **IPv4**, Doppelpunkte → **IPv6**, einzelne Zahl → **Port**."
+          },
+          {
+            "t": "ordnen",
+            "f": "Sortiere die Adressarten nach der Länge in Bit, die kürzeste zuerst.",
+            "items": [
+              "Portnummer",
+              "IPv4-Adresse",
+              "MAC-Adresse",
+              "IPv6-Adresse"
+            ],
+            "tipps": [
+              "Zwei Zahlen kennst du schon: 32 und 128. Dazwischen und davor liegen die beiden anderen."
+            ],
+            "erkl": "Port **16** Bit < IPv4 **32** Bit < MAC **48** Bit < IPv6 **128** Bit."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Bit** hat eine MAC-Adresse?",
+            "art": "zahl",
+            "antwort": [
+              "48"
+            ],
+            "tipps": [
+              "Sechs Bytes, jedes Byte hat 8 Bit."
+            ],
+            "erkl": "6 Oktette · 8 Bit = **48 Bit**.",
+            "fallen": {
+              "32": "32 Bit ist die Länge einer IPv4-Adresse. Die MAC hat 6 Bytes."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Notebook hat einen LAN-Anschluss und eine WLAN-Karte. Es hat nur **eine** MAC-Adresse.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wer trägt die MAC-Adresse: der ganze Rechner oder jede einzelne Netzwerkkarte?"
+            ],
+            "erkl": "Die MAC-Adresse gehört zum **Interface**, nicht zum Rechner. LAN-Port und WLAN-Karte haben je eine eigene. Der Rechner hat also mindestens zwei."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Zahl ist als **Portnummer ungültig**?",
+            "optionen": [
+              "0",
+              "70000",
+              "443",
+              "65535"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ein Port hat 16 Bit. Wie viele verschiedene Werte passen in 16 Bit?",
+              "Der Bereich geht von 0 bis 2¹⁶ − 1."
+            ],
+            "erkl": "Mit 16 Bit sind die Werte **0 bis 65535** möglich. **70000** liegt darüber."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Zeile ist eine **gültige IPv4-Adresse**?",
+            "optionen": [
+              "10.200.300.40",
+              "10.200.30",
+              "10.200.30.40",
+              "10.256.30.40"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Vier Zahlen, jede eine Bytes-Zahl.",
+              "Jede Zahl muss zwischen 0 und 255 liegen."
+            ],
+            "erkl": "Vier Bytes, je 0 bis 255: **10.200.30.40**. Die anderen haben 300 bzw. 256 (zu groß) oder nur drei Zahlen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "MAC = Interface, IP = Rechner/Netz, Port = Anwendung. 48 / 32 / 128 / 16 Bit.",
+          "handout": "**Adressarten:** MAC (Schicht 2, 48 Bit, hex) adressiert das Interface · IP (Schicht 3, IPv4 32 Bit, IPv6 128 Bit) den Rechner und das Netz · Port (Schicht 4, 16 Bit) die Anwendung. Jede Netzwerkkarte hat eine eigene MAC."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Die MAC-Adresse",
+        "kurz": "OUI, Unicast, Multicast, global und lokal",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Die MAC einer Netzwerkkarte verrät, wer sie gebaut hat.",
+          "frage": "Wo steckt der Hersteller, und was sagen die Sonderbits?"
+        },
+        "aufbau": [
+          {
+            "text": "Eine MAC hat 6 Oktette. Die ersten 3 sind die Herstellerkennung (OUI), die letzten 3 die laufende Nummer des Herstellers.",
+            "diagramm": "mac"
+          },
+          {
+            "text": "Im ersten Oktett gelten zwei Bits, von rechts gezählt: Bit 0 entscheidet Unicast (0) oder Multicast (1).",
+            "diagramm": "bits"
+          },
+          {
+            "text": "Bit 1 entscheidet global eindeutig (0, vom Hersteller) oder lokal verwaltet (1).",
+            "diagramm": "bits"
+          },
+          {
+            "text": "Die Broadcast-MAC ist ff-ff-ff-ff-ff-ff und spricht alle Interfaces im Netz an. Das erste Oktett ff hat Bit 0 = 1.",
+            "diagramm": "bits"
+          },
+          {
+            "text": "Beispiel 0x02 = 0000 0010: Bit 0 ist 0 (Unicast), Bit 1 ist 1 (lokal verwaltet).",
+            "diagramm": "bits"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Das erste Oktett ist 0x01 (0000 0001). Was gilt?",
+          "optionen": [
+            {
+              "text": "Multicast, global eindeutig",
+              "richtig": true,
+              "korrektur": "Richtig: Bit 0 = 1 heißt Multicast, Bit 1 = 0 heißt global eindeutig."
+            },
+            {
+              "text": "Unicast, global eindeutig",
+              "richtig": false,
+              "korrektur": "Bit 0 ist hier 1, also nicht Unicast."
+            },
+            {
+              "text": "Unicast, lokal verwaltet",
+              "richtig": false,
+              "korrektur": "Bit 0 ist 1 und Bit 1 ist 0: Es ist Multicast und global."
+            }
+          ],
+          "loesung": "0x01 = Multicast, global.",
+          "beleg": {
+            "seite": "331"
+          }
+        },
+        "wiederholung": {
+          "text": "Rechtes Bit: Unicast oder Multicast. Zweites von rechts: global oder lokal. Broadcast = ff-ff-ff-ff-ff-ff.",
+          "diagramm": "bits"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welcher Teil einer MAC-Adresse verrät den **Hersteller**?",
+            "optionen": [
+              "Die letzten drei Oktette",
+              "Nur das letzte Oktett",
+              "Das gesamte erste Oktett",
+              "Die ersten drei Oktette (OUI)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Die Adresse ist zweigeteilt. Vorn steht, wer die Karte gebaut hat."
+            ],
+            "erkl": "Die ersten **drei Oktette** sind die Herstellerkennung (OUI)."
+          },
+          {
+            "t": "eingabe",
+            "f": "Aus wie vielen **Oktetten** besteht eine MAC-Adresse?",
+            "art": "zahl",
+            "antwort": [
+              "6"
+            ],
+            "tipps": [
+              "48 Bit geteilt durch 8."
+            ],
+            "erkl": "48 Bit ÷ 8 = **6** Oktette."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Was bedeutet welche Bit-Stellung im ersten Oktett?",
+            "paare": [
+              [
+                "Bit 0 = 0",
+                "Unicast"
+              ],
+              [
+                "Bit 0 = 1",
+                "Multicast"
+              ],
+              [
+                "Bit 1 = 0",
+                "global eindeutig"
+              ],
+              [
+                "Bit 1 = 1",
+                "lokal verwaltet"
+              ]
+            ],
+            "tipps": [
+              "Bit 0 ist das rechte Bit, Bit 1 das daneben.",
+              "Das rechte Bit entscheidet über die Zahl der Empfänger, das zweite über die Herkunft der Adresse."
+            ],
+            "erkl": "Bit 0: **0 = Unicast, 1 = Multicast**. Bit 1: **0 = global, 1 = lokal**."
+          },
+          {
+            "t": "wahl",
+            "f": "Das erste Oktett einer MAC ist `0x01` (binär `0000 0001`). Was gilt?",
+            "optionen": [
+              "Multicast, global eindeutig",
+              "Unicast, global eindeutig",
+              "Unicast, lokal verwaltet",
+              "Multicast, lokal verwaltet"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Schreib die Bits auf und lies nur die zwei rechten.",
+              "Rechtes Bit = 1, zweites von rechts = 0."
+            ],
+            "erkl": "`0000 0001`: Bit 0 = 1 → **Multicast**, Bit 1 = 0 → **global eindeutig**."
+          },
+          {
+            "t": "wahl",
+            "f": "Das erste Oktett einer MAC ist `0x02` (binär `0000 0010`). Was gilt?",
+            "optionen": [
+              "Unicast, global eindeutig",
+              "Unicast, lokal verwaltet",
+              "Multicast, global eindeutig",
+              "Multicast, lokal verwaltet"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Rechtes Bit = 0, zweites von rechts = 1."
+            ],
+            "erkl": "`0000 0010`: Bit 0 = 0 → **Unicast**, Bit 1 = 1 → **lokal verwaltet** (vom Admin oder System vergeben)."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **MAC-Broadcast-Adresse**? (sechs Oktette, mit Bindestrichen)",
+            "art": "text",
+            "antwort": [
+              "ff-ff-ff-ff-ff-ff",
+              "ff:ff:ff:ff:ff:ff"
+            ],
+            "tipps": [
+              "Alle 48 Bit sind 1. Vier Bit 1 ergeben hex F."
+            ],
+            "erkl": "Alle Bits 1 → hexadezimal **ff-ff-ff-ff-ff-ff**. Ein Frame an diese Adresse erreicht alle Interfaces im Netz."
+          },
+          {
+            "t": "wahl",
+            "f": "Die Broadcast-MAC beginnt mit `ff` (= `1111 1111`). Was verrät das über Bit 0?",
+            "optionen": [
+              "Es ist 0: Broadcast ist eine Unicast-Adresse",
+              "Es ist 1: Broadcast ist eine lokal verwaltete Adresse",
+              "Es ist 1: Broadcast ist ein Sonderfall der Multicast-Adressierung",
+              "Es ist egal, Broadcast hat keine Bit-Bedeutung"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "`ff` besteht nur aus Einsen. Was heißt eine 1 im rechten Bit?"
+            ],
+            "erkl": "Das rechte Bit ist 1 → **Multicast-Bit gesetzt**. So sieht das Buch Broadcast: als Spezialfall der Gruppen-Adressierung."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Rechner bezieht nach dem Einschalten seine MAC-Adresse von einem Server.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wer legt Hersteller und laufende Nummer fest?"
+            ],
+            "erkl": "Die MAC-Adresse ist fest dem **Interface** zugeordnet (Herstellerkennung + laufende Nummer). Einen Server dafür gibt es nicht. IP-Adressen dagegen werden oft per DHCP vergeben."
+          },
+          {
+            "t": "gen",
+            "gen": "macBits",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "macBits",
+            "stufen": [
+              1
+            ]
+          }
+        ],
+        "sicherung": {
+          "merksatz": "OUI = Hersteller (3 Oktette). Bit 0: Unicast/Multicast, Bit 1: global/lokal.",
+          "handout": "**MAC:** 6 Oktette = OUI (Hersteller) + Nummer. Erstes Oktett: Bit 0 = 0 Unicast, 1 Multicast · Bit 1 = 0 global, 1 lokal. Broadcast: ff-ff-ff-ff-ff-ff. Die MAC steckt in der Karte, kein Server vergibt sie beim Einschalten."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "IPv4: Klassen und Spezialadressen",
+        "kurz": "Anfangsbits, Net-ID, Host-ID, Broadcast und Loopback",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Früher sagte das erste Oktett, wie groß ein Netz ist. Heute zählt CIDR, aber die Klassen tauchen in der Prüfung auf.",
+          "frage": "Wie erkennt man die Klasse, und welche Adressen haben Sonderrollen?"
+        },
+        "aufbau": [
+          {
+            "text": "Eine IPv4-Adresse hat Netzanteil und Hostanteil, die Grenze setzt die Subnetzmaske.",
+            "diagramm": "klassen"
+          },
+          {
+            "text": "Die Anfangsbits zeigen die Klasse: A = 0, B = 10, C = 110, D = 1110, E = 1111. Bereiche: A 1–126, B 128–191, C 192–223, D 224–239, E ab 240.",
+            "diagramm": "klassen"
+          },
+          {
+            "text": "Die Klassen sind abgeschafft, heute gilt CIDR. In der Prüfung sagt man /24 statt Klasse C.",
+            "diagramm": "klassen"
+          },
+          {
+            "text": "Net-ID: alle Hostbits 0. Host-ID: alle Netzbits 0. Broadcast-ID: alle Hostbits 1. Beispiel 10.1.2.3/8: 10.0.0.0, 0.1.2.3, 10.255.255.255.",
+            "diagramm": "spezial"
+          },
+          {
+            "text": "127.0.0.0/8 ist Loopback, der eigene Rechner. 0.0.0.0 heißt: eigene Adresse unbekannt, oder als Routeneintrag die Default-Route.",
+            "diagramm": "spezial"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Zu welcher Klasse gehört 172.16.5.4?",
+          "optionen": [
+            {
+              "text": "Klasse B",
+              "richtig": true,
+              "korrektur": "Richtig: 172 liegt zwischen 128 und 191."
+            },
+            {
+              "text": "Klasse A",
+              "richtig": false,
+              "korrektur": "Klasse A endet bei 126."
+            },
+            {
+              "text": "Klasse C",
+              "richtig": false,
+              "korrektur": "Klasse C beginnt erst bei 192."
+            }
+          ],
+          "loesung": "Klasse B.",
+          "beleg": {
+            "seite": "333"
+          }
+        },
+        "wiederholung": {
+          "text": "Hostbits 0 = Net-ID, Hostbits 1 = Broadcast, Netzbits 0 = Host-ID. 127.x.x.x = eigener Rechner.",
+          "diagramm": "spezial"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche Anfangsbits gehören zu welcher Klasse?",
+            "paare": [
+              [
+                "Klasse A",
+                "0"
+              ],
+              [
+                "Klasse B",
+                "10"
+              ],
+              [
+                "Klasse C",
+                "110"
+              ],
+              [
+                "Klasse D",
+                "1110"
+              ],
+              [
+                "Klasse E",
+                "1111"
+              ]
+            ],
+            "tipps": [
+              "Bei A steht nur ein Bit fest, bei jeder Klasse kommt eine 1 dazu.",
+              "Bei D und E sind es vier Bit; D endet auf 0, E besteht nur aus Einsen."
+            ],
+            "erkl": "A **0**, B **10**, C **110**, D **1110**, E **1111**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Wofür war die Klasse ursprünglich gedacht?",
+            "paare": [
+              [
+                "Klasse A",
+                "Großkonzerne"
+              ],
+              [
+                "Klasse B",
+                "Konzerne"
+              ],
+              [
+                "Klasse C",
+                "kleine Unternehmen"
+              ],
+              [
+                "Klasse D",
+                "Multicast"
+              ],
+              [
+                "Klasse E",
+                "Forschung (reserviert)"
+              ]
+            ],
+            "tipps": [
+              "Wenige riesige Netze (A), viele kleine (C).",
+              "D und E sind keine Hostnetze: eine Gruppen-Adresse, eine reservierte."
+            ],
+            "erkl": "A Großkonzerne, B Konzerne, C kleine Unternehmen, **D = Multicast**, **E = reserviert (Forschung)**."
+          },
+          {
+            "t": "eingabe",
+            "f": "Zu welcher Klasse gehört **172.16.5.4**? (A, B, C, D oder E)",
+            "art": "text",
+            "antwort": [
+              "b",
+              "klasse b"
+            ],
+            "tipps": [
+              "Das erste Oktett entscheidet: 172. Wo liegt es zwischen 0, 128, 192, 224, 240?"
+            ],
+            "erkl": "172 liegt zwischen 128 und 191 → **Klasse B**."
+          },
+          {
+            "t": "gen",
+            "gen": "ipTyp",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "ordnen",
+            "f": "Sortiere diese Adressen von **Klasse A bis Klasse E**.",
+            "items": [
+              "12.13.14.15",
+              "150.1.2.3",
+              "200.10.10.1",
+              "230.0.0.5",
+              "250.1.1.1"
+            ],
+            "tipps": [
+              "Nur das erste Oktett zählt. Gruppiere: unter 128, 128–191, 192–223, 224–239, ab 240."
+            ],
+            "erkl": "12 → A, 150 → B, 200 → C, 230 → D (Multicast), 250 → **E**."
+          },
+          {
+            "t": "gen",
+            "gen": "ipTyp",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Spezialadresse bedeutet was? (Beispiel 10.1.2.3 mit /8)",
+            "paare": [
+              [
+                "127.0.0.1",
+                "der eigene Rechner (Loopback)"
+              ],
+              [
+                "0.0.0.0",
+                "Adresse unbekannt / Default-Route"
+              ],
+              [
+                "10.0.0.0",
+                "Net-ID des Netzes"
+              ],
+              [
+                "0.1.2.3",
+                "Host-ID in diesem Netz"
+              ],
+              [
+                "10.255.255.255",
+                "Broadcast-ID des Netzes"
+              ]
+            ],
+            "tipps": [
+              "Hostbits alle 0 oder alle 1? Netzbits alle 0?",
+              "0.1.2.3 ist die Adresse, bei der der Netzanteil weggenommen wurde."
+            ],
+            "erkl": "127.x = **Loopback**, 0.0.0.0 = **unbekannt / Default-Route**, 10.0.0.0 = **Net-ID**, 0.1.2.3 = **Host-ID**, 10.255.255.255 = **Broadcast**."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **Host-ID** von **172.16.5.9** mit Maske /16?",
+            "art": "ip",
+            "antwort": [
+              "0.0.5.9"
+            ],
+            "tipps": [
+              "Host-ID: alle Netzbits auf 0. Bei /16 sind die ersten zwei Bytes Netzanteil."
+            ],
+            "erkl": "Netzbits (172.16) werden 0 → **0.0.5.9**.",
+            "fallen": {
+              "172.16.0.0": "Das ist die Net-ID (Hostbits 0). Gefragt ist die Host-ID (Netzbits 0)."
+            }
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **Net-ID** von **192.168.4.77** mit Maske /24?",
+            "art": "ip",
+            "antwort": [
+              "192.168.4.0"
+            ],
+            "tipps": [
+              "Net-ID: alle Hostbits auf 0. Bei /24 ist nur das letzte Byte Hostanteil."
+            ],
+            "erkl": "Hostbits (77) werden 0 → **192.168.4.0**.",
+            "fallen": {
+              "0.0.0.77": "Das ist die Host-ID. Die Net-ID setzt die Hostbits auf 0."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Ping auf **127.5.5.5** landet beim eigenen Rechner.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wie groß ist das Loopback-Netz: eine Adresse oder ein /8?"
+            ],
+            "erkl": "Der ganze Bereich **127.0.0.0/8** ist Loopback, nicht nur 127.0.0.1."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Net-ID: Hostbits 0. Broadcast: Hostbits 1. Host-ID: Netzbits 0. Loopback 127.0.0.0/8.",
+          "handout": "**IPv4:** Klassen A (0), B (10), C (110), D (1110), E (1111), nur noch zum Einordnen. **Spezial:** Net-ID (Hostbits 0), Host-ID (Netzbits 0), Broadcast (Hostbits 1), 127.0.0.0/8 Loopback, 0.0.0.0 unbekannt/Default-Route."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welche Adressart adressiert die Anwendung?",
+        "optionen": [
+          {
+            "text": "Der Port",
+            "richtig": true
+          },
+          {
+            "text": "Die MAC",
+            "richtig": false
+          },
+          {
+            "text": "Die IP",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie viele Oktette hat eine MAC-Adresse?",
+        "optionen": [
+          {
+            "text": "6",
+            "richtig": true
+          },
+          {
+            "text": "4",
+            "richtig": false
+          },
+          {
+            "text": "8",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Das erste Oktett ist 0x02. Was gilt?",
+        "optionen": [
+          {
+            "text": "Unicast, lokal verwaltet",
+            "richtig": true
+          },
+          {
+            "text": "Multicast, global",
+            "richtig": false
+          },
+          {
+            "text": "Unicast, global",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welche Net-ID hat 192.168.4.77/24?",
+        "optionen": [
+          {
+            "text": "192.168.4.0",
+            "richtig": true
+          },
+          {
+            "text": "192.168.4.77",
+            "richtig": false
+          },
+          {
+            "text": "192.168.0.0",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_AD1.id]: LF03_AD1 });
+})();
+
+/* ---- f_einheiten_adressen2.js ---- */
+//
+// Einheit 14: Private Adressen, IPv4 gegen IPv6, IPv6-Adressarten (aus dem Kurs "Adressen-Atlas", Stationen 3 bis 5). Erzeugt per Skript, Aufgaben unveraendert.
+// Zahlen: 2^24-2 = 16.777.214, 2^16-2 = 65.534, 2^8-2 = 254, 128-32 = 96.
+(function () {
+  "use strict";
+
+  const LF03_AD2 = {
+    "id": "lf03-adressen-privat-ipv6",
+    "reihe": 14,
+    "titel": "Private Adressen, IPv4 gegen IPv6, IPv6-Adressarten",
+    "untertitel": "RFC-1918-Bereiche, die Unterschiede der Protokolle und die IPv6-Vergabe",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 334–337 (private Adressen, IPv4 gegen IPv6, IPv6-Adressarten)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Private IPv4-Bereiche nennen und Hosts je Netz berechnen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz2",
+        "text": "IPv4 und IPv6 in Länge, Header und Verfahren unterscheiden",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz3",
+        "text": "IPv6-Adressarten und die Vergabe per SLAAC einordnen",
+        "kn": "Netzwerkgrundlagen"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Private Bereiche nach RFC 1918",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 110,
+            "t": "10.0.0.0/8",
+            "sub": "Klasse A, 1 Netz",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 320,
+            "y": 110,
+            "t": "172.16.0.0/12",
+            "sub": "172.16 bis 172.31",
+            "w": 170
+          },
+          {
+            "id": "c",
+            "x": 530,
+            "y": 110,
+            "t": "192.168.0.0/16",
+            "sub": "192.168.x.x",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "privat": {
+        "art": "netz",
+        "titel": "Private Bereiche nach RFC 1918",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 110,
+            "t": "10.0.0.0/8",
+            "sub": "Klasse A, 1 Netz",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 320,
+            "y": 110,
+            "t": "172.16.0.0/12",
+            "sub": "172.16 bis 172.31",
+            "w": 170
+          },
+          {
+            "id": "c",
+            "x": 530,
+            "y": 110,
+            "t": "192.168.0.0/16",
+            "sub": "192.168.x.x",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "hosts": {
+        "art": "netz",
+        "titel": "Hosts je Netz: 2^H − 2",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 110,
+            "t": "/8",
+            "sub": "H = 24: 16.777.214",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 320,
+            "y": 110,
+            "t": "/16",
+            "sub": "H = 16: 65.534",
+            "w": 170
+          },
+          {
+            "id": "c",
+            "x": 530,
+            "y": 110,
+            "t": "/24",
+            "sub": "H = 8: 254",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b",
+            "t": "kleiner"
+          },
+          {
+            "von": "b",
+            "bis": "c",
+            "t": "kleiner"
+          }
+        ]
+      },
+      "v46": {
+        "art": "netz",
+        "titel": "IPv4 gegen IPv6",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 170,
+            "y": 110,
+            "t": "IPv4",
+            "sub": "32 Bit, Broadcast",
+            "w": 200
+          },
+          {
+            "id": "b",
+            "x": 470,
+            "y": 110,
+            "t": "IPv6",
+            "sub": "128 Bit, Multicast",
+            "w": 200,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b",
+            "t": "2^96-mal mehr Adressen"
+          }
+        ]
+      },
+      "v6t": {
+        "art": "netz",
+        "titel": "IPv6-Adressarten nach Präfix",
+        "knoten": [
+          {
+            "id": "g",
+            "x": 110,
+            "y": 85,
+            "t": "Global Unicast",
+            "sub": "2000::/3",
+            "w": 170
+          },
+          {
+            "id": "l",
+            "x": 320,
+            "y": 85,
+            "t": "Link-Local",
+            "sub": "FE80::/10",
+            "w": 170
+          },
+          {
+            "id": "u",
+            "x": 530,
+            "y": 85,
+            "t": "Unique Local",
+            "sub": "FC00::/7",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "m",
+            "x": 110,
+            "y": 160,
+            "t": "Multicast",
+            "sub": "FF00::/8",
+            "w": 170
+          },
+          {
+            "id": "lo",
+            "x": 320,
+            "y": 160,
+            "t": "Loopback",
+            "sub": "::1",
+            "w": 170
+          },
+          {
+            "id": "un",
+            "x": 530,
+            "y": 160,
+            "t": "Unbestimmt",
+            "sub": "::",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "slaac": {
+        "art": "netz",
+        "titel": "SLAAC: Präfix vom Router, Adresse selbst gebildet",
+        "knoten": [
+          {
+            "id": "c",
+            "x": 110,
+            "y": 110,
+            "t": "Client",
+            "sub": "fragt den Router",
+            "w": 170
+          },
+          {
+            "id": "r",
+            "x": 320,
+            "y": 110,
+            "t": "Router",
+            "sub": "sendet das Präfix",
+            "w": 170,
+            "rolle": "gruen"
+          },
+          {
+            "id": "a",
+            "x": 530,
+            "y": 110,
+            "t": "Client",
+            "sub": "bildet die Adresse",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "c",
+            "bis": "r",
+            "t": "Anfrage"
+          },
+          {
+            "von": "r",
+            "bis": "a",
+            "t": "Präfix"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welcher Bereich ist privat?",
+        "optionen": [
+          {
+            "text": "172.31.200.7",
+            "richtig": true
+          },
+          {
+            "text": "172.32.0.10",
+            "richtig": false
+          },
+          {
+            "text": "192.169.1.1",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie viele Bit hat eine IPv6-Adresse?",
+        "optionen": [
+          {
+            "text": "128",
+            "richtig": true
+          },
+          {
+            "text": "64",
+            "richtig": false
+          },
+          {
+            "text": "96",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Private Adressen",
+        "kurz": "die drei RFC-1918-Bereiche und die Hostzahlen",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Dein Heimnetz nutzt 192.168.1.x, die Firma des Nachbarn vermutlich auch.",
+          "frage": "Warum geht das, und welche Bereiche sind privat?"
+        },
+        "aufbau": [
+          {
+            "text": "Private Adressen gelten nur im LAN und dürfen sich in verschiedenen Firmennetzen wiederholen. Im Internet werden sie nicht geroutet.",
+            "diagramm": "privat"
+          },
+          {
+            "text": "Die drei Bereiche: 10.x.x.x, 172.16 bis 172.31 und 192.168.x.x. Als CIDR-Blöcke 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16.",
+            "diagramm": "privat"
+          },
+          {
+            "text": "Nutzbare Hosts je Netz: 2^H − 2. Bei /8 sind das 16.777.214, bei /16 65.534 und bei /24 254.",
+            "diagramm": "hosts"
+          },
+          {
+            "text": "Im Buch steht bei Klasse A „0“ Subnetze. Gemeint ist: 10.0.0.0/8 ist ein einziges Netz.",
+            "diagramm": "privat"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche Adresse ist privat?",
+          "optionen": [
+            {
+              "text": "172.31.200.7",
+              "richtig": true,
+              "korrektur": "Richtig: 172.16 bis 172.31 ist privat."
+            },
+            {
+              "text": "172.32.0.10",
+              "richtig": false,
+              "korrektur": "172.32 liegt schon außerhalb des privaten Bereichs."
+            },
+            {
+              "text": "192.169.1.1",
+              "richtig": false,
+              "korrektur": "Privat ist nur 192.168, nicht 192.169."
+            }
+          ],
+          "loesung": "172.31.200.7.",
+          "beleg": {
+            "seite": "334"
+          }
+        },
+        "wiederholung": {
+          "text": "10/8, 172.16/12, 192.168/16. Hosts: 2^H − 2. Im Internet werden private Adressen verworfen.",
+          "diagramm": "privat"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche Standardmaske gehört zu welchem privaten Bereich?",
+            "paare": [
+              [
+                "10.0.0.0 – 10.255.255.255",
+                "255.0.0.0"
+              ],
+              [
+                "172.16.0.0 – 172.31.255.255",
+                "255.255.0.0"
+              ],
+              [
+                "192.168.0.0 – 192.168.255.255",
+                "255.255.255.0"
+              ]
+            ],
+            "tipps": [
+              "Klasse A /8, B /16, C /24.",
+              "Je kleiner die erste Zahl, desto größer das Netz, desto weniger Einsen in der Maske."
+            ],
+            "erkl": "10.x → **255.0.0.0** (/8), 172.16–31 → **255.255.0.0** (/16), 192.168.x → **255.255.255.0** (/24)."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Adresse ist **privat**?",
+            "optionen": [
+              "172.32.0.10",
+              "172.31.200.7",
+              "192.169.1.1",
+              "11.0.0.1"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Beim Bereich B endet die zweite Zahl bei 31.",
+              "Prüfe jede Adresse: 10.x? 172.16 bis 172.31? 192.168?"
+            ],
+            "erkl": "**172.31.200.7** liegt in 172.16.0.0–172.31.255.255. 172.32.x, 192.169.x und 11.x sind öffentlich."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Adresse ist **nicht privat**?",
+            "optionen": [
+              "10.250.1.1",
+              "172.20.0.5",
+              "172.32.0.10",
+              "192.168.200.7"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Eine Adresse liegt knapp neben einem privaten Bereich."
+            ],
+            "erkl": "**172.32.0.10** liegt hinter 172.31.255.255, also außerhalb des privaten Bereichs B."
+          },
+          {
+            "t": "gen",
+            "gen": "ipTyp",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "ipTyp",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "weg",
+            "titel": "Wie viele Hosts hat ein privates Klasse-A-Netz?",
+            "kopf": "Das Netz **10.0.0.0** mit Maske **255.0.0.0**.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Hostbits** hat das Netz?",
+                "art": "zahl",
+                "antwort": [
+                  "24"
+                ],
+                "tipps": [
+                  "Die Maske hat 8 Einsen, die Adresse 32 Bit."
+                ],
+                "erkl": "32 − 8 = **24** Hostbits.",
+                "label": "Hostbits"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Adressen** gehören insgesamt zum Netz? (2^Hostbits)",
+                "art": "zahl",
+                "antwort": [
+                  "16777216"
+                ],
+                "tipps": [
+                  "2²⁴."
+                ],
+                "erkl": "2²⁴ = **16.777.216** Adressen.",
+                "fallen": {
+                  "16777214": "Das sind schon die nutzbaren Hosts. Hier sind alle Adressen gefragt."
+                },
+                "label": "Adressen gesamt"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **nutzbare Hosts** bleiben?",
+                "art": "zahl",
+                "antwort": [
+                  "16777214"
+                ],
+                "tipps": [
+                  "Zwei Adressen gehören keinem Gerät."
+                ],
+                "erkl": "16.777.216 − 2 = **16.777.214** nutzbare Hosts.",
+                "fallen": {
+                  "16777216": "Netz- und Broadcast-Adresse noch abziehen."
+                },
+                "label": "Nutzbare Hosts"
+              }
+            ]
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **nutzbare Hosts** hat ein privates **Klasse-C-Netz** (192.168.x.0 mit /24)?",
+            "art": "zahl",
+            "antwort": [
+              "254"
+            ],
+            "tipps": [
+              "8 Hostbits: 2⁸ − 2."
+            ],
+            "erkl": "2⁸ − 2 = **254**.",
+            "fallen": {
+              "256": "256 sind alle Adressen. Netz- und Broadcast-Adresse abziehen."
+            }
+          },
+          {
+            "t": "zuordnen",
+            "f": "Wie viele Netze der Standardgröße passen in den privaten Bereich?",
+            "paare": [
+              [
+                "Klasse A (10.0.0.0/8)",
+                "1 Netz"
+              ],
+              [
+                "Klasse B (172.16–31, /16)",
+                "16 Netze"
+              ],
+              [
+                "Klasse C (192.168.x, /24)",
+                "256 Netze"
+              ]
+            ],
+            "tipps": [
+              "Zähle: 172.16 bis 172.31 sind wie viele zweite Zahlen? Bei C ist die dritte Zahl 0 bis 255 frei.",
+              "A: das ganze 10er-Netz ist ein Netz."
+            ],
+            "erkl": "A: **1** Netz (das Buch nennt dort „0“, gemeint ist ein einziges Netz), B: 31 − 16 + 1 = **16**, C: **256**."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Paket mit einer privaten **Absender**-Adresse wird im Internet von den Routern ganz normal weitergeleitet.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wofür sind private Bereiche gedacht: LAN oder Internet?"
+            ],
+            "erkl": "Private Adressen werden im Internet **nicht geroutet**: Die Pakete werden verworfen. (Praxis, steht nicht im Buch: Router mit NAT tauschen die private Adresse vorher gegen eine öffentliche aus.)"
+          },
+          {
+            "t": "wahl",
+            "f": "Dieselbe private Adresse (z. B. 192.168.1.10) kann gleichzeitig in zwei verschiedenen Firmennetzen vergeben sein.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Müssen Adressen weltweit eindeutig sein, die nie ins Internet gehen?"
+            ],
+            "erkl": "Private Adressen sind nur **innerhalb eines Netzes** eindeutig. Weil sie nicht ins Internet geroutet werden, wiederholen sie sich in vielen LANs."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **Broadcast-Adresse** von **192.168.7.30** mit Maske /24?",
+            "art": "ip",
+            "antwort": [
+              "192.168.7.255"
+            ],
+            "tipps": [
+              "Broadcast = alle Hostbits 1. Bei /24 ist das letzte Byte Hostanteil."
+            ],
+            "erkl": "Letztes Byte auf 255 → **192.168.7.255**.",
+            "fallen": {
+              "192.168.7.0": "Das ist die Netzadresse (Hostbits 0)."
+            }
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Privat: 10.x.x.x, 172.16 bis 172.31, 192.168.x.x. Nutzbare Hosts: 2^H − 2.",
+          "handout": "**Privat (RFC 1918):** 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. Nur im LAN, nicht im Internet geroutet. **Hosts:** 2^H − 2, also /8: 16.777.214 · /16: 65.534 · /24: 254."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "IPv4 oder IPv6?",
+        "kurz": "Länge, Header, Broadcast und die Schreibweise",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "IPv4 reichte nicht mehr, also kam IPv6.",
+          "frage": "Was ist anders, und was wird gern abgefragt?"
+        },
+        "aufbau": [
+          {
+            "text": "Die auffälligste Neuerung ist die Länge: IPv4 hat 32 Bit, IPv6 128 Bit. Das sind 2^96-mal so viele Adressen.",
+            "diagramm": "v46"
+          },
+          {
+            "text": "IPv4-Header: 20 Byte plus Optionen. IPv6-Basisheader: fest 40 Byte, dazu optionale Extension Header. Das Buch schreibt „keine Zusatzheader“, das ist ungenau.",
+            "diagramm": "v46"
+          },
+          {
+            "text": "IPv6 kennt keinen Broadcast, dafür Multicast. Fragmentiert wird nur vom Absender, nicht von Routern.",
+            "diagramm": "v46"
+          },
+          {
+            "text": "IPv6: 8 Blöcke zu je 16 Bit, 4 Hexziffern je Block. Kürzen: führende Nullen weglassen und eine Folge von Null-Blöcken durch :: ersetzen, nur einmal.",
+            "diagramm": "v46"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "IPv6 hat 2^x-mal so viele Adressen wie IPv4. Welches x?",
+          "optionen": [
+            {
+              "text": "96",
+              "richtig": true,
+              "korrektur": "Richtig: 128 − 32 = 96."
+            },
+            {
+              "text": "4",
+              "richtig": false,
+              "korrektur": "Vier ist der Faktor der Länge in Bit, nicht der Exponent."
+            },
+            {
+              "text": "128",
+              "richtig": false,
+              "korrektur": "128 ist die Länge der IPv6-Adresse in Bit."
+            }
+          ],
+          "loesung": "2^96.",
+          "beleg": {
+            "seite": "334"
+          }
+        },
+        "wiederholung": {
+          "text": "IPv4: 32 Bit, Broadcast. IPv6: 128 Bit, Multicast, kein Broadcast, Header fest 40 Byte plus Extension Header.",
+          "diagramm": "v46"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "IPv4 oder IPv6? Ordne die Eigenschaft zu.",
+            "paare": [
+              [
+                "32 Bit",
+                "IPv4"
+              ],
+              [
+                "128 Bit",
+                "IPv6"
+              ],
+              [
+                "Header 20 Byte + evtl. Optionen",
+                "IPv4"
+              ],
+              [
+                "Broadcast (alle Hostbits 1)",
+                "IPv4"
+              ],
+              [
+                "nur Multicast, kein Broadcast",
+                "IPv6"
+              ],
+              [
+                "acht 16-Bit-Blöcke in Hex",
+                "IPv6"
+              ]
+            ],
+            "tipps": [
+              "IPv6 hat die langen Hex-Adressen und kennt keinen Broadcast.",
+              "Broadcast mit allen Hostbits auf 1 kennst du aus IPv4."
+            ],
+            "erkl": "IPv4: 32 Bit, 20-Byte-Header, Broadcast. IPv6: 128 Bit, 8 × 16 Bit hex, nur Multicast."
+          },
+          {
+            "t": "eingabe",
+            "f": "IPv6 hat **2^x-mal** so viele Adressen wie IPv4. Welches x?",
+            "art": "zahl",
+            "antwort": [
+              "96"
+            ],
+            "tipps": [
+              "Der Unterschied der Adresslängen ist der Exponent."
+            ],
+            "erkl": "128 − 32 = **96**: IPv6 hat 2⁹⁶-mal mehr Adressen.",
+            "fallen": {
+              "4": "Das ist der Faktor der Länge (128 ÷ 32). Beim Adressraum zählt der Unterschied in Bit."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Aussage zum **IPv6-Header** stimmt?",
+            "optionen": [
+              "Der Header ist 20 Byte lang plus Optionen, wie beim Vorgänger IPv4",
+              "Der Basisheader ist 40 Byte lang; Zusatzfunktionen laufen über optionale Extension Header",
+              "Der Header wächst mit jeder genutzten Option auf bis zu 60 Byte an",
+              "Der Header ist genau 128 Bit lang, so wie die IPv6-Adresse selbst"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Eine Zahl aus der Tabelle: 40.",
+              "Das Buch sagt „fest, keine Zusatzheader“. Die Norm kennt aber Extension Header."
+            ],
+            "erkl": "Der IPv6-Basisheader ist **fest 40 Byte**. Im Buch steht „keine Zusatzheader“; nach Norm gibt es aber **Extension Header** für optionale Funktionen. Optionen im Header (20 Byte + Optionen) gibt es nur bei IPv4."
+          },
+          {
+            "t": "wahl",
+            "f": "Wer **fragmentiert** bei IPv6 ein zu großes Paket?",
+            "optionen": [
+              "Jeder Router auf dem Weg",
+              "Der Empfänger",
+              "Nur der Absender, nicht die Router",
+              "Der Switch vor dem Router"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Fragmentierung kostet Rechenzeit. Wer soll sie sich ersparen?"
+            ],
+            "erkl": "Bei IPv6 fragmentiert **nur der Absender**. Das spart den Routern Zeit und Rechenleistung. Bei IPv4 darf auch der Router fragmentieren (Buch). Das Buch sagt für IPv6 nur „nein“ beim Fragmentieren im Router; „nur der Absender“ ist Praxis und steht nicht im Buch."
+          },
+          {
+            "t": "wahl",
+            "f": "IPv6 kennt eine Broadcast-Adresse.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Welches Verfahren hat IPv6 statt Broadcast?"
+            ],
+            "erkl": "IPv6 hat **keinen Broadcast**. Stattdessen verwendet es **Multicast**, also die Adressierung einer Gruppe von Knoten."
+          },
+          {
+            "t": "weg",
+            "titel": "IPv6-Adresse zerlegen",
+            "kopf": "Eine IPv6-Adresse besteht aus gleich langen Blöcken.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Aus wie vielen **Blöcken** besteht eine IPv6-Adresse?",
+                "art": "zahl",
+                "antwort": [
+                  "8"
+                ],
+                "tipps": [
+                  "Blöcke werden durch Doppelpunkte getrennt: 2001:0db8:… bis zum letzten Block."
+                ],
+                "erkl": "Es sind **8** Blöcke.",
+                "label": "Blöcke"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Bit** hat ein Block?",
+                "art": "zahl",
+                "antwort": [
+                  "16"
+                ],
+                "tipps": [
+                  "Vier Hexziffern, jede 4 Bit."
+                ],
+                "erkl": "4 · 4 = **16** Bit.",
+                "label": "Bit je Block"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele Bit hat die ganze Adresse?",
+                "art": "zahl",
+                "antwort": [
+                  "128"
+                ],
+                "tipps": [
+                  "Blöcke mal Bit je Block."
+                ],
+                "erkl": "8 · 16 = **128** Bit.",
+                "label": "Adresse gesamt"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Zeile ist eine **gültige IPv6-Adresse**?",
+            "optionen": [
+              "2001:db8::1:0:0:1",
+              "2001:db8::1::1",
+              "2001:db8:83a3:1:12:0:0:1:5",
+              "2001:db8:xyz::1"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Prüfe: Wie oft steht `::`? Wie viele Blöcke gibt es? Sind alle Zeichen hexadezimal (0–9, a–f)?"
+            ],
+            "erkl": "**2001:db8::1:0:0:1** hat genau ein `::` und nur Hexzeichen. Falsch: zwei `::`, neun Blöcke, das Zeichen x/y/z."
+          },
+          {
+            "t": "zuordnen",
+            "f": "IPv4 oder IPv6? Schreibweise erkennen.",
+            "paare": [
+              [
+                "12.13.250.254",
+                "IPv4"
+              ],
+              [
+                "2001:4567:89ab:cbef:4500:400:2:1",
+                "IPv6"
+              ],
+              [
+                "fe80::1",
+                "IPv6"
+              ],
+              [
+                "192.168.0.1",
+                "IPv4"
+              ]
+            ],
+            "tipps": [
+              "Punkte oder Doppelpunkte?"
+            ],
+            "erkl": "Punkte, vier Bytes → **IPv4**. Doppelpunkte, Hex → **IPv6**."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "IPv6 = 128 Bit, kein Broadcast, Header fest 40 Byte plus Extension Header. :: nur einmal.",
+          "handout": "**IPv4 gegen IPv6:** 32 gegen 128 Bit (Faktor 2^96) · Header 20 Byte + Optionen gegen 40 Byte fest + Extension Header · Broadcast gegen Multicast · Fragmentierung nur durch den Absender (IPv6). Kürzen: führende Nullen weg, :: nur einmal."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "IPv6-Adressarten und Vergabe",
+        "kurz": "Präfixe, Link-Local, SLAAC und die URL-Schreibweise",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Ein IPv6-Rechner hat mehrere Adressen gleichzeitig. Jede hat ihre Rolle.",
+          "frage": "Woran erkennst du die Art, und wie kommt der Client zu seiner Adresse?"
+        },
+        "aufbau": [
+          {
+            "text": "Die Art steckt im Präfix: Global Unicast 2000::/3, Link-Local FE80::/10, Unique Local FC00::/7, Multicast FF00::/8.",
+            "diagramm": "v6t"
+          },
+          {
+            "text": "Unique Local ist das Gegenstück zu privaten IPv4-Adressen. Link-Local gilt nur im eigenen Segment und endet am Router. Site Local ist veraltet.",
+            "diagramm": "v6t"
+          },
+          {
+            "text": "::1 ist Loopback, :: ist unbestimmt, so wie 127.0.0.1 und 0.0.0.0 bei IPv4.",
+            "diagramm": "v6t"
+          },
+          {
+            "text": "SLAAC: Der Client fragt den Router, erhält das Präfix und bildet daraus selbst seine Adresse. Gateway und DNS kommen meist per DHCPv6.",
+            "diagramm": "slaac"
+          },
+          {
+            "text": "In der URL steht die IPv6-Adresse in eckigen Klammern, damit der Port eindeutig bleibt: http://[2001:db8::1]:80/.",
+            "diagramm": "slaac"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Von wem erhält der Client bei SLAAC das Adresspräfix?",
+          "optionen": [
+            {
+              "text": "Vom Router",
+              "richtig": true,
+              "korrektur": "Richtig: Der Router sendet das Präfix, die Adresse bildet der Client selbst."
+            },
+            {
+              "text": "Von einem DNS-Server",
+              "richtig": false,
+              "korrektur": "Der DNS-Server löst Namen auf, er verteilt keine Präfixe."
+            },
+            {
+              "text": "Vom Switch über die MAC-Tabelle",
+              "richtig": false,
+              "korrektur": "Der Switch kennt nur MAC-Adressen und vergibt keine IP-Präfixe."
+            }
+          ],
+          "loesung": "Vom Router.",
+          "beleg": {
+            "seite": "336"
+          }
+        },
+        "wiederholung": {
+          "text": "Präfix bestimmt die Art. SLAAC: Präfix vom Router, Adresse selbst gebildet, DNS meist per DHCPv6.",
+          "diagramm": "slaac"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches Präfix gehört zu welcher Adressart?",
+            "paare": [
+              [
+                "2000::/3",
+                "Global Unicast"
+              ],
+              [
+                "FE80::/10",
+                "Link-Local"
+              ],
+              [
+                "FC00::/7",
+                "Unique Local"
+              ],
+              [
+                "FF00::/8",
+                "Multicast"
+              ],
+              [
+                "::1",
+                "Loopback"
+              ],
+              [
+                "::",
+                "nicht spezifiziert"
+              ]
+            ],
+            "tipps": [
+              "Die erste Ziffer verrät viel: 2 oder 3 = Internet, FE80 = Link-Local, F + C/D = Unique Local, FF = Multicast.",
+              "::1 und :: sind Sonderfälle mit ganz vielen Nullen."
+            ],
+            "erkl": "2000::/3 **Global Unicast**, FE80::/10 **Link-Local**, FC00::/7 **Unique Local**, FF00::/8 **Multicast**, ::1 **Loopback**, :: **nicht spezifiziert**."
+          },
+          {
+            "t": "gen",
+            "gen": "ipv6Typ",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "ipv6Typ",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Adresstyp wird **nicht mehr verwendet**?",
+            "optionen": [
+              "Link-Local (FE80::/10)",
+              "Site Local (FEC0::/10)",
+              "Unique Local (FC00::/7)",
+              "Global Unicast (2000::/3)"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Er war mal als „standortlokal“ gedacht, mit privaten IPv4-Adressen vergleichbar."
+            ],
+            "erkl": "**Site Local (FEC0::/10)** ist veraltet. Als privaten Ersatz gibt es Unique Local."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Router leitet ein Paket mit einer **Link-Local-Absenderadresse** (FE80::/10) in ein anderes Netz weiter.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wo endet die Reichweite einer Link-Local-Adresse?"
+            ],
+            "erkl": "Link-Local-Adressen gelten nur im **eigenen Segment** und **enden am nächsten Router**. Dieselbe Adresse kann in anderen Netzen ebenfalls vorkommen."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche IPv4-Entsprechung hat die IPv6-Adresse?",
+            "paare": [
+              [
+                "::1",
+                "127.0.0.1 (Loopback)"
+              ],
+              [
+                "::",
+                "0.0.0.0 (unbekannt)"
+              ],
+              [
+                "Unique Local",
+                "private Adressen (z. B. 192.168.x.x)"
+              ]
+            ],
+            "tipps": [
+              "Loopback = der eigene Rechner. 0.0.0.0 = noch keine Adresse.",
+              "Unique Local gilt nur im LAN, nicht im Internet."
+            ],
+            "erkl": "**::1** ↔ 127.0.0.1, **::** ↔ 0.0.0.0, **Unique Local** ↔ private IPv4-Adressen."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bringe den Ablauf von SLAAC in die richtige Reihenfolge.",
+            "items": [
+              "Der Client spricht mit dem zuständigen Router",
+              "Der Client erhält das Adresspräfix",
+              "Der Client bildet daraus seine eigene Adresse",
+              "DHCPv6 liefert Router- und DNS-Adresse nach"
+            ],
+            "tipps": [
+              "Zuerst die Frage, zuletzt die Zusatzangaben.",
+              "Erst das Präfix da, dann die Adresse daraus."
+            ],
+            "erkl": "Router fragen → Präfix erhalten → **Adresse selbst bilden** → bei Bedarf **DHCPv6** für Gateway und DNS."
+          },
+          {
+            "t": "wahl",
+            "f": "Von wem erhält der Client bei **SLAAC** das Adresspräfix?",
+            "optionen": [
+              "Von einem DNS-Server",
+              "Vom Switch über die MAC-Tabelle",
+              "Von einem Webserver im Internet",
+              "Vom zuständigen Router"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wer kennt das Netz, in dem der Client steckt?"
+            ],
+            "erkl": "Der **Router** kennt das Netzpräfix und teilt es dem Client mit."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Schreibweise für **127.0.0.1 eingebettet in IPv6** stimmt?",
+            "optionen": [
+              "::ffff:7f00:1",
+              "::7f00:1",
+              "::ffff:127:0:0:1",
+              "::1:7f00:ffff"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Die eingebettete Form beginnt mit `::ffff:`. 127 dezimal = 7f hex.",
+              "Die letzten 4 Byte 7f.00.00.01 werden zu zwei Blöcken."
+            ],
+            "erkl": "127 = 0x7f, dann 00 00 01: Blöcke **7f00** und **0001** → **::ffff:7f00:1**."
+          },
+          {
+            "t": "eingabe",
+            "f": "Schreibe die URL für den Webserver **2001:db8::1** auf Port **8080** (http).",
+            "art": "url",
+            "antwort": [
+              "http://[2001:db8::1]:8080/",
+              "http://[2001:db8::1]:8080"
+            ],
+            "tipps": [
+              "Die Adresse kommt in eckige Klammern, der Port steht dahinter nach einem Doppelpunkt.",
+              "http://[adresse]:port/"
+            ],
+            "erkl": "Mit eckigen Klammern: **http://[2001:db8::1]:8080/**."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "SLAAC: Präfix vom Router, Adresse selbst gebildet. URL mit eckigen Klammern.",
+          "handout": "**IPv6-Arten:** Global Unicast 2000::/3 · Link-Local FE80::/10 (nicht über den Router) · Unique Local FC00::/7 · Multicast FF00::/8 · ::1 Loopback · :: unbestimmt. **SLAAC:** Präfix vom Router, Adresse selbst gebildet, Gateway/DNS meist per DHCPv6. URL: http://[2001:db8::1]:80/."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welche Adresse ist nicht privat?",
+        "optionen": [
+          {
+            "text": "172.32.0.10",
+            "richtig": true
+          },
+          {
+            "text": "10.250.1.1",
+            "richtig": false
+          },
+          {
+            "text": "192.168.200.7",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie viele nutzbare Hosts hat ein /24-Netz?",
+        "optionen": [
+          {
+            "text": "254",
+            "richtig": true
+          },
+          {
+            "text": "256",
+            "richtig": false
+          },
+          {
+            "text": "255",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Aussage zu IPv6 stimmt?",
+        "optionen": [
+          {
+            "text": "Es gibt keinen Broadcast",
+            "richtig": true
+          },
+          {
+            "text": "Der Header ist 20 Byte lang",
+            "richtig": false
+          },
+          {
+            "text": "Router fragmentieren jedes Paket",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welches Präfix steht für Link-Local?",
+        "optionen": [
+          {
+            "text": "FE80::/10",
+            "richtig": true
+          },
+          {
+            "text": "FC00::/7",
+            "richtig": false
+          },
+          {
+            "text": "2000::/3",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_AD2.id]: LF03_AD2 });
+})();
+
+/* ---- f_einheiten_adressen3.js ---- */
+//
+// Einheit 15: Ports, Sockets und das Gesamtbild (aus dem Kurs "Adressen-Atlas", Stationen 6 bis 8; Abschlussuebung = Endgegner s7 und Abschlusstest s8). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_AD3 = {
+    "id": "lf03-adressen-ports-gesamt",
+    "reihe": 15,
+    "titel": "Ports, Sockets und das Gesamtbild",
+    "untertitel": "Portbereiche, wichtige Dienste, dann alle drei Adressen auf einer Reise",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 337–338 (Ports und Sockets), Gesamtübung S. 330–338",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Socket und Quell-/Zielport erklären",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz2",
+        "text": "Die drei Portbereiche mit ihren Grenzen nennen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz3",
+        "text": "Wichtige Ports Diensten zuordnen und Klartext von verschlüsselt trennen",
+        "kn": "Netzwerkgrundlagen"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Socket = IP-Adresse + Port",
+        "knoten": [
+          {
+            "id": "i",
+            "x": 110,
+            "y": 110,
+            "t": "IP-Adresse",
+            "sub": "221.223.21.30",
+            "w": 170
+          },
+          {
+            "id": "p",
+            "x": 320,
+            "y": 110,
+            "t": "Port",
+            "sub": "143 (16 Bit)",
+            "w": 170
+          },
+          {
+            "id": "s",
+            "x": 530,
+            "y": 110,
+            "t": "Socket",
+            "sub": "221.223.21.30:143",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "i",
+            "bis": "p",
+            "t": "+"
+          },
+          {
+            "von": "p",
+            "bis": "s",
+            "t": "="
+          }
+        ]
+      },
+      "sock": {
+        "art": "netz",
+        "titel": "Socket = IP-Adresse + Port",
+        "knoten": [
+          {
+            "id": "i",
+            "x": 110,
+            "y": 110,
+            "t": "IP-Adresse",
+            "sub": "221.223.21.30",
+            "w": 170
+          },
+          {
+            "id": "p",
+            "x": 320,
+            "y": 110,
+            "t": "Port",
+            "sub": "143 (16 Bit)",
+            "w": 170
+          },
+          {
+            "id": "s",
+            "x": 530,
+            "y": 110,
+            "t": "Socket",
+            "sub": "221.223.21.30:143",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "i",
+            "bis": "p",
+            "t": "+"
+          },
+          {
+            "von": "p",
+            "bis": "s",
+            "t": "="
+          }
+        ]
+      },
+      "bereich": {
+        "art": "netz",
+        "titel": "Drei Portbereiche",
+        "knoten": [
+          {
+            "id": "w",
+            "x": 110,
+            "y": 110,
+            "t": "Well-known",
+            "sub": "0 bis 1023",
+            "w": 170
+          },
+          {
+            "id": "r",
+            "x": 320,
+            "y": 110,
+            "t": "Registered",
+            "sub": "1024 bis 49151",
+            "w": 170
+          },
+          {
+            "id": "d",
+            "x": 530,
+            "y": 110,
+            "t": "Dynamisch",
+            "sub": "49152 bis 65535",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "w",
+            "bis": "r"
+          },
+          {
+            "von": "r",
+            "bis": "d"
+          }
+        ]
+      },
+      "portliste": {
+        "art": "netz",
+        "titel": "Wichtige Ports: Klartext (Telnet, HTTP) gegen verschlüsselt (SSH, HTTPS)",
+        "knoten": [
+          {
+            "id": "q0",
+            "x": 90,
+            "y": 85,
+            "t": "SSH",
+            "sub": "Port 22",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "q1",
+            "x": 250,
+            "y": 85,
+            "t": "Telnet",
+            "sub": "Port 23",
+            "w": 130
+          },
+          {
+            "id": "q2",
+            "x": 410,
+            "y": 85,
+            "t": "SMTP",
+            "sub": "Port 25",
+            "w": 130
+          },
+          {
+            "id": "q3",
+            "x": 570,
+            "y": 85,
+            "t": "DNS",
+            "sub": "Port 53",
+            "w": 130
+          },
+          {
+            "id": "q4",
+            "x": 90,
+            "y": 160,
+            "t": "HTTP",
+            "sub": "Port 80",
+            "w": 130
+          },
+          {
+            "id": "q5",
+            "x": 250,
+            "y": 160,
+            "t": "POP3",
+            "sub": "Port 110",
+            "w": 130
+          },
+          {
+            "id": "q6",
+            "x": 410,
+            "y": 160,
+            "t": "IMAP",
+            "sub": "Port 143",
+            "w": 130
+          },
+          {
+            "id": "q7",
+            "x": 570,
+            "y": 160,
+            "t": "HTTPS",
+            "sub": "Port 443",
+            "w": 130,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "reise": {
+        "art": "netz",
+        "titel": "Ziel-MAC = nächster Hop, Ziel-IP = Server, Zielport = Dienst",
+        "knoten": [
+          {
+            "id": "pc",
+            "x": 90,
+            "y": 110,
+            "t": "PC",
+            "sub": "Büronetz",
+            "w": 110
+          },
+          {
+            "id": "r",
+            "x": 320,
+            "y": 110,
+            "t": "Router",
+            "sub": "nächster Hop",
+            "w": 130,
+            "rolle": "gelb"
+          },
+          {
+            "id": "s",
+            "x": 550,
+            "y": 110,
+            "t": "Webserver",
+            "sub": "Port 80",
+            "w": 120
+          }
+        ],
+        "links": [
+          {
+            "von": "pc",
+            "bis": "r",
+            "t": "Frame"
+          },
+          {
+            "von": "r",
+            "bis": "s",
+            "t": "Paket"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Was ist ein Socket?",
+        "optionen": [
+          {
+            "text": "IP-Adresse plus Portnummer",
+            "richtig": true
+          },
+          {
+            "text": "MAC plus IP",
+            "richtig": false
+          },
+          {
+            "text": "Port plus Protokollname",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welcher Port gehört zu HTTPS?",
+        "optionen": [
+          {
+            "text": "443",
+            "richtig": true
+          },
+          {
+            "text": "80",
+            "richtig": false
+          },
+          {
+            "text": "25",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Port und Socket",
+        "kurz": "Adresse der Anwendung und Quellport",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Auf einem Rechner laufen viele Programme gleichzeitig, aber es gibt nur eine IP-Adresse.",
+          "frage": "Wie findet ein Paket das richtige Programm?"
+        },
+        "aufbau": [
+          {
+            "text": "Die IP-Adresse findet den Rechner, der Port findet das Programm. TCP und UDP tragen im Kopf Quellport und Zielport.",
+            "diagramm": "sock"
+          },
+          {
+            "text": "IP-Adresse plus Port ergibt einen Socket. Eine Verbindung hat zwei Sockets, Quelle und Ziel.",
+            "diagramm": "sock"
+          },
+          {
+            "text": "221.223.21.30:143 und :80 sind zwei verschiedene Sockets auf demselben Rechner, nämlich IMAP und HTTP.",
+            "diagramm": "sock"
+          },
+          {
+            "text": "Der Browser setzt beim Surfen einen Quellport. Damit weiß er, zu welchem Fenster die Antwort gehört.",
+            "diagramm": "sock"
+          },
+          {
+            "text": "Ein Port hat 16 Bit, also 2^16 = 65536 Nummern von 0 bis 65535.",
+            "diagramm": "sock"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Beim Surfen setzt der Browser einen Quellport. Wozu dient er?",
+          "optionen": [
+            {
+              "text": "Die Antwort findet zurück zur richtigen Browser-Verbindung",
+              "richtig": true,
+              "korrektur": "Richtig: Er unterscheidet die Verbindungen auf dem Rechner."
+            },
+            {
+              "text": "Er legt fest, welche Webseite geladen wird",
+              "richtig": false,
+              "korrektur": "Die Seite bestimmt die URL, der Quellport nicht."
+            },
+            {
+              "text": "Er verschlüsselt die Verbindung",
+              "richtig": false,
+              "korrektur": "Verschlüsselung leistet TLS, ein Port ist nur eine Nummer."
+            }
+          ],
+          "loesung": "Quellport = Rückweg.",
+          "beleg": {
+            "seite": "337"
+          }
+        },
+        "wiederholung": {
+          "text": "Socket = IP + Port. Gespräch = zwei Sockets. 65536 Ports.",
+          "diagramm": "sock"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Was ist ein **Socket**?",
+            "optionen": [
+              "MAC-Adresse plus IP-Adresse",
+              "IP-Adresse plus Portnummer",
+              "Portnummer plus Protokollname (TCP/UDP)",
+              "Die Netzwerkbuchse am Switch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Das Wort kommt im Buch bei Ziel- und Quell-… vor, kombiniert aus Schicht 3 und Schicht 4."
+            ],
+            "erkl": "**IP-Adresse (Schicht 3) + Port (Schicht 4)** ergeben den Socket: ein Ziel-Socket und ein Quell-Socket je Verbindung."
+          },
+          {
+            "t": "wahl",
+            "f": "**221.223.21.30:143** und **221.223.21.30:80** nutzen dieselbe IP-Adresse. Was folgt daraus?",
+            "optionen": [
+              "Es sind zwei verschiedene Rechner",
+              "Die Verbindung ist ungültig, weil die IP doppelt vorkommt",
+              "Zwei verschiedene Dienste (IMAP und Web) laufen auf demselben Host",
+              "Beide Adressen sprechen denselben Dienst an"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Wer unterscheidet die Dienste auf einem Rechner?"
+            ],
+            "erkl": "Die IP findet den Rechner, der **Port** den Dienst: 143 = IMAP, 80 = Webserver. Beides auf **demselben Host**."
+          },
+          {
+            "t": "wahl",
+            "f": "Beim Surfen setzt der Browser einen **Quellport**. Wozu dient er?",
+            "optionen": [
+              "Er legt fest, welche Webseite geladen wird",
+              "Er gibt die Version von HTTP an",
+              "Er ersetzt die MAC-Adresse im Frame",
+              "Der Server schickt seine Antwort an diesen Port zurück"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wer adressiert den Browser auf dem Client?"
+            ],
+            "erkl": "Der **Quellport** ist die Adresse des Browsers. Daran kann der Server seine **Antwort** zurückschicken. Der Zielport (meist 80 bzw. 443) adressiert den Webserver."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **verschiedene Portnummern** gibt es? (0 bis 65535)",
+            "art": "zahl",
+            "antwort": [
+              "65536"
+            ],
+            "tipps": [
+              "Mit 16 Bit sind 2¹⁶ Werte möglich."
+            ],
+            "erkl": "2¹⁶ = **65.536** (die 0 zählt mit).",
+            "fallen": {
+              "65535": "65535 ist der höchste Port, aber die 0 zählt mit: 65.536 Ports."
+            }
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Socket = IP + Port. Eine Verbindung hat Quell- und Ziel-Socket.",
+          "handout": "**Port:** 16 Bit (0 bis 65535), TCP und UDP tragen Quell- und Zielport. **Socket** = IP-Adresse + Port. Die Anwendung wird über den Zielport gefunden."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Portbereiche",
+        "kurz": "Well-known, Registered und dynamische Ports",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Der Browser nimmt für den Quellport irgendeine Nummer, der Webserver lauscht immer auf derselben.",
+          "frage": "Warum, und wie sind die Nummern eingeteilt?"
+        },
+        "aufbau": [
+          {
+            "text": "Well-known Ports 0 bis 1023 sind für Standarddienste reserviert.",
+            "diagramm": "bereich"
+          },
+          {
+            "text": "Registered Ports 1024 bis 49151 gehören Anwendungen mit bereits zugeordneter Nummer.",
+            "diagramm": "bereich"
+          },
+          {
+            "text": "Dynamische Ports 49152 bis 65535 (hex C000 bis FFFF) darf jede Anwendung frei nutzen, zum Beispiel als Quellport.",
+            "diagramm": "bereich"
+          },
+          {
+            "text": "Merke die Grenzen: 1023 | 1024 und 49151 | 49152. Die Portliste im Buch heißt well known, enthält aber auch Nummern über 1023, etwa 8080.",
+            "diagramm": "bereich"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ab welcher Portnummer beginnen die dynamischen Ports?",
+          "optionen": [
+            {
+              "text": "49152",
+              "richtig": true,
+              "korrektur": "Richtig: 49151 ist die Obergrenze der Registered Ports."
+            },
+            {
+              "text": "1024",
+              "richtig": false,
+              "korrektur": "Ab 1024 beginnen die Registered Ports."
+            },
+            {
+              "text": "65535",
+              "richtig": false,
+              "korrektur": "65535 ist die Obergrenze, nicht der Anfang."
+            }
+          ],
+          "loesung": "Ab 49152.",
+          "beleg": {
+            "seite": "337"
+          }
+        },
+        "wiederholung": {
+          "text": "0 bis 1023 well-known, 1024 bis 49151 registered, 49152 bis 65535 dynamisch.",
+          "diagramm": "bereich"
+        },
+        "uebung": [
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1
+            ],
+            "modus": "bereich"
+          },
+          {
+            "t": "eingabe",
+            "f": "Ab welcher Portnummer beginnen die **dynamischen Ports**?",
+            "art": "zahl",
+            "antwort": [
+              "49152"
+            ],
+            "tipps": [
+              "Die Obergrenze ist 65535. Der Bereich beginnt bei C000 in Hex."
+            ],
+            "erkl": "Die dynamischen Ports beginnen bei **49152** (= 0xC000).",
+            "fallen": {
+              "49151": "49151 ist der letzte registered Port. Dynamisch beginnt eins höher."
+            }
+          }
+        ],
+        "sicherung": {
+          "merksatz": "0–1023 well-known, 1024–49151 registered, 49152–65535 dynamisch.",
+          "handout": "**Portbereiche:** well-known 0–1023 · registered 1024–49151 · dynamisch 49152–65535 (hex C000–FFFF), frei nutzbar, z. B. als Quellport."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Die Portliste",
+        "kurz": "die wichtigsten Dienste und ihre Nummern",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Ein Admin sieht in der Firewall Port 23 offen. Das ist ein Problem.",
+          "frage": "Welche Nummer gehört zu welchem Dienst, und was ist unverschlüsselt?"
+        },
+        "aufbau": [
+          {
+            "text": "Merke: SSH 22, Telnet 23, SMTP 25, DNS 53, HTTP 80, POP3 110, IMAP 143, HTTPS 443, SNMP 161/162, SMB 445.",
+            "diagramm": "portliste"
+          },
+          {
+            "text": "Klartext sind Telnet (23) und HTTP (80). Verschlüsselte Gegenstücke sind SSH (22) und HTTPS (443).",
+            "diagramm": "portliste"
+          },
+          {
+            "text": "Hat ein Dienst zwei Ports, ist meist einer für Daten und einer für Steuerung, oder für Client und Server.",
+            "diagramm": "portliste"
+          },
+          {
+            "text": "Ports nutzen TCP und UDP gleichermaßen. UDP kennt also ebenfalls Ports.",
+            "diagramm": "portliste"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welcher Port gehört zu SSH?",
+          "optionen": [
+            {
+              "text": "22",
+              "richtig": true,
+              "korrektur": "Richtig: SSH ist die verschlüsselte Alternative zu Telnet (23)."
+            },
+            {
+              "text": "23",
+              "richtig": false,
+              "korrektur": "23 ist Telnet, unverschlüsselt."
+            },
+            {
+              "text": "80",
+              "richtig": false,
+              "korrektur": "80 ist HTTP."
+            }
+          ],
+          "loesung": "SSH = 22.",
+          "beleg": {
+            "seite": "338"
+          }
+        },
+        "wiederholung": {
+          "text": "22 SSH, 23 Telnet, 25 SMTP, 53 DNS, 80 HTTP, 110 POP3, 143 IMAP, 443 HTTPS.",
+          "diagramm": "portliste"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welcher Port gehört zu welchem Dienst?",
+            "paare": [
+              [
+                "22",
+                "SSH"
+              ],
+              [
+                "23",
+                "Telnet"
+              ],
+              [
+                "25",
+                "SMTP"
+              ],
+              [
+                "53",
+                "DNS"
+              ],
+              [
+                "80",
+                "HTTP"
+              ],
+              [
+                "443",
+                "HTTPS"
+              ]
+            ],
+            "tipps": [
+              "Mail senden = SMTP. Verschlüsselte Fernsteuerung = SSH, unverschlüsselte = Telnet.",
+              "80 und 443 sind die beiden Web-Ports."
+            ],
+            "erkl": "22 **SSH**, 23 **Telnet**, 25 **SMTP**, 53 **DNS**, 80 **HTTP**, 443 **HTTPS**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Ports passen zu welchem Dienst?",
+            "paare": [
+              [
+                "110",
+                "POP3"
+              ],
+              [
+                "143",
+                "IMAP"
+              ],
+              [
+                "161/162",
+                "SNMP"
+              ],
+              [
+                "445",
+                "SMB"
+              ],
+              [
+                "546/547",
+                "DHCPv6"
+              ],
+              [
+                "8080",
+                "HTTP (alternativ)"
+              ]
+            ],
+            "tipps": [
+              "POP3 und IMAP sind beide E-Mail-Abruf, aber 110 und 143.",
+              "DHCPv6 hat zwei Ports für Client und Server."
+            ],
+            "erkl": "110 **POP3**, 143 **IMAP**, 161/162 **SNMP**, 445 **SMB**, 546/547 **DHCPv6**, 8080 **HTTP alternativ**."
+          },
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1
+            ],
+            "modus": "port"
+          },
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1
+            ],
+            "modus": "dienst"
+          },
+          {
+            "t": "zuordnen",
+            "f": "Verschlüsselt oder Klartext?",
+            "paare": [
+              [
+                "23 Telnet",
+                "unverschlüsselt"
+              ],
+              [
+                "22 SSH",
+                "verschlüsselt"
+              ],
+              [
+                "80 HTTP",
+                "unverschlüsselt"
+              ],
+              [
+                "443 HTTPS",
+                "verschlüsselt"
+              ]
+            ],
+            "tipps": [
+              "Ein Buchstabe oder ein „Secure“ im Namen ist der Hinweis."
+            ],
+            "erkl": "**SSH** und **HTTPS** sind verschlüsselt. **Telnet** und **HTTP** übertragen im Klartext."
+          },
+          {
+            "t": "wahl",
+            "f": "Ports werden nur bei TCP benutzt, UDP kennt keine Ports.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wie steht es bei Schicht 4: nur TCP oder beide Protokolle?"
+            ],
+            "erkl": "**TCP und UDP** nutzen beide Ports; in beiden Protokollköpfen stehen Quell- und Zielport (z. B. DNS 53 und DHCP 67/68 laufen über UDP)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "22 SSH, 23 Telnet, 25 SMTP, 53 DNS, 80 HTTP, 110 POP3, 143 IMAP, 443 HTTPS.",
+          "handout": "**Ports:** SSH 22 · Telnet 23 · SMTP 25 · DNS 53 · HTTP 80 · POP3 110 · IMAP 143 · SNMP 161/162 · SMB 445 · HTTPS 443. Klartext: Telnet, HTTP. Verschlüsselt: SSH, HTTPS. TCP und UDP nutzen Ports."
+        }
+      }
+    ],
+    "uebung": [
+      {
+        "t": "weg",
+        "titel": "Der Frame verlässt den PC",
+        "kopf": "Du schaust in die Header des ersten Pakets, das der PC zum **Router** schickt. PC: 192.168.10.50, MAC `00-11-22-33-44-55`. Router-LAN-Interface: 192.168.10.1, MAC `00-aa-bb-cc-dd-01`. Webserver: 203.0.113.80.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Welche **Zielportnummer** steht beim unverschlüsselten Aufruf?",
+            "art": "zahl",
+            "antwort": [
+              "80"
+            ],
+            "tipps": [
+              "Die Standardnummer für HTTP."
+            ],
+            "erkl": "HTTP → Port **80**.",
+            "fallen": {
+              "443": "443 wäre HTTPS (verschlüsselt)."
+            },
+            "label": "Zielport"
+          },
+          {
+            "t": "wahl",
+            "f": "Was steht als **Quellport**?",
+            "optionen": [
+              "80, derselbe Port wie beim Ziel des Aufrufs",
+              "Eine dynamische Portnummer des Browsers (49152–65535)",
+              "Die MAC-Adresse des PCs als Zahl geschrieben",
+              "Die Portnummer der LAN-Schnittstelle des Routers"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der Quellport adressiert den Browser. Er wird frei gewählt.",
+              "Der dynamische Bereich beginnt bei 49152."
+            ],
+            "erkl": "Der Browser nimmt einen freien Port aus dem **dynamischen Bereich**, damit der Server zurückantworten kann.",
+            "label": "Quellport"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Ziel-IP-Adresse** steht im IP-Paket?",
+            "optionen": [
+              "192.168.10.1 (Router)",
+              "192.168.10.50 (PC)",
+              "203.0.113.80 (Webserver)",
+              "ff-ff-ff-ff-ff-ff (Broadcast)"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Die IP-Adresse bleibt auf der gesamten Strecke das Ziel, nicht der nächste Hop."
+            ],
+            "erkl": "Die Ziel-IP ist die des **Servers**. Sie ändert sich unterwegs nicht.",
+            "label": "Ziel-IP"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Quell-IP-Adresse** trägt das Paket beim Verlassen des PCs?",
+            "optionen": [
+              "203.0.113.80 (Webserver)",
+              "192.168.10.1 (Router)",
+              "0.0.0.0",
+              "192.168.10.50 (der PC)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wer sendet? Der PC mit seiner eigenen Adresse."
+            ],
+            "erkl": "Der PC trägt seine eigene Adresse **192.168.10.50** ein. (Praxis, steht nicht im Buch: Der Router ersetzt sie beim Weg ins Internet per NAT durch eine öffentliche.)",
+            "label": "Quell-IP"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Ziel-MAC-Adresse** steht im Ethernet-Frame?",
+            "optionen": [
+              "00-aa-bb-cc-dd-01 (Router-Interface)",
+              "Die MAC des Webservers",
+              "00-11-22-33-44-55 (der PC selbst)",
+              "00-00-00-00-00-00"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Der Frame geht nur bis zum nächsten Gerät, nicht bis zum Server.",
+              "Der Webserver steht in einem fremden Netz: Seine MAC kennt der PC nicht."
+            ],
+            "erkl": "Der Frame geht an das **Interface des Routers**. Das Buch schreibt im Layer-2-Schritt „Ziel-IP-Adresse“; gemeint ist die **Ziel-MAC**.",
+            "label": "Ziel-MAC"
+          }
+        ]
+      },
+      {
+        "t": "zuordnen",
+        "f": "Welche Adresse steht in welchem Feld? (Frame PC → Router)",
+        "paare": [
+          [
+            "Ziel-MAC",
+            "MAC des Router-Interfaces"
+          ],
+          [
+            "Quell-MAC",
+            "MAC des PCs"
+          ],
+          [
+            "Ziel-IP",
+            "IP des Webservers"
+          ],
+          [
+            "Quell-IP",
+            "IP des PCs"
+          ],
+          [
+            "Zielport",
+            "80 (Webserver)"
+          ]
+        ],
+        "tipps": [
+          "Die MAC-Adressen betreffen nur diesen einen Abschnitt, die IP-Adressen die ganze Strecke.",
+          "Der Zielport nennt den Dienst auf dem Server."
+        ],
+        "erkl": "Ziel-MAC = **Router**, Quell-MAC = **PC**, Ziel-IP = **Server**, Quell-IP = **PC**, Zielport = **80**."
+      },
+      {
+        "t": "zuordnen",
+        "f": "Welches Gerät wertet welche Adresse aus?",
+        "paare": [
+          [
+            "Hub",
+            "wertet keine Adresse aus"
+          ],
+          [
+            "Switch",
+            "MAC-Adresse"
+          ],
+          [
+            "Router",
+            "Netzanteil der IP-Adresse"
+          ],
+          [
+            "Webserver-Software",
+            "Portnummer"
+          ]
+        ],
+        "tipps": [
+          "Hub = Schicht 1, Switch = 2, Router = 3.",
+          "Der Dienst auf dem Server wird über den Port erreicht."
+        ],
+        "erkl": "**Hub:** nichts (Schicht 1). **Switch:** MAC (Schicht 2). **Router:** IP-Netzanteil (Schicht 3). Der **Port** führt zur Anwendung."
+      },
+      {
+        "t": "weg",
+        "titel": "Der Firmenserver",
+        "kopf": "Ein Server mit der Adresse **192.168.20.10** bietet im Büronetz Web (HTTP), Mail-Abruf (IMAP) und Fernzugriff (SSH) an.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Ist **192.168.20.10** im Internet routbar?",
+            "optionen": [
+              "Ja, jede Adresse mit vier Bytes ist routbar",
+              "Nein, es ist eine private Adresse (192.168.0.0/16-Bereich)",
+              "Ja, weil sie mit 192 beginnt (Klasse C)",
+              "Nein, weil sie auf .10 endet"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Prüfe die Bereiche: 10.x, 172.16–31, 192.168."
+            ],
+            "erkl": "192.168.x.x ist ein privater Bereich und wird im Internet **nicht geroutet**.",
+            "label": "öffentlich?"
+          },
+          {
+            "t": "eingabe",
+            "f": "Welchen **Port** nutzt der IMAP-Abruf?",
+            "art": "zahl",
+            "antwort": [
+              "143"
+            ],
+            "tipps": [
+              "POP3 hat 110, IMAP die nächste in der Liste."
+            ],
+            "erkl": "IMAP → **143**.",
+            "fallen": {
+              "110": "110 ist POP3."
+            },
+            "label": "IMAP-Port"
+          },
+          {
+            "t": "eingabe",
+            "f": "Schreibe den **Socket** für den IMAP-Dienst in der Form IP:Port.",
+            "art": "text",
+            "antwort": [
+              "192.168.20.10:143"
+            ],
+            "tipps": [
+              "IP-Adresse, Doppelpunkt, Portnummer."
+            ],
+            "erkl": "Socket = IP + Port → **192.168.20.10:143**.",
+            "label": "Socket"
+          },
+          {
+            "t": "wahl",
+            "f": "Der Client greift per **SSH** zu. Welcher **Zielport** steht im Segment?",
+            "optionen": [
+              "23",
+              "25",
+              "22",
+              "443"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Verschlüsselte Fernsteuerung."
+            ],
+            "erkl": "SSH nutzt Port **22**. Telnet (23) wäre unverschlüsselt.",
+            "label": "SSH-Port"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Ein Netz für 300 Geräte",
+        "kopf": "Du richtest für die Entwicklungsabteilung **ein** Netz mit privaten Adressen und **Standardmaske** ein. 300 Geräte brauchen je eine Adresse.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welche **kleinste** private Klasse bietet genug Hostadressen?",
+            "optionen": [
+              "Klasse C (192.168.x.0, /24)",
+              "Klasse A (10.0.0.0, /8)",
+              "Keine, private Netze sind auf 254 Hosts begrenzt",
+              "Klasse B (172.16.0.0, /16)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Klasse C hat nur 2⁸ − 2 Hosts. Reicht das?",
+              "Klasse B hat 16 Hostbits."
+            ],
+            "erkl": "Klasse C bietet nur **254** Hosts, Klasse B **65.534**: Klasse B ist die kleinste Lösung.",
+            "label": "Klasse"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **nutzbare Hosts** hat ein Klasse-B-Netz mit /16?",
+            "art": "zahl",
+            "antwort": [
+              "65534"
+            ],
+            "tipps": [
+              "16 Hostbits, 2^16 − 2."
+            ],
+            "erkl": "2¹⁶ − 2 = **65.534**.",
+            "fallen": {
+              "65536": "Netz- und Broadcast-Adresse sind abzuziehen."
+            },
+            "label": "Hosts"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **Broadcast-Adresse** des Netzes **172.16.0.0/16**?",
+            "art": "ip",
+            "antwort": [
+              "172.16.255.255"
+            ],
+            "tipps": [
+              "Alle Hostbits auf 1, also die letzten zwei Bytes."
+            ],
+            "erkl": "Hostbits 1 → **172.16.255.255**.",
+            "fallen": {
+              "172.31.255.255": "Das ist das Ende des gesamten Bereichs 172.16–172.31. Das Netz 172.16.0.0/16 endet bei 172.16.255.255."
+            },
+            "label": "Broadcast"
+          }
+        ]
+      },
+      {
+        "t": "zuordnen",
+        "f": "1. In welcher OSI-Schicht arbeitet welche Adresse?",
+        "paare": [
+          [
+            "MAC-Adresse",
+            "Schicht 2"
+          ],
+          [
+            "IPv4-Adresse",
+            "Schicht 3"
+          ],
+          [
+            "IPv6-Adresse",
+            "Schicht 3"
+          ],
+          [
+            "Portnummer",
+            "Schicht 4"
+          ]
+        ],
+        "erkl": "MAC = **Schicht 2**, IPv4/IPv6 = **Schicht 3**, Port = **Schicht 4**."
+      },
+      {
+        "t": "wahl",
+        "f": "2. Das erste Oktett einer MAC-Adresse ist `0x03` (binär `0000 0011`). Was gilt?",
+        "optionen": [
+          "Multicast, lokal verwaltet",
+          "Unicast, global eindeutig",
+          "Unicast, lokal verwaltet",
+          "Multicast, global eindeutig"
+        ],
+        "richtig": 0,
+        "erkl": "Bit 0 = 1 → **Multicast**, Bit 1 = 1 → **lokal verwaltet**."
+      },
+      {
+        "t": "wahl",
+        "f": "3. Welche Adresse gehört zur **Klasse C**?",
+        "optionen": [
+          "172.20.1.1",
+          "200.1.2.3",
+          "224.0.0.5",
+          "126.1.1.1"
+        ],
+        "richtig": 1,
+        "erkl": "Das erste Oktett 192–223 → Klasse C. 172 = B, 224 = D (Multicast), 126 = A."
+      },
+      {
+        "t": "eingabe",
+        "f": "4. Wie lautet die **Net-ID** von **172.20.99.14** mit Maske /16?",
+        "art": "ip",
+        "antwort": [
+          "172.20.0.0"
+        ],
+        "erkl": "Hostbits (die letzten zwei Bytes) auf 0 → **172.20.0.0**.",
+        "fallen": {
+          "0.0.99.14": "Das ist die Host-ID (Netzbits 0). Die Net-ID setzt die Hostbits auf 0.",
+          "172.20.255.255": "Das ist die Broadcast-ID (Hostbits 1)."
+        }
+      },
+      {
+        "t": "gen",
+        "gen": "ipTyp",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "5. Welche Adresse ist **privat**?",
+        "optionen": [
+          "172.32.0.10",
+          "192.169.1.1",
+          "172.31.200.7",
+          "11.0.0.1"
+        ],
+        "richtig": 2,
+        "erkl": "Privat sind 10.x.x.x, 172.16–172.31 und 192.168.x.x. **172.31.200.7** liegt im Bereich B."
+      },
+      {
+        "t": "eingabe",
+        "f": "6. Wie viele **nutzbare Hosts** hat ein privates Netz der **Klasse B** (/16)?",
+        "art": "zahl",
+        "antwort": [
+          "65534"
+        ],
+        "erkl": "2¹⁶ − 2 = **65.534**.",
+        "fallen": {
+          "65536": "Netz- und Broadcast-Adresse noch abziehen."
+        }
+      },
+      {
+        "t": "wahl",
+        "f": "7. Welche Aussage zu **IPv6** stimmt?",
+        "optionen": [
+          "IPv6 nutzt Broadcast statt Multicast für Rundsendungen",
+          "Die IPv6-Adresse besteht aus insgesamt 64 Bit",
+          "Der IPv6-Basisheader ist genau 20 Byte lang",
+          "Große Pakete fragmentiert nur der Absender, nicht der Router"
+        ],
+        "richtig": 3,
+        "erkl": "Bei IPv6 fragmentiert **nur der Absender**. IPv6 hat 128 Bit, keinen Broadcast und einen **40-Byte**-Basisheader (nach Norm plus optionale Extension Header; im Buch steht „keine Zusatzheader“)."
+      },
+      {
+        "t": "zuordnen",
+        "f": "8. Ordne das Präfix der IPv6-Adressart zu.",
+        "paare": [
+          [
+            "2000::/3",
+            "Global Unicast"
+          ],
+          [
+            "FE80::/10",
+            "Link-Local"
+          ],
+          [
+            "FC00::/7",
+            "Unique Local"
+          ],
+          [
+            "::1",
+            "Loopback"
+          ],
+          [
+            "FF00::/8",
+            "Multicast"
+          ]
+        ],
+        "erkl": "**2000::/3** Global Unicast, **FE80::/10** Link-Local, **FC00::/7** Unique Local, **::1** Loopback, **FF00::/8** Multicast."
+      },
+      {
+        "t": "wahl",
+        "f": "9. Wie bekommt ein Client bei **SLAAC** seine Adresse?",
+        "optionen": [
+          "Er erhält das Präfix vom Router und bildet die Adresse selbst",
+          "Ein DHCP-Server vergibt jede Adresse einzeln",
+          "Er bekommt sie vom DNS-Server",
+          "Sie ist fest in der Netzwerkkarte gespeichert"
+        ],
+        "richtig": 0,
+        "erkl": "SLAAC: Präfix vom **Router**, Adresse selbst gebildet. Gateway und DNS kommen laut Buch meist zusätzlich per **DHCP(v6)**."
+      },
+      {
+        "t": "eingabe",
+        "f": "10. Schreibe die URL für den Server **2001:db8::10** auf Port **443** (https).",
+        "art": "url",
+        "antwort": [
+          "https://[2001:db8::10]:443/",
+          "https://[2001:db8::10]/"
+        ],
+        "erkl": "IPv6 in **eckigen Klammern**, dahinter der Port: **https://[2001:db8::10]:443/** (bei 443 darf `:443` auch fehlen)."
+      },
+      {
+        "t": "wahl",
+        "f": "11. Ein Socket besteht aus MAC-Adresse und Portnummer.",
+        "optionen": [
+          "wahr",
+          "falsch"
+        ],
+        "richtig": 1,
+        "erkl": "Ein Socket ist **IP-Adresse + Portnummer**. Jede Verbindung hat einen Quell- und einen Ziel-Socket."
+      },
+      {
+        "t": "zuordnen",
+        "f": "12. Welcher Port gehört zu welchem Dienst?",
+        "paare": [
+          [
+            "22",
+            "SSH"
+          ],
+          [
+            "25",
+            "SMTP"
+          ],
+          [
+            "53",
+            "DNS"
+          ],
+          [
+            "110",
+            "POP3"
+          ],
+          [
+            "143",
+            "IMAP"
+          ],
+          [
+            "443",
+            "HTTPS"
+          ]
+        ],
+        "erkl": "22 **SSH**, 25 **SMTP**, 53 **DNS**, 110 **POP3**, 143 **IMAP**, 443 **HTTPS**."
+      },
+      {
+        "t": "gen",
+        "gen": "portDienst",
+        "stufen": [
+          1
+        ],
+        "modus": "bereich"
+      },
+      {
+        "t": "wahl",
+        "f": "13. Beim Seitenaufruf geht der Frame vom PC zum Router. Welche **Ziel-MAC** steht darin?",
+        "optionen": [
+          "Die MAC des Webservers",
+          "Die MAC des PCs",
+          "Die MAC des Router-Interfaces",
+          "ff-ff-ff-ff-ff-ff"
+        ],
+        "richtig": 2,
+        "erkl": "Der Frame geht zum **nächsten Hop**, dem Router. Die Ziel-IP bleibt der Server. (Das Buch schreibt hier irrtümlich „Ziel-IP-Adresse“, gemeint ist die Ziel-MAC.)"
+      }
+    ],
+    "uebungText": "Zum Abschluss alles auf einen Blick: Adressen im Frame, ein Firmenserver, ein Netz für 300 Geräte. Danach ein Abschlusstest ohne Hilfen.",
+    "nachtest": [
+      {
+        "frage": "Woraus besteht ein Socket?",
+        "optionen": [
+          {
+            "text": "IP-Adresse und Port",
+            "richtig": true
+          },
+          {
+            "text": "MAC-Adresse und IP",
+            "richtig": false
+          },
+          {
+            "text": "Port und Subnetzmaske",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wie viele verschiedene Portnummern gibt es?",
+        "optionen": [
+          {
+            "text": "65536",
+            "richtig": true
+          },
+          {
+            "text": "65535",
+            "richtig": false
+          },
+          {
+            "text": "1024",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welche Nummer ist ein dynamischer Port?",
+        "optionen": [
+          {
+            "text": "50000",
+            "richtig": true
+          },
+          {
+            "text": "443",
+            "richtig": false
+          },
+          {
+            "text": "8080",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welcher Dienst ist unverschlüsselt?",
+        "optionen": [
+          {
+            "text": "Telnet (Port 23)",
+            "richtig": true
+          },
+          {
+            "text": "SSH (Port 22)",
+            "richtig": false
+          },
+          {
+            "text": "HTTPS (Port 443)",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_AD3.id]: LF03_AD3 });
+})();
+
 /* ---- f_einheiten_cidr.js ---- */
 //
 // Einheit 4: CIDR-Praefix und Pruefungsrechnung (aus dem Kurs "Expedition Subnetting & IPv6", Stationen 2, 3 und 9).
@@ -33261,7 +36830,7 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise"];
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas"];
     return `<div class="modalList">
       ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
