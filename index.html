@@ -19848,6 +19848,4104 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_GE4.id]: LF03_GE4 });
 })();
 
+/* ---- f_einheiten_ipdhcp1.js ---- */
+//
+// Einheit 24: IP-Konfiguration, Pflichtangaben und Befehle (aus dem Kurs "IP, DHCP und Cloud", Stationen 0 und 1). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_IP1 = {
+    "id": "lf03-ipdhcp-konfiguration",
+    "reihe": 24,
+    "titel": "IP-Konfiguration: Pflichtangaben und Befehle",
+    "untertitel": "die vier Angaben, wo man sie einstellt und wie ipconfig, ip address und ip route sie zeigen",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 350–351 und 356–358 (IP-Konfiguration, ipconfig, ip route)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Die vier Pflichtangaben nennen und wissen, wo man sie einstellt",
+        "kn": "IP-Konfiguration"
+      },
+      {
+        "id": "lz2",
+        "text": "Ausgaben von ipconfig, ip address und ip route lesen, inklusive Metric",
+        "kn": "IP-Konfiguration"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Vier Pflichtangaben",
+        "knoten": [
+          {
+            "id": "v0",
+            "x": 90,
+            "y": 110,
+            "t": "IP-Adresse",
+            "sub": "Netz- und Hostanteil",
+            "w": 140
+          },
+          {
+            "id": "v1",
+            "x": 245,
+            "y": 110,
+            "t": "Subnetzmaske",
+            "sub": "trennt Netz, Host",
+            "w": 140
+          },
+          {
+            "id": "v2",
+            "x": 400,
+            "y": 110,
+            "t": "Default Gateway",
+            "sub": "Router nach außen",
+            "w": 140
+          },
+          {
+            "id": "v3",
+            "x": 555,
+            "y": 110,
+            "t": "DNS-Server",
+            "sub": "Namen zu IP",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "vier": {
+        "art": "netz",
+        "titel": "Vier Pflichtangaben",
+        "knoten": [
+          {
+            "id": "v0",
+            "x": 90,
+            "y": 110,
+            "t": "IP-Adresse",
+            "sub": "Netz- und Hostanteil",
+            "w": 140
+          },
+          {
+            "id": "v1",
+            "x": 245,
+            "y": 110,
+            "t": "Subnetzmaske",
+            "sub": "trennt Netz, Host",
+            "w": 140
+          },
+          {
+            "id": "v2",
+            "x": 400,
+            "y": 110,
+            "t": "Default Gateway",
+            "sub": "Router nach außen",
+            "w": 140
+          },
+          {
+            "id": "v3",
+            "x": 555,
+            "y": 110,
+            "t": "DNS-Server",
+            "sub": "Namen zu IP",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "gwdns": {
+        "art": "netz",
+        "titel": "Gateway und DNS im Heimnetz",
+        "knoten": [
+          {
+            "id": "g0",
+            "x": 110,
+            "y": 110,
+            "t": "Client",
+            "sub": "Namensanfrage",
+            "w": 170
+          },
+          {
+            "id": "g1",
+            "x": 320,
+            "y": 110,
+            "t": "Router",
+            "sub": "Gateway und DNS",
+            "w": 170
+          },
+          {
+            "id": "g2",
+            "x": 530,
+            "y": 110,
+            "t": "Internet",
+            "sub": "fremde Netze",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "g0",
+            "bis": "g1"
+          },
+          {
+            "von": "g1",
+            "bis": "g2"
+          }
+        ]
+      },
+      "einstellen": {
+        "art": "netz",
+        "titel": "Wo stellst du die Angaben ein?",
+        "knoten": [
+          {
+            "id": "e0",
+            "x": 110,
+            "y": 110,
+            "t": "Windows",
+            "sub": "Adapter, Internetprotokoll",
+            "w": 170
+          },
+          {
+            "id": "e1",
+            "x": 320,
+            "y": 110,
+            "t": "Ubuntu",
+            "sub": "Einstellungen, Netzwerk",
+            "w": 170
+          },
+          {
+            "id": "e2",
+            "x": 530,
+            "y": 110,
+            "t": "Ergebnis",
+            "sub": "von Hand oder automatisch",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "befehle": {
+        "art": "netz",
+        "titel": "Befehle zum Lesen",
+        "knoten": [
+          {
+            "id": "b0",
+            "x": 90,
+            "y": 110,
+            "t": "ipconfig",
+            "sub": "IP, Maske, Gateway",
+            "w": 140
+          },
+          {
+            "id": "b1",
+            "x": 245,
+            "y": 110,
+            "t": "ipconfig /all",
+            "sub": "plus MAC, DHCP, Lease",
+            "w": 140
+          },
+          {
+            "id": "b2",
+            "x": 400,
+            "y": 110,
+            "t": "ip address",
+            "sub": "Interfaces und CIDR",
+            "w": 140
+          },
+          {
+            "id": "b3",
+            "x": 555,
+            "y": 110,
+            "t": "ip route",
+            "sub": "default via Router",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "metric": {
+        "art": "netz",
+        "titel": "Zwei Standardrouten: die Metric entscheidet",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 70,
+            "t": "Ethernet",
+            "sub": "Metric 100, bevorzugt",
+            "w": 190,
+            "rolle": "gruen"
+          },
+          {
+            "id": "b",
+            "x": 110,
+            "y": 150,
+            "t": "WLAN",
+            "sub": "Metric 600",
+            "w": 190
+          },
+          {
+            "id": "c",
+            "x": 460,
+            "y": 110,
+            "t": "Router",
+            "sub": "Standardroute",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "c"
+          },
+          {
+            "von": "b",
+            "bis": "c"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Was braucht jedes Netzwerkgerät für eine vollständige IP-Konfiguration?",
+        "optionen": [
+          {
+            "text": "IP, Maske, Gateway, DNS",
+            "richtig": true
+          },
+          {
+            "text": "IP, MAC, Port, Proxy",
+            "richtig": false
+          },
+          {
+            "text": "IP, Maske, VLAN, NTP",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Standardroute gilt bei zwei Wegen?",
+        "optionen": [
+          {
+            "text": "die mit der kleineren Metric",
+            "richtig": true
+          },
+          {
+            "text": "die mit der größeren Metric",
+            "richtig": false
+          },
+          {
+            "text": "die zuerst eingetragene",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Vier Pflichtangaben",
+        "kurz": "IP, Maske, Gateway, DNS und wo sie stehen",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ein Rechner an der Dose ist nur physisch angeschlossen. Logisch spielt er erst mit der richtigen Konfiguration mit.",
+          "frage": "Was braucht er?"
+        },
+        "aufbau": [
+          {
+            "text": "Jedes Gerät braucht vier Angaben: IP-Adresse (Netz- und Hostanteil), Subnetzmaske, Default Gateway und DNS-Server.",
+            "diagramm": "vier"
+          },
+          {
+            "text": "Normalerweise holt der Rechner alle vier beim Hochfahren von einem DHCP-Server.",
+            "diagramm": "vier"
+          },
+          {
+            "text": "Das Gateway ist meist die erste oder letzte nutzbare Adresse im Netz, im Buch 192.168.1.1.",
+            "diagramm": "gwdns"
+          },
+          {
+            "text": "Der DNS-Server ist oft der Router selbst. Im Heimnetz zeigen Gateway, DHCP und DNS deshalb oft auf dieselbe Adresse.",
+            "diagramm": "gwdns"
+          },
+          {
+            "text": "Windows: Netzwerk- und Freigabecenter, Adapter, Eigenschaften, Internetprotokoll. Ubuntu: Einstellungen, Netzwerk, dort heißt das Gateway Vorgabestrecke.",
+            "diagramm": "einstellen"
+          },
+          {
+            "text": "Ein Interface ohne IP-Adresse ist nicht aktiv. Praxis: Beim USB-Tethering entsteht ein neues Interface, das erst mit IP nutzbar ist.",
+            "diagramm": "einstellen"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche Angabe gehört NICHT zu den vier Pflichtangaben?",
+          "optionen": [
+            {
+              "text": "MAC-Adresse",
+              "richtig": true,
+              "korrektur": "Richtig: Die MAC ist fest am Gerät und kein Teil der IP-Konfiguration."
+            },
+            {
+              "text": "DNS-Server",
+              "richtig": false,
+              "korrektur": "Gehört dazu: Er übersetzt Namen in IP-Adressen."
+            },
+            {
+              "text": "Subnetzmaske",
+              "richtig": false,
+              "korrektur": "Gehört dazu: Sie trennt Netz- und Hostanteil."
+            }
+          ],
+          "loesung": "MAC-Adresse.",
+          "beleg": {
+            "seite": "350, 356"
+          }
+        },
+        "wiederholung": {
+          "text": "Vier Angaben: IP, Maske, Gateway, DNS. Normalerweise per DHCP, sonst von Hand im Internetprotokoll.",
+          "diagramm": "vier"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche Angabe erledigt welche Aufgabe?",
+            "paare": [
+              [
+                "IP-Adresse",
+                "Kennzeichnet das Gerät im Netz"
+              ],
+              [
+                "Subnetzmaske",
+                "Trennt Netz- und Hostanteil"
+              ],
+              [
+                "Default Gateway",
+                "Weg in andere Netze"
+              ],
+              [
+                "DNS-Server",
+                "Löst Namen in IP-Adressen auf"
+              ]
+            ],
+            "tipps": [
+              "Vier Angaben, vier Aufgaben. Eine davon hat mit Namen zu tun.",
+              "Das Gateway ist der Router."
+            ],
+            "erkl": "IP-Adresse = Identität im Netz, Maske = Aufteilung in Netz/Host, Gateway = Ausgang, DNS = Namensauflösung."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche dieser Angaben gehört **nicht** zu den vier Pflichtangaben der IP-Konfiguration?",
+            "optionen": [
+              "MAC-Adresse",
+              "Subnetzmaske",
+              "Default Gateway",
+              "DNS-Server"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Drei Optionen stellst du im Netzwerkdialog ein, eine nicht.",
+              "Eine der vier Optionen steckt fest in der Netzwerkkarte."
+            ],
+            "erkl": "Die MAC-Adresse gehört zur Netzwerkkarte und wird nicht konfiguriert. Konfiguriert werden IP, Maske, Gateway und DNS-Server."
+          },
+          {
+            "t": "wahl",
+            "f": "Woher bekommt ein Client diese vier Angaben normalerweise?",
+            "optionen": [
+              "Vom Switch, der sie aus seiner MAC-Tabelle liest",
+              "Beim Hochfahren automatisch von einem DHCP-Server",
+              "Vom DNS-Server, der sie beim Start verteilt",
+              "Aus der MAC-Adresse der Netzwerkkarte berechnet"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ein Dienst verteilt Adressen und Einstellungen aus einem Pool."
+            ],
+            "erkl": "Der DHCP-Server verteilt IP-Adresse, Maske, Gateway und DNS-Server. Das Buch beschreibt das als Normalfall."
+          },
+          {
+            "t": "wahl",
+            "f": "In einer `ipconfig /all`-Ausgabe stehen Gateway, DHCP-Server und DNS-Server alle bei `192.168.2.1`. Was folgt daraus?",
+            "optionen": [
+              "Die Konfiguration ist fehlerhaft, die Adressen müssen verschieden sein",
+              "Der Client hat die Adresse von Hand eingetragen",
+              "Der Router übernimmt Gateway, DHCP und DNS zugleich",
+              "Das Netz besteht nur aus einem einzigen Gerät"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Denk an einen typischen Heimrouter."
+            ],
+            "erkl": "Im Heimnetz ist der Router meist zugleich Gateway, DHCP-Server und DNS-Weiterleiter. Das Buch zeigt genau dieses Beispiel."
+          },
+          {
+            "t": "eingabe",
+            "f": "Das Netz ist `192.168.10.0/24`. Das Gateway soll die **erste nutzbare** Adresse bekommen. Wie lautet sie?",
+            "art": "ip",
+            "antwort": [
+              "192.168.10.1"
+            ],
+            "tipps": [
+              "Die Netzadresse selbst ist kein Gerät.",
+              "Eine Adresse über der Netzadresse."
+            ],
+            "erkl": "Die Netzadresse `192.168.10.0` gehört keinem Gerät, die erste nutzbare Adresse ist **192.168.10.1**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Windows oder Ubuntu?",
+            "paare": [
+              [
+                "Netzwerk- und Freigabecenter",
+                "Windows"
+              ],
+              [
+                "Vorgabestrecke",
+                "Ubuntu"
+              ],
+              [
+                "Einstellungen → Netzwerk",
+                "Ubuntu"
+              ],
+              [
+                "Internetprotokoll → Eigenschaften",
+                "Windows"
+              ]
+            ],
+            "tipps": [
+              "Die „Vorgabestrecke“ ist ein ungewöhnlicher Name für das Gateway."
+            ],
+            "erkl": "Windows: Netzwerk- und Freigabecenter, im Adapter das Internetprotokoll. Ubuntu: Einstellungen → Netzwerk, Gateway als Vorgabestrecke."
+          },
+          {
+            "t": "wahl",
+            "f": "In den Ubuntu-Netzwerkeinstellungen steht ein Feld **Vorgabestrecke**. Welche Angabe ist gemeint?",
+            "optionen": [
+              "Der DNS-Server",
+              "Die Subnetzmaske",
+              "Der DHCP-Server",
+              "Das Default Gateway"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Es ist die „vorgegebene Strecke“, wenn kein anderes Netz passt."
+            ],
+            "erkl": "Die Vorgabestrecke ist das Default Gateway: der Router für alles, was nicht im eigenen Subnetz liegt."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Laptop hängt per USB am Smartphone mit aktiviertem Tethering. Woran siehst du in den Einstellungen, dass die Verbindung nutzbar ist?",
+            "optionen": [
+              "Das neue Interface hat eine IP-Adresse",
+              "Das neue Interface hat eine MAC-Adresse, das genügt",
+              "Das neue Interface zeigt die Adresse 127.0.0.1",
+              "Das Interface taucht überhaupt in der Liste auf"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Ein Interface mit Adresse ist aktiv, eines ohne nicht."
+            ],
+            "erkl": "Ohne IP-Adresse ist das Interface nicht aktiv. Eine MAC-Adresse hat jedes Interface, und 127.0.0.1 ist die Loopback-Adresse des eigenen Rechners."
+          },
+          {
+            "t": "wahl",
+            "f": "Die Maske `255.255.255.0` nennt das Buch „Standard-Subnetzmaske der Klasse C“. Heute schreibt man sie als **/24**, Adressklassen spielen bei CIDR keine Rolle mehr.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Das Subnetting-Wissen aus dem ersten Kurs: Wie viele Einsen hat 255.255.255.0?"
+            ],
+            "erkl": "Richtig. Im Buch steht „Klasse C“, heute sagt man **/24**. Gerechnet wird mit dem Präfix, nicht mit Klassen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Vier Angaben: IP, Maske, Gateway, DNS. Sie kommen normalerweise per DHCP.",
+          "handout": "**Pflichtangaben:** IP-Adresse · Subnetzmaske · Default Gateway · DNS-Server. **Einstellen:** Windows Internetprotokoll · Ubuntu Einstellungen, Netzwerk (Gateway = Vorgabestrecke)."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Befehle lesen",
+        "kurz": "ipconfig, ip address, ip route, Metric",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Du siehst eine Konfigurationsausgabe und sollst ablesen, was eingestellt ist.",
+          "frage": "Welcher Befehl zeigt was?"
+        },
+        "aufbau": [
+          {
+            "text": "ipconfig zeigt pro Adapter IPv4-Adresse, Maske und Standardgateway. Ethernet und WLAN sind getrennte Adapter.",
+            "diagramm": "befehle"
+          },
+          {
+            "text": "ipconfig /all zeigt zusätzlich Hostnamen, MAC (Physische Adresse), DHCP-Server, DNS-Server und Lease erhalten und Lease läuft ab.",
+            "diagramm": "befehle"
+          },
+          {
+            "text": "ip address listet jedes Interface mit Adressen. Die Netzgröße steht in CIDR hinter der Adresse. lo ist der Rechner selbst mit 127.0.0.1/8.",
+            "diagramm": "befehle"
+          },
+          {
+            "text": "ip route zeigt die Routen. Die Standardroute erkennst du an default via und der Router-IP.",
+            "diagramm": "befehle"
+          },
+          {
+            "text": "Bei zwei Wegen zum selben Router stehen zwei Standardrouten. Die Metric ist wie eine Maut: kleiner bedeutet bevorzugt.",
+            "diagramm": "metric"
+          },
+          {
+            "text": "Im Buch-Beispiel schlägt Ethernet mit Metric 100 das WLAN mit Metric 600.",
+            "diagramm": "metric"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "ip route zeigt Standardrouten mit Metric 100 (Ethernet) und 600 (WLAN). Welche gilt?",
+          "optionen": [
+            {
+              "text": "Ethernet, weil die Metric kleiner ist.",
+              "richtig": true,
+              "korrektur": "Richtig: Kleiner bedeutet bevorzugt."
+            },
+            {
+              "text": "WLAN, weil die Metric größer ist.",
+              "richtig": false,
+              "korrektur": "Eine größere Metric ist die teurere Maut."
+            },
+            {
+              "text": "Beide gleichzeitig.",
+              "richtig": false,
+              "korrektur": "Bei unterschiedlicher Metric gewinnt eine Route."
+            }
+          ],
+          "loesung": "Ethernet.",
+          "beleg": {
+            "seite": "350–351"
+          }
+        },
+        "wiederholung": {
+          "text": "ipconfig: Basis. ipconfig /all: plus MAC, DHCP, Lease. ip route: default via ist das Gateway, kleinere Metric gewinnt.",
+          "diagramm": "befehle"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Was zeigt `ipconfig` und was erst `ipconfig /all`?",
+            "paare": [
+              [
+                "IPv4-Adresse",
+                "Schon mit ipconfig"
+              ],
+              [
+                "Standardgateway",
+                "Schon mit ipconfig"
+              ],
+              [
+                "DNS-Server",
+                "Erst mit /all"
+              ],
+              [
+                "Lease läuft ab",
+                "Erst mit /all"
+              ],
+              [
+                "Physische Adresse (MAC)",
+                "Erst mit /all"
+              ],
+              [
+                "DHCP-Server",
+                "Erst mit /all"
+              ]
+            ],
+            "tipps": [
+              "Die Kurzform zeigt, was man zum Routing braucht: Adresse, Maske, Gateway.",
+              "Alles rund um DHCP und DNS steht nur in der langen Form."
+            ],
+            "erkl": "Die Kurzform zeigt IP, Maske und Gateway. DNS, DHCP-Server, MAC und Lease gibt es erst mit `/all`."
+          },
+          {
+            "t": "wahl",
+            "f": "Du willst unter Windows wissen, bis wann die Adresse vom DHCP-Server gültig ist. Welcher Befehl?",
+            "optionen": [
+              "ipconfig",
+              "ping 127.0.0.1",
+              "ipconfig /all",
+              "ip route"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "„Lease läuft ab“ steht nicht in der Kurzform."
+            ],
+            "erkl": "Die Leasedaten (erhalten, läuft ab) stehen in der Ausgabe von `ipconfig /all`."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher Befehl zeigt was?",
+            "paare": [
+              [
+                "ipconfig",
+                "Windows: IP, Maske, Gateway je Adapter"
+              ],
+              [
+                "ipconfig /all",
+                "Windows: zusätzlich MAC, DHCP, DNS, Lease"
+              ],
+              [
+                "ip address",
+                "Linux: Interfaces mit Adresse und /Präfix"
+              ],
+              [
+                "ip route",
+                "Linux: Routen und Standardroute"
+              ]
+            ],
+            "tipps": [
+              "Befehle mit „ip“ am Anfang gehören zu Linux, „ipconfig“ zu Windows."
+            ],
+            "erkl": "Windows kennt `ipconfig`, Linux `ip address` und `ip route`. `ip address` gibt die Maske als Präfix an."
+          },
+          {
+            "t": "wahl",
+            "f": "In `ip address` steht `inet 192.168.1.193/24`. Was bedeutet die 24?",
+            "optionen": [
+              "Es handelt sich um das 24. Subnetz im Netz",
+              "Die Adresse bleibt 24 Stunden lang gültig",
+              "Im Netz gibt es höchstens 24 Hosts",
+              "24 Einsen in der Maske, also 255.255.255.0"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Hinter dem Schrägstrich steht der Präfix aus dem Subnetting-Kurs."
+            ],
+            "erkl": "`/24` ist die CIDR-Schreibweise der Maske: 24 Einsen = **255.255.255.0**."
+          },
+          {
+            "t": "wahl",
+            "f": "Zu welchem Interface gehört die Adresse `127.0.0.1/8`?",
+            "optionen": [
+              "Zum Loopback-Interface lo (der Rechner selbst)",
+              "Zum Ethernet-Adapter",
+              "Zum WLAN-Adapter",
+              "Zum Router, der als default eingetragen ist"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Diese Adresse sendet an den eigenen Rechner."
+            ],
+            "erkl": "`127.0.0.1` ist die Loopback-Adresse. Sie gehört zum Interface `lo` und führt nie ins Netzwerk."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Route nutzt der Rechner für Verbindungen ins Internet?",
+            "optionen": [
+              "Die über wlo1 (Metric 600), weil der Wert höher ist",
+              "Die über eth0, weil ihre Metric mit 100 kleiner ist",
+              "Beide gleichzeitig im Wechsel",
+              "Keine, bei zwei Standardrouten gibt es einen Fehler"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Maut: Welche Route kostet weniger?"
+            ],
+            "erkl": "Metric 100 ist kleiner als 600, also wird die Ethernet-Route bevorzugt. Die WLAN-Route bleibt als Reserve.",
+            "block": "default via 10.0.0.1 dev eth0 metric 100\ndefault via 10.0.0.1 dev wlo1 metric 600\n10.0.0.0/24 dev eth0"
+          },
+          {
+            "t": "wahl",
+            "f": "Eine Route mit **Metric 600** wird gegenüber einer Route mit Metric 100 bevorzugt, weil die Zahl höher ist.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Maut: Niemand wählt die teurere Strecke."
+            ],
+            "erkl": "Umgekehrt: **Kleiner = bevorzugt**. Die Metric ist eine Art Kostenwert."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Route nutzt der Rechner hier?",
+            "optionen": [
+              "Die über eth0, weil Kabel immer schneller ist",
+              "Die über eth0 (Metric 100), weil der Wert höher ist",
+              "Die zuerst eingetragene Zeile",
+              "Die über wlo1, weil ihre Metric mit 20 kleiner ist"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Der Rechner vergleicht nur die Metric, nicht die Technik."
+            ],
+            "erkl": "Entscheidend ist allein der Wert: 20 < 100, also geht es über `wlo1`.",
+            "block": "default via 10.0.0.1 dev wlo1 metric 20\ndefault via 10.0.0.1 dev eth0 metric 100"
+          },
+          {
+            "t": "wahl",
+            "f": "Du suchst unter Linux das Default Gateway. Welcher Befehl zeigt es?",
+            "optionen": [
+              "ip route",
+              "ip address",
+              "ipconfig",
+              "ping"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Das Gateway steht in der Standardroute."
+            ],
+            "erkl": "`ip route` zeigt die Standardroute `default via <Router-IP>`. `ip address` zeigt nur die Interfaces."
+          },
+          {
+            "t": "gen",
+            "gen": "ipconfigLesen",
+            "stufen": [
+              1
+            ]
+          }
+        ],
+        "sicherung": {
+          "merksatz": "ipconfig zeigt die Basis, /all die Details, ip route die Standardroute. Kleinere Metric gewinnt.",
+          "handout": "**Befehle:** ipconfig (IP, Maske, Gateway) · ipconfig /all (MAC, DHCP, DNS, Lease) · ip address (Interfaces, CIDR, lo) · ip route (default via = Gateway). **Metric:** kleiner = bevorzugt."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Wie heißt das Gateway unter Ubuntu?",
+        "optionen": [
+          {
+            "text": "Vorgabestrecke",
+            "richtig": true
+          },
+          {
+            "text": "Standardhost",
+            "richtig": false
+          },
+          {
+            "text": "Fallback-Router",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welcher Befehl zeigt unter Windows auch die MAC und die Lease?",
+        "optionen": [
+          {
+            "text": "ipconfig /all",
+            "richtig": true
+          },
+          {
+            "text": "ipconfig",
+            "richtig": false
+          },
+          {
+            "text": "ip route",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Woran erkennst du in ip route das Default Gateway?",
+        "optionen": [
+          {
+            "text": "default via",
+            "richtig": true
+          },
+          {
+            "text": "lo",
+            "richtig": false
+          },
+          {
+            "text": "Metric 0",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welches Interface ist 127.0.0.1?",
+        "optionen": [
+          {
+            "text": "lo, der Rechner selbst",
+            "richtig": true
+          },
+          {
+            "text": "das WLAN",
+            "richtig": false
+          },
+          {
+            "text": "der Router",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_IP1.id]: LF03_IP1 });
+})();
+
+/* ---- f_einheiten_ipdhcp2.js ---- */
+//
+// Einheit 25: DHCP (Stationen 2 bis 4). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_IP2 = {
+    "id": "lf03-ipdhcp-dhcp",
+    "reihe": 25,
+    "titel": "DHCP: Vergabe, Reservierung und Lease",
+    "untertitel": "statisch oder dynamisch, der DHCP-Ablauf, Reservierung, Leasezeit und der Subnetz-Check",
+    "lernfeld": "LF03",
+    "dauer_min": 35,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 348–350 und 359–360 (statisch, DHCP, Reservierung, Lease)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Statische und dynamische Adressen unterscheiden und den DHCP-Ablauf kennen",
+        "kn": "DHCP"
+      },
+      {
+        "id": "lz2",
+        "text": "Reservierung von statischer IP trennen und Leasezeiten einordnen",
+        "kn": "DHCP"
+      },
+      {
+        "id": "lz3",
+        "text": "Prüfen, ob das Gateway im Subnetz des Clients liegt",
+        "kn": "DHCP"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Statisch oder dynamisch",
+        "knoten": [
+          {
+            "id": "s0",
+            "x": 110,
+            "y": 110,
+            "t": "Statisch",
+            "sub": "von Hand, bleibt",
+            "w": 170
+          },
+          {
+            "id": "s1",
+            "x": 320,
+            "y": 110,
+            "t": "Dynamisch",
+            "sub": "DHCP-Server, Pool",
+            "w": 170
+          },
+          {
+            "id": "s2",
+            "x": 530,
+            "y": 110,
+            "t": "Faustregel",
+            "sub": "Clients auto, Server fest",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "statdyn": {
+        "art": "netz",
+        "titel": "Statisch oder dynamisch",
+        "knoten": [
+          {
+            "id": "s0",
+            "x": 110,
+            "y": 110,
+            "t": "Statisch",
+            "sub": "von Hand, bleibt",
+            "w": 170
+          },
+          {
+            "id": "s1",
+            "x": 320,
+            "y": 110,
+            "t": "Dynamisch",
+            "sub": "DHCP-Server, Pool",
+            "w": 170
+          },
+          {
+            "id": "s2",
+            "x": 530,
+            "y": 110,
+            "t": "Faustregel",
+            "sub": "Clients auto, Server fest",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "dora": {
+        "art": "netz",
+        "titel": "DHCP in vier Schritten",
+        "knoten": [
+          {
+            "id": "d0",
+            "x": 90,
+            "y": 110,
+            "t": "Discover",
+            "sub": "Client an alle",
+            "w": 140
+          },
+          {
+            "id": "d1",
+            "x": 245,
+            "y": 110,
+            "t": "Offer",
+            "sub": "Server: Angebot",
+            "w": 140
+          },
+          {
+            "id": "d2",
+            "x": 400,
+            "y": 110,
+            "t": "Request",
+            "sub": "Client: Anfrage",
+            "w": 140
+          },
+          {
+            "id": "d3",
+            "x": 555,
+            "y": 110,
+            "t": "Acknowledge",
+            "sub": "Server: bestätigt",
+            "w": 140
+          }
+        ],
+        "links": [
+          {
+            "von": "d0",
+            "bis": "d1"
+          },
+          {
+            "von": "d1",
+            "bis": "d2"
+          },
+          {
+            "von": "d2",
+            "bis": "d3"
+          }
+        ]
+      },
+      "ports": {
+        "art": "netz",
+        "titel": "DHCP: Schicht 7 über UDP",
+        "knoten": [
+          {
+            "id": "p0",
+            "x": 110,
+            "y": 110,
+            "t": "Client",
+            "sub": "UDP-Port 68",
+            "w": 170
+          },
+          {
+            "id": "p1",
+            "x": 320,
+            "y": 110,
+            "t": "DHCP",
+            "sub": "Schicht 7, UDP",
+            "w": 170
+          },
+          {
+            "id": "p2",
+            "x": 530,
+            "y": 110,
+            "t": "Server",
+            "sub": "UDP-Port 67",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "p0",
+            "bis": "p1"
+          },
+          {
+            "von": "p1",
+            "bis": "p2"
+          }
+        ]
+      },
+      "reservierung": {
+        "art": "netz",
+        "titel": "Statische IP gegen Reservierung",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 170,
+            "y": 110,
+            "t": "Statische IP",
+            "sub": "von Hand am Gerät",
+            "w": 250
+          },
+          {
+            "id": "b",
+            "x": 470,
+            "y": 110,
+            "t": "DHCP-Reservierung",
+            "sub": "Server bindet an MAC-Adresse",
+            "w": 250,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "lease": {
+        "art": "netz",
+        "titel": "Lease: Miete auf Zeit",
+        "knoten": [
+          {
+            "id": "l0",
+            "x": 110,
+            "y": 110,
+            "t": "Lease-Start",
+            "sub": "Adresse vergeben",
+            "w": 170
+          },
+          {
+            "id": "l1",
+            "x": 320,
+            "y": 110,
+            "t": "Hälfte der Zeit",
+            "sub": "Erneuerung",
+            "w": 170
+          },
+          {
+            "id": "l2",
+            "x": 530,
+            "y": 110,
+            "t": "Lease-Ende",
+            "sub": "Adresse wieder frei",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "l0",
+            "bis": "l1"
+          },
+          {
+            "von": "l1",
+            "bis": "l2"
+          }
+        ]
+      },
+      "subnetz": {
+        "art": "netz",
+        "titel": "Gleiches Subnetz prüfen",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 130,
+            "y": 70,
+            "t": "Netz des Clients",
+            "sub": "IP und Maske",
+            "w": 190
+          },
+          {
+            "id": "b",
+            "x": 130,
+            "y": 150,
+            "t": "Netz des Gateways",
+            "sub": "dieselbe Maske",
+            "w": 190
+          },
+          {
+            "id": "c",
+            "x": 460,
+            "y": 110,
+            "t": "Vergleich",
+            "sub": "gleich = passt",
+            "w": 170,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "c"
+          },
+          {
+            "von": "b",
+            "bis": "c"
+          }
+        ]
+      },
+      "block": {
+        "art": "netz",
+        "titel": "Blockgröße im angebrochenen Oktett",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Blockgröße",
+            "sub": "256 minus Maskenwert",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "/25",
+            "sub": "Blöcke 0, 128",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "/26",
+            "sub": "0, 64, 128, 192",
+            "w": 170
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Womit beginnt der DHCP-Ablauf?",
+        "optionen": [
+          {
+            "text": "Discover als Broadcast",
+            "richtig": true
+          },
+          {
+            "text": "Offer vom Server",
+            "richtig": false
+          },
+          {
+            "text": "Acknowledge",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Wann wird eine Lease erneuert?",
+        "optionen": [
+          {
+            "text": "nach der Hälfte der Leasezeit",
+            "richtig": true
+          },
+          {
+            "text": "erst am Ende",
+            "richtig": false
+          },
+          {
+            "text": "nie automatisch",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Statisch und dynamisch",
+        "kurz": "Handeintrag gegen DHCP, der Ablauf",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ein neuer Client hat keine Adresse und kennt auch den DHCP-Server nicht.",
+          "frage": "Wie kommt er trotzdem an seine Konfiguration?"
+        },
+        "aufbau": [
+          {
+            "text": "Statisch: Du trägst die Konfiguration von Hand ein. Tippfehler wie doppelte IPs oder falsche Maske, Gateway oder DNS führen zu schweren Fehlfunktionen.",
+            "diagramm": "statdyn"
+          },
+          {
+            "text": "Dynamisch: Der DHCP-Server vergibt die Adresse automatisch aus einem Pool. Faustregel: Clients automatisch, Server, Drucker und Router oft fest.",
+            "diagramm": "statdyn"
+          },
+          {
+            "text": "Der Client ruft per Broadcast ins Netz. 1. DHCP-Discover: Ich suche eine Konfiguration.",
+            "diagramm": "dora"
+          },
+          {
+            "text": "2. DHCP-Offer: der Server macht ein Angebot. 3. DHCP-Request: der Client fragt danach. 4. DHCP-Acknowledgement: der Server bestätigt.",
+            "diagramm": "dora"
+          },
+          {
+            "text": "Der Server vergibt die ganze Konfiguration: IP, Maske, Gateway und DNS aus einem Pool.",
+            "diagramm": "dora"
+          },
+          {
+            "text": "Hinweis: DHCP ist ein Anwendungsprotokoll (Schicht 7) über UDP, Server Port 67, Client Port 68. Das Buch ordnet es auf S. 325 f. unklar zu.",
+            "diagramm": "ports"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche Reihenfolge hat der DHCP-Ablauf?",
+          "optionen": [
+            {
+              "text": "Discover, Offer, Request, Acknowledge",
+              "richtig": true,
+              "korrektur": "Richtig: Der Client beginnt per Broadcast."
+            },
+            {
+              "text": "Request, Offer, Discover, Acknowledge",
+              "richtig": false,
+              "korrektur": "Der Client kennt den Server noch nicht und beginnt mit Discover."
+            },
+            {
+              "text": "Offer, Discover, Acknowledge, Request",
+              "richtig": false,
+              "korrektur": "Ein Offer setzt ein Discover voraus."
+            }
+          ],
+          "loesung": "Discover, Offer, Request, Acknowledge.",
+          "beleg": {
+            "seite": "359–360"
+          }
+        },
+        "wiederholung": {
+          "text": "Discover (Broadcast), Offer, Request, Acknowledge. DHCP: Schicht 7, UDP, Server 67, Client 68.",
+          "diagramm": "dora"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Statisch oder dynamisch?",
+            "paare": [
+              [
+                "Eintrag im Netzwerkdialog von Hand",
+                "statisch"
+              ],
+              [
+                "Adresse kommt aus dem Pool",
+                "dynamisch"
+              ],
+              [
+                "Tippfehler können Adressen doppelt belegen",
+                "statisch"
+              ],
+              [
+                "Beim Hochfahren automatisch bezogen",
+                "dynamisch"
+              ]
+            ],
+            "tipps": [
+              "Was von Hand kommt, kann auch falsch eingetippt werden."
+            ],
+            "erkl": "Statisch heißt: von Hand, dauerhaft, fehleranfällig. Dynamisch heißt: DHCP aus dem Pool."
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Gerät bekommt typischerweise eine **feste** Adresse?",
+            "optionen": [
+              "Das Smartphone eines Gastes",
+              "Der Dateiserver im Keller",
+              "Der Laptop eines Mitarbeiters",
+              "Das Tablet in der Besprechung"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wer soll immer unter derselben Adresse erreichbar sein?"
+            ],
+            "erkl": "Server, Drucker und Router brauchen eine feste Adresse, damit andere sie immer finden. Wechselnde Clients nehmen DHCP."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bringe den DHCP-Ablauf in die richtige Reihenfolge.",
+            "items": [
+              "Der Client sucht per Broadcast einen DHCP-Server",
+              "Der Server macht dem Client ein Angebot",
+              "Der Client fragt, ob er das Angebot bekommt",
+              "Der Server bestätigt die Konfiguration"
+            ],
+            "tipps": [
+              "Zuerst muss jemand suchen, dann antworten, dann zusagen.",
+              "Discover → Offer → Request → Acknowledgement."
+            ],
+            "erkl": "Reihenfolge: **Discover, Offer, Request, Acknowledgement**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Wer sendet an wen?",
+            "paare": [
+              [
+                "DHCP-Discover",
+                "Client an alle (Broadcast)"
+              ],
+              [
+                "DHCP-Offer",
+                "Server an Client"
+              ],
+              [
+                "DHCP-Request",
+                "Client an Server"
+              ],
+              [
+                "DHCP-Acknowledgement",
+                "Server an Client"
+              ]
+            ],
+            "tipps": [
+              "Nur eine Nachricht geht an alle."
+            ],
+            "erkl": "Discover geht als Broadcast an alle, Request vom Client an den Server. Offer und Acknowledgement schickt der Server an den Client."
+          },
+          {
+            "t": "wahl",
+            "f": "Warum schickt der Client das **Discover** per Broadcast?",
+            "optionen": [
+              "Weil Unicast in einem Netz mit Switch nicht funktioniert",
+              "Weil der Router sonst keine Antwort schicken würde",
+              "Er hat noch keine IP-Adresse und kennt den DHCP-Server nicht",
+              "Weil der Broadcast schon die Konfiguration an alle verteilt"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Wen soll der Client ansprechen, wenn er niemanden kennt?"
+            ],
+            "erkl": "Ohne eigene Adresse und ohne Kenntnis des Servers bleibt nur der Ruf an alle. Nur der DHCP-Server antwortet."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Nachricht schickt der Client, um ein Angebot **anzunehmen**?",
+            "optionen": [
+              "DHCP-Acknowledgement",
+              "DHCP-Discover",
+              "DHCP-Offer",
+              "DHCP-Request"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Ein „Acknowledgement“ kommt vom Server."
+            ],
+            "erkl": "Der Client bittet mit dem **Request** um genau dieses Angebot. Erst das Acknowledgement vom Server bestätigt es."
+          },
+          {
+            "t": "wahl",
+            "f": "Wann darf der Client die angebotene Adresse benutzen?",
+            "optionen": [
+              "Erst nach dem Acknowledgement des Servers",
+              "Sobald das Offer des Servers angekommen ist",
+              "Direkt nach dem Senden des Discover",
+              "Erst nach dem nächsten Neustart des Clients"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Ein Angebot ist noch keine Zusage."
+            ],
+            "erkl": "Das Offer ist nur ein Angebot. Gültig wird die Konfiguration mit dem Acknowledgement."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein DHCP-Server vergibt nur die IP-Adresse. Maske, Gateway und DNS-Server muss man trotzdem von Hand eintragen.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Denk an den Normalfall: Du steckst ein Kabel an, und alles läuft."
+            ],
+            "erkl": "Der DHCP-Server liefert die **gesamte Konfiguration**: IP-Adresse, Maske, Gateway und DNS-Server."
+          },
+          {
+            "t": "wahl",
+            "f": "Auf welchen Ports läuft DHCP über UDP?",
+            "optionen": [
+              "Server 53, Client 80",
+              "Server 25, Client 110",
+              "Server 67, Client 68",
+              "Server 123, Client 443"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Das ist Wissen aus Kapitel 3.4 (Ports).",
+              "Zwei benachbarte Zahlen unter 100."
+            ],
+            "erkl": "DHCP nutzt UDP-Port **67** (Server) und **68** (Client). In der Buchtabelle steht DHCP nicht eindeutig bei Schicht 7, richtig ist die Anwendungsschicht."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Statisch von Hand, dynamisch per DHCP aus einem Pool. Ablauf: Discover, Offer, Request, Acknowledge.",
+          "handout": "**DHCP-Ablauf:** Discover (Broadcast) → Offer → Request → Acknowledge. Liefert IP, Maske, Gateway, DNS aus einem Pool. **Ports:** Server UDP 67, Client UDP 68."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Reservierung und Lease",
+        "kurz": "feste Adresse ohne Handeintrag, Miete auf Zeit",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Ein Server soll immer dieselbe Adresse haben, ohne dass du am Gerät etwas einträgst.",
+          "frage": "Wie geht das?"
+        },
+        "aufbau": [
+          {
+            "text": "Beim statischen DHCP (Reservierung) bindet der Server eine Konfiguration fest an eine MAC-Adresse. Sie ist aus dem Pool herausgenommen.",
+            "diagramm": "reservierung"
+          },
+          {
+            "text": "Das Gerät bleibt auf automatisch beziehen. Eine statische IP dagegen trägst du am Gerät von Hand ein.",
+            "diagramm": "reservierung"
+          },
+          {
+            "text": "Eine DHCP-Adresse ist nur für die Leasedauer reserviert (Lease = Miete). Nach der Hälfte der Zeit wird sie erneuert.",
+            "diagramm": "lease"
+          },
+          {
+            "text": "Beim Neustart meldet der Client seine alte Konfiguration mit und bekommt sie in der Regel zurück. Praxis: meist direkt per Request ohne Discover.",
+            "diagramm": "lease"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was unterscheidet eine DHCP-Reservierung von einer statischen IP?",
+          "optionen": [
+            {
+              "text": "Der Server bindet die Konfiguration an die MAC, am Gerät bleibt automatisch beziehen.",
+              "richtig": true,
+              "korrektur": "Richtig: Der Handeintrag fehlt am Gerät."
+            },
+            {
+              "text": "Eine Reservierung trägst du am Gerät von Hand ein.",
+              "richtig": false,
+              "korrektur": "Das beschreibt die statische IP."
+            },
+            {
+              "text": "Bei einer Reservierung gibt es keinen DHCP-Server.",
+              "richtig": false,
+              "korrektur": "Der Server vergibt sie."
+            }
+          ],
+          "loesung": "Server bindet an MAC.",
+          "beleg": {
+            "seite": "360"
+          }
+        },
+        "wiederholung": {
+          "text": "Reservierung: Server bindet an MAC. Statische IP: am Gerät eingetragen. Lease: erneuert nach der Hälfte.",
+          "diagramm": "reservierung"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Ein Netzwerkdrucker soll immer `192.168.1.50` bekommen. Am Drucker will niemand etwas einstellen. Was tust du?",
+            "optionen": [
+              "Am Drucker die Adresse als statische IP selbst eintragen",
+              "Den DHCP-Server im Netz komplett abschalten",
+              "Die Leasezeit des Pools auf null setzen",
+              "Im DHCP-Server die Adresse an die MAC des Druckers binden"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Die Lösung liegt nicht am Drucker, sondern beim Server."
+            ],
+            "erkl": "Das ist die **Reservierung**: Der Server gibt dem Drucker anhand seiner MAC immer dieselbe Adresse. Eine statische IP müsste man am Drucker selbst eintragen."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Statische IP oder Reservierung?",
+            "paare": [
+              [
+                "Wird am Gerät im Netzwerkdialog eingetragen",
+                "statische IP"
+              ],
+              [
+                "Das Gerät fragt weiter per DHCP an",
+                "Reservierung"
+              ],
+              [
+                "Die Adresse ist an die MAC-Adresse gebunden",
+                "Reservierung"
+              ],
+              [
+                "Funktioniert auch ohne erreichbaren DHCP-Server",
+                "statische IP"
+              ],
+              [
+                "Die Adresse steht nicht mehr im Pool",
+                "Reservierung"
+              ]
+            ],
+            "tipps": [
+              "Wer an der MAC-Adresse hängt, ist der DHCP-Server.",
+              "Ohne Server geht nur, was am Gerät steht."
+            ],
+            "erkl": "Die Reservierung läuft komplett über den DHCP-Server. Eine statische IP steht am Gerät selbst."
+          },
+          {
+            "t": "wahl",
+            "f": "Statisches DHCP ist dasselbe wie eine statische IP-Adresse.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wer trägt die Adresse jeweils ein?"
+            ],
+            "erkl": "Bei der **Reservierung** vergibt weiterhin der DHCP-Server die Adresse, fest an die MAC gebunden. Am Gerät wird nichts von Hand eingetragen."
+          },
+          {
+            "t": "eingabe",
+            "f": "Ein Client hat eine Leasezeit von **18 Stunden**. Nach wie vielen Stunden erneuert er die Adresse?",
+            "art": "zahl",
+            "antwort": [
+              "9"
+            ],
+            "tipps": [
+              "Das Buch nennt die Hälfte der Leasezeit."
+            ],
+            "erkl": "18 h / 2 = **9 Stunden**.",
+            "fallen": {
+              "18": "Das ist die ganze Leasezeit. Erneuert wird schon nach der Hälfte."
+            }
+          },
+          {
+            "t": "eingabe",
+            "f": "In `ipconfig /all` steht: Lease erhalten **Mo 18:00**, Lease läuft ab **Mi 06:00**. Wie lang ist die Leasedauer in **Stunden**?",
+            "art": "zahl",
+            "antwort": [
+              "36"
+            ],
+            "tipps": [
+              "Zähle in zwei Etappen: erst bis zur gleichen Uhrzeit am nächsten Tag, dann den Rest.",
+              "Von Montag 18:00 bis Dienstag 18:00 sind es schon 24 Stunden."
+            ],
+            "erkl": "Mo 18:00 → Di 18:00 = 24 h, bis Mi 06:00 noch 12 h: **36 Stunden**.",
+            "fallen": {
+              "12": "Du hast den vollen Tag dazwischen vergessen: Mo 18:00 bis Di 18:00 sind schon 24 Stunden."
+            }
+          },
+          {
+            "t": "gen",
+            "gen": "ipconfigLesen",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Laptop wird im Büro neu gestartet, seine Lease läuft noch. Was passiert laut Buch normalerweise?",
+            "optionen": [
+              "Er bekommt zwingend eine neue Adresse aus dem Pool zugeteilt",
+              "Er meldet die alte Konfiguration mit und bekommt sie meist zurück",
+              "Er trägt die Adresse von Hand neu ein, weil sie verfallen ist",
+              "Er behält die Adresse, ohne den Server zu fragen, bis zum Ablauf"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der Client erinnert sich an seine letzte Konfiguration."
+            ],
+            "erkl": "Der Client meldet die alte Konfiguration mit. Ist sie nicht anderweitig vergeben, bekommt er sie zurück.",
+            "fallen": {
+              "1": "Denkfalle: Der DHCP-Client versucht standardmäßig bei 50% der Lease-Zeit (T1) per Unicast zu verlängern, und bei 87.5% (T2) per Broadcast."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Laptop war drei Wochen aus. Seine alte Adresse wurde inzwischen an ein anderes Gerät vergeben. Was passiert beim Start?",
+            "optionen": [
+              "Er verdrängt das andere Gerät von der Adresse",
+              "Er bleibt ohne Adresse, bis ein Admin eingreift",
+              "Er bekommt eine andere freie Adresse aus dem Pool",
+              "Er bekommt dieselbe Adresse, beide Geräte teilen sie"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Die alte Konfiguration gibt es nur zurück, wenn sie nicht vergeben wurde."
+            ],
+            "erkl": "War die Adresse inzwischen vergeben, vergibt der Server eine andere freie Adresse (Folgerung aus dem Buchsatz, Praxis, steht nicht im Buch)."
+          },
+          {
+            "t": "wahl",
+            "f": "In einem Café-WLAN wechseln ständig Gäste. Welche Leasezeit ist sinnvoll?",
+            "optionen": [
+              "Möglichst lang, damit der Pool nie leer wird",
+              "Unbegrenzt, sonst können Gäste nicht surfen",
+              "Egal, die Leasezeit hat keinen Einfluss auf den Pool",
+              "Eher kurz, damit Adressen schnell wieder frei werden"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wer weg ist, belegt seine Adresse sonst noch lange."
+            ],
+            "erkl": "Kurze Leasezeiten geben Adressen verlorener Clients rasch frei (Praxis, steht nicht im Buch). Bei lange stehenden Büro-PCs wäre eine längere Zeit unproblematisch.",
+            "fallen": {
+              "1": "Denkfalle: Der DHCP-Client versucht standardmäßig bei 50% der Lease-Zeit (T1) per Unicast zu verlängern, und bei 87.5% (T2) per Broadcast."
+            }
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Reservierung = Server bindet an MAC. Statische IP = am Gerät. Lease wird nach der Hälfte erneuert.",
+          "handout": "**Reservierung** (statisches DHCP): Server bindet Konfiguration an MAC, Adresse aus dem Pool genommen. **Statische IP:** am Gerät eingetragen. **Lease:** Miete auf Zeit, Erneuerung nach der Hälfte."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Gleiches Subnetz?",
+        "kurz": "Gateway-Check und Blockgröße",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Der Client hat eine Adresse, kommt aber nicht nach draußen.",
+          "frage": "Liegt das Gateway im richtigen Subnetz?"
+        },
+        "aufbau": [
+          {
+            "text": "Pakete für fremde Netze gehen direkt an das Default Gateway. Es muss ohne Router erreichbar sein, also im selben Subnetz liegen.",
+            "diagramm": "subnetz"
+          },
+          {
+            "text": "Rechne die Netzadresse von Client und Gateway mit derselben Maske aus. Gleich bedeutet passt, verschieden bedeutet nicht erreichbar.",
+            "diagramm": "subnetz"
+          },
+          {
+            "text": "Im angebrochenen Oktett gilt: Blockgröße = 256 minus Maskenwert. Netzadressen sind Vielfache der Blockgröße.",
+            "diagramm": "block"
+          },
+          {
+            "text": "Bei /25 gibt es im letzten Oktett die Blöcke 0 und 128, bei /26 sind es 0, 64, 128 und 192.",
+            "diagramm": "block"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Client 192.168.1.130/26, Gateway 192.168.1.1. Passt das?",
+          "optionen": [
+            {
+              "text": "Nein: Der Client liegt im Block ab .128, das Gateway im Block ab .0.",
+              "richtig": true,
+              "korrektur": "Richtig: /26 hat Blöcke zu je 64 Adressen."
+            },
+            {
+              "text": "Ja, beide liegen in 192.168.1.0/24.",
+              "richtig": false,
+              "korrektur": "Mit der Client-Maske /26 sind es verschiedene Subnetze."
+            },
+            {
+              "text": "Ja, .1 ist immer erreichbar.",
+              "richtig": false,
+              "korrektur": "Erreichbar ist nur, was im eigenen Subnetz liegt."
+            }
+          ],
+          "loesung": "Nein, verschiedene Blöcke.",
+          "beleg": {
+            "seite": "348–350, 360"
+          }
+        },
+        "wiederholung": {
+          "text": "Gateway-Check: beide Netzadressen mit der Client-Maske berechnen. Blockgröße = 256 minus Maskenwert.",
+          "diagramm": "subnetz"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Warum muss das Default Gateway im Subnetz des Clients liegen?",
+            "optionen": [
+              "Der Client muss es ohne Router dazwischen erreichen können",
+              "Das Gateway braucht dieselbe MAC-Adresse wie der Client",
+              "Sonst findet der DNS-Server den Client nicht wieder",
+              "Weil DHCP nur im Subnetz des Gateways Adressen vergibt"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wohin schickt der Client alles, was nicht ins eigene Netz gehört?"
+            ],
+            "erkl": "Der Client kommt nur über das Gateway aus seinem Netz heraus. Liegt es woanders, gibt es keinen Weg dorthin, ohne dass schon ein Router dazwischen steht."
+          },
+          {
+            "t": "gen",
+            "gen": "gwSubnetz",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "gwSubnetz",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "weg",
+            "titel": "Das Beispiel zum Kompetenzcheck (eigene Zahlen)",
+            "kopf": "Ein Client hat `172.16.4.130` mit der Maske `255.255.255.128` (/25). Sind die Gateways `172.16.4.129` und `172.16.4.1` brauchbar?",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie lautet die **Netzadresse** des Clients?",
+                "art": "ip",
+                "antwort": [
+                  "172.16.4.128"
+                ],
+                "tipps": [
+                  "Blockgröße bei /25: 128. 130 liegt im Block ab 128."
+                ],
+                "erkl": "130 liegt im Block 128 bis 255: Netzadresse **172.16.4.128**.",
+                "label": "Netz des Clients"
+              },
+              {
+                "t": "wahl",
+                "f": "Liegt das Gateway `172.16.4.129` im selben Subnetz?",
+                "optionen": [
+                  "Nein, es liegt in 172.16.4.0/25",
+                  "Ja, es liegt im Netz 172.16.4.128/25",
+                  "Nein, es ist die Broadcast-Adresse",
+                  "Ja, aber nur wenn die Maske /24 wäre"
+                ],
+                "richtig": 1,
+                "tipps": [
+                  "129 liegt im Block ab 128."
+                ],
+                "erkl": "129 liegt im Block 128 bis 255, also im selben Netz: als Gateway geeignet.",
+                "label": "Gateway .129"
+              },
+              {
+                "t": "wahl",
+                "f": "Und das Gateway `172.16.4.1`?",
+                "optionen": [
+                  "Ja, die letzten Oktette ähneln sich",
+                  "Ja, ein Gateway endet immer auf .1",
+                  "Nein, es liegt im Netz 172.16.4.0/25",
+                  "Nein, es ist die Netzadresse"
+                ],
+                "richtig": 2,
+                "tipps": [
+                  "1 liegt im Block ab 0."
+                ],
+                "erkl": "1 liegt im Block 0 bis 127, also in 172.16.4.0/25. Der Client erreicht dieses Gateway nicht direkt.",
+                "label": "Gateway .1"
+              }
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "gwSubnetz",
+            "stufen": [
+              2
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Client hat `192.168.0.100` mit Maske `255.255.254.0`, das Gateway ist `192.168.1.1`. Gleiches Subnetz?",
+            "optionen": [
+              "Nein, das dritte Oktett ist verschieden",
+              "Nein, das Gateway müsste 192.168.0.1 heißen",
+              "Nur wenn der Router NAT macht",
+              "Ja, /23 umfasst 192.168.0.0 bis 192.168.1.255"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wie viele Einsen hat 255.255.254.0?",
+              "Bei /23 umfasst ein Netz zwei /24-Blöcke."
+            ],
+            "erkl": "Bei /23 liegen 192.168.0.x und 192.168.1.x im selben Netz `192.168.0.0/23`. Verschiedene Oktette heißen nicht automatisch verschiedene Netze."
+          },
+          {
+            "t": "gen",
+            "gen": "hostsBeiPraefix",
+            "stufen": [
+              1
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Welche dieser Adressen kann im Netz `10.0.5.0/24` **nicht** als Gateway dienen?",
+            "optionen": [
+              "10.0.5.255",
+              "10.0.5.1",
+              "10.0.5.254",
+              "10.0.5.77"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Zwei Adressen im Netz gehören keinem Gerät."
+            ],
+            "erkl": "`10.0.5.255` ist die Broadcast-Adresse. Üblich sind die erste (.1) oder letzte nutzbare Adresse (.254), technisch geht jede freie Hostadresse."
+          },
+          {
+            "t": "wahl",
+            "f": "Bei einem Client mit /25-Maske darf das Gateway jede Adresse aus dem ganzen /24-Bereich sein.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wie viele Netze entstehen bei /25 in einem /24?"
+            ],
+            "erkl": "Bei /25 teilt sich das /24 in zwei Netze (z. B. .0–.127 und .128–.255). Das Gateway muss im **selben** /25 liegen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Gateway muss im Subnetz des Clients liegen. Blockgröße = 256 minus Maskenwert.",
+          "handout": "**Check:** Netzadresse von Client und Gateway mit derselben Maske vergleichen. **Blockgröße:** 256 − Maskenwert. /25: 0, 128. /26: 0, 64, 128, 192."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welche Ports nutzt DHCP?",
+        "optionen": [
+          {
+            "text": "Server 67, Client 68",
+            "richtig": true
+          },
+          {
+            "text": "Server 53, Client 80",
+            "richtig": false
+          },
+          {
+            "text": "Server 68, Client 67",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welchen Schritt sendet der Client nach dem Offer?",
+        "optionen": [
+          {
+            "text": "DHCP-Request",
+            "richtig": true
+          },
+          {
+            "text": "DHCP-Discover",
+            "richtig": false
+          },
+          {
+            "text": "DHCP-Acknowledge",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was geschieht nach der Hälfte der Leasezeit?",
+        "optionen": [
+          {
+            "text": "Die Adresse wird erneuert",
+            "richtig": true
+          },
+          {
+            "text": "Sie wird gelöscht",
+            "richtig": false
+          },
+          {
+            "text": "Der Server startet neu",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Blockgröße bei /26 im letzten Oktett?",
+        "optionen": [
+          {
+            "text": "64",
+            "richtig": true
+          },
+          {
+            "text": "26",
+            "richtig": false
+          },
+          {
+            "text": "128",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_IP2.id]: LF03_IP2 });
+})();
+
+/* ---- f_einheiten_ipdhcp3.js ---- */
+//
+// Einheit 26: Fehlerbilder, Cloud, Datenschutz (Stationen 5 bis 7). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_IP3 = {
+    "id": "lf03-ipdhcp-fehler-cloud",
+    "reihe": 26,
+    "titel": "Fehlerbilder, Cloud und Datenschutz",
+    "untertitel": "aus dem Symptom auf die falsche Angabe schließen, Cloud-Modelle einordnen und die DSGVO richtig sehen",
+    "lernfeld": "LF03",
+    "dauer_min": 35,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 359 und 361–363 (Fehlerbilder, Cloud, Datenschutz)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Aus dem Symptom auf die falsche IP-Angabe schließen",
+        "kn": "Fehlerbilder und Cloud"
+      },
+      {
+        "id": "lz2",
+        "text": "Cloud-Anbieter, IaaS, Web Storage und die eigene Cloud einordnen",
+        "kn": "Fehlerbilder und Cloud"
+      },
+      {
+        "id": "lz3",
+        "text": "Vor- und Nachteile von Cloud-Office nennen und die DSGVO richtig einordnen",
+        "kn": "Fehlerbilder und Cloud"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Fehlerbilder nach falscher Angabe",
+        "knoten": [
+          {
+            "id": "f0",
+            "x": 90,
+            "y": 110,
+            "t": "Gateway falsch",
+            "sub": "nur eigenes Subnetz",
+            "w": 140
+          },
+          {
+            "id": "f1",
+            "x": 245,
+            "y": 110,
+            "t": "DNS falsch",
+            "sub": "Namen gehen nicht",
+            "w": 140
+          },
+          {
+            "id": "f2",
+            "x": 400,
+            "y": 110,
+            "t": "Doppelte IP",
+            "sub": "Abbrüche",
+            "w": 140
+          },
+          {
+            "id": "f3",
+            "x": 555,
+            "y": 110,
+            "t": "Falsche Maske",
+            "sub": "manches geht",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "fehler": {
+        "art": "netz",
+        "titel": "Fehlerbilder nach falscher Angabe",
+        "knoten": [
+          {
+            "id": "f0",
+            "x": 90,
+            "y": 110,
+            "t": "Gateway falsch",
+            "sub": "nur eigenes Subnetz",
+            "w": 140
+          },
+          {
+            "id": "f1",
+            "x": 245,
+            "y": 110,
+            "t": "DNS falsch",
+            "sub": "Namen gehen nicht",
+            "w": 140
+          },
+          {
+            "id": "f2",
+            "x": 400,
+            "y": 110,
+            "t": "Doppelte IP",
+            "sub": "Abbrüche",
+            "w": 140
+          },
+          {
+            "id": "f3",
+            "x": 555,
+            "y": 110,
+            "t": "Falsche Maske",
+            "sub": "manches geht",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "anbieter": {
+        "art": "netz",
+        "titel": "Die großen Anbieter",
+        "knoten": [
+          {
+            "id": "a0",
+            "x": 110,
+            "y": 110,
+            "t": "AWS",
+            "sub": "Amazon, laut Buch größter",
+            "w": 170
+          },
+          {
+            "id": "a1",
+            "x": 320,
+            "y": 110,
+            "t": "Azure",
+            "sub": "Microsoft",
+            "w": 170
+          },
+          {
+            "id": "a2",
+            "x": 530,
+            "y": 110,
+            "t": "GCP",
+            "sub": "Google Cloud Platform",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "iaas": {
+        "art": "netz",
+        "titel": "IaaS: Infrastruktur mieten",
+        "knoten": [
+          {
+            "id": "i0",
+            "x": 110,
+            "y": 110,
+            "t": "IaaS",
+            "sub": "Server, Speicher, Netz",
+            "w": 170
+          },
+          {
+            "id": "i1",
+            "x": 320,
+            "y": 110,
+            "t": "Bezahlung",
+            "sub": "nur was genutzt wird",
+            "w": 170
+          },
+          {
+            "id": "i2",
+            "x": 530,
+            "y": 110,
+            "t": "Lastspitzen",
+            "sub": "Dienste zeitweise hoch",
+            "w": 170
+          }
+        ],
+        "links": []
+      },
+      "storage": {
+        "art": "netz",
+        "titel": "Web Storage",
+        "knoten": [
+          {
+            "id": "w0",
+            "x": 110,
+            "y": 110,
+            "t": "Web Storage",
+            "sub": "Dateien beim Anbieter",
+            "w": 170
+          },
+          {
+            "id": "w1",
+            "x": 320,
+            "y": 110,
+            "t": "Zugriff",
+            "sub": "FTP oder als Laufwerk",
+            "w": 170
+          },
+          {
+            "id": "w2",
+            "x": 530,
+            "y": 110,
+            "t": "Vorteil",
+            "sub": "Sync, Versionen",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "w0",
+            "bis": "w1"
+          },
+          {
+            "von": "w1",
+            "bis": "w2"
+          }
+        ]
+      },
+      "eigene": {
+        "art": "netz",
+        "titel": "Die eigene Cloud",
+        "knoten": [
+          {
+            "id": "c0",
+            "x": 110,
+            "y": 110,
+            "t": "Eigene Cloud",
+            "sub": "OwnCloud, Nextcloud",
+            "w": 170
+          },
+          {
+            "id": "c1",
+            "x": 320,
+            "y": 110,
+            "t": "Im LAN",
+            "sub": "nur intern erreichbar",
+            "w": 170
+          },
+          {
+            "id": "c2",
+            "x": 530,
+            "y": 110,
+            "t": "Von außen",
+            "sub": "Ports und DynDNS",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "c0",
+            "bis": "c1"
+          },
+          {
+            "von": "c1",
+            "bis": "c2"
+          }
+        ]
+      },
+      "saas": {
+        "art": "netz",
+        "titel": "Office aus der Cloud",
+        "knoten": [
+          {
+            "id": "o0",
+            "x": 110,
+            "y": 110,
+            "t": "SaaS",
+            "sub": "Software beim Anbieter",
+            "w": 170
+          },
+          {
+            "id": "o1",
+            "x": 320,
+            "y": 110,
+            "t": "Datenschutz",
+            "sub": "fremder Server",
+            "w": 170
+          },
+          {
+            "id": "o2",
+            "x": 530,
+            "y": 110,
+            "t": "DSGVO",
+            "sub": "gilt EU-weit",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welche Cloud-Art vermietet Server, Speicher und Netz?",
+        "optionen": [
+          {
+            "text": "IaaS",
+            "richtig": true
+          },
+          {
+            "text": "SaaS",
+            "richtig": false
+          },
+          {
+            "text": "Web Storage",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wo gilt die DSGVO?",
+        "optionen": [
+          {
+            "text": "EU-weit",
+            "richtig": true
+          },
+          {
+            "text": "nur in Deutschland",
+            "richtig": false
+          },
+          {
+            "text": "nur auf deutschen Servern",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Fehlerbilder",
+        "kurz": "Symptom zeigt auf die falsche Angabe",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Das Buch nennt falsche Angaben nur allgemein schwere Fehlfunktionen. Die typischen Bilder leitest du aus der Aufgabe jeder Angabe ab.",
+          "frage": "Welches Symptom passt zu welchem Fehler?"
+        },
+        "aufbau": [
+          {
+            "text": "Praxis, nicht im Buch: Gateway falsch bedeutet, Geräte im eigenen Subnetz gehen, alles außerhalb nicht.",
+            "diagramm": "fehler"
+          },
+          {
+            "text": "DNS falsch bei richtigem Gateway: Ziele per IP-Adresse gehen, Namen werden nicht aufgelöst.",
+            "diagramm": "fehler"
+          },
+          {
+            "text": "Doppelte IP: Zwei Geräte haben dieselbe Adresse, meist durch Handeinträge. Verbindungen brechen unregelmäßig ab. DHCP und feste Adressen außerhalb des Pools vermeiden das.",
+            "diagramm": "fehler"
+          },
+          {
+            "text": "Falsche Maske: Der Client rechnet sein eigenes Netz falsch. Es geht manches, manches nicht, je nach Zieladresse.",
+            "diagramm": "fehler"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Webseiten gehen per IP-Adresse, per Namen nicht. Was ist falsch?",
+          "optionen": [
+            {
+              "text": "Die DNS-Adresse",
+              "richtig": true,
+              "korrektur": "Richtig: Ohne Namensauflösung geht nur die IP-Adresse."
+            },
+            {
+              "text": "Das Default Gateway",
+              "richtig": false,
+              "korrektur": "Mit falschem Gateway ginge auch das Ziel per IP nicht."
+            },
+            {
+              "text": "Die Hostnamen im Router",
+              "richtig": false,
+              "korrektur": "Das Gateway erledigt Weiterleitung, nicht Namen."
+            }
+          ],
+          "loesung": "DNS.",
+          "beleg": {
+            "seite": "359, 361"
+          }
+        },
+        "wiederholung": {
+          "text": "Gateway falsch: nur lokal. DNS falsch: nur per IP. Doppelte IP: Abbrüche. Maske falsch: manches geht.",
+          "diagramm": "fehler"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche falsche Angabe passt zum Symptom?",
+            "paare": [
+              [
+                "Ping auf den Router geht, Ping auf 9.9.9.9 nicht",
+                "Gateway falsch"
+              ],
+              [
+                "Ping auf 9.9.9.9 geht, Webseiten per Name nicht",
+                "DNS falsch"
+              ],
+              [
+                "Drucker im LAN erreichbar, jedes Ziel außerhalb nicht (auch per IP)",
+                "Gateway falsch"
+              ],
+              [
+                "Ping auf eine Webadresse: Name unbekannt, Ping auf IP geht",
+                "DNS falsch"
+              ]
+            ],
+            "tipps": [
+              "Wer löst Namen auf, und wer führt aus dem Netz hinaus?"
+            ],
+            "erkl": "Alles im eigenen Subnetz geht ohne Gateway. Sobald ein Ziel außerhalb liegt, braucht man das Gateway. Namen löst allein der DNS-Server auf."
+          },
+          {
+            "t": "wahl",
+            "f": "Gateway und IP-Adresse sind richtig, aber die **DNS-Adresse** ist falsch. Was funktioniert noch?",
+            "optionen": [
+              "Nur das eigene Subnetz",
+              "Webseiten funktionieren, aber keine E-Mails",
+              "Zugriffe auf Ziele per IP-Adresse, auch im Internet",
+              "Nichts, auch das LAN ist dann nicht erreichbar"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Das Gateway führt ins Internet, der DNS-Server liefert nur die Übersetzung."
+            ],
+            "erkl": "Der Weg ins Internet (Gateway) steht. Nur die Übersetzung von Namen in IP-Adressen fehlt."
+          },
+          {
+            "t": "wahl",
+            "f": "Das **Default Gateway** ist auf eine nicht vorhandene Adresse im eigenen Subnetz gestellt, alles andere stimmt. Was geht noch?",
+            "optionen": [
+              "Das gesamte Internet, aber nur per IP-Adresse",
+              "Nichts, ohne Gateway ist auch das eigene Subnetz tot",
+              "Nur Webseiten im Internet, aber keine Geräte im LAN",
+              "Alle Geräte im eigenen Subnetz, aber nichts außerhalb"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wofür braucht man ein Gateway, wenn das Ziel im eigenen Netz liegt?"
+            ],
+            "erkl": "Das eigene Subnetz erreicht der Client direkt über den Switch. Nur für **fremde Netze** braucht er das Gateway."
+          },
+          {
+            "t": "wahl",
+            "f": "Zwei Rechner haben von Hand dieselbe IP-Adresse bekommen. Was ist die Folge?",
+            "optionen": [
+              "Die Adresse ist nicht eindeutig, es gibt unregelmäßige Aussetzer",
+              "Nichts, denn die MAC-Adressen unterscheiden die Geräte ja",
+              "Der Switch weist einem der beiden Rechner eine neue Adresse zu",
+              "Der DHCP-Server korrigiert die Handeinträge automatisch"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "IP-Adressen müssen im Netz eindeutig sein."
+            ],
+            "erkl": "Zugestellt wird nach der IP-Adresse. Sie ist doppelt vergeben, deshalb kommt es zu Aussetzern. Ein Switch oder DHCP-Server greift bei Handeinträgen nicht ein."
+          },
+          {
+            "t": "wahl",
+            "f": "Wie vermeidest du doppelt vergebene Adressen im Büronetz am besten?",
+            "optionen": [
+              "Die Subnetzmaske im ganzen Netz verkleinern",
+              "DHCP nutzen und feste Geräte per Reservierung binden",
+              "Auf jedem Client einen zweiten DNS-Server eintragen",
+              "Das Gateway in jedem Subnetz auf die letzte Adresse legen"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wer verwaltet Adressen zentral und kennt den Pool?"
+            ],
+            "erkl": "Der DHCP-Server verteilt jede Adresse nur einmal. Feste Geräte bekommen eine Reservierung statt eines Handeintrags."
+          },
+          {
+            "t": "ordnen",
+            "f": "Fehlersuche von nah nach fern: Bringe die Schritte in eine sinnvolle Reihenfolge.",
+            "items": [
+              "Kabel und Link-Anzeige am Port prüfen",
+              "ipconfig: Hat der Client eine sinnvolle Adresse?",
+              "Ping auf das Standardgateway",
+              "Ping auf eine Internet-IP-Adresse",
+              "Ping auf einen Internet-Namen"
+            ],
+            "tipps": [
+              "Erst die Hardware, dann die Konfiguration, dann immer weiter nach außen.",
+              "Der Namens-Ping testet zusätzlich den DNS-Server."
+            ],
+            "erkl": "Von nah nach fern: Link, Konfiguration, Gateway, Internet per IP, Internet per Name. So grenzt jeder Schritt die Ursache weiter ein (Praxis, Vorgriff auf 3.6)."
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Test trennt einen **DNS-Fehler** von einem **Gateway-Fehler**?",
+            "optionen": [
+              "Ping auf die Loopback-Adresse 127.0.0.1",
+              "Ping auf den eigenen Rechnernamen",
+              "Ping auf eine IP-Adresse im Internet",
+              "ipconfig ohne Parameter auf dem Client"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Gesucht ist ein Test, der nur eine der beiden Ursachen prüft.",
+              "Du brauchst ein Ziel, das keinen Namen braucht, aber außerhalb liegt."
+            ],
+            "erkl": "Per IP kommt man nur ans Ziel, wenn das Gateway stimmt. Klappt das, aber der Name nicht, bleibt der DNS-Server als Ursache. `127.0.0.1` bleibt im eigenen Rechner."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Fehlerbild und Folge",
+            "paare": [
+              [
+                "Gateway falsch",
+                "Eigenes Subnetz geht, Fremdnetze nicht"
+              ],
+              [
+                "DNS falsch",
+                "IP-Ziele gehen, Namen nicht"
+              ],
+              [
+                "Doppelte IP",
+                "Unregelmäßige Aussetzer bei beiden Geräten"
+              ],
+              [
+                "Maske falsch",
+                "Manche Ziele gehen, manche nicht"
+              ]
+            ],
+            "tipps": [
+              "Zwei der Fehler wirken unregelmäßig, zwei klar abgegrenzt."
+            ],
+            "erkl": "Gateway und DNS haben klar abgegrenzte Folgen. Doppelte IP und falsche Maske führen zu Fehlern, die nicht für alle Ziele gleich auftreten."
+          },
+          {
+            "t": "wahl",
+            "f": "Bei richtigem Gateway und falscher DNS-Adresse bleibt ein Ping auf eine Internet-IP-Adresse erfolgreich.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der Ping auf eine IP-Adresse braucht keinen DNS."
+            ],
+            "erkl": "Richtig. Der Weg ins Internet steht, nur die Namensauflösung fällt aus."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Gateway falsch: nur lokal. DNS falsch: nur per IP. Doppelte IP: Abbrüche. Maske falsch: manches geht.",
+          "handout": "**Fehlerbilder:** Gateway → nur eigenes Subnetz · DNS → nur IP, keine Namen · doppelte IP → Abbrüche · Maske → manches geht, manches nicht (Praxis, nicht im Buch)."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Cloud-Grundlagen",
+        "kurz": "Anbieter, IaaS, Speicher, eigene Cloud",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Kleine Betriebe mieten Rechenleistung und Speicher lieber, als ein Rechenzentrum zu bauen.",
+          "frage": "Welche Modelle gibt es?"
+        },
+        "aufbau": [
+          {
+            "text": "Die großen Anbieter sind AWS (laut Buch der größte), Microsoft Azure und die Google Cloud Platform.",
+            "diagramm": "anbieter"
+          },
+          {
+            "text": "Bei IaaS mietest du Server, Speicher und Netz, zahlst nur, was du nutzt, und fängst Lastspitzen durch zeitweise hochgefahrene Dienste ab.",
+            "diagramm": "iaas"
+          },
+          {
+            "text": "Bei Web Storage liegen Dateien beim Anbieter. Zugriff per FTP oder als Laufwerk, mit Hintergrund-Sync und oft Versionsverwaltung.",
+            "diagramm": "storage"
+          },
+          {
+            "text": "Beispiele: Dropbox, Google Drive, OneDrive, iCloud, Amazon S3, Strato HiDrive (Hosting in Deutschland).",
+            "diagramm": "storage"
+          },
+          {
+            "text": "Als beste Lösung nennt das Buch eine eigene Cloud mit OwnCloud oder Nextcloud. Im LAN ist sie nur intern erreichbar.",
+            "diagramm": "eigene"
+          },
+          {
+            "text": "Von außen kommst du mit geöffneten Ports am Router und DynDNS ran. Praxis: DynDNS, weil die öffentliche IP meist wechselt.",
+            "diagramm": "eigene"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was bedeutet IaaS?",
+          "optionen": [
+            {
+              "text": "Server, Speicher und Netz beim Anbieter mieten",
+              "richtig": true,
+              "korrektur": "Richtig: Infrastructure as a Service."
+            },
+            {
+              "text": "Office-Programme aus der Cloud nutzen",
+              "richtig": false,
+              "korrektur": "Das ist SaaS."
+            },
+            {
+              "text": "Eine Nextcloud im eigenen LAN betreiben",
+              "richtig": false,
+              "korrektur": "Das ist die eigene Cloud."
+            }
+          ],
+          "loesung": "Infrastruktur mieten.",
+          "beleg": {
+            "seite": "361–362"
+          }
+        },
+        "wiederholung": {
+          "text": "IaaS: Infrastruktur mieten. Web Storage: Dateien beim Anbieter. Eigene Cloud: OwnCloud oder Nextcloud, von außen mit Ports und DynDNS.",
+          "diagramm": "eigene"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche Firma steckt dahinter?",
+            "paare": [
+              [
+                "AWS",
+                "Amazon"
+              ],
+              [
+                "Azure",
+                "Microsoft"
+              ],
+              [
+                "GCP",
+                "Google"
+              ],
+              [
+                "S3",
+                "Amazon"
+              ],
+              [
+                "OneDrive",
+                "Microsoft"
+              ],
+              [
+                "Google Drive",
+                "Google"
+              ]
+            ],
+            "tipps": [
+              "AWS und S3 gehören zum selben Konzern."
+            ],
+            "erkl": "AWS und S3 sind Amazon, Azure und OneDrive Microsoft, GCP und Google Drive Google."
+          },
+          {
+            "t": "wahl",
+            "f": "Was bedeutet **IaaS**?",
+            "optionen": [
+              "Infrastructure as a Service: Server, Speicher und Netz werden gemietet",
+              "Internet as a Service: ein Internetanschluss wird gemietet",
+              "Integration as a Service: Programme werden auf dem Firmenserver verbunden",
+              "Installation as a Service: ein Techniker installiert Software vor Ort"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Das „I“ steht für die Grundlage, auf der Programme laufen."
+            ],
+            "erkl": "IaaS liefert die **Infrastruktur** als Dienst: virtuelle Server, Speicher und Netz, bezahlt nach Nutzung.",
+            "fallen": {
+              "1": "Denkfalle: Bei IaaS verwaltet der Kunde das Betriebssystem selbst. Bei PaaS stellt der Provider die Laufzeitumgebung bereit. Bei SaaS nutzt der Kunde nur die fertige Software!"
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Ein kleiner Betrieb braucht an drei Tagen im Jahr 20 zusätzliche Server. Was passt am besten?",
+            "optionen": [
+              "20 Reserveserver für das eigene Datacenter anschaffen",
+              "IaaS: Server für die Spitze mieten, danach abschalten",
+              "Den DHCP-Pool im Büro auf 20 Geräte vergrößern",
+              "Eine zusätzliche Standleitung zum Provider anmieten"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Man zahlt nur, solange man die Dienste nutzt."
+            ],
+            "erkl": "Mit IaaS fährt man Dienste nur für die Lastspitze hoch und zahlt nur für diese Zeit."
+          },
+          {
+            "t": "wahl",
+            "f": "Du löschst versehentlich eine Datei im Web Storage. Warum kann man sie oft zurückholen?",
+            "optionen": [
+              "Weil jede Datei zusätzlich per FTP auf einem zweiten Server liegt",
+              "Weil der Dienst gelöschte Dateien nie wirklich entfernen darf",
+              "Viele Dienste halten alte Versionen und gelöschte Dateien vor",
+              "Weil Web Storage nur eine Anzeige ist und alles lokal liegt"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Man kann bei vielen Diensten zu einem früheren Stand zurück."
+            ],
+            "erkl": "Die Versionsverwaltung hält alte Stände und gelöschte Dateien vor. Das ist ein Vorteil gegenüber einem normalen Laufwerk."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Eigene Cloud oder Anbieter-Cloud?",
+            "paare": [
+              [
+                "Nextcloud",
+                "Eigene Cloud"
+              ],
+              [
+                "OwnCloud",
+                "Eigene Cloud"
+              ],
+              [
+                "Dropbox",
+                "Anbieter-Cloud"
+              ],
+              [
+                "OneDrive",
+                "Anbieter-Cloud"
+              ],
+              [
+                "Amazon S3",
+                "Anbieter-Cloud"
+              ]
+            ],
+            "tipps": [
+              "Zwei Namen kann man auf einem eigenen Server installieren."
+            ],
+            "erkl": "Nextcloud und OwnCloud betreibt man selbst, auf einem Cloud-Server oder im eigenen LAN. Dropbox, OneDrive und S3 betreibt der Anbieter."
+          },
+          {
+            "t": "wahl",
+            "f": "Was braucht eine Nextcloud im LAN, damit du sie auch aus dem Internet erreichst?",
+            "optionen": [
+              "Einen zweiten DHCP-Server im LAN",
+              "Eine Metric von 100 auf dem Server",
+              "Ein Konto bei AWS, über das der Verkehr läuft",
+              "Geöffnete Ports am Router und einen DynDNS-Namen"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Zwei Dinge sind nötig: eines am Router, eines für einen festen Namen.",
+              "Der Router muss durchlassen, und die Adresse ändert sich."
+            ],
+            "erkl": "Der Router leitet Anfragen von außen an den Server durch (Ports öffnen), und DynDNS liefert einen festen Namen für die wechselnde öffentliche IP."
+          },
+          {
+            "t": "wahl",
+            "f": "Was leistet **DynDNS**?",
+            "optionen": [
+              "Ein fester Name folgt der wechselnden öffentlichen IP",
+              "Es vergibt dem Server dynamisch private Adressen im LAN",
+              "Es verschlüsselt alle DNS-Anfragen im eigenen LAN",
+              "Es verteilt Adressen per DHCP an die Clients im LAN"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Das „Dyn“ steht für die sich ändernde Adresse."
+            ],
+            "erkl": "DynDNS koppelt einen festen Namen an die jeweils aktuelle öffentliche IP-Adresse des Anschlusses."
+          },
+          {
+            "t": "wahl",
+            "f": "Eine Nextcloud im LAN ist ohne weitere Einstellungen am Router auch aus dem Internet erreichbar.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der Router blockt Anfragen von außen standardmäßig."
+            ],
+            "erkl": "Im LAN ist sie zunächst **nur intern** erreichbar. Von außen braucht es geöffnete Router-Ports und meist DynDNS."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "IaaS mietet Infrastruktur, Web Storage speichert Dateien, die eigene Cloud läuft mit Nextcloud oder OwnCloud.",
+          "handout": "**Anbieter:** AWS · Azure · GCP. **IaaS:** Server, Speicher, Netz mieten, Zahlung nach Nutzung. **Web Storage:** FTP oder Laufwerk, Sync, Versionen. **Eigene Cloud:** OwnCloud/Nextcloud, extern mit Ports + DynDNS."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Office in der Cloud",
+        "kurz": "SaaS, Datenschutz und die DSGVO",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Office aus der Cloud ist bequem, aber die Daten liegen auf einem fremden Server.",
+          "frage": "Was bedeutet das für den Datenschutz?"
+        },
+        "aufbau": [
+          {
+            "text": "Office aus der Cloud ist SaaS: Die Software läuft beim Anbieter, meist mit Speicherplatz. Beispiele: Google Docs, Online-Office von Microsoft, Collabora, Onlyoffice.",
+            "diagramm": "saas"
+          },
+          {
+            "text": "Nachteil ist der Datenschutz: Die Daten liegen auf einem fremden Server. Laut Buch gilt das Recht des Serverstandorts.",
+            "diagramm": "saas"
+          },
+          {
+            "text": "Erratum: Das Buch schreibt, die DSGVO gelte nur in Deutschland. Das stimmt nicht, sie gilt EU-weit.",
+            "diagramm": "saas"
+          },
+          {
+            "text": "Nach dem Marktortprinzip gilt sie auch für Anbieter außerhalb der EU, die Daten von Personen in der EU verarbeiten.",
+            "diagramm": "saas"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Das Buch sagt, die DSGVO gelte nur in Deutschland. Was stimmt?",
+          "optionen": [
+            {
+              "text": "Sie gilt EU-weit und nach dem Marktortprinzip auch für Anbieter außerhalb der EU.",
+              "richtig": true,
+              "korrektur": "Richtig: Das Buch irrt hier."
+            },
+            {
+              "text": "Das Buch hat recht, nur Deutschland.",
+              "richtig": false,
+              "korrektur": "Die DSGVO ist eine EU-Verordnung."
+            },
+            {
+              "text": "Sie gilt nur für Daten auf deutschen Servern.",
+              "richtig": false,
+              "korrektur": "Entscheidend ist der Marktort, nicht der Servertyp."
+            }
+          ],
+          "loesung": "EU-weit.",
+          "beleg": {
+            "seite": "362–363"
+          }
+        },
+        "wiederholung": {
+          "text": "SaaS: Software beim Anbieter. Datenschutz: fremder Server. DSGVO: EU-weit, Marktortprinzip.",
+          "diagramm": "saas"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Vorteil oder Nachteil?",
+            "paare": [
+              [
+                "Es wird nichts lokal installiert",
+                "Vorteil"
+              ],
+              [
+                "Ohne Internet kein Zugriff",
+                "Nachteil"
+              ],
+              [
+                "Mehrere bearbeiten dieselbe Datei",
+                "Vorteil"
+              ],
+              [
+                "Daten liegen auf einem fremden Server",
+                "Nachteil"
+              ],
+              [
+                "Läuft auf jedem internetfähigen Rechner",
+                "Vorteil"
+              ],
+              [
+                "Keine volle Kontrolle über die Daten",
+                "Nachteil"
+              ]
+            ],
+            "tipps": [
+              "Überlege, was gewinnst du, und was gibst du aus der Hand?"
+            ],
+            "erkl": "Vorteile: keine Installation, Teamarbeit, geräteunabhängig. Nachteile: Internet nötig, fremder Server, weniger Kontrolle."
+          },
+          {
+            "t": "wahl",
+            "f": "Was bedeutet **SaaS**?",
+            "optionen": [
+              "Ein virtueller Server wird stundenweise gemietet",
+              "Ein eigener Server wird im LAN selbst betrieben",
+              "Software wird als Dienst über das Netz genutzt",
+              "Die Software wird einmal gekauft und lokal installiert"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Das „S“ am Anfang steht für das, was geliefert wird: Software."
+            ],
+            "erkl": "Bei SaaS läuft die Anwendung beim Anbieter. Ein gemieteter Server wäre IaaS.",
+            "fallen": {
+              "1": "Denkfalle: Bei IaaS verwaltet der Kunde das Betriebssystem selbst. Bei PaaS stellt der Provider die Laufzeitumgebung bereit. Bei SaaS nutzt der Kunde nur die fertige Software!"
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Punkt ist ein **Nachteil** von Cloud-Office?",
+            "optionen": [
+              "Die Software muss auf jedem Gerät einzeln installiert werden",
+              "Updates müssen von Hand eingespielt werden",
+              "Mehrere Personen können nicht an derselben Datei arbeiten",
+              "Ohne Internetverbindung kommst du nicht an deine Dokumente"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Drei Optionen sind eigentlich Vorteile, nur falsch herum."
+            ],
+            "erkl": "Cloud-Office braucht eine ständige Internetverbindung. Installation, Updates und Teamarbeit sind die Vorteile, nicht die Nachteile."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Aussage zur DSGVO ist richtig?",
+            "optionen": [
+              "EU-weit, auch für Anbieter außerhalb der EU (Marktortprinzip)",
+              "Nur in Deutschland, weil das Gesetz dort beschlossen wurde",
+              "Nur für Anbieter, deren Server physisch in der EU stehen",
+              "Nur für Behörden und Ämter, nicht für Unternehmen"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Das Marktortprinzip bedeutet: Es zählt, wessen Daten verarbeitet werden."
+            ],
+            "erkl": "Die DSGVO ist EU-Recht und greift nach dem Marktortprinzip auch bei Anbietern aus Drittländern. „Nur Deutschland“ im Buch ist falsch."
+          },
+          {
+            "t": "wahl",
+            "f": "Die DSGVO gilt nur in Deutschland.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wie viele Länder sind in der EU?"
+            ],
+            "erkl": "Im Buch steht das so, richtig ist: **EU-weit**, und nach dem Marktortprinzip auch für Anbieter außerhalb der EU."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Unternehmen mit sensiblen Kundendaten will kein Cloud-Office eines fremden Anbieters nutzen. Welche Alternative nennt das Buch?",
+            "optionen": [
+              "Dieselben Programme beim Anbieter lassen, aber ein längeres Kennwort wählen",
+              "Die Daten unverschlüsselt per FTP auf einen zweiten Anbieter legen",
+              "Eine private Cloud, z. B. Nextcloud, mit passenden Office-Programmen",
+              "Auf Cloud-Speicher verzichten und alles per E-Mail verschicken"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Wer die Cloud selbst betreibt, kontrolliert die Daten selbst."
+            ],
+            "erkl": "Das Buch nennt die private Cloud mit passenden Programmen. Die Daten bleiben unter eigener Kontrolle."
+          },
+          {
+            "t": "wahl",
+            "f": "Das Buch nennt Strato HiDrive mit dem Zusatz „Hosting in Deutschland“. Warum ist das beim Datenschutz wichtig?",
+            "optionen": [
+              "Nur auf deutschen Servern funktioniert der Zugriff per FTP",
+              "Server in Deutschland liefern Dateien immer schneller aus",
+              "Nur dort lässt sich ein DynDNS-Name einrichten und nutzen",
+              "Der Standort bestimmt, welches Recht für die Daten gilt"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Es geht um das Recht des Serverstandorts."
+            ],
+            "erkl": "Laut Buch zählt das Recht am Serverstandort. Ein Standort in Deutschland wird deshalb gern als Vorteil genannt."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Cloud-Modell passt?",
+            "paare": [
+              [
+                "Server bei AWS für drei Tage mieten",
+                "IaaS"
+              ],
+              [
+                "Textverarbeitung im Browser nutzen",
+                "SaaS"
+              ],
+              [
+                "Dateien auf mehreren Geräten synchron halten",
+                "Web Storage"
+              ],
+              [
+                "Nextcloud im LAN betreiben",
+                "Eigene Cloud"
+              ]
+            ],
+            "tipps": [
+              "Mietest du Technik, Programme oder Speicherplatz?"
+            ],
+            "erkl": "IaaS = Infrastruktur, SaaS = Software, Web Storage = Dateispeicher mit Sync, eigene Cloud = selbst betrieben."
+          },
+          {
+            "t": "wahl",
+            "f": "Bei gebuchten Cloud-Servern zahlt man nur, solange man sie nutzt.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Denk an den 3-Tage-Bedarf aus der letzten Station."
+            ],
+            "erkl": "Richtig, das ist der Kern von IaaS: Man zahlt nach Nutzung und kann Lastspitzen durch zeitweises Hochfahren abfangen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Cloud-Office ist SaaS. Die DSGVO gilt EU-weit, nach Marktortprinzip auch für Anbieter außerhalb der EU.",
+          "handout": "**SaaS:** Software beim Anbieter. **Datenschutz:** Daten auf fremdem Server. **DSGVO:** EU-weit, Marktortprinzip (Erratum zum Buch)."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Webseiten gehen nur per IP. Was prüfst du zuerst?",
+        "optionen": [
+          {
+            "text": "die DNS-Adresse",
+            "richtig": true
+          },
+          {
+            "text": "die Maske",
+            "richtig": false
+          },
+          {
+            "text": "das Patchkabel",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welcher Anbieter ist laut Buch der größte?",
+        "optionen": [
+          {
+            "text": "AWS",
+            "richtig": true
+          },
+          {
+            "text": "Azure",
+            "richtig": false
+          },
+          {
+            "text": "GCP",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wofür braucht man DynDNS bei der eigenen Cloud?",
+        "optionen": [
+          {
+            "text": "wechselnde öffentliche IP",
+            "richtig": true
+          },
+          {
+            "text": "Verschlüsselung",
+            "richtig": false
+          },
+          {
+            "text": "Lease-Erneuerung",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Was ist Cloud-Office im Sinne der Dienstmodelle?",
+        "optionen": [
+          {
+            "text": "SaaS",
+            "richtig": true
+          },
+          {
+            "text": "IaaS",
+            "richtig": false
+          },
+          {
+            "text": "Web Storage",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_IP3.id]: LF03_IP3 });
+})();
+
+/* ---- f_einheiten_ipdhcp4.js ---- */
+//
+// Einheit 27: Anmeldung, AD, RADIUS, AAA (Station 8; Endgegner s9 + Abschlusstest s10 als Abschlussuebung). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_IP4 = {
+    "id": "lf03-ipdhcp-anmeldung",
+    "reihe": 27,
+    "titel": "Benutzer anmelden: AD, RADIUS und AAA",
+    "untertitel": "lokale und zentrale Konten, RADIUS richtig benannt und die drei A",
+    "lernfeld": "LF03",
+    "dauer_min": 35,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 363–364 (Benutzerkonten, Active Directory, RADIUS, AAA); Endgegner und Abschlusstest S. 356–364",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Lokale und zentrale Benutzerkonten trennen",
+        "kn": "Anmeldung"
+      },
+      {
+        "id": "lz2",
+        "text": "RADIUS richtig benennen und die drei A erklären",
+        "kn": "Anmeldung"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Lokal oder zentral anmelden",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Lokale Konten",
+            "sub": "Einzel-PC, kleines Netz",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "Zentrale Konten",
+            "sub": "Server, Anmeldedienst",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "Active Directory",
+            "sub": "Windows-Dienst",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "konten": {
+        "art": "netz",
+        "titel": "Lokal oder zentral anmelden",
+        "knoten": [
+          {
+            "id": "k0",
+            "x": 110,
+            "y": 110,
+            "t": "Lokale Konten",
+            "sub": "Einzel-PC, kleines Netz",
+            "w": 170
+          },
+          {
+            "id": "k1",
+            "x": 320,
+            "y": 110,
+            "t": "Zentrale Konten",
+            "sub": "Server, Anmeldedienst",
+            "w": 170
+          },
+          {
+            "id": "k2",
+            "x": 530,
+            "y": 110,
+            "t": "Active Directory",
+            "sub": "Windows-Dienst",
+            "w": 170,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "zentral": {
+        "art": "netz",
+        "titel": "Zentrale Anmeldung",
+        "knoten": [
+          {
+            "id": "z0",
+            "x": 110,
+            "y": 110,
+            "t": "Benutzer",
+            "sub": "meldet sich an",
+            "w": 170
+          },
+          {
+            "id": "z1",
+            "x": 320,
+            "y": 110,
+            "t": "Anmeldedienst",
+            "sub": "prüft, vergibt Rechte",
+            "w": 170
+          },
+          {
+            "id": "z2",
+            "x": 530,
+            "y": 110,
+            "t": "Ressourcen",
+            "sub": "Daten, Drucker",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "z0",
+            "bis": "z1"
+          },
+          {
+            "von": "z1",
+            "bis": "z2"
+          }
+        ]
+      },
+      "radius": {
+        "art": "netz",
+        "titel": "RADIUS im Firmen-WLAN",
+        "knoten": [
+          {
+            "id": "r0",
+            "x": 110,
+            "y": 110,
+            "t": "Access Point",
+            "sub": "802.1X, WPA Enterprise",
+            "w": 170
+          },
+          {
+            "id": "r1",
+            "x": 320,
+            "y": 110,
+            "t": "RADIUS-Server",
+            "sub": "prüft Benutzer",
+            "w": 170
+          },
+          {
+            "id": "r2",
+            "x": 530,
+            "y": 110,
+            "t": "Netz",
+            "sub": "Zugriff erlaubt",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "r0",
+            "bis": "r1"
+          },
+          {
+            "von": "r1",
+            "bis": "r2"
+          }
+        ]
+      },
+      "aaa": {
+        "art": "netz",
+        "titel": "AAA: drei Fragen",
+        "knoten": [
+          {
+            "id": "a0",
+            "x": 110,
+            "y": 110,
+            "t": "Authentifizierung",
+            "sub": "Wer bist du?",
+            "w": 170
+          },
+          {
+            "id": "a1",
+            "x": 320,
+            "y": 110,
+            "t": "Autorisierung",
+            "sub": "Was darfst du?",
+            "w": 170
+          },
+          {
+            "id": "a2",
+            "x": 530,
+            "y": 110,
+            "t": "Accounting",
+            "sub": "Was hast du genutzt?",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "a0",
+            "bis": "a1"
+          },
+          {
+            "von": "a1",
+            "bis": "a2"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wofür steht das mittlere A in AAA?",
+        "optionen": [
+          {
+            "text": "Autorisierung",
+            "richtig": true
+          },
+          {
+            "text": "Authentifizierung",
+            "richtig": false
+          },
+          {
+            "text": "Accounting",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wie heißt der zentrale Anmeldedienst unter Windows?",
+        "optionen": [
+          {
+            "text": "Active Directory",
+            "richtig": true
+          },
+          {
+            "text": "Remote Desktop",
+            "richtig": false
+          },
+          {
+            "text": "Gruppenrichtlinie",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Konten und Active Directory",
+        "kurz": "lokal gegen zentral",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ohne Benutzerkonto keine Anmeldung. Die Frage ist nur, wo die Konten liegen.",
+          "frage": "Wann reicht lokal, wann braucht es zentral?"
+        },
+        "aufbau": [
+          {
+            "text": "Privat reichen lokale Konten auf jedem Rechner. Das taugt nur für Einzel-PCs oder sehr kleine Netze.",
+            "diagramm": "konten"
+          },
+          {
+            "text": "Im Unternehmen verwaltet man Benutzer zentral, denn Zugriffe auf Netzressourcen müssen erlaubt oder verboten werden.",
+            "diagramm": "zentral"
+          },
+          {
+            "text": "Netzwerkbenutzer liegen auf einem oder mehreren Servern. Der Anmeldedienst authentifiziert sie und teilt Berechtigungen zu.",
+            "diagramm": "zentral"
+          },
+          {
+            "text": "Unter Windows heißt der Dienst Active Directory (AD).",
+            "diagramm": "konten"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wann reichen lokale Benutzerkonten?",
+          "optionen": [
+            {
+              "text": "Nur für Einzel-PCs oder sehr kleine Netze",
+              "richtig": true,
+              "korrektur": "Richtig: Alles andere verwaltet man zentral."
+            },
+            {
+              "text": "Für jedes Firmennetz, weil sie schnell angelegt sind",
+              "richtig": false,
+              "korrektur": "Im Unternehmen müssen Zugriffe zentral geregelt werden."
+            },
+            {
+              "text": "Nur wenn ein Active Directory existiert",
+              "richtig": false,
+              "korrektur": "Mit AD sind die Konten gerade zentral."
+            }
+          ],
+          "loesung": "Einzel-PCs und kleine Netze.",
+          "beleg": {
+            "seite": "363"
+          }
+        },
+        "wiederholung": {
+          "text": "Lokal: Einzel-PC oder kleines Netz. Zentral: Server mit Anmeldedienst, unter Windows Active Directory.",
+          "diagramm": "konten"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Lokaler Benutzer oder Netzwerkbenutzer?",
+            "paare": [
+              [
+                "Konto liegt nur auf dem einzelnen PC",
+                "Lokaler Benutzer"
+              ],
+              [
+                "Konto liegt auf einem Server",
+                "Netzwerkbenutzer"
+              ],
+              [
+                "Passt für sehr kleine Netze",
+                "Lokaler Benutzer"
+              ],
+              [
+                "Unter Windows über Active Directory",
+                "Netzwerkbenutzer"
+              ],
+              [
+                "Zentrale Zuteilung von Rechten",
+                "Netzwerkbenutzer"
+              ]
+            ],
+            "tipps": [
+              "Zentral heißt: ein Ort für alle Konten."
+            ],
+            "erkl": "Lokale Konten gelten pro Rechner. Netzwerkbenutzer liegen auf Servern, Rechte werden zentral zugeteilt."
+          },
+          {
+            "t": "wahl",
+            "f": "Eine Firma mit 80 Arbeitsplätzen will Zugriffe auf Dateiserver und Drucker zentral erlauben oder verbieten. Was passt?",
+            "optionen": [
+              "Lokale Konten, die auf jedem Rechner einzeln angelegt werden",
+              "Netzwerkbenutzer, zentral verwaltet über Active Directory",
+              "Ein gemeinsames Konto, das alle Mitarbeiter benutzen",
+              "Statische IP-Adressen für jeden Arbeitsplatz-Rechner"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wer soll an einer Stelle Rechte vergeben?"
+            ],
+            "erkl": "Netzwerkbenutzer werden zentral verwaltet. Lokale Konten müsste man auf 80 Rechnern einzeln pflegen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Lokale Konten nur für Einzel-PCs. Unternehmen verwalten zentral, unter Windows mit Active Directory.",
+          "handout": "**Lokal:** Einzel-PC, kleines Netz. **Zentral:** Server mit Anmeldedienst (Authentifizierung + Berechtigungen), Windows: Active Directory."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "RADIUS und AAA",
+        "kurz": "Protokoll, Name, drei A",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Im Firmen-WLAN will niemand einen gemeinsamen Schlüssel auf allen Geräten.",
+          "frage": "Wie läuft die zentrale Prüfung?"
+        },
+        "aufbau": [
+          {
+            "text": "RADIUS ist ein plattformübergreifendes Client-Server-Protokoll nur für die Benutzerverwaltung. Laut Buch ist es der De-facto-Standard bei Modem, ISDN, VPN, WLAN und DSL.",
+            "diagramm": "radius"
+          },
+          {
+            "text": "Im Firmen-WLAN stellst du die Access Points auf 802.1X (WPA Enterprise), der RADIUS-Server prüft die Benutzer statt eines PSK.",
+            "diagramm": "radius"
+          },
+          {
+            "text": "Erratum: RADIUS heißt Remote Authentication Dial-In User Service. Die Fußnote auf S. 355 (Server Protocol) ist falsch.",
+            "diagramm": "radius"
+          },
+          {
+            "text": "AAA: Authentifizierung fragt Wer bist du, Autorisierung Was darfst du, Accounting Was hast du genutzt.",
+            "diagramm": "aaa"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welches A beantwortet die Frage Was darfst du?",
+          "optionen": [
+            {
+              "text": "Autorisierung",
+              "richtig": true,
+              "korrektur": "Richtig: Rechte auf Ressourcen wie Daten und Drucker."
+            },
+            {
+              "text": "Authentifizierung",
+              "richtig": false,
+              "korrektur": "Das klärt, wer du bist."
+            },
+            {
+              "text": "Accounting",
+              "richtig": false,
+              "korrektur": "Das erfasst, was du genutzt hast."
+            }
+          ],
+          "loesung": "Autorisierung.",
+          "beleg": {
+            "seite": "364"
+          }
+        },
+        "wiederholung": {
+          "text": "RADIUS: zentrale Prüfung per 802.1X. AAA: Authentifizierung, Autorisierung, Accounting.",
+          "diagramm": "aaa"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Wofür steht **RADIUS**?",
+            "optionen": [
+              "Remote Authentication Dial-In Server Protocol",
+              "Remote Account Directory for Internet Users and Servers",
+              "Remote Authentication Dial-In User Service",
+              "Routed Authentication and Data Integrity User Service"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Das „U“ steht für den Benutzer."
+            ],
+            "erkl": "Richtig ist „Remote Authentication Dial-In **User Service**“. Die Schreibweise „Server Protocol“ aus der Fußnote auf S. 355 ist ein Fehler im Buch."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Aufgabe hat ein RADIUS-Server im Firmen-WLAN mit 802.1X?",
+            "optionen": [
+              "Er vergibt IP-Adressen und Gateways an die WLAN-Clients",
+              "Er verstärkt das Funksignal in schlecht ausgeleuchteten Ecken",
+              "Er löst die Namen der Webseiten für die WLAN-Clients auf",
+              "Er prüft die Benutzer zentral, statt eines gemeinsamen Schlüssels"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Es geht um die Benutzerverwaltung, nicht um Adressen oder Namen."
+            ],
+            "erkl": "RADIUS ist für die **Authentifizierung** zuständig. Adressen vergibt DHCP, Namen löst DNS auf."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches A ist gemeint?",
+            "paare": [
+              [
+                "Benutzername und Kennwort werden geprüft",
+                "Authentifizierung"
+              ],
+              [
+                "Darf auf Drucker, nicht auf Gehaltsdaten",
+                "Autorisierung"
+              ],
+              [
+                "Anmeldezeit und Nutzung werden protokolliert",
+                "Accounting"
+              ],
+              [
+                "Die Identität des Benutzers wird bestätigt",
+                "Authentifizierung"
+              ]
+            ],
+            "tipps": [
+              "Wer = Identität, was = Rechte, wie viel = Erfassung."
+            ],
+            "erkl": "Authentifizierung prüft die Identität, Autorisierung vergibt Rechte, Accounting erfasst und rechnet ab."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Benutzer meldet sich mit richtigem Kennwort an, darf aber den Ordner „Gehalt“ nicht öffnen. Welche Stufe hat das verweigert?",
+            "optionen": [
+              "Authentifizierung",
+              "Autorisierung",
+              "Accounting"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Die Anmeldung hat geklappt, es geht um das, was er darf."
+            ],
+            "erkl": "Die Identität stimmt (Authentifizierung), aber die Rechte reichen nicht: Das ist die **Autorisierung**."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bringe die drei A in die Reihenfolge, in der sie beim Zugriff vorkommen.",
+            "items": [
+              "Authentifizierung: Identität prüfen",
+              "Autorisierung: Rechte zuteilen",
+              "Accounting: Nutzung erfassen"
+            ],
+            "tipps": [
+              "Erst muss klar sein, wer es ist.",
+              "Abgerechnet wird, was passiert ist."
+            ],
+            "erkl": "Erst die Identität (Authentifizierung), dann die Rechte (Autorisierung), am Ende die Erfassung (Accounting)."
+          },
+          {
+            "t": "wahl",
+            "f": "Accounting bedeutet, ein neues Benutzerkonto anzulegen.",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Das Konto muss vorher schon existieren."
+            ],
+            "erkl": "Accounting ist die **Erfassung bzw. Abrechnung** der Nutzung, nicht das Anlegen eines Kontos."
+          },
+          {
+            "t": "wahl",
+            "f": "Lokale Benutzerkonten auf jedem Rechner sind für ein Firmennetz mit vielen Arbeitsplätzen gut geeignet.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wer müsste 80 Konten auf 80 Rechnern pflegen?"
+            ],
+            "erkl": "Lokale Konten taugen für Einzel-PCs oder sehr kleine Netze. Firmen verwalten Benutzer **zentral**, z. B. mit Active Directory."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "RADIUS prüft zentral per 802.1X. AAA: Wer bist du, was darfst du, was hast du genutzt.",
+          "handout": "**RADIUS** = Remote Authentication Dial-In User Service, 802.1X (WPA Enterprise). **AAA:** Authentifizierung (wer) · Autorisierung (was darf) · Accounting (was genutzt)."
+        }
+      }
+    ],
+    "uebung": [
+      {
+        "t": "weg",
+        "titel": "Szenario 1: Kein Internet",
+        "kopf": "Der Laptop ist von Hand konfiguriert (Auszug aus `ipconfig`). Das Büronetz hat laut Netzplan die Maske `255.255.255.0`, der Router `192.168.1.1`. Der Laptop erreicht weder den Router noch das Internet.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welchen Befehl nutzt du, um die Konfiguration unter Windows anzuzeigen?",
+            "optionen": [
+              "ip route",
+              "ip address",
+              "nslookup",
+              "ipconfig"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Windows, nicht Linux."
+            ],
+            "erkl": "Unter Windows zeigt `ipconfig` (oder `/all`) die Konfiguration. `ip address` und `ip route` sind Linux-Befehle.",
+            "label": "Befehl",
+            "block": "Ethernet-Adapter Ethernet:\n IPv4-Adresse . : 192.168.1.210\n Subnetzmaske . : 255.255.255.128\n Standardgateway: 192.168.1.1"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **Netzadresse** des Laptops mit der Maske `255.255.255.128`?",
+            "art": "ip",
+            "antwort": [
+              "192.168.1.128"
+            ],
+            "tipps": [
+              "Blockgröße bei /25: 128. 210 liegt im Block ab 128."
+            ],
+            "erkl": "255.255.255.128 ist /25, Blockgröße 128. 210 liegt im Block ab 128: **192.168.1.128**.",
+            "label": "Netz Laptop",
+            "block": "Ethernet-Adapter Ethernet:\n IPv4-Adresse . : 192.168.1.210\n Subnetzmaske . : 255.255.255.128\n Standardgateway: 192.168.1.1"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie lautet die **Netzadresse** des Routers `192.168.1.1` mit derselben Maske?",
+            "art": "ip",
+            "antwort": [
+              "192.168.1.0"
+            ],
+            "tipps": [
+              "1 liegt im Block ab 0."
+            ],
+            "erkl": "1 liegt im Block 0 bis 127: Netzadresse **192.168.1.0**.",
+            "label": "Netz Router"
+          },
+          {
+            "t": "wahl",
+            "f": "Was folgt daraus?",
+            "optionen": [
+              "Der Router liegt in einem anderen Subnetz",
+              "Der DNS-Server ist falsch eingetragen",
+              "Der DHCP-Pool ist komplett aufgebraucht",
+              "Das Patchkabel zur Dose ist defekt"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Vergleiche die beiden Netzadressen."
+            ],
+            "erkl": "Laptop in 192.168.1.128/25, Router in 192.168.1.0/25: verschiedene Netze, also kein direkter Weg zum Gateway.",
+            "label": "Diagnose"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Korrektur ist am sinnvollsten?",
+            "optionen": [
+              "Das Gateway auf 192.168.1.129 im /25 umstellen",
+              "Maske laut Netzplan auf /24 stellen oder DHCP nutzen",
+              "Die Metric der Standardroute auf 600 erhöhen",
+              "Die Leasezeit des Laptops auf 48 Stunden verlängern"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Die Maske weicht vom Netzplan ab."
+            ],
+            "erkl": "Die Maske gehört zum Netz (laut Plan /24). Mit /24 liegen Laptop und Router im selben Subnetz. Alternativ holt DHCP die richtigen Werte.",
+            "label": "Korrektur"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **nutzbare Hosts** hat das /25-Netz `192.168.1.128/25`?",
+            "art": "zahl",
+            "antwort": [
+              "126"
+            ],
+            "tipps": [
+              "Hostbits: 32 − 25 = 7.",
+              "2⁷ − 2."
+            ],
+            "erkl": "2⁷ = 128 Adressen, minus Netzadresse und Broadcast = **126**.",
+            "label": "Hosts im /25"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Szenario 2: Webseiten gehen nicht",
+        "kopf": "Ein zweiter neuer Laptop hat `192.168.2.77` im Netz `192.168.2.0/24` (Auszug aus `ipconfig /all`, der Router ist laut Netzplan auch DNS-Server). `ping 9.9.9.9` klappt, Webseiten per Name nicht.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welche Angabe ist falsch?",
+            "optionen": [
+              "Das Standardgateway",
+              "Die Subnetzmaske",
+              "Der DNS-Server",
+              "Die IPv4-Adresse"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Der Ping auf eine IP klappt, also stimmen Adresse, Maske und Gateway."
+            ],
+            "erkl": "Per IP geht es ins Internet, nur Namen scheitern: Der DNS-Eintrag stimmt nicht.",
+            "label": "Fehlerquelle",
+            "block": "Ethernet-Adapter Ethernet:\n IPv4-Adresse . : 192.168.2.77\n Subnetzmaske . : 255.255.255.0\n Standardgateway: 192.168.2.1\n DNS-Server . . : 192.168.20.1"
+          },
+          {
+            "t": "eingabe",
+            "f": "Welche DNS-Adresse müsste laut Netzplan eingetragen sein? (Router = DNS)",
+            "art": "ip",
+            "antwort": [
+              "192.168.2.1"
+            ],
+            "tipps": [
+              "Der Router ist auch das Gateway."
+            ],
+            "erkl": "Der Router ist Gateway und DNS-Server: **192.168.2.1**.",
+            "label": "Richtiger DNS",
+            "block": "Ethernet-Adapter Ethernet:\n IPv4-Adresse . : 192.168.2.77\n Subnetzmaske . : 255.255.255.0\n Standardgateway: 192.168.2.1\n DNS-Server . . : 192.168.20.1"
+          },
+          {
+            "t": "wahl",
+            "f": "Der Laptop soll künftig immer `192.168.2.77` bekommen, ohne dass am Laptop etwas fest eingetragen wird. Was richtest du ein?",
+            "optionen": [
+              "Eine statische IP direkt am Laptop",
+              "Einen zweiten DNS-Server im Netz",
+              "Einen deutlich kleineren Pool",
+              "Eine Reservierung im DHCP-Server"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Die Konfiguration soll weiter vom Server kommen."
+            ],
+            "erkl": "Das ist statisches DHCP: Der Server bindet die Adresse an die MAC. Eine statische IP würde am Laptop eingetragen.",
+            "label": "Lösung"
+          },
+          {
+            "t": "eingabe",
+            "f": "Die Leasezeit im Netz beträgt **24 Stunden**. Nach wie vielen Stunden erneuert der Laptop seine Adresse?",
+            "art": "zahl",
+            "antwort": [
+              "12"
+            ],
+            "tipps": [
+              "Hälfte der Leasezeit."
+            ],
+            "erkl": "24 h / 2 = **12 Stunden**.",
+            "label": "Erneuerung (h)"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "Szenario 3: Zugriff von zu Hause",
+        "kopf": "Die Chefin möchte von zu Hause auf sensible Projektdateien zugreifen. Am Laptop soll sich jeder Mitarbeiter mit eigenem Konto anmelden.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welche Lösung passt am besten für sensible Daten?",
+            "optionen": [
+              "Eine eigene Cloud (z. B. Nextcloud) im Firmennetz",
+              "Die Dateien in ein kostenloses Konto bei einem fremden Anbieter legen",
+              "Die Dateien per E-Mail an den privaten Account schicken",
+              "Einen zweiten Switch ins Firmennetz hängen"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wer soll die Kontrolle über die Daten behalten?"
+            ],
+            "erkl": "Eine eigene Cloud hält die Daten unter eigener Kontrolle und ist laut Buch die beste Lösung.",
+            "label": "Cloud-Lösung"
+          },
+          {
+            "t": "wahl",
+            "f": "Was ist nötig, damit die Nextcloud von zu Hause erreichbar ist?",
+            "optionen": [
+              "Eine reservierte Adresse im DHCP-Pool genügt",
+              "Geöffnete Ports am Router und DynDNS",
+              "Ein zweites Gateway im LAN",
+              "Ein RADIUS-Server auf dem Laptop"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Router und wechselnde öffentliche IP."
+            ],
+            "erkl": "Der Router muss Anfragen durchlassen (Ports), und DynDNS liefert den Namen für die wechselnde öffentliche IP.",
+            "label": "Zugriff"
+          },
+          {
+            "t": "wahl",
+            "f": "Jeder Mitarbeiter soll sich zentral anmelden, jeder soll nur seine Ordner sehen. Welche Stufe von AAA regelt das Letztere?",
+            "optionen": [
+              "Authentifizierung",
+              "Accounting",
+              "Autorisierung",
+              "Adressierung"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Es geht um das, was ein Benutzer darf."
+            ],
+            "erkl": "Die **Autorisierung** vergibt Rechte auf Ressourcen. Die Authentifizierung prüft nur, wer sich anmeldet.",
+            "label": "AAA"
+          }
+        ]
+      },
+      {
+        "t": "gen",
+        "gen": "ipconfigLesen",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "gen",
+        "gen": "gwSubnetz",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "Ein Laptop hat Ethernet und WLAN am selben Router. Welche Route nutzt er?",
+        "optionen": [
+          "Die WLAN-Route, weil ihre Metric größer ist",
+          "Beide gleichzeitig im Wechsel",
+          "Die zuletzt eingetragene Route",
+          "Die Ethernet-Route, weil ihre Metric kleiner ist"
+        ],
+        "richtig": 3,
+        "tipps": [
+          "Maut: Welche Route kostet weniger?"
+        ],
+        "erkl": "Kleinerer Wert = bevorzugt: 100 schlägt 600. Die WLAN-Route bleibt als Ersatz.",
+        "block": "default via 10.0.0.1 dev eth0 metric 100\ndefault via 10.0.0.1 dev wlo1 metric 600\n10.0.0.0/24 dev eth0"
+      },
+      {
+        "t": "wahl",
+        "f": "Das Buch sagt, Clients beziehen ihre Einstellungen immer automatisch. Wann trifft das so nicht zu?",
+        "optionen": [
+          "Bei Servern, Druckern und Routern mit festen Adressen",
+          "Bei jedem Client, dessen Adresse eine Leasezeit hat",
+          "Bei allen Clients, die ein Default Gateway benutzen",
+          "Bei allen Clients, deren DNS-Server im Router sitzt"
+        ],
+        "richtig": 0,
+        "tipps": [
+          "Wer soll immer unter derselben Adresse erreichbar sein?"
+        ],
+        "erkl": "Das ist eine Faustregel. Geräte, die andere finden müssen (Server, Drucker, Router), bekommen feste Adressen oder Reservierungen, wie das Buch bei der Reservierung selbst zeigt."
+      },
+      {
+        "t": "zuordnen",
+        "f": "Welche Maßnahme löst das Problem?",
+        "paare": [
+          [
+            "Namen werden nicht aufgelöst",
+            "DNS-Server prüfen"
+          ],
+          [
+            "Server soll per DHCP immer dieselbe Adresse bekommen",
+            "Reservierung an die MAC"
+          ],
+          [
+            "Mitarbeiter sollen zentral angemeldet werden",
+            "Active Directory"
+          ],
+          [
+            "Nutzung soll abgerechnet werden",
+            "Accounting"
+          ],
+          [
+            "Dateien auf allen Geräten synchron halten",
+            "Web Storage"
+          ]
+        ],
+        "tipps": [
+          "Ordne jedes Problem dem Dienst oder Begriff zu, der es löst."
+        ],
+        "erkl": "DNS löst Namen auf, die Reservierung bindet eine Adresse an die MAC, Active Directory verwaltet Benutzer, Accounting erfasst die Nutzung, Web Storage synchronisiert Dateien."
+      },
+      {
+        "t": "wahl",
+        "f": "1. Welche vier Angaben gehören zu einer vollständigen IP-Konfiguration?",
+        "optionen": [
+          "IP-Adresse, MAC-Adresse, Default Gateway, DHCP-Server",
+          "IP-Adresse, Subnetzmaske, Default Gateway, DNS-Server",
+          "IP-Adresse, Subnetzmaske, DNS-Server, DHCP-Server",
+          "IP-Adresse, Subnetzmaske, Default Gateway, Loopback-Adresse"
+        ],
+        "richtig": 1,
+        "erkl": "Die vier Pflichtangaben sind IP-Adresse, Subnetzmaske, Default Gateway und DNS-Server. Die MAC gehört zur Netzwerkkarte, der DHCP-Server verteilt nur."
+      },
+      {
+        "t": "wahl",
+        "f": "2. Welche Route wird bevorzugt?",
+        "optionen": [
+          "Die über wlo1 (Metric 300), weil der Wert höher ist",
+          "Die über wlo1, weil WLAN flexibler ist",
+          "Die über eth0, weil ihre Metric mit 10 kleiner ist",
+          "Beide gleichzeitig"
+        ],
+        "richtig": 2,
+        "erkl": "Kleinerer Metric-Wert = bevorzugt: 10 schlägt 300.",
+        "block": "default via 10.0.0.1 dev wlo1 metric 300\ndefault via 10.0.0.1 dev eth0 metric 10"
+      },
+      {
+        "t": "gen",
+        "gen": "ipconfigLesen",
+        "stufen": [
+          2
+        ]
+      },
+      {
+        "t": "ordnen",
+        "f": "4. Bringe den DHCP-Ablauf in die richtige Reihenfolge.",
+        "items": [
+          "DHCP-Discover",
+          "DHCP-Offer",
+          "DHCP-Request",
+          "DHCP-Acknowledgement"
+        ],
+        "erkl": "Reihenfolge: Discover (Client sucht per Broadcast), Offer (Angebot), Request (Client fragt), Acknowledgement (Bestätigung)."
+      },
+      {
+        "t": "zuordnen",
+        "f": "5. Welche DHCP-Nachricht geht an wen?",
+        "paare": [
+          [
+            "Discover",
+            "Client an alle (Broadcast)"
+          ],
+          [
+            "Offer",
+            "Server an den Client"
+          ],
+          [
+            "Request",
+            "Client an den Server"
+          ],
+          [
+            "Acknowledgement",
+            "Server an den Client"
+          ]
+        ],
+        "erkl": "Nur das Discover ist ein Broadcast, weil der Client noch keine Adresse hat und den Server nicht kennt."
+      },
+      {
+        "t": "wahl",
+        "f": "6. Was stimmt für statisches DHCP (Reservierung)?",
+        "optionen": [
+          "Die Adresse wird am Gerät von Hand im Netzwerkdialog eingetragen",
+          "Das Gerät braucht danach keinen DHCP-Server mehr im Netz",
+          "Die Adresse wird an die IP-Adresse des DNS-Servers gebunden",
+          "Der DHCP-Server bindet die Konfiguration an die MAC-Adresse"
+        ],
+        "richtig": 3,
+        "erkl": "Bei der Reservierung bleibt der Server zuständig, die Adresse ist fest an die MAC gebunden. Eine statische IP wird dagegen am Gerät eingetragen."
+      },
+      {
+        "t": "eingabe",
+        "f": "7. Die Leasezeit beträgt 3 Tage. Nach wie vielen **Stunden** erneuert der Client die Adresse?",
+        "art": "zahl",
+        "antwort": [
+          "36"
+        ],
+        "erkl": "3 Tage = 72 Stunden, die Hälfte davon sind **36 Stunden**.",
+        "fallen": {
+          "72": "Das ist die ganze Leasezeit. Erneuert wird nach der Hälfte."
+        }
+      },
+      {
+        "t": "gen",
+        "gen": "gwSubnetz",
+        "stufen": [
+          1
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "9. `ping 9.9.9.9` klappt, aber Webseiten per Name nicht. Wahrscheinlichste Ursache?",
+        "optionen": [
+          "Der eingetragene DNS-Server ist falsch",
+          "Das Default Gateway ist falsch",
+          "Die IP-Adresse ist doppelt vergeben",
+          "Die Leasezeit ist abgelaufen"
+        ],
+        "richtig": 0,
+        "erkl": "Der Weg ins Internet funktioniert (Gateway stimmt), nur die Namensauflösung fällt aus: DNS."
+      },
+      {
+        "t": "gen",
+        "gen": "hostsBeiPraefix",
+        "stufen": [
+          1
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "11. Ein Betrieb mietet Server und Speicher beim Anbieter und zahlt nach Nutzung. Welches Modell ist das?",
+        "optionen": [
+          "SaaS",
+          "IaaS",
+          "Eigene Cloud",
+          "Web Storage"
+        ],
+        "richtig": 1,
+        "erkl": "IaaS (Infrastructure as a Service) liefert Server, Speicher und Netz als Dienst. SaaS wäre eine fertige Anwendung wie Cloud-Office."
+      },
+      {
+        "t": "wahl",
+        "f": "12. Welche Aussage zur DSGVO ist richtig?",
+        "optionen": [
+          "Nur in Deutschland, weil das Gesetz dort beschlossen wurde",
+          "Nur für Anbieter, deren Server physisch in der EU stehen",
+          "EU-weit, nach Marktortprinzip auch für Anbieter außerhalb der EU",
+          "Nur für Behörden und Ämter, nicht für Unternehmen"
+        ],
+        "richtig": 2,
+        "erkl": "Im Buch steht „nur in Deutschland“, das ist falsch. Die DSGVO gilt EU-weit und nach dem Marktortprinzip auch für Anbieter aus Drittländern, die Daten von Personen in der EU verarbeiten."
+      },
+      {
+        "t": "wahl",
+        "f": "13. Wofür steht RADIUS?",
+        "optionen": [
+          "Remote Authentication Dial-In Server Protocol",
+          "Remote Account Directory for Internet Users",
+          "Routed Access Domain Identity User System",
+          "Remote Authentication Dial-In User Service"
+        ],
+        "richtig": 3,
+        "erkl": "Richtig ist „Remote Authentication Dial-In User Service“. Die Fußnote auf S. 355 („Server Protocol“) ist ein Fehler im Buch."
+      },
+      {
+        "t": "zuordnen",
+        "f": "14. Welches A ist gemeint?",
+        "paare": [
+          [
+            "Kennwort wird geprüft",
+            "Authentifizierung"
+          ],
+          [
+            "Zugriff auf Drucker erlaubt, auf Gehaltsdaten verboten",
+            "Autorisierung"
+          ],
+          [
+            "Nutzung wird protokolliert und abgerechnet",
+            "Accounting"
+          ]
+        ],
+        "erkl": "Authentifizierung = Wer bist du? Autorisierung = Was darfst du? Accounting = Was hast du genutzt?"
+      }
+    ],
+    "uebungText": "Zum Abschluss der Fall mit dem neuen Laptop: IP, DHCP, Cloud und Anmeldung zusammen. Danach ein Abschlusstest mit 14 Aufgaben ohne Tipps.",
+    "nachtest": [
+      {
+        "frage": "Wie heißt RADIUS ausgeschrieben?",
+        "optionen": [
+          {
+            "text": "Remote Authentication Dial-In User Service",
+            "richtig": true
+          },
+          {
+            "text": "Remote Access Data Interface Server",
+            "richtig": false
+          },
+          {
+            "text": "Router Authentication Dial-Out Service",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welches A erfasst die Nutzung?",
+        "optionen": [
+          {
+            "text": "Accounting",
+            "richtig": true
+          },
+          {
+            "text": "Autorisierung",
+            "richtig": false
+          },
+          {
+            "text": "Authentifizierung",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Auf welchen Standard stellst du die Access Points für RADIUS?",
+        "optionen": [
+          {
+            "text": "802.1X",
+            "richtig": true
+          },
+          {
+            "text": "802.3af",
+            "richtig": false
+          },
+          {
+            "text": "802.15.4",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wer verwaltet im Unternehmen die Konten?",
+        "optionen": [
+          {
+            "text": "ein zentraler Anmeldedienst",
+            "richtig": true
+          },
+          {
+            "text": "jeder Rechner selbst",
+            "richtig": false
+          },
+          {
+            "text": "der Switch",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_IP4.id]: LF03_IP4 });
+})();
+
 /* ---- f_einheiten_ipv6.js ---- */
 //
 // Einheit 5: IPv6 schreiben, kuerzen, aufbauen (aus dem Kurs "Expedition Subnetting & IPv6", Stationen 6, 7, 8 und 9).
@@ -45204,7 +49302,7 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen", "kurs-client-einbinden"];
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen", "kurs-client-einbinden", "kurs-ip-dhcp-cloud"];
     return `<div class="modalList">
       ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
