@@ -9642,6 +9642,5005 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_IPV6.id]: LF03_IPV6 });
 })();
 
+/* ---- f_einheiten_paketreise1.js ---- */
+//
+// Einheit 9: Schichtenmodelle (aus dem Kurs "Reise eines Pakets", Stationen 0 und 1). Erzeugt per Skript, Aufgaben unveraendert.
+// Diagramme art:"netz". Buchseiten laut Kursstationen (S. 321-323).
+(function () {
+  "use strict";
+
+  const LF03_PR1 = {
+    "id": "lf03-paketreise-schichten",
+    "reihe": 9,
+    "titel": "Schichtenmodelle: OSI, TCP/IP und Geräte",
+    "untertitel": "warum es Schichten gibt, was jede tut und welches Gerät wo arbeitet",
+    "lernfeld": "LF03",
+    "dauer_min": 25,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 321–323 (OSI- und TCP/IP-Modell)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "OSI- und TCP/IP-Modell nebeneinanderlegen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz2",
+        "text": "Die Aufgabe jeder OSI-Schicht nennen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz3",
+        "text": "Geräte und Adressen den Schichten zuordnen",
+        "kn": "Netzwerkgrundlagen"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "OSI-Modell: 7 Schichten, jede mit einer festen Aufgabe",
+        "knoten": [
+          {
+            "id": "a7",
+            "x": 90,
+            "y": 85,
+            "t": "7 Anwendung",
+            "w": 140
+          },
+          {
+            "id": "a6",
+            "x": 245,
+            "y": 85,
+            "t": "6 Darstellung",
+            "w": 140
+          },
+          {
+            "id": "a5",
+            "x": 400,
+            "y": 85,
+            "t": "5 Sitzung",
+            "w": 140
+          },
+          {
+            "id": "a4",
+            "x": 555,
+            "y": 85,
+            "t": "4 Transport",
+            "w": 140
+          },
+          {
+            "id": "a3",
+            "x": 165,
+            "y": 160,
+            "t": "3 Vermittlung",
+            "w": 140
+          },
+          {
+            "id": "a2",
+            "x": 320,
+            "y": 160,
+            "t": "2 Sicherung",
+            "w": 140
+          },
+          {
+            "id": "a1",
+            "x": 475,
+            "y": 160,
+            "t": "1 Bitübertragung",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "osi": {
+        "art": "netz",
+        "titel": "OSI-Modell: 7 Schichten, jede mit einer festen Aufgabe",
+        "knoten": [
+          {
+            "id": "a7",
+            "x": 90,
+            "y": 85,
+            "t": "7 Anwendung",
+            "w": 140
+          },
+          {
+            "id": "a6",
+            "x": 245,
+            "y": 85,
+            "t": "6 Darstellung",
+            "w": 140
+          },
+          {
+            "id": "a5",
+            "x": 400,
+            "y": 85,
+            "t": "5 Sitzung",
+            "w": 140
+          },
+          {
+            "id": "a4",
+            "x": 555,
+            "y": 85,
+            "t": "4 Transport",
+            "w": 140
+          },
+          {
+            "id": "a3",
+            "x": 165,
+            "y": 160,
+            "t": "3 Vermittlung",
+            "w": 140
+          },
+          {
+            "id": "a2",
+            "x": 320,
+            "y": 160,
+            "t": "2 Sicherung",
+            "w": 140
+          },
+          {
+            "id": "a1",
+            "x": 475,
+            "y": 160,
+            "t": "1 Bitübertragung",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "tcpip": {
+        "art": "netz",
+        "titel": "TCP/IP-Modell: 4 Schichten fassen die OSI-Schichten zusammen",
+        "knoten": [
+          {
+            "id": "t0",
+            "x": 75,
+            "y": 110,
+            "t": "Anwendung",
+            "sub": "OSI 7 bis 5",
+            "w": 130
+          },
+          {
+            "id": "t1",
+            "x": 225,
+            "y": 110,
+            "t": "Transport",
+            "sub": "OSI 4",
+            "w": 130
+          },
+          {
+            "id": "t2",
+            "x": 375,
+            "y": 110,
+            "t": "Internet",
+            "sub": "OSI 3",
+            "w": 130
+          },
+          {
+            "id": "t3",
+            "x": 525,
+            "y": 110,
+            "t": "Netzzugang",
+            "sub": "OSI 2 und 1",
+            "w": 130
+          }
+        ],
+        "links": [
+          {
+            "von": "t0",
+            "bis": "t1"
+          },
+          {
+            "von": "t1",
+            "bis": "t2"
+          },
+          {
+            "von": "t2",
+            "bis": "t3"
+          }
+        ]
+      },
+      "geraete": {
+        "art": "netz",
+        "titel": "Hub 1, Switch 2, Router 3: gezählt nach OSI",
+        "knoten": [
+          {
+            "id": "h",
+            "x": 110,
+            "y": 110,
+            "t": "Hub",
+            "sub": "Schicht 1: verstärkt",
+            "w": 170
+          },
+          {
+            "id": "s",
+            "x": 320,
+            "y": 110,
+            "t": "Switch",
+            "sub": "Schicht 2: Ziel-MAC",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "r",
+            "x": 530,
+            "y": 110,
+            "t": "Router",
+            "sub": "Schicht 3: IP-Netz",
+            "w": 170,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "h",
+            "bis": "s"
+          },
+          {
+            "von": "s",
+            "bis": "r"
+          }
+        ]
+      },
+      "adr": {
+        "art": "netz",
+        "titel": "Was wird womit adressiert?",
+        "knoten": [
+          {
+            "id": "m",
+            "x": 110,
+            "y": 110,
+            "t": "MAC",
+            "sub": "48 Bit, Interface",
+            "w": 170
+          },
+          {
+            "id": "i",
+            "x": 320,
+            "y": 110,
+            "t": "IP",
+            "sub": "32 oder 128 Bit, Netz",
+            "w": 170
+          },
+          {
+            "id": "p",
+            "x": 530,
+            "y": 110,
+            "t": "Port",
+            "sub": "16 Bit, Anwendung",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "m",
+            "bis": "i",
+            "t": "Schicht 2 → 3"
+          },
+          {
+            "von": "i",
+            "bis": "p",
+            "t": "3 → 4"
+          }
+        ]
+      },
+      "aufg": {
+        "art": "netz",
+        "titel": "Die Aufgabe jeder Schicht",
+        "knoten": [
+          {
+            "id": "b0",
+            "x": 90,
+            "y": 85,
+            "t": "7 Anwendung",
+            "sub": "Programme",
+            "w": 140
+          },
+          {
+            "id": "b1",
+            "x": 245,
+            "y": 85,
+            "t": "6 Darstellung",
+            "sub": "Format",
+            "w": 140
+          },
+          {
+            "id": "b2",
+            "x": 400,
+            "y": 85,
+            "t": "5 Sitzung",
+            "sub": "auf-/abbauen",
+            "w": 140
+          },
+          {
+            "id": "b3",
+            "x": 555,
+            "y": 85,
+            "t": "4 Transport",
+            "sub": "Ports",
+            "w": 140
+          },
+          {
+            "id": "b4",
+            "x": 165,
+            "y": 160,
+            "t": "3 Vermittlung",
+            "sub": "IP, Routing",
+            "w": 140
+          },
+          {
+            "id": "b5",
+            "x": 320,
+            "y": 160,
+            "t": "2 Sicherung",
+            "sub": "MAC",
+            "w": 140
+          },
+          {
+            "id": "b6",
+            "x": 475,
+            "y": 160,
+            "t": "1 Bitübertr.",
+            "sub": "Signale",
+            "w": 140
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wie viele Schichten hat das OSI-Modell?",
+        "optionen": [
+          {
+            "text": "7",
+            "richtig": true
+          },
+          {
+            "text": "4",
+            "richtig": false
+          },
+          {
+            "text": "5",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Auf welcher OSI-Schicht arbeitet ein Switch?",
+        "optionen": [
+          {
+            "text": "Schicht 2",
+            "richtig": true
+          },
+          {
+            "text": "Schicht 1",
+            "richtig": false
+          },
+          {
+            "text": "Schicht 3",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Die Landkarte",
+        "kurz": "OSI mit 7 Schichten gegen TCP/IP mit 4",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Früher sprach jeder Hersteller sein eigenes Netzprotokoll, die Systeme verstanden sich nicht.",
+          "frage": "Welche gemeinsame Ordnung gibt es heute?"
+        },
+        "aufbau": [
+          {
+            "text": "Die ISO schuf das OSI-Modell mit 7 Schichten. Etwa zur selben Zeit entstand das TCP/IP-Modell mit 4 Schichten.",
+            "diagramm": "osi"
+          },
+          {
+            "text": "Jede Schicht hat eine feste Aufgabe. Beim Senden gibt sie ihr Ergebnis nach unten weiter, beim Empfangen läuft es umgekehrt.",
+            "diagramm": "osi"
+          },
+          {
+            "text": "TCP/IP fasst die oberen drei OSI-Schichten zu einer Anwendungsschicht zusammen, die unteren zwei zu einem Netzzugang.",
+            "diagramm": "tcpip"
+          },
+          {
+            "text": "Transport und Internet (Vermittlung) bleiben je eine eigene Schicht.",
+            "diagramm": "tcpip"
+          },
+          {
+            "text": "Im Alltag läuft immer TCP/IP. Gerätenamen wie Layer-2-Switch folgen aber dem OSI-Modell, darum brauchst du beide.",
+            "diagramm": "tcpip"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Layer-2-Switch: Worauf bezieht sich „Layer 2“?",
+          "optionen": [
+            {
+              "text": "Auf das OSI-Modell (Sicherungsschicht)",
+              "richtig": true,
+              "korrektur": "Richtig: Gerätenamen zählen nach OSI."
+            },
+            {
+              "text": "Auf das TCP/IP-Modell (Internetschicht)",
+              "richtig": false,
+              "korrektur": "In TCP/IP wäre Schicht 2 der Internetteil, doch Gerätenamen folgen OSI."
+            },
+            {
+              "text": "Auf die zweite Kabelkategorie",
+              "richtig": false,
+              "korrektur": "Mit Kabeln hat das nichts zu tun, es sind Modellschichten."
+            }
+          ],
+          "loesung": "Layer 2 = OSI-Sicherungsschicht.",
+          "beleg": {
+            "seite": "321"
+          }
+        },
+        "wiederholung": {
+          "text": "OSI hat 7, TCP/IP hat 4 Schichten. Alltag: TCP/IP. Gerätenamen: OSI.",
+          "diagramm": "tcpip"
+        },
+        "uebung": [
+          {
+            "t": "ordnen",
+            "f": "Bring die OSI-Schichten in die Reihenfolge **von oben (7) nach unten (1)**.",
+            "items": [
+              "Anwendung",
+              "Darstellung",
+              "Sitzung",
+              "Transport",
+              "Vermittlung",
+              "Sicherung",
+              "Bitübertragung"
+            ],
+            "tipps": [
+              "Oben sitzt, was der Nutzer sieht (Browser). Ganz unten liegt das Kabel.",
+              "Von 7 bis 1: Anwendung, Darstellung, Sitzung, Transport, Vermittlung, Sicherung, Bitübertragung."
+            ],
+            "erkl": "Von oben nach unten: **Anwendung, Darstellung, Sitzung, Transport, Vermittlung, Sicherung, Bitübertragung**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche OSI-Schicht gehört zu welcher **TCP/IP-Schicht**?",
+            "paare": [
+              [
+                "7 Anwendung",
+                "Anwendung (4)"
+              ],
+              [
+                "6 Darstellung",
+                "Anwendung (4)"
+              ],
+              [
+                "5 Sitzung",
+                "Anwendung (4)"
+              ],
+              [
+                "4 Transport",
+                "Transport (3)"
+              ],
+              [
+                "3 Vermittlung",
+                "Internet (2)"
+              ],
+              [
+                "2 Sicherung",
+                "Netzzugang (1)"
+              ],
+              [
+                "1 Bitübertragung",
+                "Netzzugang (1)"
+              ]
+            ],
+            "tipps": [
+              "Die drei obersten OSI-Schichten werden in TCP/IP zu einer. Die zwei untersten auch.",
+              "Transport und Vermittlung (= Internet) bleiben einzeln."
+            ],
+            "erkl": "OSI 7, 6, 5 → **Anwendung**; OSI 4 → **Transport**; OSI 3 → **Internet**; OSI 2 und 1 → **Netzzugang**."
+          },
+          {
+            "t": "wahl",
+            "f": "Wie viele Schichten haben das **OSI-Modell** und das **TCP/IP-Modell**?",
+            "optionen": [
+              "7 und 4",
+              "4 und 7",
+              "7 und 3",
+              "6 und 4"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "OSI ist das ausführlichere Modell.",
+              "Die Zahl der OSI-Schichten steht in der Landkarte oben."
+            ],
+            "erkl": "OSI hat **7**, TCP/IP hat **4** Schichten."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein **Layer-2-Switch**: Worauf bezieht sich „Layer 2“?",
+            "optionen": [
+              "Auf das TCP/IP-Modell (Internetschicht)",
+              "Auf das OSI-Modell (Sicherungsschicht)",
+              "Auf die Zahl der unterstützten VLANs",
+              "Auf die Geschwindigkeitsklasse des Geräts"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Die Gerätebezeichnungen folgen einem bestimmten der beiden Modelle.",
+              "Im TCP/IP-Modell ist Schicht 2 die Internetschicht, also die des Routers."
+            ],
+            "erkl": "Die Gerätenamen folgen dem **OSI-Modell**. Ein Layer-2-Switch arbeitet auf der Sicherungsschicht, ein Layer-3-Router auf der Vermittlungsschicht. Im TCP/IP-Modell wäre „2“ die Internetschicht, das ist die Prüfungsfalle."
+          },
+          {
+            "t": "wahl",
+            "f": "„Im Alltag laufen Netze nach dem OSI-Protokollstapel, TCP/IP gibt es nur in der Theorie.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Welches Modell steckt in jedem Browser und jedem Router wirklich drin?"
+            ],
+            "erkl": "Laut Buch läuft in der Praxis **immer TCP/IP**. OSI liefert die Begriffe, etwa für die Gerätenamen."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche OSI-Schichten deckt **Ethernet** ab?",
+            "optionen": [
+              "Schicht 2 und 3 (Sicherung, Vermittlung)",
+              "Nur Schicht 2 (Sicherung)",
+              "Schicht 1 bis 4 (bis zum Transport)",
+              "Schicht 1 und 2 (Bitübertragung, Sicherung)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Ethernet kennt Kabel und Frames, aber keine IP-Adressen.",
+              "Frames mit MAC-Adressen = Schicht 2, Signale auf dem Kabel = Schicht 1."
+            ],
+            "erkl": "Ethernet deckt **Schicht 1 und 2** ab (Buch S. 306). IP liegt eine Schicht darüber."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "OSI = 7 Schichten, TCP/IP = 4. Im Alltag läuft TCP/IP, Gerätenamen zählen nach OSI.",
+          "handout": "**Modelle:** OSI hat 7 Schichten (Anwendung, Darstellung, Sitzung, Transport, Vermittlung, Sicherung, Bitübertragung), TCP/IP 4 (Anwendung = OSI 7–5, Transport, Internet, Netzzugang = OSI 2–1). Im Alltag läuft TCP/IP, Layer-2/3-Namen folgen OSI."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Die Schichten",
+        "kurz": "was jede OSI-Schicht tut",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Ein Programm will eine Mail verschicken. Bis das Signal auf der Leitung ist, hat jede Schicht ihren Teil erledigt.",
+          "frage": "Welche Schicht macht was?"
+        },
+        "aufbau": [
+          {
+            "text": "7 Anwendung ist die Schnittstelle zu Programmen wie Browser und Mailclient. 6 Darstellung bringt Zahlen und Zeichen in ein einheitliches Format.",
+            "diagramm": "aufg"
+          },
+          {
+            "text": "5 Sitzung baut Sitzungen zwischen zwei Partnern auf und ab, wie ein Telefonat.",
+            "diagramm": "aufg"
+          },
+          {
+            "text": "4 Transport tauscht sicher aus, fordert Fehlendes neu an und adressiert Anwendungen über Ports.",
+            "diagramm": "aufg"
+          },
+          {
+            "text": "3 Vermittlung adressiert Netze und routet Pakete, meist mit IP-Adressen.",
+            "diagramm": "aufg"
+          },
+          {
+            "text": "2 Sicherung wandelt Bitstrom und Daten ineinander um und adressiert Interfaces mit MAC-Adressen. 1 Bitübertragung: Signale auf dem Medium.",
+            "diagramm": "aufg"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welche Schicht adressiert Anwendungen über Ports?",
+          "optionen": [
+            {
+              "text": "4 Transport",
+              "richtig": true,
+              "korrektur": "Richtig: Ports unterscheiden die Anwendungen auf dem Rechner."
+            },
+            {
+              "text": "3 Vermittlung",
+              "richtig": false,
+              "korrektur": "Schicht 3 adressiert Netze mit IP-Adressen."
+            },
+            {
+              "text": "2 Sicherung",
+              "richtig": false,
+              "korrektur": "Schicht 2 arbeitet mit MAC-Adressen."
+            }
+          ],
+          "loesung": "Transport (Schicht 4) nutzt Ports.",
+          "beleg": {
+            "seite": "322"
+          }
+        },
+        "wiederholung": {
+          "text": "Unten Signale (1), MAC (2), IP (3), Ports (4). Oben Sitzung (5), Format (6), Programme (7).",
+          "diagramm": "aufg"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche **Aufgabe** gehört zu welcher OSI-Schicht?",
+            "paare": [
+              [
+                "Signale und Leitungscodes",
+                "1 Bitübertragung"
+              ],
+              [
+                "Interfaces per MAC adressieren",
+                "2 Sicherung"
+              ],
+              [
+                "Netze adressieren, Pakete routen",
+                "3 Vermittlung"
+              ],
+              [
+                "Fehlendes neu anfordern, Ports",
+                "4 Transport"
+              ],
+              [
+                "Sitzung auf- und abbauen",
+                "5 Sitzung"
+              ],
+              [
+                "Zeichen einheitlich darstellen",
+                "6 Darstellung"
+              ],
+              [
+                "Schnittstelle für Browser, Mailclient",
+                "7 Anwendung"
+              ]
+            ],
+            "tipps": [
+              "Fang mit den eindeutigen an: Signale ganz unten, Programme ganz oben.",
+              "Ports gehören zu Schicht 4, MAC-Adressen zu Schicht 2."
+            ],
+            "erkl": "Von unten nach oben: Signale (1), MAC/Interfaces (2), Routing (3), Ports und Nachfordern (4), Sitzung (5), Darstellung (6), Programme (7)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "7 Programme, 6 Format, 5 Sitzung, 4 Ports, 3 IP, 2 MAC, 1 Signale.",
+          "handout": "**Aufgaben:** 7 Schnittstelle zu Programmen · 6 einheitliches Format · 5 Sitzung auf-/abbauen · 4 sicherer Austausch, Ports · 3 Netze adressieren, routen (IP) · 2 Bitstrom/Daten, MAC · 1 Signale und Leitungscodes."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Adresse und Gerät",
+        "kurz": "Hub 1, Switch 2, Router 3",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Ein Frame kommt am Switch an, ein Paket am Router. Beide lesen etwas anderes.",
+          "frage": "Was liest welches Gerät?"
+        },
+        "aufbau": [
+          {
+            "text": "Merke die Dreierkette Hub = 1, Switch = 2, Router = 3, gezählt nach OSI.",
+            "diagramm": "geraete"
+          },
+          {
+            "text": "Ein Hub verstärkt nur Signale. Mit zwei Anschlüssen heißt er Repeater. Er liest keine Adresse.",
+            "diagramm": "geraete"
+          },
+          {
+            "text": "Ein Switch, und seine Vorform die Bridge, liest die Ziel-MAC. Ein Router liest den Netzanteil der IP-Adresse.",
+            "diagramm": "geraete"
+          },
+          {
+            "text": "MAC: 48 Bit, adressiert ein Interface. IP: 32 oder 128 Bit, adressiert ein Netz und den Rechner darin. Port: 16 Bit, adressiert die Anwendung.",
+            "diagramm": "adr"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein Router entscheidet, in welches Netz er ein Paket weiterleitet. Wonach?",
+          "optionen": [
+            {
+              "text": "Nach dem Netzanteil der Ziel-IP-Adresse",
+              "richtig": true,
+              "korrektur": "Richtig: Router arbeiten auf Schicht 3."
+            },
+            {
+              "text": "Nach der Ziel-MAC-Adresse",
+              "richtig": false,
+              "korrektur": "Die MAC liest der Switch auf Schicht 2."
+            },
+            {
+              "text": "Nach dem Zielport",
+              "richtig": false,
+              "korrektur": "Ports gehören zu Schicht 4, dort routet kein Router."
+            }
+          ],
+          "loesung": "Router lesen die Ziel-IP.",
+          "beleg": {
+            "seite": "322"
+          }
+        },
+        "wiederholung": {
+          "text": "Hub: kein Adresslesen. Switch: Ziel-MAC. Router: Netzanteil der IP.",
+          "diagramm": "geraete"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches **Gerät** arbeitet auf welcher OSI-Schicht?",
+            "paare": [
+              [
+                "Hub",
+                "Schicht 1"
+              ],
+              [
+                "Repeater",
+                "Schicht 1"
+              ],
+              [
+                "Bridge",
+                "Schicht 2"
+              ],
+              [
+                "Switch",
+                "Schicht 2"
+              ],
+              [
+                "Router",
+                "Schicht 3"
+              ]
+            ],
+            "tipps": [
+              "Hub = 1, Switch = 2, Router = 3.",
+              "Die Bridge ist die Vorform des Switches, der Repeater ein Hub mit zwei Anschlüssen."
+            ],
+            "erkl": "**Hub und Repeater** = Schicht 1, **Bridge und Switch** = Schicht 2, **Router** = Schicht 3."
+          },
+          {
+            "t": "wahl",
+            "f": "Auf welcher OSI-Schicht arbeitet ein **Switch**, auf welcher ein **Router**?",
+            "optionen": [
+              "Switch: Schicht 2, Router: Schicht 3",
+              "Switch: Schicht 3, Router: Schicht 2",
+              "Switch: Schicht 1, Router: Schicht 2",
+              "Beide arbeiten auf Schicht 3"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Der Switch kennt MAC-Adressen, der Router IP-Adressen.",
+              "MAC = Schicht 2, IP = Schicht 3."
+            ],
+            "erkl": "Der Switch wertet MAC-Adressen aus (**Schicht 2**), der Router den IP-Netzanteil (**Schicht 3**)."
+          },
+          {
+            "t": "gen",
+            "gen": "schichtProto",
+            "stufen": [
+              1,
+              1
+            ],
+            "modus": "schicht"
+          },
+          {
+            "t": "wahl",
+            "f": "Ein **Hub** empfängt ein Signal. Was wertet er davon aus?",
+            "optionen": [
+              "Die Ziel-MAC-Adresse, dann sendet er gezielt",
+              "Keine Adresse: Er verstärkt und gibt das Signal nur weiter",
+              "Den Netzanteil der Ziel-IP-Adresse",
+              "Die Portnummer der Anwendung"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ein Hub arbeitet auf der untersten Schicht.",
+              "Auf Schicht 1 gibt es keine Adressen."
+            ],
+            "erkl": "Ein Hub arbeitet auf **Schicht 1** und wertet keine Adresse aus.",
+            "fallen": {
+              "1": "Denkfalle: Das Lesen und Filtern von MAC-Adressen ist die Aufgabe eines **Switches (Schicht 2)**. Ein Hub ist dumm!",
+              "2": "Denkfalle: IP-Adressen werden erst von einem **Router (Schicht 3)** ausgewertet."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "„Ein Router entscheidet anhand der Ziel-MAC-Adresse, in welches Netz er ein Paket weiterleitet.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Router = Schicht 3. Welche Adresse gehört zu Schicht 3?"
+            ],
+            "erkl": "Der Router wertet den **Netzanteil der Ziel-IP** aus (Routing-Tabelle). MAC-Adressen gelten nur innerhalb eines Netzes.",
+            "fallen": {
+              "0": "Denkfalle: Router treffen Routing-Entscheidungen immer anhand der **Ziel-IP-Adresse (Schicht 3)**! Die MAC-Adresse wird bei jedem Hop ausgetauscht."
+            }
+          },
+          {
+            "t": "zuordnen",
+            "f": "**Was** wird mit welcher Adresse adressiert?",
+            "paare": [
+              [
+                "MAC-Adresse (48 Bit)",
+                "Interface einer Netzwerkkarte"
+              ],
+              [
+                "IP-Adresse (32 oder 128 Bit)",
+                "Host im Netzwerk"
+              ],
+              [
+                "Portnummer (16 Bit)",
+                "Anwendung auf dem Host"
+              ]
+            ],
+            "tipps": [
+              "Drei Ebenen: Karte, Rechner, Programm.",
+              "Die MAC steckt in der Netzwerkkarte, der Port gehört zu einem Programm."
+            ],
+            "erkl": "**MAC** adressiert das Interface, **IP** den Host, der **Port** die Anwendung auf dem Host."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Bit** hat eine MAC-Adresse?",
+            "art": "zahl",
+            "antwort": [
+              "48"
+            ],
+            "tipps": [
+              "Sie besteht aus 6 Byte.",
+              "6 Byte mal 8 Bit."
+            ],
+            "erkl": "6 Byte × 8 = **48 Bit**."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Hub 1, Switch 2, Router 3. Switch liest MAC, Router liest IP.",
+          "handout": "**Geräte:** Hub/Repeater (Schicht 1, verstärkt), Bridge/Switch (Schicht 2, Ziel-MAC), Router (Schicht 3, Netzanteil der IP). **Adressen:** MAC 48 Bit (Interface), IP 32/128 Bit, Port 16 Bit."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welche OSI-Schichten fasst die TCP/IP-Anwendungsschicht zusammen?",
+        "optionen": [
+          {
+            "text": "7, 6 und 5",
+            "richtig": true
+          },
+          {
+            "text": "4 und 3",
+            "richtig": false
+          },
+          {
+            "text": "2 und 1",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche Schicht fordert fehlende Daten neu an?",
+        "optionen": [
+          {
+            "text": "4 Transport",
+            "richtig": true
+          },
+          {
+            "text": "2 Sicherung",
+            "richtig": false
+          },
+          {
+            "text": "7 Anwendung",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Was liest ein Switch?",
+        "optionen": [
+          {
+            "text": "Die Ziel-MAC",
+            "richtig": true
+          },
+          {
+            "text": "Die Ziel-IP",
+            "richtig": false
+          },
+          {
+            "text": "Den Zielport",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Wie viele Bit hat eine MAC-Adresse?",
+        "optionen": [
+          {
+            "text": "48",
+            "richtig": true
+          },
+          {
+            "text": "32",
+            "richtig": false
+          },
+          {
+            "text": "64",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_PR1.id]: LF03_PR1 });
+})();
+
+/* ---- f_einheiten_paketreise2.js ---- */
+//
+// Einheit 10: Ethernet-Frame, TCP und UDP (aus dem Kurs "Reise eines Pakets", Stationen 2 und 3). Erzeugt per Skript, Aufgaben unveraendert.
+// Zahlen: 6+6+2+4 = 18, 1500+18 = 1518, 2^12-2 = 4094, 2^16 = 65536.
+(function () {
+  "use strict";
+
+  const LF03_PR2 = {
+    "id": "lf03-paketreise-frame-transport",
+    "reihe": 10,
+    "titel": "Ethernet-Frame, TCP und UDP",
+    "untertitel": "Felder, MTU und VLAN-Tag, dann Ports und Sockets",
+    "lernfeld": "LF03",
+    "dauer_min": 25,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 306–308 (Ethernet-Frame, TCP/UDP)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Die Felder eines Ethernet-Frames nennen und den Overhead berechnen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz2",
+        "text": "Typfeld und VLAN-Tag lesen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz3",
+        "text": "TCP und UDP unterscheiden und Sockets bilden",
+        "kn": "Netzwerkgrundlagen"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Ethernet-Frame: Felder in Reihenfolge auf der Leitung",
+        "knoten": [
+          {
+            "id": "p",
+            "x": 60,
+            "y": 110,
+            "t": "Präambel",
+            "sub": "8 Byte",
+            "w": 96
+          },
+          {
+            "id": "zm",
+            "x": 165,
+            "y": 110,
+            "t": "Ziel-MAC",
+            "sub": "6 Byte",
+            "w": 96
+          },
+          {
+            "id": "qm",
+            "x": 270,
+            "y": 110,
+            "t": "Quell-MAC",
+            "sub": "6 Byte",
+            "w": 96
+          },
+          {
+            "id": "ty",
+            "x": 375,
+            "y": 110,
+            "t": "Typ",
+            "sub": "2 Byte",
+            "w": 96,
+            "rolle": "gelb"
+          },
+          {
+            "id": "nd",
+            "x": 480,
+            "y": 110,
+            "t": "Nutzdaten",
+            "sub": "bis 1500 B",
+            "w": 96,
+            "rolle": "gruen"
+          },
+          {
+            "id": "fc",
+            "x": 585,
+            "y": 110,
+            "t": "FCS",
+            "sub": "4 Byte",
+            "w": 96
+          }
+        ],
+        "links": []
+      },
+      "frame": {
+        "art": "netz",
+        "titel": "Ethernet-Frame: Felder in Reihenfolge auf der Leitung",
+        "knoten": [
+          {
+            "id": "p",
+            "x": 60,
+            "y": 110,
+            "t": "Präambel",
+            "sub": "8 Byte",
+            "w": 96
+          },
+          {
+            "id": "zm",
+            "x": 165,
+            "y": 110,
+            "t": "Ziel-MAC",
+            "sub": "6 Byte",
+            "w": 96
+          },
+          {
+            "id": "qm",
+            "x": 270,
+            "y": 110,
+            "t": "Quell-MAC",
+            "sub": "6 Byte",
+            "w": 96
+          },
+          {
+            "id": "ty",
+            "x": 375,
+            "y": 110,
+            "t": "Typ",
+            "sub": "2 Byte",
+            "w": 96,
+            "rolle": "gelb"
+          },
+          {
+            "id": "nd",
+            "x": 480,
+            "y": 110,
+            "t": "Nutzdaten",
+            "sub": "bis 1500 B",
+            "w": 96,
+            "rolle": "gruen"
+          },
+          {
+            "id": "fc",
+            "x": 585,
+            "y": 110,
+            "t": "FCS",
+            "sub": "4 Byte",
+            "w": 96
+          }
+        ],
+        "links": []
+      },
+      "over": {
+        "art": "netz",
+        "titel": "Overhead = Ziel-MAC 6 + Quell-MAC 6 + Typ 2 + FCS 4 = 18 Byte",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 110,
+            "t": "Header",
+            "sub": "6 + 6 + 2 = 14 B",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 320,
+            "y": 110,
+            "t": "Nutzdaten",
+            "sub": "bis 1500 B (MTU)",
+            "w": 170,
+            "rolle": "gruen"
+          },
+          {
+            "id": "c",
+            "x": 530,
+            "y": 110,
+            "t": "FCS",
+            "sub": "4 B Prüfsumme",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "b",
+            "bis": "c"
+          }
+        ]
+      },
+      "typ": {
+        "art": "netz",
+        "titel": "Typfeld: was steckt in den Nutzdaten?",
+        "knoten": [
+          {
+            "id": "t1",
+            "x": 90,
+            "y": 110,
+            "t": "0x0800",
+            "sub": "IPv4",
+            "w": 130
+          },
+          {
+            "id": "t2",
+            "x": 250,
+            "y": 110,
+            "t": "0x86DD",
+            "sub": "IPv6",
+            "w": 130
+          },
+          {
+            "id": "t3",
+            "x": 410,
+            "y": 110,
+            "t": "0x0806",
+            "sub": "ARP",
+            "w": 130
+          },
+          {
+            "id": "t4",
+            "x": 570,
+            "y": 110,
+            "t": "0x8100",
+            "sub": "VLAN-Tag",
+            "w": 130
+          }
+        ],
+        "links": []
+      },
+      "vlan": {
+        "art": "netz",
+        "titel": "VLAN-Tag: 4 Byte zwischen Quell-MAC und Typfeld",
+        "knoten": [
+          {
+            "id": "v1",
+            "x": 90,
+            "y": 110,
+            "t": "TPID",
+            "sub": "2 Byte, 0x8100",
+            "w": 130
+          },
+          {
+            "id": "v2",
+            "x": 250,
+            "y": 110,
+            "t": "Priorität",
+            "sub": "3 Bit",
+            "w": 130
+          },
+          {
+            "id": "v3",
+            "x": 410,
+            "y": 110,
+            "t": "CF/DEI",
+            "sub": "1 Bit",
+            "w": 130
+          },
+          {
+            "id": "v4",
+            "x": 570,
+            "y": 110,
+            "t": "VLAN-ID",
+            "sub": "12 Bit",
+            "w": 130,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      },
+      "tu": {
+        "art": "netz",
+        "titel": "TCP und UDP",
+        "knoten": [
+          {
+            "id": "t",
+            "x": 170,
+            "y": 110,
+            "t": "TCP",
+            "sub": "verbindungsorientiert",
+            "w": 200,
+            "rolle": "gruen"
+          },
+          {
+            "id": "u",
+            "x": 470,
+            "y": 110,
+            "t": "UDP",
+            "sub": "verbindungslos, schlank",
+            "w": 200,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "t",
+            "bis": "u",
+            "t": "Quittung nur bei TCP"
+          }
+        ]
+      },
+      "sock": {
+        "art": "netz",
+        "titel": "Socket = IP-Adresse + Port",
+        "knoten": [
+          {
+            "id": "i",
+            "x": 110,
+            "y": 110,
+            "t": "IP-Adresse",
+            "sub": "203.0.113.5",
+            "w": 170
+          },
+          {
+            "id": "p",
+            "x": 320,
+            "y": 110,
+            "t": "Port",
+            "sub": "443 (16 Bit)",
+            "w": 170
+          },
+          {
+            "id": "s",
+            "x": 530,
+            "y": 110,
+            "t": "Socket",
+            "sub": "203.0.113.5:443",
+            "w": 170,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "i",
+            "bis": "p",
+            "t": "+"
+          },
+          {
+            "von": "p",
+            "bis": "s",
+            "t": "="
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Wie viel Overhead hat ein Ethernet-Frame (ohne VLAN-Tag, ohne Präambel)?",
+        "optionen": [
+          {
+            "text": "18 Byte",
+            "richtig": true
+          },
+          {
+            "text": "14 Byte",
+            "richtig": false
+          },
+          {
+            "text": "26 Byte",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Was ist ein Socket?",
+        "optionen": [
+          {
+            "text": "IP-Adresse plus Port",
+            "richtig": true
+          },
+          {
+            "text": "MAC-Adresse plus IP",
+            "richtig": false
+          },
+          {
+            "text": "Port plus Subnetzmaske",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Frame und MTU",
+        "kurz": "Felder, Overhead und die Falle mit den 1500",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ethernet verpackt das IP-Paket in einen Frame und schickt ihn Bit für Bit auf die Leitung.",
+          "frage": "Was steckt im Frame, und was bedeutet MTU 1500?"
+        },
+        "aufbau": [
+          {
+            "text": "Ein Frame ist der Rahmen, in den Ethernet das Paket von Schicht 3 verpackt. Die Reihenfolge: Präambel, Ziel-MAC, Quell-MAC, Typ, Nutzdaten, FCS.",
+            "diagramm": "frame"
+          },
+          {
+            "text": "Ziel-MAC, Quell-MAC und Typfeld bilden den Header, die Prüfsumme FCS schließt den Frame ab.",
+            "diagramm": "frame"
+          },
+          {
+            "text": "Overhead ohne Präambel: 6 + 6 + 2 + 4 = 18 Byte. Die Präambel mit 8 Byte zählt nicht mit, sie dient der Taktsynchronisation.",
+            "diagramm": "over"
+          },
+          {
+            "text": "Die MTU von 1500 Byte gilt nur für die Nutzdaten. Der Frame selbst ist mit 1500 + 18 = 1518 Byte größer.",
+            "diagramm": "over"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was bedeutet MTU = 1500 Byte bei Ethernet?",
+          "optionen": [
+            {
+              "text": "Die Nutzdaten eines Frames sind höchstens 1500 Byte groß",
+              "richtig": true,
+              "korrektur": "Richtig: Die MTU zählt nur die Nutzdaten."
+            },
+            {
+              "text": "Der gesamte Frame ist höchstens 1500 Byte groß",
+              "richtig": false,
+              "korrektur": "Mit Header und FCS sind es bis zu 1518 Byte."
+            },
+            {
+              "text": "Jeder Frame hat genau 1500 Byte Nutzdaten",
+              "richtig": false,
+              "korrektur": "Es ist eine Obergrenze, kein fester Wert."
+            }
+          ],
+          "loesung": "MTU = max. 1500 Byte Nutzdaten.",
+          "beleg": {
+            "seite": "306"
+          }
+        },
+        "wiederholung": {
+          "text": "18 Byte Overhead, 1500 Byte Nutzdaten, zusammen 1518 Byte, plus 8 Byte Präambel auf der Leitung.",
+          "diagramm": "over"
+        },
+        "uebung": [
+          {
+            "t": "ordnen",
+            "f": "Bring die Felder eines Ethernet-Frames (ohne VLAN-Tag) in die **Reihenfolge auf der Leitung**.",
+            "items": [
+              "Präambel",
+              "Ziel-MAC",
+              "Quell-MAC",
+              "Typ",
+              "Nutzdaten",
+              "Prüfsumme (FCS)"
+            ],
+            "tipps": [
+              "Vorne kommt das, was der Empfänger zuerst braucht: Takt und Adressen.",
+              "Die Prüfsumme schließt den Frame ab."
+            ],
+            "erkl": "Reihenfolge: **Präambel, Ziel-MAC, Quell-MAC, Typ, Nutzdaten, Prüfsumme**. Die Ziel-MAC steht vor der Quell-MAC."
+          },
+          {
+            "t": "weg",
+            "titel": "Overhead nachrechnen",
+            "kopf": "Wir betrachten einen Frame **ohne VLAN-Tag** und **ohne Präambel**.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele Byte hat der **Header** (Ziel-MAC + Quell-MAC + Typ)?",
+                "art": "zahl",
+                "antwort": [
+                  "14"
+                ],
+                "tipps": [
+                  "6 + 6 + 2."
+                ],
+                "erkl": "6 + 6 + 2 = **14 Byte**.",
+                "label": "Header"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele Byte **Overhead** sind es mit der Prüfsumme (4 Byte)?",
+                "art": "zahl",
+                "antwort": [
+                  "18"
+                ],
+                "tipps": [
+                  "Header plus 4 Byte FCS."
+                ],
+                "erkl": "14 + 4 = **18 Byte**.",
+                "label": "Overhead"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie groß ist der **größte** Frame bei 1500 Byte Nutzdaten?",
+                "art": "zahl",
+                "antwort": [
+                  "1518"
+                ],
+                "tipps": [
+                  "Nutzdaten plus Overhead."
+                ],
+                "erkl": "1500 + 18 = **1518 Byte**. Mit der Präambel wären es 1526.",
+                "fallen": {
+                  "1500": "1500 sind nur die Nutzdaten. Der Overhead kommt dazu.",
+                  "1526": "Das wäre mit Präambel. Gefragt ist ohne Präambel."
+                },
+                "label": "Größter Frame"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie groß ist der **kleinste** Frame bei 46 Byte Nutzdaten?",
+                "art": "zahl",
+                "antwort": [
+                  "64"
+                ],
+                "tipps": [
+                  "Kleinste Nutzdaten plus Overhead."
+                ],
+                "erkl": "46 + 18 = **64 Byte**.",
+                "label": "Kleinster Frame"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Was bedeutet **MTU = 1500 Byte** bei Ethernet?",
+            "optionen": [
+              "Der gesamte Frame ist höchstens 1500 Byte groß",
+              "Ein Frame hat immer genau 1500 Byte Nutzdaten",
+              "Nach 1500 Frames wird die Verbindung neu aufgebaut",
+              "Die Nutzdaten eines Frames dürfen höchstens 1500 Byte groß sein"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Die MTU betrifft nur einen Teil des Frames.",
+              "Rechne: 1500 + 18 = 1518. Passt das zur ersten Antwort?"
+            ],
+            "erkl": "Die MTU begrenzt die **Nutzdaten** (46 bis 1500 Byte). Der Frame ist durch den Overhead größer."
+          },
+          {
+            "t": "wahl",
+            "f": "Wozu dient die **Präambel**?",
+            "optionen": [
+              "Der Empfänger synchronisiert seinen Takt auf die Übertragungsrate",
+              "Sie enthält die Prüfsumme des Frames",
+              "Sie nennt die Ziel-MAC-Adresse",
+              "Sie gibt an, welches Protokoll in den Nutzdaten steckt"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Sie steht ganz vorne und enthält keine Adresse.",
+              "Es geht um den Takt."
+            ],
+            "erkl": "Die Präambel (8 Byte) lässt den Empfänger auf die Übertragungsrate einrasten."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Overhead 18 Byte (Header 14 + FCS 4), MTU 1500 Byte gilt für die Nutzdaten.",
+          "handout": "**Frame:** Präambel (8 B, Takt), Ziel-MAC (6), Quell-MAC (6), Typ (2), Nutzdaten (max. 1500 B = MTU), FCS (4). Overhead ohne Präambel: **18 Byte**. Frame max. 1518 Byte."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Typfeld und VLAN-Tag",
+        "kurz": "Typwerte, Ethernet II gegen 802.3, 4094 VLANs",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Der Empfänger muss wissen, was in den Nutzdaten steckt, und ob ein VLAN-Tag dabei ist.",
+          "frage": "Welches Feld verrät das?"
+        },
+        "aufbau": [
+          {
+            "text": "Das 2 Byte große Typfeld verrät den Inhalt der Nutzdaten. Ethernet II liest es als Typ, Ethernet 802.3 als Längenfeld.",
+            "diagramm": "typ"
+          },
+          {
+            "text": "Die vier häufigen Werte: 0x0800 IPv4, 0x86DD IPv6, 0x0806 ARP, 0x8100 VLAN-Tag.",
+            "diagramm": "typ"
+          },
+          {
+            "text": "Das Buch nennt 0x0800 den kleinsten Typwert. Nach der Norm ist ab 0x0600 (1536) ein Typ, bis 1500 eine Länge.",
+            "diagramm": "typ"
+          },
+          {
+            "text": "Im VLAN sitzt zwischen Quell-MAC und Typfeld ein 4-Byte-Tag: TPID (0x8100), Priorität 3 Bit, CF/DEI 1 Bit, VLAN-ID 12 Bit.",
+            "diagramm": "vlan"
+          },
+          {
+            "text": "12 Bit ergeben 2^12 = 4096 VLAN-IDs. Nutzbar sind 4094, denn 0 und 4095 sind reserviert.",
+            "diagramm": "vlan"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wie viele VLAN-IDs sind nutzbar?",
+          "optionen": [
+            {
+              "text": "4094",
+              "richtig": true,
+              "korrektur": "Richtig: 4096 unterscheidbare IDs, 0 und 4095 sind reserviert."
+            },
+            {
+              "text": "4096",
+              "richtig": false,
+              "korrektur": "So viele sind unterscheidbar, doch zwei sind reserviert."
+            },
+            {
+              "text": "4092",
+              "richtig": false,
+              "korrektur": "Es sind nur zwei reserviert, nicht vier."
+            }
+          ],
+          "loesung": "2^12 − 2 = 4094.",
+          "beleg": {
+            "seite": "307"
+          }
+        },
+        "wiederholung": {
+          "text": "12 Bit = 4096 IDs, minus die reservierten 0 und 4095 = 4094 nutzbar.",
+          "diagramm": "vlan"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welcher **Typwert** gehört zu welchem Inhalt?",
+            "paare": [
+              [
+                "0x0800",
+                "IPv4"
+              ],
+              [
+                "0x86DD",
+                "IPv6"
+              ],
+              [
+                "0x0806",
+                "ARP"
+              ],
+              [
+                "0x8100",
+                "VLAN-Tag (Spezialtyp)"
+              ]
+            ],
+            "tipps": [
+              "0x0800 ist der Klassiker, 0x86DD ist sein IPv6-Gegenstück.",
+              "0x0806 hat mit der Zuordnung IP zu MAC zu tun, 0x8100 mit VLANs."
+            ],
+            "erkl": "**0x0800** = IPv4, **0x86DD** = IPv6, **0x0806** = ARP, **0x8100** = VLAN."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein **Ethernet-802.3-Frame** wird gelesen. Wie wird das 2-Byte-Feld hinter den MAC-Adressen behandelt?",
+            "optionen": [
+              "Als Prüfsumme des Headers",
+              "Als Längenfeld, nicht als Typfeld",
+              "Als Priorität des Frames",
+              "Als Portnummer der Anwendung"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Ethernet II und 802.3 nutzen das Feld unterschiedlich."
+            ],
+            "erkl": "Bei 802.3 ist es ein **Längenfeld**, bei Ethernet II das Typfeld."
+          },
+          {
+            "t": "weg",
+            "titel": "VLAN-Zahlen",
+            "kopf": "Rechne mit den Bitbreiten des VLAN-Tags. Achte auf die Wortwahl: „unterscheidbar“ ist etwas anderes als „nutzbar“.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele **Prioritätsstufen** sind mit 3 Bit möglich?",
+                "art": "zahl",
+                "antwort": [
+                  "8"
+                ],
+                "tipps": [
+                  "2 hoch Bitanzahl."
+                ],
+                "erkl": "2³ = **8** Prioritätsstufen.",
+                "label": "Prioritätsstufen"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele **VLAN-IDs** sind mit 12 Bit unterscheidbar?",
+                "art": "zahl",
+                "antwort": [
+                  "4096"
+                ],
+                "tipps": [
+                  "2 hoch 12."
+                ],
+                "erkl": "2¹² = **4096**.",
+                "label": "VLAN-IDs"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele davon sind **nutzbar**?",
+                "art": "zahl",
+                "antwort": [
+                  "4094"
+                ],
+                "tipps": [
+                  "Zwei Werte sind reserviert: die kleinste und die größte ID."
+                ],
+                "erkl": "ID 0 und ID 4095 sind reserviert → **4094** nutzbar. Das Buch rechnet nur 2¹² = 4096; nutzbar sind es laut Errata 4094.",
+                "fallen": {
+                  "4096": "Das sind alle unterscheidbaren IDs. Zwei davon (0 und 4095) sind reserviert."
+                },
+                "label": "Nutzbare IDs"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie groß ist ein Frame mit **VLAN-Tag** und 1500 Byte Nutzdaten (ohne Präambel)?",
+                "art": "zahl",
+                "antwort": [
+                  "1522"
+                ],
+                "tipps": [
+                  "1518 plus Tag."
+                ],
+                "erkl": "1518 + 4 = **1522 Byte** (gerechnet aus den Buchfeldern; auch die Norm 802.1Q nennt 1522 Byte: Praxis, steht nicht im Buch).",
+                "fallen": {
+                  "1518": "Das ist der Frame ohne Tag. Der Tag bringt 4 Byte dazu."
+                },
+                "label": "Frame mit Tag"
+              }
+            ]
+          },
+          {
+            "t": "wahl",
+            "f": "Wo sitzt der **VLAN-Tag** im Frame?",
+            "optionen": [
+              "Vor der Ziel-MAC, direkt hinter der Präambel",
+              "Hinter den Nutzdaten, vor der Prüfsumme",
+              "Zwischen Quell-MAC und Typfeld",
+              "Er ersetzt die Quell-MAC"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Er ist ein optionales Feld in der Mitte des Headers."
+            ],
+            "erkl": "Der Tag steht zwischen **Quell-MAC und Typfeld** und ist 4 Byte groß."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Typ: 0x0800 IPv4, 0x86DD IPv6, 0x0806 ARP, 0x8100 VLAN. VLAN-ID 12 Bit = 4094 nutzbar.",
+          "handout": "**Typfeld:** 0x0800 IPv4 · 0x86DD IPv6 · 0x0806 ARP · 0x8100 VLAN. Ab 0x0600 Typ, bis 1500 Länge (802.3). **VLAN-Tag** (4 B): TPID 0x8100, Priorität 3 Bit, CF/DEI 1 Bit, VLAN-ID 12 Bit → 4096 IDs, 4094 nutzbar."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "TCP, UDP und Ports",
+        "kurz": "verbindungsorientiert gegen verbindungslos, Socket",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Eine Mail und ein Live-Stream laufen über dasselbe Kabel, aber mit verschiedenen Spielregeln.",
+          "frage": "Wie unterscheiden sich TCP und UDP, und wie findet das Paket seine Anwendung?"
+        },
+        "aufbau": [
+          {
+            "text": "TCP/IP ist eine Protokollsuite, Ethernet transportiert sie im LAN. IP findet Rechner und Netze, TCP und UDP finden die Anwendung über Ports.",
+            "diagramm": "tu"
+          },
+          {
+            "text": "IP und UDP sind verbindungslos. TCP ist verbindungsorientiert: Es quittiert die Zustellung und liefert Fehlendes nach.",
+            "diagramm": "tu"
+          },
+          {
+            "text": "UDP heißt User Datagram Protocol: schlank, schnell, ohne Quittung. Darum läuft Live-Video meist über UDP.",
+            "diagramm": "tu"
+          },
+          {
+            "text": "IP-Adresse plus Port ergibt einen Socket. Eine Verbindung braucht zwei Sockets, Quelle und Ziel.",
+            "diagramm": "sock"
+          },
+          {
+            "text": "Ein Port ist eine 16-Bit-Zahl, also gibt es 2^16 = 65536 Portnummern.",
+            "diagramm": "sock"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Was ist 203.0.113.5:443?",
+          "optionen": [
+            {
+              "text": "Ein Socket: IP-Adresse plus Port",
+              "richtig": true,
+              "korrektur": "Richtig: der Port nach dem Doppelpunkt bildet mit der IP den Socket."
+            },
+            {
+              "text": "Eine MAC-Adresse mit Port",
+              "richtig": false,
+              "korrektur": "MAC-Adressen haben sechs Byte in Hex, keine vier Zahlen mit Punkten."
+            },
+            {
+              "text": "Eine IPv6-Adresse in Kurzform",
+              "richtig": false,
+              "korrektur": "IPv6 nutzt Doppelpunkte und Hexziffern, das hier ist IPv4 mit Port."
+            }
+          ],
+          "loesung": "IP + Port = Socket.",
+          "beleg": {
+            "seite": "308"
+          }
+        },
+        "wiederholung": {
+          "text": "Socket = IP + Port. Gespräch = zwei Sockets. TCP quittiert, UDP nicht.",
+          "diagramm": "sock"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welche Aussage über **IP** und **TCP** stimmt?",
+            "optionen": [
+              "TCP ist verbindungslos, IP verbindungsorientiert",
+              "Beide bauen vor der Übertragung eine Verbindung auf",
+              "IP prüft die Zustellung und fordert Fehlendes nach",
+              "IP ist verbindungslos, TCP verbindungsorientiert"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wer sorgt für die sichere Zustellung: die Schicht für Rechner oder die für Anwendungen?",
+              "Das Nachliefern ist eine TCP-Aufgabe."
+            ],
+            "erkl": "**IP** ist verbindungslos und quittiert nicht, **TCP** ist verbindungsorientiert und sichert die Zustellung."
+          },
+          {
+            "t": "zuordnen",
+            "f": "**TCP** oder **UDP**? Ordne die Eigenschaft zu.",
+            "paare": [
+              [
+                "Verbindungsaufbau vor der Übertragung",
+                "TCP"
+              ],
+              [
+                "Zustellung wird quittiert",
+                "TCP"
+              ],
+              [
+                "Staukontrolle (Congestion Control)",
+                "TCP"
+              ],
+              [
+                "Kleiner Header, wenig Overhead",
+                "UDP"
+              ],
+              [
+                "Keine Nachlieferung bei Verlust",
+                "UDP"
+              ],
+              [
+                "Multicast möglich",
+                "UDP"
+              ]
+            ],
+            "tipps": [
+              "TCP = zuverlässig, aber mit Aufwand. UDP = schlank und schnell.",
+              "Alles, was mit Prüfen, Quittieren und Nachliefern zu tun hat, ist TCP."
+            ],
+            "erkl": "**TCP**: Verbindung, Quittung, Staukontrolle. **UDP**: kleiner Header, keine Nachlieferung, Multicast."
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür steht die Abkürzung **UDP**?",
+            "optionen": [
+              "User Datagram Protocol",
+              "User Data Protocol",
+              "Unified Data Packet",
+              "Universal Delivery Protocol"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Das Wort „Datagramm“ steckt drin.",
+              "Ein Datagramm ist ein einzelnes, unabhängiges Paket."
+            ],
+            "erkl": "UDP = **User Datagram Protocol**. Im Buch steht „User Data Protocol“, das ist ein Fehler."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein **Live-Videostream** nutzt meist UDP statt TCP. Warum?",
+            "optionen": [
+              "UDP garantiert, dass die Pakete in richtiger Reihenfolge ankommen",
+              "Nachgelieferte Pakete kämen zu spät, Tempo zählt mehr als Vollständigkeit",
+              "UDP verschlüsselt die Daten schon von sich aus",
+              "UDP baut eine besonders stabile Verbindung zum Sender auf"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Was bringt es, ein Bild nachzuliefern, wenn schon das nächste läuft?",
+              "UDP spart Quittungen und Nachlieferung."
+            ],
+            "erkl": "UDP spart Aufbau, Quittung und Nachlieferung und ist dadurch schneller. Für Live-Daten ist das sinnvoller als Vollständigkeit. (Das Streaming-Beispiel ist Praxis, steht nicht im Buch.)",
+            "fallen": {
+              "1": "UDP verschlüsselt nichts von Natur aus – das erledigen Protokolle wie DTLS oder SRTP.",
+              "2": "Klassische Falle: Bei TCP führt ein verlorenes Paket zum Stoppen des Puffers (Head-of-Line Blocking / Retransmission). Für Live-Streams ist Latenz wichtiger als 100% Vollständigkeit!"
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Was ist **203.0.113.5:443**?",
+            "optionen": [
+              "Eine IPv6-Adresse in Kurzform",
+              "Eine MAC-Adresse mit Port",
+              "Ein Socket: IP-Adresse plus Port",
+              "Ein Subnetz mit Präfix 443"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Vor dem Doppelpunkt steht ein Rechner, dahinter eine Nummer."
+            ],
+            "erkl": "IP-Adresse + Port = **Socket**: Rechner 203.0.113.5, Anwendung hinter Port 443."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Sockets** gehören zu einer einzelnen Verbindung zwischen zwei Rechnern?",
+            "art": "zahl",
+            "antwort": [
+              "2"
+            ],
+            "tipps": [
+              "Einer für jede Seite."
+            ],
+            "erkl": "Quelle und Ziel haben je einen Socket: **2**."
+          },
+          {
+            "t": "weg",
+            "titel": "Ports rechnen",
+            "kopf": "Ein Port ist eine 16-Bit-Zahl.",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Wie viele **verschiedene Portnummern** gibt es?",
+                "art": "zahl",
+                "antwort": [
+                  "65536"
+                ],
+                "tipps": [
+                  "2 hoch 16."
+                ],
+                "erkl": "2¹⁶ = **65.536** (von 0 bis 65535).",
+                "fallen": {
+                  "65535": "65535 ist die höchste Nummer. Mit der 0 sind es eine mehr."
+                },
+                "label": "Portnummern"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele davon sind **Well-known Ports** (0 bis 1023)?",
+                "art": "zahl",
+                "antwort": [
+                  "1024"
+                ],
+                "tipps": [
+                  "Von 0 bis 1023 zählt die 0 mit."
+                ],
+                "erkl": "1023 − 0 + 1 = **1.024**.",
+                "fallen": {
+                  "1023": "Die 0 zählt mit: 0 bis 1023 sind 1.024 Nummern."
+                },
+                "label": "Well-known"
+              },
+              {
+                "t": "eingabe",
+                "f": "Wie viele Ports sind **frei verwendbar** (ab 49152 bis 65535)?",
+                "art": "zahl",
+                "antwort": [
+                  "16384"
+                ],
+                "tipps": [
+                  "65535 − 49152 + 1."
+                ],
+                "erkl": "65535 − 49152 + 1 = **16.384**.",
+                "label": "Frei verwendbar"
+              }
+            ]
+          },
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1,
+              1
+            ],
+            "modus": "bereich"
+          },
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1
+            ],
+            "modus": "port"
+          },
+          {
+            "t": "wahl",
+            "f": "„Die IP-Adresse allein verrät, welche Anwendung auf dem Zielrechner angesprochen wird.“",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Was macht der Port?"
+            ],
+            "erkl": "Die IP-Adresse benennt Rechner und Netz. Die **Anwendung** adressiert der **Port**."
+          },
+          {
+            "t": "wahl",
+            "f": "Über welches Transportprotokoll läuft **klassisches HTTPS** (Browser zu Webserver)?",
+            "optionen": [
+              "TCP (Port 443)",
+              "UDP (Port 443)",
+              "ICMP",
+              "IP, ohne Transportprotokoll"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Eine Webseite muss vollständig und in richtiger Reihenfolge ankommen.",
+              "Zuverlässig = TCP."
+            ],
+            "erkl": "HTTPS läuft über **TCP**. Nur HTTP/3 mit QUIC nutzt UDP (siehe Station 5)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "TCP quittiert und liefert nach, UDP nicht. Socket = IP + Port, 16-Bit-Ports.",
+          "handout": "**TCP** verbindungsorientiert, Quittung und Nachlieferung, Bytestrom. **UDP** (User Datagram Protocol) verbindungslos, schlank, datagrammorientiert. **Socket** = IP + Port, eine Verbindung = 2 Sockets. Port = 16 Bit → 65536 Nummern."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Wie groß ist ein Frame mit voller MTU (ohne Präambel)?",
+        "optionen": [
+          {
+            "text": "1518 Byte",
+            "richtig": true
+          },
+          {
+            "text": "1500 Byte",
+            "richtig": false
+          },
+          {
+            "text": "1526 Byte",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welcher Typwert steht für ARP?",
+        "optionen": [
+          {
+            "text": "0x0806",
+            "richtig": true
+          },
+          {
+            "text": "0x0800",
+            "richtig": false
+          },
+          {
+            "text": "0x86DD",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wie viele VLAN-IDs sind nutzbar?",
+        "optionen": [
+          {
+            "text": "4094",
+            "richtig": true
+          },
+          {
+            "text": "4096",
+            "richtig": false
+          },
+          {
+            "text": "4092",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welches Protokoll quittiert die Zustellung?",
+        "optionen": [
+          {
+            "text": "TCP",
+            "richtig": true
+          },
+          {
+            "text": "UDP",
+            "richtig": false
+          },
+          {
+            "text": "IP",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_PR2.id]: LF03_PR2 });
+})();
+
+/* ---- f_einheiten_paketreise3.js ---- */
+//
+// Einheit 11: Verkapselung und Protokolle (aus dem Kurs "Reise eines Pakets", Stationen 4 bis 6). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_PR3 = {
+    "id": "lf03-paketreise-verkapselung-protokolle",
+    "reihe": 11,
+    "titel": "Verkapselung und Protokolle",
+    "untertitel": "wie Daten eingepackt werden und welche Protokolle oben und im Hintergrund laufen",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 323–327 (Verkapselung, Anwendungs- und Dienstprotokolle)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Verkapselung und Entkapselung Schicht für Schicht beschreiben",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz2",
+        "text": "Anwendungsprotokolle und Standardports zuordnen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz3",
+        "text": "ARP, DNS, DHCP, ICMP und SNMP unterscheiden",
+        "kn": "Netzwerkgrundlagen"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Verkapselung beim Senden: jede Schicht setzt ihren Header davor",
+        "knoten": [
+          {
+            "id": "e0",
+            "x": 60,
+            "y": 110,
+            "t": "Daten",
+            "sub": "Schicht 7 bis 5",
+            "w": 110
+          },
+          {
+            "id": "e1",
+            "x": 185,
+            "y": 110,
+            "t": "Segment",
+            "sub": "4: + TCP/UDP",
+            "w": 110
+          },
+          {
+            "id": "e2",
+            "x": 310,
+            "y": 110,
+            "t": "Paket",
+            "sub": "3: + IP",
+            "w": 110
+          },
+          {
+            "id": "e3",
+            "x": 435,
+            "y": 110,
+            "t": "Frame",
+            "sub": "2: + MAC, FCS",
+            "w": 110
+          },
+          {
+            "id": "e4",
+            "x": 560,
+            "y": 110,
+            "t": "Bits",
+            "sub": "1: Signale",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "e0",
+            "bis": "e1"
+          },
+          {
+            "von": "e1",
+            "bis": "e2"
+          },
+          {
+            "von": "e2",
+            "bis": "e3"
+          },
+          {
+            "von": "e3",
+            "bis": "e4"
+          }
+        ]
+      },
+      "verk": {
+        "art": "netz",
+        "titel": "Verkapselung beim Senden: jede Schicht setzt ihren Header davor",
+        "knoten": [
+          {
+            "id": "e0",
+            "x": 60,
+            "y": 110,
+            "t": "Daten",
+            "sub": "Schicht 7 bis 5",
+            "w": 110
+          },
+          {
+            "id": "e1",
+            "x": 185,
+            "y": 110,
+            "t": "Segment",
+            "sub": "4: + TCP/UDP",
+            "w": 110
+          },
+          {
+            "id": "e2",
+            "x": 310,
+            "y": 110,
+            "t": "Paket",
+            "sub": "3: + IP",
+            "w": 110
+          },
+          {
+            "id": "e3",
+            "x": 435,
+            "y": 110,
+            "t": "Frame",
+            "sub": "2: + MAC, FCS",
+            "w": 110
+          },
+          {
+            "id": "e4",
+            "x": 560,
+            "y": 110,
+            "t": "Bits",
+            "sub": "1: Signale",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "e0",
+            "bis": "e1"
+          },
+          {
+            "von": "e1",
+            "bis": "e2"
+          },
+          {
+            "von": "e2",
+            "bis": "e3"
+          },
+          {
+            "von": "e3",
+            "bis": "e4"
+          }
+        ]
+      },
+      "reise": {
+        "art": "netz",
+        "titel": "Ziel-IP bleibt der Server, die Ziel-MAC wechselt von Hop zu Hop",
+        "knoten": [
+          {
+            "id": "r0",
+            "x": 60,
+            "y": 110,
+            "t": "PC",
+            "sub": "Netz .10.0",
+            "w": 100
+          },
+          {
+            "id": "r1",
+            "x": 185,
+            "y": 110,
+            "t": "Switch",
+            "sub": "Schicht 2",
+            "w": 100
+          },
+          {
+            "id": "r2",
+            "x": 310,
+            "y": 110,
+            "t": "Router",
+            "sub": "Schicht 3",
+            "w": 100,
+            "rolle": "gelb"
+          },
+          {
+            "id": "r3",
+            "x": 435,
+            "y": 110,
+            "t": "Switch",
+            "sub": "Schicht 2",
+            "w": 100
+          },
+          {
+            "id": "r4",
+            "x": 560,
+            "y": 110,
+            "t": "Server",
+            "sub": "Netz .20.0",
+            "w": 100
+          }
+        ],
+        "links": [
+          {
+            "von": "r0",
+            "bis": "r1"
+          },
+          {
+            "von": "r1",
+            "bis": "r2"
+          },
+          {
+            "von": "r2",
+            "bis": "r3"
+          },
+          {
+            "von": "r3",
+            "bis": "r4"
+          }
+        ]
+      },
+      "ent": {
+        "art": "netz",
+        "titel": "Decapsulation beim Empfänger: jede Schicht entfernt ihren Header",
+        "knoten": [
+          {
+            "id": "d0",
+            "x": 60,
+            "y": 110,
+            "t": "Bits",
+            "sub": "1",
+            "w": 110
+          },
+          {
+            "id": "d1",
+            "x": 185,
+            "y": 110,
+            "t": "Frame",
+            "sub": "2: - MAC, FCS",
+            "w": 110
+          },
+          {
+            "id": "d2",
+            "x": 310,
+            "y": 110,
+            "t": "Paket",
+            "sub": "3: - IP",
+            "w": 110
+          },
+          {
+            "id": "d3",
+            "x": 435,
+            "y": 110,
+            "t": "Segment",
+            "sub": "4: - TCP",
+            "w": 110
+          },
+          {
+            "id": "d4",
+            "x": 560,
+            "y": 110,
+            "t": "Daten",
+            "sub": "an die Anwendung",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "d0",
+            "bis": "d1"
+          },
+          {
+            "von": "d1",
+            "bis": "d2"
+          },
+          {
+            "von": "d2",
+            "bis": "d3"
+          },
+          {
+            "von": "d3",
+            "bis": "d4"
+          }
+        ]
+      },
+      "ports": {
+        "art": "netz",
+        "titel": "Anwendungsprotokolle und ihre Standardports",
+        "knoten": [
+          {
+            "id": "q0",
+            "x": 90,
+            "y": 85,
+            "t": "HTTP",
+            "sub": "Port 80",
+            "w": 130
+          },
+          {
+            "id": "q1",
+            "x": 245,
+            "y": 85,
+            "t": "HTTPS",
+            "sub": "Port 443",
+            "w": 130
+          },
+          {
+            "id": "q2",
+            "x": 400,
+            "y": 85,
+            "t": "SMTP",
+            "sub": "Port 25",
+            "w": 130
+          },
+          {
+            "id": "q3",
+            "x": 555,
+            "y": 85,
+            "t": "POP3",
+            "sub": "Port 110",
+            "w": 130
+          },
+          {
+            "id": "q4",
+            "x": 165,
+            "y": 160,
+            "t": "IMAP",
+            "sub": "Port 143",
+            "w": 130
+          },
+          {
+            "id": "q5",
+            "x": 320,
+            "y": 160,
+            "t": "SMB",
+            "sub": "Port 445",
+            "w": 130
+          },
+          {
+            "id": "q6",
+            "x": 475,
+            "y": 160,
+            "t": "FTP",
+            "sub": "Port 21",
+            "w": 130
+          }
+        ],
+        "links": []
+      },
+      "mail": {
+        "art": "netz",
+        "titel": "Mail: Senden = SMTP, Abholen = POP3 oder IMAP",
+        "knoten": [
+          {
+            "id": "c",
+            "x": 70,
+            "y": 110,
+            "t": "Mailclient",
+            "w": 110
+          },
+          {
+            "id": "s",
+            "x": 320,
+            "y": 110,
+            "t": "Mailserver",
+            "w": 110,
+            "rolle": "gruen"
+          },
+          {
+            "id": "e",
+            "x": 570,
+            "y": 110,
+            "t": "Empfänger",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "c",
+            "bis": "s",
+            "t": "SMTP"
+          },
+          {
+            "von": "s",
+            "bis": "e",
+            "t": "POP3 / IMAP"
+          }
+        ]
+      },
+      "dien": {
+        "art": "netz",
+        "titel": "Dienstprotokolle: der Betrieb im Hintergrund",
+        "knoten": [
+          {
+            "id": "p0",
+            "x": 70,
+            "y": 110,
+            "t": "ARP",
+            "sub": "IP → MAC",
+            "w": 100
+          },
+          {
+            "id": "p1",
+            "x": 195,
+            "y": 110,
+            "t": "DNS",
+            "sub": "Name → IP",
+            "w": 100
+          },
+          {
+            "id": "p2",
+            "x": 320,
+            "y": 110,
+            "t": "DHCP",
+            "sub": "Konfiguration",
+            "w": 100
+          },
+          {
+            "id": "p3",
+            "x": 445,
+            "y": 110,
+            "t": "ICMP",
+            "sub": "Fehlermeldung",
+            "w": 100
+          },
+          {
+            "id": "p4",
+            "x": 570,
+            "y": 110,
+            "t": "SNMP",
+            "sub": "Zustand, UDP",
+            "w": 100
+          }
+        ],
+        "links": []
+      },
+      "dhcp": {
+        "art": "netz",
+        "titel": "DHCP: vier Schritte",
+        "knoten": [
+          {
+            "id": "h0",
+            "x": 75,
+            "y": 110,
+            "t": "Discover",
+            "sub": "Client sucht",
+            "w": 130
+          },
+          {
+            "id": "h1",
+            "x": 225,
+            "y": 110,
+            "t": "Offer",
+            "sub": "Server bietet an",
+            "w": 130
+          },
+          {
+            "id": "h2",
+            "x": 375,
+            "y": 110,
+            "t": "Request",
+            "sub": "Client nimmt an",
+            "w": 130
+          },
+          {
+            "id": "h3",
+            "x": 525,
+            "y": 110,
+            "t": "Acknowledge",
+            "sub": "Server bestätigt",
+            "w": 130
+          }
+        ],
+        "links": [
+          {
+            "von": "h0",
+            "bis": "h1"
+          },
+          {
+            "von": "h1",
+            "bis": "h2"
+          },
+          {
+            "von": "h2",
+            "bis": "h3"
+          }
+        ]
+      },
+      "arp": {
+        "art": "netz",
+        "titel": "ARP: Wer hat diese IP?",
+        "knoten": [
+          {
+            "id": "pc",
+            "x": 100,
+            "y": 110,
+            "t": "PC",
+            "sub": "fragt per Broadcast",
+            "w": 150
+          },
+          {
+            "id": "sw",
+            "x": 320,
+            "y": 110,
+            "t": "Netz",
+            "sub": "alle hören mit",
+            "w": 130
+          },
+          {
+            "id": "ow",
+            "x": 540,
+            "y": 110,
+            "t": "Besitzer",
+            "sub": "antwortet mit MAC",
+            "w": 150,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "pc",
+            "bis": "sw",
+            "t": "ARP-Request"
+          },
+          {
+            "von": "sw",
+            "bis": "ow",
+            "t": "ARP-Reply",
+            "stil": "quer"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welche Schicht hängt zusätzlich einen Trailer an?",
+        "optionen": [
+          {
+            "text": "Schicht 2",
+            "richtig": true
+          },
+          {
+            "text": "Schicht 3",
+            "richtig": false
+          },
+          {
+            "text": "Schicht 4",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welchen Port nutzt HTTPS?",
+        "optionen": [
+          {
+            "text": "443",
+            "richtig": true
+          },
+          {
+            "text": "80",
+            "richtig": false
+          },
+          {
+            "text": "25",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Verkapselung",
+        "kurz": "Header davor, Trailer hinten, und welche Adressen wohin gehören",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Ein PC ruft eine Webseite auf. Bis die Bits auf der Leitung sind, wird die Anfrage mehrfach eingepackt.",
+          "frage": "Was kommt auf jeder Schicht dazu, und wessen Adressen stehen darin?"
+        },
+        "aufbau": [
+          {
+            "text": "Beim Senden verkapselt jede Schicht die Daten: Sie hängt ihren Header vorne an und reicht das größere Stück nach unten.",
+            "diagramm": "verk"
+          },
+          {
+            "text": "Es entstehen Segment (Schicht 4), Paket (3) und Frame (2). Nur Schicht 2 hängt zusätzlich einen Trailer, die Prüfsumme, hinten an.",
+            "diagramm": "verk"
+          },
+          {
+            "text": "Beim Webseitenaufruf steht in Schicht 3 die IP des Servers, in Schicht 2 aber die MAC des Routers. Der PC liefert den Frame zuerst im eigenen Netz ab.",
+            "diagramm": "reise"
+          },
+          {
+            "text": "Das Buch nennt auf S. 324 im Layer-2-Schritt fälschlich die Ziel-IP. Schicht 2 trägt MAC-Adressen, nie IP-Adressen.",
+            "diagramm": "reise"
+          },
+          {
+            "text": "Am Ziel läuft es rückwärts: Jede Schicht liest ihren Header, entfernt ihn und gibt den Rest nach oben. Das ist die Decapsulation.",
+            "diagramm": "ent"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein PC ruft einen Webserver im Internet auf. Welche Ziel-MAC und Ziel-IP stehen im Frame?",
+          "optionen": [
+            {
+              "text": "Ziel-MAC: Router, Ziel-IP: Server",
+              "richtig": true,
+              "korrektur": "Richtig: Die IP bleibt Ende-zu-Ende, die MAC gilt nur im eigenen Netz."
+            },
+            {
+              "text": "Ziel-MAC: Server, Ziel-IP: Router",
+              "richtig": false,
+              "korrektur": "Das ist vertauscht. Der Server ist nicht im eigenen Netz, die MAC des Routers wird gebraucht."
+            },
+            {
+              "text": "Ziel-MAC und Ziel-IP: Router",
+              "richtig": false,
+              "korrektur": "Die Ziel-IP bleibt der Server, sonst wüsste der Router nicht, wohin es geht."
+            }
+          ],
+          "loesung": "Ziel-IP = Server, Ziel-MAC = Router.",
+          "beleg": {
+            "seite": "324"
+          }
+        },
+        "wiederholung": {
+          "text": "Ziel-IP = Server, Ziel-MAC = Router. Header kommen davor, nur Schicht 2 hängt den Trailer an.",
+          "diagramm": "reise"
+        },
+        "uebung": [
+          {
+            "t": "ordnen",
+            "f": "Welche Dateneinheiten entstehen beim Senden? Bring sie in die Reihenfolge **von oben nach unten**.",
+            "items": [
+              "Daten (Schicht 7)",
+              "Segment (Schicht 4)",
+              "Paket (Schicht 3)",
+              "Frame (Schicht 2)",
+              "Bits (Schicht 1)"
+            ],
+            "tipps": [
+              "Jede Schicht packt die Einheit der Schicht darüber ein.",
+              "TCP macht Segmente, IP macht Pakete, Ethernet macht Frames."
+            ],
+            "erkl": "**Daten → Segment → Paket → Frame → Bits.**"
+          },
+          {
+            "t": "gen",
+            "gen": "schichtProto",
+            "stufen": [
+              1,
+              1
+            ],
+            "modus": "pdu"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Schicht hängt zusätzlich einen **Trailer** hinten an die Daten?",
+            "optionen": [
+              "Schicht 4: das Segment bekommt eine Prüfsumme am Ende",
+              "Schicht 2: der Frame bekommt die Prüfsumme (FCS) am Ende",
+              "Schicht 3: das Paket bekommt die Ziel-IP am Ende",
+              "Keine, alle Schichten setzen nur Header"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Das Ende des Ethernet-Frames hast du in Station 2 gesehen."
+            ],
+            "erkl": "Nur der Ethernet-Frame hat einen Trailer: die **Prüfsumme** (FCS) in den letzten 4 Byte."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Auf welcher OSI-Schicht steht das Feld?",
+            "paare": [
+              [
+                "HTTP-Anfrage",
+                "Schicht 7"
+              ],
+              [
+                "Quellport, Zielport 80",
+                "Schicht 4"
+              ],
+              [
+                "Quell-IP, Ziel-IP",
+                "Schicht 3"
+              ],
+              [
+                "Quell-MAC, Ziel-MAC",
+                "Schicht 2"
+              ],
+              [
+                "Prüfsumme (FCS)",
+                "Schicht 2"
+              ]
+            ],
+            "tipps": [
+              "Ports = Schicht 4, IP = 3, MAC = 2.",
+              "Die Prüfsumme gehört zum Ethernet-Frame."
+            ],
+            "erkl": "Anfrage (7), Ports (4), IP-Adressen (3), MAC-Adressen und Prüfsumme (2)."
+          },
+          {
+            "t": "weg",
+            "titel": "Webseitenaufruf im Detail",
+            "kopf": "Ein PC (192.168.1.20) ruft einen Webserver im Internet (203.0.113.80) auf. Der Standardgateway ist der Router 192.168.1.1. Was trägt der Frame, den der PC losschickt?",
+            "schritte": [
+              {
+                "t": "eingabe",
+                "f": "Welcher **Zielport** steht im TCP-Segment (Standard bei HTTP)?",
+                "art": "zahl",
+                "antwort": [
+                  "80"
+                ],
+                "tipps": [
+                  "Der klassische Web-Port, ohne Verschlüsselung."
+                ],
+                "erkl": "HTTP nutzt üblicherweise Port **80**.",
+                "label": "Zielport"
+              },
+              {
+                "t": "wahl",
+                "f": "Welche **Ziel-IP** trägt das Paket?",
+                "optionen": [
+                  "192.168.1.1 (der Router)",
+                  "192.168.1.20 (der PC selbst)",
+                  "203.0.113.80 (der Webserver)",
+                  "255.255.255.255 (Broadcast)"
+                ],
+                "richtig": 2,
+                "tipps": [
+                  "Die IP-Adresse bleibt auf dem ganzen Weg die des Endziels."
+                ],
+                "erkl": "Die Ziel-IP ist die des **Servers**.",
+                "label": "Ziel-IP"
+              },
+              {
+                "t": "wahl",
+                "f": "Welche **Ziel-MAC** trägt der Frame?",
+                "optionen": [
+                  "Die MAC-Adresse des Webservers",
+                  "Die MAC-Adresse des DNS-Servers",
+                  "ff-ff-ff-ff-ff-ff (Broadcast)",
+                  "Die MAC-Adresse des Routers (192.168.1.1)"
+                ],
+                "richtig": 3,
+                "tipps": [
+                  "Der Frame bleibt im eigenen Netz. Wer nimmt ihn dort an?",
+                  "Der Webserver steht in einem fremden Netz, die MAC kennt der PC nie."
+                ],
+                "erkl": "Der Frame wird im LAN dem **Router** übergeben, der ihn weiterleitet.",
+                "label": "Ziel-MAC"
+              }
+            ]
+          },
+          {
+            "t": "ordnen",
+            "f": "Der Webserver empfängt die Anfrage. Bring die Schritte in die richtige **Reihenfolge**.",
+            "items": [
+              "Bits werden zum Frame zusammengesetzt",
+              "Ethernet-Header und Prüfsumme werden entfernt: IP-Paket",
+              "IP-Header wird entfernt: TCP-Segment",
+              "TCP-Header wird entfernt: HTTP-Daten",
+              "Der Webserver (Zielport) bekommt die Anfrage"
+            ],
+            "tipps": [
+              "Der innerste Header wurde zuletzt aufgesetzt, also wird er zuletzt entfernt.",
+              "Von unten nach oben: Frame, Paket, Segment, Daten."
+            ],
+            "erkl": "Von unten nach oben: **Frame → Paket → Segment → Daten**, und der Port entscheidet, welche Anwendung sie bekommt."
+          },
+          {
+            "t": "wahl",
+            "f": "Wie heißt das Auspacken der Daten beim Empfänger?",
+            "optionen": [
+              "Decapsulation (Entkapselung)",
+              "Encapsulation (Verkapselung)",
+              "Fragmentierung",
+              "Multiplexing"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Das Einpacken heißt Encapsulation."
+            ],
+            "erkl": "Auspacken = **Decapsulation**, Einpacken = Encapsulation."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Jede Schicht setzt ihren Header davor, Schicht 2 hängt den Trailer an. Ziel-IP = Server, Ziel-MAC = Router.",
+          "handout": "**Verkapselung:** Daten → Segment (4, +TCP/UDP-Header) → Paket (3, +IP-Header) → Frame (2, +MAC-Header und FCS-Trailer) → Bits. Empfang: Decapsulation, Header werden entfernt. Webseite im Internet: Ziel-IP Server, Ziel-MAC Router."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Anwendungsprotokolle",
+        "kurz": "Webseite, Mail, Dateien und ihre Ports",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Auf Schicht 7 läuft, was der Nutzer sieht: Webseiten, Dateien, Mails.",
+          "frage": "Welches Protokoll gehört zu welcher Aufgabe, und auf welchem Port lauscht es?"
+        },
+        "aufbau": [
+          {
+            "text": "Merke die Ports: HTTP 80, HTTPS 443, SMTP 25, POP3 110, IMAP 143, SMB 445, FTP 21.",
+            "diagramm": "ports"
+          },
+          {
+            "text": "Ein angehängtes S kennzeichnet die verschlüsselte Variante: HTTPS, bei FTP SFTP oder FTPS. FTP selbst ist unverschlüsselt.",
+            "diagramm": "ports"
+          },
+          {
+            "text": "Mail: SMTP schickt, POP3 holt ab und löscht auf dem Server, IMAP ruft ab und verwaltet auf dem Server.",
+            "diagramm": "mail"
+          },
+          {
+            "text": "Das Buch schreibt bei IMAP „Versenden und Empfangen“. Das Versenden läuft aber immer über SMTP.",
+            "diagramm": "mail"
+          },
+          {
+            "text": "QUIC trägt HTTP/3 über UDP, bringt TLS 1.3 mit und übernimmt typische TCP-Aufgaben selbst.",
+            "diagramm": "ports"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welches Protokoll versendet E-Mails?",
+          "optionen": [
+            {
+              "text": "SMTP",
+              "richtig": true,
+              "korrektur": "Richtig: Senden läuft über SMTP, Abholen über POP3 oder IMAP."
+            },
+            {
+              "text": "IMAP",
+              "richtig": false,
+              "korrektur": "IMAP ruft Mails ab und verwaltet sie, das Versenden macht SMTP."
+            },
+            {
+              "text": "POP3",
+              "richtig": false,
+              "korrektur": "POP3 holt Mails nur ab."
+            }
+          ],
+          "loesung": "SMTP (Port 25).",
+          "beleg": {
+            "seite": "324"
+          }
+        },
+        "wiederholung": {
+          "text": "HTTP 80, HTTPS 443, SMTP 25, POP3 110, IMAP 143, SMB 445, FTP 21.",
+          "diagramm": "ports"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches **Protokoll** passt zur Aufgabe?",
+            "paare": [
+              [
+                "Webseite im Klartext abrufen",
+                "HTTP"
+              ],
+              [
+                "Webseite verschlüsselt abrufen",
+                "HTTPS"
+              ],
+              [
+                "Windows-Freigaben und -Drucker nutzen",
+                "SMB"
+              ],
+              [
+                "Datei übertragen, verschlüsselt",
+                "SFTP oder FTPS"
+              ],
+              [
+                "Mail an den Server übergeben",
+                "SMTP"
+              ],
+              [
+                "Mails vom Server abholen und löschen",
+                "POP3"
+              ]
+            ],
+            "tipps": [
+              "HTTPS ist HTTP mit Verschlüsselung. SFTP und FTPS sind FTP mit Verschlüsselung.",
+              "Eine Mail senden und eine Mail abholen sind zwei verschiedene Protokolle."
+            ],
+            "erkl": "Web: **HTTP / HTTPS**. Windows-Netz: **SMB**. Dateien verschlüsselt: **SFTP/FTPS**. Mail senden: **SMTP**, abholen: **POP3**."
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Protokoll **versendet** E-Mails?",
+            "optionen": [
+              "IMAP",
+              "SMTP",
+              "POP3",
+              "SMB"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Zwei der Protokolle holen nur ab.",
+              "SMTP = Simple Mail Transfer Protocol: Transfer heißt Senden."
+            ],
+            "erkl": "Das Versenden übernimmt immer **SMTP**. POP3 und IMAP rufen Mails nur ab (IMAP verwaltet sie zusätzlich auf dem Server).",
+            "fallen": {
+              "1": "Denkfalle: **POP3** dient ausschließlich dem **Abholen** von Mails vom Server.",
+              "2": "Denkfalle: **IMAP** synchronisiert und **liest** Postfächer auf dem Server. Für den **Versand** ist immer **SMTP** zuständig!"
+            }
+          },
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1,
+              1
+            ],
+            "modus": "dienst"
+          },
+          {
+            "t": "gen",
+            "gen": "portDienst",
+            "stufen": [
+              1,
+              1
+            ],
+            "modus": "port"
+          },
+          {
+            "t": "eingabe",
+            "f": "Welchen **Port** nutzt HTTPS?",
+            "art": "zahl",
+            "antwort": [
+              "443"
+            ],
+            "tipps": [
+              "HTTP hat 80. Das verschlüsselte Gegenstück hat eine dreistellige Nummer mit 4er-Anfang."
+            ],
+            "erkl": "HTTPS → Port **443**."
+          },
+          {
+            "t": "wahl",
+            "f": "„Die Dateiübertragung per FTP ist verschlüsselt.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Wie heißen die verschlüsselten Varianten?"
+            ],
+            "erkl": "Klassisches **FTP** überträgt im Klartext. Verschlüsselt wird es erst mit **SFTP** oder **FTPS**. (Praxis, steht nicht im Buch: SFTP läuft eigentlich über SSH, FTPS über TLS.)"
+          },
+          {
+            "t": "wahl",
+            "f": "Auf welchem **Transportprotokoll** setzt QUIC auf?",
+            "optionen": [
+              "TCP",
+              "ICMP",
+              "ARP",
+              "UDP"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Der Name verrät es: Quick UDP Internet Connections."
+            ],
+            "erkl": "QUIC setzt auf **UDP** und ersetzt die TCP-Funktionen durch eigene."
+          },
+          {
+            "t": "gen",
+            "gen": "schichtProto",
+            "stufen": [
+              1,
+              1
+            ],
+            "modus": "schicht"
+          }
+        ],
+        "sicherung": {
+          "merksatz": "HTTP 80, HTTPS 443, SMTP 25, POP3 110, IMAP 143, SMB 445, FTP 21. Senden = SMTP.",
+          "handout": "**Anwendungsprotokolle:** HTTP 80 · HTTPS 443 · SMTP 25 · POP3 110 · IMAP 143 · SMB 445 · FTP 21. S = verschlüsselt. Mail: SMTP sendet, POP3 holt und löscht, IMAP verwaltet auf dem Server. QUIC = HTTP/3 über UDP."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "Dienstprotokolle",
+        "kurz": "ARP, DNS, DHCP, ICMP und SNMP",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Bevor der erste Frame fließt, haben im Hintergrund schon mehrere Hilfsprotokolle gearbeitet.",
+          "frage": "Welches Protokoll beantwortet welche Frage?"
+        },
+        "aufbau": [
+          {
+            "text": "ARP fragt: Welche MAC gehört zu dieser IP? DNS fragt: Welche IP gehört zu diesem Namen? DHCP verteilt die Konfiguration.",
+            "diagramm": "dien"
+          },
+          {
+            "text": "ARP-Request geht als Broadcast an alle, nur der Besitzer der IP antwortet. Für ein Ziel außerhalb fragt der PC nach der MAC des Routers. Befehl: arp -a.",
+            "diagramm": "arp"
+          },
+          {
+            "text": "DNS übersetzt Namen in IPs. Ein Dual-Stack-Rechner fragt Typ A für IPv4 und Typ AAAA für IPv6 ab. Test: nslookup.",
+            "diagramm": "dien"
+          },
+          {
+            "text": "DHCP in vier Schritten: Discover, Offer, Request, Acknowledge. ipconfig /release gibt frei, ipconfig /renew holt neu.",
+            "diagramm": "dhcp"
+          },
+          {
+            "text": "ICMP meldet Fehler, auch ping nutzt es. SNMP liefert Zustandsdaten von Netzgeräten über UDP. DNS, DHCP und SNMP sind Schicht 7.",
+            "diagramm": "dien"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein PC will einen Server im Internet erreichen. Nach welcher IP fragt er per ARP?",
+          "optionen": [
+            {
+              "text": "Nach der IP seines Standardgateways",
+              "richtig": true,
+              "korrektur": "Richtig: Er braucht die MAC des Routers, nicht die des fernen Servers."
+            },
+            {
+              "text": "Nach der IP des Webservers",
+              "richtig": false,
+              "korrektur": "Der Server ist in einem anderen Netz, ARP reicht nur ins eigene Netz."
+            },
+            {
+              "text": "Nach der IP des DNS-Servers",
+              "richtig": false,
+              "korrektur": "Der DNS-Server wird nach Namen gefragt, ARP sucht die MAC des nächsten Hops."
+            }
+          ],
+          "loesung": "ARP fragt nach der MAC des Gateways.",
+          "beleg": {
+            "seite": "326"
+          }
+        },
+        "wiederholung": {
+          "text": "ARP = IP zu MAC (Broadcast). DNS = Name zu IP. DHCP = Konfiguration in vier Schritten.",
+          "diagramm": "dien"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches Protokoll **beantwortet** welche Frage?",
+            "paare": [
+              [
+                "ARP",
+                "Welche MAC gehört zu dieser IP?"
+              ],
+              [
+                "DNS",
+                "Welche IP gehört zu diesem Namen?"
+              ],
+              [
+                "DHCP",
+                "Welche IP-Konfiguration bekomme ich?"
+              ],
+              [
+                "ICMP",
+                "Warum kam mein Paket nicht an?"
+              ],
+              [
+                "SNMP",
+                "Wie geht es dem Drucker oder Switch?"
+              ]
+            ],
+            "tipps": [
+              "Name zu IP und IP zu MAC sind zwei verschiedene Übersetzungen.",
+              "Fehlermeldungen kommen von ICMP, Zustandsdaten von SNMP."
+            ],
+            "erkl": "**ARP**: IP → MAC. **DNS**: Name → IP. **DHCP**: Konfiguration. **ICMP**: Fehlermeldungen. **SNMP**: Zustandsdaten."
+          },
+          {
+            "t": "wahl",
+            "f": "Wie verschickt ein Rechner einen **ARP-Request**?",
+            "optionen": [
+              "Als Broadcast an alle Geräte im Netz",
+              "Als Unicast direkt an den Router",
+              "Als Multicast an alle Switches der Firma",
+              "Als DNS-Anfrage an den Standardserver"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Der Rechner kennt die MAC des Gesuchten noch nicht. An wen kann er also nicht gezielt senden?"
+            ],
+            "erkl": "Weil die MAC unbekannt ist, geht die Frage an **alle** im Netz (Broadcast)."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein PC will einen Server im Internet erreichen. Nach **welcher IP** fragt er per ARP?",
+            "optionen": [
+              "Nach der IP des Webservers",
+              "Nach der IP seines Standardgateways (Router)",
+              "Nach der IP des DNS-Servers im Internet",
+              "Nach der IP des Switches, an dem er angeschlossen ist"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wen erreicht der PC direkt, den Webserver oder den Router?"
+            ],
+            "erkl": "ARP wirkt nur im eigenen Netz. Der PC braucht die MAC des **Routers**, die IP des Gateways kennt er schon.",
+            "fallen": {
+              "1": "Riesige Denkfalle! Der PC kann die MAC des Internet-Servers nicht kennen und ein ARP-Broadcast kann Router nicht passieren! Er fragt per ARP nach der MAC des **Standard-Gateways** (Router im eigenen Subnetz).",
+              "2": "Ein DNS-Server liefert nur die IP-Adresse, nicht die MAC-Adresse des Ziels."
+            }
+          },
+          {
+            "t": "wahl",
+            "f": "Ein Dual-Stack-Rechner löst einen Namen auf. Welche **Typen** fragt er ab?",
+            "optionen": [
+              "Nur A",
+              "MX und TXT",
+              "A (IPv4) und AAAA (IPv6)",
+              "ARP und ICMP"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Zwei IP-Versionen, zwei Anfragen."
+            ],
+            "erkl": "Er stellt je eine Anfrage vom Typ **A** (32 Bit) und **AAAA** (128 Bit, viermal so groß)."
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Bit** hat eine IPv6-Adresse, nach der Typ **AAAA** fragt?",
+            "art": "zahl",
+            "antwort": [
+              "128"
+            ],
+            "tipps": [
+              "Das Vierfache der IPv4-Adresse."
+            ],
+            "erkl": "4 × 32 = **128 Bit**."
+          },
+          {
+            "t": "ordnen",
+            "f": "Bring die **vier DHCP-Schritte** in die richtige Reihenfolge.",
+            "items": [
+              "DHCP Discover",
+              "DHCP Offer",
+              "DHCP Request",
+              "DHCP Acknowledge"
+            ],
+            "tipps": [
+              "Zuerst sucht der Client einen Server.",
+              "Der Server macht ein Angebot, der Client nimmt es an, der Server bestätigt."
+            ],
+            "erkl": "**Discover → Offer → Request → Acknowledge.** Suchen, Angebot, Annahme, Bestätigung."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher **Befehl** erledigt welche Aufgabe?",
+            "paare": [
+              [
+                "arp -a",
+                "ARP-Tabelle anzeigen"
+              ],
+              [
+                "nslookup name",
+                "Namensauflösung abfragen"
+              ],
+              [
+                "ipconfig /release",
+                "IP-Konfiguration freigeben"
+              ],
+              [
+                "ipconfig /renew",
+                "IP-Konfiguration neu anfordern"
+              ],
+              [
+                "ping",
+                "Erreichbarkeit per ICMP testen"
+              ]
+            ],
+            "tipps": [
+              "ARP, DNS und DHCP haben je einen eigenen Befehl.",
+              "release gibt frei, renew holt neu."
+            ],
+            "erkl": "**arp -a**: ARP-Tabelle. **nslookup**: DNS. **ipconfig /release und /renew**: DHCP. **ping**: ICMP."
+          },
+          {
+            "t": "wahl",
+            "f": "Worauf basiert der Befehl **ping**?",
+            "optionen": [
+              "Auf ARP",
+              "Auf SNMP",
+              "Auf DHCP",
+              "Auf ICMP"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Das Protokoll für Fehlermeldungen im Netz."
+            ],
+            "erkl": "`ping` nutzt **ICMP**."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Aussage zu **SNMP** stimmt?",
+            "optionen": [
+              "Es liefert Zustandsdaten von Netzgeräten und nutzt UDP",
+              "Es verteilt IP-Konfigurationen an Clients",
+              "Es löst Namen in IP-Adressen auf",
+              "Es verschlüsselt Webseiten"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Denke an „Toner leer“."
+            ],
+            "erkl": "**SNMP** meldet Zustände und steuert Geräte fern. Es läuft über UDP."
+          },
+          {
+            "t": "wahl",
+            "f": "In welcher OSI-Schicht liegen **DNS und DHCP** nach Norm und Praxis?",
+            "optionen": [
+              "Schicht 3 (Vermittlung), wie IP",
+              "Schicht 7 (Anwendung), sie laufen über UDP",
+              "Schicht 2 (Sicherung), wie ARP",
+              "Schicht 4 (Transport), wie UDP"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Beide laufen über UDP, sind also selbst keine Transportprotokolle.",
+              "Sie sind Dienste, die von Anwendungen genutzt werden."
+            ],
+            "erkl": "DNS und DHCP sind **Anwendungsprotokolle** (Schicht 7) und nutzen UDP als Transport. Die Buchtabelle nennt Schicht 3 bzw. 3 und 7."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "ARP = IP zu MAC. DNS = Name zu IP. DHCP = Discover, Offer, Request, Acknowledge.",
+          "handout": "**Dienstprotokolle:** ARP (IP → MAC, Request per Broadcast, arp -a) · DNS (Name → IP, A = IPv4, AAAA = IPv6) · DHCP (Discover, Offer, Request, Acknowledge) · ICMP (Fehlermeldungen, ping) · SNMP (Zustand, UDP 161/162). DNS, DHCP, SNMP = Schicht 7."
+        }
+      }
+    ],
+    "nachtest": [
+      {
+        "frage": "Welche Schicht fügt den Trailer (FCS) an?",
+        "optionen": [
+          {
+            "text": "Schicht 2",
+            "richtig": true
+          },
+          {
+            "text": "Schicht 3",
+            "richtig": false
+          },
+          {
+            "text": "Schicht 4",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welches Protokoll holt Mails ab und verwaltet sie auf dem Server?",
+        "optionen": [
+          {
+            "text": "IMAP",
+            "richtig": true
+          },
+          {
+            "text": "SMTP",
+            "richtig": false
+          },
+          {
+            "text": "SMB",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welchen Port nutzt SMTP?",
+        "optionen": [
+          {
+            "text": "25",
+            "richtig": true
+          },
+          {
+            "text": "110",
+            "richtig": false
+          },
+          {
+            "text": "143",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Wie viele Schritte hat der DHCP-Ablauf?",
+        "optionen": [
+          {
+            "text": "4",
+            "richtig": true
+          },
+          {
+            "text": "2",
+            "richtig": false
+          },
+          {
+            "text": "3",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_PR3.id]: LF03_PR3 });
+})();
+
+/* ---- f_einheiten_paketreise4.js ---- */
+//
+// Einheit 12: Verschluesselung, TLS und IPsec (aus dem Kurs "Reise eines Pakets", Stationen 7 und 8; Abschlussuebung = Endgegner s9 und Abschlusstest s10).
+// Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_PR4 = {
+    "id": "lf03-paketreise-verschluesselung-ipsec",
+    "reihe": 12,
+    "titel": "Verschlüsselung, TLS und IPsec",
+    "untertitel": "symmetrisch, asymmetrisch, hybrid, dann TLS und VPN auf Schicht 3",
+    "lernfeld": "LF03",
+    "dauer_min": 30,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 328–330 (Verschlüsselung, TLS, IPsec)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Symmetrische, asymmetrische und hybride Verschlüsselung unterscheiden",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz2",
+        "text": "Den Ablauf einer TLS-Verbindung beschreiben und TLS einordnen",
+        "kn": "Netzwerkgrundlagen"
+      },
+      {
+        "id": "lz3",
+        "text": "IPsec-Modi sowie AH und ESP auseinanderhalten",
+        "kn": "Netzwerkgrundlagen"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Hybrid: asymmetrisch für den Schlüssel, symmetrisch für die Daten",
+        "knoten": [
+          {
+            "id": "y0",
+            "x": 110,
+            "y": 110,
+            "t": "Asymmetrisch",
+            "sub": "gesicherter Kanal",
+            "w": 170
+          },
+          {
+            "id": "y1",
+            "x": 320,
+            "y": 110,
+            "t": "Sitzungsschlüssel",
+            "sub": "wird übertragen",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "y2",
+            "x": 530,
+            "y": 110,
+            "t": "Symmetrisch",
+            "sub": "schnelle Nutzdaten",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "y0",
+            "bis": "y1"
+          },
+          {
+            "von": "y1",
+            "bis": "y2"
+          }
+        ]
+      },
+      "sym": {
+        "art": "netz",
+        "titel": "Symmetrisch: ein gemeinsamer Schlüssel, schnell",
+        "knoten": [
+          {
+            "id": "s",
+            "x": 90,
+            "y": 110,
+            "t": "Sender",
+            "w": 100
+          },
+          {
+            "id": "k",
+            "x": 320,
+            "y": 110,
+            "t": "Schlüssel",
+            "sub": "derselbe auf beiden Seiten",
+            "w": 190,
+            "rolle": "gelb"
+          },
+          {
+            "id": "e",
+            "x": 550,
+            "y": 110,
+            "t": "Empfänger",
+            "w": 100
+          }
+        ],
+        "links": [
+          {
+            "von": "s",
+            "bis": "k"
+          },
+          {
+            "von": "k",
+            "bis": "e"
+          }
+        ]
+      },
+      "asym": {
+        "art": "netz",
+        "titel": "Asymmetrisch: Schlüsselpaar, langsam",
+        "knoten": [
+          {
+            "id": "pub",
+            "x": 150,
+            "y": 110,
+            "t": "Public Key",
+            "sub": "verschlüsselt, öffentlich",
+            "w": 210
+          },
+          {
+            "id": "prv",
+            "x": 490,
+            "y": 110,
+            "t": "Private Key",
+            "sub": "entschlüsselt, geheim",
+            "w": 210,
+            "rolle": "gelb"
+          }
+        ],
+        "links": [
+          {
+            "von": "pub",
+            "bis": "prv",
+            "t": "Paar"
+          }
+        ]
+      },
+      "hyb": {
+        "art": "netz",
+        "titel": "Hybrid: asymmetrisch für den Schlüssel, symmetrisch für die Daten",
+        "knoten": [
+          {
+            "id": "y0",
+            "x": 110,
+            "y": 110,
+            "t": "Asymmetrisch",
+            "sub": "gesicherter Kanal",
+            "w": 170
+          },
+          {
+            "id": "y1",
+            "x": 320,
+            "y": 110,
+            "t": "Sitzungsschlüssel",
+            "sub": "wird übertragen",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "y2",
+            "x": 530,
+            "y": 110,
+            "t": "Symmetrisch",
+            "sub": "schnelle Nutzdaten",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "y0",
+            "bis": "y1"
+          },
+          {
+            "von": "y1",
+            "bis": "y2"
+          }
+        ]
+      },
+      "tls": {
+        "art": "netz",
+        "titel": "TLS-Verbindung: TCP steht, dann Handshake, dann Records",
+        "knoten": [
+          {
+            "id": "l0",
+            "x": 110,
+            "y": 110,
+            "t": "TCP",
+            "sub": "Verbindung steht",
+            "w": 170
+          },
+          {
+            "id": "l1",
+            "x": 320,
+            "y": 110,
+            "t": "Handshake",
+            "sub": "Schlüsselaustausch",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "l2",
+            "x": 530,
+            "y": 110,
+            "t": "Records",
+            "sub": "verschlüsselte Daten",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "l0",
+            "bis": "l1"
+          },
+          {
+            "von": "l1",
+            "bis": "l2"
+          }
+        ]
+      },
+      "stack": {
+        "art": "netz",
+        "titel": "TLS sitzt oberhalb von TCP (Buchtabelle: Schicht 5)",
+        "knoten": [
+          {
+            "id": "z0",
+            "x": 60,
+            "y": 110,
+            "t": "HTTP",
+            "sub": "Schicht 7",
+            "w": 110
+          },
+          {
+            "id": "z1",
+            "x": 185,
+            "y": 110,
+            "t": "TLS",
+            "sub": "verschlüsselt",
+            "w": 110,
+            "rolle": "gelb"
+          },
+          {
+            "id": "z2",
+            "x": 310,
+            "y": 110,
+            "t": "TCP",
+            "sub": "Schicht 4",
+            "w": 110
+          },
+          {
+            "id": "z3",
+            "x": 435,
+            "y": 110,
+            "t": "IP",
+            "sub": "Schicht 3",
+            "w": 110
+          },
+          {
+            "id": "z4",
+            "x": 560,
+            "y": 110,
+            "t": "Ethernet",
+            "sub": "Schicht 2 und 1",
+            "w": 110
+          }
+        ],
+        "links": [
+          {
+            "von": "z0",
+            "bis": "z1"
+          },
+          {
+            "von": "z1",
+            "bis": "z2"
+          },
+          {
+            "von": "z2",
+            "bis": "z3"
+          },
+          {
+            "von": "z3",
+            "bis": "z4"
+          }
+        ]
+      },
+      "tmod": {
+        "art": "netz",
+        "titel": "Transportmodus: zwei Endgeräte, gesicherter Kanal",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 110,
+            "t": "Server A",
+            "w": 130
+          },
+          {
+            "id": "b",
+            "x": 530,
+            "y": 110,
+            "t": "Server B",
+            "w": 130
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b",
+            "t": "IPsec-Kanal",
+            "stil": "dick"
+          }
+        ]
+      },
+      "tun": {
+        "art": "netz",
+        "titel": "Tunnelmodus: ganze Netze über das Internet (VPN)",
+        "knoten": [
+          {
+            "id": "na",
+            "x": 70,
+            "y": 110,
+            "t": "Netz A",
+            "w": 96
+          },
+          {
+            "id": "ga",
+            "x": 215,
+            "y": 110,
+            "t": "Gateway",
+            "w": 96,
+            "rolle": "gruen"
+          },
+          {
+            "id": "gb",
+            "x": 425,
+            "y": 110,
+            "t": "Gateway",
+            "w": 96,
+            "rolle": "gruen"
+          },
+          {
+            "id": "nb",
+            "x": 570,
+            "y": 110,
+            "t": "Netz B",
+            "w": 96
+          }
+        ],
+        "links": [
+          {
+            "von": "na",
+            "bis": "ga"
+          },
+          {
+            "von": "ga",
+            "bis": "gb",
+            "t": "Tunnel",
+            "stil": "dick"
+          },
+          {
+            "von": "gb",
+            "bis": "nb"
+          }
+        ]
+      },
+      "ahesp": {
+        "art": "netz",
+        "titel": "AH und ESP",
+        "knoten": [
+          {
+            "id": "ah",
+            "x": 170,
+            "y": 110,
+            "t": "AH",
+            "sub": "echt, aber lesbar",
+            "w": 200,
+            "rolle": "gelb"
+          },
+          {
+            "id": "esp",
+            "x": 470,
+            "y": 110,
+            "t": "ESP",
+            "sub": "verschlüsselt",
+            "w": 200,
+            "rolle": "gruen"
+          }
+        ],
+        "links": [
+          {
+            "von": "ah",
+            "bis": "esp",
+            "t": "AH verschlüsselt nicht"
+          }
+        ]
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welches Verfahren nutzt ein Schlüsselpaar?",
+        "optionen": [
+          {
+            "text": "Asymmetrisch",
+            "richtig": true
+          },
+          {
+            "text": "Symmetrisch",
+            "richtig": false
+          },
+          {
+            "text": "Keines",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche TLS-Versionen sind aktuell?",
+        "optionen": [
+          {
+            "text": "TLS 1.2 und 1.3",
+            "richtig": true
+          },
+          {
+            "text": "SSL 3.0",
+            "richtig": false
+          },
+          {
+            "text": "TLS 1.0 und 1.1",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Verschlüsselungsverfahren",
+        "kurz": "symmetrisch, asymmetrisch und hybrid",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "Netze waren ursprünglich für Klartext gebaut. Heute soll niemand mitlesen und nichts unbemerkt verändert werden.",
+          "frage": "Wie schützt man Daten auf dem Weg?"
+        },
+        "aufbau": [
+          {
+            "text": "Beim Sender wird verschlüsselt, im Empfänger entschlüsselt. Unterwegs liegen die Daten nur verschlüsselt vor.",
+            "diagramm": "sym"
+          },
+          {
+            "text": "Symmetrisch: ein gemeinsamer Schlüssel, schnell. Das Problem: Der Schlüssel muss sicher zum Partner.",
+            "diagramm": "sym"
+          },
+          {
+            "text": "Asymmetrisch: ein Schlüsselpaar aus Public und Private Key. Das ist langsam, aber der öffentliche Schlüssel darf offen übertragen werden.",
+            "diagramm": "asym"
+          },
+          {
+            "text": "Hybrid: Über einen mit dem Schlüsselpaar gesicherten Kanal wird ein Sitzungsschlüssel ausgetauscht, danach fließen die Daten schnell symmetrisch.",
+            "diagramm": "hyb"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Warum verwendet man hybride Verschlüsselung?",
+          "optionen": [
+            {
+              "text": "Symmetrisch ist schnell, asymmetrisch löst den Schlüsselaustausch",
+              "richtig": true,
+              "korrektur": "Richtig: Man nimmt von beiden das Beste."
+            },
+            {
+              "text": "Asymmetrische Verfahren verschlüsseln große Datenmengen am schnellsten",
+              "richtig": false,
+              "korrektur": "Es ist umgekehrt: Asymmetrisch ist langsam."
+            },
+            {
+              "text": "Symmetrisch ist unsicher und wird nur als Notlösung genutzt",
+              "richtig": false,
+              "korrektur": "Symmetrisch ist sicher und schnell, es braucht nur einen sicheren Schlüsselweg."
+            }
+          ],
+          "loesung": "Hybrid kombiniert beide.",
+          "beleg": {
+            "seite": "328"
+          }
+        },
+        "wiederholung": {
+          "text": "Symmetrisch = schnell, ein Schlüssel. Asymmetrisch = langsam, Schlüsselpaar. Hybrid = beides.",
+          "diagramm": "hyb"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Ordne die **Eigenschaft** dem Verfahren zu.",
+            "paare": [
+              [
+                "Ein gemeinsamer Schlüssel",
+                "symmetrisch"
+              ],
+              [
+                "Schlüsselpaar: Public und Private Key",
+                "asymmetrisch"
+              ],
+              [
+                "Wenig Rechenleistung, sehr schnell",
+                "symmetrisch"
+              ],
+              [
+                "Viel Rechenleistung, langsam",
+                "asymmetrisch"
+              ],
+              [
+                "Beide Verfahren werden kombiniert",
+                "hybrid"
+              ]
+            ],
+            "tipps": [
+              "Zwei Schlüssel = asymmetrisch. Ein Schlüssel = symmetrisch.",
+              "Was langsam ist, braucht viel Rechenleistung."
+            ],
+            "erkl": "**Symmetrisch**: ein Schlüssel, schnell. **Asymmetrisch**: Schlüsselpaar, langsam. **Hybrid**: kombiniert beides."
+          },
+          {
+            "t": "wahl",
+            "f": "Warum verwendet man **hybride** Verschlüsselung?",
+            "optionen": [
+              "Asymmetrische Verfahren verschlüsseln große Datenmengen am schnellsten",
+              "Symmetrische Verfahren kommen ganz ohne Schlüssel aus",
+              "Asymmetrisch tauscht den Schlüssel aus, symmetrisch verschlüsselt die Daten",
+              "Hybride Verfahren brauchen kaum noch Rechenleistung"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Jedes Verfahren hat eine Stärke: das eine ist sicher beim Austausch, das andere schnell.",
+              "Wer überträgt die große Datenmenge?"
+            ],
+            "erkl": "Hybrid verbindet die **Vorteile**: sicherer Schlüsselaustausch (asymmetrisch) plus schnelle Datenübertragung (symmetrisch).",
+            "fallen": {
+              "1": "Symmetrische Schlüssel sind nicht unsicher, sondern bei AES-256 extrem stark.",
+              "2": "Asymmetrische Verfahren (RSA/ECC) sind mathematisch rechenintensiv und bei großen Datenmengen bis zu 1000-mal langsamer als symmetrisches AES. Daher kombiniert man beide Verfahren (Hybrid)!"
+            }
+          },
+          {
+            "t": "ordnen",
+            "f": "Bring den **hybriden Ablauf** in die richtige Reihenfolge.",
+            "items": [
+              "Mit Public und Private Key wird ein gesicherter Kanal aufgebaut",
+              "Darüber wird der symmetrische Schlüssel übertragen",
+              "Die eigentlichen Daten laufen symmetrisch verschlüsselt"
+            ],
+            "tipps": [
+              "Der Schlüssel für die schnelle Verschlüsselung muss erst sicher beim Partner ankommen."
+            ],
+            "erkl": "Erst **asymmetrisch** den Schlüssel austauschen, dann **symmetrisch** die Daten übertragen."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Symmetrisch = schnell, ein Schlüssel. Asymmetrisch = langsam, Schlüsselpaar. Hybrid = beides.",
+          "handout": "**Verfahren:** symmetrisch (ein Schlüssel, schnell) · asymmetrisch (Public/Private Key, langsam) · **hybrid**: gesicherter Kanal per Schlüsselpaar, darüber Sitzungsschlüssel, danach symmetrisch."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "TLS",
+        "kurz": "Handshake, Versionen und der Platz im Schichtenmodell",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Der Browser zeigt ein Schloss. Dahinter arbeitet TLS.",
+          "frage": "Wie läuft die Verbindung ab, und wo sitzt TLS?"
+        },
+        "aufbau": [
+          {
+            "text": "TLS (Transport Layer Security) verschlüsselt die Daten der oberen Schichten, bevor sie an TCP oder UDP gehen.",
+            "diagramm": "stack"
+          },
+          {
+            "text": "Ablauf: TCP-Verbindung steht, TLS-Handshake mit Schlüsselaustausch, danach fließen die Daten in verschlüsselten TLS-Records.",
+            "diagramm": "tls"
+          },
+          {
+            "text": "Aktuell sind TLS 1.2 und TLS 1.3. SSL 1.0 bis 3.0 sowie TLS 1.0 und 1.1 werden nicht mehr verwendet.",
+            "diagramm": "tls"
+          },
+          {
+            "text": "Ein angehängtes S zeigt TLS: HTTPS, SMTPS, POP3S. DNS over TLS und DNS over HTTPS sichern die Namensauflösung.",
+            "diagramm": "stack"
+          },
+          {
+            "text": "Das Buch widerspricht sich: Tabelle Schicht 5, Fließtext Schicht 4. Merke: TLS sitzt oberhalb von TCP, in der Buchtabelle auf Schicht 5.",
+            "diagramm": "stack"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wo sitzt TLS im Schichtenmodell?",
+          "optionen": [
+            {
+              "text": "Oberhalb von TCP (Buchtabelle: Schicht 5)",
+              "richtig": true,
+              "korrektur": "Richtig: Es verschlüsselt die oberen Schichten und übergibt an den Transport."
+            },
+            {
+              "text": "Auf Schicht 3 als Teil von IP",
+              "richtig": false,
+              "korrektur": "Auf Schicht 3 arbeitet IPsec, nicht TLS."
+            },
+            {
+              "text": "Unterhalb von IP neben Ethernet",
+              "richtig": false,
+              "korrektur": "Unterhalb von IP liegen Sicherung und Bitübertragung, TLS sitzt weiter oben."
+            }
+          ],
+          "loesung": "TLS: oberhalb von TCP.",
+          "beleg": {
+            "seite": "328"
+          }
+        },
+        "wiederholung": {
+          "text": "TCP steht, dann Handshake, dann Records. Aktuell TLS 1.2 und 1.3.",
+          "diagramm": "tls"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welche Version ist **aktuell**, welche **nicht mehr in Gebrauch**?",
+            "paare": [
+              [
+                "SSL 3.0",
+                "nicht mehr verwendet"
+              ],
+              [
+                "TLS 1.0",
+                "nicht mehr verwendet"
+              ],
+              [
+                "TLS 1.1",
+                "nicht mehr verwendet"
+              ],
+              [
+                "TLS 1.2",
+                "aktuell"
+              ],
+              [
+                "TLS 1.3",
+                "aktuell"
+              ]
+            ],
+            "tipps": [
+              "Alles mit SSL ist veraltet. Bei TLS zählen nur die beiden höchsten Versionen.",
+              "Die Versionen 1.2 und 1.3 sind aktuell."
+            ],
+            "erkl": "**TLS 1.2 und 1.3** sind aktuell. SSL und TLS 1.0/1.1 sind veraltet."
+          },
+          {
+            "t": "ordnen",
+            "f": "Wie läuft eine **TLS-Verbindung** ab? Bring die Schritte in die Reihenfolge.",
+            "items": [
+              "Die TCP-Verbindung zum Server steht",
+              "TLS-Handshake: Schlüsselaustausch",
+              "Daten fließen verschlüsselt in TLS-Records"
+            ],
+            "tipps": [
+              "Ohne Schlüssel kann nichts verschlüsselt werden.",
+              "Der Handshake kommt vor den Records."
+            ],
+            "erkl": "Erst Verbindung (Praxis: TCP), dann **Handshake**, dann verschlüsselte **Records**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Wie heißt die **gesicherte Variante**?",
+            "paare": [
+              [
+                "HTTP",
+                "HTTPS"
+              ],
+              [
+                "SMTP",
+                "SMTPS"
+              ],
+              [
+                "POP3",
+                "POP3S"
+              ],
+              [
+                "DNS",
+                "DNS over TLS / HTTPS"
+              ],
+              [
+                "FTP",
+                "FTPS oder SFTP"
+              ]
+            ],
+            "tipps": [
+              "Meist wird nur ein S angehängt.",
+              "Beim DNS schreibt man es aus."
+            ],
+            "erkl": "Mit **S** wird es verschlüsselt: HTTPS, SMTPS, POP3S. DNS gibt es als DNS over TLS oder HTTPS."
+          },
+          {
+            "t": "wahl",
+            "f": "Wo sitzt **TLS** im Schichtenmodell?",
+            "optionen": [
+              "Unterhalb von IP, auf Schicht 2 neben Ethernet",
+              "Auf Schicht 3, als Teil von IP neben IPsec",
+              "Auf Schicht 1, direkt bei den Signalen auf dem Kabel",
+              "Oberhalb von TCP (Buchtabelle: Schicht 5)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "TLS verschlüsselt die Daten der Anwendung, bevor TCP sie bekommt.",
+              "Es ist weit oben im Stapel."
+            ],
+            "erkl": "TLS liegt **oberhalb von TCP**. Im Buch steht es in der Tabelle auf Schicht 5, im Text auf Schicht 4."
+          },
+          {
+            "t": "wahl",
+            "f": "„SSL 3.0 darf heute bedenkenlos eingesetzt werden.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Welche Versionen nennt das Buch als aktuell?"
+            ],
+            "erkl": "Alle **SSL-Versionen** gelten als veraltet. Aktuell sind TLS 1.2 und 1.3."
+          },
+          {
+            "t": "wahl",
+            "f": "„Zwischen Sender und Empfänger liegen die Daten bei Verschlüsselung nur verschlüsselt vor, entschlüsselt sind sie nur in den Endgeräten.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wo wird ver- und entschlüsselt?"
+            ],
+            "erkl": "Genau das ist die Idee: Der Sender verschlüsselt, der Empfänger entschlüsselt."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Aktuell TLS 1.2 und 1.3. TLS sitzt oberhalb von TCP (Buchtabelle: Schicht 5).",
+          "handout": "**TLS:** Handshake (Schlüsselaustausch), dann TLS-Records. Aktuell **1.2 und 1.3**, veraltet: SSL 1.0–3.0, TLS 1.0/1.1. Das S in HTTPS/SMTPS/POP3S. DNS over TLS/HTTPS. Sitz: oberhalb von TCP, Buchtabelle Schicht 5 (Fließtext Schicht 4)."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "IPsec",
+        "kurz": "Schutz auf Schicht 3, Modi, AH und ESP",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Zwei Niederlassungen sollen über das Internet wie ein Netz arbeiten, ohne dass jemand mitliest.",
+          "frage": "Welche Technik und welcher Modus passen?"
+        },
+        "aufbau": [
+          {
+            "text": "IPsec schützt IP-Pakete auf Schicht 3. Schutzziele: Authentizität, Integrität und Vertraulichkeit.",
+            "diagramm": "tmod"
+          },
+          {
+            "text": "Transportmodus verbindet zwei Endgeräte über einen gesicherten Kanal.",
+            "diagramm": "tmod"
+          },
+          {
+            "text": "Tunnelmodus verbindet ganze Netze, zum Beispiel Niederlassungen. Das ist ein VPN.",
+            "diagramm": "tun"
+          },
+          {
+            "text": "AH sichert Integrität und Authentizität, die Daten bleiben aber lesbar. AH verschlüsselt nicht!",
+            "diagramm": "ahesp"
+          },
+          {
+            "text": "ESP verschlüsselt die Nutzlast und bringt damit die Vertraulichkeit. Ein vertrauliches VPN braucht ESP.",
+            "diagramm": "ahesp"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Ein VPN zwischen zwei Standorten soll auch vertraulich sein. Welcher Baustein sorgt dafür?",
+          "optionen": [
+            {
+              "text": "ESP, weil es die Nutzlast verschlüsselt",
+              "richtig": true,
+              "korrektur": "Richtig: Vertraulichkeit kommt von der Verschlüsselung durch ESP."
+            },
+            {
+              "text": "AH, weil es die Daten verschleiert",
+              "richtig": false,
+              "korrektur": "AH prüft nur Echtheit und Unverändertheit, die Daten bleiben lesbar."
+            },
+            {
+              "text": "Der Transportmodus",
+              "richtig": false,
+              "korrektur": "Der Modus sagt nur, ob Geräte oder Netze verbunden werden, nicht ob verschlüsselt wird."
+            }
+          ],
+          "loesung": "ESP verschlüsselt.",
+          "beleg": {
+            "seite": "329"
+          }
+        },
+        "wiederholung": {
+          "text": "Transportmodus = zwei Endgeräte, Tunnelmodus = ganze Netze. AH = echt, aber lesbar. ESP = verschlüsselt.",
+          "diagramm": "ahesp"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welcher **Modus** passt zur Situation?",
+            "paare": [
+              [
+                "Zwei Server sichern ihre Verbindung direkt",
+                "Transportmodus"
+              ],
+              [
+                "Zwei Niederlassungen verbinden ihre Netze",
+                "Tunnelmodus"
+              ],
+              [
+                "Äußerer IP-Header mit öffentlichen Adressen",
+                "Tunnelmodus"
+              ],
+              [
+                "Verbindung zwischen zwei Endgeräten",
+                "Transportmodus"
+              ]
+            ],
+            "tipps": [
+              "Endgeräte = Transport. Ganze Netze = Tunnel.",
+              "Ein zusätzlicher äußerer IP-Header wird nur beim Tunnel gebraucht."
+            ],
+            "erkl": "Zwei **Endgeräte**: Transportmodus. **Netze/Niederlassungen**: Tunnelmodus (mit äußerem IP-Header). Dass dort meist öffentliche Adressen stehen, ist Praxis und steht nicht im Buch."
+          },
+          {
+            "t": "zuordnen",
+            "f": "**AH** oder **ESP**? Ordne zu.",
+            "paare": [
+              [
+                "Sichert Integrität und Authentizität",
+                "AH"
+              ],
+              [
+                "Daten bleiben lesbar",
+                "AH"
+              ],
+              [
+                "Nutzlast wird verschlüsselt",
+                "ESP"
+              ],
+              [
+                "Liefert Vertraulichkeit",
+                "ESP"
+              ]
+            ],
+            "tipps": [
+              "Nur ein Verfahren verschlüsselt wirklich.",
+              "Vertraulichkeit heißt: Niemand kann mitlesen."
+            ],
+            "erkl": "**AH** authentifiziert (Daten lesbar), **ESP** verschlüsselt (Vertraulichkeit)."
+          },
+          {
+            "t": "wahl",
+            "f": "Du willst nur sicherstellen, dass ein Paket **vom echten Absender** kommt und **nicht verändert** wurde. Lesbar darf es bleiben. Was genügt?",
+            "optionen": [
+              "ESP, weil nur das den Absender prüft",
+              "Weder AH noch ESP, das leistet IP selbst",
+              "AH (Authentication Header)",
+              "TLS-Handshake auf Schicht 5"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Es geht um Integrität und Authentizität, nicht um Geheimhaltung."
+            ],
+            "erkl": "**AH** sichert Integrität und Authentizität, ohne zu verschlüsseln."
+          },
+          {
+            "t": "wahl",
+            "f": "Ein VPN zwischen zwei Standorten soll auch **vertraulich** sein. Welcher Baustein sorgt dafür?",
+            "optionen": [
+              "AH, weil es die Daten verschleiert",
+              "Der Transportmodus, weil er die Nutzlast ausblendet",
+              "Der äußere IP-Header, weil er die Daten verpackt",
+              "ESP (Encapsulating Security Payload)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wer verschlüsselt: AH oder ESP?"
+            ],
+            "erkl": "Erst **ESP** verschlüsselt die Nutzlast. AH allein würde alles lesbar lassen."
+          },
+          {
+            "t": "ordnen",
+            "f": "Ein **Tunnelmodus-Paket mit AH**: Bring die Bestandteile von vorn nach hinten in die richtige Reihenfolge.",
+            "items": [
+              "Äußerer IP-Header (öffentliche Adressen)",
+              "Authentication Header (AH)",
+              "Innerer (ursprünglicher) IP-Header",
+              "TCP-/UDP-Header",
+              "Daten"
+            ],
+            "tipps": [
+              "Ganz vorne steht, was das Internet routet.",
+              "Das ursprüngliche IP-Paket wird komplett hinter AH eingepackt."
+            ],
+            "erkl": "Von vorn nach hinten: **äußerer IP-Header, AH, innerer IP-Header, TCP-/UDP-Header, Daten**."
+          },
+          {
+            "t": "wahl",
+            "f": "Auf welcher **OSI-Schicht** arbeitet IPsec?",
+            "optionen": [
+              "Schicht 3 (Vermittlung)",
+              "Schicht 2 (Sicherung)",
+              "Schicht 4 (Transport)",
+              "Schicht 7 (Anwendung)"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "IPsec schützt IP-Pakete."
+            ],
+            "erkl": "IPsec = **Schicht 3**, wie IP selbst."
+          },
+          {
+            "t": "wahl",
+            "f": "Zwei Niederlassungen sollen über das Internet verbunden werden. Welcher IPsec-Modus passt?",
+            "optionen": [
+              "Transportmodus: er verbindet ganze Netze",
+              "Tunnelmodus: er verbindet ganze Netze",
+              "Weder noch, IPsec verbindet nur einzelne Programme",
+              "Transportmodus, weil nur Endgeräte verbunden werden"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Es geht um ganze Standorte, nicht um zwei einzelne Rechner."
+            ],
+            "erkl": "Der **Tunnelmodus** verbindet Netze (Niederlassungen), wie ein Site-to-Site-VPN (Praxis, der Begriff steht nicht im Buch)."
+          },
+          {
+            "t": "wahl",
+            "f": "„AH verschlüsselt die Nutzdaten, ESP prüft nur den Absender.“",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Welches Verfahren liefert Vertraulichkeit?"
+            ],
+            "erkl": "Es ist umgekehrt: **AH** authentifiziert, **ESP** verschlüsselt (Vertraulichkeit)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "Transportmodus = Endgeräte, Tunnelmodus = Netze. AH = echt und unverändert, ESP = verschlüsselt.",
+          "handout": "**IPsec** (Schicht 3): Schutzziele Authentizität, Integrität, Vertraulichkeit. **Transportmodus** = zwei Endgeräte, **Tunnelmodus** = ganze Netze (VPN). **AH**: Integrität und Authentizität, Daten lesbar. **ESP**: verschlüsselt die Nutzlast."
+        }
+      }
+    ],
+    "uebung": [
+      {
+        "t": "weg",
+        "titel": "1. Der PC sendet",
+        "kopf": "Der PC ruft per Browser die Seite **http://192.168.20.5** auf. Du baust die Adressen der Schichten 4, 3 und 2 für den Frame, den der PC auf das Kabel schickt.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Welcher **Zielport** steht im TCP-Segment?",
+            "art": "zahl",
+            "antwort": [
+              "80"
+            ],
+            "tipps": [
+              "Standardport für HTTP ohne Verschlüsselung."
+            ],
+            "erkl": "HTTP nutzt Port **80**.",
+            "label": "Zielport"
+          },
+          {
+            "t": "wahl",
+            "f": "Wie kommt der **Quellport** des Browsers zustande?",
+            "optionen": [
+              "Ebenfalls Port 80, damit der Server die Antwort zuordnen kann",
+              "Die MAC-Adresse des PCs, als Zahl geschrieben",
+              "Immer Port 0",
+              "Eine frei gewählte Nummer, an die der Server seine Antwort schickt"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Der Quellport ist die Adresse der Anwendung auf dem PC.",
+              "Er muss nicht fest sein, nur eindeutig für die Antwort."
+            ],
+            "erkl": "Der Quellport adressiert den Browser. Er ist frei wählbar, meist aus dem Bereich ab 49152 (so vergeben es Betriebssysteme üblicherweise, steht nicht im Buch).",
+            "label": "Quellport"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Ziel-IP** trägt das Paket?",
+            "optionen": [
+              "192.168.20.5 (der Server)",
+              "192.168.10.1 (der Router)",
+              "192.168.10.20 (der PC)",
+              "255.255.255.255 (Broadcast)"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Die IP nennt das Endziel."
+            ],
+            "erkl": "Die Ziel-IP bleibt auf der ganzen Reise **192.168.20.5**.",
+            "label": "Ziel-IP"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Ziel-MAC** trägt der Frame?",
+            "optionen": [
+              "MAC-SRV (der Server)",
+              "MAC-R1 (Router, PC-Seite)",
+              "MAC-R2 (Router, Serverseite)",
+              "ff-ff-ff-ff-ff-ff (Broadcast)"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der Server steht in einem anderen Netz.",
+              "Im eigenen Netz gibt es nur einen Weg dorthin: den Router, und zwar seine Schnittstelle in diesem Netz."
+            ],
+            "erkl": "Der PC liefert den Frame im eigenen Netz beim Router ab, an dessen **PC-seitiger Schnittstelle (MAC-R1)**.",
+            "label": "Ziel-MAC"
+          },
+          {
+            "t": "wahl",
+            "f": "Wie erfährt der PC die **MAC-R1**, wenn er sie noch nicht kennt?",
+            "optionen": [
+              "Aus der DNS-Antwort für den Namen des Servers",
+              "Er berechnet sie aus der IP-Adresse 192.168.10.1",
+              "Per ARP-Request (Broadcast) nach der IP des Standardgateways",
+              "Der Switch teilt sie ihm automatisch mit"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "ARP übersetzt IP in MAC.",
+              "Er kennt die IP des Gateways aus seiner IP-Konfiguration."
+            ],
+            "erkl": "ARP-Request als **Broadcast** (Wer hat 192.168.10.1?). Der Router antwortet mit seiner MAC.",
+            "label": "ARP"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "2. Switch, Router, Server",
+        "kopf": "Der Frame ist unterwegs. Beachte, **wie weit** jedes Gerät den Frame auspackt und **welche Adressen** sich ändern.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welche Adresse wertet **Switch 1** aus, um den Frame zu vermitteln?",
+            "optionen": [
+              "Die Ziel-IP (Schicht 3)",
+              "Den Zielport (Schicht 4)",
+              "Die Quell-IP (Schicht 3)",
+              "Die Ziel-MAC (Schicht 2)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Ein Switch arbeitet auf Schicht 2."
+            ],
+            "erkl": "Der Switch liest die **Ziel-MAC** und packt nur bis Schicht 2 aus.",
+            "label": "Switch"
+          },
+          {
+            "t": "wahl",
+            "f": "Bis zu welcher Schicht packt der **Router** aus?",
+            "optionen": [
+              "Bis Schicht 3 (Vermittlung)",
+              "Bis Schicht 2",
+              "Bis Schicht 4",
+              "Bis Schicht 7"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Er wertet den Netzanteil der Ziel-IP aus."
+            ],
+            "erkl": "Der Router entfernt den Ethernet-Header, liest die IP und packt den Rest wieder in einen **neuen Frame**.",
+            "label": "Router"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche **Quell- und Ziel-MAC** trägt der Frame auf dem Weg vom Router zum Server?",
+            "optionen": [
+              "Quell-MAC: MAC-PC, Ziel-MAC: MAC-SRV",
+              "Quell-MAC: MAC-R2, Ziel-MAC: MAC-SRV",
+              "Quell-MAC: MAC-R1, Ziel-MAC: MAC-SRV",
+              "Quell-MAC: MAC-R2, Ziel-MAC: MAC-PC"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der Router baut einen neuen Frame mit seiner eigenen Schnittstelle als Absender.",
+              "Die Absenderseite ist diesmal die Serverseite des Routers."
+            ],
+            "erkl": "Der Router setzt seine **serverseitige MAC (MAC-R2)** als Quelle und die **MAC des Servers** als Ziel.",
+            "label": "MAC hinter dem Router"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Adressen bleiben **auf der ganzen Reise** gleich?",
+            "optionen": [
+              "Alle Adressen, auch die MAC-Adressen, bleiben gleich",
+              "Nur die MAC-Adressen, die IPs werden ersetzt",
+              "Quell- und Ziel-IP (MACs werden bei jedem Router neu gesetzt)",
+              "Nur die Ports, alle anderen Adressen ändern sich"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Welche Adressen gelten nur innerhalb eines Netzes?"
+            ],
+            "erkl": "Die **IP-Adressen** bleiben gleich, die **MAC-Adressen** gelten nur im jeweiligen Netz. (In diesem Szenario ohne NAT.)",
+            "label": "Konstante Adressen"
+          },
+          {
+            "t": "wahl",
+            "f": "Bis zu welcher Schicht packt der **Server** aus, und wer bekommt die Daten?",
+            "optionen": [
+              "Bis Schicht 3: das Betriebssystem behält die Anfrage selbst",
+              "Bis Schicht 2: die Netzwerkkarte beantwortet sie direkt",
+              "Bis Schicht 4: der TCP-Port antwortet selbst ohne Anwendung",
+              "Bis Schicht 7: der Webserver (Zielport 80) bekommt die Anfrage"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Erst das Ende der Reise reicht die Daten bis zur Anwendung."
+            ],
+            "erkl": "Der Server entkapselt bis **Schicht 7**. Der **Zielport** nennt die Anwendung (Webserver).",
+            "label": "Server"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "3. HTTPS mit TLS",
+        "kopf": "Jetzt ruft der PC die Seite über **klassisches HTTPS** (nicht HTTP/3) vom Server 192.168.20.5 auf.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welches **Transportprotokoll** nutzt die Verbindung?",
+            "optionen": [
+              "TCP",
+              "UDP",
+              "ICMP",
+              "ARP"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Webseiten müssen vollständig ankommen."
+            ],
+            "erkl": "Klassisches HTTPS läuft über **TCP**.",
+            "label": "Transport"
+          },
+          {
+            "t": "eingabe",
+            "f": "Welcher **Zielport** gehört zu HTTPS?",
+            "art": "zahl",
+            "antwort": [
+              "443"
+            ],
+            "tipps": [
+              "HTTP hat 80."
+            ],
+            "erkl": "**443**.",
+            "label": "Zielport"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Sockets** sind an der Verbindung beteiligt?",
+            "art": "zahl",
+            "antwort": [
+              "2"
+            ],
+            "tipps": [
+              "Quelle und Ziel."
+            ],
+            "erkl": "Je einer für Quelle und Ziel: **2**.",
+            "label": "Sockets"
+          },
+          {
+            "t": "wahl",
+            "f": "Wie sieht der **Ziel-Socket** aus?",
+            "optionen": [
+              "192.168.20.5:80",
+              "192.168.20.5:443",
+              "MAC-SRV:443",
+              "192.168.10.20:443"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "IP-Adresse plus Port. Welche IP ist das Ziel?"
+            ],
+            "erkl": "Ziel-Socket = Server-IP plus Zielport: **192.168.20.5:443**.",
+            "label": "Ziel-Socket"
+          },
+          {
+            "t": "wahl",
+            "f": "Wie sichert **TLS** die Daten?",
+            "optionen": [
+              "Alle Daten werden dauerhaft nur asymmetrisch verschlüsselt",
+              "Nur symmetrisch, den Schlüssel kennen beide schon vorher",
+              "Schlüssel asymmetrisch austauschen, Daten dann symmetrisch verschlüsseln",
+              "Nur die Header werden verschlüsselt, die Daten bleiben lesbar"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "TLS arbeitet hybrid."
+            ],
+            "erkl": "TLS ist **hybrid**: asymmetrischer Schlüsselaustausch im Handshake, danach symmetrische Verschlüsselung der Records. (Die Zuordnung zu TLS ist Praxis, steht nicht im Buch; das Buch nennt Handshake und Records.)",
+            "label": "Hybrid"
+          },
+          {
+            "t": "wahl",
+            "f": "Wo liegen die Daten **unverschlüsselt** vor?",
+            "optionen": [
+              "Auf jedem Switch und Router des Weges",
+              "Nur auf dem Switch 1",
+              "Nirgends, auch der Browser sieht nur verschlüsselte Daten",
+              "Nur in den beiden Endgeräten, dazwischen nur verschlüsselt"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Wer ver- und entschlüsselt?"
+            ],
+            "erkl": "Zwischen Sender und Empfänger sind die Daten **nur verschlüsselt**, im Klartext liegen sie nur an den Enden vor.",
+            "label": "Klartext"
+          }
+        ]
+      },
+      {
+        "t": "weg",
+        "titel": "4. Niederlassungen verbinden",
+        "kopf": "Die Firma will ihre **Netze** an zwei Standorten über das Internet verbinden. Alle Rechner beider Netze sollen sich erreichen, und die Daten müssen **vertraulich** bleiben. Ihr nutzt IPsec.",
+        "schritte": [
+          {
+            "t": "wahl",
+            "f": "Welcher **Modus** passt?",
+            "optionen": [
+              "Tunnelmodus",
+              "Transportmodus",
+              "AH-Modus",
+              "Broadcast-Modus"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Es werden ganze Netze verbunden."
+            ],
+            "erkl": "Der **Tunnelmodus** verbindet ganze Netze.",
+            "label": "Modus"
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Verfahren sorgt für die **Vertraulichkeit**?",
+            "optionen": [
+              "AH (Authentication Header)",
+              "ESP (Encapsulating Security Payload)",
+              "ARP",
+              "SNMP"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wer verschlüsselt: AH oder ESP?"
+            ],
+            "erkl": "**ESP** verschlüsselt die Nutzlast. AH allein würde die Daten lesbar lassen.",
+            "label": "Verfahren"
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Adressen stehen im **äußeren IP-Header**?",
+            "optionen": [
+              "Die privaten Adressen der beiden Netze",
+              "Die MAC-Adressen der Router",
+              "Öffentliche IP-Adressen der beiden Tunnelenden",
+              "Die Portnummern der Anwendungen"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Der äußere Header muss im Internet routbar sein."
+            ],
+            "erkl": "Der äußere IP-Header trägt **öffentliche** Adressen, damit das Internet das Paket zustellen kann. Das ursprüngliche Paket wird darin verpackt. (Praxis, steht nicht im Buch: Das Buch zeigt nur „äußerer IP-Header“.)",
+            "label": "Äußerer Header"
+          },
+          {
+            "t": "wahl",
+            "f": "Auf welcher **OSI-Schicht** arbeitet IPsec?",
+            "optionen": [
+              "Schicht 2",
+              "Schicht 4",
+              "Schicht 7",
+              "Schicht 3"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "IPsec arbeitet auf IP-Pakete."
+            ],
+            "erkl": "IPsec = **Schicht 3**.",
+            "label": "Schicht"
+          }
+        ]
+      },
+      {
+        "t": "wahl",
+        "f": "1. Auf welcher OSI-Schicht arbeiten Switches, auf welcher Router, und was werten sie aus?",
+        "optionen": [
+          "Switch Schicht 2 (Ziel-MAC), Router Schicht 3 (Netzanteil der Ziel-IP)",
+          "Switch Schicht 3 (Ziel-IP), Router Schicht 2 (Ziel-MAC)",
+          "Switch Schicht 1 (keine Adressen), Router Schicht 2 (Ziel-MAC)",
+          "Beide Schicht 3, beide werten die Ziel-IP aus"
+        ],
+        "richtig": 0,
+        "erkl": "Der Switch liest die Ziel-MAC (**Schicht 2**), der Router den Netzanteil der Ziel-IP (**Schicht 3**)."
+      },
+      {
+        "t": "zuordnen",
+        "f": "2. Ordne die OSI-Schichten der **TCP/IP-Schicht** zu.",
+        "paare": [
+          [
+            "7 Anwendung",
+            "Anwendung"
+          ],
+          [
+            "5 Sitzung",
+            "Anwendung"
+          ],
+          [
+            "4 Transport",
+            "Transport"
+          ],
+          [
+            "3 Vermittlung",
+            "Internet"
+          ],
+          [
+            "2 Sicherung",
+            "Netzzugang"
+          ],
+          [
+            "1 Bitübertragung",
+            "Netzzugang"
+          ]
+        ],
+        "erkl": "OSI 7 bis 5 → **Anwendung**, 4 → **Transport**, 3 → **Internet**, 2 und 1 → **Netzzugang**."
+      },
+      {
+        "t": "gen",
+        "gen": "schichtProto",
+        "stufen": [
+          1
+        ],
+        "modus": "schicht"
+      },
+      {
+        "t": "eingabe",
+        "f": "3. Wie viele Byte **Overhead** hat ein Ethernet-Frame (ohne VLAN-Tag und ohne Präambel)?",
+        "art": "zahl",
+        "antwort": [
+          "18"
+        ],
+        "erkl": "Ziel-MAC 6 + Quell-MAC 6 + Typ 2 + Prüfsumme 4 = **18 Byte**.",
+        "fallen": {
+          "14": "Das ist nur der Header. Die Prüfsumme (4 Byte) kommt dazu."
+        }
+      },
+      {
+        "t": "wahl",
+        "f": "4. Was bedeutet **MTU = 1500 Byte** bei Ethernet?",
+        "optionen": [
+          "Der gesamte Frame ist höchstens 1500 Byte groß",
+          "Die Nutzdaten eines Frames sind höchstens 1500 Byte groß",
+          "Ein Frame hat immer exakt 1500 Byte Nutzdaten",
+          "Es sind höchstens 1500 Frames pro Sekunde erlaubt"
+        ],
+        "richtig": 1,
+        "erkl": "Die MTU beschreibt nur die **Nutzdaten**. Der Frame ist wegen des Overheads größer (1518 Byte ohne Präambel)."
+      },
+      {
+        "t": "weg",
+        "titel": "VLAN-Tag",
+        "kopf": "5. Ein VLAN-Tag besteht aus TPID (2 Byte), 3 Bit Priorität, 1 Bit CF/DEI und 12 Bit VLAN-ID.",
+        "schritte": [
+          {
+            "t": "eingabe",
+            "f": "Wie viele **Prioritätsstufen** gibt es?",
+            "art": "zahl",
+            "antwort": [
+              "8"
+            ],
+            "erkl": "2³ = **8**.",
+            "label": "Prioritätsstufen"
+          },
+          {
+            "t": "eingabe",
+            "f": "Wie viele VLAN-IDs sind **nutzbar**?",
+            "art": "zahl",
+            "antwort": [
+              "4094"
+            ],
+            "erkl": "2¹² = 4096 unterscheidbar, abzüglich der reservierten IDs 0 und 4095 → **4094** nutzbar.",
+            "fallen": {
+              "4096": "Das sind alle unterscheidbaren IDs. 0 und 4095 sind reserviert."
+            },
+            "label": "Nutzbare IDs"
+          }
+        ]
+      },
+      {
+        "t": "zuordnen",
+        "f": "6. Welcher **Typwert** steht für welchen Inhalt?",
+        "paare": [
+          [
+            "0x0800",
+            "IPv4"
+          ],
+          [
+            "0x86DD",
+            "IPv6"
+          ],
+          [
+            "0x0806",
+            "ARP"
+          ],
+          [
+            "0x8100",
+            "VLAN"
+          ]
+        ],
+        "erkl": "**0x0800** IPv4, **0x86DD** IPv6, **0x0806** ARP, **0x8100** VLAN."
+      },
+      {
+        "t": "wahl",
+        "f": "7. Welche Aussage zu **TCP und UDP** stimmt?",
+        "optionen": [
+          "UDP quittiert jede Zustellung, TCP verzichtet darauf",
+          "TCP ist verbindungslos, UDP baut vorher eine Verbindung auf",
+          "TCP quittiert und liefert nach, UDP hat kleineren Header und ist schneller",
+          "Beide fordern fehlende Daten automatisch neu an und quittieren"
+        ],
+        "richtig": 2,
+        "erkl": "**TCP**: verbindungsorientiert, Quittung, Nachlieferung. **UDP**: kleiner Header, schnell, ohne Quittung. UDP = User Datagram Protocol."
+      },
+      {
+        "t": "wahl",
+        "f": "8. Ein **Socket** besteht aus …",
+        "optionen": [
+          "MAC-Adresse und IP-Adresse",
+          "Port und Subnetzmaske",
+          "Protokollname und Prüfsumme",
+          "IP-Adresse und Port"
+        ],
+        "richtig": 3,
+        "erkl": "**IP-Adresse + Port = Socket.** Eine Kommunikation braucht zwei Sockets."
+      },
+      {
+        "t": "gen",
+        "gen": "portDienst",
+        "stufen": [
+          1
+        ],
+        "modus": "port"
+      },
+      {
+        "t": "wahl",
+        "f": "9. Ein PC ruft einen Webserver im Internet auf. Welche **Ziel-MAC** und welche **Ziel-IP** stehen im Frame bzw. Paket?",
+        "optionen": [
+          "Ziel-MAC: Router (Standardgateway), Ziel-IP: Webserver",
+          "Ziel-MAC: Webserver, Ziel-IP: Router",
+          "Ziel-MAC: Webserver, Ziel-IP: Webserver",
+          "Ziel-MAC: Router, Ziel-IP: Router"
+        ],
+        "richtig": 0,
+        "erkl": "Der Frame geht im eigenen Netz an den **Router**, das Paket nennt als Ziel den **Webserver**. (Das Buch schreibt auf S. 324 im Layer-2-Schritt „Ziel-IP“, gemeint ist die Ziel-MAC.)"
+      },
+      {
+        "t": "ordnen",
+        "f": "10. Bring die **DHCP-Schritte** in die richtige Reihenfolge.",
+        "items": [
+          "Discover",
+          "Offer",
+          "Request",
+          "Acknowledge"
+        ],
+        "erkl": "**Discover → Offer → Request → Acknowledge.**"
+      },
+      {
+        "t": "wahl",
+        "f": "11. Wie wird ein **ARP-Request** verschickt und wonach fragt er?",
+        "optionen": [
+          "Als Unicast an den DNS-Server: Welche IP gehört zu diesem Namen?",
+          "Als Broadcast: Wer hat diese IP-Adresse, wie lautet ihre MAC?",
+          "Als Multicast an alle Router: Wohin geht dieses Paket?",
+          "Als Broadcast: Wer vergibt eine IP-Konfiguration?"
+        ],
+        "richtig": 1,
+        "erkl": "ARP löst **IP in MAC** auf. Der Request geht als **Broadcast** an alle, nur der Besitzer der IP antwortet."
+      },
+      {
+        "t": "wahl",
+        "f": "12. Warum nutzt TLS eine **hybride** Verschlüsselung?",
+        "optionen": [
+          "Asymmetrisch ist schneller, symmetrisch dafür sicherer",
+          "Symmetrisch wird nur beim Handshake benutzt",
+          "Asymmetrisch tauscht den Schlüssel aus, symmetrisch läuft schnell",
+          "Hybride Verfahren kommen ohne Schlüssel aus"
+        ],
+        "richtig": 2,
+        "erkl": "Hybrid verbindet die Vorteile: **asymmetrisch** den Schlüssel sicher austauschen, **symmetrisch** die Daten schnell verschlüsseln. Aktuell: TLS 1.2 und 1.3. (Dass TLS hybrid arbeitet, ist Praxis und steht nicht im Buch.)"
+      },
+      {
+        "t": "wahl",
+        "f": "13. Zwei Niederlassungen sollen vertraulich verbunden werden. Welche Kombination aus IPsec-Modus und Verfahren passt?",
+        "optionen": [
+          "Transportmodus mit AH",
+          "Tunnelmodus mit AH allein",
+          "Transportmodus mit TLS",
+          "Tunnelmodus mit ESP"
+        ],
+        "richtig": 3,
+        "erkl": "Ganze Netze → **Tunnelmodus**. Vertraulichkeit gibt es erst mit **ESP**; AH allein authentifiziert nur und lässt die Daten lesbar."
+      },
+      {
+        "t": "wahl",
+        "f": "14. Wo sitzt **TLS** im Schichtenmodell?",
+        "optionen": [
+          "Oberhalb von TCP (Buchtabelle: Schicht 5)",
+          "Auf Schicht 3, als Teil von IP neben IPsec",
+          "Auf Schicht 2, unterhalb von IP neben Ethernet",
+          "Auf Schicht 1, bei den Signalen auf dem Kabel"
+        ],
+        "richtig": 0,
+        "erkl": "TLS verschlüsselt die oberen Schichten, bevor TCP sie bekommt. Im Buch steht es in der Tabelle auf Schicht 5, im Text auf Schicht 4; TLS liegt **oberhalb von TCP**."
+      }
+    ],
+    "uebungText": "Zum Abschluss die ganze Reise: Eine Seite aufrufen, Adressen Schicht für Schicht bauen, HTTPS und ein IPsec-Fall. Danach ein Abschlusstest ohne Hilfen.",
+    "nachtest": [
+      {
+        "frage": "Welches Verfahren überträgt große Datenmengen schnell?",
+        "optionen": [
+          {
+            "text": "Symmetrisch",
+            "richtig": true
+          },
+          {
+            "text": "Asymmetrisch",
+            "richtig": false
+          },
+          {
+            "text": "Keines von beiden",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welche SSL- oder TLS-Version darf heute noch eingesetzt werden?",
+        "optionen": [
+          {
+            "text": "TLS 1.3",
+            "richtig": true
+          },
+          {
+            "text": "SSL 3.0",
+            "richtig": false
+          },
+          {
+            "text": "TLS 1.0",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welcher IPsec-Modus verbindet ganze Netze?",
+        "optionen": [
+          {
+            "text": "Tunnelmodus",
+            "richtig": true
+          },
+          {
+            "text": "Transportmodus",
+            "richtig": false
+          },
+          {
+            "text": "ESP-Modus",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Was leistet AH?",
+        "optionen": [
+          {
+            "text": "Integrität und Authentizität, ohne Verschlüsselung",
+            "richtig": true
+          },
+          {
+            "text": "Verschlüsselung der Nutzlast",
+            "richtig": false
+          },
+          {
+            "text": "Nur Namensauflösung",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_PR4.id]: LF03_PR4 });
+})();
+
 /* ---- f_einheiten_subnetting.js ---- */
 // f_einheiten_subnetting.js - Lerneinheit 2: Subnetting und die Fachbegriffe (Daten, kein Code).
 //
@@ -28262,7 +33261,7 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting", "kurs-verkabelung"];
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise"];
     return `<div class="modalList">
       ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
