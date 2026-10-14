@@ -7348,7 +7348,7 @@ body.retro .modalTrenner { color: #dcc3a4; border-top-color: rgba(255, 166, 80, 
 /* Seitenspalte links, ausklappbar (gilt fuer alle Lerneinheiten, gemeinsame Engine) */
 .vlLayout {
   grid-template-columns: minmax(300px, 340px) minmax(0, 2.05fr);
-  transition: grid-template-columns 0.25s ease;
+  transition: grid-template-columns 0.55s ease;
 }
 
 .vlLayout.panelZu {
@@ -14936,11 +14936,41 @@ GENERATORS.vlan = function (level) {
     if (merken) { try { localStorage.setItem(PANEL_KEY, zu ? "zu" : "auf"); } catch (e) {} }
   }
 
+  // Beim Start ist die Spalte kurz offen und klappt dann von selbst mit Animation zu, damit jeder sieht,
+  // dass es Handout und Tutor gibt. Greift der Lernende vorher selbst ein (Griff, Reiter, Eingabe), bleibt sie offen.
+  const PANEL_AUTO_MS = 3800;
+  let panelTimer = null;
+
+  function panelTimerStopp() {
+    if (panelTimer) { clearTimeout(panelTimer); panelTimer = null; }
+  }
+
   function richtePanelEin() {
     const t = $v("vlPanelToggle");
     if (!t) return;
-    setzePanel(panelStartZu(), false);
-    t.onclick = () => { ton("click"); setzePanel(!panelIstZu(), true); };
+    panelTimerStopp();
+    setzePanel(false, false);
+    t.onclick = () => { panelTimerStopp(); ton("click"); setzePanel(!panelIstZu(), true); };
+    const sp = $v("vlSidePanel");
+    if (sp) sp.addEventListener("pointerdown", panelTimerStopp, { once: true });
+    sp && sp.addEventListener("focusin", panelTimerStopp, { once: true });
+    // Die Uhr laeuft erst, wenn kein Willkommens-/Hinweisfenster mehr verdeckt (beim ersten Start gibt es welche).
+    const sichtbarerDialog = () => Array.from(document.querySelectorAll(".modal")).some((m) => { const s = getComputedStyle(m); return s.display !== "none" && s.visibility !== "hidden" && m.getClientRects().length > 0; });
+    let gewartet = 0;
+    const warte = () => {
+      panelTimer = null;
+      if (!$v("vlLayoutBox")) return;
+      if (sichtbarerDialog() && gewartet < 120000) { gewartet += 300; panelTimer = setTimeout(warte, 300); return; }
+      panelTimer = setTimeout(() => {
+        panelTimer = null;
+        if ($v("vlLayoutBox") && !panelIstZu()) {
+          setzePanel(true, false);
+          const tg = $v("vlPanelToggle");
+          if (tg) { tg.classList.remove("puls"); void tg.offsetWidth; tg.classList.add("puls"); }
+        }
+      }, PANEL_AUTO_MS);
+    };
+    panelTimer = setTimeout(warte, 300);
   }
 
   // Neuer Handout-Abschnitt: Der Abschnitt selbst blinkt auf (CSS-Klasse "neu").
