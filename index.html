@@ -7622,6 +7622,14 @@ body.retro .vlPanelNeu { border-radius: 0; }
 .vlMaterial a { color: #7dd3fc; }
 @media (max-width: 920px) { .vlSidePanel { max-height: 75vh; } }
 
+
+/* Uebungsblock in Einheiten (f_uebung.js): nutzt die Kurs-Klassen kOpt, kForm, kOrd*, kZu*, kWeg, kBlatt, kFb */
+.vlUebung { display: flex; flex-direction: column; gap: 10px; }
+.vlUKopf { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: #94a3b8; flex-wrap: wrap; }
+.vlUFrage { font-size: 1.02rem; line-height: 1.5; color: #e2e8f0; }
+.vlUFrage p { margin: 0 0 0.4em; }
+#vlUFb .vlTipp { margin-top: 8px; }
+
 </style>
 </head>
 <body>
@@ -9476,6 +9484,7 @@ GENERATORS.detektiv = function (level) {
           text: "Gehe die Hostbits der Reihe nach durch: 5 Bits geben 30, 6 geben 62, 7 geben 126, 8 geben 254. Nimm die erste Zahl, die für den Bedarf reicht. Das Präfix ist 32 minus diese Bitzahl.",
           diagramm: "plan"
         },
+        uebung: [{ t: "gen", gen: "hostsZuPraefix", stufen: [1, 2] }, { t: "ordnen", f: "Sortiere die Präfixe von der größten zur kleinsten Hostzahl.", items: ["/24", "/25", "/26", "/27"], tipps: ["Ein kleineres Präfix lässt mehr Hostbits übrig."], erkl: "/24 hat 8 Hostbits, /25 hat 7, /26 hat 6, /27 hat 5." }],
         sicherung: {
           merksatz: "Kleinstes H mit 2^H - 2 mindestens gleich Bedarf wählen, dann Präfix = 32 - H.",
           handout: "**Bedarf zum Präfix:** kleinstes H mit **2^H - 2 ≥ Bedarf**, Präfix = 32 - H. Hier: Verwaltung (300) H=9, /23 · Produktion (200) H=8, /24 · Lager (60) H=6, /26 · Server (20) H=5, /27 · WAN (2) H=2, /30. Summe 868 von 1024 Adressen im /22."
@@ -15190,6 +15199,227 @@ GENERATORS.triage = function (level) {
   };
 })();
 
+/* ---- f_uebung.js ---- */
+/* ==========================================================================
+   f_uebung.js – Uebungsblock fuer KI-Lehrer-Einheiten (window.Uebung)
+
+   Zweck: Die Aufgaben der frueheren Lernkurse laufen jetzt innerhalb der Einheiten. Ein Uebungsblock steht
+   in der Phase als p.uebung = [ Schritt, ... ] und wird nach der Probe gezeigt (vor der Sicherung).
+   Schrittarten wie in den Kurs-Paketen (Daten bleiben kompatibel, Kurs-JSON laesst sich 1:1 uebernehmen):
+     wahl      { f, optionen[], richtig (Index), tipps[], erkl }
+     eingabe   { f, art: zahl|ip|praefix|text|ipv6kurz|ipv6voll|ipv6net|url, antwort[], tipps[], erkl, fallen{}, label? }
+     ordnen    { f, items[] (richtige Reihenfolge), tipps[], erkl }
+     zuordnen  { f, paare[[links, rechts]], tipps[], erkl }
+     gen       { gen: "name", stufen: [1,2] }   frische Aufgaben aus KG.gen[name] (f_kurs.js)
+     weg       { titel, kopf, schritte[] }       mehrstufiger Rechenweg mit Rechenblatt (eingabe-Schritte, label setzt Blattzeile)
+   Nicht dabei: labor (kommt mit dem Netz-Labor-Kurs).
+   Abhaengigkeiten aus f_kurs.js (gleicher Script-Scope): kMd, kPruefe, kLoesungText, KG.
+   Ablauf je Aufgabe: falsch -> Hinweis, Tipps auf Wunsch; nach zwei Fehlern Loesung anzeigen und weiter (niemand wird festgehalten).
+   start({ host, schritte, fertig(treffer, gesamt) })
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const md = (t) => (typeof kMd === "function" ? kMd(t) : esc(t));
+  const mischen = (a) => {
+    const b = a.slice();
+    for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = b[i]; b[i] = b[j]; b[j] = t; }
+    return b;
+  };
+  const ton = (n) => { try { if (window.AUDIO_SYNTH && window.AUDIO_SYNTH.play) window.AUDIO_SYNTH.play(n); } catch (e) {} };
+
+  // gen und weg zu einer flachen Liste aufloesen (wie kursStation in f_kurs.js)
+  function flach(liste) {
+    const out = [];
+    const add = (s) => {
+      if (s.t === "gen") {
+        (s.stufen || [s.stufe || 1]).forEach((stufe) => {
+          const r = KG.gen[s.gen](stufe, s);
+          (Array.isArray(r) ? r : [r]).forEach((y) => add(y));
+        });
+      } else if (s.t === "weg") {
+        const g = { titel: s.titel || "", kopf: s.kopf || "", blatt: [] };
+        s.schritte.forEach((y, k) => out.push(Object.assign({}, y, { grp: g, nr: k + 1, n: s.schritte.length })));
+      } else out.push(Object.assign({}, s));
+    };
+    (liste || []).forEach(add);
+    return out;
+  }
+
+  function start(o) {
+    const host = o.host;
+    if (!host) return;
+    const liste = flach(o.schritte);
+    if (!liste.length) { o.fertig(0, 0); return; }
+    let pos = 0, treffer = 0, z = null;
+
+    const loesung = (x) => { try { return kLoesungText(x); } catch (e) { return ""; } };
+
+    function meldung(klasse, titel, html) {
+      const fb = host.querySelector("#vlUFb");
+      if (fb) fb.innerHTML = '<div class="kFb"><div class="fb ' + klasse + '"><div class="titel">' + titel + "</div>" + (html ? '<div class="erkl">' + html + "</div>" : "") + "</div></div>";
+    }
+    function aktionen(html) { const a = host.querySelector("#vlUAkt"); if (a) a.innerHTML = html; }
+    function weiterKnopf(text) {
+      aktionen('<button type="button" class="vlBtn primary" id="vlUWeiter">' + (text || "Weiter ➔") + "</button>");
+      host.querySelector("#vlUWeiter").onclick = () => { pos++; zeige(); };
+    }
+
+    function richtig(x) {
+      z.fertig = true;
+      if (z.fehl === 0 && z.tipps === 0) treffer++;
+      ton("correct");
+      if (x.grp && x.label) x.grp.blatt.push({ label: x.label, wert: loesung(x) });
+      meldung("ok", "✓ Richtig", md(x.erkl || ""));
+      sperre();
+      weiterKnopf(pos >= liste.length - 1 ? "Übung beenden ➔" : "Weiter ➔");
+    }
+
+    function falsch(x, hinweis) {
+      z.fehl++;
+      ton("wrong");
+      const h = hinweis ? md(hinweis) : "Das stimmt noch nicht.";
+      if (z.fehl >= 2) {
+        z.fertig = true;
+        if (x.grp && x.label) x.grp.blatt.push({ label: x.label, wert: loesung(x) });
+        meldung("bad", "✗ Das war es noch nicht", h + '<div class="vlLoesungText"><b>Lösung:</b> ' + esc(loesung(x)) + "</div>" + md(x.erkl || ""));
+        sperre();
+        weiterKnopf(pos >= liste.length - 1 ? "Übung beenden ➔" : "Weiter ➔");
+        return;
+      }
+      meldung("mid", "✗ Noch nicht", h);
+      const tipps = x.tipps || [];
+      if (z.tipps < tipps.length) {
+        aktionen('<button type="button" class="vlTippBtn" id="vlUTipp">💡 Tipp anzeigen</button>');
+        host.querySelector("#vlUTipp").onclick = () => {
+          const fb = host.querySelector("#vlUFb .erkl");
+          if (fb) fb.insertAdjacentHTML("beforeend", '<div class="vlTipp">' + md(tipps[z.tipps]) + "</div>");
+          z.tipps++;
+          aktionen("");
+        };
+      }
+    }
+
+    // nach Abschluss der Aufgabe keine Eingaben mehr
+    function sperre() {
+      host.querySelectorAll("#vlUEin button, #vlUEin input").forEach((el) => { el.disabled = true; });
+    }
+
+    // ---- Eingabearten
+    function zeichneWahl(x) {
+      const reihe = mischen(x.optionen.map((t, i) => i));
+      const ein = host.querySelector("#vlUEin");
+      ein.innerHTML = '<div class="kOpt">' + reihe.map((i, k) => '<button type="button" data-i="' + i + '"><span class="taste">' + (k + 1) + "</span>" + esc(x.optionen[i]) + "</button>").join("") + "</div>";
+      ein.querySelectorAll("button").forEach((b) => {
+        b.onclick = () => {
+          if (z.fertig) return;
+          const i = Number(b.dataset.i);
+          if (i === x.richtig) { b.classList.add("richtig"); richtig(x); }
+          else { b.classList.add("falsch"); b.disabled = true; falsch(x, (x.fallen && x.fallen[i]) || ""); }
+        };
+      });
+    }
+
+    function zeichneEingabe(x) {
+      const ph = { zahl: "Zahl", ip: "z. B. 192.168.10.64", praefix: "z. B. /27", text: "Antwort", ipv6kurz: "z. B. 2001:db8::1", ipv6voll: "8 Blöcke zu je 4 Ziffern", ipv6net: "z. B. 2001:db8:3a7c:a::/64", url: "z. B. http://[2001:db8::1]:8080/" }[x.art] || "Antwort";
+      const ein = host.querySelector("#vlUEin");
+      ein.innerHTML = '<form class="kForm" id="vlUForm" autocomplete="off" action="javascript:void(0);"><input id="vlUIn" maxlength="80" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="' + esc(ph) + '" aria-label="Deine Antwort"><button class="primary" type="submit">Prüfen</button></form>';
+      const pruefen = (e) => {
+        e.preventDefault();
+        if (z.fertig) return;
+        const r = kPruefe(x, host.querySelector("#vlUIn").value);
+        if (r.leer) { meldung("mid", r.h, ""); return; }
+        if (r.ok) richtig(x); else falsch(x, r.h);
+      };
+      host.querySelector("#vlUForm").onsubmit = pruefen;
+      const inp = host.querySelector("#vlUIn"); if (inp) inp.focus();
+    }
+
+    function zeichneOrdnen(x) {
+      const s = z.o || (z.o = { pool: null, auswahl: [] });
+      if (!s.pool) { do { s.pool = mischen(x.items.map((t, i) => i)); } while (s.pool.every((v, i) => v === i)); }
+      const ein = host.querySelector("#vlUEin");
+      const frei = s.pool.filter((i) => s.auswahl.indexOf(i) < 0);
+      ein.innerHTML = '<div class="kOrd"><div class="kOrdFolge">' + (s.auswahl.length
+        ? s.auswahl.map((i, k) => '<button type="button" class="gesetzt ' + (s.bewertet ? (x.items[k] === x.items[i] ? "richtig" : "falsch") : "") + '" data-r="' + k + '"><span class="taste">' + (k + 1) + "</span>" + esc(x.items[i]) + "</button>").join("")
+        : '<span class="muted">Tippe die Einträge unten in der richtigen Reihenfolge an.</span>') + "</div>" +
+        '<div class="kOrdPool">' + frei.map((i) => '<button type="button" data-p="' + i + '">' + esc(x.items[i]) + "</button>").join("") + "</div>" +
+        '<div class="aktionen"><button type="button" class="ghost mini" id="vlUZur" ' + (s.auswahl.length ? "" : "disabled") + '>↩ Letzten zurücknehmen</button><button type="button" class="primary" id="vlUPruef" ' + (s.auswahl.length === x.items.length ? "" : "disabled") + ">Prüfen</button></div></div>";
+      if (z.fertig) { ein.querySelectorAll("button").forEach((b) => { b.disabled = true; }); return; }
+      ein.querySelectorAll("button[data-p]").forEach((b) => { b.onclick = () => { s.auswahl.push(Number(b.dataset.p)); s.bewertet = false; zeichneOrdnen(x); }; });
+      ein.querySelectorAll("button[data-r]").forEach((b) => { b.onclick = () => { s.auswahl.splice(Number(b.dataset.r), 1); s.bewertet = false; zeichneOrdnen(x); }; });
+      host.querySelector("#vlUZur").onclick = () => { s.auswahl.pop(); s.bewertet = false; zeichneOrdnen(x); };
+      host.querySelector("#vlUPruef").onclick = () => {
+        s.bewertet = true;
+        const ok = s.auswahl.every((i, k) => x.items[i] === x.items[k]);
+        if (ok) { richtig(x); zeichneOrdnen(x); }
+        else { zeichneOrdnen(x); falsch(x, "Die Reihenfolge stimmt noch nicht. Grün steht richtig, rot ist falsch: tippe auf einen Eintrag, um ihn zurückzunehmen."); }
+      };
+    }
+
+    function zeichneZuordnen(x) {
+      const s = z.u || (z.u = { optR: mischen(Array.from(new Set(x.paare.map((q) => q[1])))), zu: x.paare.map(() => null), falsch: {}, ok: {}, aktiv: 0 });
+      const ein = host.querySelector("#vlUEin");
+      const alle = s.zu.every((v) => v !== null), offenFalsch = Object.keys(s.falsch).length > 0;
+      ein.innerHTML = '<div class="kZu"><div class="kZuZeilen">' + x.paare.map((q, i) => {
+        const k = s.ok[i] ? "richtig" : s.falsch[i] ? "falsch" : s.aktiv === i && !z.fertig ? "aktiv" : "";
+        return '<button type="button" class="kZuZ ' + k + '" data-z="' + i + '" ' + (s.ok[i] || z.fertig ? "disabled" : "") + '><span class="kZuL">' + esc(q[0]) + '</span><span class="kZuR">' + (s.zu[i] === null ? "—" : esc(s.zu[i])) + "</span></button>";
+      }).join("") + "</div>" +
+        '<div class="kZuPool" aria-label="Antworten">' + s.optR.map((r, j) => '<button type="button" data-o="' + j + '" ' + (z.fertig ? "disabled" : "") + ">" + esc(r) + "</button>").join("") + "</div>" +
+        '<div class="aktionen"><button class="primary" type="button" id="vlUZuPruef" ' + (alle && !offenFalsch && !z.fertig ? "" : "disabled") + ">Prüfen</button></div></div>";
+      if (z.fertig) return;
+      ein.querySelectorAll("button[data-z]").forEach((b) => { b.onclick = () => { s.aktiv = Number(b.dataset.z); zeichneZuordnen(x); }; });
+      ein.querySelectorAll("button[data-o]").forEach((b) => {
+        b.onclick = () => {
+          let i = s.aktiv;
+          if (i === null || s.ok[i]) i = s.zu.findIndex((v, k) => v === null && !s.ok[k]);
+          if (i < 0) return;
+          s.zu[i] = s.optR[Number(b.dataset.o)]; delete s.falsch[i];
+          const next = s.zu.findIndex((v, k) => k !== i && !s.ok[k] && (v === null || s.falsch[k]));
+          s.aktiv = next >= 0 ? next : null; zeichneZuordnen(x);
+        };
+      });
+      host.querySelector("#vlUZuPruef").onclick = () => {
+        let f = 0;
+        x.paare.forEach((q, i) => { if (s.ok[i]) return; if (s.zu[i] === q[1]) s.ok[i] = true; else { s.falsch[i] = true; f++; } });
+        if (!f) { richtig(x); zeichneZuordnen(x); return; }
+        s.aktiv = Number(Object.keys(s.falsch)[0]); zeichneZuordnen(x);
+        falsch(x, (x.paare.length - f) + " von " + x.paare.length + " Paaren stimmen. Grün ist richtig und gesperrt. Ordne die roten Zeilen neu zu.");
+      };
+    }
+
+    // ---- eine Aufgabe zeigen
+    function zeige() {
+      if (pos >= liste.length) { o.fertig(treffer, liste.length); return; }
+      const x = liste[pos];
+      z = { fehl: 0, tipps: 0, fertig: false };
+      let kopf = "";
+      if (x.grp) {
+        const b = x.grp.blatt;
+        kopf = '<div class="kWeg"><div class="kWegKopf">' + md(x.grp.kopf) + "</div>" +
+          (b.length ? '<div class="kBlatt"><b>Rechenblatt</b>' + b.map((r) => "<div><span>✓ " + esc(r.label) + "</span><b>" + esc(r.wert) + "</b></div>").join("") + "</div>" : "") + "</div>";
+      }
+      host.innerHTML =
+        '<div class="vlUebung">' +
+        '<div class="vlUKopf"><span>Aufgabe ' + (pos + 1) + " von " + liste.length + (x.grp ? " · " + esc(x.grp.titel) + " (Schritt " + x.nr + " von " + x.n + ")" : "") + "</span>" +
+        '<button type="button" class="vlTippBtn" id="vlUSkip">Übung überspringen ›</button></div>' +
+        kopf + '<div class="vlUFrage">' + md(x.f || "") + "</div>" +
+        '<div class="vlUEin" id="vlUEin"></div><div id="vlUFb"></div><div class="vlKartenAktionen" id="vlUAkt"></div></div>';
+      host.querySelector("#vlUSkip").onclick = () => o.fertig(treffer, liste.length);
+      if (x.t === "wahl") zeichneWahl(x);
+      else if (x.t === "eingabe") zeichneEingabe(x);
+      else if (x.t === "ordnen") zeichneOrdnen(x);
+      else if (x.t === "zuordnen") zeichneZuordnen(x);
+      else { pos++; zeige(); }   // unbekannte Art ueberspringen (der Test meldet sie vorher)
+    }
+
+    zeige();
+  }
+
+  window.Uebung = { start };
+})();
+
 /* ---- f_vlan.js ---- */
 // f_vlan.js - VLAN-Dispatcher (Konzept 16, Regeln neu und nach Buch/Handout: Access-Port = ungetaggt, Trunk = getaggt, 1 VLAN = 1 Broadcast-Domäne)
 // Aufgabe: { art: "vlan", modus: "flut"|"erreicht"|"tag"|"tagfrei", ports: [{ n, typ: "access"|"trunk", vlan }], von: Portnummer, tag?: VLAN-ID (nur wenn von = Trunk), b?: Zielport (erreicht) }
@@ -16008,6 +16238,7 @@ GENERATORS.vlan = function (level) {
     if (modus === "probe") return zeichneProbe(k, p, false);
     if (modus === "wiederholung") return zeichneWiederholung(k, p);
     if (modus === "loesung") return zeichneLoesung(k, p);
+    if (modus === "uebung") return zeichneUebung(k, p);
     if (modus === "sicherung") return zeichneSicherung(k, p);
   }
 
@@ -16023,6 +16254,7 @@ GENERATORS.vlan = function (level) {
   }
 
   let schreibLauf = null;
+  const uebungErgebnis = {};   // je Phase: wie viele Uebungsaufgaben ohne Fehler und Tipp
 
   // Text buchstabenweise ausgeben, danach den Rest einblenden. Wer Bewegung
   // abgestellt hat, bekommt den Text sofort.
@@ -16192,7 +16424,7 @@ GENERATORS.vlan = function (level) {
           <button type="button" class="vlBtn primary" id="vlWeiter">Weiter ➔</button>
         </div>`);
       sperreProbe();
-      $v("vlWeiter").onclick = () => { modus = "sicherung"; zeichne(); };
+      $v("vlWeiter").onclick = () => nachProbe(p);
       return;
     }
 
@@ -16215,7 +16447,7 @@ GENERATORS.vlan = function (level) {
           <button type="button" class="vlBtn primary" id="vlWeiter">Verstanden, weiter ➔</button>
         </div>`);
       sperreProbe();
-      $v("vlWeiter").onclick = () => { modus = "sicherung"; zeichne(); };
+      $v("vlWeiter").onclick = () => nachProbe(p);
     }
   }
 
@@ -16230,6 +16462,25 @@ GENERATORS.vlan = function (level) {
   }
 
   function zeichneLoesung(k, p) { modus = "sicherung"; zeichne(); }
+
+  // Nach der Probe: hat die Phase einen Uebungsblock (p.uebung, siehe f_uebung.js), kommt er vor der Sicherung.
+  function nachProbe(p) {
+    modus = (p.uebung && p.uebung.length && window.Uebung) ? "uebung" : "sicherung";
+    zeichne();
+  }
+
+  function zeichneUebung(k, p) {
+    zeigeDiagramm(null, null);
+    k.innerHTML = sprecher(
+      '<span class="vlPhaseLabel">Üben</span>' + esc(p.uebungText || "Jetzt festigst du das mit ein paar Aufgaben. Nimm dir Zeit, Tipps sind erlaubt."),
+      '<div id="vlUebungHost"></div>'
+    );
+    window.Uebung.start({
+      host: $v("vlUebungHost"),
+      schritte: p.uebung,
+      fertig: (treffer, gesamt) => { uebungErgebnis[p.id] = { treffer: treffer, gesamt: gesamt }; modus = "sicherung"; zeichne(); }
+    });
+  }
 
   function zeichneSicherung(k, p) {
     const warNeu = freigegeben.indexOf(p.id) < 0;
