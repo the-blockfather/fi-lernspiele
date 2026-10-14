@@ -7345,6 +7345,117 @@ body.retro .modalTrenner { color: #dcc3a4; border-top-color: rgba(255, 166, 80, 
 .vlRaumTick { fill: #94a3b8; font-size: 13px; font-family: ui-monospace, Consolas, monospace; }
 @media (prefers-reduced-motion: reduce) { .vlBits { transition: none; } }
 
+/* Seitenspalte links, ausklappbar (gilt fuer alle Lerneinheiten, gemeinsame Engine) */
+.vlLayout {
+  grid-template-columns: minmax(300px, 340px) minmax(0, 2.05fr);
+  transition: grid-template-columns 0.25s ease;
+}
+
+.vlLayout.panelZu {
+  grid-template-columns: 52px minmax(0, 1fr);
+}
+
+.vlPanelKopf { flex: 0 0 auto; }
+
+.vlPanelToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: #090d16;
+  border: none;
+  border-bottom: 2px solid #1e293b;
+  color: #e2e8f0;
+  padding: 9px 10px;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  text-align: left;
+}
+
+.vlPanelToggle:hover { color: #38bdf8; }
+
+.vlPanelPfeil { display: inline-block; transition: transform 0.25s ease; }
+.vlLayout.panelZu .vlPanelPfeil { transform: rotate(180deg); }
+
+.vlPanelNeu {
+  margin-left: auto;
+  background: #f59e0b;
+  color: #0f172a;
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 800;
+}
+.vlPanelNeu[hidden] { display: none; }
+
+.vlPanelKoerper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Eingeklappt: nur ein schmaler Griff, Titel steht senkrecht */
+.vlLayout.panelZu .vlSidePanel { min-height: 0; }
+.vlLayout.panelZu .vlPanelKoerper { display: none; }
+.vlLayout.panelZu .vlPanelToggle {
+  flex-direction: column;
+  height: 100%;
+  padding: 12px 4px;
+  border-bottom: none;
+}
+.vlLayout.panelZu .vlPanelTitel {
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+}
+.vlLayout.panelZu .vlPanelNeu { margin-left: 0; }
+
+.vlPanelToggle.puls { animation: vlPuls 1.1s ease-out 3; }
+@keyframes vlPuls {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.8); background: rgba(245, 158, 11, 0.25); }
+  100% { box-shadow: 0 0 0 14px rgba(245, 158, 11, 0); background: #090d16; }
+}
+
+/* Neu freigeschalteter Handout-Abschnitt: kurz einblenden und aufleuchten */
+.vlHoAbschnitt.neu { animation: vlHoNeu 1.6s ease-out 1; }
+@keyframes vlHoNeu {
+  0% { opacity: 0; transform: translateY(-10px); border-color: #f59e0b; box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+  30% { opacity: 1; transform: none; border-color: #f59e0b; box-shadow: 0 0 14px 2px rgba(245, 158, 11, 0.55); }
+  100% { border-color: #1e293b; box-shadow: none; }
+}
+
+.vlTabPunkt {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  animation: vlPuls 1.1s ease-out 3;
+}
+
+@media (max-width: 920px) {
+  .vlLayout,
+  .vlLayout.panelZu { grid-template-columns: 1fr; }
+  /* Am Handy steht der Unterricht oben, die Spalte darunter */
+  .vlSidePanel { order: 2; }
+  .vlLayout.panelZu .vlPanelToggle { flex-direction: row; padding: 9px 10px; }
+  .vlLayout.panelZu .vlPanelTitel { writing-mode: horizontal-tb; }
+  .vlLayout.panelZu .vlPanelPfeil { transform: rotate(-90deg); }
+  .vlPanelPfeil { transform: rotate(90deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vlLayout { transition: none; }
+  .vlPanelPfeil { transition: none; }
+  .vlPanelToggle.puls, .vlTabPunkt, .vlHoAbschnitt.neu { animation: none; }
+  .vlHoAbschnitt.neu { border-color: #f59e0b; }
+}
+
+body.retro .vlPanelToggle,
+body.retro .vlPanelNeu { border-radius: 0; }
+
 </style>
 </head>
 <body>
@@ -14598,7 +14709,39 @@ GENERATORS.vlan = function (level) {
           <div><button type="button" class="vlBtn" id="vlExitBtn">✕ Beenden</button></div>
         </div>
 
-        <div class="vlLayout">
+        <div class="vlLayout" id="vlLayoutBox">
+          <div class="vlSidePanel" id="vlSidePanel">
+            <div class="vlPanelKopf">
+              <button type="button" class="vlPanelToggle" id="vlPanelToggle" aria-expanded="true" aria-controls="vlPanelKoerper" title="Handout ein- oder ausklappen">
+                <span class="vlPanelPfeil" aria-hidden="true">◀</span>
+                <span class="vlPanelTitel">📝 Handout &amp; Tutor</span>
+                <span class="vlPanelNeu" id="vlPanelNeu" hidden>neu</span>
+              </button>
+            </div>
+            <div class="vlPanelKoerper" id="vlPanelKoerper">
+            <div class="vlTabs">
+              <button type="button" class="vlTabBtn aktiv" id="vlTabHandout">📝 Handout</button>
+              <button type="button" class="vlTabBtn" id="vlTabCoach">💬 KI-Tutor</button>
+            </div>
+            <div class="vlTabInhalt aktiv" id="vlPaneHandout">
+              <div id="vlHandoutListe"></div>
+              <div class="vlQuelle">📚 <b>Quelle:</b> ${esc((E.quelle || {}).buch || "")}${
+                (E.quelle && E.quelle.handouts || []).length
+                  ? " · Handouts: " + esc((E.quelle.handouts || []).join(", ")) : ""}</div>
+            </div>
+            <div class="vlTabInhalt" id="vlPaneCoach">
+              <div class="vlCoachHistory" id="vlCoachHistory">
+                <div class="vlMsg tutor">Halte jederzeit an und frage mich, wenn etwas unklar ist. Ich sehe, in welcher Phase du gerade bist.</div>
+              </div>
+              <form class="vlCoachForm" id="vlCoachForm">
+                <input type="text" id="vlCoachIn" placeholder="Deine Frage zum Stoff …" maxlength="300" autocomplete="off">
+                <button type="submit" class="vlBtn primary">Fragen</button>
+              </form>
+              <div class="vlCoachHinweis" id="vlCoachHinweis"></div>
+            </div>
+                      </div>
+          </div>
+
           <div class="vlStageContainer">
             <svg class="vlSvgStage" id="vlSvgStage" viewBox="0 0 640 220" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <defs>
@@ -14682,29 +14825,6 @@ GENERATORS.vlan = function (level) {
             <!-- Der eigentliche Unterricht -->
             <div class="vlBuehneKarte" id="vlKarte"></div>
           </div>
-
-          <div class="vlSidePanel">
-            <div class="vlTabs">
-              <button type="button" class="vlTabBtn aktiv" id="vlTabHandout">📝 Handout</button>
-              <button type="button" class="vlTabBtn" id="vlTabCoach">💬 KI-Tutor</button>
-            </div>
-            <div class="vlTabInhalt aktiv" id="vlPaneHandout">
-              <div id="vlHandoutListe"></div>
-              <div class="vlQuelle">📚 <b>Quelle:</b> ${esc((E.quelle || {}).buch || "")}${
-                (E.quelle && E.quelle.handouts || []).length
-                  ? " · Handouts: " + esc((E.quelle.handouts || []).join(", ")) : ""}</div>
-            </div>
-            <div class="vlTabInhalt" id="vlPaneCoach">
-              <div class="vlCoachHistory" id="vlCoachHistory">
-                <div class="vlMsg tutor">Halte jederzeit an und frage mich, wenn etwas unklar ist. Ich sehe, in welcher Phase du gerade bist.</div>
-              </div>
-              <form class="vlCoachForm" id="vlCoachForm">
-                <input type="text" id="vlCoachIn" placeholder="Deine Frage zum Stoff …" maxlength="300" autocomplete="off">
-                <button type="submit" class="vlBtn primary">Fragen</button>
-              </form>
-              <div class="vlCoachHinweis" id="vlCoachHinweis"></div>
-            </div>
-          </div>
         </div>
       </div>
     `;
@@ -14716,6 +14836,7 @@ GENERATORS.vlan = function (level) {
     $v("vlTabHandout").onclick = () => wechsleTab("handout");
     $v("vlTabCoach").onclick = () => wechsleTab("coach");
     $v("vlCoachForm").onsubmit = frageAbsenden;
+    richtePanelEin();
 
     zeichneHandout();
     zeichne();
@@ -14727,6 +14848,7 @@ GENERATORS.vlan = function (level) {
     $v("vlTabCoach").classList.toggle("aktiv", !istH);
     $v("vlPaneHandout").classList.toggle("aktiv", istH);
     $v("vlPaneCoach").classList.toggle("aktiv", !istH);
+    if (istH) { const d = document.querySelector("#vlTabHandout .vlTabPunkt"); if (d) d.remove(); }
     if (!istH) { const i = $v("vlCoachIn"); if (i) i.focus(); }
   }
 
@@ -14748,7 +14870,7 @@ GENERATORS.vlan = function (level) {
       <span class="vlPunkte">${punkte}</span>`;
   }
 
-  function zeichneHandout() {
+  function zeichneHandout(neueId) {
     const el = $v("vlHandoutListe");
     if (!el || !E) return;
     const ziele = (E.lernziele || []).map((l) => `<li>${esc(l.text)}</li>`).join("");
@@ -14763,7 +14885,7 @@ GENERATORS.vlan = function (level) {
           </div>`;
       }
       const s = p.sicherung || {};
-      return `<div class="vlHoAbschnitt auf">
+      return `<div class="vlHoAbschnitt auf${p.id === neueId ? " neu" : ""}">
           <div class="vlHoKopf"><span>${i + 1}. ${esc(p.titel)}</span>${beleg}</div>
           <div class="vlHoText">${(s.handout || "").replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")}</div>
           ${s.merksatz ? `<div class="vlMerksatz">🔑 ${esc(s.merksatz)}</div>` : ""}
@@ -14774,6 +14896,156 @@ GENERATORS.vlan = function (level) {
         <div class="vlHoKopf"><span>Lernziele</span><span class="vlSeite">${esc(E.dauer_min || 15)} min</span></div>
         <div class="vlHoText"><ul class="vlZiele">${ziele}</ul></div>
       </div>${abschnitte}`;
+  }
+
+  // ---------------------------------------------------------------- Seitenspalte: ausklappbar, Hinweis bei Neuem
+  const PANEL_KEY = "fi-vl-panel";
+
+  function reduzierteBewegung() {
+    return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
+  // Am Handy startet die Spalte eingeklappt (sie stuende sonst ueber dem Unterricht), am Rechner offen.
+  // Die letzte Wahl des Lernenden gilt, sofern der Browser sie speichern darf.
+  function panelStartZu() {
+    try {
+      const s = localStorage.getItem(PANEL_KEY);
+      if (s === "zu") return true;
+      if (s === "auf") return false;
+    } catch (e) {}
+    return !!(window.matchMedia && window.matchMedia("(max-width: 920px)").matches);
+  }
+
+  function panelIstZu() {
+    const l = $v("vlLayoutBox");
+    return !!(l && l.classList.contains("panelZu"));
+  }
+
+  function panelNeuLoeschen() {
+    const b = $v("vlPanelNeu"), t = $v("vlPanelToggle");
+    if (b) b.hidden = true;
+    if (t) t.classList.remove("puls");
+  }
+
+  function setzePanel(zu, merken) {
+    const l = $v("vlLayoutBox"), t = $v("vlPanelToggle");
+    if (!l || !t) return;
+    l.classList.toggle("panelZu", zu);
+    t.setAttribute("aria-expanded", zu ? "false" : "true");
+    if (!zu) panelNeuLoeschen();
+    if (merken) { try { localStorage.setItem(PANEL_KEY, zu ? "zu" : "auf"); } catch (e) {} }
+  }
+
+  function richtePanelEin() {
+    const t = $v("vlPanelToggle");
+    if (!t) return;
+    setzePanel(panelStartZu(), false);
+    t.onclick = () => { ton("click"); setzePanel(!panelIstZu(), true); };
+  }
+
+  // Neuer Handout-Abschnitt: Der Abschnitt selbst blinkt auf (CSS-Klasse "neu").
+  // Ist die Spalte zu oder zeigt sie gerade den Tutor, gibt es stattdessen ein Zeichen "neu" am Griff bzw. Reiter.
+  function handoutHinweis() {
+    const el = document.querySelector("#vlHandoutListe .vlHoAbschnitt.neu");
+    if (panelIstZu()) {
+      const b = $v("vlPanelNeu"), t = $v("vlPanelToggle");
+      if (b) b.hidden = false;
+      if (t) { t.classList.remove("puls"); void t.offsetWidth; t.classList.add("puls"); }
+      return;
+    }
+    const tab = $v("vlTabHandout");
+    if (tab && !tab.classList.contains("aktiv")) {
+      if (!tab.querySelector(".vlTabPunkt")) tab.insertAdjacentHTML("beforeend", '<span class="vlTabPunkt" title="Neu im Handout"></span>');
+      return;
+    }
+    if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest", behavior: reduzierteBewegung() ? "auto" : "smooth" });
+  }
+
+  // ---------------------------------------------------------------- Handout zum Mitnehmen
+  function handoutMarkdown() {
+    const L = [];
+    const heute = new Date().toLocaleDateString("de-DE");
+    L.push("# " + E.titel, "");
+    L.push("*" + (E.untertitel || "") + "* · " + (E.lernfeld || "") + " · Stand " + heute, "");
+    L.push("## Lernziele", "");
+    (E.lernziele || []).forEach((l) => L.push("- " + l.text));
+    L.push("");
+    E.phasen.forEach((p, i) => {
+      const s = p.sicherung || {};
+      L.push("## " + (i + 1) + ". " + p.titel, "");
+      if (s.handout) L.push(s.handout, "");
+      if (s.merksatz) L.push("> 🔑 " + s.merksatz, "");
+    });
+    const q = E.quelle || {};
+    L.push("---", "");
+    L.push("Quelle: " + (q.buch || "") + ((q.handouts || []).length ? " · Handouts: " + q.handouts.join(", ") : ""), "");
+    L.push("*Erstellt aus der interaktiven Lerneinheit im FI-Quiz, eigene Formulierungen.*", "");
+    return L.join("\n");
+  }
+
+  // Sehr kleiner Markdown-Umwandler, nur fuer das, was handoutMarkdown() erzeugt.
+  function mdZuHtml(md) {
+    const inl = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
+    const aus = [];
+    let liste = false;
+    md.split("\n").forEach((z) => {
+      const li = /^- (.*)$/.exec(z);
+      if (!li && liste) { aus.push("</ul>"); liste = false; }
+      if (li) { if (!liste) { aus.push("<ul>"); liste = true; } aus.push("<li>" + inl(li[1]) + "</li>"); }
+      else if (z.startsWith("## ")) aus.push("<h2>" + inl(z.slice(3)) + "</h2>");
+      else if (z.startsWith("# ")) aus.push("<h1>" + inl(z.slice(2)) + "</h1>");
+      else if (z.startsWith("> ")) aus.push("<blockquote>" + inl(z.slice(2)) + "</blockquote>");
+      else if (z === "---") aus.push("<hr>");
+      else if (z.trim()) aus.push("<p>" + inl(z) + "</p>");
+    });
+    if (liste) aus.push("</ul>");
+    return aus.join("\n");
+  }
+
+  function handoutSpeichern() {
+    try {
+      const blob = new Blob([handoutMarkdown()], { type: "text/markdown;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = (E.id || "handout") + "-handout.md";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    } catch (e) {}
+  }
+
+  // Drucken ueber ein unsichtbares Rahmenfenster: kein Popup, der Browser bietet "Als PDF speichern" an.
+  function handoutDrucken() {
+    const css = "body{font:14px/1.5 system-ui,Segoe UI,sans-serif;max-width:720px;margin:24px auto;color:#111}" +
+      "h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:22px 0 6px;border-bottom:1px solid #bbb;padding-bottom:3px}" +
+      "blockquote{margin:8px 0;padding:6px 12px;border-left:4px solid #0284c7;background:#f1f5f9}hr{margin:22px 0}" +
+      "h2,blockquote{break-inside:avoid}";
+    const f = document.createElement("iframe");
+    f.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0";
+    f.srcdoc = "<!doctype html><html lang=\"de\"><head><meta charset=\"utf-8\"><title>" + esc(E.titel) + " – Handout</title><style>" +
+      css + "</style></head><body>" + mdZuHtml(handoutMarkdown()) + "</body></html>";
+    f.onload = () => {
+      try { f.contentWindow.focus(); f.contentWindow.print(); } catch (e) {}
+      setTimeout(() => f.remove(), 60000);
+    };
+    document.body.appendChild(f);
+  }
+
+  // ---------------------------------------------------------------- Rueckmeldung der Probe
+  // Es steht immer nur die letzte Rueckmeldung da. Vorher blieb eine falsche Aussage stehen, und die
+  // naechste Rueckmeldung reihte sich darunter ein.
+  function loescheRueckmeldung() {
+    const k = $v("vlKarte");
+    if (k) k.querySelectorAll(".vlRueck").forEach((n) => n.remove());
+  }
+
+  // Nach richtiger Antwort oder gezeigter Loesung keine weitere Eingabe zulassen.
+  function sperreProbe() {
+    const k = $v("vlKarte");
+    if (!k) return;
+    k.querySelectorAll("#vlProbeIn, #vlProbeForm button, #vlTippBtn").forEach((el) => { el.disabled = true; });
   }
 
   // ---------------------------------------------------------------- Unterricht zeichnen
@@ -14959,6 +15231,7 @@ GENERATORS.vlan = function (level) {
     const key = lz ? lz.id : p.id;
     const e = ergebnis[key] || (ergebnis[key] = { richtig: false, versuche: 0 });
     e.versuche++;
+    loescheRueckmeldung();
 
     merkeFuerWiederholung(p, richtig, eingabe);
 
@@ -14972,6 +15245,7 @@ GENERATORS.vlan = function (level) {
           <div class="vlLoesungText">${esc(p.probe.loesung)}</div>
           <button type="button" class="vlBtn primary" id="vlWeiter">Weiter ➔</button>
         </div>`);
+      sperreProbe();
       $v("vlWeiter").onclick = () => { modus = "sicherung"; zeichne(); };
       return;
     }
@@ -14994,6 +15268,7 @@ GENERATORS.vlan = function (level) {
           <div class="vlRueckHinweis">Die Frage kommt später in der Wiederholung noch einmal.</div>
           <button type="button" class="vlBtn primary" id="vlWeiter">Verstanden, weiter ➔</button>
         </div>`);
+      sperreProbe();
       $v("vlWeiter").onclick = () => { modus = "sicherung"; zeichne(); };
     }
   }
@@ -15011,13 +15286,15 @@ GENERATORS.vlan = function (level) {
   function zeichneLoesung(k, p) { modus = "sicherung"; zeichne(); }
 
   function zeichneSicherung(k, p) {
-    if (freigegeben.indexOf(p.id) < 0) freigegeben.push(p.id);
-    zeichneHandout();
+    const warNeu = freigegeben.indexOf(p.id) < 0;
+    if (warNeu) freigegeben.push(p.id);
+    zeichneHandout(warNeu ? p.id : null);
+    if (warNeu) handoutHinweis();
     const s = p.sicherung || {};
     const letzte = phaseIdx >= E.phasen.length - 1;
     const sandbox = p.sandbox ? `<button type="button" class="vlBtn" id="vlSandboxBtn">🧪 Kurz selbst ausprobieren</button>` : "";
     k.innerHTML = sprecher(
-      `<span class="vlPhaseLabel">Gesichert</span>Das Wichtigste aus dieser Phase steht jetzt rechts in deinem Handout.
+      `<span class="vlPhaseLabel">Gesichert</span>Das Wichtigste aus dieser Phase steht jetzt in deinem Handout.
        ${s.merksatz ? `<div class="vlMerksatzGross">🔑 ${esc(s.merksatz)}</div>` : ""}`,
       `<div class="vlKartenAktionen">${sandbox}
         <button type="button" class="vlBtn primary" id="vlWeiter">${letzte ? "Zum Abschlusstest ➔" : "Nächste Phase ➔"}</button>
@@ -15129,10 +15406,14 @@ GENERATORS.vlan = function (level) {
        <ul class="vlBilanz">${zeilen}</ul>
        <div class="vlRueckHinweis">Offene Punkte liegen jetzt in deiner Wiederholung und kommen im Fehler-Training wieder.</div>`,
       `<div class="vlKartenAktionen">
+         <button type="button" class="vlBtn" id="vlHoDownload">⬇ Handout speichern (.md)</button>
+         <button type="button" class="vlBtn" id="vlHoDruck">🖨 Handout drucken / als PDF</button>
          <button type="button" class="vlBtn" id="vlNochmal">⟲ Einheit wiederholen</button>
          <button type="button" class="vlBtn primary" id="vlFertig">Zurück ins Menü ➔</button>
        </div>`
     );
+    $v("vlHoDownload").onclick = () => { ton("click"); handoutSpeichern(); };
+    $v("vlHoDruck").onclick = () => { ton("click"); handoutDrucken(); };
     $v("vlNochmal").onclick = () => startVorlesung(E.id);
     $v("vlFertig").onclick = beenden;
   }
