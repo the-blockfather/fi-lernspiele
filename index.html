@@ -7315,6 +7315,36 @@ body.retro .vlFahrplanKurz { color: #7bd87b; }
 
 body.retro .modalTrenner { color: #dcc3a4; border-top-color: rgba(255, 166, 80, 0.35); }
 
+/* ---- Buehne: Bit-Leisten und Adressraeume (Einheit Subnetting, f_einheiten_subnetting.js) ---- */
+.vlBits { pointer-events: none; transition: opacity 0.25s ease; }
+.vlBitUeber { fill: #94a3b8; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; }
+.vlBitTitel { fill: #e2e8f0; font-size: 17px; font-weight: 700; }
+.vlBitDez { fill: #e2e8f0; font-size: 15px; font-weight: 700; }
+.vlBit { stroke: rgba(15, 23, 42, 0.6); stroke-width: 1; }
+.vlBitX { fill: #334155; }
+.vlBitN { fill: #38bdf8; }
+.vlBitS { fill: #fbbf24; }
+.vlBitH { fill: #4ade80; }
+.vlBitHebe { stroke: #f8fafc; stroke-width: 2; }
+.vlBitZiffer { fill: #0f172a; font-size: 15px; font-weight: 700; font-family: ui-monospace, Consolas, monospace; }
+.vlBitZifferX { fill: #e2e8f0; }
+.vlBitGrenze { stroke: #f8fafc; stroke-width: 2; stroke-dasharray: 3 3; }
+.vlBitLegende { fill: #cbd5e1; font-size: 14px; }
+.vlRaum { stroke: rgba(15, 23, 42, 0.6); stroke-width: 1; }
+.vlRolle_N { fill: #38bdf8; }
+.vlRolle_H { fill: #4ade80; }
+.vlRolle_B { fill: #fbbf24; }
+.vlRolle_A { fill: #a78bfa; }
+.vlRolle_B2 { fill: #2dd4bf; }
+.vlRolle_C { fill: #fb923c; }
+.vlRolle_D { fill: #f472b6; }
+.vlRolle_leer { fill: #334155; }
+.vlRolle_frei { fill: rgba(148, 163, 184, 0.16); stroke: #64748b; stroke-dasharray: 4 3; }
+.vlRaumText { fill: #0f172a; font-size: 15px; font-weight: 700; }
+.vlRaumHell { fill: #e2e8f0; }
+.vlRaumTick { fill: #94a3b8; font-size: 13px; font-family: ui-monospace, Consolas, monospace; }
+@media (prefers-reduced-motion: reduce) { .vlBits { transition: none; } }
+
 </style>
 </head>
 <body>
@@ -8485,6 +8515,443 @@ GENERATORS.detektiv = function (level) {
   };
 
   window.LERNEINHEITEN = { [LF03_ROUTER.id]: LF03_ROUTER };
+})();
+
+/* ---- f_einheiten_subnetting.js ---- */
+// f_einheiten_subnetting.js - Lerneinheit 2: Subnetting und die Fachbegriffe (Daten, kein Code).
+//
+// Gleiches Format wie f_einheiten.js (dort steht die Beschreibung), mit einer Erweiterung:
+//
+//   diagramme   { name: spec }      Bilder dieser Einheit. Statt der Router-Geraete zeigt die Buehne
+//                                   Bit-Leisten und Adressraeume. "start" gilt, wenn ein Schritt keinen
+//                                   bekannten Namen traegt (Begruessung, Tests).
+//     spec art "bits":  { titel, balken: [ { titel, ip | maske, netz?, sub?, hebe? } ] }
+//         ip     Adresse in Punktschreibweise; die 32 Bit zeichnet der Spielcode selbst (keine Tippfehler)
+//         maske  Praefixlaenge 0..32; zeichnet die Subnetzmaske als Einsen und Nullen
+//         netz   Praefix vor dem Ausleihen -> Bits links davon sind Netzteil (blau), der Rest Hostteil (gruen)
+//         sub    wie viele Bits danach geliehen wurden (Subnetzbits, gelb)
+//         hebe   [von, bis] Bitpositionen 0..31, die hervorgehoben werden
+//     spec art "raum":  { titel, bereich?: [von, bis], teile: [ { von, bis, label, rolle, tick? } ] }
+//         tickPos "start" (Standard, linke Kante) | "mitte" | "ende" setzt die Zahl unter der Leiste.
+//         Adressraum als Leiste, Breite proportional. rolle: N H B (Netz, Hosts, Broadcast), A B2 C D (Netze), frei, leer
+//
+// Alle Zahlen der Einheit sind mit Python (ipaddress) nachgerechnet, siehe docs/KI-LEHRER-PROTOKOLL.md.
+(function () {
+  "use strict";
+
+  const LF03_SUBNETTING = {
+    id: "lf03-subnetting-grundlagen",
+    titel: "Subnetting und die Fachbegriffe",
+    untertitel: "Von der Subnetzmaske bis zum VLSM-Plan",
+    lernfeld: "LF03",
+    dauer_min: 20,
+    quelle: {
+      buch: "IT-Berufe Grundstufe (Westermann), S. 331–334",
+      handouts: ["Subnetting und Subnetzmaske verstehen", "Subnetting verstehen und rechnen"]
+    },
+
+    lernziele: [
+      { id: "lz1", text: "Eine IPv4-Adresse mit Subnetzmaske oder /Präfix in Netzteil und Hostteil trennen", kn: "Subnetzmaske" },
+      { id: "lz2", text: "Netzadresse, Broadcast-Adresse und nutzbare Hosts bestimmen", kn: "Subnetting" },
+      { id: "lz3", text: "Ein Netz in gleich große Subnetze teilen (Bits leihen)", kn: "Subnetting" },
+      { id: "lz4", text: "Netze unterschiedlicher Größe mit VLSM planen", kn: "VLSM" }
+    ],
+
+    vortest: [
+      {
+        frage: "Wie viele Bit hat eine IPv4-Adresse?",
+        optionen: [
+          { text: "32 Bit", richtig: true },
+          { text: "128 Bit", richtig: false },
+          { text: "8 Bit", richtig: false }
+        ],
+        lernziel: "lz1"
+      },
+      {
+        frage: "Ein Netz hat 8 Hostbits. Wie viele Adressen umfasst es insgesamt?",
+        optionen: [
+          { text: "256", richtig: true },
+          { text: "254", richtig: false },
+          { text: "8", richtig: false }
+        ],
+        lernziel: "lz2"
+      }
+    ],
+
+    phasen: [
+      {
+        id: "p1",
+        titel: "Wo endet das Netz?",
+        kurz: "wie die Subnetzmaske Netzteil und Hostteil trennt",
+        lernziel: "lz1",
+        anker: {
+          text: "Eine Telefonnummer hat eine Vorwahl und eine Anschlussnummer. Die Vorwahl verrät das Ortsnetz, der Rest den Teilnehmer. Eine IP-Adresse ist genauso aufgebaut.",
+          frage: "Woran erkennt ein Rechner, wie viele Stellen der Adresse zum Netz gehören?"
+        },
+        aufbau: [
+          {
+            text: "Eine IPv4-Adresse besteht aus 32 Bit, gegliedert in vier Gruppen zu je 8 Bit. Eine Gruppe heißt Oktett. Hier steht 192.168.10.77.",
+            diagramm: "adr"
+          },
+          {
+            text: "Die Adresse hat zwei Teile: links den Netzteil („In welchem Netz bin ich?“), rechts den Hostteil („Welches Gerät bin ich?“).",
+            diagramm: "adr24"
+          },
+          {
+            text: "Wo die Grenze liegt, sagt die Subnetzmaske. Ihre Einsen markieren den Netzteil, ihre Nullen den Hostteil.",
+            diagramm: "maske24"
+          },
+          {
+            text: "Die Maske 255.255.255.0 besteht aus 24 Einsen. Kurz schreibt man /24, das Präfix. Das Präfix zählt die Netzbits.",
+            diagramm: "maske24"
+          },
+          {
+            text: "Alle übrigen Bits sind Hostbits: 32 minus Präfix. Bei /24 sind das 8 Hostbits.",
+            diagramm: "adr24"
+          },
+          {
+            text: "Je größer das Präfix, desto kleiner das Netz. Bei /27 bleiben nur 5 Hostbits übrig, bei /24 waren es noch 8.",
+            diagramm: "adr27"
+          }
+        ],
+        probe: {
+          art: "mc",
+          frage: "Eine Adresse hat das Präfix /26. Wie viele Hostbits bleiben übrig?",
+          optionen: [
+            {
+              text: "6, denn 32 − 26 = 6",
+              richtig: true,
+              korrektur: "Richtig: Das Präfix zählt die Netzbits, der Rest sind Hostbits."
+            },
+            {
+              text: "26, denn das Präfix zählt die Hostbits",
+              richtig: false,
+              korrektur: "Nein, das Präfix zählt die Netzbits, also die Einsen der Maske. Die Hostbits sind der Rest: 32 − 26."
+            },
+            {
+              text: "8, denn ein Oktett hat 8 Bit",
+              richtig: false,
+              korrektur: "Nein, 8 Hostbits hätte ein /24. Bei /26 liegen zwei Bits mehr im Netzteil, es bleiben 6."
+            }
+          ],
+          loesung: "6 Hostbits. Das Präfix /26 steht für 26 Einsen in der Maske, also 26 Netzbits. Die Adresse hat 32 Bit, es bleiben 32 − 26 = 6 Bits für den Hostteil.",
+          beleg: { handout: "Subnetting und Subnetzmaske verstehen" }
+        },
+        wiederholung: {
+          text: "Zähle von links: /26 heißt 26 Einsen in der Maske, also 26 Netzbits. Die Adresse hat 32 Bit, übrig bleiben 32 − 26 = 6 Bits. Genau diese 6 gehören dem Hostteil.",
+          diagramm: "adr26"
+        },
+        sicherung: {
+          merksatz: "Subnetzmaske und Präfix zeigen dieselbe Grenze: Das Präfix zählt die Einsen (Netzbits), der Rest sind Hostbits (32 − Präfix).",
+          handout: "Die **Subnetzmaske** trennt Netz- und Hostteil einer IPv4-Adresse: links lückenlos Einsen, rechts Nullen. Das **/Präfix** zählt die Einsen, **Hostbits = 32 − Präfix**. Größeres Präfix heißt kleineres Netz."
+        }
+      },
+
+      {
+        id: "p2",
+        titel: "Netzadresse, Broadcast und Hosts",
+        kurz: "welche Adressen ein Netz hat und wer sie benutzen darf",
+        lernziel: "lz2",
+        anker: {
+          text: "Ein Rechner hat die Adresse 192.168.10.77/26. Du sollst sein Netz beschreiben: Wie heißt es, wo endet es, und wie viele Geräte passen hinein?",
+          frage: "Welche Adressen gehören zu diesem Netz, und welche davon darf ein Gerät tragen?"
+        },
+        aufbau: [
+          {
+            text: "Wir rechnen 192.168.10.77/26. Nur das letzte Oktett wird geteilt: 77 ist binär 01001101, die ersten zwei Bits gehören zum Netz.",
+            diagramm: "n77"
+          },
+          {
+            text: "Die Netzadresse entsteht, wenn alle Hostbits 0 sind. Aus 01|001101 wird 01|000000, das ist 64. Das Netz heißt 192.168.10.64.",
+            diagramm: "nnetz"
+          },
+          {
+            text: "Die Broadcast-Adresse entsteht, wenn alle Hostbits 1 sind: 01|111111 ist 127. Ein Paket an .127 erreicht alle Geräte im Netz.",
+            diagramm: "nbc"
+          },
+          {
+            text: "Netzadresse und Broadcast gehören keinem Gerät. Die eine benennt das Netz, die andere ruft alle Geräte zugleich an.",
+            diagramm: "nraum1"
+          },
+          {
+            text: "Dazwischen liegen die nutzbaren Hosts: vom ersten, .65 (Netzadresse plus 1), bis zum letzten, .126 (Broadcast minus 1).",
+            diagramm: "nraum2"
+          },
+          {
+            text: "6 Hostbits ergeben 2⁶ = 64 Adressen. Minus Netzadresse und Broadcast bleiben 62 nutzbare Hosts.",
+            diagramm: "nraum2"
+          }
+        ],
+        probe: {
+          art: "frei",
+          frage: "Wie viele Geräte können in einem /27-Netz eine Adresse bekommen?",
+          akzeptiert: ["30"],
+          tipp: "Hostbits = 32 − 27 = 5. Wie viele Adressen sind das, und wie viele davon sind besonders?",
+          loesung: "30. Ein /27 hat 5 Hostbits, also 2⁵ = 32 Adressen. Netzadresse und Broadcast gehören keinem Gerät, es bleiben 32 − 2 = 30 nutzbare Hosts.",
+          beleg: { handout: "Subnetting verstehen und rechnen" }
+        },
+        wiederholung: {
+          text: "Stell dir 64 Parkplätze in einer Reihe vor, so groß ist unser Netz. Platz 1 trägt das Straßenschild (Netzadresse), Platz 64 die Lautsprecheranlage für alle (Broadcast). Parken dürfen nur die 62 dazwischen. Ein /27 hat 32 Plätze, also bleiben dort 30.",
+          diagramm: "nraum2"
+        },
+        sicherung: {
+          merksatz: "Netzadresse = alle Hostbits 0, Broadcast = alle Hostbits 1, dazwischen liegen 2^H − 2 nutzbare Hosts.",
+          handout: "**Netzadresse:** alle Hostbits 0. **Broadcast:** alle Hostbits 1. Beide gehören keinem Gerät. **Nutzbare Hosts = 2^H − 2** (H = Hostbits). Beispiel 192.168.10.77/26: Netz .64, Broadcast .127, Hosts .65 bis .126, das sind 62."
+        }
+      },
+
+      {
+        id: "p3",
+        titel: "Subnetze bilden",
+        kurz: "wie man ein Netz in gleich große Teile schneidet",
+        lernziel: "lz3",
+        anker: {
+          text: "Eine Firma hat das Netz 192.168.10.0/24 mit 254 Plätzen für Geräte. Sie will vier Abteilungen voneinander trennen, jede soll ein eigenes Netz bekommen.",
+          frage: "Wie teilt man ein Netz in vier gleich große Netze?"
+        },
+        aufbau: [
+          {
+            text: "Ein kleines Netz innerhalb eines größeren heißt Subnetz. Wir teilen 192.168.10.0/24 in vier gleich große Subnetze.",
+            diagramm: "s0"
+          },
+          {
+            text: "Dazu leiht man Bits vom Hostteil und macht sie zu Subnetzbits. Sie wandern auf die Netzseite, das Präfix wird größer.",
+            diagramm: "s2"
+          },
+          {
+            text: "Jedes geliehene Bit verdoppelt die Zahl der Subnetze: 1 Bit ergibt 2, 2 Bits ergeben 4, 3 Bits ergeben 8.",
+            diagramm: "s2"
+          },
+          {
+            text: "Für vier Subnetze braucht man 2 Bits, denn 2² = 4. Das neue Präfix ist 24 + 2 = /26.",
+            diagramm: "s2"
+          },
+          {
+            text: "/26 ist die Maske 255.255.255.192. Die Blockgröße ist 256 − 192 = 64: Die Subnetze beginnen bei .0, .64, .128 und .192.",
+            diagramm: "sraum"
+          },
+          {
+            text: "Jedes Subnetz hat 6 Hostbits, also 2⁶ − 2 = 62 nutzbare Hosts. Das reicht, solange keine Abteilung mehr als 62 Geräte hat.",
+            diagramm: "sraum"
+          }
+        ],
+        probe: {
+          art: "mc",
+          frage: "Ein /24-Netz soll in 8 gleich große Subnetze geteilt werden. Welches Präfix entsteht?",
+          optionen: [
+            {
+              text: "/27, denn man leiht 3 Bits (2³ = 8)",
+              richtig: true,
+              korrektur: "Richtig: 3 geliehene Bits ergeben 8 Subnetze, das Präfix wächst von 24 auf 27."
+            },
+            {
+              text: "/32, denn 24 + 8 = 32",
+              richtig: false,
+              korrektur: "Nein, man leiht nicht 8 Bits, sondern nur so viele, dass 2ⁿ mindestens 8 ergibt. Das sind 3 Bits."
+            },
+            {
+              text: "/25, denn man teilt das Netz einmal",
+              richtig: false,
+              korrektur: "Nein, ein geliehenes Bit ergibt nur 2 Subnetze (/25). Für 8 Subnetze braucht man 3 Bits."
+            }
+          ],
+          loesung: "/27. Für 8 Subnetze braucht man n Bits mit 2ⁿ ≥ 8, das ist n = 3. Das Präfix wächst um die geliehenen Bits: 24 + 3 = 27.",
+          beleg: { handout: "Subnetting verstehen und rechnen" }
+        },
+        wiederholung: {
+          text: "Stell dir eine Torte vor (das /24). Ein Schnitt ergibt 2 Stücke, zwei Schnitte 4, drei Schnitte 8. Jeder Schnitt ist ein geliehenes Bit, und das Präfix wächst um einen Schnitt.",
+          diagramm: "s2"
+        },
+        sicherung: {
+          merksatz: "Subnetze bilden: n Bits leihen ergibt 2ⁿ Subnetze, das Präfix wächst um n. Blockgröße = 256 − Maskenwert im geteilten Oktett.",
+          handout: "**Subnetze bilden:** Es werden n Bits vom Hostteil geliehen, das ergibt **2ⁿ Subnetze**, das Präfix wächst um n. Beispiel /24 in 4 Teile: 2 Bits, /26, Blockgröße 256 − 192 = 64, Netze .0, .64, .128, .192."
+        }
+      },
+
+      {
+        id: "p4",
+        titel: "Unterschiedlich große Netze (VLSM)",
+        kurz: "wie man Netze verschiedener Größe lückenlos plant",
+        lernziel: "lz4",
+        anker: {
+          text: "Drei Abteilungen brauchen 100, 50 und 20 Geräte, dazu kommt eine Router-Verbindung mit 2. Der Adressraum ist 192.168.20.0/24, also 256 Adressen.",
+          frage: "Passen alle Netze hinein, wenn jedes gleich groß sein muss?"
+        },
+        aufbau: [
+          {
+            text: "Gleich große Netze müssten alle für 100 Geräte reichen: je ein /25 mit 128 Adressen. Von der Leiste mit 256 Adressen passen nur zwei davon.",
+            diagramm: "v0"
+          },
+          {
+            text: "Die Lösung heißt VLSM (Variable Length Subnet Mask): Jedes Netz bekommt genau das Präfix, das es braucht. Dabei kommt das größte Netz zuerst.",
+            diagramm: "v00"
+          },
+          {
+            text: "Netz A mit 100 Geräten: 7 Hostbits (2⁷ − 2 = 126), also /25. Es belegt .0 bis .127.",
+            diagramm: "v1"
+          },
+          {
+            text: "Netz B mit 50 Geräten: 6 Hostbits (62), also /26. Es beginnt direkt nach A bei .128 und endet bei .191.",
+            diagramm: "v2"
+          },
+          {
+            text: "Netz C mit 20 Geräten: 5 Hostbits (30), also /27. Es belegt .192 bis .223.",
+            diagramm: "v3"
+          },
+          {
+            text: "Die Router-Verbindung D braucht 2 Adressen: /30, .224 bis .227. Belegt sind 228 von 256 Adressen, der Rest bleibt frei.",
+            diagramm: "v4"
+          }
+        ],
+        probe: {
+          art: "frei",
+          frage: "Welches Präfix braucht ein Netz für 50 Geräte?",
+          akzeptiert: ["/26", "26"],
+          tipp: "Suche die kleinste Zahl H Hostbits mit 2^H − 2 ≥ 50. Das Präfix ist dann 32 − H.",
+          loesung: "/26. Mit 5 Hostbits gäbe es nur 2⁵ − 2 = 30 Hosts, mit 6 Hostbits 2⁶ − 2 = 62. Also H = 6 und das Präfix 32 − 6 = 26.",
+          beleg: { handout: "Subnetting verstehen und rechnen" }
+        },
+        wiederholung: {
+          text: "Wie beim Kofferpacken: erst die großen Koffer, dann die mittleren, zuletzt die kleinen. So bleiben keine Lücken. Lauter gleich große Fächer wären für die kleinen Koffer Platzverschwendung und für die großen zu eng.",
+          diagramm: "v4"
+        },
+        sicherung: {
+          merksatz: "VLSM: Netze nach Größe sortieren, größtes zuerst, jedem das kleinste passende Präfix geben, lückenlos hintereinander vergeben.",
+          handout: "**VLSM** (Variable Length Subnet Mask): größtes Netz zuerst, jedem Netz das kleinste passende Präfix (2^H − 2 ≥ Bedarf), lückenlos vergeben. Beispiel 192.168.20.0/24: A /25 (.0), B /26 (.128), C /27 (.192), D /30 (.224), frei ab .228."
+        }
+      }
+    ],
+
+    nachtest: [
+      {
+        frage: "Welches Präfix gehört zur Subnetzmaske 255.255.255.240?",
+        optionen: [
+          { text: "/28", richtig: true },
+          { text: "/27", richtig: false },
+          { text: "/24", richtig: false }
+        ],
+        lernziel: "lz1"
+      },
+      {
+        frage: "Welche Netzadresse hat der Rechner 192.168.5.130/25?",
+        optionen: [
+          { text: "192.168.5.128", richtig: true },
+          { text: "192.168.5.0", richtig: false },
+          { text: "192.168.5.129", richtig: false }
+        ],
+        lernziel: "lz2"
+      },
+      {
+        frage: "Ein /24-Netz wird in 16 gleich große Subnetze geteilt. Welches Präfix entsteht?",
+        optionen: [
+          { text: "/28", richtig: true },
+          { text: "/26", richtig: false },
+          { text: "/30", richtig: false }
+        ],
+        lernziel: "lz3"
+      },
+      {
+        frage: "Womit beginnt man bei der VLSM-Planung?",
+        optionen: [
+          { text: "Mit dem größten Netz", richtig: true },
+          { text: "Mit dem kleinsten Netz", richtig: false },
+          { text: "Die Reihenfolge ist egal", richtig: false }
+        ],
+        lernziel: "lz4"
+      }
+    ],
+
+    // ---- Bilder dieser Einheit (Beschreibung des Formats: siehe Dateikopf)
+    diagramme: (function () {
+      const IP = "192.168.10.77";
+      // Adressraum 192.168.20.0/24 fuer die VLSM-Phase; jede Stufe fuegt ein Netz hinzu.
+      const VLSM_A = { von: 0, bis: 127, label: "A /25", rolle: "A", tick: ".0" };
+      const VLSM_B = { von: 128, bis: 191, label: "B /26", rolle: "B2", tick: ".128" };
+      const VLSM_C = { von: 192, bis: 223, label: "C /27", rolle: "C", tick: ".192" };
+      const VLSM_D = { von: 224, bis: 227, label: "D /30", rolle: "D", tick: ".224" };
+      const VLSM_TITEL = "Adressraum 192.168.20.0/24";
+      return {
+        start: { art: "bits", titel: "IPv4-Adresse: 32 Bit in 4 Oktetten", balken: [{ titel: "Adresse " + IP, ip: IP }] },
+        adr:   { art: "bits", titel: "IPv4-Adresse: 32 Bit in 4 Oktetten", balken: [{ titel: "Adresse " + IP, ip: IP }] },
+        adr24: { art: "bits", titel: "Netzteil und Hostteil", balken: [{ titel: IP + " /24", ip: IP, netz: 24 }] },
+        maske24: {
+          art: "bits", titel: "Die Maske zieht die Grenze",
+          balken: [
+            { titel: "Adresse " + IP, ip: IP, netz: 24 },
+            { titel: "Subnetzmaske /24 = 255.255.255.0", maske: 24, netz: 24 }
+          ]
+        },
+        adr27: { art: "bits", titel: "Größeres Präfix, kleineres Netz", balken: [{ titel: IP + " /27", ip: IP, netz: 27 }] },
+        adr26: { art: "bits", titel: "Netzbits zählen, Hostbits sind der Rest", balken: [{ titel: IP + " /26", ip: IP, netz: 26 }] },
+
+        n77: { art: "bits", titel: "Nur das letzte Oktett wird geteilt", balken: [{ titel: IP + " /26", ip: IP, netz: 26, hebe: [24, 31] }] },
+        nnetz: {
+          art: "bits", titel: "Netzadresse: alle Hostbits auf 0",
+          balken: [
+            { titel: "Adresse " + IP, ip: IP, netz: 26 },
+            { titel: "Netzadresse 192.168.10.64", ip: "192.168.10.64", netz: 26, hebe: [26, 31] }
+          ]
+        },
+        nbc: {
+          art: "bits", titel: "Broadcast: alle Hostbits auf 1",
+          balken: [
+            { titel: "Adresse " + IP, ip: IP, netz: 26 },
+            { titel: "Broadcast 192.168.10.127", ip: "192.168.10.127", netz: 26, hebe: [26, 31] }
+          ]
+        },
+        nraum1: {
+          art: "raum", titel: "Das Netz 192.168.10.64/26 hat 64 Adressen", bereich: [64, 127],
+          teile: [
+            { von: 64, bis: 64, label: "Netzadresse", rolle: "N", tick: ".64" },
+            { von: 65, bis: 126, label: "?", rolle: "leer" },
+            { von: 127, bis: 127, label: "Broadcast", rolle: "B", tick: ".127", tickPos: "ende" }
+          ]
+        },
+        nraum2: {
+          art: "raum", titel: "Das Netz 192.168.10.64/26 hat 64 Adressen", bereich: [64, 127],
+          teile: [
+            { von: 64, bis: 64, label: "Netzadresse", rolle: "N", tick: ".64" },
+            { von: 65, bis: 126, label: "62 nutzbare Hosts", rolle: "H", tick: ".65 bis .126", tickPos: "mitte" },
+            { von: 127, bis: 127, label: "Broadcast", rolle: "B", tick: ".127", tickPos: "ende" }
+          ]
+        },
+
+        s0: { art: "bits", titel: "Ausgangsnetz", balken: [{ titel: "192.168.10.0 /24", ip: "192.168.10.0", netz: 24 }] },
+        s2: {
+          art: "bits", titel: "2 Bits leihen: 4 Subnetze",
+          balken: [
+            { titel: "vorher: /24", ip: "192.168.10.0", netz: 24 },
+            { titel: "nachher: /26 (2 Bits geliehen)", ip: "192.168.10.0", netz: 24, sub: 2, hebe: [24, 25] }
+          ]
+        },
+        sraum: {
+          art: "raum", titel: "192.168.10.0/24 in vier /26-Subnetze",
+          teile: [
+            { von: 0, bis: 63, label: "Subnetz 1", rolle: "A", tick: ".0" },
+            { von: 64, bis: 127, label: "Subnetz 2", rolle: "B2", tick: ".64" },
+            { von: 128, bis: 191, label: "Subnetz 3", rolle: "C", tick: ".128" },
+            { von: 192, bis: 255, label: "Subnetz 4", rolle: "D", tick: ".192" }
+          ]
+        },
+
+        v0: {
+          art: "raum", titel: "Gleich große Netze: nur zwei /25 passen",
+          teile: [
+            { von: 0, bis: 127, label: "/25", rolle: "A", tick: ".0" },
+            { von: 128, bis: 255, label: "/25", rolle: "A", tick: ".128" }
+          ]
+        },
+        v00: { art: "raum", titel: "VLSM: jedes Netz genau so groß wie nötig", teile: [{ von: 0, bis: 255, label: "256 Adressen", rolle: "leer", tick: ".0" }] },
+        v1: { art: "raum", titel: VLSM_TITEL, teile: [VLSM_A, { von: 128, bis: 255, label: "frei", rolle: "frei", tick: ".128" }] },
+        v2: { art: "raum", titel: VLSM_TITEL, teile: [VLSM_A, VLSM_B, { von: 192, bis: 255, label: "frei", rolle: "frei", tick: ".192" }] },
+        v3: { art: "raum", titel: VLSM_TITEL, teile: [VLSM_A, VLSM_B, VLSM_C, { von: 224, bis: 255, label: "frei", rolle: "frei", tick: ".224" }] },
+        v4: { art: "raum", titel: VLSM_TITEL, teile: [VLSM_A, VLSM_B, VLSM_C, VLSM_D, { von: 228, bis: 255, label: "frei", rolle: "frei", tick: ".228", tickPos: "ende" }] }
+      };
+    })()
+  };
+
+  // Zur bestehenden Einheit dazulegen (f_einheiten.js wird vorher geladen: Dateien sind alphabetisch sortiert).
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_SUBNETTING.id]: LF03_SUBNETTING });
 })();
 
 /* ---- f_fsrs.js ---- */
@@ -13990,17 +14457,111 @@ GENERATORS.vlan = function (level) {
     kameraLauf = requestAnimationFrame(schritt);
   }
 
+  // ---- Bit-Leisten und Adressraeume (Einheiten mit "diagramme", z. B. Subnetting).
+  // Das Format steht im Kopf von f_einheiten_subnetting.js. Der Code rechnet die Bits selbst aus der
+  // Adresse, damit in den Daten kein Bitmuster von Hand getippt werden muss (Tippfehler = falsche Lehre).
+  const BIT_X0 = 30, BIT_B = 17, BIT_LUECKE = 12, RAUM_B = 580;
+  // Enger Ausschnitt, damit die Schrift gross genug bleibt (die Buehne ist nur ~430 px breit).
+  const AUSSCHNITT_BITS = [18, 0, 604, 220];
+  function bitX(i) { return BIT_X0 + i * BIT_B + Math.floor(i / 8) * BIT_LUECKE; }
+
+  function ipZuBits(ip) {
+    const t = String(ip).split(".").map(Number);
+    if (t.length !== 4 || t.some((o) => !(o >= 0 && o <= 255))) return null;
+    return t.map((o) => o.toString(2).padStart(8, "0")).join("");
+  }
+
+  function zeichneBitBalken(b, y, rollen) {
+    const bits = b.maske != null ? "1".repeat(b.maske) + "0".repeat(32 - b.maske) : ipZuBits(b.ip);
+    if (!bits || bits.length !== 32) return "";
+    const netz = b.netz != null ? b.netz : null;
+    const sub = b.sub || 0;
+    let s = `<text x="${BIT_X0}" y="${y - 28}" class="vlBitTitel">${esc(b.titel || "")}</text>`;
+    for (let o = 0; o < 4; o++) {
+      const mitte = bitX(o * 8) + (8 * BIT_B) / 2 - 1;
+      s += `<text x="${mitte}" y="${y - 5}" text-anchor="middle" class="vlBitDez">${parseInt(bits.slice(o * 8, o * 8 + 8), 2)}</text>`;
+    }
+    for (let i = 0; i < 32; i++) {
+      let rolle = "X";
+      if (netz != null) rolle = i < netz ? "N" : (i < netz + sub ? "S" : "H");
+      rollen[rolle] = true;
+      const hebe = b.hebe && i >= b.hebe[0] && i <= b.hebe[1] ? " vlBitHebe" : "";
+      s += `<rect x="${bitX(i)}" y="${y}" width="${BIT_B - 2}" height="30" rx="3" class="vlBit vlBit${rolle}${hebe}"/>` +
+           `<text x="${bitX(i) + (BIT_B - 2) / 2}" y="${y + 20}" text-anchor="middle" class="vlBitZiffer vlBitZiffer${rolle}">${bits[i]}</text>`;
+    }
+    const grenze = netz != null ? netz + sub : 0;
+    if (grenze > 0 && grenze < 32) {
+      const gx = bitX(grenze) - (grenze % 8 === 0 ? (BIT_LUECKE + 2) / 2 : 1);
+      s += `<line x1="${gx}" y1="${y - 2}" x2="${gx}" y2="${y + 34}" class="vlBitGrenze"/>`;
+    }
+    return s;
+  }
+
+  function zeichneBitSpec(spec) {
+    const balken = (spec.balken || []).slice(0, 2);
+    const ys = balken.length > 1 ? [70, 151] : [96];
+    const rollen = {};
+    let s = `<text x="${BIT_X0}" y="14" class="vlBitUeber">${esc(spec.titel || "")}</text>`;
+    balken.forEach((b, i) => { s += zeichneBitBalken(b, ys[i], rollen); });
+    const namen = [["N", "Netzteil"], ["S", "Subnetzbits (geliehen)"], ["H", "Hostteil"]];
+    let x = BIT_X0;
+    const ly = (ys[balken.length - 1] || 84) + 54;
+    namen.forEach(([r, text]) => {
+      if (!rollen[r]) return;
+      s += `<rect x="${x}" y="${ly - 10}" width="12" height="12" rx="2" class="vlBit vlBit${r}"/>` +
+           `<text x="${x + 17}" y="${ly}" class="vlBitLegende">${esc(text)}</text>`;
+      x += 36 + text.length * 6.2;
+    });
+    return s;
+  }
+
+  function zeichneRaumSpec(spec) {
+    const von0 = (spec.bereich || [0, 255])[0], n = (spec.bereich || [0, 255])[1] - von0 + 1;
+    const y = 90, h = 44;
+    let s = `<text x="${BIT_X0}" y="14" class="vlBitUeber">${esc(spec.titel || "")}</text>`;
+    (spec.teile || []).forEach((t) => {
+      const x = BIT_X0 + ((t.von - von0) / n) * RAUM_B;
+      const w = ((t.bis - t.von + 1) / n) * RAUM_B;
+      const mx = x + w / 2;
+      const rolle = esc(t.rolle || "leer");
+      const hell = rolle === "frei" || rolle === "leer";
+      s += `<rect x="${x.toFixed(1)}" y="${y}" width="${Math.max(w - 1.5, 1).toFixed(1)}" height="${h}" rx="3" class="vlRaum vlRolle_${rolle}"/>`;
+      // Schmale Stuecke: Beschriftung ueber die Leiste, zum Rand hin buendig, damit nichts abgeschnitten wird.
+      const anker = mx < BIT_X0 + 70 ? "start" : (mx > BIT_X0 + RAUM_B - 70 ? "end" : "middle");
+      const ax = anker === "start" ? x : (anker === "end" ? x + w : mx);
+      if (t.label) {
+        if (w >= t.label.length * 8.6 + 8) s += `<text x="${mx.toFixed(1)}" y="${y + h / 2 + 5}" text-anchor="middle" class="vlRaumText${hell ? " vlRaumHell" : ""}">${esc(t.label)}</text>`;
+        else s += `<text x="${ax.toFixed(1)}" y="${y - 8}" text-anchor="${anker}" class="vlRaumText vlRaumHell">${esc(t.label)}</text>`;
+      }
+      // Tick unter dem Stueck: Standard linke Kante (dort beginnt der Block), per tickPos "mitte"/"ende" ueberschreibbar.
+      if (t.tick) {
+        const pos = t.tickPos || "start";
+        const tx = pos === "ende" ? x + w : (pos === "mitte" ? mx : x);
+        const ta = pos === "ende" ? "end" : (pos === "mitte" ? "middle" : "start");
+        s += `<text x="${tx.toFixed(1)}" y="${y + h + 20}" text-anchor="${ta}" class="vlRaumTick">${esc(t.tick)}</text>`;
+      }
+    });
+    return s;
+  }
+
   let letztesDiagramm = null;
 
   function zeigeDiagramm(name, hinweis) {
     if (!name) name = letztesDiagramm;
     else letztesDiagramm = name;
-    const an = DIAGRAMME[name] || [];
+    // Einheiten mit eigenen Bildern (E.diagramme): unbekannte Namen (Begruessung, Tests) zeigen "start".
+    const eigene = E && E.diagramme ? (E.diagramme[name] || E.diagramme.start || null) : null;
+    const an = eigene ? [] : (DIAGRAMME[name] || []);
     ALLE_KNOTEN.forEach((id) => {
       const el = $v(id);
       if (el) el.style.opacity = an.indexOf(id) >= 0 ? "1" : "0";
     });
-    fahreKamera(AUSSCHNITT[name] || AUSSCHNITT_START);
+    const bits = $v("vlBits");
+    if (bits) {
+      bits.innerHTML = eigene ? (eigene.art === "raum" ? zeichneRaumSpec(eigene) : zeichneBitSpec(eigene)) : "";
+      bits.style.opacity = eigene ? "1" : "0";
+    }
+    fahreKamera(eigene ? AUSSCHNITT_BITS : (AUSSCHNITT[name] || AUSSCHNITT_START));
     const bubble = $v("vlStageBubble");
     const bText = $v("vlBubbleText");
     if (bubble && bText) {
@@ -14108,6 +14669,9 @@ GENERATORS.vlan = function (level) {
                 <text x="560" y="161" class="vlNodeIcon">Internet</text>
                 <text x="560" y="175" class="vlNodeSub">wan0</text>
               </g>
+
+              <!-- Bit-Leisten und Adressraeume fuer Einheiten mit eigenen Bildern (E.diagramme) -->
+              <g id="vlBits" class="vlBits" style="opacity:0"></g>
             </svg>
 
             <!-- Kurzer Hinweis unter der Buehne, wenn ein Schritt ihn setzt -->
@@ -20167,7 +20731,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
               <span style="font-size:22px;">🎓</span>
               <div>
                 <h3 style="color:#38bdf8; margin:0; font-size:14px;">Interaktive-KI-Vorlesung</h3>
-                <span style="font-size:10px; color:#7dd3fc;">Pilot: Wie funktioniert ein Router? (LF03)</span>
+                <span style="font-size:10px; color:#7dd3fc;">Pilot: Router und Subnetting (LF03)</span>
               </div>
             </div>
             <span class="devStatusBadge live">🟢 Spielbereit</span>
@@ -20180,7 +20744,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
             📚 <b>Fachbuch:</b> Westermann S. 330–334 · <b>Obsidian:</b> 20_Begriffe/Router.md · <b>Tutor:</b> Live & Offline
           </div>
           <button type="button" class="primary" id="hubStartVorlesungDevBtn" style="font-weight:700; background:#0284c7; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer;">
-            🎓 KI-Lehrer betreten ➔
+            🎓 Einheit 1: Wie funktioniert ein Router? ➔
+          </button>
+          <button type="button" class="primary" id="hubStartSubnettingBtn" style="font-weight:700; background:#0369a1; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer; margin-top:6px;">
+            🎓 Einheit 2: Subnetting und Fachbegriffe ➔
           </button>
         </div>
 
@@ -20251,6 +20818,15 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         </div>
       </div>
     `);
+
+    const startSubBtn = $("hubStartSubnettingBtn");
+    if (startSubBtn) {
+      startSubBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (typeof window.startVorlesung === "function") window.startVorlesung("lf03-subnetting-grundlagen");
+      };
+    }
 
     const startVorlBtn = $("hubStartVorlesungDevBtn");
     if (startVorlBtn) {
