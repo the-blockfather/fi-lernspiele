@@ -16707,6 +16707,1370 @@ GENERATORS.detektiv = function (level) {
   window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_IPV6.id]: LF03_IPV6 });
 })();
 
+/* ---- f_einheiten_normen.js ---- */
+//
+// Einheit 20: Normen, Gremien, Europa und IEEE 802 (aus dem Kurs "Normen-Quartett", Stationen 0 bis 3; Abschlussuebung = Abschlusstest s3). Erzeugt per Skript, Aufgaben unveraendert.
+(function () {
+  "use strict";
+
+  const LF03_NO = {
+    "id": "lf03-normen-gremien-ieee",
+    "reihe": 20,
+    "titel": "Normen: Gremien, Europa und IEEE 802",
+    "untertitel": "wer Normen macht, wie Normnamen aufgebaut sind und welche IEEE-802-Nummer wofür steht",
+    "lernfeld": "LF03",
+    "dauer_min": 25,
+    "quelle": {
+      "buch": "IT-Berufe Grundstufe (Westermann), S. 344–345 (Normungsgremien, Europäische Normen, IEEE 802)",
+      "handouts": []
+    },
+    "lernziele": [
+      {
+        "id": "lz1",
+        "text": "Die acht wichtigsten Gremien nach Aufgabe und Sitz zuordnen",
+        "kn": "Normen"
+      },
+      {
+        "id": "lz2",
+        "text": "Europäische Normen und Normnamen wie DIN EN 50173 lesen",
+        "kn": "Normen"
+      },
+      {
+        "id": "lz3",
+        "text": "IEEE-802-Standards ihren Techniken zuordnen",
+        "kn": "Normen"
+      }
+    ],
+    "diagramme": {
+      "start": {
+        "art": "netz",
+        "titel": "Acht Gremien, acht Kurzprofile",
+        "knoten": [
+          {
+            "id": "g0",
+            "x": 90,
+            "y": 85,
+            "t": "ISO",
+            "sub": "ohne Elektrotechnik",
+            "w": 140,
+            "rolle": "gelb"
+          },
+          {
+            "id": "g1",
+            "x": 245,
+            "y": 85,
+            "t": "IEC",
+            "sub": "Elektrotechnik",
+            "w": 140,
+            "rolle": "gelb"
+          },
+          {
+            "id": "g2",
+            "x": 400,
+            "y": 85,
+            "t": "ITU",
+            "sub": "Telekommunikation",
+            "w": 140
+          },
+          {
+            "id": "g3",
+            "x": 555,
+            "y": 85,
+            "t": "IEEE",
+            "sub": "Ingenieurverband",
+            "w": 140
+          },
+          {
+            "id": "g4",
+            "x": 90,
+            "y": 160,
+            "t": "IETF",
+            "sub": "Internetprotokolle",
+            "w": 140
+          },
+          {
+            "id": "g5",
+            "x": 245,
+            "y": 160,
+            "t": "NIST",
+            "sub": "AES, DES",
+            "w": 140
+          },
+          {
+            "id": "g6",
+            "x": 400,
+            "y": 160,
+            "t": "ANSI",
+            "sub": "privat, USA",
+            "w": 140
+          },
+          {
+            "id": "g7",
+            "x": 555,
+            "y": 160,
+            "t": "DIN",
+            "sub": "national, Berlin",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "gremien": {
+        "art": "netz",
+        "titel": "Acht Gremien, acht Kurzprofile",
+        "knoten": [
+          {
+            "id": "g0",
+            "x": 90,
+            "y": 85,
+            "t": "ISO",
+            "sub": "ohne Elektrotechnik",
+            "w": 140,
+            "rolle": "gelb"
+          },
+          {
+            "id": "g1",
+            "x": 245,
+            "y": 85,
+            "t": "IEC",
+            "sub": "Elektrotechnik",
+            "w": 140,
+            "rolle": "gelb"
+          },
+          {
+            "id": "g2",
+            "x": 400,
+            "y": 85,
+            "t": "ITU",
+            "sub": "Telekommunikation",
+            "w": 140
+          },
+          {
+            "id": "g3",
+            "x": 555,
+            "y": 85,
+            "t": "IEEE",
+            "sub": "Ingenieurverband",
+            "w": 140
+          },
+          {
+            "id": "g4",
+            "x": 90,
+            "y": 160,
+            "t": "IETF",
+            "sub": "Internetprotokolle",
+            "w": 140
+          },
+          {
+            "id": "g5",
+            "x": 245,
+            "y": 160,
+            "t": "NIST",
+            "sub": "AES, DES",
+            "w": 140
+          },
+          {
+            "id": "g6",
+            "x": 400,
+            "y": 160,
+            "t": "ANSI",
+            "sub": "privat, USA",
+            "w": 140
+          },
+          {
+            "id": "g7",
+            "x": 555,
+            "y": 160,
+            "t": "DIN",
+            "sub": "national, Berlin",
+            "w": 140
+          }
+        ],
+        "links": []
+      },
+      "sitz": {
+        "art": "netz",
+        "titel": "Wo sitzt das Gremium?",
+        "knoten": [
+          {
+            "id": "s0",
+            "x": 70,
+            "y": 110,
+            "t": "ISO",
+            "sub": "Genf",
+            "w": 108
+          },
+          {
+            "id": "s1",
+            "x": 195,
+            "y": 110,
+            "t": "IEC",
+            "sub": "Genf",
+            "w": 108
+          },
+          {
+            "id": "s2",
+            "x": 320,
+            "y": 110,
+            "t": "IEEE",
+            "sub": "New York",
+            "w": 108
+          },
+          {
+            "id": "s3",
+            "x": 445,
+            "y": 110,
+            "t": "ANSI",
+            "sub": "Washington",
+            "w": 108
+          },
+          {
+            "id": "s4",
+            "x": 570,
+            "y": 110,
+            "t": "DIN",
+            "sub": "Berlin",
+            "w": 108
+          }
+        ],
+        "links": []
+      },
+      "ebenen": {
+        "art": "netz",
+        "titel": "Normungsebenen: weltweit, Europa, Deutschland",
+        "knoten": [
+          {
+            "id": "e0",
+            "x": 110,
+            "y": 110,
+            "t": "International",
+            "sub": "ISO, IEC, ITU, IEEE",
+            "w": 190
+          },
+          {
+            "id": "e1",
+            "x": 320,
+            "y": 110,
+            "t": "Europa",
+            "sub": "CEN, CENELEC, ETSI",
+            "w": 190
+          },
+          {
+            "id": "e2",
+            "x": 530,
+            "y": 110,
+            "t": "Deutschland",
+            "sub": "DIN, übernimmt EN",
+            "w": 190
+          }
+        ],
+        "links": [
+          {
+            "von": "e0",
+            "bis": "e1"
+          },
+          {
+            "von": "e1",
+            "bis": "e2"
+          }
+        ]
+      },
+      "normname": {
+        "art": "netz",
+        "titel": "Normname zerlegt: DIN EN 50173",
+        "knoten": [
+          {
+            "id": "a",
+            "x": 110,
+            "y": 110,
+            "t": "DIN",
+            "sub": "deutsches Institut",
+            "w": 170
+          },
+          {
+            "id": "b",
+            "x": 320,
+            "y": 110,
+            "t": "EN",
+            "sub": "Europäische Norm",
+            "w": 170,
+            "rolle": "gelb"
+          },
+          {
+            "id": "c",
+            "x": 530,
+            "y": 110,
+            "t": "50173",
+            "sub": "Nummer der Norm",
+            "w": 170
+          }
+        ],
+        "links": [
+          {
+            "von": "a",
+            "bis": "b"
+          },
+          {
+            "von": "b",
+            "bis": "c"
+          }
+        ]
+      },
+      "ieee": {
+        "art": "netz",
+        "titel": "IEEE 802: Schicht 1 und 2",
+        "knoten": [
+          {
+            "id": "i0",
+            "x": 90,
+            "y": 85,
+            "t": "802.3",
+            "sub": "Ethernet",
+            "w": 140
+          },
+          {
+            "id": "i1",
+            "x": 245,
+            "y": 85,
+            "t": "802.3u",
+            "sub": "Fast Ethernet",
+            "w": 140
+          },
+          {
+            "id": "i2",
+            "x": 400,
+            "y": 85,
+            "t": "802.3z",
+            "sub": "Gigabit",
+            "w": 140
+          },
+          {
+            "id": "i3",
+            "x": 555,
+            "y": 85,
+            "t": "802.3ae",
+            "sub": "10 Gigabit",
+            "w": 140
+          },
+          {
+            "id": "i4",
+            "x": 90,
+            "y": 160,
+            "t": "802.3af/at",
+            "sub": "PoE",
+            "w": 140
+          },
+          {
+            "id": "i5",
+            "x": 245,
+            "y": 160,
+            "t": "802.11",
+            "sub": "WLAN",
+            "w": 140
+          },
+          {
+            "id": "i6",
+            "x": 400,
+            "y": 160,
+            "t": "802.15.1",
+            "sub": "Bluetooth",
+            "w": 140
+          },
+          {
+            "id": "i7",
+            "x": 555,
+            "y": 160,
+            "t": "802.15.4",
+            "sub": "ZigBee",
+            "w": 140,
+            "rolle": "gelb"
+          }
+        ],
+        "links": []
+      }
+    },
+    "vortest": [
+      {
+        "frage": "Welches Gremium ist für Elektrotechnik zuständig?",
+        "optionen": [
+          {
+            "text": "IEC",
+            "richtig": true
+          },
+          {
+            "text": "ISO",
+            "richtig": false
+          },
+          {
+            "text": "IETF",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      },
+      {
+        "frage": "Welcher Standard ist WLAN?",
+        "optionen": [
+          {
+            "text": "IEEE 802.11",
+            "richtig": true
+          },
+          {
+            "text": "IEEE 802.3",
+            "richtig": false
+          },
+          {
+            "text": "IEEE 802.15.4",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      }
+    ],
+    "phasen": [
+      {
+        "id": "p1",
+        "titel": "Gremien",
+        "kurz": "acht Namen mit Kurzprofil und Sitz",
+        "lernziel": "lz1",
+        "anker": {
+          "text": "In Datenblättern stehen ISO, IEC, IEEE und DIN nebeneinander. Jedes Gremium macht etwas anderes.",
+          "frage": "Wer ist wofür zuständig?"
+        },
+        "aufbau": [
+          {
+            "text": "ISO macht Normen für alles außer Elektrotechnik, IEC für Elektrotechnik und Elektronik. Beide sitzen in Genf.",
+            "diagramm": "gremien"
+          },
+          {
+            "text": "ITU gibt Empfehlungen zur Telekommunikation. IEEE ist der weltweite Ingenieurverband mit Sitz in New York.",
+            "diagramm": "sitz"
+          },
+          {
+            "text": "IETF entwickelt die Internetprotokolle weiter. NIST legt Verschlüsselungsverfahren wie AES und DES fest.",
+            "diagramm": "gremien"
+          },
+          {
+            "text": "ANSI ist das private US-Normungsinstitut in Washington. DIN ist das nationale deutsche Institut in Berlin.",
+            "diagramm": "sitz"
+          },
+          {
+            "text": "ITU-Empfehlungen bekommen erst Normcharakter, wenn nationale Behörden wie die Bundesnetzagentur sie übernehmen.",
+            "diagramm": "gremien"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Welches Gremium legt AES und DES fest?",
+          "optionen": [
+            {
+              "text": "NIST",
+              "richtig": true,
+              "korrektur": "Richtig: Das amerikanische Institut für Standards und Technologie."
+            },
+            {
+              "text": "IETF",
+              "richtig": false,
+              "korrektur": "Die IETF entwickelt Internetprotokolle weiter."
+            },
+            {
+              "text": "ANSI",
+              "richtig": false,
+              "korrektur": "ANSI ist das private US-Normungsinstitut ohne diesen Schwerpunkt."
+            }
+          ],
+          "loesung": "NIST.",
+          "beleg": {
+            "seite": "344"
+          }
+        },
+        "wiederholung": {
+          "text": "ISO = alles außer Elektrotechnik, IEC = Elektrotechnik. IEEE sitzt in New York, die IETF ist kein Berufsverband.",
+          "diagramm": "gremien"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches Gremium ist wofür zuständig? (Teil 1)",
+            "paare": [
+              [
+                "ISO",
+                "Normen außer Elektrotechnik"
+              ],
+              [
+                "IEC",
+                "Elektrotechnik und Elektronik"
+              ],
+              [
+                "ITU",
+                "Empfehlungen zur Telekommunikation"
+              ],
+              [
+                "IEEE",
+                "weltweiter Ingenieurverband"
+              ]
+            ],
+            "tipps": [
+              "ISO und IEC teilen sich die Welt: Strom oder nicht Strom.",
+              "Im ausgeschriebenen Namen IEEE kommt am Ende „Engineers“ vor."
+            ],
+            "erkl": "**ISO** alles außer Elektrotechnik, **IEC** Elektrotechnik/Elektronik, **ITU** Telekommunikation, **IEEE** Ingenieurverband."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Gremium ist wofür zuständig? (Teil 2)",
+            "paare": [
+              [
+                "IETF",
+                "Weiterentwicklung der Internetprotokolle"
+              ],
+              [
+                "NIST",
+                "Verschlüsselungsverfahren (AES, DES)"
+              ],
+              [
+                "ANSI",
+                "privates US-Normungsinstitut"
+              ],
+              [
+                "DIN",
+                "nationales deutsches Institut"
+              ]
+            ],
+            "tipps": [
+              "Das D bei DIN steht für Deutsches, das A bei ANSI für American.",
+              "AES und DES sind Verschlüsselungsverfahren."
+            ],
+            "erkl": "**IETF** Internet, **NIST** Verschlüsselung, **ANSI** USA (privat), **DIN** Deutschland."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welches Gremium sitzt wo?",
+            "paare": [
+              [
+                "ISO",
+                "Genf"
+              ],
+              [
+                "IEC",
+                "Genf"
+              ],
+              [
+                "IEEE",
+                "New York"
+              ],
+              [
+                "ANSI",
+                "Washington D.C."
+              ],
+              [
+                "DIN",
+                "Berlin"
+              ]
+            ],
+            "tipps": [
+              "ISO und IEC haben denselben Sitz.",
+              "ANSI und IEEE sitzen beide in den USA, aber in verschiedenen Städten."
+            ],
+            "erkl": "ISO und IEC in **Genf**, IEEE in **New York**, ANSI in **Washington D.C.**, DIN in **Berlin**."
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Gremium macht Normen für **Elektrotechnik und Elektronik**?",
+            "optionen": [
+              "IEC",
+              "ISO",
+              "ITU",
+              "DIN"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Es gibt eine internationale Organisation, die Elektrotechnik von der ISO abgrenzt."
+            ],
+            "erkl": "Die **IEC** (International Electrotechnical Commission) ist für Elektrotechnik zuständig. Die ISO deckt alle anderen Gebiete ab."
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür steht die Abkürzung **IEEE**?",
+            "optionen": [
+              "International Electrical and Ethernet Engineering",
+              "Institute of Electrical and Electronics Engineers",
+              "Institute of Electronic and Ethernet Experts",
+              "International Engineering and Electronics Establishment"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Der Verband vereint Ingenieurinnen und Ingenieure der Elektrotechnik und Elektronik."
+            ],
+            "erkl": "**Institute of Electrical and Electronics Engineers**, ein weltweiter Berufsverband (Sitz New York). Er gibt u. a. IEEE 802 heraus."
+          },
+          {
+            "t": "wahl",
+            "f": "Wann bekommen Empfehlungen der **ITU** Normcharakter?",
+            "optionen": [
+              "Sofort mit der Veröffentlichung, weil die ITU weltweit zuständig ist",
+              "Wenn die ISO sie nach einer Prüfung bestätigt und freigibt",
+              "Wenn nationale Regulierungsbehörden (z. B. die Bundesnetzagentur) sie übernehmen",
+              "Wenn der Vorstand des IEEE in New York zustimmt"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "ITU gibt „Empfehlungen“, keine Normen. Wer macht daraus Vorschriften?"
+            ],
+            "erkl": "ITU-Papiere sind zunächst nur **Empfehlungen**. Erst wenn **nationale Regulierungsbehörden** sie übernehmen, haben sie Normcharakter."
+          },
+          {
+            "t": "wahl",
+            "f": "Welches Gremium legt **AES und DES** fest?",
+            "optionen": [
+              "IETF",
+              "ANSI",
+              "ITU",
+              "NIST"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Es ist ein amerikanisches Institut für Standards und Technologie."
+            ],
+            "erkl": "Das **NIST** (National Institute of Standards and Technology) ist für Verschlüsselungsverfahren wie AES und DES zuständig."
+          },
+          {
+            "t": "wahl",
+            "f": "Die IETF ist ein Berufsverband von Ingenieuren mit Sitz in New York.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Zwei Kürzel sehen ähnlich aus: IEEE und IETF. Welches steht für den Ingenieurverband?"
+            ],
+            "erkl": "Das beschreibt den **IEEE**. Die **IETF** ist eine Technik-Arbeitsgruppe, die das Internet und die Internetprotokolle weiterentwickelt."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "ISO = alles außer Elektrotechnik, IEC = Elektrotechnik, beide in Genf. IEEE = Ingenieurverband, IETF = Internetprotokolle.",
+          "handout": "**Gremien:** ISO (außer Elektrotechnik, Genf) · IEC (Elektrotechnik, Genf) · ITU (Telekommunikation, Empfehlungen) · IEEE (Ingenieurverband, New York) · IETF (Internetprotokolle) · NIST (AES, DES) · ANSI (privat, USA, Washington) · DIN (national, Berlin)."
+        }
+      },
+      {
+        "id": "p2",
+        "titel": "Europa und Nummern",
+        "kurz": "CEN, CENELEC, ETSI und DIN EN 50173",
+        "lernziel": "lz2",
+        "anker": {
+          "text": "Ein Datenblatt nennt DIN EN 50173. Das klingt nach Buchstabensuppe.",
+          "frage": "Wie liest man so einen Normnamen?"
+        },
+        "aufbau": [
+          {
+            "text": "Es gibt drei Ebenen: international (ISO, IEC, ITU, IEEE), Europa und national (in Deutschland das DIN).",
+            "diagramm": "ebenen"
+          },
+          {
+            "text": "In Europa verabschiedet ein Komitee eine EN: CEN allgemein, CENELEC Elektrotechnik, ETSI Telekommunikation.",
+            "diagramm": "ebenen"
+          },
+          {
+            "text": "Internationale Normen können als EN übernommen werden. Eine übernommene EN heißt in Deutschland DIN EN (Praxis, nicht im Buch).",
+            "diagramm": "ebenen"
+          },
+          {
+            "text": "DIN EN 50173 zerlegt: DIN = deutsches Institut, EN = Europäische Norm, 50173 = Nummer. Sie regelt anwendungsneutrale Kabelanlagen.",
+            "diagramm": "normname"
+          },
+          {
+            "text": "Richtig geschrieben heißt die OSI-Norm ISO/IEC 7498-1.",
+            "diagramm": "normname"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Wofür stehen die Buchstaben EN in einer Normnummer?",
+          "optionen": [
+            {
+              "text": "Europäische Norm",
+              "richtig": true,
+              "korrektur": "Richtig: verabschiedet von CEN, CENELEC oder ETSI."
+            },
+            {
+              "text": "Ethernet-Norm",
+              "richtig": false,
+              "korrektur": "Mit Ethernet hat EN nichts zu tun."
+            },
+            {
+              "text": "Elektronik-Norm",
+              "richtig": false,
+              "korrektur": "Für Elektronik ist die IEC zuständig, EN meint Europa."
+            }
+          ],
+          "loesung": "EN = Europäische Norm.",
+          "beleg": {
+            "seite": "345"
+          }
+        },
+        "wiederholung": {
+          "text": "EN = Europäische Norm von CEN, CENELEC oder ETSI. DIN EN 50173 = strukturierte Verkabelung.",
+          "diagramm": "normname"
+        },
+        "uebung": [
+          {
+            "t": "zuordnen",
+            "f": "Welches europäische Komitee ist wofür zuständig?",
+            "paare": [
+              [
+                "CEN",
+                "Normung allgemein"
+              ],
+              [
+                "CENELEC",
+                "Elektrotechnik"
+              ],
+              [
+                "ETSI",
+                "Telekommunikation"
+              ]
+            ],
+            "tipps": [
+              "Im Namen steckt das Fachgebiet: ELEC für Elektrotechnik, T für Telekommunikation."
+            ],
+            "erkl": "**CEN** allgemein, **CENELEC** Elektrotechnik (wie die IEC weltweit), **ETSI** Telekommunikation."
+          },
+          {
+            "t": "wahl",
+            "f": "Wer verabschiedet **Europäische Normen (EN)**?",
+            "optionen": [
+              "Der Vorstand des IEEE in New York",
+              "Eines der drei europäischen Komitees: CEN, CENELEC oder ETSI",
+              "Die ISO als Organisation in Genf",
+              "Allein das DIN als nationales Institut"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Europa hat drei eigene Komitees für Standardisierung."
+            ],
+            "erkl": "EN werden von **CEN, CENELEC oder ETSI** verabschiedet, den drei europäischen Komitees."
+          },
+          {
+            "t": "ordnen",
+            "f": "Sortiere die Normungsebenen vom **größten** Geltungsbereich zum kleinsten.",
+            "items": [
+              "International (ISO, IEC)",
+              "Europa (CEN, CENELEC, ETSI)",
+              "Deutschland (DIN)"
+            ],
+            "tipps": [
+              "Die Welt, dann der Kontinent, dann das Land."
+            ],
+            "erkl": "**ISO/IEC** (weltweit) → **CEN/CENELEC/ETSI** (Europa) → **DIN** (Deutschland)."
+          },
+          {
+            "t": "wahl",
+            "f": "Wofür stehen die Buchstaben **EN** in einer Normnummer?",
+            "optionen": [
+              "Ethernet-Norm",
+              "Elektronik-Norm",
+              "Europäische Norm",
+              "Erweiterte Netzwerknorm"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Es geht um das Gebiet, in dem die Norm gilt."
+            ],
+            "erkl": "**EN = Europäische Norm**, gefolgt von einer Zahl."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Zerlege den Normnamen **DIN EN 50173**.",
+            "paare": [
+              [
+                "DIN",
+                "deutsches Normungsinstitut"
+              ],
+              [
+                "EN",
+                "Europäische Norm"
+              ],
+              [
+                "50173",
+                "Nummer der Norm"
+              ]
+            ],
+            "tipps": [
+              "Zwei Buchstabengruppen, dann eine Zahl.",
+              "Die Zahl nummeriert die Norm."
+            ],
+            "erkl": "**DIN** = deutsches Institut, **EN** = Europäische Norm, **50173** = Nummer."
+          },
+          {
+            "t": "wahl",
+            "f": "Was regelt **DIN EN 50173**?",
+            "optionen": [
+              "Das OSI-Referenzmodell mit seinen sieben Schichten",
+              "Power over Ethernet, also Strom über das Datenkabel",
+              "Die Funkübertragung im WLAN nach IEEE 802.11",
+              "Anwendungsneutrale Kommunikationskabelanlagen (strukturierte Verkabelung)"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Es geht um Kabel in Gebäuden, nicht um Funk oder Strom."
+            ],
+            "erkl": "**DIN EN 50173** beschreibt **anwendungsneutrale Kommunikationskabelanlagen**, also die strukturierte Verkabelung."
+          },
+          {
+            "t": "wahl",
+            "f": "Welche Schreibweise der OSI-Norm ist **richtig**?",
+            "optionen": [
+              "ISO/IEC 7498-1",
+              "OSI/IEC 7498-1",
+              "ISO/OSI 7498-1",
+              "IEEE 7498-1"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "OSI ist der Name des Modells. Wer gibt Normen heraus: ISO und IEC."
+            ],
+            "erkl": "Richtig ist **ISO/IEC 7498-1** (Open Systems Interconnection, Basic Reference Model). Im Buch steht „OSI/IEC 7498-1“: das ist ein Druckfehler, OSI ist keine Organisation."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welche Norm regelt was?",
+            "paare": [
+              [
+                "ISO/IEC 7498-1",
+                "OSI-Referenzmodell"
+              ],
+              [
+                "DIN EN 50173",
+                "anwendungsneutrale Kabelanlagen"
+              ],
+              [
+                "IEEE 802.3",
+                "Ethernet"
+              ],
+              [
+                "IEEE 802.11",
+                "Wireless LAN"
+              ]
+            ],
+            "tipps": [
+              "Die Vorsilbe verrät das Gremium: ISO/IEC für das Referenzmodell, IEEE für Netzwerktechnik.",
+              "802.3 und 802.11 sind die zwei bekanntesten 802-Standards."
+            ],
+            "erkl": "**ISO/IEC 7498-1** OSI-Modell, **DIN EN 50173** Kabelanlagen, **IEEE 802.3** Ethernet, **IEEE 802.11** WLAN."
+          },
+          {
+            "t": "wahl",
+            "f": "Internationale Normen können als Europäische Normen übernommen werden.",
+            "optionen": [
+              "falsch",
+              "wahr"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Hat Europa nur eigene Normen, oder darf es auch übernehmen?"
+            ],
+            "erkl": "Eine internationale Norm kann ein europäisches Komitee als **EN** übernehmen. Das DIN setzt sie dann als „DIN EN …“ in Deutschland um (Praxis, steht nicht im Buch)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "EN = Europäische Norm, verabschiedet von CEN, CENELEC oder ETSI. DIN EN 50173 = anwendungsneutrale Kabelanlagen.",
+          "handout": "**Ebenen:** international (ISO, IEC, ITU, IEEE) · Europa (CEN allgemein, CENELEC Elektrotechnik, ETSI Telekommunikation, Ergebnis EN) · national (DIN). **DIN EN 50173** = DIN + EN + Nummer, regelt anwendungsneutrale Kabelanlagen. OSI-Norm: ISO/IEC 7498-1."
+        }
+      },
+      {
+        "id": "p3",
+        "titel": "IEEE 802",
+        "kurz": "die Familie für Schicht 1 und 2",
+        "lernziel": "lz3",
+        "anker": {
+          "text": "Ethernet, WLAN, Bluetooth und PoE tragen alle eine 802-Nummer.",
+          "frage": "Welche Nummer gehört zu welcher Technik?"
+        },
+        "aufbau": [
+          {
+            "text": "IEEE 802 ist die Familie der Netzwerkstandards für OSI-Schicht 1 und 2. Unterstandards unterscheiden sich in Nummer und Buchstaben.",
+            "diagramm": "ieee"
+          },
+          {
+            "text": "Ethernet: 802.3. Fast Ethernet: 802.3u. Gigabit-Ethernet: 802.3z. 10-Gigabit-Ethernet: 802.3ae. 10 Gigabit über Twisted Pair: 802.3an.",
+            "diagramm": "ieee"
+          },
+          {
+            "text": "Strom über das Netzwerkkabel (PoE): 802.3af und 802.3at. WLAN: 802.11. VLAN-Tag: 802.1Q.",
+            "diagramm": "ieee"
+          },
+          {
+            "text": "Bluetooth ist 802.15.1. ZigBee gehört nach Norm zu 802.15.4, das Buch nennt fälschlich 802.15.1.",
+            "diagramm": "ieee"
+          }
+        ],
+        "probe": {
+          "art": "mc",
+          "frage": "Zu welchem Standard gehört ZigBee?",
+          "optionen": [
+            {
+              "text": "IEEE 802.15.4",
+              "richtig": true,
+              "korrektur": "Richtig: Nach Norm ist 802.15.4 ZigBee, 802.15.1 ist Bluetooth."
+            },
+            {
+              "text": "IEEE 802.15.1",
+              "richtig": false,
+              "korrektur": "Das ist Bluetooth, auch wenn das Buch es bei ZigBee nennt."
+            },
+            {
+              "text": "IEEE 802.11",
+              "richtig": false,
+              "korrektur": "802.11 ist WLAN."
+            }
+          ],
+          "loesung": "802.15.4.",
+          "beleg": {
+            "seite": "345"
+          }
+        },
+        "wiederholung": {
+          "text": "802.3 Ethernet, 802.11 WLAN, 802.15.1 Bluetooth, 802.15.4 ZigBee, 802.3af/at PoE, 802.1Q VLAN.",
+          "diagramm": "ieee"
+        },
+        "uebung": [
+          {
+            "t": "wahl",
+            "f": "Welche OSI-Schichten decken die **IEEE-802-Standards** ab?",
+            "optionen": [
+              "Schicht 3 und 4",
+              "Nur Schicht 3",
+              "Schicht 1 und 2",
+              "Schicht 5 bis 7"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Es sind Standards für Kabel, Funk und Frames, nicht für IP."
+            ],
+            "erkl": "IEEE 802 regelt **Schicht 1 (Bitübertragung) und Schicht 2 (Sicherung)**."
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher Standard gehört zu welcher Ethernet-Variante?",
+            "paare": [
+              [
+                "IEEE 802.3",
+                "Ethernet"
+              ],
+              [
+                "IEEE 802.3u",
+                "Fast Ethernet"
+              ],
+              [
+                "IEEE 802.3z",
+                "Gigabit-Ethernet"
+              ],
+              [
+                "IEEE 802.3ae",
+                "10-Gigabit-Ethernet"
+              ],
+              [
+                "IEEE 802.3an",
+                "10 Gigabit über Twisted Pair"
+              ]
+            ],
+            "tipps": [
+              "Mit jedem Buchstaben wird es schneller: u, z, ae.",
+              "an steht für eine Kupferversion der 10-Gigabit-Variante."
+            ],
+            "erkl": "**802.3** Ethernet, **802.3u** Fast Ethernet, **802.3z** Gigabit, **802.3ae** 10 Gigabit, **802.3an** 10 Gigabit über Twisted Pair."
+          },
+          {
+            "t": "ordnen",
+            "f": "Sortiere nach der Datenrate, **langsamste zuerst**.",
+            "items": [
+              "802.3 (Ethernet)",
+              "802.3u (Fast Ethernet)",
+              "802.3z (Gigabit-Ethernet)",
+              "802.3ae (10-Gigabit-Ethernet)"
+            ],
+            "tipps": [
+              "Fast = 100 Mbit/s, Gigabit = 1000 Mbit/s."
+            ],
+            "erkl": "Ethernet 10 Mbit/s → **Fast Ethernet** 100 Mbit/s → **Gigabit** 1 Gbit/s → **10 Gigabit** 10 Gbit/s. (802.3 steht hier für das ursprüngliche 10-Mbit/s-Ethernet: Praxis, steht nicht in der Buchtabelle.)"
+          },
+          {
+            "t": "zuordnen",
+            "f": "Welcher Standard gehört zu welcher Technik?",
+            "paare": [
+              [
+                "IEEE 802.3af / 802.3at",
+                "Power over Ethernet"
+              ],
+              [
+                "IEEE 802.11",
+                "Wireless LAN"
+              ],
+              [
+                "IEEE 802.15.1",
+                "Bluetooth (Wireless PAN)"
+              ],
+              [
+                "IEEE 802.15.4",
+                "ZigBee"
+              ],
+              [
+                "IEEE 1394",
+                "FireWire"
+              ]
+            ],
+            "tipps": [
+              "af und at gehören zusammen, sie bringen Strom ins Kabel.",
+              "802.15 ist die PAN-Familie: .1 Bluetooth, .4 ZigBee."
+            ],
+            "erkl": "**af/at** PoE, **802.11** WLAN, **802.15.1** Bluetooth, **802.15.4** ZigBee, **1394** FireWire."
+          },
+          {
+            "t": "wahl",
+            "f": "Zu welchem Standard gehört **ZigBee**?",
+            "optionen": [
+              "IEEE 802.15.1",
+              "IEEE 802.11",
+              "IEEE 802.3u",
+              "IEEE 802.15.4"
+            ],
+            "richtig": 3,
+            "tipps": [
+              "Beide sind Wireless-PAN-Techniken, aber mit unterschiedlicher Nummer.",
+              "Bluetooth hat .1."
+            ],
+            "erkl": "ZigBee = **802.15.4**. Das Buch führt ZigBee zusammen mit Bluetooth bei 802.15.1 auf; nach Norm ist **802.15.1 nur Bluetooth**."
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Standard bringt **Strom über das Netzwerkkabel** (PoE)?",
+            "optionen": [
+              "IEEE 802.3af und 802.3at",
+              "IEEE 802.3ae",
+              "IEEE 802.15.1",
+              "IEEE 802.3z"
+            ],
+            "richtig": 0,
+            "tipps": [
+              "Zwei Buchstabenpaare, a plus f oder t."
+            ],
+            "erkl": "**802.3af** und **802.3at** sind die PoE-Standards. 802.3ae ist 10-Gigabit-Ethernet."
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher Standard ist **Wi-Fi 6**?",
+            "optionen": [
+              "IEEE 802.11ac",
+              "IEEE 802.11ax",
+              "IEEE 802.11ad",
+              "IEEE 802.11n"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wi-Fi 4 = n, Wi-Fi 5 = ac, Wi-Fi 6 = ?, Wi-Fi 7 = be."
+            ],
+            "erkl": "**Wi-Fi 6 = 802.11ax**. 802.11ac ist Wi-Fi 5, 802.11n Wi-Fi 4, 802.11ad ist WiGig (60 GHz). Die WLAN-Tabelle im Buch (S. 320) nennt 802.11ad irrtümlich Wi-Fi 6."
+          },
+          {
+            "t": "wahl",
+            "f": "Welcher IEEE-Standard beschreibt **VLANs** (VLAN-Tag im Ethernet-Frame)?",
+            "optionen": [
+              "IEEE 802.3af",
+              "IEEE 802.15.1",
+              "IEEE 802.1Q",
+              "IEEE 802.11ax"
+            ],
+            "richtig": 2,
+            "tipps": [
+              "Es gehört zur 802-Familie, aber nicht zur Ethernet-Hardware (802.3) und nicht zum Funk."
+            ],
+            "erkl": "**802.1Q** definiert den VLAN-Tag; im Frame erkennst du ihn am Typfeld 0x8100. (Steht nicht in der Standardtabelle S. 345.)"
+          },
+          {
+            "t": "wahl",
+            "f": "IEEE 802 beschreibt Standards bis hinauf zur Anwendungsschicht (Schicht 7).",
+            "optionen": [
+              "wahr",
+              "falsch"
+            ],
+            "richtig": 1,
+            "tipps": [
+              "Wie viele OSI-Schichten deckt die Familie ab?"
+            ],
+            "erkl": "IEEE 802 gilt nur für die **Schichten 1 und 2**. Anwendungsprotokolle wie HTTP regeln andere Gremien (z. B. die IETF)."
+          }
+        ],
+        "sicherung": {
+          "merksatz": "IEEE 802 deckt Schicht 1 und 2 ab. 802.3 Ethernet, 802.11 WLAN, 802.15.1 Bluetooth, 802.15.4 ZigBee.",
+          "handout": "**IEEE 802** (Schicht 1+2): 802.3 Ethernet · 802.3u Fast · 802.3z Gigabit · 802.3ae 10G · 802.3an 10G über Twisted Pair · 802.3af/at PoE · 802.11 WLAN · 802.15.1 Bluetooth · 802.15.4 ZigBee (Buch-Errata) · 802.1Q VLAN."
+        }
+      }
+    ],
+    "uebung": [
+      {
+        "t": "zuordnen",
+        "f": "1. Welches Gremium ist wofür zuständig?",
+        "paare": [
+          [
+            "ISO",
+            "alle Gebiete außer Elektrotechnik"
+          ],
+          [
+            "IEC",
+            "Elektrotechnik und Elektronik"
+          ],
+          [
+            "IETF",
+            "Internetprotokolle"
+          ],
+          [
+            "NIST",
+            "Verschlüsselungsverfahren"
+          ],
+          [
+            "IEEE",
+            "Ingenieurverband mit IEEE 802"
+          ]
+        ],
+        "erkl": "**ISO** alles außer Elektrotechnik, **IEC** Elektrotechnik, **IETF** Internet, **NIST** Verschlüsselung, **IEEE** Ingenieurverband."
+      },
+      {
+        "t": "zuordnen",
+        "f": "2. Wo hat das Gremium seinen Sitz?",
+        "paare": [
+          [
+            "ISO",
+            "Genf"
+          ],
+          [
+            "IEEE",
+            "New York"
+          ],
+          [
+            "ANSI",
+            "Washington D.C."
+          ],
+          [
+            "DIN",
+            "Berlin"
+          ]
+        ],
+        "erkl": "ISO **Genf**, IEEE **New York**, ANSI **Washington D.C.**, DIN **Berlin**."
+      },
+      {
+        "t": "wahl",
+        "f": "3. Ab wann haben Empfehlungen der **ITU** Normcharakter?",
+        "optionen": [
+          "Wenn nationale Behörden (z. B. die Bundesnetzagentur) sie übernehmen",
+          "Sobald sie von der ITU veröffentlicht worden sind",
+          "Wenn das IEEE sie nach einer Prüfung bestätigt",
+          "Wenn das DIN sie ins Deutsche übersetzt und herausgibt"
+        ],
+        "richtig": 0,
+        "erkl": "ITU gibt zunächst nur **Empfehlungen**. Normcharakter bekommen sie erst durch Übernahme durch **nationale Regulierungsbehörden**."
+      },
+      {
+        "t": "wahl",
+        "f": "4. Welches europäische Komitee ist für **Elektrotechnik** zuständig?",
+        "optionen": [
+          "CEN",
+          "CENELEC",
+          "ETSI",
+          "IEC"
+        ],
+        "richtig": 1,
+        "erkl": "**CENELEC** = Europäisches Komitee für elektrotechnische Normung. CEN ist allgemein, ETSI Telekommunikation, die IEC ist international."
+      },
+      {
+        "t": "wahl",
+        "f": "5. Welche Schreibweise der OSI-Norm stimmt?",
+        "optionen": [
+          "OSI/IEC 7498-1",
+          "IEEE 7498-1",
+          "ISO/IEC 7498-1",
+          "DIN EN 7498-1"
+        ],
+        "richtig": 2,
+        "erkl": "**ISO/IEC 7498-1** (OSI-Referenzmodell). Das Buch schreibt „OSI/IEC“: das ist falsch, OSI ist der Name des Modells, nicht einer Organisation."
+      },
+      {
+        "t": "wahl",
+        "f": "6. Was regelt **DIN EN 50173**?",
+        "optionen": [
+          "Das OSI-Referenzmodell der Schichten",
+          "Power over Ethernet über Datenkabel",
+          "Verschlüsselung der Daten im WLAN",
+          "Anwendungsneutrale Kommunikationskabelanlagen"
+        ],
+        "richtig": 3,
+        "erkl": "**DIN EN 50173**: anwendungsneutrale Kommunikationskabelanlagen. D = DIN (deutsch), EN = Europäische Norm."
+      },
+      {
+        "t": "zuordnen",
+        "f": "7. Welcher IEEE-Standard gehört zu welcher Technik?",
+        "paare": [
+          [
+            "IEEE 802.3",
+            "Ethernet"
+          ],
+          [
+            "IEEE 802.3at",
+            "Power over Ethernet"
+          ],
+          [
+            "IEEE 802.11",
+            "Wireless LAN"
+          ],
+          [
+            "IEEE 802.15.1",
+            "Bluetooth"
+          ],
+          [
+            "IEEE 802.15.4",
+            "ZigBee"
+          ]
+        ],
+        "erkl": "**802.3** Ethernet, **802.3at** PoE, **802.11** WLAN, **802.15.1** Bluetooth, **802.15.4** ZigBee (das Buch nennt ZigBee fälschlich bei 802.15.1)."
+      },
+      {
+        "t": "wahl",
+        "f": "8. Zu welchem Standard gehört **ZigBee**?",
+        "optionen": [
+          "IEEE 802.15.4",
+          "IEEE 802.15.1",
+          "IEEE 802.11",
+          "IEEE 802.3an"
+        ],
+        "richtig": 0,
+        "erkl": "ZigBee = **802.15.4**. 802.15.1 ist Bluetooth. (Buch S. 345 nennt beides zusammen bei 802.15.1.)"
+      },
+      {
+        "t": "ordnen",
+        "f": "9. Sortiere nach Datenrate, die **langsamste zuerst**.",
+        "items": [
+          "802.3 (Ethernet)",
+          "802.3u (Fast Ethernet)",
+          "802.3z (Gigabit-Ethernet)",
+          "802.3ae (10-Gigabit-Ethernet)"
+        ],
+        "erkl": "10 Mbit/s → 100 Mbit/s → 1 Gbit/s → 10 Gbit/s. (802.3 meint hier das ursprüngliche 10-Mbit/s-Ethernet; Praxis, steht nicht im Buch.)"
+      },
+      {
+        "t": "wahl",
+        "f": "10. Welche OSI-Schichten decken die IEEE-802-Standards ab?",
+        "optionen": [
+          "Schicht 2 und 3",
+          "Schicht 1 und 2",
+          "Schicht 3 und 4",
+          "Alle sieben Schichten"
+        ],
+        "richtig": 1,
+        "erkl": "IEEE 802 regelt **Schicht 1 und Schicht 2**."
+      },
+      {
+        "t": "wahl",
+        "f": "11. Die Buchstaben EN in einer Normnummer stehen für „Ethernet“.",
+        "optionen": [
+          "falsch",
+          "wahr"
+        ],
+        "richtig": 0,
+        "erkl": "**EN** = **Europäische Norm**, verabschiedet von CEN, CENELEC oder ETSI."
+      },
+      {
+        "t": "wahl",
+        "f": "12. Welcher Standard ist **Wi-Fi 6**?",
+        "optionen": [
+          "IEEE 802.11ac",
+          "IEEE 802.11ad",
+          "IEEE 802.11be",
+          "IEEE 802.11ax"
+        ],
+        "richtig": 3,
+        "erkl": "**Wi-Fi 6 = 802.11ax**. ac = Wi-Fi 5, be = Wi-Fi 7, ad = WiGig (60 GHz). Das Buch (S. 320) beschriftet 802.11ad irrtümlich als Wi-Fi 6."
+      }
+    ],
+    "uebungText": "Zum Abschluss alles auf einen Blick: Gremien, Sitze, Normnamen und IEEE-Standards. Danach ein Abschlusstest ohne Hilfen.",
+    "nachtest": [
+      {
+        "frage": "Welches Komitee ist in Europa für Elektrotechnik zuständig?",
+        "optionen": [
+          {
+            "text": "CENELEC",
+            "richtig": true
+          },
+          {
+            "text": "CEN",
+            "richtig": false
+          },
+          {
+            "text": "ETSI",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz2"
+      },
+      {
+        "frage": "Welcher Standard gehört zu Bluetooth?",
+        "optionen": [
+          {
+            "text": "IEEE 802.15.1",
+            "richtig": true
+          },
+          {
+            "text": "IEEE 802.15.4",
+            "richtig": false
+          },
+          {
+            "text": "IEEE 802.3at",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Welche OSI-Schichten decken die IEEE-802-Standards ab?",
+        "optionen": [
+          {
+            "text": "Schicht 1 und 2",
+            "richtig": true
+          },
+          {
+            "text": "Schicht 3 und 4",
+            "richtig": false
+          },
+          {
+            "text": "Alle sieben",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz3"
+      },
+      {
+        "frage": "Wo sitzt die ISO?",
+        "optionen": [
+          {
+            "text": "Genf",
+            "richtig": true
+          },
+          {
+            "text": "New York",
+            "richtig": false
+          },
+          {
+            "text": "Berlin",
+            "richtig": false
+          }
+        ],
+        "lernziel": "lz1"
+      }
+    ]
+  };
+
+  window.LERNEINHEITEN = Object.assign(window.LERNEINHEITEN || {}, { [LF03_NO.id]: LF03_NO });
+})();
+
 /* ---- f_einheiten_paketreise1.js ---- */
 //
 // Einheit 9: Schichtenmodelle (aus dem Kurs "Reise eines Pakets", Stationen 0 und 1). Erzeugt per Skript, Aufgaben unveraendert.
@@ -40326,7 +41690,7 @@ function einheitenListeHtml() {
 }
 function kursListeHtml() {
     // Kurse, deren Inhalt komplett in KI-Lehrer-Einheiten steckt, erscheinen hier nicht mehr (Pakete bleiben fuer die Live-Runde)
-    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing"];
+    const ersetzt = ["kurs-subnetting", "kurs-verkabelung", "kurs-paketreise", "kurs-adressen-atlas", "kurs-geraete-routing", "kurs-normen"];
     return `<div class="modalList">
       ${kurseInfo().filter((k) => !ersetzt.includes(k.p.id)).map((k) => `
         <div class="modalItemCard ${k.fertig ? "fertig" : ""}">
