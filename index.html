@@ -115,6 +115,31 @@ header.top { display: flex; align-items: center; justify-content: space-between;
 @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
 aside.tree { padding: 14px; position: sticky; top: 12px; }
 @media (max-width: 860px) { aside.tree { position: static; } }
+.mobileTreeToggle { display: none; }
+@media (max-width: 860px) {
+  .mobileTreeToggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 9px 12px;
+    margin-bottom: 8px;
+    font-size: 0.86rem;
+    font-weight: 650;
+    color: var(--text);
+    background: color-mix(in srgb, var(--c1) 12%, var(--card));
+    border: 1px solid color-mix(in srgb, var(--c1) 35%, var(--line));
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .mobileTreeToggle:hover {
+    background: color-mix(in srgb, var(--c1) 20%, var(--card));
+    border-color: var(--c1);
+  }
+  .mobileTreeCollapsible { display: none; }
+  aside.tree.treeMobileOffen .mobileTreeCollapsible { display: block; animation: auf 0.25s ease-out; }
+}
 .search { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--card-solid); margin-bottom: 10px; }
 .tree ul { list-style: none; margin: 0; padding: 0; }
 .tree li button { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 38px;
@@ -268,7 +293,27 @@ body.lp .spiel { max-width: 1240px; }
 body.lp #game { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 12px 16px; align-items: start; }
 body.lp #game > * { grid-column: 1; }
 body.lp #lpPanel { display: block; grid-column: 2; grid-row: 1 / span 20; position: sticky; top: 12px; padding: 14px; max-height: calc(100vh - 24px); overflow: auto; }
-@media (max-width: 1000px) { body.lp #game { grid-template-columns: 1fr; } body.lp #lpPanel { grid-column: 1; grid-row: auto; position: static; max-height: none; } }
+.lpMobileAccordionBtn { display: none; }
+@media (max-width: 1000px) {
+  body.lp #game { grid-template-columns: 1fr; }
+  body.lp #lpPanel { grid-column: 1; grid-row: auto; position: static; max-height: none; padding: 10px 14px; }
+  .lpPanelKopf { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .lpMobileAccordionBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 650;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .lpPanelBody { display: none; margin-top: 10px; }
+  #lpPanel.lpMobileOffen .lpPanelBody { display: block; animation: auf 0.25s ease-out; }
+}
 #lpPanel h3 { margin: 0 0 6px; font-size: 1rem; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 #lpSvg svg { width: 100%; height: auto; display: block; }
 .lpKante { stroke: var(--line); stroke-width: 1.2; }
@@ -11719,6 +11764,211 @@ body.retro .vlWrap .vlPanelToggle:hover:not(:disabled), body.retro .vlWrap .vlTa
   filter: drop-shadow(0 0 8px rgba(248, 113, 113, 0.8));
 }
 
+/* ==========================================================================
+   KI-Tutor Didaktik-Evolution (Sinnabschnitte, Anekdoten, Videos & Widgets)
+   ========================================================================== */
+.vlSinnabschnitt {
+  font-size: 0.95rem;
+  line-height: 1.62;
+  color: #e2e8f0;
+  margin-bottom: 12px;
+}
+.vlSinnabschnitt p {
+  margin: 0 0 10px;
+}
+.vlSinnabschnitt p:last-child {
+  margin-bottom: 0;
+}
+.vlSinnabschnitt ul {
+  margin: 6px 0 10px 18px;
+  padding: 0;
+}
+.vlSinnabschnitt li {
+  margin-bottom: 5px;
+}
+.vlSinnabschnitt b {
+  color: #7dd3fc;
+  font-weight: 650;
+}
+.vlSinnabschnitt em {
+  color: #facc15;
+  font-style: normal;
+}
+
+/* Callout-Box für Anekdoten & Praxis-Tipps */
+.vlAnekdote {
+  margin: 14px 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.65);
+  border-left: 4px solid #f59e0b;
+  border-top: 1px solid rgba(245, 158, 11, 0.25);
+  border-right: 1px solid rgba(245, 158, 11, 0.15);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.vlAnekdoteKopf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fbbf24;
+  margin-bottom: 6px;
+}
+.vlAnekdoteIcon {
+  font-size: 1.1rem;
+}
+.vlAnekdoteText {
+  color: #f1f5f9;
+}
+.vlAnekdoteText p { margin: 0 0 6px; }
+.vlAnekdoteText p:last-child { margin: 0; }
+.vlAnekdoteText b { color: #fef08a; }
+
+/* Klickbare Video-Empfehlungskarte (Boekhoven & Kuratiertes Sammelsurium) */
+.vlVideoCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 27, 75, 0.75));
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-left: 4px solid #ef4444;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+.vlVideoIcon {
+  font-size: 1.7rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  flex: none;
+}
+.vlVideoMeta {
+  flex: 1;
+  min-width: 0;
+}
+.vlVideoBadge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f87171;
+  margin-bottom: 2px;
+}
+.vlVideoTitel {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: #f8fafc;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vlVideoKanal {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+.vlVideoLinkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #ffffff !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  flex: none;
+  white-space: nowrap;
+}
+.vlVideoLinkBtn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* Interaktive Modell-Vergleichstabelle (OSI vs TCP/IP & Adressen) */
+.vlLayerTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 12px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #1e3a5f;
+  font-size: 0.82rem;
+  background: rgba(15, 23, 42, 0.6);
+}
+.vlLayerTable th {
+  background: rgba(14, 116, 144, 0.4);
+  color: #7dd3fc;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 1px solid #1e3a5f;
+}
+.vlLayerTable td {
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(30, 58, 95, 0.45);
+  color: #e2e8f0;
+}
+.vlLayerTable tr:last-child td { border-bottom: none; }
+.vlLayerTable tr:hover td { background: rgba(56, 189, 248, 0.08); }
+.vlLayerBadge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+.vlLayerBadge.lApp { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.45); }
+.vlLayerBadge.lTrans { background: rgba(59, 130, 246, 0.25); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.45); }
+.vlLayerBadge.lNet { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.45); }
+.vlLayerBadge.lLink { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.45); }
+
+/* High-Contrast Outdoor-Overrides fuer helle Tage / Sonne */
+html[data-theme="outdoor"] .vlSinnabschnitt { color: #000000; }
+html[data-theme="outdoor"] .vlSinnabschnitt b { color: #000000; font-weight: 800; }
+html[data-theme="outdoor"] .vlAnekdote {
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-left: 6px solid #000000;
+  color: #000000;
+}
+html[data-theme="outdoor"] .vlAnekdoteKopf { color: #000000; font-weight: 800; }
+html[data-theme="outdoor"] .vlAnekdoteText { color: #000000; }
+html[data-theme="outdoor"] .vlVideoCard {
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-left: 6px solid #000000;
+  box-shadow: none;
+}
+html[data-theme="outdoor"] .vlVideoIcon { background: #000000; color: #ffffff; border: 2px solid #000000; }
+html[data-theme="outdoor"] .vlVideoTitel { color: #000000; font-weight: 800; }
+html[data-theme="outdoor"] .vlVideoBadge { color: #000000; font-weight: 800; }
+html[data-theme="outdoor"] .vlVideoKanal { color: #333333; }
+html[data-theme="outdoor"] .vlVideoLinkBtn { background: #000000; color: #ffffff !important; border: 2px solid #000000; font-weight: 800; }
+html[data-theme="outdoor"] .vlLayerTable { border: 2px solid #000000; background: #ffffff; }
+html[data-theme="outdoor"] .vlLayerTable th { background: #f0f0f0; color: #000000; border-bottom: 2px solid #000000; }
+html[data-theme="outdoor"] .vlLayerTable td { border-bottom: 1px solid #000000; color: #000000; }
+
+
 
 /* ---- wissensbaum.css ---- */
 /* wissensbaum.css - Modernes Wissensbaum-Dashboard & Dynamische Wachstums-Engine */
@@ -13435,15 +13685,22 @@ body.lp #lpTipp:hover {
         <button class="primary lpKnopf" id="lpStartBtn">🧠 Lernmodus</button>
         <div class="lpInfoHome" id="lpInfoHome"></div>
         <input class="search" id="suche" type="search" placeholder="Test suchen …" aria-label="Test suchen">
-        <ul id="filter"></ul>
-        <h3>Ordner</h3>
-        <ul id="ordner"></ul>
-        <h3>Einstellungen</h3>
-        <label class="einst">🌐 Übersetzung <select id="sprache" aria-label="Sprache für den Übersetzen-Knopf"><option value="">aus</option><option value="ro">Română</option><option value="tr">Türkçe</option><option value="ru">Русский</option><option value="en">English</option></select></label>
-        <label class="einst"><input type="checkbox" id="unwichtig"> Nicht prüfungsrelevante Fragen überspringen</label>
-        <label class="einst" title="Raten lohnt sich dann nicht: falsch kostet Punkte, „Weiß ich nicht“ nie"><input type="checkbox" id="strafe"> Raten kostet Punkte (falsch −3, „Weiß ich nicht“ kostenlos)</label>
-        <h3>Feedback</h3>
-        <button class="fbknopf" id="fbAllg">💬 Feedback / Idee zum Quiz</button>
+        <button type="button" class="mobileTreeToggle" id="mobileTreeToggle" aria-expanded="false">
+          <span class="mttIcon">📁</span>
+          <span class="mttLabel">Ordner &amp; Filter anzeigen</span>
+          <span class="mttPfeil">▾</span>
+        </button>
+        <div class="mobileTreeCollapsible" id="mobileTreeCollapsible">
+          <ul id="filter"></ul>
+          <h3>Ordner</h3>
+          <ul id="ordner"></ul>
+          <h3>Einstellungen</h3>
+          <label class="einst">🌐 Übersetzung <select id="sprache" aria-label="Sprache für den Übersetzen-Knopf"><option value="">aus</option><option value="ro">Română</option><option value="tr">Türkçe</option><option value="ru">Русский</option><option value="en">English</option></select></label>
+          <label class="einst"><input type="checkbox" id="unwichtig"> Nicht prüfungsrelevante Fragen überspringen</label>
+          <label class="einst" title="Raten lohnt sich dann nicht: falsch kostet Punkte, „Weiß ich nicht“ nie"><input type="checkbox" id="strafe"> Raten kostet Punkte (falsch −3, „Weiß ich nicht“ kostenlos)</label>
+          <h3>Feedback</h3>
+          <button class="fbknopf" id="fbAllg">💬 Feedback / Idee zum Quiz</button>
+        </div>
       </aside>
       <main>
         <div class="crumb"><h2 id="ansicht">Alle Tests</h2><span class="muted" id="ansichtInfo"></span></div>
@@ -13470,16 +13727,24 @@ body.lp #lpTipp:hover {
     <div class="frage glass" id="frageBox"></div>
     <div class="leiste" id="leiste"></div>
     <aside id="lpPanel" class="glass" aria-label="Wissensbaum und Coach">
-      <h3><span>🌳 Wissensbaum</span><span class="muted klein" id="lpFortschritt"></span></h3>
-      <div id="lpSvg"></div>
-      <div id="lpLegende"></div>
-      <div id="lpGuardianWrap"></div>
-      <div id="lpKapitel"></div>
-      <h3 style="margin-top:12px"><span>💬 KI-Tutor</span></h3>
-      <div id="lpChat" aria-live="polite"></div>
-      <form class="lpEingabe" id="lpForm" autocomplete="off"><input id="lpIn" maxlength="500" placeholder="Frage an den KI-Lehrer …"><button class="mini" type="submit">Senden</button></form>
-      <button class="mini" id="lpTipp" style="margin-top:6px">Was soll ich als Nächstes lernen?</button>
-      <button class="mini hidden" id="lpVarExport" style="margin-top:6px"></button>
+      <div class="lpPanelKopf" id="lpPanelKopf">
+        <h3><span>🌳 Wissensbaum</span><span class="muted klein" id="lpFortschritt"></span></h3>
+        <button type="button" class="lpMobileAccordionBtn" id="lpMobileToggle" aria-expanded="false">
+          <span class="lpMtbPfeil">▾</span>
+          <span class="lpMtbText">Baum &amp; Tutor ausklappen</span>
+        </button>
+      </div>
+      <div class="lpPanelBody" id="lpPanelBody">
+        <div id="lpSvg"></div>
+        <div id="lpLegende"></div>
+        <div id="lpGuardianWrap"></div>
+        <div id="lpKapitel"></div>
+        <h3 style="margin-top:12px"><span>💬 KI-Tutor</span></h3>
+        <div id="lpChat" aria-live="polite"></div>
+        <form class="lpEingabe" id="lpForm" autocomplete="off"><input id="lpIn" maxlength="500" placeholder="Frage an den KI-Lehrer …"><button class="mini" type="submit">Senden</button></form>
+        <button class="mini" id="lpTipp" style="margin-top:6px">Was soll ich als Nächstes lernen?</button>
+        <button class="mini hidden" id="lpVarExport" style="margin-top:6px"></button>
+      </div>
     </aside>
     <div class="aktionen" style="justify-content:space-between">
       <button class="ghost" id="abbrechen">Beenden</button>
@@ -39747,24 +40012,19 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "Die ISO schuf das OSI-Modell mit 7 Schichten. Etwa zur selben Zeit entstand das TCP/IP-Modell mit 4 Schichten.",
-            "diagramm": "osi"
-          },
-          {
-            "text": "Jede Schicht hat eine feste Aufgabe. Beim Senden gibt sie ihr Ergebnis nach unten weiter, beim Empfangen läuft es umgekehrt.",
-            "diagramm": "osi"
-          },
-          {
-            "text": "TCP/IP fasst die oberen drei OSI-Schichten zu einer Anwendungsschicht zusammen, die unteren zwei zu einem Netzzugang.",
-            "diagramm": "tcpip"
-          },
-          {
-            "text": "Transport und Internet (Vermittlung) bleiben je eine eigene Schicht.",
-            "diagramm": "tcpip"
-          },
-          {
-            "text": "Im Alltag läuft immer TCP/IP. Gerätenamen wie Layer-2-Switch folgen aber dem OSI-Modell, darum brauchst du beide.",
-            "diagramm": "tcpip"
+            "absatz": "<p>Bis in die 1980er Jahre herrschte im Netzwerk babylonische Sprachverwirrung: IBM sprach SNA, DEC sprach DECnet und Apple nur AppleTalk – kein System verstand das andere.</p><p>Um diesen Wildwuchs zu beenden, schuf die ISO das <b>OSI-Referenzmodell mit 7 Schichten</b>. Das Grundprinzip: <b>Jede Schicht hat genau eine feste Aufgabe</b>. Beim Senden wandern die Daten von oben nach unten (Kapselung wie ein Brief in immer neuen Umschlägen), beim Empfangen werden sie von unten nach oben wieder ausgepackt.</p>",
+            "diagramm": "osi",
+            "widgetHtml": "<table class=\"vlLayerTable\"><thead><tr><th>OSI-Schicht (7)</th><th>TCP/IP-Schicht (4)</th><th>Aufgabe</th></tr></thead><tbody><tr><td><span class=\"vlLayerBadge lApp\">7 Anwendung, 6 Darstellung, 5 Sitzung</span></td><td><span class=\"vlLayerBadge lApp\">Anwendung</span></td><td>Programme (Browser, Mail), Formate, Sessions</td></tr><tr><td><span class=\"vlLayerBadge lTrans\">4 Transport</span></td><td><span class=\"vlLayerBadge lTrans\">Transport</span></td><td>Ende-zu-Ende, Ports, TCP / UDP</td></tr><tr><td><span class=\"vlLayerBadge lNet\">3 Vermittlung</span></td><td><span class=\"vlLayerBadge lNet\">Internet</span></td><td>Netzübergreifendes Routing, IP-Adressen</td></tr><tr><td><span class=\"vlLayerBadge lLink\">2 Sicherung, 1 Bitübertragung</span></td><td><span class=\"vlLayerBadge lLink\">Netzzugang</span></td><td>Lokale Frames (MAC) &amp; Kabel/Signale</td></tr></tbody></table>",
+            "anekdote": {
+              "titel": "Aus der Praxis: Der Protokollkrieg",
+              "text": "Während ISO-Gremien jahrelang theoretisch über 7 Schichten stritten, baute die Praxis im ARPANET längst das pragmatische <b>TCP/IP-Modell mit nur 4 Schichten</b>. Heute läuft die gesamte Welt auf TCP/IP! Warum lernen wir trotzdem OSI? Weil die Hardware-Welt danach benannt ist: Ein <b>Layer-2-Switch</b> oder <b>Layer-3-Router</b> bezieht sich immer auf die Schichten des OSI-Modells."
+            },
+            "video": {
+              "titel": "Das OSI-Modell - 7 Schichten in unter 5 Minuten einfach erklärt",
+              "kanal": "Patrick Boekhoven",
+              "dauer": "4:45 Min",
+              "url": "https://www.youtube.com/watch?v=9F_AwkOmXZk"
+            }
           }
         ],
         "probe": {
@@ -39932,24 +40192,18 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "7 Anwendung ist die Schnittstelle zu Programmen wie Browser und Mailclient. 6 Darstellung bringt Zahlen und Zeichen in ein einheitliches Format.",
-            "diagramm": "aufg"
-          },
-          {
-            "text": "5 Sitzung baut Sitzungen zwischen zwei Partnern auf und ab, wie ein Telefonat.",
-            "diagramm": "aufg"
-          },
-          {
-            "text": "4 Transport tauscht sicher aus, fordert Fehlendes neu an und adressiert Anwendungen über Ports.",
-            "diagramm": "aufg"
-          },
-          {
-            "text": "3 Vermittlung adressiert Netze und routet Pakete, meist mit IP-Adressen.",
-            "diagramm": "aufg"
-          },
-          {
-            "text": "2 Sicherung wandelt Bitstrom und Daten ineinander um und adressiert Interfaces mit MAC-Adressen. 1 Bitübertragung: Signale auf dem Medium.",
-            "diagramm": "aufg"
+            "absatz": "<p>Fordert dein Browser eine Webseite an, durchläuft die Nachricht die Schichten wie einen Fahrstuhl von oben nach unten:</p><ul><li><b>Obere Schichten (Software):</b> Schicht 7 (Anwendung: Programme wie HTTP, DNS), Schicht 6 (Darstellung: UTF-8, Kompression) und Schicht 5 (Sitzung: Dialog halten). <i>In TCP/IP alle drei zur Anwendungsschicht verschmolzen!</i></li><li><b>Mittlere Schichten (Netzwerk-Kern):</b> Schicht 4 (Transport: logische Ende-zu-Ende-Verbindung, <b>Ports</b> für Anwendungen, TCP/UDP) und Schicht 3 (Vermittlung: weltweites Routing über <b>IP-Adressen</b>).</li><li><b>Untere Schichten (Kabel &amp; Physik):</b> Schicht 2 (Sicherung: lokaler Hop per <b>MAC-Adresse</b> und Prüfsumme) und Schicht 1 (Bitübertragung: Strom-, Funk- oder Lichtpulse auf dem Medium).</li></ul>",
+            "diagramm": "aufg",
+            "anekdote": {
+              "titel": "Prüfungs-Merksatz (IHK)",
+              "text": "Von Schicht 7 bis 1: <b>A</b>lle <b>D</b>eutschen <b>S</b>chüler <b>T</b>rinken <b>V</b>iel <b>S</b>chlechtes <b>B</b>ier!<br>(<b>A</b>nwendung, <b>D</b>arstellung, <b>S</b>itzung, <b>T</b>ransport, <b>V</b>ermittlung, <b>S</b>icherung, <b>B</b>itübertragung)."
+            },
+            "video": {
+              "titel": "Wieso brauchen wir eine MAC- und IP-Adresse?",
+              "kanal": "Patrick Boekhoven",
+              "dauer": "4:30 Min",
+              "url": "https://www.youtube.com/watch?v=Gdebdxfegpw"
+            }
           }
         ],
         "probe": {
@@ -40038,20 +40292,19 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "Merke die Dreierkette Hub = 1, Switch = 2, Router = 3, gezählt nach OSI.",
-            "diagramm": "geraete"
-          },
-          {
-            "text": "Ein Hub verstärkt nur Signale. Mit zwei Anschlüssen heißt er Repeater. Er liest keine Adresse.",
-            "diagramm": "geraete"
-          },
-          {
-            "text": "Ein Switch, und seine Vorform die Bridge, liest die Ziel-MAC. Ein Router liest den Netzanteil der IP-Adresse.",
-            "diagramm": "geraete"
-          },
-          {
-            "text": "MAC: 48 Bit, adressiert ein Interface. IP: 32 oder 128 Bit, adressiert ein Netz und den Rechner darin. Port: 16 Bit, adressiert die Anwendung.",
-            "diagramm": "adr"
+            "absatz": "<p>Wie finden Milliarden von Datenpaketen weltweit punktgenau ihr Ziel? Über eine dreistufige Adress-Hierarchie:</p><ul><li><b>MAC-Adresse (Layer 2 · 48 Bit hexadezimal):</b> <i>Die Haustür im lokalen Raum.</i> Sie ist fest in die Netzwerkkarte eingebrannt und gilt immer nur bis zum nächsten Hop (Switch/Router-Interface).</li><li><b>IP-Adresse (Layer 3 · 32 oder 128 Bit):</b> <i>Postleitzahl &amp; Straße weltweit.</i> Sie bleibt über den gesamten weltweiten Weg identisch, damit Router das Ziel über Netzwerkgrenzen hinweg finden.</li><li><b>Portnummer (Layer 4 · 16 Bit · 0–65535):</b> <i>Die Zimmernummer im Haus.</i> Sie sagt dem Betriebssystem, an welches Programm die Daten übergeben werden (z. B. Port 80/443 für Webserver, Port 53 für DNS).</li></ul>",
+            "diagramm": "adr",
+            "widgetHtml": "<table class=\"vlLayerTable\"><thead><tr><th>Gerät</th><th>OSI-Schicht</th><th>Was wertet es aus?</th><th>Analogie</th></tr></thead><tbody><tr><td><b>Hub / Repeater</b></td><td><span class=\"vlLayerBadge lLink\">Schicht 1</span></td><td>Keine Adressen (nur elektrische Signale/Bits)</td><td>Megafon (brüllt alles an jeden Port)</td></tr><tr><td><b>Switch / Bridge</b></td><td><span class=\"vlLayerBadge lLink\">Schicht 2</span></td><td><b>Ziel-MAC-Adresse</b> (Frame, SAT-Tabelle)</td><td>Postbote im Treppenhaus</td></tr><tr><td><b>Router</b></td><td><span class=\"vlLayerBadge lNet\">Schicht 3</span></td><td><b>Netzanteil der Ziel-IP</b> (Routingtabelle)</td><td>Globaler Lotse / Fernverkehr</td></tr></tbody></table>",
+            "anekdote": {
+              "titel": "Prüfungsfalle: Layer-3-Switch",
+              "text": "In modernen Firmennetzen findest du oft sogenannte <b>Layer-3-Switches</b>. Das sind Hochleistungs-Switches, die Hardware-beschleunigt wie ein Router auf Schicht 3 IP-Pakete zwischen verschiedenen VLANs weiterleiten!"
+            },
+            "video": {
+              "titel": "Was ist der Unterschied zwischen einem Layer 2 und 3 Switch?",
+              "kanal": "Patrick Boekhoven",
+              "dauer": "4:12 Min",
+              "url": "https://www.youtube.com/watch?v=VYa2xcIMnPM"
+            }
           }
         ],
         "probe": {
@@ -64920,9 +65173,43 @@ GENERATORS.vlan = function (level) {
     zeigeDiagramm(s.diagramm, null);
     const beleg = s.beleg && s.beleg.seite ? `<span class="vlBelegChip">📖 S. ${esc(s.beleg.seite)}</span>` : "";
     const letzter = schrittIdx >= p.aufbau.length - 1;
+
+    let fliessText = s.absatz ? s.absatz : s.text;
+    let html = `<span class="vlPhaseLabel">${esc(p.titel)} · Schritt ${schrittIdx + 1} von ${p.aufbau.length}</span>`;
+    html += `<div class="vlSinnabschnitt">${fliessText}${beleg}</div>`;
+
+    if (s.anekdote) {
+      const aTitel = (typeof s.anekdote === "object" && s.anekdote.titel) ? s.anekdote.titel : "Aus der Praxis";
+      const aText = (typeof s.anekdote === "object" && s.anekdote.text) ? s.anekdote.text : s.anekdote;
+      html += `
+        <div class="vlAnekdote">
+          <div class="vlAnekdoteKopf">
+            <span class="vlAnekdoteIcon">💡</span>
+            <span>${esc(aTitel)}</span>
+          </div>
+          <div class="vlAnekdoteText">${aText}</div>
+        </div>`;
+    }
+
+    if (s.widgetHtml) {
+      html += `<div class="vlCustomWidget">${s.widgetHtml}</div>`;
+    }
+
+    if (s.video) {
+      html += `
+        <div class="vlVideoCard">
+          <div class="vlVideoIcon">🎬</div>
+          <div class="vlVideoMeta">
+            <div class="vlVideoBadge">GEPRÜFTER VIDEO-TIPP · ${esc(s.video.dauer || "Kurzvideo")}</div>
+            <div class="vlVideoTitel">${esc(s.video.titel)}</div>
+            <div class="vlVideoKanal">${esc(s.video.kanal || "Patrick Boekhoven")}</div>
+          </div>
+          <a href="${esc(s.video.url)}" target="_blank" rel="noopener noreferrer" class="vlVideoLinkBtn" title="In neuem Tab auf YouTube öffnen">▶ Video ansehen ↗</a>
+        </div>`;
+    }
+
     k.innerHTML = sprecher(
-      `<span class="vlPhaseLabel">${esc(p.titel)} · Schritt ${schrittIdx + 1} von ${p.aufbau.length}</span>
-       ${s.text}${beleg}`,
+      html,
       `<div class="vlKartenAktionen">
          ${schrittIdx > 0 ? `<button type="button" class="vlBtn" id="vlZurueck">↩ Schritt zurück</button>` : ""}
          <button type="button" class="vlBtn primary" id="vlWeiter">${letzter ? "Verstanden, prüf mich ➔" : "Weiter ➔"}</button>
@@ -68666,6 +68953,36 @@ function lpInfoHome() {
   $("lpInfoHome").textContent = t.length ? `Lernstand: ${t.length} Themen · ${t.filter((x) => lpStatus(x) === "luecke").length} Lücken · ${t.filter((x) => lpStatus(x) === "sitzt").length} sitzen` : "Findet deine Lücken und übt sie gezielt.";
 }
 lpInfoHome();
+
+// Mobile Klapp-Akkordeons (Ordner & Wissensbaum)
+const mtt = $("mobileTreeToggle"), treeAside = document.querySelector("aside.tree");
+if (mtt && treeAside) {
+  mtt.onclick = () => {
+    const offen = treeAside.classList.toggle("treeMobileOffen");
+    mtt.setAttribute("aria-expanded", offen ? "true" : "false");
+    const lbl = mtt.querySelector(".mttLabel"), pfl = mtt.querySelector(".mttPfeil");
+    if (lbl) lbl.textContent = offen ? "Ordner & Filter verbergen" : "Ordner & Filter anzeigen";
+    if (pfl) pfl.textContent = offen ? "▴" : "▾";
+  };
+}
+const lpmt = $("lpMobileToggle"), lpP = $("lpPanel"), lpKopf = $("lpPanelKopf");
+if (lpmt && lpP) {
+  lpmt.onclick = (e) => {
+    e.stopPropagation();
+    const offen = lpP.classList.toggle("lpMobileOffen");
+    lpmt.setAttribute("aria-expanded", offen ? "true" : "false");
+    const txt = lpmt.querySelector(".lpMtbText"), pfl = lpmt.querySelector(".lpMtbPfeil");
+    if (txt) txt.textContent = offen ? "Baum & Tutor einklappen" : "Baum & Tutor ausklappen";
+    if (pfl) pfl.textContent = offen ? "▴" : "▾";
+  };
+  if (lpKopf) {
+    lpKopf.onclick = (e) => {
+      if (window.innerWidth <= 1000 && !e.target.closest("#lpMobileToggle")) {
+        lpmt.click();
+      }
+    };
+  }
+}
 
 /* ======================================================================= Ergebnis + Auswertung */
 function endGame() {
