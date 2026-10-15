@@ -12,6 +12,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FI-Quiz</title>
 <meta name="description" content="Lernspiele für angehende Fachinformatiker: Netzwerke, Zahlensysteme, Datenübertragung – mit Auswertung und Buchseiten zum Nachlernen.">
+<script>
+(function() {
+  try {
+    const t = localStorage.getItem("fi-quiz-theme-v1");
+    if (t && t !== "auto") document.documentElement.setAttribute("data-theme", t);
+    const b = localStorage.getItem("fi-quiz-brightness-v1");
+    if (b) document.documentElement.style.setProperty("--ui-brightness", b);
+    const c = localStorage.getItem("fi-quiz-contrast-v1");
+    if (c) document.documentElement.style.setProperty("--ui-contrast", c);
+  } catch(e) {}
+})();
+</script>
 <style>
 :root {
   --bg: #f4f6fb; --bg2: #eaeef7; --card: rgba(255,255,255,.82); --card-solid: #fff; --text: #141a26; --muted: #5a6477; --line: rgba(20,26,38,.1);
@@ -26,7 +38,40 @@
     --mid: #fbbf24; --mid-bg: rgba(251,191,36,.12); --shadow: 0 14px 40px -20px rgba(0,0,0,.9);
   }
 }
+/* Explizite Themes über [data-theme] */
+html[data-theme="light"], body[data-theme="light"] {
+  --bg: #f4f6fb; --bg2: #eaeef7; --card: rgba(255,255,255,.9); --card-solid: #fff; --text: #141a26; --muted: #5a6477; --line: rgba(20,26,38,.12);
+  --c1: #0891b2; --c2: #7c3aed; --c3: #db2777; --ok: #059669; --ok-bg: #e7f7f0; --bad: #dc2626; --bad-bg: #fdecec;
+  --mid: #b45309; --mid-bg: #fff4dc; --shadow: 0 10px 30px -18px rgba(20,26,60,.35);
+}
+html[data-theme="dark"], body[data-theme="dark"] {
+  --bg: #070b16; --bg2: #0c1224; --card: rgba(255,255,255,.055); --card-solid: #111829; --text: #e8edf6; --muted: #9aa6ba; --line: rgba(255,255,255,.09);
+  --c1: #22d3ee; --c2: #a78bfa; --c3: #f472b6; --ok: #34d399; --ok-bg: rgba(52,211,153,.12); --bad: #f87171; --bad-bg: rgba(248,113,113,.12);
+  --mid: #fbbf24; --mid-bg: rgba(251,191,36,.12); --shadow: 0 14px 40px -20px rgba(0,0,0,.9);
+}
+/* Spezieller Hochkontrast-Outdoor-Modus für helle Sonnentage */
+html[data-theme="outdoor"], body[data-theme="outdoor"] {
+  --bg: #ffffff !important; --bg2: #f1f5f9 !important; --card: #ffffff !important; --card-solid: #ffffff !important;
+  --text: #000000 !important; --muted: #1e293b !important; --line: #000000 !important;
+  --c1: #0369a1 !important; --c2: #6d28d9 !important; --c3: #be185d !important;
+  --ok: #047857 !important; --ok-bg: #d1fae5 !important; --bad: #b91c1c !important; --bad-bg: #fee2e2 !important;
+  --mid: #b45309 !important; --mid-bg: #fef3c7 !important; --shadow: 0 4px 12px rgba(0,0,0,.25) !important;
+}
+html[data-theme="outdoor"] body::before {
+  display: none !important;
+}
+html[data-theme="outdoor"] .glass {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #000000 !important;
+}
+html[data-theme="outdoor"] * {
+  text-shadow: none !important;
+}
 * { box-sizing: border-box; }
+html { filter: brightness(var(--ui-brightness, 1)) contrast(var(--ui-contrast, 1)); }
 html, body { margin: 0; min-height: 100%; }
 body { background: var(--bg); color: var(--text); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; font-variant-numeric: tabular-nums; }
 body::before { /* ruhige Farbwolken im Hintergrund */
@@ -3883,6 +3928,218 @@ header.top {
     padding: 10px 12px 24px !important;
   }
 }
+
+/* ==========================================================================
+   NEUES OPTIONEN- & EINSTELLUNGS-CENTER (AUDIO, DISPLAY, SCHWIERIGKEIT)
+   ========================================================================== */
+.optContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.optSection {
+  background: rgba(20, 16, 12, 0.7);
+  border: 1px solid rgba(242, 106, 48, 0.35);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.optSectionTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fxfocus);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.optSectionSub {
+  font-size: 11px;
+  color: var(--fxmute);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* 4-Stufen Segment-Buttons für Theme */
+.optSegmentGroup {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.optSegmentBtn {
+  background: rgba(43, 30, 21, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--fxcream);
+  padding: 8px 6px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s ease;
+}
+
+.optSegmentBtn:hover {
+  border-color: var(--fxorg);
+  background: rgba(242, 106, 48, 0.2);
+}
+
+.optSegmentBtn.active {
+  background: linear-gradient(135deg, #f26a30, #d9480f) !important;
+  color: #fff !important;
+  border-color: #ffd36b !important;
+  box-shadow: 0 0 10px rgba(242, 106, 48, 0.5);
+}
+
+.optSegmentBtn.outdoorBtn.active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Slider-Zeilen */
+.optSliderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.optSliderLabel {
+  font-size: 11.5px;
+  font-weight: 600;
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.optSliderControl {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.optRangeInput {
+  flex: 1;
+  height: 6px;
+  accent-color: var(--fxorg);
+  cursor: pointer;
+}
+
+.optValBadge {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--fxfocus);
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 44px;
+  text-align: center;
+}
+
+.optMiniBtn {
+  font-size: 10.5px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: var(--fxcream);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.optMiniBtn:hover {
+  background: rgba(242, 106, 48, 0.3);
+  border-color: var(--fxorg);
+}
+
+/* Outdoor / Sonnen-Modus Overrides für fancy.css */
+html[data-theme="outdoor"] .jrpgHub,
+html[data-theme="outdoor"] .hubHudBar,
+html[data-theme="outdoor"] .hubFocusPlaque,
+html[data-theme="outdoor"] .hubModalWin {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  outline-color: #000000 !important;
+}
+
+html[data-theme="outdoor"] .optSection {
+  background: #f8fafc !important;
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+}
+
+html[data-theme="outdoor"] .optSectionTitle {
+  color: #000000 !important;
+  border-bottom-color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="outdoor"] .optSectionSub,
+html[data-theme="outdoor"] .hubFocusDesc,
+html[data-theme="outdoor"] .hubWichtelText,
+html[data-theme="outdoor"] .optSliderLabel {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+html[data-theme="outdoor"] .optSegmentBtn {
+  background: #f1f5f9 !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="outdoor"] .optSegmentBtn.active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+html[data-theme="outdoor"] .hubFocusTitle {
+  color: #000000 !important;
+}
+
+html[data-theme="outdoor"] .hubModalHeader {
+  background: #f8fafc !important;
+  color: #000000 !important;
+  border-bottom: 2px solid #000000 !important;
+}
+
+html[data-theme="outdoor"] .hubModalHeader h2 {
+  color: #000000 !important;
+}
+
+html[data-theme="outdoor"] .hubModalClose {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+}
+
+html[data-theme="outdoor"] .hubBtn {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  font-weight: 700 !important;
+}
+
 
 
 
@@ -68925,11 +69182,22 @@ document.addEventListener("keydown", (e) => {
 // Zwei handkomponierte JRPG-Themen: 'hub' (Nostalgisches Town-Theme) und 'battle' (Treibender Boss-Kampf)
 (function () {
   const KS_MUSIK = "fi-quiz-musik-v1";
+  const KS_VOL = "fi-quiz-music-vol-v1";
   let ctx = null;
   let masterGain = null;
   let isPlaying = false;
   let currentTrackName = "hub";
   let schedulerTimer = null;
+
+  // Lautstärke: 0.0 bis 1.0 (Standard 0.5)
+  let musicVolume = (function () {
+    try {
+      const v = localStorage.getItem(KS_VOL);
+      return v !== null ? Math.max(0, Math.min(1.0, parseFloat(v))) : 0.5;
+    } catch (e) {
+      return 0.5;
+    }
+  })();
 
   // Persistence: Standardmäßig an (true), außer der Benutzer hat es explizit deaktiviert
   let isMuted = (function () {
@@ -68953,7 +69221,7 @@ document.addEventListener("keydown", (e) => {
       if (!AC) return null;
       ctx = new AC();
       masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(isMuted ? 0 : 0.045, ctx.currentTime);
+      masterGain.gain.setValueAtTime(isMuted ? 0 : musicVolume * 0.08, ctx.currentTime);
       masterGain.connect(ctx.destination);
     }
     if (ctx.state === "suspended") {
@@ -69252,9 +69520,27 @@ document.addEventListener("keydown", (e) => {
       const now = ctx.currentTime;
       masterGain.gain.cancelScheduledValues(now);
       masterGain.gain.setValueAtTime(masterGain.gain.value, now);
-      masterGain.gain.linearRampToValueAtTime(isMuted ? 0 : 0.045, now + 0.25);
+      masterGain.gain.linearRampToValueAtTime(isMuted ? 0 : musicVolume * 0.08, now + 0.15);
     }
     updateAllMusicButtons();
+  }
+
+  function setVolume(vol) {
+    musicVolume = Math.max(0, Math.min(1.0, parseFloat(vol) || 0));
+    try {
+      localStorage.setItem(KS_VOL, String(musicVolume));
+    } catch (e) {}
+
+    if (masterGain && ctx) {
+      const now = ctx.currentTime;
+      masterGain.gain.cancelScheduledValues(now);
+      masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+      masterGain.gain.linearRampToValueAtTime(isMuted ? 0 : musicVolume * 0.08, now + 0.05);
+    }
+  }
+
+  function getVolume() {
+    return musicVolume;
   }
 
   function toggle() {
@@ -69297,6 +69583,8 @@ document.addEventListener("keydown", (e) => {
     toggle,
     isMuted: () => isMuted,
     setMuted,
+    setVolume,
+    getVolume,
     currentTrack: () => currentTrackName,
     updateButtons: updateAllMusicButtons
   };
@@ -71326,7 +71614,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     return im;
   }
 
-  /* ---------- Die 6 Ringmenü-Kategorien ---------- */
+  /* ---------- Die 7 Ringmenü-Kategorien ---------- */
   const RING_ITEMS = [
     {
       id: "ki_lehrer",
@@ -71369,11 +71657,19 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       icon: A.item ? A.item["Letter"] : null
     },
     {
+      id: "optionen",
+      titel: "⚙️ OPTIONEN & SOUND",
+      kurz: "Optionen",
+      desc: "Lautstärkeregler für Musik & Sounds, Hell/Dunkel & Outdoor-Sonne, Schwierigkeit und Grafik",
+      wichtel: "Stelle hier Sound, Helligkeit, Sonne-Modus und die Quiz-Schwierigkeit ein!",
+      icon: A.item ? (A.item["GoldKey"] || A.item["Hourglass"]) : null
+    },
+    {
       id: "profil",
-      titel: "⚙️ PROFIL & SYNC",
+      titel: "🧙 HELDEN-PROFIL",
       kurz: "Profil & Sync",
-      desc: "Avatar-Kleiderschrank, 6-stelliger Cloud-Sync & Einstellungen",
-      wichtel: "Passe deinen Avatar an und synchronisiere deinen Spielstand per Code!",
+      desc: "Avatar-Kleiderschrank, IT-Berufsklasse & 6-stelliger Cloud-Sync",
+      wichtel: "Passe deinen Avatar an, wähle deine IT-Fachrichtung und sichere deinen Spielstand!",
       icon: A.item ? A.item["MoneyBag"] : null
     }
   ];
@@ -71404,6 +71700,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         <button type="button" class="hubBtn iconBtn" id="hubFsrsBtn" title="Tägliche FSRS-Prüfungsvorbereitung" style="border-color:#38bdf8;color:#7dd3fc;font-weight:700;">🧠 FSRS-Deck</button>
         <button type="button" class="hubBtn iconBtn" id="hubSandboxBtn" title="Interaktives IT-Labor" style="border-color:#10b981;color:#6ee7b7;font-weight:700;">🧪 IT-Labor</button>
         <button type="button" class="hubBtn iconBtn" id="hubKompendiumBtn" title="IHK-Kompendium (Pokédex)">📖 Kompendium</button>
+        <button type="button" class="hubBtn iconBtn" id="hubOptionenBtn" title="Optionen: Sound, Helligkeit, Outdoor-Modus, Schwierigkeit" style="border-color:#f59e0b;color:#fbbf24;font-weight:700;">⚙️ Optionen</button>
         <button type="button" class="hubBtn iconBtn chiptuneToggleBtn" id="hubMusicToggle" title="8-Bit Chiptune Musik an/aus">🎵 Musik: An</button>
         <button type="button" class="hubBtn iconBtn" id="hubSoundBtn" title="Töne umschalten">🔊 Töne</button>
         <button type="button" class="hubBtn iconBtn" id="hubSyncBtn" title="Spielstand mit Code abgleichen">☁️ Sync</button>
@@ -71872,6 +72169,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       oeffneArenaModal();
     } else if (id === "tests") {
       oeffneTestsModal();
+    } else if (id === "optionen" || id === "settings") {
+      oeffneOptionenModal();
     } else if (id === "profil") {
       oeffneProfilModal();
     }
@@ -72654,7 +72953,7 @@ function kursListeHtml() {
     if (tChar) tChar.onclick = () => aktiviereTab(tChar, cChar);
     if (tKlasse) tKlasse.onclick = () => aktiviereTab(tKlasse, cKlasse);
     if (tSync) tSync.onclick = () => { aktiviereTab(tSync, cSync); renderQr(); };
-    if (tOpt) tOpt.onclick = () => aktiviereTab(tOpt, cOpt);
+    if (tOpt) tOpt.onclick = () => oeffneOptionenModal();
 
     modalBody.querySelectorAll(".klasseWahlBtn").forEach(btn => {
       btn.onclick = () => {
@@ -72807,7 +73106,332 @@ function kursListeHtml() {
     if (optSt) optSt.onchange = (e) => store.set("fi-quiz-strafe-v1", e.target.checked);
   }
 
+  // 6b. Neues Optionen- & Einstellungs-Center (Audio, Outdoor/Helligkeit, Regeln)
+  function oeffneOptionenModal() {
+    const theme = localStorage.getItem("fi-quiz-theme-v1") || "auto";
+    const brightnessVal = Math.round(parseFloat(localStorage.getItem("fi-quiz-brightness-v1") || "1.0") * 100);
+    const musicVol = Math.round((window.CHIPTUNE && typeof window.CHIPTUNE.getVolume === "function" ? window.CHIPTUNE.getVolume() : 0.5) * 100);
+    const musicMuted = window.CHIPTUNE && typeof window.CHIPTUNE.isMuted === "function" ? window.CHIPTUNE.isMuted() : false;
+    const soundVol = Math.round((window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.getVolume === "function" ? window.AUDIO_SYNTH.getVolume() : 0.25) * 100);
+    const soundMuted = window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.isMuted === "function" ? window.AUDIO_SYNTH.isMuted() : false;
+    const strafe = store.get("fi-quiz-strafe-v1", false);
+    const unwichtig = store.get("fi-quiz-unwichtige-v1", false);
+    const sprache = (typeof K2 !== "undefined" && K2.ueber ? store.get(K2.ueber, "") : store.get("fi-quiz-ueber-v1", "")) || "";
+    const bloom = !window.SHADER_FX || window.SHADER_FX.bloom;
+    const crt = window.SHADER_FX && window.SHADER_FX.crt;
+
+    zeigeModal("⚙️ Optionen & Einstellungen", `
+      <div class="optContainer">
+        <!-- 1. Display, Design & Helligkeit (Outdoor-Sonne) -->
+        <div class="optSection">
+          <div class="optSectionTitle">
+            <span>☀️</span>
+            <span>Display, Design &amp; Helligkeit</span>
+          </div>
+          <div class="optSectionSub">
+            Wähle dein bevorzugtes Farbschema oder aktiviere den <b>Outdoor-Sonnentag-Modus</b> mit reflexionsfreiem, maximalem Schwarz-Weiß-Kontrast für helle Tage.
+          </div>
+
+          <div class="optSegmentGroup" id="optThemeGroup">
+            <button type="button" class="optSegmentBtn ${theme === "dark" ? "active" : ""}" data-theme-val="dark">
+              <span style="font-size:16px;">🌙</span>
+              <span>Dunkel</span>
+              <small style="opacity:0.75">Cyber Dark</small>
+            </button>
+            <button type="button" class="optSegmentBtn ${theme === "light" ? "active" : ""}" data-theme-val="light">
+              <span style="font-size:16px;">💡</span>
+              <span>Hell</span>
+              <small style="opacity:0.75">Clean Light</small>
+            </button>
+            <button type="button" class="optSegmentBtn outdoorBtn ${theme === "outdoor" ? "active" : ""}" data-theme-val="outdoor" title="Maximaler Kontrast für direktes Sonnenlicht draußen">
+              <span style="font-size:16px;">☀️</span>
+              <span>Sonne / Outdoor</span>
+              <small style="opacity:0.85;font-weight:700">High-Contrast</small>
+            </button>
+            <button type="button" class="optSegmentBtn ${theme === "auto" ? "active" : ""}" data-theme-val="auto">
+              <span style="font-size:16px;">🖥️</span>
+              <span>System</span>
+              <small style="opacity:0.75">Automatisch</small>
+            </button>
+          </div>
+
+          <div class="optSliderRow">
+            <div class="optSliderLabel">
+              <span>🔆</span>
+              <span>Helligkeits-Boost:</span>
+            </div>
+            <div class="optSliderControl">
+              <input type="range" class="optRangeInput" id="optBrightnessInput" min="70" max="140" step="5" value="${brightnessVal}">
+              <span class="optValBadge" id="optBrightnessVal">${brightnessVal} %</span>
+              <button type="button" class="optMiniBtn" id="optBrightnessReset" title="Auf 100% zurücksetzen">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Audio & Sound-Regler -->
+        <div class="optSection">
+          <div class="optSectionTitle">
+            <span>🎵</span>
+            <span>Audio &amp; Sound-Lautstärke</span>
+          </div>
+          <div class="optSectionSub">
+            WebAudio Synthesizer: 8-Bit Chiptune Hintergrundmusik &amp; Soundeffekte für Interaktionen und Quizfragen.
+          </div>
+
+          <div class="optSliderRow">
+            <div class="optSliderLabel">
+              <span>🎶</span>
+              <span>8-Bit Musik:</span>
+            </div>
+            <div class="optSliderControl">
+              <input type="range" class="optRangeInput" id="optMusicVolInput" min="0" max="100" step="5" value="${musicMuted ? 0 : musicVol}">
+              <span class="optValBadge" id="optMusicVolVal">${musicMuted ? "0 %" : musicVol + " %"}</span>
+              <button type="button" class="optMiniBtn" id="optMusicMuteBtn">${musicMuted ? "Stumm: An" : "Stumm"}</button>
+            </div>
+          </div>
+
+          <div class="optSliderRow">
+            <div class="optSliderLabel">
+              <span>🔊</span>
+              <span>Sound-Effekte (SFX):</span>
+            </div>
+            <div class="optSliderControl">
+              <input type="range" class="optRangeInput" id="optSoundVolInput" min="0" max="100" step="5" value="${soundMuted ? 0 : soundVol}">
+              <span class="optValBadge" id="optSoundVolVal">${soundMuted ? "0 %" : soundVol + " %"}</span>
+              <button type="button" class="optMiniBtn" id="optSoundTestBtn">▶ Test</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Quiz-Schwierigkeit & Modus -->
+        <div class="optSection">
+          <div class="optSectionTitle">
+            <span>🎯</span>
+            <span>Quiz-Schwierigkeit &amp; Prüfungsregeln</span>
+          </div>
+          <div class="optSectionSub">
+            Passe das Regelwerk deinen Lernbedürfnissen an – von entspanntem Lernen bis zum harten IHK-Prüfungsdrill.
+          </div>
+
+          <div class="optSegmentGroup" id="optDiffGroup" style="margin-bottom:8px">
+            <button type="button" class="optSegmentBtn ${!strafe ? "active" : ""}" id="optDiffEasy">
+              <span style="font-size:16px;">🟢</span>
+              <span>Entspannt</span>
+              <small style="opacity:0.75">Keine Minuspunkte</small>
+            </button>
+            <button type="button" class="optSegmentBtn ${strafe ? "active" : ""}" id="optDiffHard">
+              <span style="font-size:16px;">🔴</span>
+              <span>IHK-Prüfungsdrill</span>
+              <small style="opacity:0.75">Raten kostet Punkte</small>
+            </button>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px; margin-top:6px;">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="optCheckStrafe" ${strafe ? "checked" : ""}>
+              <span>Raten kostet Punkte (falsch −3 Punkte, „Weiß ich nicht“ kostenlos)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="optCheckUnwichtig" ${unwichtig ? "checked" : ""}>
+              <span>Nicht prüfungsrelevante Fragen überspringen</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. Retro-Grafik & Shader -->
+        <div class="optSection">
+          <div class="optSectionTitle">
+            <span>✨</span>
+            <span>Grafik-Shader &amp; Retro-Look</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px;">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="optBloomShader" ${bloom ? "checked" : ""}>
+              <span>WebGL Neon-Bloom Shader (Glow für Laser &amp; Netzknoten)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="optCrtShader" ${crt ? "checked" : ""}>
+              <span>Retro CRT-Scanlines &amp; Krümmung (Arcade-Look)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 5. Sprachauswahl -->
+        <div class="optSection">
+          <div class="optSectionTitle">
+            <span>🌐</span>
+            <span>Übersetzungshilfe</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:11.5px;flex-wrap:wrap;">
+            <span>Sprache für den Übersetzen-Knopf:</span>
+            <select id="optSpracheSelect" style="background:#1c1812;color:#fff;border:1px solid #7c3aed;padding:4px 8px;border-radius:4px;">
+              <option value="" ${sprache === "" ? "selected" : ""}>Aus (nur Deutsch)</option>
+              <option value="en" ${sprache === "en" ? "selected" : ""}>English</option>
+              <option value="ro" ${sprache === "ro" ? "selected" : ""}>Română</option>
+              <option value="tr" ${sprache === "tr" ? "selected" : ""}>Türkçe</option>
+              <option value="ru" ${sprache === "ru" ? "selected" : ""}>Русский</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Verknüpfung zu Helden-Profil -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;flex-wrap:wrap;gap:8px;">
+          <button type="button" class="hubBtn" id="optToProfilBtn" style="border-color:#38bdf8;color:#7dd3fc;">🧙 Zum Helden-Kleiderschrank &amp; Cloud-Sync ➔</button>
+          <button type="button" class="primary" id="optDoneBtn" style="padding:6px 14px;">Fertig</button>
+        </div>
+      </div>
+    `);
+
+    // Theme Buttons
+    modalBody.querySelectorAll("[data-theme-val]").forEach((btn) => {
+      btn.onclick = () => {
+        const val = btn.dataset.themeVal;
+        modalBody.querySelectorAll("[data-theme-val]").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        if (val === "auto") {
+          document.documentElement.removeAttribute("data-theme");
+          localStorage.setItem("fi-quiz-theme-v1", "auto");
+        } else {
+          document.documentElement.setAttribute("data-theme", val);
+          localStorage.setItem("fi-quiz-theme-v1", val);
+        }
+        ton("klick");
+      };
+    });
+
+    // Brightness Slider
+    const bIn = $("optBrightnessInput"), bVal = $("optBrightnessVal"), bReset = $("optBrightnessReset");
+    if (bIn) {
+      bIn.oninput = () => {
+        const v = parseInt(bIn.value, 10);
+        bVal.textContent = v + " %";
+        document.documentElement.style.setProperty("--ui-brightness", String(v / 100));
+        localStorage.setItem("fi-quiz-brightness-v1", String(v / 100));
+      };
+    }
+    if (bReset) {
+      bReset.onclick = () => {
+        bIn.value = 100;
+        bVal.textContent = "100 %";
+        document.documentElement.style.removeProperty("--ui-brightness");
+        localStorage.removeItem("fi-quiz-brightness-v1");
+        ton("klick");
+      };
+    }
+
+    // Music Slider & Mute
+    const mIn = $("optMusicVolInput"), mVal = $("optMusicVolVal"), mMute = $("optMusicMuteBtn");
+    if (mIn) {
+      mIn.oninput = () => {
+        const v = parseInt(mIn.value, 10);
+        mVal.textContent = v + " %";
+        if (window.CHIPTUNE && typeof window.CHIPTUNE.setVolume === "function") {
+          if (v > 0 && window.CHIPTUNE.isMuted()) window.CHIPTUNE.setMuted(false);
+          window.CHIPTUNE.setVolume(v / 100);
+        }
+      };
+    }
+    if (mMute) {
+      mMute.onclick = () => {
+        if (window.CHIPTUNE && typeof window.CHIPTUNE.toggle === "function") {
+          window.CHIPTUNE.toggle();
+          const muted = window.CHIPTUNE.isMuted();
+          mMute.textContent = muted ? "Stumm: An" : "Stumm";
+          mVal.textContent = muted ? "0 %" : Math.round(window.CHIPTUNE.getVolume() * 100) + " %";
+          if (mIn) mIn.value = muted ? 0 : Math.round(window.CHIPTUNE.getVolume() * 100);
+        }
+      };
+    }
+
+    // Sound Slider & Test
+    const sIn = $("optSoundVolInput"), sVal = $("optSoundVolVal"), sTest = $("optSoundTestBtn");
+    if (sIn) {
+      sIn.oninput = () => {
+        const v = parseInt(sIn.value, 10);
+        sVal.textContent = v + " %";
+        if (window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.setVolume === "function") {
+          window.AUDIO_SYNTH.setVolume(v / 100);
+        }
+      };
+    }
+    if (sTest) {
+      sTest.onclick = () => {
+        if (window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.play === "function") {
+          window.AUDIO_SYNTH.play("levelUp");
+        } else {
+          ton("klick");
+        }
+      };
+    }
+
+    // Difficulty & Rules
+    const dEasy = $("optDiffEasy"), dHard = $("optDiffHard");
+    const cStrafe = $("optCheckStrafe"), cUnwichtig = $("optCheckUnwichtig");
+    function syncDiff(strafeAn) {
+      store.set("fi-quiz-strafe-v1", strafeAn);
+      const origStrafe = $("strafe");
+      if (origStrafe) origStrafe.checked = strafeAn;
+      if (cStrafe) cStrafe.checked = strafeAn;
+      if (dEasy && dHard) {
+        dEasy.classList.toggle("active", !strafeAn);
+        dHard.classList.toggle("active", strafeAn);
+      }
+      ton("klick");
+    }
+    if (dEasy) dEasy.onclick = () => syncDiff(false);
+    if (dHard) dHard.onclick = () => syncDiff(true);
+    if (cStrafe) cStrafe.onchange = () => syncDiff(cStrafe.checked);
+    if (cUnwichtig) {
+      cUnwichtig.onchange = () => {
+        store.set("fi-quiz-unwichtige-v1", cUnwichtig.checked);
+        const orig = $("unwichtig");
+        if (orig) orig.checked = cUnwichtig.checked;
+      };
+    }
+
+    // Shaders
+    const bBloom = $("optBloomShader"), bCrt = $("optCrtShader");
+    if (bBloom && window.SHADER_FX) {
+      bBloom.onchange = () => {
+        window.SHADER_FX.bloom = bBloom.checked;
+        try { localStorage.setItem("fi_quiz_bloom_active", bBloom.checked ? "1" : "0"); } catch(e){}
+      };
+    }
+    if (bCrt && window.SHADER_FX) {
+      bCrt.onchange = () => {
+        window.SHADER_FX.crt = bCrt.checked;
+        try { localStorage.setItem("fi_quiz_crt_active", bCrt.checked ? "1" : "0"); } catch(e){}
+      };
+    }
+
+    // Language / Sprache
+    const sSel = $("optSpracheSelect");
+    if (sSel) {
+      sSel.onchange = () => {
+        if (typeof K2 !== "undefined" && K2.ueber) {
+          store.set(K2.ueber, sSel.value);
+        } else {
+          store.set("fi-quiz-uebersetzen-v1", sSel.value);
+        }
+        const origSpr = $("sprache");
+        if (origSpr) origSpr.value = sSel.value;
+      };
+    }
+
+    // Bottom Navigation
+    const toProf = $("optToProfilBtn"), done = $("optDoneBtn");
+    if (toProf) toProf.onclick = () => oeffneProfilModal();
+    if (done) done.onclick = () => schliesseModal();
+  }
+
   // Quick Buttons im HUD
+  const optBtn = $("hubOptionenBtn");
+  if (optBtn) {
+    optBtn.onclick = () => {
+      oeffneOptionenModal();
+    };
+  }
+
   const lueckenBtn = $("hubLueckenBtn");
   if (lueckenBtn) {
     lueckenBtn.onclick = () => {
