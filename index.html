@@ -40946,20 +40946,23 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "Ein Frame ist der Rahmen, in den Ethernet das Paket von Schicht 3 verpackt. Die Reihenfolge: Präambel, Ziel-MAC, Quell-MAC, Typ, Nutzdaten, FCS.",
-            "diagramm": "frame"
-          },
-          {
-            "text": "Ziel-MAC, Quell-MAC und Typfeld bilden den Header, die Prüfsumme FCS schließt den Frame ab.",
-            "diagramm": "frame"
-          },
-          {
-            "text": "Overhead ohne Präambel: 6 + 6 + 2 + 4 = 18 Byte. Die Präambel mit 8 Byte zählt nicht mit, sie dient der Taktsynchronisation.",
-            "diagramm": "over"
-          },
-          {
-            "text": "Die MTU von 1500 Byte gilt nur für die Nutzdaten. Der Frame selbst ist mit 1500 + 18 = 1518 Byte größer.",
-            "diagramm": "over"
+            "diagramm": "over",
+            "absatz": `<p>Ein <b>Ethernet-Frame</b> ist der standardisierte Frachtcontainer von Schicht 2: Er schnappt sich das IP-Paket aus Schicht 3 und umhüllt es für den Transport über Kupfer oder Glasfaser.</p>
+<ul>
+  <li><b>Präambel (8 Byte):</b> Bitfolge zur Taktsynchronisation auf der Leitung – sie ermöglicht dem Empfänger-Chip das präzise Einrasten, zählt aber <i>nicht</i> zum Daten-Overhead!</li>
+  <li><b>Header (14 Byte):</b> 6 Byte Ziel-MAC + 6 Byte Quell-MAC + 2 Byte Typfeld (EtherType).</li>
+  <li><b>Trailer (4 Byte):</b> Die Prüfsumme <b>FCS</b> (Frame Check Sequence / CRC-32) zur Erkennung von Bitfehlern.</li>
+</ul>
+<p>Daraus ergibt sich der feste <b>Overhead von 18 Byte</b> (14 Byte Header + 4 Byte FCS). Die berühmte <b>MTU (Maximum Transmission Unit) von 1500 Byte</b> begrenzt <i>ausschließlich die Nutzdaten</i> (Payload). Ein maximal bepackter Frame auf dem Kabel ist also $1500 + 18 = 1518\\text{ Byte}$ groß!</p>`,
+            "anekdote": {
+              "titel": "DIE WIRESHARK-FALLE IN DER PRAXIS",
+              "text": "Wer zum ersten Mal in Wireshark nach der Präambel (8 Byte) oder der FCS-Prüfsumme (4 Byte) sucht, wundert sich oft: Beide fehlen im Capture-Dump! Der Grund: Die Netzwerkkarte (NIC) verarbeitet Takt und CRC direkt in Hardware und verwirft sie vor der Übergabe an das Betriebssystem. In IHK-Prüfungen zählt die FCS dennoch zwingend zum 18-Byte-Overhead!"
+            },
+            "video": {
+              "titel": "CSMA/CD - Wie das Ethernet Protokoll den Datenverkehr regelt",
+              "kanal": "Patrick Boekhoven",
+              "url": "https://www.youtube.com/watch?v=9KEvq1L8z74"
+            }
           }
         ],
         "probe": {
@@ -41121,24 +41124,25 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "Das 2 Byte große Typfeld verrät den Inhalt der Nutzdaten. Ethernet II liest es als Typ, Ethernet 802.3 als Längenfeld.",
-            "diagramm": "typ"
-          },
-          {
-            "text": "Die vier häufigen Werte: 0x0800 IPv4, 0x86DD IPv6, 0x0806 ARP, 0x8100 VLAN-Tag.",
-            "diagramm": "typ"
-          },
-          {
-            "text": "Das Buch nennt 0x0800 den kleinsten Typwert. Nach der Norm ist ab 0x0600 (1536) ein Typ, bis 1500 eine Länge.",
-            "diagramm": "typ"
-          },
-          {
-            "text": "Im VLAN sitzt zwischen Quell-MAC und Typfeld ein 4-Byte-Tag: TPID (0x8100), Priorität 3 Bit, CF/DEI 1 Bit, VLAN-ID 12 Bit.",
-            "diagramm": "vlan"
-          },
-          {
-            "text": "12 Bit ergeben 2^12 = 4096 VLAN-IDs. Nutzbar sind 4094, denn 0 und 4095 sind reserviert.",
-            "diagramm": "vlan"
+            "diagramm": "vlan",
+            "absatz": `<p>Woher weiß die Netzwerkkarte, welches Protokoll in den Nutzdaten steckt? Über das 2 Byte große <b>Typfeld (EtherType)</b>:</p>
+<ul>
+  <li><code>0x0800</code> $\\to$ <b>IPv4</b></li>
+  <li><code>0x86DD</code> $\\to$ <b>IPv6</b></li>
+  <li><code>0x0806</code> $\\to$ <b>ARP</b> (Address Resolution Protocol)</li>
+  <li><code>0x8100</code> $\\to$ <b>VLAN-Tag</b> nach IEEE 802.1Q</li>
+</ul>
+<p>Werte ab <code>0x0600</code> (1536 dezimal) kennzeichnen den Protokolltyp (Ethernet II). Werte bis 1500 galten im alten IEEE 802.3 als reine Längenangabe.</p>
+<p>Wird ein Netzwerk virtualisiert (VLAN), schiebt der Switch direkt zwischen Quell-MAC und Typfeld einen <b>4 Byte großen VLAN-Tag</b> ein. Herzstück ist die <b>12 Bit lange VLAN-ID</b> ($2^{12} = 4096$ IDs). Da ID 0 (reines Prioritäts-Tagging) und ID 4095 reserviert sind, bleiben exakt <b>4094 nutzbare VLANs</b>!</p>`,
+            "anekdote": {
+              "titel": "⚠️ IHK-PRÜFUNGSFALLE: 4096 vs. 4094",
+              "text": "Ein beliebter Stolperstein in Abschlussprüfungen: Frage nach den mathematisch darstellbaren VLANs (12 Bit = 4096) vs. den tatsächlich nutzbaren VLANs (4094). Merke: Genau wie bei Host-Adressen im Subnetz fallen die beiden Randwerte (0 und 4095) weg!"
+            },
+            "video": {
+              "titel": "Was ist ein VLAN? einfach erklärt",
+              "kanal": "Patrick Boekhoven",
+              "url": "https://www.youtube.com/watch?v=fK990Z2OxLE"
+            }
           }
         ],
         "probe": {
@@ -41310,24 +41314,23 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "TCP/IP ist eine Protokollsuite, Ethernet transportiert sie im LAN. IP findet Rechner und Netze, TCP und UDP finden die Anwendung über Ports.",
-            "diagramm": "tu"
-          },
-          {
-            "text": "IP und UDP sind verbindungslos. TCP ist verbindungsorientiert: Es quittiert die Zustellung und liefert Fehlendes nach.",
-            "diagramm": "tu"
-          },
-          {
-            "text": "UDP heißt User Datagram Protocol: schlank, schnell, ohne Quittung. Darum läuft Live-Video meist über UDP.",
-            "diagramm": "tu"
-          },
-          {
-            "text": "IP-Adresse plus Port ergibt einen Socket. Eine Verbindung braucht zwei Sockets, Quelle und Ziel.",
-            "diagramm": "sock"
-          },
-          {
-            "text": "Ein Port ist eine 16-Bit-Zahl, also gibt es 2^16 = 65536 Portnummern.",
-            "diagramm": "sock"
+            "diagramm": "sock",
+            "absatz": `<p>Während IP auf Schicht 3 den Rechner im Netz findet, adressiert Schicht 4 die konkrete Anwendung über <b>16-Bit-Ports</b> ($2^{16} = 65.536$ Ports, 0 bis 65535).</p>
+<p>Die unschlagbare Kombination aus <b>IP-Adresse + Port</b> bildet den sogenannten <b>Socket</b> (z. B. <code>203.0.113.5:443</code>). Jede Netzwerkverbindung ist durch das 5-Tupel (Quell-IP, Quell-Port, Ziel-IP, Ziel-Port, Protokoll) weltweit eineindeutig bestimmt.</p>
+<p>Auf Schicht 4 herrschen zwei völlig verschiedene Philosophien:</p>
+<ul>
+  <li><b>TCP (Transmission Control Protocol):</b> Verbindungsorientiert. Garantierter 3-Wege-Handshake (SYN $\to$ SYN-ACK $\to$ ACK), Flusskontrolle, lückenlose Quittierung und automatische Neuanforderung verloren gegangener Pakete.</li>
+  <li><b>UDP (User Datagram Protocol):</b> Verbindungslos und extrem schlank ("Fire and Forget"). Keine Quittung, kein Warten – ideal für DNS, VoIP und ruckelfreie Live-Streams.</li>
+</ul>`,
+            "anekdote": {
+              "titel": "💡 DER TCP-HANDSHAKE DER SYSTEMADMINS",
+              "text": "„Möchtest du einen TCP-Witz hören?“ – „Ja, ich möchte einen TCP-Witz hören.“ – „Okay, ich erzähle dir jetzt einen TCP-Witz.“ – „Alles klar, ich bin bereit für den TCP-Witz.“ Dieser legendäre Admin-Gag verdeutlicht perfekt den Overhead des Drei-Wege-Handshakes: Viel Höflichkeit und Quittungen im Vorfeld, dafür aber 100 % garantierte Reihenfolge und Vollständigkeit!"
+            },
+            "video": {
+              "titel": "Was sind (Netzwerk)-Ports ?",
+              "kanal": "Patrick Boekhoven",
+              "url": "https://www.youtube.com/watch?v=53CoDRtPn_U"
+            }
           }
         ],
         "probe": {
@@ -42247,24 +42250,25 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "Beim Senden verkapselt jede Schicht die Daten: Sie hängt ihren Header vorne an und reicht das größere Stück nach unten.",
-            "diagramm": "verk"
-          },
-          {
-            "text": "Es entstehen Segment (Schicht 4), Paket (3) und Frame (2). Nur Schicht 2 hängt zusätzlich einen Trailer, die Prüfsumme, hinten an.",
-            "diagramm": "verk"
-          },
-          {
-            "text": "Beim Webseitenaufruf steht in Schicht 3 die IP des Servers, in Schicht 2 aber die MAC des Routers. Der PC liefert den Frame zuerst im eigenen Netz ab.",
-            "diagramm": "reise"
-          },
-          {
-            "text": "Das Buch nennt auf S. 324 im Layer-2-Schritt fälschlich die Ziel-IP. Schicht 2 trägt MAC-Adressen, nie IP-Adressen.",
-            "diagramm": "reise"
-          },
-          {
-            "text": "Am Ziel läuft es rückwärts: Jede Schicht liest ihren Header, entfernt ihn und gibt den Rest nach oben. Das ist die Decapsulation.",
-            "diagramm": "ent"
+            "diagramm": "verk",
+            "absatz": `<p>Beim Absenden durchläuft die Nachricht die Schichten von oben nach unten. Jede Schicht betreibt <b>Verkapselung (Encapsulation)</b>: Sie klebt ihren eigenen Header vor die empfangenen Daten und reicht das vergrößerte Frachtstück nach unten weiter.</p>
+<ul>
+  <li><b>Schicht 7 bis 5:</b> Nutzdaten (z. B. HTTP-Request).</li>
+  <li><b>Schicht 4:</b> Fügt den TCP/UDP-Header mit Quell- und Ziel-Port hinzu $\to$ es entsteht das <b>Segment</b>.</li>
+  <li><b>Schicht 3:</b> Fügt den IP-Header mit Quell- und Ziel-IP hinzu $\to$ es entsteht das <b>Paket</b>.</li>
+  <li><b>Schicht 2:</b> Fügt vorne den MAC-Header ein UND hängt als einzige Schicht hinten einen Trailer an (FCS-Prüfsumme) $\to$ es entsteht der <b>Frame</b>.</li>
+  <li><b>Schicht 1:</b> Wandelt den Frame in elektrische Bits, Lichtpulse oder Funkwellen um.</li>
+</ul>
+<p><b>Die goldene Regel der Adressierung:</b> Rufst du einen Server im Internet auf, steht im IP-Header (Schicht 3) weltweit fest die <b>Ziel-IP des Webservers</b>. Im Ethernet-Header (Schicht 2) steht jedoch die <b>Ziel-MAC deines lokalen Routers (Default Gateway)</b>, denn der Frame kann niemals dein lokales Netz verlassen!</p>`,
+            "anekdote": {
+              "titel": "DIE POSTPAKET-ANALOGIE: IP vs. MAC",
+              "text": "Stell dir einen Brief nach Übersee vor: Auf dem Umschlag steht unverändert die Ziel-Adresse in Tokio (IP-Adresse, Schicht 3). Um den Brief abzusenden, übergibst du ihn aber dem lokalen Postboten an deiner Haustür (MAC-Adresse, Schicht 2). Der Postbote tauscht unterwegs mehrfach Fahrzeuge und Verteilerzentren aus, doch die weltweite Ziel-IP auf dem Briefumschlag bleibt unberührt!"
+            },
+            "video": {
+              "titel": "Wieso brauchen wir eine MAC- und IP-Adresse?",
+              "kanal": "Patrick Boekhoven",
+              "url": "https://www.youtube.com/watch?v=Gdebdxfegpw"
+            }
           }
         ],
         "probe": {
@@ -42469,24 +42473,28 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "Merke die Ports: HTTP 80, HTTPS 443, SMTP 25, POP3 110, IMAP 143, SMB 445, FTP 21.",
-            "diagramm": "ports"
-          },
-          {
-            "text": "Ein angehängtes S kennzeichnet die verschlüsselte Variante: HTTPS, bei FTP SFTP oder FTPS. FTP selbst ist unverschlüsselt.",
-            "diagramm": "ports"
-          },
-          {
-            "text": "Mail: SMTP schickt, POP3 holt ab und löscht auf dem Server, IMAP ruft ab und verwaltet auf dem Server.",
-            "diagramm": "mail"
-          },
-          {
-            "text": "Das Buch schreibt bei IMAP „Versenden und Empfangen“. Das Versenden läuft aber immer über SMTP.",
-            "diagramm": "mail"
-          },
-          {
-            "text": "QUIC trägt HTTP/3 über UDP, bringt TLS 1.3 mit und übernimmt typische TCP-Aufgaben selbst.",
-            "diagramm": "ports"
+            "diagramm": "ports",
+            "absatz": `<p>Auf Schicht 7 (Anwendungsschicht) laufen die Dienste, mit denen Benutzer und Programme interagieren. Jeder Dienst lauscht standardmäßig auf einem festen, normierten Port:</p>
+<ul>
+  <li><b>Web:</b> <b>HTTP (Port 80)</b> unverschlüsselt, <b>HTTPS (Port 443)</b> mit TLS abgesichert. Moderner Standard ist <b>HTTP/3 über QUIC (UDP 443)</b> mit integriertem TLS 1.3.</li>
+  <li><b>Dateiübertragung & Freigaben:</b> <b>FTP (Port 21</b>, Klartext), <b>SMB (Port 445</b>, Windows-Dateifreigaben).</li>
+  <li><b>E-Mail (der Dreiklang):</b>
+    <ul>
+      <li><b>SMTP (Port 25 / 587):</b> <i>Immer</i> für den <b>Versand</b> von E-Mails zuständig (Client $\to$ Server und Server $\leftrightarrow$ Server).</li>
+      <li><b>POP3 (Port 110 / 995):</b> Holt E-Mails vom Server ab und <i>löscht</i> sie dort in der Standardeinstellung lokal auf das Endgerät.</li>
+      <li><b>IMAP (Port 143 / 993):</b> Lässt E-Mails auf dem Server, synchronisiert Ordner und Status (gelesen/ungelesen) über alle Geräte hinweg.</li>
+    </ul>
+  </li>
+</ul>`,
+            "anekdote": {
+              "titel": "⚠️ DER POP3-SUPERGAU IM UNTERNEHMEN",
+              "text": "Ein echter Klassiker im Helpdesk: Ein Mitarbeiter richtet sein neues privates Smartphone versehentlich per POP3 statt IMAP ein. Binnen Minuten saugt das Smartphone alle 12.000 geschäftlichen Mails herunter und löscht sie restlos vom Mailserver – auf dem Firmen-Laptop im Büro ist der gesamte Posteingang plötzlich wie leergefegt!"
+            },
+            "video": {
+              "titel": "TLS HANDSHAKE einfach erklärt!",
+              "kanal": "IT & Medien einfach erklärt",
+              "url": "https://www.youtube.com/watch?v=24tMBq7SCnk"
+            }
           }
         ],
         "probe": {
@@ -42658,24 +42666,23 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "ARP fragt: Welche MAC gehört zu dieser IP? DNS fragt: Welche IP gehört zu diesem Namen? DHCP verteilt die Konfiguration.",
-            "diagramm": "dien"
-          },
-          {
-            "text": "ARP-Request geht als Broadcast an alle, nur der Besitzer der IP antwortet. Für ein Ziel außerhalb fragt der PC nach der MAC des Routers. Befehl: arp -a.",
-            "diagramm": "arp"
-          },
-          {
-            "text": "DNS übersetzt Namen in IPs. Ein Dual-Stack-Rechner fragt Typ A für IPv4 und Typ AAAA für IPv6 ab. Test: nslookup.",
-            "diagramm": "dien"
-          },
-          {
-            "text": "DHCP in vier Schritten: Discover, Offer, Request, Acknowledge. ipconfig /release gibt frei, ipconfig /renew holt neu.",
-            "diagramm": "dhcp"
-          },
-          {
-            "text": "ICMP meldet Fehler, auch ping nutzt es. SNMP liefert Zustandsdaten von Netzgeräten über UDP. DNS, DHCP und SNMP sind Schicht 7.",
-            "diagramm": "dien"
+            "diagramm": "dien",
+            "absatz": `<p>Bevor das erste Byte einer Webseite fließt, schuften im Hintergrund die <b>Dienstprotokolle</b>, um das Netz überhaupt erst betriebsbereit zu machen:</p>
+<ul>
+  <li><b>DHCP (Dynamic Host Configuration Protocol):</b> Versorgt neue Clients im 4-Schritt-Verfahren <b>DORA</b> (Discover $\to$ Offer $\to$ Request $\to$ Acknowledge) mit IP, Subnetzmaske, Gateway und DNS. Manuelle Steuerung: <code>ipconfig /release</code> und <code>/renew</code>.</li>
+  <li><b>DNS (Domain Name System):</b> Löst menschenlesbare Namen in IP-Adressen auf (<code>Typ A</code> für IPv4, <code>Typ AAAA</code> für IPv6). Schnelldiagnose mit <code>nslookup</code>.</li>
+  <li><b>ARP (Address Resolution Protocol):</b> Die Brücke zwischen Schicht 3 und 2. Kennt der PC die Ziel-IP, brüllt er einen <b>ARP-Request (Broadcast an FF:FF:FF:FF:FF:FF)</b> ins LAN: <i>„Wer hat diese IP? Antworte mir mit deiner MAC!“</i> Nur der rechtmäßige Besitzer antwortet per Unicast. Der PC merkt sich das im ARP-Cache (<code>arp -a</code>).</li>
+  <li><b>ICMP & SNMP:</b> <b>ICMP</b> transportiert Fehlermeldungen und Diagnose-Pings (Echo Request/Reply). <b>SNMP (UDP 161/162)</b> überwacht Switche, Drucker und Server.</li>
+</ul>`,
+            "anekdote": {
+              "titel": "💡 ARP-SPOOFING (MAN-IN-THE-MIDDLE)",
+              "text": "Da das klassische ARP-Protokoll aus den Anfangstagen des Internets stammt, besitzt es keinerlei kryptografische Signatur. Ein Angreifer im LAN kann ungefragt gefälschte ARP-Replies an alle Rechner schicken („Ich habe die IP des Firmen-Routers!“). Alle Clients aktualisieren vertrauensselig ihren ARP-Cache und schicken ihren gesamten Datenverkehr fortan über den PC des Angreifers!"
+            },
+            "video": {
+              "titel": "Wie funktioniert das Address Resolution Protocol (ARP)?",
+              "kanal": "Patrick Boekhoven",
+              "url": "https://www.youtube.com/watch?v=WOcpjbEcOy0"
+            }
           }
         ],
         "probe": {
@@ -43433,20 +43440,22 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "Beim Sender wird verschlüsselt, im Empfänger entschlüsselt. Unterwegs liegen die Daten nur verschlüsselt vor.",
-            "diagramm": "sym"
-          },
-          {
-            "text": "Symmetrisch: ein gemeinsamer Schlüssel, schnell. Das Problem: Der Schlüssel muss sicher zum Partner.",
-            "diagramm": "sym"
-          },
-          {
-            "text": "Asymmetrisch: ein Schlüsselpaar aus Public und Private Key. Das ist langsam, aber der öffentliche Schlüssel darf offen übertragen werden.",
-            "diagramm": "asym"
-          },
-          {
-            "text": "Hybrid: Über einen mit dem Schlüsselpaar gesicherten Kanal wird ein Sitzungsschlüssel ausgetauscht, danach fließen die Daten schnell symmetrisch.",
-            "diagramm": "hyb"
+            "diagramm": "hyb",
+            "absatz": `<p>Das ursprüngliche Arpanet war auf Gutmütigkeit und reinen Klartext ausgelegt. Im modernen Internet muss jede Übertragung gegen Mitlesen (Vertraulichkeit) und Manipulation (Integrität) gehärtet werden. Dafür gibt es drei Grundmodelle:</p>
+<ul>
+  <li><b>Symmetrische Verschlüsselung (z. B. AES-256):</b> Sender und Empfänger nutzen <i>denselben</i> geheimen Schlüssel. Extrem schnell und sparsam – doch wie tauscht man den Schlüssel über ein unsicheres Netz sicher aus?</li>
+  <li><b>Asymmetrische Verschlüsselung (z. B. RSA, ECC):</b> Ein mathematisches Schlüsselpaar aus <b>Public Key</b> (öffentlich, darf jeder haben) und <b>Private Key</b> (streng geheim beim Besitzer). Löst das Verteilungsproblem perfekt, ist aber rechnerisch bis zu 1000-mal langsamer als AES!</li>
+  <li><b>Hybride Verschlüsselung (der moderne Standard):</b> Die perfekte Symbiose! Über asymmetrische Kryptografie handeln die Partner blitzschnell einen Einmalschlüssel (Session Key) aus. Danach fließen die eigentlichen Massendaten rasend schnell symmetrisch mit AES.</li>
+</ul>`,
+            "anekdote": {
+              "titel": "DIE ANALOGIE DES ÖFFENTLICHEN BRIEFKASTENS",
+              "text": "Asymmetrische Verschlüsselung funktioniert genau wie ein öffentlicher Briefkasten der Post: Jeder beliebige Bürger kann einen Brief durch den Einwurfschlitz werfen (öffentlicher Schlüssel). Doch öffnen und den Inhalt lesen kann ausschließlich der Postbote, der den passenden physischen Schlüssel zum Schließzylinder besitzt (privater Schlüssel)!"
+            },
+            "video": {
+              "titel": "Hacken mit der Woman in the middle. So leicht geht es.",
+              "kanal": "Patrick Boekhoven",
+              "url": "https://www.youtube.com/watch?v=VB895tcx1Rk"
+            }
           }
         ],
         "probe": {
@@ -43560,24 +43569,24 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "TLS (Transport Layer Security) verschlüsselt die Daten der oberen Schichten, bevor sie an TCP oder UDP gehen.",
-            "diagramm": "stack"
-          },
-          {
-            "text": "Ablauf: TCP-Verbindung steht, TLS-Handshake mit Schlüsselaustausch, danach fließen die Daten in verschlüsselten TLS-Records.",
-            "diagramm": "tls"
-          },
-          {
-            "text": "Aktuell sind TLS 1.2 und TLS 1.3. SSL 1.0 bis 3.0 sowie TLS 1.0 und 1.1 werden nicht mehr verwendet.",
-            "diagramm": "tls"
-          },
-          {
-            "text": "Ein angehängtes S zeigt TLS: HTTPS, SMTPS, POP3S. DNS over TLS und DNS over HTTPS sichern die Namensauflösung.",
-            "diagramm": "stack"
-          },
-          {
-            "text": "Das Buch widerspricht sich: Tabelle Schicht 5, Fließtext Schicht 4. Merke: TLS sitzt oberhalb von TCP, in der Buchtabelle auf Schicht 5.",
-            "diagramm": "stack"
+            "diagramm": "tls",
+            "absatz": `<p>Siehst du im Browser das geschlossene Vorhängeschloss, sorgt <b>TLS (Transport Layer Security)</b> für Sicherheit. Es verschlüsselt die Daten der oberen Schichten, bevor sie an Schicht 4 übergeben werden:</p>
+<ol>
+  <li><b>TCP-Handshake:</b> Zuerst wird die normale Transportverbindung über Schicht 4 aufgebaut (SYN $\to$ SYN-ACK $\to$ ACK).</li>
+  <li><b>TLS-Handshake:</b> Server sendet sein X.509-Zertifikat (Identitätsnachweis über eine vertrauenswürdige Zertifizierungsstelle / CA). Mittels asymmetrischer Kryptografie (Diffie-Hellman) wird der geheime Sitzungsschlüssel verhandelt.</li>
+  <li><b>Verschlüsselter Datentransfer:</b> Ab jetzt fließen alle Daten geschützt in TLS-Records.</li>
+</ol>
+<p><b>Zugelassene Versionen:</b> Nach aktuellen Sicherheitsstandards (BSI TR-02102) sind <b>ausschließlich TLS 1.2 und TLS 1.3</b> zulässig! Alle Vorläufer (SSL 1.0–3.0 sowie TLS 1.0 und 1.1) sind unsicher und dürfen nicht mehr eingesetzt werden.</p>
+<p>Im Schichtenmodell sitzt TLS <b>direkt oberhalb von TCP</b> (in der Westermann-Tabelle Schicht 5).</p>`,
+            "anekdote": {
+              "titel": "⚠️ DIE BSI-RICHTLINIE & IHK-FALLE",
+              "text": "Prüfungsfalle: „Darf ein Webshop heute noch SSL 3.0 verwenden, wenn die Kunden ältere Browser haben?“ Antwort: Klares Nein! SSL 3.0 ist durch Angriffe wie POODLE vollständig kompromittiert. PCI-DSS (Kreditkartenstandard) und DSGVO verlangen zwingend mindestens TLS 1.2!"
+            },
+            "video": {
+              "titel": "TLS HANDSHAKE einfach erklärt!",
+              "kanal": "IT & Medien einfach erklärt",
+              "url": "https://www.youtube.com/watch?v=24tMBq7SCnk"
+            }
           }
         ],
         "probe": {
@@ -43745,24 +43754,27 @@ GENERATORS.detektiv = function (level) {
         },
         "aufbau": [
           {
-            "text": "IPsec schützt IP-Pakete auf Schicht 3. Schutzziele: Authentizität, Integrität und Vertraulichkeit.",
-            "diagramm": "tmod"
-          },
-          {
-            "text": "Transportmodus verbindet zwei Endgeräte über einen gesicherten Kanal.",
-            "diagramm": "tmod"
-          },
-          {
-            "text": "Tunnelmodus verbindet ganze Netze, zum Beispiel Niederlassungen. Das ist ein VPN.",
-            "diagramm": "tun"
-          },
-          {
-            "text": "AH sichert Integrität und Authentizität, die Daten bleiben aber lesbar. AH verschlüsselt nicht!",
-            "diagramm": "ahesp"
-          },
-          {
-            "text": "ESP verschlüsselt die Nutzlast und bringt damit die Vertraulichkeit. Ein vertrauliches VPN braucht ESP.",
-            "diagramm": "ahesp"
+            "diagramm": "ahesp",
+            "absatz": `<p>Während TLS auf Schicht 5 einzelne Anwendungen absichert, schützt <b>IPsec (Internet Protocol Security)</b> ganze Datenströme transparent direkt auf <b>Schicht 3 (Netzwerkschicht)</b>:</p>
+<p><b>Die zwei Betriebsmodi:</b></p>
+<ul>
+  <li><b>Transportmodus (Host-to-Host):</b> Sichert die Direktverbindung zwischen zwei einzelnen Rechnern. Der ursprüngliche IP-Header bleibt sichtbar.</li>
+  <li><b>Tunnelmodus (Site-to-Site / VPN):</b> Verbindet ganze Firmen-Standorte oder Homeoffice-Arbeitsplätze. Das komplette Originalpaket (inklusive privater IP-Adressen) wird verschlüsselt und in ein völlig neues IP-Paket mit öffentlichen Gateway-IPs eingekapselt.</li>
+</ul>
+<p><b>Die zwei Kernprotokolle von IPsec:</b></p>
+<ul>
+  <li><b>AH (Authentication Header):</b> Garantiert Integrität und Authentizität (Beweis, dass das Paket nicht manipuliert wurde). <b>ACHTUNG: AH verschlüsselt nicht!</b> Die Nutzdaten reisen im Klartext.</li>
+  <li><b>ESP (Encapsulating Security Payload):</b> <b>Verschlüsselt die Nutzlast</b> (garantiert Vertraulichkeit) und sichert zusätzlich Integrität und Authentizität. Ein echtes abhörsicheres VPN verlangt zwingend ESP!</li>
+</ul>`,
+            "anekdote": {
+              "titel": "⚠️ DER BELIEBTE IHK-PRÜFUNGSFEHLER: AH vs. ESP",
+              "text": "Klassische Prüfungsaufgabe: „Welches IPsec-Protokoll verhindert, dass fremde Dritte sensible Firmendaten im VPN mitlesen können?“ Wer hier AH ankreuzt, erhält 0 Punkte. Merke: AH ist wie ein amtliches Wachssiegel auf einem Umschlag (Echtheitsbeweis), ESP hingegen ist der blickdichte Stahl-Panzerschrank!"
+            },
+            "video": {
+              "titel": "Die Firewall - schnell und einfach erklärt.",
+              "kanal": "Patrick Boekhoven",
+              "url": "https://www.youtube.com/watch?v=N6N2_5Rx3IE"
+            }
           }
         ],
         "probe": {
