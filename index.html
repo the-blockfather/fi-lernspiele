@@ -5906,6 +5906,37 @@ body.retro .hubModalWin button {
   font-family: inherit !important;
 }
 
+/* Fallback & Onboarding Modale im modernen Look */
+#lpModal .glass,
+#introModal .glass,
+body.retro #lpModal .glass,
+body.retro #introModal .glass {
+  background: #0f172a !important;
+  border: 2px solid #38bdf8 !important;
+  border-radius: 16px !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(56, 189, 248, 0.25) !important;
+}
+
+#lpModal h3,
+#introModal h3,
+body.retro #lpModal h3,
+body.retro #introModal h3 {
+  color: #38bdf8 !important;
+  font-weight: 750 !important;
+}
+
+#lpModal select,
+#lpModal input[type="text"],
+#introModal input[type="text"] {
+  background: rgba(2, 6, 23, 0.8) !important;
+  border: 1px solid #1e3a5f !important;
+  color: #f8fafc !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+}
+
+
 
 /* ---- osi_invaders.css ---- */
 /* osi_invaders.css - Protocol Space Defender für Lernfeld 3 */
@@ -9292,9 +9323,14 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
 
 /* Wissensbaum im KI-Tutor-Look: dunkles Navy mit Cyan-Akzent wie die Einheiten; Tutor-Figur statt Waechter-Monster */
 body.lp #lpPanel {
+  --ok: #10b981;
+  --mid: #f59e0b;
+  --bad: #ef4444;
+  --lp-neu: #64748b;
   background: linear-gradient(180deg, rgba(8, 15, 35, 0.96), rgba(2, 6, 23, 0.96));
   border: 1px solid #1e293b;
   border-top: 3px solid #38bdf8;
+  border-radius: 12px;
   color: #e2e8f0;
 }
 body.lp #lpPanel h3 { color: #7dd3fc; letter-spacing: 0.02em; }
@@ -10279,6 +10315,890 @@ body.retro .vlWrap .vlPanelToggle:hover:not(:disabled), body.retro .vlWrap .vlTa
   filter: drop-shadow(0 0 8px rgba(248, 113, 113, 0.8));
 }
 
+
+/* ---- wissensbaum.css ---- */
+/* wissensbaum.css - Modernes Wissensbaum-Dashboard & Dynamische Wachstums-Engine */
+
+.wbModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+.wbModalOverlay.offen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wbModalWin {
+  width: 98vw;
+  max-width: 1440px;
+  height: 94vh;
+  background: radial-gradient(circle at 50% 15%, #0f172a 0%, #060913 100%);
+  border: 2px solid #1e293b;
+  border-radius: 16px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 40px rgba(56, 189, 248, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Retro-Theme Immunität für das moderne Wissensbaum-Dashboard */
+body.retro .wbModalWin button,
+.wbModalWin button {
+  min-height: auto !important;
+  box-shadow: none !important;
+  border-image: none !important;
+  font-family: inherit !important;
+}
+
+body.retro .wbLfBtn:not(.akt),
+.wbLfBtn:not(.akt) {
+  background: transparent !important;
+  border: none !important;
+  color: #94a3b8 !important;
+}
+
+body.retro .wbLfBtn.akt,
+.wbLfBtn.akt {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border: 1px solid #38bdf8 !important;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.5) !important;
+}
+
+body.retro .wbViewBtn:not(.akt),
+.wbViewBtn:not(.akt) {
+  background: transparent !important;
+  border: none !important;
+  color: #94a3b8 !important;
+}
+
+body.retro .wbViewBtn.akt,
+.wbViewBtn.akt {
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+}
+
+body.retro .wbChip,
+.wbChip {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid #334155 !important;
+  color: #cbd5e1 !important;
+  border-radius: 8px !important;
+}
+
+body.retro .wbChip:hover,
+.wbChip:hover {
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+}
+
+body.retro .wbChip.akt,
+.wbChip.akt {
+  background: #0284c7 !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.5) !important;
+}
+
+body.retro .wbInspBtn.primary,
+.wbInspBtn.primary {
+  background: linear-gradient(135deg, #0284c7, #0e7490) !important;
+  border: 1px solid #38bdf8 !important;
+  color: #ffffff !important;
+  border-radius: 9px !important;
+}
+
+body.retro .wbInspBtn.secondary,
+.wbInspBtn.secondary {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid #1e3a5f !important;
+  color: #cbd5e1 !important;
+  border-radius: 9px !important;
+}
+
+body.retro .wbLaunchBtn,
+.wbLaunchBtn {
+  background: linear-gradient(135deg, #0284c7, #0e7490) !important;
+  border: 1px solid #38bdf8 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+}
+
+/* Header */
+.wbModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid #1e293b;
+  flex-wrap: wrap;
+  gap: 12px;
+  z-index: 20;
+}
+
+.wbHeaderTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wbHeaderTitle h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #38bdf8;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wbHeaderSub {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.wbHeaderControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Lernfeld Tabs */
+.wbLfTabs {
+  display: inline-flex;
+  background: rgba(2, 6, 23, 0.8);
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.wbLfBtn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.wbLfBtn:hover {
+  color: #f1f5f9;
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.wbLfBtn.akt {
+  background: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.5);
+}
+
+/* Ansichts-Umschalter */
+.wbViewToggle {
+  display: inline-flex;
+  background: rgba(2, 6, 23, 0.8);
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.wbViewBtn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 5px 9px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.wbViewBtn:hover {
+  color: #f1f5f9;
+}
+
+.wbViewBtn.akt {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.wbCloseBtn {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid #334155;
+  color: #94a3b8;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.wbCloseBtn:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #f87171;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+/* Sub-Bar: Fortschritt & Quiz-Start */
+.wbSubBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  background: rgba(11, 19, 36, 0.8);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.8);
+  font-size: 0.82rem;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.wbStatsRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #cbd5e1;
+}
+
+.wbStatPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid #1e293b;
+}
+
+.wbStatDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.wbStatDot.sitzt { background: #10b981; box-shadow: 0 0 6px #10b981; }
+.wbStatDot.festigen { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+.wbStatDot.luecke { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+.wbStatDot.neu { background: #64748b; }
+
+.wbProgressWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.wbProgressBar {
+  flex: 1;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.wbProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7, #10b981);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.wbLaunchBtn {
+  background: linear-gradient(135deg, #0284c7, #0e7490);
+  border: 1px solid #38bdf8;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.35);
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
+}
+
+.wbLaunchBtn:hover {
+  background: linear-gradient(135deg, #0ea5e9, #0891b2);
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Modal Body: Bühne + Inspector */
+.wbModalBody {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Baum-Bühne */
+.wbStageWrap {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(14, 25, 48, 0.4) 0%, rgba(5, 9, 18, 0.9) 100%);
+  user-select: none;
+}
+
+.wbSvgTree {
+  width: 100%;
+  height: 100%;
+  min-width: 600px;
+  min-height: 600px;
+  max-width: 900px;
+  max-height: 900px;
+  display: block;
+  overflow: visible;
+}
+
+/* SVG Elemente & Animationen */
+
+/* 1. Wurzel */
+.wbRootGlow {
+  fill: url(#wbRootGrad);
+  filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.6));
+  cursor: pointer;
+  animation: wbRootPulse 3s infinite ease-in-out;
+}
+
+.wbRootRing {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 2;
+  opacity: 0.8;
+  stroke-dasharray: 4 3;
+  animation: wbSpinClockwise 30s linear infinite;
+  transform-origin: center;
+}
+
+.wbRootText {
+  fill: #ffffff;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* 2. Ast-Pfade (Dynamisches Wachstum) */
+.wbBranchKap {
+  fill: none;
+  stroke: url(#wbBranchGrad);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  opacity: 0.85;
+  transition: stroke 0.25s, opacity 0.25s;
+}
+
+.wbBranchThema {
+  fill: none;
+  stroke: #1e3a5f;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.7;
+  transition: stroke 0.25s, stroke-width 0.25s, opacity 0.25s;
+}
+
+/* Wachstums-Animation für Äste */
+.wbAnimatedBranch {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: wbBranchGrow 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.wbBranchFlow {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 4 12;
+  opacity: 0.55;
+  animation: wbParticleFlow 1.6s linear infinite;
+  pointer-events: none;
+}
+
+/* Hover-Hervorhebung von Ästen */
+.wbStageWrap:hover .wbBranchKap,
+.wbStageWrap:hover .wbBranchThema {
+  opacity: 0.3;
+}
+
+.wbBranchKap.highlight,
+.wbBranchThema.highlight,
+.wbStageWrap .wbBranchKap.highlight,
+.wbStageWrap .wbBranchThema.highlight {
+  opacity: 1 !important;
+  stroke: #38bdf8 !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
+}
+
+/* 3. Kapitel-Knoten */
+.wbKapGroup {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+}
+
+.wbKapGroup:hover {
+  transform: scale(1.15);
+}
+
+.wbKapCircle {
+  stroke-width: 2.5;
+  transition: all 0.2s ease;
+}
+
+.wbKapCircle.akt {
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.8));
+  stroke: #ffffff !important;
+}
+
+.wbKapProgressRing {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.wbKapText {
+  fill: #f8fafc;
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+/* 4. Themen-Blätter (Wissensknoten) */
+.wbThemaGroup {
+  cursor: pointer;
+  transform-origin: center;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wbThemaGroup:hover {
+  transform: scale(1.35);
+}
+
+.wbThemaNode {
+  stroke-width: 1.5;
+  stroke: rgba(255, 255, 255, 0.4);
+  transition: all 0.2s ease;
+}
+
+.wbThemaGroup.akt .wbThemaNode {
+  stroke: #ffffff;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.9));
+}
+
+/* Knospen-Bloom Animation */
+.wbAnimatedNode {
+  transform: scale(0);
+  animation: wbNodeBloom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Pulsierender Beacon für Wissenslücken */
+.wbLueckeBeacon {
+  fill: none;
+  stroke: #ef4444;
+  stroke-width: 2;
+  opacity: 0.9;
+  animation: wbBeaconPulse 2s infinite ease-out;
+  pointer-events: none;
+}
+
+/* Ring für Einheiten-Verknüpfung */
+.wbEinheitRing {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 1.8;
+  stroke-dasharray: 3 2;
+  opacity: 0.95;
+  pointer-events: none;
+  animation: wbSpinClockwise 18s linear infinite;
+  transform-origin: center;
+}
+
+/* Inspector Drawer (Rechte Spalte) */
+.wbInspectorDrawer {
+  width: 360px;
+  max-width: 40%;
+  background: rgba(11, 18, 33, 0.95);
+  border-left: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  z-index: 10;
+  transition: transform 0.25s ease;
+}
+
+.wbInspectorEmpty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  text-align: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+.wbInspectorContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wbInspHeader {
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 14px;
+}
+
+.wbInspBadges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.wbInspBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.wbInspBadge.sitzt { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+.wbInspBadge.festigen { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+.wbInspBadge.luecke { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+.wbInspBadge.neu { background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid #64748b; }
+
+.wbInspTitle {
+  font-size: 1.15rem;
+  color: #f1f5f9;
+  margin: 0 0 4px;
+  line-height: 1.35;
+}
+
+.wbInspKapitel {
+  font-size: 0.8rem;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wbInspMetaCard {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wbInspMeterRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+}
+
+.wbInspMeterBar {
+  height: 8px;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.wbInspMeterFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.wbInspActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.wbInspBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.wbInspBtn.primary {
+  background: linear-gradient(135deg, #0284c7, #0e7490);
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+.wbInspBtn.primary:hover {
+  background: linear-gradient(135deg, #0ea5e9, #0891b2);
+  transform: translateY(-1px);
+}
+
+.wbInspBtn.secondary {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: #1e3a5f;
+  color: #cbd5e1;
+}
+
+.wbInspBtn.secondary:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+.wbInspBtn.lab {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #6ee7b7;
+}
+
+.wbInspBtn.lab:hover {
+  background: rgba(16, 185, 129, 0.22);
+  border-color: #10b981;
+}
+
+/* Dendrogramm-Ansicht (Struktur-Baum) */
+.wbDendroContainer {
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wbDendroKapCard {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.wbDendroKapCard:hover {
+  border-color: #38bdf8;
+}
+
+.wbDendroKapHeader {
+  padding: 12px 16px;
+  background: rgba(2, 6, 23, 0.6);
+  border-bottom: 1px solid #1e293b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.wbDendroKapTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wbDendroThemenGrid {
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.wbDendroThemaPill {
+  background: rgba(11, 18, 33, 0.8);
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.wbDendroThemaPill:hover {
+  background: rgba(30, 58, 95, 0.4);
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+.wbDendroThemaPill.akt {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+}
+
+/* Adaptiver Lernmodus Konfigurator Panel (Floating Modal) */
+.wbAdaptiveModal {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.wbAdaptiveModal.offen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wbAdaptiveBox {
+  width: 90%;
+  max-width: 580px;
+  background: #0f172a;
+  border: 2px solid #38bdf8;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(56, 189, 248, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.wbChipGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wbChip {
+  padding: 6px 14px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wbChip:hover {
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+.wbChip.akt {
+  background: #0284c7;
+  border-color: #38bdf8;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.5);
+}
+
+/* Keyframes */
+@keyframes wbRootPulse {
+  0%, 100% { filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.5)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.9)); transform: scale(1.02); }
+}
+
+@keyframes wbSpinClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wbBranchGrow {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes wbParticleFlow {
+  to { stroke-dashoffset: -32; }
+}
+
+@keyframes wbNodeBloom {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.22); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes wbBeaconPulse {
+  0% { r: 8px; opacity: 0.9; stroke-width: 2.5px; }
+  70% { r: 18px; opacity: 0.2; stroke-width: 1px; }
+  100% { r: 22px; opacity: 0; stroke-width: 0.5px; }
+}
+
+/* Mobile & Kleine Displays */
+@media (max-width: 900px) {
+  .wbModalBody {
+    flex-direction: column;
+  }
+  .wbInspectorDrawer {
+    width: 100%;
+    max-width: 100%;
+    height: 260px;
+    border-left: none;
+    border-top: 1px solid #1e293b;
+  }
+}
 
 </style>
 </head>
@@ -60644,6 +61564,867 @@ GENERATORS.vlan = function (level) {
   };
 })();
 
+/* ---- f_wissensbaum.js ---- */
+// f_wissensbaum.js - Modernes Wissensbaum-Dashboard & Holographic Growth Engine
+// Bietet vollwertige Visualisierung, dynamisches SVG-Wachstum, Inspektor und tiefere Didaktik-Vernetzung.
+(function () {
+  "use strict";
+
+  const WISSENSBAUM = {
+    modalId: "wissensbaumModal",
+    aktLf: "LF03",
+    aktAnsicht: "radial", // "radial" | "dendro"
+    aktThema: null,
+    aktKap: null,
+
+    // Farben nach Status
+    FARBEN: {
+      sitzt: "#10b981",
+      festigen: "#f59e0b",
+      luecke: "#ef4444",
+      neu: "#64748b"
+    },
+    NAMEN: {
+      sitzt: "Gemeistert",
+      festigen: "Festigen",
+      luecke: "Wissenslücke",
+      neu: "Neu / Ungeprüft"
+    },
+
+    // Praxis-Verknüpfungen zu unseren Research-Paketen
+    LABOR_MAP: {
+      "subnetting": { name: "IHK-Rechenlabor (Subnetting)", fn: () => window.RECHENLABOR?.oeffne() },
+      "cidr": { name: "IHK-Rechenlabor (Subnetting)", fn: () => window.RECHENLABOR?.oeffne() },
+      "übertragungszeit": { name: "IHK-Rechenlabor (Übertragungszeit)", fn: () => window.RECHENLABOR?.oeffne() },
+      "datenrate": { name: "IHK-Rechenlabor (DIN EN 80000-13)", fn: () => window.RECHENLABOR?.oeffne() },
+      "raid": { name: "IHK-Rechenlabor (RAID-Kapazität)", fn: () => window.RECHENLABOR?.oeffne() },
+      "usv": { name: "IHK-Rechenlabor (USV cos φ)", fn: () => window.RECHENLABOR?.oeffne() },
+      "verfügbarkeit": { name: "IHK-Rechenlabor (Tabelle der Neunen)", fn: () => window.RECHENLABOR?.oeffne() },
+      "vlan": { name: "MedTech Praxislabor (7-VLAN-Netzplan)", fn: () => window.MEDTECH_PRAXIS?.oeffne() },
+      "switch": { name: "MedTech Praxislabor (Netzplan)", fn: () => window.MEDTECH_PRAXIS?.oeffne() },
+      "routing": { name: "MedTech Praxislabor (Core-L3 Switch)", fn: () => window.MEDTECH_PRAXIS?.oeffne() },
+      "sql": { name: "SQL-Krimi & Studio (MedTech Sanitas)", fn: () => window.SQL_KRIMI?.oeffne() },
+      "datenbank": { name: "SQL-Krimi & Froggy-Trainer", fn: () => window.SQL_KRIMI?.oeffne() },
+      "schutzbedarf": { name: "BSI 200-2 Schutzbedarfs-Detektiv", fn: () => window.SCHUTZBEDARF_DETEKTIV?.oeffne() },
+      "bsi": { name: "BSI 200-2 Grundschutz-Matrix", fn: () => window.SCHUTZBEDARF_DETEKTIV?.oeffne() },
+      "phishing": { name: "Phishing-Radar E-Mail-Detektor", fn: () => window.SCHUTZBEDARF_DETEKTIV?.oeffne() },
+      "ping": { name: "Windows CMD Ping-Detektiv", fn: () => window.PING_DETEKTIV?.oeffne() },
+      "ipconfig": { name: "Windows CMD Ping-Detektiv", fn: () => window.PING_DETEKTIV?.oeffne() },
+      "netzwerk-diagnose": { name: "Windows CMD Ping-Detektiv", fn: () => window.PING_DETEKTIV?.oeffne() }
+    },
+
+    // Oeffnet das moderne Wissensbaum-Dashboard
+    oeffne: function (gewaehltesLf) {
+      if (gewaehltesLf) this.aktLf = gewaehltesLf;
+      this.initModal();
+      const modal = document.getElementById(this.modalId);
+      if (modal) {
+        modal.classList.add("offen");
+        this.aktualisiereLfTabs();
+        this.rendereAnsicht();
+      }
+    },
+
+    schliessen: function () {
+      const modal = document.getElementById(this.modalId);
+      if (modal) modal.classList.remove("offen");
+    },
+
+    initModal: function () {
+      let modal = document.getElementById(this.modalId);
+      if (modal) return;
+
+      modal = document.createElement("div");
+      modal.id = this.modalId;
+      modal.className = "wbModalOverlay";
+      modal.innerHTML = `
+        <div class="wbModalWin">
+          <!-- Header -->
+          <div class="wbModalHeader">
+            <div class="wbHeaderTitle">
+              <span style="font-size:1.5rem;">🌳</span>
+              <div>
+                <h2>Wissensbaum &amp; Adaptiver Lernpfad</h2>
+                <span class="wbHeaderSub" id="wbHeaderSubText">Westermann Grundstufe · Dynamischer Wissens-Atlas</span>
+              </div>
+            </div>
+
+            <div class="wbHeaderControls">
+              <!-- Lernfeld-Wahl -->
+              <div class="wbLfTabs" id="wbLfTabs"></div>
+
+              <!-- Ansichten-Toggle -->
+              <div class="wbViewToggle">
+                <button type="button" class="wbViewBtn akt" data-view="radial" id="wbBtnRadial">🌀 Radial-Baum</button>
+                <button type="button" class="wbViewBtn" data-view="dendro" id="wbBtnDendro">📊 Struktur-Baum</button>
+              </div>
+
+              <!-- Close -->
+              <button type="button" class="wbCloseBtn" id="wbCloseBtn" title="Schließen (Esc)">✕</button>
+            </div>
+          </div>
+
+          <!-- Sub-Bar mit Mastery & Start -->
+          <div class="wbSubBar">
+            <div class="wbStatsRow" id="wbStatsRow">
+              <div class="wbProgressWrap">
+                <span style="font-weight:700; color:#38bdf8;" id="wbMasteryPercent">0 %</span>
+                <div class="wbProgressBar"><div class="wbProgressFill" id="wbProgressFill" style="width:0%"></div></div>
+              </div>
+              <span class="wbStatPill"><i class="wbStatDot sitzt"></i><span id="wbCountSitzt">0</span> Gemeistert</span>
+              <span class="wbStatPill"><i class="wbStatDot festigen"></i><span id="wbCountFestigen">0</span> Festigen</span>
+              <span class="wbStatPill"><i class="wbStatDot luecke"></i><span id="wbCountLuecke">0</span> Lücken</span>
+              <span class="wbStatPill"><i class="wbStatDot neu"></i><span id="wbCountNeu">0</span> Neu</span>
+            </div>
+
+            <button type="button" class="wbLaunchBtn" id="wbLaunchQuizBtn">
+              <span>🚀 Adaptives Training starten</span>
+            </button>
+          </div>
+
+          <!-- Body: Bühne + Inspector -->
+          <div class="wbModalBody">
+            <div class="wbStageWrap" id="wbStageWrap"></div>
+            <div class="wbInspectorDrawer" id="wbInspectorDrawer">
+              <div class="wbInspectorEmpty" id="wbInspectorEmpty">
+                <span style="font-size:2rem;">👈</span>
+                <span>Wähle einen Knoten oder ein Kapitel im Wissensbaum aus, um Details, Buchseiten und Trainingsmöglichkeiten anzuzeigen.</span>
+              </div>
+              <div class="wbInspectorContent" id="wbInspectorContent" style="display:none;"></div>
+            </div>
+          </div>
+
+          <!-- Adaptiver Lernmodus Konfigurator (Modal-Overlay) -->
+          <div class="wbAdaptiveModal" id="wbAdaptiveModal">
+            <div class="wbAdaptiveBox">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; color:#38bdf8; font-size:1.15rem;">🚀 Adaptives Lernmodus-Training</h3>
+                <button type="button" class="wbCloseBtn" id="wbAdaptiveCloseBtn">✕</button>
+              </div>
+              <p style="margin:0; font-size:0.84rem; color:#cbd5e1; line-height:1.45;">
+                Das adaptive Training wählt Fragen live nach deinem Wissensstand: <b>60 % Lücken</b>, <b>30 % Festigen</b> und <b>10 % Wiederholungen</b>.
+              </p>
+              
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; color:#94a3b8; display:block; margin-bottom:6px;">SITZUNGSZIEL</label>
+                <div class="wbChipGroup" id="wbZielChips">
+                  <button type="button" class="wbChip akt" data-ziel="fragen:20">20 Fragen</button>
+                  <button type="button" class="wbChip" data-ziel="fragen:40">40 Fragen</button>
+                  <button type="button" class="wbChip" data-ziel="minuten:15">15 Minuten</button>
+                  <button type="button" class="wbChip" data-ziel="minuten:30">30 Minuten</button>
+                  <button type="button" class="wbChip" data-ziel="offen:0">Offen (Endlos)</button>
+                </div>
+              </div>
+
+              <div>
+                <label style="font-size:0.8rem; font-weight:700; color:#94a3b8; display:block; margin-bottom:6px;">VERSTÄNDNISFRAGEN (FREITEXT MIT KI)</label>
+                <div class="wbChipGroup" id="wbFreiChips">
+                  <button type="button" class="wbChip" data-frei="wenig">Wenig</button>
+                  <button type="button" class="wbChip akt" data-frei="normal">Normal (ab Festigung)</button>
+                  <button type="button" class="wbChip" data-frei="viel">Viel (intensiv)</button>
+                </div>
+              </div>
+
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" id="wbCheckEinstufung" style="cursor:pointer; width:16px; height:16px;">
+                <label for="wbCheckEinstufung" style="font-size:0.84rem; color:#e2e8f0; cursor:pointer;">Kurze Einstufung vorweg durchführen</label>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                <button type="button" class="ghost" id="wbResetLernstandBtn" style="font-size:0.78rem; padding:6px 10px; color:#ef4444; border-color:#7f1d1d;">Lernstand zurücksetzen</button>
+                <button type="button" class="primary wbLaunchBtn" id="wbStartFinalBtn" style="font-size:0.95rem; padding:10px 20px;">Los geht's ➔</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      // Event Listener
+      document.getElementById("wbCloseBtn").onclick = () => this.schliessen();
+      modal.onclick = (e) => { if (e.target === modal) this.schliessen(); };
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("offen")) {
+          const adModal = document.getElementById("wbAdaptiveModal");
+          if (adModal && adModal.classList.contains("offen")) {
+            adModal.classList.remove("offen");
+          } else {
+            this.schliessen();
+          }
+        }
+      });
+
+      // View Toggle
+      document.getElementById("wbBtnRadial").onclick = () => {
+        document.getElementById("wbBtnRadial").classList.add("akt");
+        document.getElementById("wbBtnDendro").classList.remove("akt");
+        this.aktAnsicht = "radial";
+        this.rendereAnsicht();
+      };
+      document.getElementById("wbBtnDendro").onclick = () => {
+        document.getElementById("wbBtnDendro").classList.add("akt");
+        document.getElementById("wbBtnRadial").classList.remove("akt");
+        this.aktAnsicht = "dendro";
+        this.rendereAnsicht();
+      };
+
+      // Quiz Launch Modal Toggle
+      document.getElementById("wbLaunchQuizBtn").onclick = () => {
+        document.getElementById("wbAdaptiveModal").classList.add("offen");
+      };
+      document.getElementById("wbAdaptiveCloseBtn").onclick = () => {
+        document.getElementById("wbAdaptiveModal").classList.remove("offen");
+      };
+
+      // Chips Selection
+      const initChips = (containerId) => {
+        const c = document.getElementById(containerId);
+        if (!c) return;
+        c.querySelectorAll(".wbChip").forEach((chip) => {
+          chip.onclick = () => {
+            c.querySelectorAll(".wbChip").forEach((x) => x.classList.remove("akt"));
+            chip.classList.add("akt");
+          };
+        });
+      };
+      initChips("wbZielChips");
+      initChips("wbFreiChips");
+
+      // Reset Button
+      document.getElementById("wbResetLernstandBtn").onclick = () => {
+        if (confirm("Lernstand in diesem Browser wirklich zurücksetzen?")) {
+          if (typeof store !== "undefined" && typeof KLP !== "undefined") {
+            store.set(KLP, {});
+          }
+          this.rendereAnsicht();
+          document.getElementById("wbAdaptiveModal").classList.remove("offen");
+        }
+      };
+
+      // Start Final
+      document.getElementById("wbStartFinalBtn").onclick = () => {
+        this.starteAdaptivesTraining();
+      };
+    },
+
+    // Lernfeld-Tabs generieren
+    aktualisiereLfTabs: function () {
+      const container = document.getElementById("wbLfTabs");
+      if (!container) return;
+
+      const pool = typeof lpPool === "function" ? lpPool() : [];
+      const lfs = [...new Set(pool.map((q) => (typeof lfVon === "function" ? lfVon(q.kap) : null)))].filter(Boolean).sort();
+      if (!lfs.length) lfs.push("LF03");
+
+      container.innerHTML = lfs.map((lf) => `
+        <button type="button" class="wbLfBtn ${lf === this.aktLf ? "akt" : ""}" data-lf="${lf}">${lf}</button>
+      `).join("");
+
+      container.querySelectorAll(".wbLfBtn").forEach((btn) => {
+        btn.onclick = () => {
+          container.querySelectorAll(".wbLfBtn").forEach((b) => b.classList.remove("akt"));
+          btn.classList.add("akt");
+          this.aktLf = btn.dataset.lf;
+          this.aktThema = null;
+          this.aktKap = null;
+          this.rendereAnsicht();
+        };
+      });
+    },
+
+    // Bereitet alle Daten für das gewählte Lernfeld auf
+    holeLernfeldDaten: function () {
+      const pool = typeof lpPool === "function" ? lpPool() : [];
+      const st = typeof lpStand === "function" ? lpStand() : { themen: {} };
+      const lfPool = pool.filter((q) => (typeof lfVon === "function" ? lfVon(q.kap) === this.aktLf : true));
+
+      // Kapitel ermitteln
+      const kaps = [...new Set(lfPool.map((q) => q.kap))].sort((a, b) => a.localeCompare(b, "de", { numeric: true }));
+
+      // Themen nach Kapitel
+      const themenJeKap = kaps.map((k) => {
+        const themen = [...new Set(lfPool.filter((q) => q.kap === k).map((q) => q.kn))].sort((a, b) => a.localeCompare(b, "de"));
+        return { kap: k, titel: (window.BAUM?.kap?.[k]?.titel || `Kapitel ${k}`), seite: (window.BAUM?.kap?.[k]?.seite || null), themen };
+      });
+
+      // Statistiken
+      const alleThemen = themenJeKap.flatMap((k) => k.themen);
+      const stats = { gesamt: alleThemen.length, sitzt: 0, festigen: 0, luecke: 0, neu: 0 };
+
+      alleThemen.forEach((kn) => {
+        const t = st.themen?.[kn] || {};
+        const s = typeof lpStatus === "function" ? lpStatus(t) : "neu";
+        stats[s] = (stats[s] || 0) + 1;
+      });
+
+      const mastery = stats.gesamt ? Math.round(((stats.sitzt * 1 + stats.festigen * 0.5) / stats.gesamt) * 100) : 0;
+
+      return { kaps, themenJeKap, stats, mastery, st };
+    },
+
+    // Hauptansicht rendern
+    rendereAnsicht: function () {
+      const data = this.holeLernfeldDaten();
+
+      // Sub-Bar aktualisieren
+      const lfTitel = window.BAUM?.lf?.[this.aktLf] || "Grundlagen";
+      const sub = document.getElementById("wbHeaderSubText");
+      if (sub) sub.textContent = `${this.aktLf}: ${lfTitel} · Westermann Grundstufe · ${data.stats.gesamt} Wissensbausteine`;
+
+      document.getElementById("wbMasteryPercent").textContent = `${data.mastery} %`;
+      document.getElementById("wbProgressFill").style.width = `${data.mastery}%`;
+      document.getElementById("wbCountSitzt").textContent = data.stats.sitzt;
+      document.getElementById("wbCountFestigen").textContent = data.stats.festigen;
+      document.getElementById("wbCountLuecke").textContent = data.stats.luecke;
+      document.getElementById("wbCountNeu").textContent = data.stats.neu;
+
+      const stage = document.getElementById("wbStageWrap");
+      if (!stage) return;
+
+      if (this.aktAnsicht === "radial") {
+        this.rendereRadialBaum(stage, data);
+      } else {
+        this.rendereDendroBaum(stage, data);
+      }
+
+      // Falls vorher ein Thema gewählt war, Inspektor behalten, sonst erstes Thema anzeigen
+      if (this.aktThema) {
+        this.zeigeInspector(this.aktThema, this.aktKap);
+      } else if (data.themenJeKap[0]?.themen[0]) {
+        this.zeigeInspector(data.themenJeKap[0].themen[0], data.themenJeKap[0].kap);
+      }
+    },
+
+    // ---------------------------------------------------------------- Radialer Stern-Baum (Holographic SVG)
+    rendereRadialBaum: function (container, data) {
+      const W = 840, H = 840, C = W / 2;
+      const rKap = 185;
+      const rThema = 320;
+
+      const kaps = data.themenJeKap;
+      const breite = (t) => Math.max(t.themen.length, 3);
+      const gesamtBreite = kaps.reduce((a, k) => a + breite(k), 0) || 1;
+
+      let winkel = -Math.PI / 2;
+      let svgPfade = "";
+      let svgKnoten = "";
+      let animIndex = 0;
+
+      const pos = (r, w) => [C + r * Math.cos(w), C + r * Math.sin(w)];
+
+      kaps.forEach((kObj, kIdx) => {
+        const sektor = (2 * Math.PI * breite(kObj)) / gesamtBreite;
+        const mitte = winkel + sektor / 2;
+        const [kx, ky] = pos(rKap, mitte);
+
+        // Kontrollpunkt für weiche Kurve von der Wurzel zum Kapitel
+        const [c1x, c1y] = pos(rKap * 0.45, mitte);
+
+        // Ast Wurzel -> Kapitel
+        const kapBranchId = `branch_kap_${kIdx}`;
+        svgPfade += `
+          <path id="${kapBranchId}" d="M ${C} ${C} Q ${c1x} ${c1y} ${kx} ${ky}" class="wbBranchKap wbAnimatedBranch" data-kap="${kObj.kap}" style="animation-delay:${animIndex * 0.08}s;"/>
+          <path d="M ${C} ${C} Q ${c1x} ${c1y} ${kx} ${ky}" class="wbBranchFlow"/>
+        `;
+        animIndex++;
+
+        // Themen des Kapitels
+        const tLen = kObj.themen.length;
+        kObj.themen.forEach((kn, tIdx) => {
+          const tWinkel = winkel + (sektor * (tIdx + 0.5)) / (tLen || 1);
+          const [tx, ty] = pos(rThema, tWinkel);
+          const [tcx, tcy] = pos(rKap + (rThema - rKap) * 0.5, (mitte + tWinkel) / 2);
+
+          const t = data.st.themen?.[kn] || {};
+          const status = typeof lpStatus === "function" ? lpStatus(t) : "neu";
+          const farbe = this.FARBEN[status];
+
+          // Ast Kapitel -> Thema
+          const themaBranchId = `branch_t_${kIdx}_${tIdx}`;
+          svgPfade += `
+            <path id="${themaBranchId}" d="M ${kx} ${ky} Q ${tcx} ${tcy} ${tx} ${ty}" class="wbBranchThema wbAnimatedBranch" data-kn="${this.esc(kn)}" data-kap="${kObj.kap}" style="animation-delay:${animIndex * 0.03}s;"/>
+          `;
+
+          // Thema Knoten
+          const isAkt = kn === this.aktThema;
+          const hatEinheit = this.findeEinheit(kn) != null;
+          const beacon = status === "luecke" ? `<circle cx="${tx}" cy="${ty}" r="12" class="wbLueckeBeacon"/>` : "";
+          const ring = hatEinheit ? `<circle cx="${tx}" cy="${ty}" r="14" class="wbEinheitRing"/>` : "";
+
+          svgKnoten += `
+            <g class="wbThemaGroup wbAnimatedNode ${isAkt ? "akt" : ""}" data-kn="${this.esc(kn)}" data-kap="${kObj.kap}" style="animation-delay:${animIndex * 0.03 + 0.2}s;" tabindex="0">
+              ${beacon}
+              ${ring}
+              <circle cx="${tx}" cy="${ty}" r="8" fill="${farbe}" class="wbThemaNode"/>
+              <title>${this.esc(kn)} · ${this.NAMEN[status]}</title>
+            </g>
+          `;
+          animIndex++;
+        });
+
+        // Kapitel Knoten
+        const kapMs = kObj.themen.map((kn) => data.st.themen?.[kn]).filter((t) => t && t.n);
+        const kapMastery = kapMs.length ? kapMs.reduce((a, t) => a + t.m, 0) / kapMs.length : 0;
+        const kapFarbe = kapMs.length === 0 ? this.FARBEN.neu : kapMastery >= 0.8 ? this.FARBEN.sitzt : kapMastery >= 0.5 ? this.FARBEN.festigen : this.FARBEN.luecke;
+        const isKapAkt = kObj.kap === this.aktKap;
+
+        // Progress Ring um Kapitelknoten
+        const ringRadius = 18;
+        const ringCirc = 2 * Math.PI * ringRadius;
+        const dashOffset = ringCirc * (1 - kapMastery);
+
+        svgKnoten += `
+          <g class="wbKapGroup ${isKapAkt ? "akt" : ""}" data-kap="${kObj.kap}" style="transform-origin:${kx}px ${ky}px;">
+            <circle cx="${kx}" cy="${ky}" r="18" fill="rgba(15, 23, 42, 0.95)" stroke="${kapFarbe}" class="wbKapCircle ${isKapAkt ? "akt" : ""}"/>
+            <circle cx="${kx}" cy="${ky}" r="${ringRadius}" stroke="${kapFarbe}" class="wbKapProgressRing" style="stroke-dasharray:${ringCirc}; stroke-dashoffset:${dashOffset}; transform-origin:${kx}px ${ky}px;"/>
+            <text x="${kx}" y="${ky}" class="wbKapText">${this.esc(kObj.kap)}</text>
+            <title>Kapitel ${this.esc(kObj.kap)}: ${this.esc(kObj.titel)} (Ø ${Math.round(kapMastery * 100)} %)</title>
+          </g>
+        `;
+
+        winkel += sektor;
+      });
+
+      // Wurzel Knoten (Lernfeld)
+      const wurzelHtml = `
+        <g class="wbRootGroup" style="transform-origin:${C}px ${C}px;">
+          <circle cx="${C}" cy="${C}" r="42" class="wbRootGlow"/>
+          <circle cx="${C}" cy="${C}" r="48" class="wbRootRing"/>
+          <text x="${C}" y="${C}" class="wbRootText">${this.aktLf}</text>
+          <title>${this.aktLf} - ${this.esc(window.BAUM?.lf?.[this.aktLf] || "Lernfeld")}</title>
+        </g>
+      `;
+
+      container.innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" class="wbSvgTree" id="wbSvgCanvas">
+          <defs>
+            <radialGradient id="wbRootGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#0284c7" />
+              <stop offset="80%" stop-color="#034d75" />
+              <stop offset="100%" stop-color="#02293f" />
+            </radialGradient>
+            <linearGradient id="wbBranchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#38bdf8" />
+              <stop offset="100%" stop-color="#0284c7" />
+            </linearGradient>
+          </defs>
+          ${svgPfade}
+          ${svgKnoten}
+          ${wurzelHtml}
+        </svg>
+      `;
+
+      // Event Listener für Klicks und Hover
+      const svg = document.getElementById("wbSvgCanvas");
+      if (!svg) return;
+
+      // Klick auf Thema
+      svg.querySelectorAll(".wbThemaGroup").forEach((g) => {
+        g.onclick = (e) => {
+          e.stopPropagation();
+          const kn = g.dataset.kn;
+          const kap = g.dataset.kap;
+          this.aktThema = kn;
+          this.aktKap = kap;
+          svg.querySelectorAll(".wbThemaGroup").forEach((x) => x.classList.remove("akt"));
+          g.classList.add("akt");
+          this.zeigeInspector(kn, kap);
+        };
+        // Hover: Zweige illuminieren
+        g.onmouseenter = () => {
+          const kn = g.dataset.kn;
+          svg.querySelectorAll(`.wbBranchThema[data-kn="${kn}"]`).forEach((b) => b.classList.add("highlight"));
+          const kap = g.dataset.kap;
+          svg.querySelectorAll(`.wbBranchKap[data-kap="${kap}"]`).forEach((b) => b.classList.add("highlight"));
+        };
+        g.onmouseleave = () => {
+          svg.querySelectorAll(".highlight").forEach((b) => b.classList.remove("highlight"));
+        };
+      });
+
+      // Klick auf Kapitel
+      svg.querySelectorAll(".wbKapGroup").forEach((g) => {
+        g.onclick = (e) => {
+          e.stopPropagation();
+          const kap = g.dataset.kap;
+          this.aktKap = kap;
+          svg.querySelectorAll(".wbKapGroup").forEach((x) => x.classList.remove("akt"));
+          g.classList.add("akt");
+          this.zeigeKapitelInspector(kap);
+        };
+        g.onmouseenter = () => {
+          const kap = g.dataset.kap;
+          svg.querySelectorAll(`.wbBranchKap[data-kap="${kap}"]`).forEach((b) => b.classList.add("highlight"));
+        };
+        g.onmouseleave = () => {
+          svg.querySelectorAll(".highlight").forEach((b) => b.classList.remove("highlight"));
+        };
+      });
+    },
+
+    // ---------------------------------------------------------------- Struktur-Baum (Dendrogramm / Karten)
+    rendereDendroBaum: function (container, data) {
+      let html = `<div class="wbDendroContainer">`;
+
+      data.themenJeKap.forEach((kObj) => {
+        const kapMs = kObj.themen.map((kn) => data.st.themen?.[kn]).filter((t) => t && t.n);
+        const kapMastery = kapMs.length ? Math.round((kapMs.reduce((a, t) => a + t.m, 0) / kapMs.length) * 100) : 0;
+
+        html += `
+          <div class="wbDendroKapCard">
+            <div class="wbDendroKapHeader" data-kap="${kObj.kap}">
+              <div class="wbDendroKapTitle">
+                <span>📁 Kapitel ${this.esc(kObj.kap)}: ${this.esc(kObj.titel)}</span>
+                ${kObj.seite ? `<span style="font-size:0.75rem; color:#94a3b8;">(S. ${kObj.seite})</span>` : ""}
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:0.8rem; font-weight:700; color:#38bdf8;">Ø ${kapMastery} %</span>
+                <span style="font-size:0.75rem; color:#94a3b8;">${kObj.themen.length} Themen</span>
+              </div>
+            </div>
+            <div class="wbDendroThemenGrid">
+              ${kObj.themen.map((kn) => {
+                const t = data.st.themen?.[kn] || {};
+                const status = typeof lpStatus === "function" ? lpStatus(t) : "neu";
+                const isAkt = kn === this.aktThema;
+                const percent = t.n ? Math.round(t.m * 100) : 0;
+                return `
+                  <div class="wbDendroThemaPill ${isAkt ? "akt" : ""}" data-kn="${this.esc(kn)}" data-kap="${kObj.kap}">
+                    <span style="font-size:0.82rem; font-weight:600; color:#f1f5f9; display:flex; align-items:center; gap:6px;">
+                      <i class="wbStatDot ${status}"></i>
+                      ${this.esc(kn)}
+                    </span>
+                    <span style="font-size:0.76rem; color:#94a3b8;">${t.n ? percent + " %" : "–"}</span>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      container.innerHTML = html;
+
+      // Event Listener Dendrogramm
+      container.querySelectorAll(".wbDendroThemaPill").forEach((pill) => {
+        pill.onclick = () => {
+          container.querySelectorAll(".wbDendroThemaPill").forEach((x) => x.classList.remove("akt"));
+          pill.classList.add("akt");
+          const kn = pill.dataset.kn;
+          const kap = pill.dataset.kap;
+          this.aktThema = kn;
+          this.aktKap = kap;
+          this.zeigeInspector(kn, kap);
+        };
+      });
+
+      container.querySelectorAll(".wbDendroKapHeader").forEach((head) => {
+        head.onclick = () => {
+          const kap = head.dataset.kap;
+          this.aktKap = kap;
+          this.zeigeKapitelInspector(kap);
+        };
+      });
+    },
+
+    // ---------------------------------------------------------------- Inspector Drawer
+    zeigeInspector: function (kn, kap) {
+      const empty = document.getElementById("wbInspectorEmpty");
+      const content = document.getElementById("wbInspectorContent");
+      if (!empty || !content) return;
+
+      empty.style.display = "none";
+      content.style.display = "flex";
+
+      const st = typeof lpStand === "function" ? lpStand() : { themen: {} };
+      const t = st.themen?.[kn] || {};
+      const status = typeof lpStatus === "function" ? lpStatus(t) : "neu";
+      const mastery = t.n ? Math.round(t.m * 100) : 0;
+      const antworten = t.n || 0;
+      const fehlschlaege = t.f || 0;
+
+      // Buchseite
+      const seiten = window.BAUM?.themaSeiten?.[kn] || [];
+      const buchInfo = seiten.length ? `Westermann IT-Grundstufe S. ${seiten.join(", ")}` : (window.BAUM?.kap?.[kap]?.seite ? `Westermann Kapitel ${kap} (ab S. ${window.BAUM.kap[kap].seite})` : `Kapitel ${kap}`);
+
+      // Passende Lerneinheit
+      const einheit = this.findeEinheit(kn);
+
+      // Passendes Praxislabor
+      const labor = this.findePraxisLabor(kn);
+
+      content.innerHTML = `
+        <div class="wbInspHeader">
+          <div class="wbInspBadges">
+            <span class="wbInspBadge ${status}">${this.NAMEN[status]}</span>
+            <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">${this.aktLf}</span>
+          </div>
+          <h3 class="wbInspTitle">${this.esc(kn)}</h3>
+          <div class="wbInspKapitel">
+            <span>📖 ${this.esc(buchInfo)}</span>
+          </div>
+        </div>
+
+        <div class="wbInspMetaCard">
+          <div class="wbInspMeterRow">
+            <span style="color:#94a3b8; font-weight:600;">Beherrschungsgrad</span>
+            <b style="color:${this.FARBEN[status]}; font-size:1rem;">${mastery} %</b>
+          </div>
+          <div class="wbInspMeterBar">
+            <div class="wbInspMeterFill" style="width:${mastery}%; background:${this.FARBEN[status]};"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#94a3b8; margin-top:2px;">
+            <span>Antworten: <b>${antworten}</b></span>
+            <span>Fehlversuche: <b>${fehlschlaege}</b></span>
+            <span>Fällig: <b>${t.faellig ? "Bald" : "–"}</b></span>
+          </div>
+        </div>
+
+        <div class="wbInspActions">
+          <!-- 1. 3 Fragen gezielt üben -->
+          <button type="button" class="wbInspBtn primary" id="wbInspBtnTrain">
+            <span style="font-size:1.1rem;">🎯</span>
+            <div>
+              <div>3 gezielte Trainingsfragen</div>
+              <div style="font-size:0.72rem; opacity:0.85; font-weight:400;">Lücke direkt im Quiz schließen</div>
+            </div>
+          </button>
+
+          <!-- 2. KI-Lehrer Einheit -->
+          ${einheit ? `
+            <button type="button" class="wbInspBtn secondary" id="wbInspBtnEinheit" data-einheit="${this.esc(einheit.id)}">
+              <span style="font-size:1.1rem;">🎓</span>
+              <div>
+                <div>Lerneinheit: ${this.esc(einheit.titel)}</div>
+                <div style="font-size:0.72rem; color:#38bdf8; font-weight:400;">Mit KI-Dozent &amp; Handout (${einheit.dauer_min || 20} min)</div>
+              </div>
+            </button>
+          ` : ""}
+
+          <!-- 3. FSRS-Deck -->
+          <button type="button" class="wbInspBtn secondary" id="wbInspBtnFsrs">
+            <span style="font-size:1.1rem;">🧠</span>
+            <div>
+              <div>FSRS-Prüfungskarte trainieren</div>
+              <div style="font-size:0.72rem; color:#a78bfa; font-weight:400;">Spaced-Repetition Langzeitgedächtnis</div>
+            </div>
+          </button>
+
+          <!-- 4. Praxislabor -->
+          ${labor ? `
+            <button type="button" class="wbInspBtn lab" id="wbInspBtnLabor">
+              <span style="font-size:1.1rem;">🧪</span>
+              <div>
+                <div>${this.esc(labor.name)}</div>
+                <div style="font-size:0.72rem; opacity:0.9; font-weight:400;">Praxisfall im interaktiven Labor vertiefen</div>
+              </div>
+            </button>
+          ` : ""}
+        </div>
+      `;
+
+      // Event Listener für Aktionen
+      document.getElementById("wbInspBtnTrain").onclick = () => {
+        this.starteGezieltesThema(kn, kap);
+      };
+
+      const btnEinheit = document.getElementById("wbInspBtnEinheit");
+      if (btnEinheit) {
+        btnEinheit.onclick = () => {
+          this.schliessen();
+          if (typeof window.startVorlesung === "function") {
+            window.startVorlesung(btnEinheit.dataset.einheit);
+          }
+        };
+      }
+
+      document.getElementById("wbInspBtnFsrs").onclick = () => {
+        this.schliessen();
+        if (window.FSRS_DECK && typeof window.FSRS_DECK.oeffneDeckModal === "function") {
+          window.FSRS_DECK.oeffneDeckModal();
+        }
+      };
+
+      const btnLabor = document.getElementById("wbInspBtnLabor");
+      if (btnLabor && labor && labor.fn) {
+        btnLabor.onclick = () => {
+          this.schliessen();
+          labor.fn();
+        };
+      }
+    },
+
+    // Kapitel-Inspektor
+    zeigeKapitelInspector: function (kap) {
+      const empty = document.getElementById("wbInspectorEmpty");
+      const content = document.getElementById("wbInspectorContent");
+      if (!empty || !content) return;
+
+      empty.style.display = "none";
+      content.style.display = "flex";
+
+      const data = this.holeLernfeldDaten();
+      const kObj = data.themenJeKap.find((x) => x.kap === kap) || { kap, titel: `Kapitel ${kap}`, themen: [] };
+      const kapMs = kObj.themen.map((kn) => data.st.themen?.[kn]).filter((t) => t && t.n);
+      const kapMastery = kapMs.length ? Math.round((kapMs.reduce((a, t) => a + t.m, 0) / kapMs.length) * 100) : 0;
+
+      content.innerHTML = `
+        <div class="wbInspHeader">
+          <div class="wbInspBadges">
+            <span class="wbInspBadge festigen">Kapitel ${this.esc(kap)}</span>
+            <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">${this.aktLf}</span>
+          </div>
+          <h3 class="wbInspTitle">${this.esc(kObj.titel)}</h3>
+          <div class="wbInspKapitel">
+            <span>📖 ${kObj.seite ? `Westermann IT-Grundstufe ab S. ${kObj.seite}` : `Kapitel ${kap}`}</span>
+          </div>
+        </div>
+
+        <div class="wbInspMetaCard">
+          <div class="wbInspMeterRow">
+            <span style="color:#94a3b8; font-weight:600;">Kapitel-Beherrschung</span>
+            <b style="color:#38bdf8; font-size:1rem;">${kapMastery} %</b>
+          </div>
+          <div class="wbInspMeterBar">
+            <div class="wbInspMeterFill" style="width:${kapMastery}%; background:#38bdf8;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#94a3b8; margin-top:2px;">
+            <span>Themen im Kapitel: <b>${kObj.themen.length}</b></span>
+            <span>Geprüft: <b>${kapMs.length}</b></span>
+          </div>
+        </div>
+
+        <div class="wbInspActions">
+          <button type="button" class="wbInspBtn primary" id="wbInspBtnTrainKap">
+            <span style="font-size:1.1rem;">🚀</span>
+            <div>
+              <div>Kapitel ${this.esc(kap)} trainieren</div>
+              <div style="font-size:0.72rem; opacity:0.85; font-weight:400;">Adaptives Training für dieses Kapitel</div>
+            </div>
+          </button>
+        </div>
+      `;
+
+      document.getElementById("wbInspBtnTrainKap").onclick = () => {
+        this.starteKapitelTraining(kap);
+      };
+    },
+
+    // ---------------------------------------------------------------- Start-Helfer
+    starteGezieltesThema: function (kn, kap) {
+      this.schliessen();
+      if (typeof lpStarten === "function") {
+        if (typeof stoppeHub === "function") stoppeHub();
+        lpStarten({
+          lf: this.aktLf,
+          kaps: [kap],
+          ziel: { art: "fragen", wert: 3 },
+          frei: "normal",
+          einstufung: false
+        });
+        if (window.S && window.S.lp) {
+          window.S.lp.fokus = { kn, rest: 3 };
+          window.S.lp.einst = [];
+        }
+      }
+    },
+
+    starteKapitelTraining: function (kap) {
+      this.schliessen();
+      if (typeof lpStarten === "function") {
+        if (typeof stoppeHub === "function") stoppeHub();
+        lpStarten({
+          lf: this.aktLf,
+          kaps: [kap],
+          ziel: { art: "fragen", wert: 20 },
+          frei: "normal",
+          einstufung: false
+        });
+      }
+    },
+
+    starteAdaptivesTraining: function () {
+      const modal = document.getElementById("wbAdaptiveModal");
+      if (modal) modal.classList.remove("offen");
+      this.schliessen();
+
+      const aktZielChip = document.querySelector("#wbZielChips .wbChip.akt");
+      const [art, wert] = (aktZielChip ? aktZielChip.dataset.ziel : "fragen:20").split(":");
+
+      const aktFreiChip = document.querySelector("#wbFreiChips .wbChip.akt");
+      const frei = aktFreiChip ? aktFreiChip.dataset.frei : "normal";
+
+      const einstufung = !!document.getElementById("wbCheckEinstufung")?.checked;
+
+      const data = this.holeLernfeldDaten();
+      const kaps = data.kaps;
+
+      if (typeof lpStarten === "function") {
+        if (typeof stoppeHub === "function") stoppeHub();
+        lpStarten({
+          lf: this.aktLf,
+          kaps: kaps.length ? kaps : ["3.1"],
+          ziel: { art, wert: Number(wert) || 0 },
+          frei,
+          einstufung
+        });
+      }
+    },
+
+    // ---------------------------------------------------------------- Didaktische Verknüpfungs-Finder
+    findeEinheit: function (kn) {
+      if (!window.LERNEINHEITEN) return null;
+      const lower = kn.toLowerCase();
+
+      // Direkte Suche in Lerneinheiten nach passenden Lernzielen oder Titeln
+      for (const e of Object.values(window.LERNEINHEITEN)) {
+        if (e.lernziele && e.lernziele.some((z) => z.kn && z.kn.toLowerCase() === lower)) {
+          return e;
+        }
+        if (e.titel && e.titel.toLowerCase().includes(lower)) {
+          return e;
+        }
+        if (e.themen && e.themen.some((t) => t.toLowerCase() === lower)) {
+          return e;
+        }
+      }
+
+      // VlFx einheitenFuer Fallback
+      if (window.VlFx && typeof window.VlFx.einheitenFuer === "function") {
+        const matches = window.VlFx.einheitenFuer([kn]);
+        if (matches && matches.length) return matches[0];
+      }
+
+      return null;
+    },
+
+    findePraxisLabor: function (kn) {
+      const lower = kn.toLowerCase();
+      for (const [key, val] of Object.entries(this.LABOR_MAP)) {
+        if (lower.includes(key)) {
+          return val;
+        }
+      }
+      return null;
+    },
+
+    esc: function (str) {
+      return String(str == null ? "" : str).replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[c]));
+    }
+  };
+
+  window.WISSENSBAUM = WISSENSBAUM;
+})();
+
 
 /* ======================================================================= Antworten prüfen */
 function zahlKandidaten(eingabe) {
@@ -65623,6 +67404,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       </div>
       <div class="hubQuickBtns">
         <button type="button" class="hubBtn iconBtn lueckenBtn" id="hubLueckenBtn" style="display:none;" title="Offene Wissenslücken trainieren">⚡ Wissenslücken</button>
+        <button type="button" class="hubBtn iconBtn" id="hubWissensbaumBtn" title="Dynamischer Wissensbaum &amp; Lernpfad" style="border-color:#10b981;color:#34d399;font-weight:700;">🌳 Wissensbaum</button>
         <button type="button" class="hubBtn iconBtn" id="hubStoffnetzBtn" title="IHK-Stoffnetz &amp; Skill-Tree" style="border-color:#8b5cf6;color:#c4b5fd;font-weight:700;">🕸️ Skill-Tree</button>
         <button type="button" class="hubBtn iconBtn" id="hubFsrsBtn" title="Tägliche FSRS-Prüfungsvorbereitung" style="border-color:#38bdf8;color:#7dd3fc;font-weight:700;">🧠 FSRS-Deck</button>
         <button type="button" class="hubBtn iconBtn" id="hubSandboxBtn" title="Interaktives IT-Labor" style="border-color:#10b981;color:#6ee7b7;font-weight:700;">🧪 IT-Labor</button>
@@ -66364,10 +68146,12 @@ function kursListeHtml() {
     });
   }
 
-  // 2. Wissensbaum (Adaptiver Lernmodus)
+  // 2. Wissensbaum (Modernes Dashboard & Adaptiver Lernmodus)
   function oeffneWissensbaum() {
     schliesseModal();
-    if (typeof lpStartDialog === "function") {
+    if (window.WISSENSBAUM && typeof window.WISSENSBAUM.oeffne === "function") {
+      window.WISSENSBAUM.oeffne();
+    } else if (typeof lpStartDialog === "function") {
       lpStartDialog();
     } else if (typeof lpStarten === "function") {
       stoppeHub();
@@ -67002,6 +68786,13 @@ function kursListeHtml() {
       if (window.SPACED_REP && typeof window.SPACED_REP.starteFehlerTraining === "function") {
         window.SPACED_REP.starteFehlerTraining();
       }
+    };
+  }
+
+  const wbBtn = $("hubWissensbaumBtn");
+  if (wbBtn) {
+    wbBtn.onclick = () => {
+      oeffneWissensbaum();
     };
   }
 
