@@ -10326,7 +10326,7 @@ body.retro .vlWrap .vlPanelToggle:hover:not(:disabled), body.retro .vlWrap .vlTa
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   z-index: 10000;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   opacity: 0;
@@ -10337,6 +10337,7 @@ body.retro .vlWrap .vlPanelToggle:hover:not(:disabled), body.retro .vlWrap .vlTa
 }
 
 .wbModalOverlay.offen {
+  display: flex !important;
   opacity: 1;
   pointer-events: auto;
 }
@@ -10604,12 +10605,14 @@ body.retro .wbLaunchBtn,
   height: 8px;
   border-radius: 50%;
   display: inline-block;
+  position: static !important;
+  flex-shrink: 0;
 }
 
-.wbStatDot.sitzt { background: #10b981; box-shadow: 0 0 6px #10b981; }
-.wbStatDot.festigen { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
-.wbStatDot.luecke { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
-.wbStatDot.neu { background: #64748b; }
+.wbStatDot.st-sitzt, .wbStatDot.sitzt { background: #10b981; box-shadow: 0 0 6px #10b981; }
+.wbStatDot.st-festigen, .wbStatDot.festigen { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+.wbStatDot.st-luecke, .wbStatDot.luecke { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+.wbStatDot.st-neu, .wbStatDot.neu { background: #64748b; }
 
 .wbProgressWrap {
   display: flex;
@@ -10906,6 +10909,9 @@ body.retro .wbLaunchBtn,
 }
 
 .wbInspBadge {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
   font-size: 0.72rem;
   font-weight: 700;
   padding: 3px 8px;
@@ -10914,10 +10920,10 @@ body.retro .wbLaunchBtn,
   text-transform: uppercase;
 }
 
-.wbInspBadge.sitzt { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
-.wbInspBadge.festigen { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
-.wbInspBadge.luecke { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
-.wbInspBadge.neu { background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid #64748b; }
+.wbInspBadge.st-sitzt, .wbInspBadge.sitzt { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+.wbInspBadge.st-festigen, .wbInspBadge.festigen { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+.wbInspBadge.st-luecke, .wbInspBadge.luecke { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+.wbInspBadge.st-neu, .wbInspBadge.neu { background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid #64748b; }
 
 .wbInspTitle {
   font-size: 1.15rem;
@@ -11099,7 +11105,7 @@ body.retro .wbLaunchBtn,
   background: rgba(3, 7, 18, 0.85);
   backdrop-filter: blur(8px);
   z-index: 50;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   opacity: 0;
@@ -11108,6 +11114,7 @@ body.retro .wbLaunchBtn,
 }
 
 .wbAdaptiveModal.offen {
+  display: flex !important;
   opacity: 1;
   pointer-events: auto;
 }
@@ -11197,6 +11204,809 @@ body.retro .wbLaunchBtn,
     height: 260px;
     border-left: none;
     border-top: 1px solid #1e293b;
+  }
+}
+
+
+/* ==========================================================================
+   Wissensbaum In-Game / Lernmodus Modernisierung (body.lp)
+   ========================================================================== */
+
+/* 1. Alten Monster-Kampf & Pixel-Geist ausblenden */
+body.lp #bossBuehne,
+body.lp.retro #bossBuehne,
+body.lp #fxGeist,
+body.lp.retro #fxGeist,
+body.lp .fxGeist,
+body.lp.retro .fxGeist,
+body.lp .fxGeist.an,
+body.lp.retro .fxGeist.an,
+body.lp #fxCanvas,
+body.lp #fxArena {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 2. Hintergrund & Layout auf Slate-Navy / Cyber-Glass umstellen */
+body.lp {
+  background: radial-gradient(circle at 50% 15%, #0f172a 0%, #060913 100%) !important;
+  color: #f1f5f9 !important;
+}
+
+body.lp.retro::before {
+  display: none !important; /* kein Pixel-Pflasterboden im Wissensbaum */
+}
+
+body.lp #game {
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 16px 20px !important;
+  display: grid !important;
+  grid-template-columns: minmax(460px, 1.2fr) minmax(380px, 0.95fr) !important;
+  gap: 22px !important;
+  align-items: start !important;
+}
+
+/* HUD Header in body.lp */
+body.lp .hud.glass {
+  grid-column: 1 / -1;
+  background: rgba(15, 23, 42, 0.92) !important;
+  border: 1px solid #1e293b !important;
+  border-top: 3px solid #38bdf8 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+  color: #f8fafc !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 10px 18px !important;
+}
+
+body.lp .hud #hudTitel {
+  color: #38bdf8 !important;
+  font-weight: 750 !important;
+  font-size: 1.05rem !important;
+}
+
+/* Holographischer Wissens-Banner ueber der Frage */
+#wbQuestBanner {
+  display: none;
+}
+
+body.lp #wbQuestBanner {
+  grid-column: 1 / 2;
+  background: rgba(15, 23, 42, 0.88) !important;
+  border: 1px solid #1e3a5f !important;
+  border-left: 4px solid #38bdf8 !important;
+  border-radius: 12px !important;
+  padding: 12px 18px !important;
+  margin-bottom: 12px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 14px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.25s ease !important;
+}
+
+.wbQuestBanner.wbQuestSuccess {
+  border-color: #10b981 !important;
+  border-left-color: #10b981 !important;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.45) !important;
+  animation: wbQuestPulseSuccess 0.8s ease-in-out;
+}
+
+.wbQuestBanner.wbQuestFail {
+  border-color: #ef4444 !important;
+  border-left-color: #ef4444 !important;
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.45) !important;
+  animation: wbQuestPulseFail 0.6s ease-in-out;
+}
+
+@keyframes wbQuestPulseSuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wbQuestPulseFail {
+  0% { transform: scale(1); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  100% { transform: scale(1); }
+}
+
+.wbQuestLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wbQuestBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+.wbQuestLf {
+  color: #38bdf8;
+  font-weight: 750;
+}
+
+.wbQuestSep {
+  color: #475569;
+  font-size: 0.72rem;
+}
+
+.wbQuestKap {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.wbQuestThema {
+  color: #ffffff;
+  font-weight: 750;
+  font-size: 0.98rem;
+}
+
+.wbQuestMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+
+.wbQuestStatusBadge {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+}
+
+.wbQuestStatusBadge.st-sitzt, .wbQuestStatusBadge.sitzt { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+.wbQuestStatusBadge.st-festigen, .wbQuestStatusBadge.festigen { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+.wbQuestStatusBadge.st-luecke, .wbQuestStatusBadge.luecke { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+.wbQuestStatusBadge.st-neu, .wbQuestStatusBadge.neu { background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid #64748b; }
+
+.wbQuestPill {
+  font-size: 0.7rem;
+  font-weight: 650;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.wbQuestPill.fokus { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+.wbQuestPill.streak { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+.wbQuestPill.einst { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+.wbQuestPill.adaptiv { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+
+.wbQuestRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex: none;
+}
+
+.wbQuestCounter {
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.wbQuestFrageNum b {
+  color: #38bdf8;
+  font-weight: 750;
+}
+
+.wbQuestZiel {
+  color: #64748b;
+  font-size: 0.74rem;
+  margin-left: 2px;
+}
+
+.wbQuestMiniBar {
+  width: 120px;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.wbQuestMiniFill {
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* Frage-Box Modernisierung */
+body.lp .frage.glass,
+body.lp #frageBox {
+  grid-column: 1 / 2;
+  background: #0f172a !important;
+  border: 2px solid #1e293b !important;
+  border-top: 3px solid #38bdf8 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 20px rgba(56, 189, 248, 0.1) !important;
+  padding: 22px 24px !important;
+  color: #f8fafc !important;
+}
+
+body.lp #frageBox .kopf {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-bottom: 14px !important;
+  flex-wrap: wrap !important;
+}
+
+body.lp #frageBox .chip {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid #1e3a5f !important;
+  color: #94a3b8 !important;
+  font-size: 0.76rem !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+}
+
+body.lp #frageBox .chip.t-mc,
+body.lp #frageBox .chip.t-jn,
+body.lp #frageBox .chip.t-rechnen {
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+}
+
+body.lp #frageBox .text {
+  font-size: 1.15rem !important;
+  font-weight: 550 !important;
+  line-height: 1.55 !important;
+  color: #f8fafc !important;
+  margin-bottom: 18px !important;
+}
+
+/* Optionen Buttons in body.lp */
+body.lp #frageBox .opts,
+body.lp #frageBox .jn {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin-top: 14px !important;
+}
+
+body.lp #frageBox .opts button,
+body.lp #frageBox .jn button,
+body.retro.lp #frageBox .opts button,
+body.retro.lp #frageBox .jn button {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid #1e3a5f !important;
+  border-radius: 10px !important;
+  color: #f1f5f9 !important;
+  font-size: 0.98rem !important;
+  min-height: 50px !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  box-shadow: none !important;
+}
+
+body.lp #frageBox .opts button:hover:not(:disabled),
+body.lp #frageBox .jn button:hover:not(:disabled) {
+  background: rgba(30, 58, 95, 0.6) !important;
+  border-color: #38bdf8 !important;
+  transform: translateX(4px) !important;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25) !important;
+}
+
+body.lp #frageBox .taste {
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  border-radius: 6px !important;
+  width: 26px !important;
+  height: 26px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  flex: none !important;
+}
+
+body.lp #frageBox button.richtig,
+body.retro.lp #frageBox button.richtig {
+  background: rgba(16, 185, 129, 0.22) !important;
+  border-color: #10b981 !important;
+  color: #6ee7b7 !important;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.35) !important;
+}
+
+body.lp #frageBox button.falsch,
+body.retro.lp #frageBox button.falsch {
+  background: rgba(239, 68, 68, 0.22) !important;
+  border-color: #ef4444 !important;
+  color: #fca5a5 !important;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.35) !important;
+}
+
+/* Feedback */
+body.lp #fb {
+  margin-top: 16px !important;
+  padding: 14px 18px !important;
+  border-radius: 10px !important;
+  font-size: 0.92rem !important;
+  line-height: 1.5 !important;
+}
+
+body.lp #fb.ok {
+  background: rgba(16, 185, 129, 0.14) !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  border-left: 4px solid #10b981 !important;
+  color: #a7f3d0 !important;
+}
+
+body.lp #fb.bad {
+  background: rgba(239, 68, 68, 0.14) !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  border-left: 4px solid #ef4444 !important;
+  color: #fecaca !important;
+}
+
+/* In-Game Aktionen unten */
+body.lp .aktionen {
+  grid-column: 1 / 2;
+  display: flex !important;
+  gap: 12px !important;
+  margin-top: 14px !important;
+}
+
+body.lp #weiter,
+body.retro.lp #weiter {
+  background: linear-gradient(135deg, #0284c7, #0e7490) !important;
+  border: 1px solid #38bdf8 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  padding: 10px 24px !important;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+}
+
+body.lp #weissnicht,
+body.retro.lp #weissnicht,
+body.lp #abbrechen,
+body.retro.lp #abbrechen {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid #334155 !important;
+  color: #cbd5e1 !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+}
+
+/* Wissensbaum Sidebar #lpPanel */
+body.lp #lpPanel {
+  grid-column: 2 / 3;
+  margin: 0 !important;
+  padding: 16px 18px !important;
+  background: rgba(11, 19, 36, 0.95) !important;
+  border: 1px solid #1e293b !important;
+  border-top: 3px solid #38bdf8 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Aktive Hervorhebung fuer in-game SVG */
+.wbActiveFocusPulse {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 2.5;
+  opacity: 0.9;
+  animation: wbActiveRingPulse 1.8s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes wbActiveRingPulse {
+  0% { r: 10px; opacity: 1; stroke-width: 3px; }
+  60% { r: 24px; opacity: 0.3; stroke-width: 1.5px; }
+  100% { r: 30px; opacity: 0; stroke-width: 0.5px; }
+}
+
+.wbThemaGroup.akt .wbThemaNode {
+  stroke: #ffffff !important;
+  stroke-width: 3.5px !important;
+  filter: drop-shadow(0 0 14px rgba(56, 189, 248, 1)) !important;
+}
+
+/* In-Game SVG Äste & Animationen */
+.wbSvgInGame {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.5));
+}
+
+.wbSvgInGame .wbBranchKap {
+  fill: none;
+  stroke: rgba(56, 189, 248, 0.28);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: all 0.3s ease;
+}
+
+.wbSvgInGame .wbBranchThema {
+  fill: none;
+  stroke: rgba(56, 189, 248, 0.22);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  transition: all 0.3s ease;
+}
+
+.wbSvgInGame .wbBranchActive {
+  stroke: #38bdf8 !important;
+  stroke-width: 2.4 !important;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9)) !important;
+  stroke-dasharray: 6 3;
+  animation: wbBranchDashFlow 1.2s linear infinite;
+}
+
+.wbSvgInGame .wbBranchActiveTheme {
+  stroke: #38bdf8 !important;
+  stroke-width: 2.2 !important;
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 1)) !important;
+  stroke-dasharray: 5 2.5;
+  animation: wbBranchDashFlow 1.2s linear infinite;
+}
+
+@keyframes wbBranchDashFlow {
+  from { stroke-dashoffset: 9; }
+  to { stroke-dashoffset: 0; }
+}
+
+.wbSuccessBloomAnim {
+  fill: none;
+  stroke: #10b981;
+  stroke-width: 3;
+  animation: wbSuccessBloom 1.2s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes wbSuccessBloom {
+  0% { r: 6px; opacity: 1; stroke-width: 3.5px; }
+  60% { r: 24px; opacity: 0.6; stroke-width: 2px; }
+  100% { r: 32px; opacity: 0; stroke-width: 0.5px; }
+}
+
+/* In-Game Sidebar #lpPanel Header & Legende */
+body.lp #lpPanel h3 {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin: 0 0 10px !important;
+  font-size: 0.98rem !important;
+  font-weight: 750 !important;
+  color: #f8fafc !important;
+}
+
+.wbLpProgressBadge {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+body.lp #lpLegende {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin: 8px 0 12px !important;
+}
+
+.wbLpLegendItem {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.74rem;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.wbLpLegendItem i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.wbLpLegendCount {
+  color: #f8fafc;
+  font-weight: 750;
+  margin-left: 2px;
+}
+
+/* Cyber-Tutor Card (#lpGuardianWrap) */
+.wbCyberTutorCard {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid #1e3a5f;
+  border-left: 4px solid #38bdf8;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 10px 0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.wbTutorHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.wbTutorAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #0f172a);
+  border: 2px solid #38bdf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex: none;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.wbTutorMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.wbTutorName {
+  font-weight: 750;
+  color: #f8fafc;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wbTutorRoleTag {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wbTutorSub {
+  color: #64748b;
+  font-size: 0.72rem;
+  margin-top: 1px;
+}
+
+.wbTutorSpeech {
+  font-size: 0.82rem;
+  color: #e2e8f0;
+  line-height: 1.45;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+
+.wbTutorSpeech b {
+  color: #38bdf8;
+  font-weight: 650;
+}
+
+.wbTutorActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wbTutorActionBtn {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 650;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.wbTutorActionBtn:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+/* Kapitel Themenliste (#lpKapitel) */
+.wbLpKopf {
+  font-size: 0.82rem;
+  font-weight: 750;
+  color: #38bdf8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 12px 0 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wbLpThemenListe {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.wbLpZeile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 56px 30px;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.78rem;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.wbLpZeile:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateX(2px);
+}
+
+.wbLpZeile.akt {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: #38bdf8;
+  font-weight: 700;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+}
+
+.wbLpZeileName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wbLpBalken {
+  height: 6px;
+  border-radius: 4px;
+  background: #1e293b;
+  overflow: hidden;
+}
+
+.wbLpBalken i {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.wbLpProzent {
+  color: #94a3b8;
+  font-size: 0.74rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Chat & Form in #lpPanel */
+body.lp #lpChat {
+  background: rgba(15, 23, 42, 0.7) !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 8px !important;
+  padding: 8px 10px !important;
+  max-height: 150px !important;
+  overflow-y: auto !important;
+  margin-top: 6px !important;
+}
+
+body.lp #lpChat .lpMsg {
+  font-size: 0.8rem !important;
+  margin-bottom: 6px !important;
+  line-height: 1.4 !important;
+  color: #cbd5e1 !important;
+}
+
+body.lp #lpChat .lpMsg.du {
+  color: #93c5fd !important;
+  text-align: right !important;
+}
+
+body.lp #lpChat .lpMsg.ki b,
+body.lp #lpChat .lpMsg.coach b {
+  color: #38bdf8 !important;
+}
+
+body.lp #lpChat .lpMsg.warn {
+  color: #fca5a5 !important;
+}
+
+body.lp #lpForm {
+  display: flex !important;
+  gap: 6px !important;
+  margin-top: 8px !important;
+}
+
+body.lp #lpIn {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid #1e3a5f !important;
+  color: #f8fafc !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  font-size: 0.8rem !important;
+  flex: 1 !important;
+}
+
+body.lp #lpForm button {
+  background: #0284c7 !important;
+  border: 1px solid #38bdf8 !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+body.lp #lpTipp {
+  background: rgba(30, 41, 59, 0.7) !important;
+  border: 1px solid #334155 !important;
+  color: #cbd5e1 !important;
+  border-radius: 6px !important;
+  font-size: 0.76rem !important;
+  width: 100% !important;
+  padding: 6px !important;
+  cursor: pointer !important;
+  margin-top: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+body.lp #lpTipp:hover {
+  background: rgba(56, 189, 248, 0.15) !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+}
+
+@media (max-width: 1000px) {
+  body.lp #game {
+    grid-template-columns: 1fr !important;
+  }
+  body.lp #lpPanel {
+    grid-column: 1 / -1 !important;
   }
 }
 
@@ -61671,10 +62481,10 @@ GENERATORS.vlan = function (level) {
                 <span style="font-weight:700; color:#38bdf8;" id="wbMasteryPercent">0 %</span>
                 <div class="wbProgressBar"><div class="wbProgressFill" id="wbProgressFill" style="width:0%"></div></div>
               </div>
-              <span class="wbStatPill"><i class="wbStatDot sitzt"></i><span id="wbCountSitzt">0</span> Gemeistert</span>
-              <span class="wbStatPill"><i class="wbStatDot festigen"></i><span id="wbCountFestigen">0</span> Festigen</span>
-              <span class="wbStatPill"><i class="wbStatDot luecke"></i><span id="wbCountLuecke">0</span> Lücken</span>
-              <span class="wbStatPill"><i class="wbStatDot neu"></i><span id="wbCountNeu">0</span> Neu</span>
+              <span class="wbStatPill"><i class="wbStatDot st-sitzt"></i><span id="wbCountSitzt">0</span> Gemeistert</span>
+              <span class="wbStatPill"><i class="wbStatDot st-festigen"></i><span id="wbCountFestigen">0</span> Festigen</span>
+              <span class="wbStatPill"><i class="wbStatDot st-luecke"></i><span id="wbCountLuecke">0</span> Lücken</span>
+              <span class="wbStatPill"><i class="wbStatDot st-neu"></i><span id="wbCountNeu">0</span> Neu</span>
             </div>
 
             <button type="button" class="wbLaunchBtn" id="wbLaunchQuizBtn">
@@ -62093,7 +62903,7 @@ GENERATORS.vlan = function (level) {
                 return `
                   <div class="wbDendroThemaPill ${isAkt ? "akt" : ""}" data-kn="${this.esc(kn)}" data-kap="${kObj.kap}">
                     <span style="font-size:0.82rem; font-weight:600; color:#f1f5f9; display:flex; align-items:center; gap:6px;">
-                      <i class="wbStatDot ${status}"></i>
+                      <i class="wbStatDot st-${status}"></i>
                       ${this.esc(kn)}
                     </span>
                     <span style="font-size:0.76rem; color:#94a3b8;">${t.n ? percent + " %" : "–"}</span>
@@ -62159,7 +62969,7 @@ GENERATORS.vlan = function (level) {
       content.innerHTML = `
         <div class="wbInspHeader">
           <div class="wbInspBadges">
-            <span class="wbInspBadge ${status}">${this.NAMEN[status]}</span>
+            <span class="wbInspBadge st-${status}">${this.NAMEN[status]}</span>
             <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">${this.aktLf}</span>
           </div>
           <h3 class="wbInspTitle">${this.esc(kn)}</h3>
@@ -62274,7 +63084,7 @@ GENERATORS.vlan = function (level) {
       content.innerHTML = `
         <div class="wbInspHeader">
           <div class="wbInspBadges">
-            <span class="wbInspBadge festigen">Kapitel ${this.esc(kap)}</span>
+            <span class="wbInspBadge st-festigen">Kapitel ${this.esc(kap)}</span>
             <span style="font-size:0.75rem; color:#94a3b8; font-weight:700;">${this.aktLf}</span>
           </div>
           <h3 class="wbInspTitle">${this.esc(kObj.titel)}</h3>
@@ -62399,6 +63209,448 @@ GENERATORS.vlan = function (level) {
       }
 
       return null;
+    },
+
+    aktInGameKap: null,
+
+    // ---------------------------------------------------------------- In-Game Wissensbaum (body.lp)
+    renderInGameTree: function (aktuell, urteil, sObj) {
+      if (sObj) window.S = sObj;
+      const session = sObj || window.S;
+      if (!session || !session.lp) return;
+      const L = session.lp;
+      const st = typeof window.lpStand === "function" ? window.lpStand() : { themen: {} };
+
+      // Relevante Kapitel und Themen
+      const kaps = [...new Set(L.pool.map((q) => q.kap))].filter((k) => L.kaps.includes(k)).sort((a, b) => a.localeCompare(b, "de", { numeric: true }));
+      const themenJeKap = kaps.map((k) => ({
+        kap: k,
+        titel: (window.BAUM?.kap?.[k]?.titel || `Kapitel ${k}`),
+        themen: [...new Set(L.pool.filter((q) => q.kap === k).map((q) => q.kn))].sort((a, b) => a.localeCompare(b, "de"))
+      }));
+
+      // Aktives Kapitel ermitteln
+      let aktKap = aktuell ? (L.pool.find((q) => q.kn === aktuell) || {}).kap : null;
+      if (!aktKap) aktKap = this.aktInGameKap || kaps[0] || "3.1";
+      this.aktInGameKap = aktKap;
+
+      // Einheit-Verknüpfung
+      const mitEinheit = (window.VlFx && window.VlFx.einheitThemen) ?
+        window.VlFx.einheitThemen(themenJeKap.flatMap((k) => k.themen)) :
+        new Set();
+
+      // Globale Stats für dieses Lernfeld berechnen
+      const alleThemen = themenJeKap.flatMap((k) => k.themen);
+      const stats = { gesamt: alleThemen.length, sitzt: 0, festigen: 0, luecke: 0, neu: 0 };
+      alleThemen.forEach((kn) => {
+        const t = st.themen?.[kn] || {};
+        const s = typeof window.lpStatus === "function" ? window.lpStatus(t) : "neu";
+        stats[s] = (stats[s] || 0) + 1;
+      });
+      const totalMastery = stats.gesamt ? Math.round(((stats.sitzt * 1 + stats.festigen * 0.5) / stats.gesamt) * 100) : 0;
+
+      // 1. Holographischer Quest-Banner über der Frage
+      this.aktualisiereQuestBanner(aktuell, aktKap, stats, totalMastery, urteil);
+
+      // 2. In-Game Radial-Baum SVG rendern
+      const lpSvg = document.getElementById("lpSvg");
+      if (lpSvg) {
+        this.rendereInGameSvg(lpSvg, themenJeKap, aktKap, aktuell, urteil, st, mitEinheit);
+      }
+
+      // 3. Legende mit Live-Zählern
+      const lpLeg = document.getElementById("lpLegende");
+      if (lpLeg) {
+        lpLeg.innerHTML = `
+          <div class="wbLpLegendItem" title="Gemeistert: Fest verankert"><i style="background:${this.FARBEN.sitzt}"></i> Gemeistert <span class="wbLpLegendCount">${stats.sitzt}</span></div>
+          <div class="wbLpLegendItem" title="Festigen: Auf gutem Weg"><i style="background:${this.FARBEN.festigen}"></i> Festigen <span class="wbLpLegendCount">${stats.festigen}</span></div>
+          <div class="wbLpLegendItem" title="Wissenslücke: Noch Fehler vorhanden"><i style="background:${this.FARBEN.luecke}"></i> Lücke <span class="wbLpLegendCount">${stats.luecke}</span></div>
+          <div class="wbLpLegendItem" title="Neu: Bisher ungetestet"><i style="background:${this.FARBEN.neu}"></i> Neu <span class="wbLpLegendCount">${stats.neu}</span></div>
+        `;
+      }
+
+      // 4. Fortschrittstext im Sidebar-Header
+      const lpFort = document.getElementById("lpFortschritt");
+      if (lpFort) {
+        const frageText = L.einst.length ?
+          `Einstufung ${L.einstGesamt - L.einst.length} / ${L.einstGesamt}` :
+          `${L.n - L.einstGesamt} Fragen` + (L.zielN ? ` / Ziel ${L.zielN}` : L.zielMin ? ` · ${Math.round((Date.now() - (L.startUeben || Date.now())) / 6e4)} / ${L.zielMin} Min.` : "");
+        lpFort.innerHTML = `<span class="wbLpProgressBadge">${this.esc(frageText)} · <b>${totalMastery}%</b></span>`;
+      }
+
+      // 5. Cyber-Tutor Box (#lpGuardianWrap)
+      this.aktualisiereCyberTutor(aktKap, aktuell, urteil, themenJeKap, st);
+
+      // 6. Kapitel-Themenliste (#lpKapitel)
+      this.aktualisiereKapitelListe(aktKap, aktuell, themenJeKap, st, mitEinheit);
+    },
+
+    aktualisiereQuestBanner: function (aktuell, aktKap, stats, totalMastery, urteil) {
+      const L = window.S?.lp;
+      if (!L) return;
+      const st = typeof window.lpStand === "function" ? window.lpStand() : { themen: {} };
+      const frageBox = document.getElementById("frageBox");
+      if (!frageBox) return;
+
+      let qBanner = document.getElementById("wbQuestBanner");
+      if (!qBanner) {
+        qBanner = document.createElement("div");
+        qBanner.id = "wbQuestBanner";
+        qBanner.className = "wbQuestBanner";
+        frageBox.parentNode.insertBefore(qBanner, frageBox);
+      }
+
+      const themaName = aktuell || window.S?.q?.kn || "Einstufung";
+      const tInfo = st.themen?.[themaName] || {};
+      const tStatus = typeof window.lpStatus === "function" ? window.lpStatus(tInfo) : "neu";
+      const tProzent = tInfo.n ? Math.round(tInfo.m * 100) : 0;
+      const tFarbe = this.FARBEN[tStatus];
+
+      const streak = window.S?.streak || 0;
+      const streakBadge = streak > 1 ? `<span class="wbQuestPill streak">🔥 ${streak}er Serie</span>` : "";
+      const fokusBadge = (L.fokus && L.fokus.rest > 0) ?
+        `<span class="wbQuestPill fokus">🎯 Fokus (${L.fokus.rest} übrig)</span>` :
+        (L.einst && L.einst.length) ?
+          `<span class="wbQuestPill einst">⚡ Einstufung</span>` :
+          `<span class="wbQuestPill adaptiv">🧠 Adaptiv</span>`;
+
+      const kapTitel = (window.BAUM?.kap?.[aktKap] || {}).titel || `Kapitel ${aktKap}`;
+      const frageNum = L.einst.length ? (L.einstGesamt - L.einst.length + 1) : (L.n - L.einstGesamt + 1);
+      const zielText = L.zielN ? `/ ${L.zielN}` : "";
+
+      qBanner.innerHTML = `
+        <div class="wbQuestLeft">
+          <div class="wbQuestBreadcrumb">
+            <span class="wbQuestLf">🌳 ${this.esc(L.lf)}</span>
+            <span class="wbQuestSep">▸</span>
+            <span class="wbQuestKap">Kap. ${this.esc(aktKap)}: ${this.esc(kapTitel)}</span>
+            <span class="wbQuestSep">▸</span>
+            <span class="wbQuestThema">${this.esc(themaName)}</span>
+          </div>
+          <div class="wbQuestMeta">
+            <span class="wbQuestStatusBadge st-${tStatus}">
+              <i style="background:${tFarbe}; width:8px; height:8px; border-radius:50%; display:inline-block;"></i>
+              ${this.NAMEN[tStatus]} (${tProzent}%)
+            </span>
+            ${fokusBadge}
+            ${streakBadge}
+          </div>
+        </div>
+        <div class="wbQuestRight">
+          <div class="wbQuestCounter">
+            <span class="wbQuestFrageNum">Frage <b>${frageNum}</b></span>
+            <span class="wbQuestZiel">${this.esc(zielText)}</span>
+          </div>
+          <div class="wbQuestMiniBar" title="Lernfeld-Meisterschaft: ${totalMastery}%">
+            <div class="wbQuestMiniFill" style="width:${totalMastery}%;"></div>
+          </div>
+        </div>
+      `;
+
+      // Dynamische Reaktionen
+      qBanner.classList.remove("wbQuestSuccess", "wbQuestFail");
+      if (urteil === "richtig") {
+        qBanner.classList.add("wbQuestSuccess");
+        setTimeout(() => qBanner?.classList.remove("wbQuestSuccess"), 1800);
+      } else if (urteil === "falsch" || urteil === "weissnicht") {
+        qBanner.classList.add("wbQuestFail");
+        setTimeout(() => qBanner?.classList.remove("wbQuestFail"), 1800);
+      }
+    },
+
+    rendereInGameSvg: function (container, themenJeKap, aktKap, aktuell, urteil, st, mitEinheit) {
+      const L = window.S?.lp;
+      const W = 380, H = 380, C = W / 2;
+      const rKap = 90;
+      const rThema = 152;
+
+      const breite = (kObj) => Math.max(kObj.themen.length, 3);
+      const gesamtBreite = themenJeKap.reduce((a, k) => a + breite(k), 0) || 1;
+
+      let winkel = -Math.PI / 2;
+      let svgPfade = "";
+      let svgKnoten = "";
+      let animIdx = 0;
+
+      const pos = (r, w) => [C + r * Math.cos(w), C + r * Math.sin(w)];
+
+      themenJeKap.forEach((kObj, kIdx) => {
+        const sektor = (2 * Math.PI * breite(kObj)) / gesamtBreite;
+        const mitte = winkel + sektor / 2;
+        const [kx, ky] = pos(rKap, mitte);
+        const [c1x, c1y] = pos(rKap * 0.45, mitte);
+        const isKapAkt = kObj.kap === aktKap;
+
+        // Ast Wurzel -> Kapitel (weicher Bezier)
+        const kapBranchClass = `wbBranchKap ${isKapAkt ? "wbBranchActive" : ""}`;
+        svgPfade += `<path d="M ${C} ${C} Q ${c1x} ${c1y} ${kx} ${ky}" class="${kapBranchClass}"/>`;
+        if (isKapAkt) {
+          svgPfade += `<path d="M ${C} ${C} Q ${c1x} ${c1y} ${kx} ${ky}" class="wbBranchFlow"/>`;
+        }
+
+        // Themen im Kapitel
+        const tLen = kObj.themen.length;
+        kObj.themen.forEach((kn, tIdx) => {
+          const tWinkel = winkel + (sektor * (tIdx + 0.5)) / (tLen || 1);
+          const [tx, ty] = pos(rThema, tWinkel);
+          const [tcx, tcy] = pos(rKap + (rThema - rKap) * 0.5, (mitte + tWinkel) / 2);
+
+          const t = st.themen?.[kn] || {};
+          const status = typeof window.lpStatus === "function" ? window.lpStatus(t) : "neu";
+          const farbe = this.FARBEN[status];
+          const rad = 4.5 + Math.min(t.n || 0, 8) * 0.4;
+          const isThemaAkt = kn === aktuell;
+
+          // Ast Kapitel -> Thema (weicher Bezier)
+          const themaBranchClass = `wbBranchThema ${isThemaAkt ? "wbBranchActiveTheme" : ""}`;
+          svgPfade += `<path d="M ${kx} ${ky} Q ${tcx} ${tcy} ${tx} ${ty}" class="${themaBranchClass}"/>`;
+          if (isThemaAkt) {
+            svgPfade += `<path d="M ${kx} ${ky} Q ${tcx} ${tcy} ${tx} ${ty}" class="wbBranchFlow"/>`;
+          }
+
+          // Ringe & Animationen
+          let rings = "";
+          if (mitEinheit.has(kn)) {
+            rings += `<circle cx="${tx}" cy="${ty}" r="${rad + 4}" class="wbEinheitRing"/>`;
+          }
+          if (status === "luecke" && !isThemaAkt) {
+            rings += `<circle cx="${tx}" cy="${ty}" r="${rad + 4}" class="wbLueckeBeacon"/>`;
+          }
+
+          if (isThemaAkt) {
+            rings += `<circle cx="${tx}" cy="${ty}" r="${rad + 6}" class="wbActiveFocusPulse"/>`;
+            if (urteil === "richtig") {
+              rings += `<circle cx="${tx}" cy="${ty}" r="${rad + 12}" class="wbSuccessBloomAnim"/>`;
+            } else if (urteil === "falsch" || urteil === "weissnicht") {
+              rings += `<circle cx="${tx}" cy="${ty}" r="${rad + 12}" class="wbLueckeBeacon"/>`;
+            }
+          }
+
+          svgKnoten += `
+            <g class="wbThemaGroup ${isThemaAkt ? "akt" : ""}" data-kn="${this.esc(kn)}" data-kap="${this.esc(kObj.kap)}" tabindex="0">
+              ${rings}
+              <circle cx="${tx}" cy="${ty}" r="${rad + (isThemaAkt ? 2 : 0)}" fill="${farbe}" class="wbThemaNode"/>
+              <title>${this.esc(kn)} · ${this.NAMEN[status]}${t.n ? ` · ${Math.round(t.m * 100)} % (${t.n} Antworten)` : ""}${mitEinheit.has(kn) ? " · Lerneinheit vorhanden" : ""} (Klick: 3 gezielte Fragen)</title>
+            </g>
+          `;
+          animIdx++;
+        });
+
+        // Kapitel Knoten mit Fortschritts-Ring
+        const kapMs = kObj.themen.map((kn) => st.themen?.[kn]).filter((t) => t && t.n);
+        const kapMastery = kapMs.length ? kapMs.reduce((a, t) => a + t.m, 0) / kapMs.length : 0;
+        const kapFarbe = kapMs.length === 0 ? this.FARBEN.neu : kapMastery >= 0.8 ? this.FARBEN.sitzt : kapMastery >= 0.5 ? this.FARBEN.festigen : this.FARBEN.luecke;
+        const ringRadius = 14;
+        const ringCirc = 2 * Math.PI * ringRadius;
+        const dashOffset = ringCirc * (1 - kapMastery);
+
+        svgKnoten += `
+          <g class="wbKapGroup ${isKapAkt ? "akt" : ""}" data-kap="${this.esc(kObj.kap)}" style="transform-origin:${kx}px ${ky}px;">
+            <circle cx="${kx}" cy="${ky}" r="14" fill="#0f172a" stroke="${kapFarbe}" stroke-width="2" class="wbKapCircle ${isKapAkt ? "akt" : ""}"/>
+            <circle cx="${kx}" cy="${ky}" r="${ringRadius}" stroke="${kapFarbe}" class="wbKapProgressRing" style="stroke-dasharray:${ringCirc}; stroke-dashoffset:${dashOffset}; transform-origin:${kx}px ${ky}px;"/>
+            <text x="${kx}" y="${ky}" class="wbKapText" style="font-size:9.5px;">${this.esc(kObj.kap)}</text>
+            <title>Kapitel ${this.esc(kObj.kap)}: ${this.esc(kObj.titel)} (Ø ${Math.round(kapMastery * 100)} %)</title>
+          </g>
+        `;
+
+        winkel += sektor;
+      });
+
+      // Wurzel Knoten (Lernfeld)
+      const wurzelHtml = `
+        <g class="wbRootGroup" style="transform-origin:${C}px ${C}px;">
+          <circle cx="${C}" cy="${C}" r="28" class="wbRootGlow"/>
+          <circle cx="${C}" cy="${C}" r="24" fill="url(#wbRootGradInGame)" stroke="#38bdf8" stroke-width="2.2"/>
+          <text x="${C}" y="${C}" text-anchor="middle" dominant-baseline="central" style="fill:#ffffff; font-weight:800; font-size:11px; pointer-events:none;">${this.esc(L.lf)}</text>
+          <title>${this.esc(L.lf)} - Adaptiver Hologramm-Wissensbaum</title>
+        </g>
+      `;
+
+      const defs = `
+        <defs>
+          <radialGradient id="wbRootGradInGame" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0284c7" />
+            <stop offset="80%" stop-color="#0f172a" />
+            <stop offset="100%" stop-color="#020617" />
+          </radialGradient>
+          <filter id="wbGlowInGame" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+      `;
+
+      container.innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" class="wbSvgInGame" id="wbSvgCanvasInGame" role="img" aria-label="Holographischer Wissensbaum">
+          ${defs}
+          ${svgPfade}
+          ${svgKnoten}
+          ${wurzelHtml}
+        </svg>
+      `;
+
+      // Interaktive Klicks auf Knoten
+      container.querySelectorAll(".wbThemaGroup").forEach((el) => {
+        el.onclick = () => {
+          const kn = el.dataset.kn;
+          if (L) {
+            L.fokus = { kn, rest: 3 };
+            L.einst = [];
+            if (typeof window.lpCoach === "function") {
+              window.lpCoach("coach", `🎯 Fokus gewechselt auf **${this.esc(kn)}** (die nächsten 3 Fragen).`);
+            }
+            const gs = document.getElementById("lpGuardianSpruch");
+            if (gs) gs.innerHTML = `🎯 Alles klar! Wir konzentrieren uns jetzt auf <b>${this.esc(kn)}</b>. Drei Fragen dazu.`;
+            this.renderInGameTree(kn);
+          }
+        };
+      });
+
+      container.querySelectorAll(".wbKapGroup").forEach((el) => {
+        el.onclick = () => {
+          this.aktInGameKap = el.dataset.kap;
+          this.renderInGameTree(aktuell);
+        };
+      });
+    },
+
+    aktualisiereCyberTutor: function (aktKap, aktuell, urteil, themenJeKap, st) {
+      const gw = document.getElementById("lpGuardianWrap");
+      if (!gw) return;
+
+      const kapObj = themenJeKap.find((k) => k.kap === aktKap) || { kap: aktKap, themen: [] };
+      const liste = kapObj.themen;
+      const einheiten = (window.VlFx && window.VlFx.einheitenFuer) ? window.VlFx.einheitenFuer(liste) : [];
+      const tutor = (window.VlFx && window.VlFx.tutorFuer) ?
+        window.VlFx.tutorFuer(einheiten.length ? einheiten[0].id : "kap" + aktKap) :
+        { name: "KI-Lernbegleiter" };
+      const sprHtml = (window.VlFx && window.VlFx.figurHtml) ?
+        window.VlFx.figurHtml("kap" + aktKap, einheiten.length ? einheiten[0].id : "") :
+        `<span style="font-size:24px">🎓</span>`;
+
+      const luecken = liste.filter((kn) => (typeof window.lpStatus === "function" ? window.lpStatus(st.themen?.[kn]) : "neu") === "luecke");
+      const festigen = liste.filter((kn) => (typeof window.lpStatus === "function" ? window.lpStatus(st.themen?.[kn]) : "neu") === "festigen");
+      const sitzt = liste.filter((kn) => (typeof window.lpStatus === "function" ? window.lpStatus(st.themen?.[kn]) : "neu") === "sitzt");
+
+      let bossSpruch = "";
+      if (urteil === "richtig" && aktuell) {
+        bossSpruch = `🎉 Sauber gelöst bei <b>${this.esc(aktuell)}</b>! Der Knoten im Wissensbaum leuchtet auf und deine Meisterschaft wächst.`;
+      } else if ((urteil === "falsch" || urteil === "weissnicht") && aktuell) {
+        bossSpruch = `💡 Bei <b>${this.esc(aktuell)}</b> hakt es noch. Kein Problem: Ich frage dich gleich noch einmal mit einer veränderten Aufgabe.`;
+      } else if (luecken.length > 0) {
+        bossSpruch = `In Kapitel <b>${this.esc(aktKap)}</b> sehe ich noch ${luecken.length} Wissenslücke(n), u. a. bei <b>${this.esc(luecken[0])}</b>. Lass uns das gezielt angehen!`;
+      } else if (festigen.length > 0) {
+        bossSpruch = `Kapitel <b>${this.esc(aktKap)}</b> läuft stabil! ${festigen.length} Themen werden gerade gefestigt und gehen bald ins Langzeitgedächtnis über.`;
+      } else if (sitzt.length === liste.length && liste.length > 0) {
+        bossSpruch = `🏆 Großartig! Alle ${sitzt.length} Wissensbausteine in Kapitel <b>${this.esc(aktKap)}</b> sitzen bombenfest! Nimm dir das nächste Kapitel vor.`;
+      } else {
+        bossSpruch = `Ich bin ${this.esc(tutor.name)}. Willkommen im Wissensbaum! Beantworte die Aufgaben – der Baum passt sich deinem Können in Echtzeit an.`;
+      }
+
+      const labor = this.findePraxisLabor(aktuell || "") || this.findePraxisLabor(aktKap || "");
+      const kPack = (typeof window.kursFuerKapitel === "function") ? window.kursFuerKapitel(aktKap) : null;
+
+      gw.innerHTML = `
+        <div class="wbCyberTutorCard" id="lpGuardianBox">
+          <div class="wbTutorHead">
+            <div class="wbTutorAvatar">${sprHtml}</div>
+            <div class="wbTutorMeta">
+              <div class="wbTutorName"><b>${this.esc(tutor.name)}</b> <span class="wbTutorRoleTag">KI-Tutor</span></div>
+              <div class="wbTutorSub">Kapitel ${this.esc(aktKap)} · ${this.esc((window.BAUM?.kap?.[aktKap] || {}).titel || "")}</div>
+            </div>
+          </div>
+          <div class="wbTutorSpeech">
+            <div id="lpGuardianSpruch">${bossSpruch}</div>
+          </div>
+          <div class="wbTutorActions">
+            ${einheiten.slice(0, 2).map((e) => `<button type="button" class="wbTutorActionBtn lpBtnEinheit" data-einheit="${this.esc(e.id)}">📖 ${this.esc(e.titel)}</button>`).join("")}
+            ${labor ? `<button type="button" class="wbTutorActionBtn wbBtnLabor" id="wbBtnLabor">🔬 ${this.esc(labor.name)}</button>` : ""}
+            <button type="button" class="wbTutorActionBtn" id="lpBtnDuell" title="1v1 Online-Duell">⚡ 1v1 Duell</button>
+            <button type="button" class="wbTutorActionBtn" id="lpBtnRaid" title="Klassen-Raid mit Beamer">📡 Klassen-Raid</button>
+          </div>
+        </div>
+      `;
+
+      // Handlers
+      gw.querySelectorAll(".lpBtnEinheit").forEach((btn) => {
+        btn.onclick = () => {
+          if (typeof window.startVorlesung !== "function") return;
+          if (typeof timer !== "undefined") clearInterval(timer);
+          window.S = null;
+          document.body.classList.remove("lp");
+          window.startVorlesung(btn.dataset.einheit);
+        };
+      });
+
+      const btnLab = gw.querySelector("#wbBtnLabor");
+      if (btnLab && labor) {
+        btnLab.onclick = () => labor.fn();
+      }
+
+      const btnDuell = gw.querySelector("#lpBtnDuell");
+      if (btnDuell) {
+        btnDuell.onclick = () => {
+          if (kPack && window.LIVE_RUNDE) window.LIVE_RUNDE.hostStartKurs({ spielmodus: "duell" }, kPack.id, kPack.stationen.map((_, i) => i));
+        };
+      }
+
+      const btnRaid = gw.querySelector("#lpBtnRaid");
+      if (btnRaid) {
+        btnRaid.onclick = () => {
+          if (kPack && window.LIVE_RUNDE) window.LIVE_RUNDE.hostStartKurs({ spielmodus: "coop" }, kPack.id, kPack.stationen.map((_, i) => i));
+        };
+      }
+    },
+
+    aktualisiereKapitelListe: function (aktKap, aktuell, themenJeKap, st, mitEinheit) {
+      const kPanel = document.getElementById("lpKapitel");
+      if (!kPanel) return;
+
+      const kapObj = themenJeKap.find((k) => k.kap === aktKap) || { kap: aktKap, themen: [] };
+      const liste = kapObj.themen;
+      const kapTitel = (window.BAUM?.kap?.[aktKap] || {}).titel || `Kapitel ${aktKap}`;
+
+      kPanel.innerHTML = `
+        <div class="wbLpKopf">
+          <span>Kapitel ${this.esc(aktKap)}: ${this.esc(kapTitel)}</span>
+          <span class="muted" style="font-size:0.75rem;">${liste.length} Themen</span>
+        </div>
+        <div class="wbLpThemenListe">
+          ${liste.map((kn) => {
+            const t = st.themen?.[kn] || {};
+            const s = typeof window.lpStatus === "function" ? window.lpStatus(t) : "neu";
+            const p = t.n ? Math.round(t.m * 100) : 0;
+            const isAkt = kn === aktuell;
+            const hatE = mitEinheit.has(kn);
+            return `
+              <div class="wbLpZeile ${isAkt ? "akt" : ""}" data-kn="${this.esc(kn)}">
+                <span class="wbLpZeileName" title="${this.esc(kn)}">${hatE ? "📖 " : ""}${this.esc(kn)}</span>
+                <span class="wbLpBalken"><i style="width:${p}%; background:${this.FARBEN[s]}"></i></span>
+                <span class="wbLpProzent">${t.n ? p + "%" : "–"}</span>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+
+      kPanel.querySelectorAll(".wbLpZeile").forEach((el) => {
+        el.onclick = () => {
+          const kn = el.dataset.kn;
+          if (window.S?.lp) {
+            window.S.lp.fokus = { kn, rest: 3 };
+            window.S.lp.einst = [];
+            if (typeof window.lpCoach === "function") {
+              window.lpCoach("coach", `🎯 Fokus gewechselt auf **${this.esc(kn)}**.`);
+            }
+            const gs = document.getElementById("lpGuardianSpruch");
+            if (gs) gs.innerHTML = `🎯 Gut, wir nehmen uns <b>${this.esc(kn)}</b> vor. Drei Fragen dazu.`;
+            this.renderInGameTree(kn);
+          }
+        };
+      });
     },
 
     findePraxisLabor: function (kn) {
@@ -63300,7 +64552,7 @@ function naechste() {
   else if (S.pack.typ === "lernpfad") {                                     // Lernmodus: Frage wird live ausgewählt
     if (lpZielErreicht()) return lpZwischenbilanz();
     q = lpNaechsteFrage(); if (!q) return endGame();
-    S.queue[S.idx] = q; lpBaum(q.kn);
+    S.queue[S.idx] = q; S.q = q; window.S = S; lpBaum(q.kn);
   }
   else {
     if (S.idx >= S.queue.length) { if (S.zeit) { S.queue = S.queue.concat(expandiere(S.pack)); } else return endGame(); }
@@ -63939,6 +65191,7 @@ function lpStarten(opt) {
   S = { pack, queue: [], idx: 0, score: 0, streak: 0, best: 0, antworten: [], zeit: 0, rest: 0, level: 1, ende: false,
         lp: { ...opt, pool, themen, einst, einstGesamt: einst.length, start: Date.now(), n: 0, zielN: opt.ziel.art === "fragen" ? opt.ziel.wert : 0,
               zielMin: opt.ziel.art === "minuten" ? opt.ziel.wert : 0, letzteThemen: [], fokus: null, chat: [], hinweise: new Set(), kiAb: 10, retest: [], varGenutzt: new Set() } };
+  window.S = S;
   $("hudTitel").textContent = pack.titel; $("zeitWrap").classList.add("hidden"); clearInterval(timer);
   document.body.classList.add("lp");
   $("lpPanel").classList.remove("hidden");
@@ -64134,7 +65387,7 @@ function lpNachWertung(q, urteil) {
   const nachher = lpStatus(t);
   lpRegelKommentar(q, t, vorher, nachher, urteil);
   lpRetestPlanen(q, urteil);
-  lpBaum(q.kn);
+  lpBaum(q.kn, urteil);
   if (!L.einst.length && L.n - L.einstGesamt >= L.kiAb) {                        // alle 10 Übungsfragen: Zwischenbilanz (KI, sonst Regel)
     L.kiAb += 10;
     if (KONFIG.kiUrl) lpKi("bilanz"); else lpCoach("coach", lpBilanzText());
@@ -64242,7 +65495,12 @@ function lpFrageSenden() {
 }
 
 // ---------------------------------------------------------------- Wissensbaum (SVG, radial: Lernfeld → Kapitel → Themen)
-function lpBaum(aktuell) {
+function lpBaum(aktuell, urteil) {
+  if (typeof S !== "undefined" && S) window.S = S;
+  if (window.WISSENSBAUM && typeof window.WISSENSBAUM.renderInGameTree === "function") {
+    window.WISSENSBAUM.renderInGameTree(aktuell, urteil, (typeof S !== "undefined" ? S : window.S));
+    return;
+  }
   if (!S || !S.lp) return;
   const L = S.lp, st = lpStand(), W = 360, C = W / 2, r1 = 98, r2 = 158;
   const kaps = [...new Set(L.pool.map((q) => q.kap))].filter((k) => L.kaps.includes(k)).sort((a, b) => a.localeCompare(b, "de", { numeric: true }));
