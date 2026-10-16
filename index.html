@@ -81426,22 +81426,38 @@ function kursListeHtml() {
 
       <div class="modalTrenner">Prüfungsfragen nach Lernfeld &amp; Thema</div>
       <div class="introCodeInputRow" style="margin-bottom:12px">
-        <input type="search" id="hubTestSuche" placeholder="Prüfung suchen (z. B. Subnetting, RAID, LF03) …">
+        <input type="search" id="hubTestSuche" placeholder="Prüfung suchen (z. B. Subnetting, RAID, LF03, Arbeitsbuch) …">
       </div>
-      <div class="modalList" id="hubTestListe">
-        ${alle().filter((p) => p.typ !== "kurs").slice(0, 18).map((p) => `
-          <div class="modalItemCard">
-            <div class="modalItemHeader">
-              <b>${esc(p.titel)}</b>
-              <span class="modalBadge">${(p.fragen || []).length} Fragen</span>
-            </div>
-            <div class="modalItemAktion">
-              <button type="button" class="primary hubTestStartBtn" data-test="${esc(p.id)}">Starten →</button>
-            </div>
-          </div>
-        `).join("")}
-      </div>
+      <div class="modalList" id="hubTestListe"></div>
     `);
+
+    const holePruefPakete = () => {
+      return alle().filter((p) => p.typ !== "kurs" && ((p.fragen && p.fragen.length > 0) || (p.aus && p.aus.length > 0))).sort((a, b) => {
+        const aIhk = (a.id.includes("arbeitsbuch") || a.id.includes("ihk")) ? 1 : 0;
+        const bIhk = (b.id.includes("arbeitsbuch") || b.id.includes("ihk")) ? 1 : 0;
+        if (aIhk !== bIhk) return bIhk - aIhk;
+        return (b.fragen || []).length - (a.fragen || []).length;
+      });
+    };
+
+    const renderTestKarten = (liste) => {
+      if (!liste.length) {
+        return `<div style="padding:16px; text-align:center; color:#94a3b8; font-size:12px;">Keine Prüfungsfragen gefunden. Probiere z. B. „LF03“, „Subnetting“, „RAID“ oder „OSI“.</div>`;
+      }
+      return liste.slice(0, 24).map((p) => `
+        <div class="modalItemCard">
+          <div class="modalItemHeader">
+            <b>${esc(p.titel)}</b>
+            <span class="modalBadge">${(p.fragen || []).length || "Mix"} Fragen</span>
+          </div>
+          <div class="modalItemAktion">
+            <button type="button" class="primary hubTestStartBtn" data-test="${esc(p.id)}">Starten →</button>
+          </div>
+        </div>
+      `).join("");
+    };
+
+    $("hubTestListe").innerHTML = renderTestKarten(holePruefPakete());
 
     const openKompBtn = $("hubTestOpenKompendiumBtn");
     if (openKompBtn) {
@@ -81466,19 +81482,17 @@ function kursListeHtml() {
     const inp = $("hubTestSuche");
     if (inp) {
       inp.oninput = () => {
-        const q = inp.value.toLowerCase().trim();
-        const treffer = alle().filter((p) => p.typ !== "kurs" && p.titel.toLowerCase().includes(q));
-        $("hubTestListe").innerHTML = treffer.slice(0, 18).map((p) => `
-          <div class="modalItemCard">
-            <div class="modalItemHeader">
-              <b>${esc(p.titel)}</b>
-              <span class="modalBadge">${(p.fragen || []).length} Fragen</span>
-            </div>
-            <div class="modalItemAktion">
-              <button type="button" class="primary hubTestStartBtn" data-test="${esc(p.id)}">Starten →</button>
-            </div>
-          </div>
-        `).join("");
+        const rawQ = inp.value.toLowerCase().trim();
+        const q = rawQ.replace(/^lf0?3/, "lf03").replace(/^lf0?2/, "lf02").replace(/^lf0?5/, "lf05").replace(/^lf0?7/, "lf07");
+        const treffer = holePruefPakete().filter((p) => {
+          if (!q) return true;
+          const matchTitle = (p.titel || "").toLowerCase().includes(q) || (p.titel || "").toLowerCase().includes(rawQ);
+          const matchId = (p.id || "").toLowerCase().includes(q) || (p.id || "").toLowerCase().includes(rawQ);
+          const matchOrdner = (p.ordner || []).some(o => o.toLowerCase().includes(q));
+          const matchTopics = (p.fragen || []).some(f => (f.thema || "").toLowerCase().includes(q) || (f.kn || "").toLowerCase().includes(q));
+          return matchTitle || matchId || matchOrdner || matchTopics;
+        });
+        $("hubTestListe").innerHTML = renderTestKarten(treffer);
         bindTestBtns();
       };
     }
@@ -81486,10 +81500,14 @@ function kursListeHtml() {
     function bindTestBtns() {
       modalBody.querySelectorAll(".hubTestStartBtn").forEach((btn) => {
         btn.onclick = () => {
+          const packId = btn.dataset.test;
           schliesseModal();
           stoppeHub();
-          const p = alle().find((x) => x.id === btn.dataset.test);
-          if (p) startGame(p.id);
+          if (typeof window.startGame === "function") {
+            window.startGame(packId);
+          } else if (typeof startGame === "function") {
+            startGame(packId);
+          }
         };
       });
     }
@@ -86350,6 +86368,7 @@ function kursListeHtml() {
       bossId: "GiantBlueSamurai",
       name: "Subnetz-Shogun Katana-Mask",
       bereich: "LF03 - Netzwerke & Subnetting",
+      pruefPakete: ["lf03-arbeitsbuch-subnetting-dns-cli", "lf03-kc-34", "ihk-pruefungsfragen-storage-netzwerk"],
       spriteMeta: erstelleBossMeta("GiantBlueSamurai", "idle", 12, 1.2),
       sprite: A.boss && A.boss.GiantBlueSamurai ? (A.boss.GiantBlueSamurai.idle ? A.boss.GiantBlueSamurai.idle.src : "") : "",
       lore: "Meister der Host-Bits und Präfixe. Schneller als jeder Ping. Schneidet IP-Netze mit geschärftem Katana in mundgerechte Subnetze.",
@@ -86381,6 +86400,7 @@ function kursListeHtml() {
       bossId: "GiantBamboo",
       name: "Kabelsalat-Golem Patch-Terror",
       bereich: "LF03 - Verkabelung & OSI-Schichten",
+      pruefPakete: ["lf03-arbeitsbuch-topologien-medien", "lf03-arbeitsbuch-komponenten-osi-xor", "lf03-2909-verkabelung", "test-2909-topologie-osi"],
       spriteMeta: erstelleBossMeta("GiantBamboo", "idle", 6, 0.9),
       sprite: A.boss && A.boss.GiantBamboo ? (A.boss.GiantBamboo.idle ? A.boss.GiantBamboo.idle.src : "") : "",
       lore: "Hockt in finsteren Server-Schränken und verstrickt strukturierte Verkabelung zu undurchdringlichen Schlingpflanzen.",
@@ -86405,6 +86425,7 @@ function kursListeHtml() {
       bossId: "GiantFrog",
       name: "Der Hexadezimale Krötenkönig",
       bereich: "LF01/LF04 - Zahlensysteme & Logik",
+      pruefPakete: ["kw39-zahlensysteme-mix", "lf05-vf-zahlen", "logik-grundlagen"],
       spriteMeta: erstelleBossMeta("GiantFrog", "idle", 5, 0.8),
       sprite: A.boss && A.boss.GiantFrog ? (A.boss.GiantFrog.idle ? A.boss.GiantFrog.idle.src : (A.boss.GiantFrog.charge ? A.boss.GiantFrog.charge.src : "")) : "",
       lore: "Quakt in purem Binärcode (01001011). Verschluckt unvorsichtige Dezimalzahlen mit Genuss.",
@@ -86428,6 +86449,7 @@ function kursListeHtml() {
       bossId: "DemonCyclop",
       name: "Syntax-Zyklop Dr. Bug",
       bereich: "LF05 - Programmierung & Python",
+      pruefPakete: ["kw39-python-mix", "lf05-vf-programmierung", "python-code-sniper", "python-reihenfolge"],
       spriteMeta: erstelleBossMeta("DemonCyclop", "idle", 5, 0.8),
       sprite: A.boss && A.boss.DemonCyclop ? (A.boss.DemonCyclop.idle ? A.boss.DemonCyclop.idle.src : "") : "",
       lore: "Sein einzelnes Auge erspäht jede vergessene Klammer, fehlerhafte Einrückungen und Off-by-One-Fehler in Millisekunden.",
@@ -86451,6 +86473,7 @@ function kursListeHtml() {
       bossId: "Grey Trex",
       name: "Legacy-Rex Mainframe",
       bereich: "LF02 - Hardware & Speicher",
+      pruefPakete: ["ihk-pruefungsfragen-storage-netzwerk", "lf03-kc-38"],
       spriteMeta: erstelleMonMeta("Grey Trex", 0.8),
       sprite: A.mon ? A.mon["Grey Trex"] : "",
       lore: "Ein gigantischer Dinosaurier aus Lochkarten und Röhrenspeichern. Brüllt lautstark bei jedem I/O-Flaschenhals.",
@@ -86473,6 +86496,7 @@ function kursListeHtml() {
       bossId: "Flam",
       name: "Flammy Firewall",
       bereich: "LF07 - Cyber-Sicherheit & Ports",
+      pruefPakete: ["kw39-netzwerke-grundlagen-mix", "test-2909-ethernet-tcp", "lf03-kc-31-32"],
       spriteMeta: erstelleMonMeta("Flam", 0.8),
       sprite: A.mon ? A.mon["Flam"] : "",
       lore: "Glüht vor Zorn, wenn unautorisierte Pakete an geschlossenen Ports anklopfen.",
@@ -86488,7 +86512,7 @@ function kursListeHtml() {
   <tr><td>25</td><td>SMTP (TCP)</td><td>Simple Mail Transfer Protocol (Mail-Versand)</td></tr>
   <tr><td>53</td><td>DNS (UDP/TCP)</td><td>Domain Name System (Namensauflösung)</td></tr>
   <tr><td>67 / 68</td><td>DHCP (UDP)</td><td>Dynamic Host Configuration (Server 67 / Client 68)</td></tr>
-  <tr><td>80</td><td>HTTP (TCP)</td><td>Hypertext Transfer Protocol (Web unverschlüsselt)</td></tr>
+  <tr><td>80</td><td>HTTP (TCP)</td><td>Hypertext Protocol (Web unverschlüsselt)</td></tr>
   <tr><td>110</td><td>POP3 (TCP)</td><td>Post Office Protocol (Mail-Abruf)</td></tr>
   <tr><td>143</td><td>IMAP (TCP)</td><td>Internet Message Access Protocol</td></tr>
   <tr><td>443</td><td>HTTPS (TCP)</td><td>HTTP Secure (TLS-Verschlüsselt)</td></tr>
@@ -86501,6 +86525,7 @@ function kursListeHtml() {
       bossId: "Dragon",
       name: "Dr. Datenverlust",
       bereich: "LF07 - Cyber-Sicherheit & Backup",
+      pruefPakete: ["lf03-arbeitsbuch-dhcp-poe-troubleshooting", "lf03-kc-39"],
       spriteMeta: erstelleMonMeta("Dragon", 0.8),
       sprite: A.mon ? A.mon["Dragon"] : "",
       lore: "Haucht gefährliche Ransomware und frisst ungesicherte Firmendaten zum Frühstück.",
@@ -86577,6 +86602,10 @@ function kursListeHtml() {
     const cur = KOMPENDIUM_DATEN.find((x) => x.id === gewaehltesMonster);
     if (!cur) return;
 
+    // Finde zugehörige Prüfungs-Pakete aus alle()
+    const allePacks = (typeof alle === "function" ? alle() : (typeof window.alle === "function" ? window.alle() : []));
+    const passendePakete = (cur.pruefPakete || []).map(id => allePacks.find(p => p.id === id)).filter(Boolean);
+
     detailCol.innerHTML = `
       <div class="kompCard">
         <div class="kompCardHeader">
@@ -86592,16 +86621,66 @@ function kursListeHtml() {
         </div>
 
         <div class="kompSpickzettelBox">
-          <div class="spickHeader">
-            <h4>${esc(cur.spickzettelTitel)}</h4>
-            <button type="button" class="primary kompCopyBtn" id="kompCopyBtn">📋 Kopieren</button>
+          <div class="spickHeader" style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+            <h4 style="margin:0;">${esc(cur.spickzettelTitel)}</h4>
+            <div style="display:flex; gap:6px; align-items:center;">
+              ${passendePakete.length > 0 ? `
+                <button type="button" class="primary kompStartExamBtn" id="kompStartExamBtn" style="font-weight:750; background:linear-gradient(135deg, #0284c7, #38bdf8); color:#fff; border:none; border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;" title="Prüfungsfragen zu diesem Thema sofort starten">
+                  🎯 Prüfungsfragen starten ➔
+                </button>
+              ` : ""}
+              <button type="button" class="primary kompCopyBtn" id="kompCopyBtn">📋 Kopieren</button>
+            </div>
           </div>
           <div class="spickContent" id="spickContent">
             ${cur.spickzettel}
           </div>
+
+          ${passendePakete.length > 0 ? `
+            <div class="kompPruefungSection" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(56, 189, 248, 0.25);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:13px; color:#38bdf8; display:flex; align-items:center; gap:6px;">
+                  <span>📝</span> IHK-Prüfungsfragen zu diesem Thema
+                </h4>
+                <span style="font-size:11px; color:#94a3b8;">${passendePakete.length} Tests verfügbar</span>
+              </div>
+              <div class="kompPruefGrid" style="display:grid; gap:6px;">
+                ${passendePakete.map(p => `
+                  <div class="kompPruefCard" style="display:flex; justify-content:space-between; align-items:center; background:rgba(15, 23, 42, 0.75); border:1px solid rgba(56, 189, 248, 0.25); border-radius:8px; padding:8px 12px; gap:8px;">
+                    <div style="min-width:0;">
+                      <b style="display:block; font-size:12px; color:#f8fafc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(p.titel)}</b>
+                      <span style="font-size:10.5px; color:#7dd3fc;">${(p.fragen || []).length} Prüfungsfragen</span>
+                    </div>
+                    <button type="button" class="primary kompStartPackBtn" data-pack="${esc(p.id)}" style="flex-shrink:0; font-size:11.5px; font-weight:750; padding:6px 12px; border-radius:6px; background:#0284c7; color:#fff; border:none; cursor:pointer;">
+                      Starten ➔
+                    </button>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          ` : ""}
         </div>
       </div>
     `;
+
+    function startePruefung(packId) {
+      closeModal();
+      if (typeof window.stoppeHub === "function") window.stoppeHub();
+      if (typeof window.startGame === "function") {
+        window.startGame(packId);
+      } else if (typeof startGame === "function") {
+        startGame(packId);
+      }
+    }
+
+    const startBtn = $("kompStartExamBtn");
+    if (startBtn && passendePakete.length > 0) {
+      startBtn.onclick = () => startePruefung(passendePakete[0].id);
+    }
+
+    detailCol.querySelectorAll(".kompStartPackBtn").forEach(btn => {
+      btn.onclick = () => startePruefung(btn.dataset.pack);
+    });
 
     const copyBtn = $("kompCopyBtn");
     if (copyBtn) {
