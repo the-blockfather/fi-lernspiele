@@ -2795,8 +2795,7 @@ header.top {
   width: 100%;
   height: 100%;
   display: block;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+  image-rendering: auto;
   pointer-events: none !important;
 }
 
@@ -80189,8 +80188,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         triggerHeroCheer(randPose, 1800);
         const wichtel = $("hubWichtelText");
         if (wichtel && window.TOON) {
-          const ch = window.TOON.getChar(cfg().av);
-          wichtel.innerHTML = `<b>${ch.name}:</b> „${ch.motto}“`;
+          const charId = window.TOON.resolveCharId(cfg().av);
+          const ch = window.TOON.getChar(charId);
+          if (ch) {
+            wichtel.innerHTML = `<b>${ch.name}:</b> „${ch.motto}“`;
+          }
         }
       }
     });
@@ -80310,280 +80312,306 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
   /* ---------- Haupt-Animationsloop (Canvas & Ringmenü) ---------- */
   let animRunning = false;
+  let hubRafId = null;
+  const lastGoodHeroImgByChar = {};
+  let lastGoodPetImg = null;
+
   function hubLoop(ts) {
     if (!animRunning || !ctx) return;
+    ts = (typeof ts === "number" && !isNaN(ts)) ? ts : performance.now();
 
-    // 1. Sanfte Feder-Interpolation des Winkels
-    currentAngle += (targetAngle - currentAngle) * 0.18;
+    try {
+      if (isNaN(currentAngle)) currentAngle = 0;
+      if (isNaN(targetAngle)) targetAngle = 0;
 
-    // 2. Canvas Hintergrund löschen & Sternenfeld zeichnen
-    ctx.fillStyle = "#070b14";
-    ctx.fillRect(0, 0, 640, 360);
+      // 1. Sanfte Feder-Interpolation des Winkels
+      currentAngle += (targetAngle - currentAngle) * 0.18;
 
-    // Subtiler Radialgradient im Slate-Navy / Cosmic-Stil
-    const rad = ctx.createRadialGradient(320, 200, 20, 320, 200, 280);
-    rad.addColorStop(0, "rgba(30, 58, 138, 0.35)");
-    rad.addColorStop(0.7, "rgba(15, 23, 42, 0.75)");
-    rad.addColorStop(1, "rgba(7, 11, 20, 1)");
-    ctx.fillStyle = rad;
-    ctx.fillRect(0, 0, 640, 360);
+      // 2. Canvas Hintergrund löschen & Sternenfeld zeichnen
+      ctx.fillStyle = "#070b14";
+      ctx.fillRect(0, 0, 640, 360);
 
-    // Sterne (kristallklar weiß-cyan)
-    STERNE.forEach((st) => {
-      st.twinkle += 0.05;
-      const alpha = 0.35 + 0.55 * Math.sin(st.twinkle);
-      ctx.fillStyle = `rgba(186, 230, 253, ${alpha})`;
-      ctx.fillRect(Math.round(st.x), Math.round(st.y), st.r, st.r);
-    });
+      // Subtiler Radialgradient im Slate-Navy / Cosmic-Stil
+      const rad = ctx.createRadialGradient(320, 200, 20, 320, 200, 280);
+      rad.addColorStop(0, "rgba(30, 58, 138, 0.35)");
+      rad.addColorStop(0.7, "rgba(15, 23, 42, 0.75)");
+      rad.addColorStop(1, "rgba(7, 11, 20, 1)");
+      ctx.fillStyle = rad;
+      ctx.fillRect(0, 0, 640, 360);
 
-    // 3. Magische Bodenplattform / Cyber-Runenkreis unter der Figur
-    const stageW = cv.clientWidth || 640;
-    const stageH = cv.clientHeight || 360;
-    const isMobile = (stageW < 600 || window.innerWidth < 680);
+      // Sterne (kristallklar weiß-cyan)
+      STERNE.forEach((st) => {
+        st.twinkle += 0.05;
+        const alpha = 0.35 + 0.55 * Math.sin(st.twinkle);
+        ctx.fillStyle = `rgba(186, 230, 253, ${alpha})`;
+        ctx.fillRect(Math.round(st.x), Math.round(st.y), st.r, st.r);
+      });
 
-    const cx = 320;
-    const cy = isMobile ? 96 : 115;
-    const pSize = isMobile ? 64 : 54;
-    const platRx = isMobile ? 68 : 56;
-    const platRy = isMobile ? 18 : 16;
+      // 3. Magische Bodenplattform / Cyber-Runenkreis unter der Figur
+      const stageW = cv.clientWidth || 640;
+      const stageH = cv.clientHeight || 360;
+      const isMobile = (stageW < 600 || window.innerWidth < 680);
 
-    ctx.fillStyle = "rgba(15, 23, 42, 0.75)";
-    ctx.beginPath();
-    ctx.ellipse(cx, cy + (isMobile ? 22 : 18), platRx, platRy, 0, 0, 7);
-    ctx.fill();
+      const cx = 320;
+      const cy = isMobile ? 96 : 115;
+      const pSize = isMobile ? 64 : 54;
+      const platRx = isMobile ? 68 : 56;
+      const platRy = isMobile ? 18 : 16;
 
-    // Glühender Magie-Ring (Neon-Cyan)
-    ctx.strokeStyle = "rgba(56, 189, 248, 0.65)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.ellipse(cx, cy + (isMobile ? 22 : 18), (platRx - 7) + Math.sin(ts / 350) * 3, platRy - 2, 0, 0, 7);
-    ctx.stroke();
+      ctx.fillStyle = "rgba(15, 23, 42, 0.75)";
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + (isMobile ? 22 : 18), platRx, platRy, 0, 0, 7);
+      ctx.fill();
 
-    // 4. Spieler & Wichtel auf separater Canvas-Ebene (z-index: 18) zeichnen
-    if (pCtx) {
-      pCtx.clearRect(0, 0, 640, 360);
-      const avName = cfg().av || "robot";
+      // Glühender Magie-Ring (Neon-Cyan)
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.65)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy + (isMobile ? 22 : 18), (platRx - 7) + Math.sin(ts / 350) * 3, platRy - 2, 0, 0, 7);
+      ctx.stroke();
 
-      // Gaze-Tracking in Richtung Mauszeiger
-      if (mouseStage.active) {
-        const dx = mouseStage.x - cx;
-        const dy = mouseStage.y - (cy - 40);
-        const targetGazeX = Math.max(-1, Math.min(1, dx / 200));
-        const targetGazeY = Math.max(-1, Math.min(1, dy / 150));
-        gazeSmoothX += (targetGazeX - gazeSmoothX) * 0.12;
-        gazeSmoothY += (targetGazeY - gazeSmoothY) * 0.12;
-      } else {
-        const wanderX = Math.sin(ts / 1500) * 0.28;
-        const wanderY = Math.cos(ts / 2000) * 0.15;
-        gazeSmoothX += (wanderX - gazeSmoothX) * 0.05;
-        gazeSmoothY += (wanderY - gazeSmoothY) * 0.05;
-      }
+      // 4. Spieler & Wichtel auf separater Canvas-Ebene (z-index: 18) zeichnen
+      if (pCtx) {
+        pCtx.clearRect(0, 0, 640, 360);
+        const avName = cfg().av || "robot";
 
-      let toonGezeichnet = false;
-      if (window.TOON) {
-        const charId = window.TOON.resolveCharId(avName);
-        const toon = window.TOON.getChar(charId);
-        if (toon) {
-          const pose = (heroPoseUntil && ts < heroPoseUntil)
-            ? heroPoseActive
-            : (hoveredIdx >= 0 ? (hoveredIdx % 2 === 0 ? "show" : "think") : "idle");
-          const uri = window.TOON.getPoseUri(charId, pose);
-          const tImg = ladeBild(uri);
-          if (tImg && tImg.complete) {
-            toonGezeichnet = true;
-            const tH = isMobile ? 86 : 96;
-            const tW = Math.round(tH * 0.75);
-            const pedY = cy + (isMobile ? 22 : 18);
+        // Gaze-Tracking in Richtung Mauszeiger
+        if (mouseStage.active) {
+          const dx = mouseStage.x - cx;
+          const dy = mouseStage.y - (cy - 40);
+          const targetGazeX = Math.max(-1, Math.min(1, dx / 200));
+          const targetGazeY = Math.max(-1, Math.min(1, dy / 150));
+          gazeSmoothX += (targetGazeX - gazeSmoothX) * 0.12;
+          gazeSmoothY += (targetGazeY - gazeSmoothY) * 0.12;
+        } else {
+          const wanderX = Math.sin(ts / 1500) * 0.28;
+          const wanderY = Math.cos(ts / 2000) * 0.15;
+          gazeSmoothX += (wanderX - gazeSmoothX) * 0.05;
+          gazeSmoothY += (wanderY - gazeSmoothY) * 0.05;
+        }
+        if (isNaN(gazeSmoothX)) gazeSmoothX = 0;
+        if (isNaN(gazeSmoothY)) gazeSmoothY = 0;
 
-            // Living Idle Transforms:
-            // 1. Atmung (Squash & Stretch: sanftes Heben des Brustkorbs)
-            const breathPhase = Math.sin(ts / 360);
-            const breathScaleY = 1.0 + breathPhase * 0.024;
-            const breathScaleX = 1.0 - breathPhase * 0.015;
+        const bob = Math.round(Math.sin(ts / 360) * 2);
+        let toonGezeichnet = false;
 
-            // 2. Körperneigung in Richtung des Mauszeigers (Living Body Sway)
-            const bodyLean = (gazeSmoothX * 0.042) + Math.sin(ts / 650) * 0.016;
-            const bob = Math.round(Math.sin(ts / 360) * 2);
-
-            pCtx.save();
-            pCtx.imageSmoothingEnabled = true;
-            pCtx.imageSmoothingQuality = "high";
-
-            // Translation auf Podestmitte (Füße des Helden)
-            pCtx.translate(cx, pedY);
-
-            // Dynamischer Helden-Aura-Ring unter den Füßen (leuchtet in Heldenfarbe)
-            pCtx.save();
-            pCtx.strokeStyle = toon.color || "#38bdf8";
-            pCtx.lineWidth = 1.6;
-            pCtx.shadowColor = toon.color || "#38bdf8";
-            pCtx.shadowBlur = 10;
-            pCtx.beginPath();
-            pCtx.ellipse(0, 0, (tW * 0.45) + Math.sin(ts / 280) * 2, 6, 0, 0, Math.PI * 2);
-            pCtx.stroke();
-            pCtx.restore();
-
-            // Weicher Schatten unter den Füßen
-            pCtx.fillStyle = "rgba(0, 0, 0, 0.42)";
-            pCtx.beginPath();
-            pCtx.ellipse(0, 1, tW * 0.4, 5, 0, 0, Math.PI * 2);
-            pCtx.fill();
-
-            // Rotation & Atmungsskalierung um die Füße
-            pCtx.rotate(bodyLean);
-            pCtx.scale(breathScaleX, breathScaleY);
-
-            // Lokale Zeichnung des Toon-Helden
-            const drawX = -Math.round(tW / 2) + Math.round(gazeSmoothX * 2);
-            const drawY = -tH + 6 + bob;
-            pCtx.drawImage(tImg, drawX, drawY, tW, tH);
-
-            // Natürlicher Lidschlag & Augen-Tracking in Mausrichtung
-            const blinkCycle = (ts + 300) % 3600;
-            const isBlinking = (blinkCycle < 140);
-            drawToonFaceOverlays(pCtx, charId, drawX, drawY, tW, tH, gazeSmoothX, gazeSmoothY, isBlinking);
-
-            // Freigeschaltetes Cosmetic-Accessoire auf Kopf zeichnen (vektorbasiert, perfekt skaliert)
-            const hat = (cfg().cosmetics || {}).hat;
-            if (hat) {
-              drawToonCosmetics(pCtx, hat, drawX, drawY, tW, tH, gazeSmoothX, gazeSmoothY, ts);
+        if (window.TOON) {
+          const charId = window.TOON.resolveCharId(avName);
+          const toon = window.TOON.getChar(charId);
+          if (toon) {
+            const pose = (heroPoseUntil && ts < heroPoseUntil)
+              ? heroPoseActive
+              : (hoveredIdx >= 0 ? (hoveredIdx % 2 === 0 ? "show" : "think") : "idle");
+            const uri = window.TOON.getPoseUri(charId, pose);
+            const tImg = ladeBild(uri);
+            const activeImg = (tImg && tImg.complete) ? tImg : (lastGoodHeroImgByChar[charId] && lastGoodHeroImgByChar[charId].complete ? lastGoodHeroImgByChar[charId] : null);
+            if (tImg && tImg.complete) {
+              lastGoodHeroImgByChar[charId] = tImg;
             }
 
+            if (activeImg) {
+              toonGezeichnet = true;
+              const tH = isMobile ? 86 : 96;
+              const tW = Math.round(tH * 0.75);
+              const pedY = cy + (isMobile ? 22 : 18);
+
+              // Living Idle Transforms:
+              // 1. Atmung (Squash & Stretch: sanftes Heben des Brustkorbs)
+              const breathPhase = Math.sin(ts / 360);
+              const breathScaleY = 1.0 + breathPhase * 0.024;
+              const breathScaleX = 1.0 - breathPhase * 0.015;
+
+              // 2. Körperneigung in Richtung des Mauszeigers (Living Body Sway)
+              const bodyLean = (gazeSmoothX * 0.042) + Math.sin(ts / 650) * 0.016;
+
+              pCtx.save();
+              pCtx.imageSmoothingEnabled = true;
+              pCtx.imageSmoothingQuality = "high";
+
+              // Translation auf Podestmitte (Füße des Helden)
+              pCtx.translate(cx, pedY);
+
+              // Dynamischer Helden-Aura-Ring unter den Füßen (leuchtet in Heldenfarbe)
+              pCtx.save();
+              pCtx.strokeStyle = toon.color || "#38bdf8";
+              pCtx.lineWidth = 1.6;
+              pCtx.shadowColor = toon.color || "#38bdf8";
+              pCtx.shadowBlur = 10;
+              pCtx.beginPath();
+              pCtx.ellipse(0, 0, (tW * 0.45) + Math.sin(ts / 280) * 2, 6, 0, 0, Math.PI * 2);
+              pCtx.stroke();
+              pCtx.restore();
+
+              // Weicher Schatten unter den Füßen
+              pCtx.fillStyle = "rgba(0, 0, 0, 0.42)";
+              pCtx.beginPath();
+              pCtx.ellipse(0, 1, tW * 0.4, 5, 0, 0, Math.PI * 2);
+              pCtx.fill();
+
+              // Rotation & Atmungsskalierung um die Füße
+              pCtx.rotate(bodyLean);
+              pCtx.scale(breathScaleX, breathScaleY);
+
+              // Lokale Zeichnung des Toon-Helden
+              const drawX = -Math.round(tW / 2) + Math.round(gazeSmoothX * 2);
+              const drawY = -tH + 6 + bob;
+              pCtx.drawImage(activeImg, drawX, drawY, tW, tH);
+
+              // Natürlicher Lidschlag & Augen-Tracking in Mausrichtung
+              const blinkCycle = (ts + 300) % 3600;
+              const isBlinking = (blinkCycle < 140);
+              drawToonFaceOverlays(pCtx, charId, drawX, drawY, tW, tH, gazeSmoothX, gazeSmoothY, isBlinking);
+
+              // Freigeschaltetes Cosmetic-Accessoire auf Kopf zeichnen (vektorbasiert, perfekt skaliert)
+              const hat = (cfg().cosmetics || {}).hat;
+              if (hat) {
+                drawToonCosmetics(pCtx, hat, drawX, drawY, tW, tH, gazeSmoothX, gazeSmoothY, ts);
+              }
+
+              pCtx.restore();
+            }
+          }
+        }
+
+        if (!toonGezeichnet) {
+          const avImg = ladeBild(A.chars[avName] || A.chars.Knight);
+          if (avImg && avImg.complete) {
+            const walkFrame = Math.floor(ts / 240) % 4;
+            const pDrawX = cx - Math.round(pSize / 2);
+            const pDrawY = cy - Math.round(pSize * 0.65) + bob;
+            pCtx.drawImage(
+              avImg,
+              0, walkFrame * 16, 16, 16,
+              pDrawX, pDrawY, pSize, pSize
+            );
+
+            // Freigeschaltetes Cosmetic-Accessoire auf Kopf zeichnen
+            const hat = (cfg().cosmetics || {}).hat;
+            const hatBaseY = pDrawY + Math.round(pSize * 0.08);
+            if (hat === "crown") {
+              pCtx.fillStyle = "#ffd700";
+              pCtx.fillRect(cx - 10, hatBaseY - 6, 20, 6);
+              pCtx.fillRect(cx - 10, hatBaseY - 10, 4, 4);
+              pCtx.fillRect(cx - 2, hatBaseY - 11, 4, 5);
+              pCtx.fillRect(cx + 6, hatBaseY - 10, 4, 4);
+            } else if (hat === "glasses") {
+              pCtx.fillStyle = "#111";
+              pCtx.fillRect(cx - 10, hatBaseY + 12, 20, 5);
+              pCtx.fillStyle = "#00e5ff";
+              pCtx.fillRect(cx - 8, hatBaseY + 13, 5, 2);
+              pCtx.fillRect(cx + 3, hatBaseY + 13, 5, 2);
+            } else if (hat === "cap") {
+              pCtx.fillStyle = "#1f2937";
+              pCtx.fillRect(cx - 16, hatBaseY - 6, 32, 4);
+              pCtx.fillRect(cx - 8, hatBaseY - 2, 16, 4);
+              pCtx.fillStyle = "#f59e0b";
+              pCtx.fillRect(cx + 12, hatBaseY - 4, 2, 7);
+            }
+          }
+        }
+
+        // 5. IT-Begleiter (Cube-Pet / KIS-Wichtel) schwebend neben dem Spieler
+        let petGezeichnet = false;
+        const petId = cfg().pet || "cyber_fox";
+        if (window.TOON && window.TOON.getPetUri) {
+          const petUri = window.TOON.getPetUri(petId);
+          const pImg = ladeBild(petUri);
+          const activePetImg = (pImg && pImg.complete) ? pImg : (lastGoodPetImg && lastGoodPetImg.complete ? lastGoodPetImg : null);
+          if (pImg && pImg.complete) {
+            lastGoodPetImg = pImg;
+          }
+          if (activePetImg) {
+            petGezeichnet = true;
+            const petSize = isMobile ? 38 : 34;
+            const pBob = Math.round(Math.sin(ts / 280) * 5);
+            const px = cx + (isMobile ? 42 : 36);
+            const py = cy - (isMobile ? 54 : 48) + pBob;
+
+            pCtx.save();
+            // Weicher Schatten auf dem Podest
+            pCtx.fillStyle = "rgba(0, 0, 0, 0.38)";
+            pCtx.beginPath();
+            pCtx.ellipse(px + petSize / 2, cy + (isMobile ? 18 : 14), petSize * 0.4, 4, 0, 0, Math.PI * 2);
+            pCtx.fill();
+
+            // Pet zeichnen mit schwebendem Bobbing
+            pCtx.drawImage(activePetImg, px, py, petSize, petSize);
+
+            // Magische Glitzerfunken um das Pet
+            const spA = 0.5 + 0.5 * Math.sin(ts / 200);
+            pCtx.fillStyle = `rgba(56, 189, 248, ${spA})`;
+            pCtx.fillRect(px + 12 + Math.sin(ts / 240) * 14, py + 16 + Math.cos(ts / 240) * 10, 2.5, 2.5);
+            pCtx.fillStyle = `rgba(255, 255, 255, ${spA * 0.8})`;
+            pCtx.fillRect(px + 6 + Math.cos(ts / 180) * 10, py + 8 + Math.sin(ts / 180) * 8, 2, 2);
             pCtx.restore();
           }
         }
-      }
 
-      if (!toonGezeichnet) {
-        const avImg = ladeBild(A.chars[avName] || A.chars.Knight);
-        if (avImg && avImg.complete) {
-          const walkFrame = Math.floor(ts / 240) % 4;
-          const pDrawX = cx - Math.round(pSize / 2);
-          const pDrawY = cy - Math.round(pSize * 0.65) + bob;
-          pCtx.drawImage(
-            avImg,
-            0, walkFrame * 16, 16, 16,
-            pDrawX, pDrawY, pSize, pSize
-          );
+        if (!petGezeichnet) {
+          const wiImg = ladeBild(A.spirit);
+          const wiBob = Math.round(Math.sin(ts / 300) * 5);
+          const wSize = isMobile ? 32 : 28;
+          const wx = cx + (isMobile ? 44 : 38), wy = cy - (isMobile ? 50 : 44) + wiBob;
 
-          // Freigeschaltetes Cosmetic-Accessoire auf Kopf zeichnen
-          const hat = (cfg().cosmetics || {}).hat;
-          const hatBaseY = pDrawY + Math.round(pSize * 0.08);
-          if (hat === "crown") {
-            pCtx.fillStyle = "#ffd700";
-            pCtx.fillRect(cx - 10, hatBaseY - 6, 20, 6);
-            pCtx.fillRect(cx - 10, hatBaseY - 10, 4, 4);
-            pCtx.fillRect(cx - 2, hatBaseY - 11, 4, 5);
-            pCtx.fillRect(cx + 6, hatBaseY - 10, 4, 4);
-          } else if (hat === "glasses") {
-            pCtx.fillStyle = "#111";
-            pCtx.fillRect(cx - 10, hatBaseY + 12, 20, 5);
-            pCtx.fillStyle = "#00e5ff";
-            pCtx.fillRect(cx - 8, hatBaseY + 13, 5, 2);
-            pCtx.fillRect(cx + 3, hatBaseY + 13, 5, 2);
-          } else if (hat === "cap") {
-            pCtx.fillStyle = "#1f2937";
-            pCtx.fillRect(cx - 16, hatBaseY - 6, 32, 4);
-            pCtx.fillRect(cx - 8, hatBaseY - 2, 16, 4);
-            pCtx.fillStyle = "#f59e0b";
-            pCtx.fillRect(cx + 12, hatBaseY - 4, 2, 7);
+          if (wiImg && wiImg.complete) {
+            const wFrame = Math.floor(ts / 180) % 4;
+            pCtx.drawImage(
+              wiImg,
+              0, wFrame * 16, 16, 16,
+              wx, wy, wSize, wSize
+            );
+
+            // Magische Glitzerfunken um den Wichtel
+            const spA = 0.5 + 0.5 * Math.sin(ts / 200);
+            pCtx.fillStyle = `rgba(180, 240, 255, ${spA})`;
+            pCtx.fillRect(wx + 10 + Math.sin(ts / 250) * 12, wy + 14 + Math.cos(ts / 250) * 8, 2, 2);
           }
         }
       }
 
-      // 5. IT-Begleiter (Cube-Pet / KIS-Wichtel) schwebend neben dem Spieler
-      let petGezeichnet = false;
-      const petId = cfg().pet || "cyber_fox";
-      if (window.TOON && window.TOON.getPetUri) {
-        const petUri = window.TOON.getPetUri(petId);
-        const pImg = ladeBild(petUri);
-        if (pImg && pImg.complete) {
-          petGezeichnet = true;
-          const pSize = isMobile ? 38 : 34;
-          const pBob = Math.round(Math.sin(ts / 280) * 5);
-          const px = cx + (isMobile ? 42 : 36);
-          const py = cy - (isMobile ? 54 : 48) + pBob;
+      // 6. DOM Ringknoten im 2.5D Orbit positionieren
+      const rx = isMobile ? Math.min(150, stageW * 0.38) : Math.min(260, stageW * 0.36);
+      const ry = isMobile ? Math.min(40, stageH * 0.135) : Math.min(70, stageH * 0.17);
+      const nodeCx = stageW / 2;
+      const nodeCy = isMobile ? Math.round(stageH * 0.52) : Math.round(stageH * 0.52);
 
-          pCtx.save();
-          // Weicher Schatten auf dem Podest
-          pCtx.fillStyle = "rgba(0, 0, 0, 0.38)";
-          pCtx.beginPath();
-          pCtx.ellipse(px + pSize / 2, cy + (isMobile ? 18 : 14), pSize * 0.4, 4, 0, 0, Math.PI * 2);
-          pCtx.fill();
+      RING_ITEMS.forEach((_, idx) => {
+        const btn = $(`ringNode_${idx}`);
+        if (!btn) return;
 
-          // Pet zeichnen mit schwebendem Bobbing
-          pCtx.drawImage(pImg, px, py, pSize, pSize);
+        const theta = currentAngle + idx * STEP_ANGLE;
+        const x = nodeCx + rx * Math.sin(theta);
+        const y = nodeCy + ry * Math.cos(theta);
 
-          // Magische Glitzerfunken um das Pet
-          const spA = 0.5 + 0.5 * Math.sin(ts / 200);
-          pCtx.fillStyle = `rgba(56, 189, 248, ${spA})`;
-          pCtx.fillRect(px + 12 + Math.sin(ts / 240) * 14, py + 16 + Math.cos(ts / 240) * 10, 2.5, 2.5);
-          pCtx.fillStyle = `rgba(255, 255, 255, ${spA * 0.8})`;
-          pCtx.fillRect(px + 6 + Math.cos(ts / 180) * 10, py + 8 + Math.sin(ts / 180) * 8, 2, 2);
-          pCtx.restore();
+        // Tiefenfaktor z: 0 (ganz hinten) bis 1 (ganz vorne)
+        const cosVal = Math.cos(theta);
+        const z = (cosVal + 1) / 2;
+        const scale = 0.70 + 0.44 * z;
+        const opacity = 0.55 + 0.45 * z;
+        const zIndex = Math.round(22 + 25 * z);
+
+        const isHovered = (hoveredIdx === idx);
+        const effScale = (scale * (isHovered ? 1.08 : 1.0)).toFixed(3);
+        const effOpacity = isHovered ? "1.00" : opacity.toFixed(2);
+        const effZIndex = isHovered ? zIndex + 30 : zIndex;
+
+        btn.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0) translate(-50%, -50%) scale(${effScale})`;
+        btn.style.opacity = effOpacity;
+        btn.style.zIndex = effZIndex;
+
+        if (idx === focusIdx) {
+          btn.classList.add("focus");
+        } else {
+          btn.classList.remove("focus");
         }
-      }
-
-      if (!petGezeichnet) {
-        const wiImg = ladeBild(A.spirit);
-        const wiBob = Math.round(Math.sin(ts / 300) * 5);
-        const wSize = isMobile ? 32 : 28;
-        const wx = cx + (isMobile ? 44 : 38), wy = cy - (isMobile ? 50 : 44) + wiBob;
-
-        if (wiImg && wiImg.complete) {
-          const wFrame = Math.floor(ts / 180) % 4;
-          pCtx.drawImage(
-            wiImg,
-            0, wFrame * 16, 16, 16,
-            wx, wy, wSize, wSize
-          );
-
-          // Magische Glitzerfunken um den Wichtel
-          const spA = 0.5 + 0.5 * Math.sin(ts / 200);
-          pCtx.fillStyle = `rgba(180, 240, 255, ${spA})`;
-          pCtx.fillRect(wx + 10 + Math.sin(ts / 250) * 12, wy + 14 + Math.cos(ts / 250) * 8, 2, 2);
-        }
-      }
+      });
+    } catch (err) {
+      console.warn("hubLoop Frame Fehler abgefangen:", err);
     }
 
-    // 6. DOM Ringknoten im 2.5D Orbit positionieren
-    const rx = isMobile ? Math.min(150, stageW * 0.38) : Math.min(260, stageW * 0.36);
-    const ry = isMobile ? Math.min(40, stageH * 0.135) : Math.min(70, stageH * 0.17);
-    const nodeCx = stageW / 2;
-    const nodeCy = isMobile ? Math.round(stageH * 0.52) : Math.round(stageH * 0.52);
-
-    RING_ITEMS.forEach((_, idx) => {
-      const btn = $(`ringNode_${idx}`);
-      if (!btn) return;
-
-      const theta = currentAngle + idx * STEP_ANGLE;
-      const x = nodeCx + rx * Math.sin(theta);
-      const y = nodeCy + ry * Math.cos(theta);
-
-      // Tiefenfaktor z: 0 (ganz hinten) bis 1 (ganz vorne)
-      const cosVal = Math.cos(theta);
-      const z = (cosVal + 1) / 2;
-      const scale = 0.70 + 0.44 * z;
-      const opacity = 0.55 + 0.45 * z;
-      const zIndex = Math.round(22 + 25 * z);
-
-      const isHovered = (hoveredIdx === idx);
-      const effScale = (scale * (isHovered ? 1.08 : 1.0)).toFixed(3);
-      const effOpacity = isHovered ? "1.00" : opacity.toFixed(2);
-      const effZIndex = isHovered ? zIndex + 30 : zIndex;
-
-      btn.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0) translate(-50%, -50%) scale(${effScale})`;
-      btn.style.opacity = effOpacity;
-      btn.style.zIndex = effZIndex;
-
-      if (idx === focusIdx) {
-        btn.classList.add("focus");
-      } else {
-        btn.classList.remove("focus");
-      }
-    });
-
-    requestAnimationFrame(hubLoop);
+    if (animRunning) {
+      hubRafId = requestAnimationFrame(hubLoop);
+    }
   }
 
   function starteHub() {
@@ -80596,12 +80624,20 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       window.CHIPTUNE.play("hub");
       window.CHIPTUNE.updateButtons();
     }
-    requestAnimationFrame(hubLoop);
+    if (hubRafId) {
+      cancelAnimationFrame(hubRafId);
+      hubRafId = null;
+    }
+    hubRafId = requestAnimationFrame(hubLoop);
   }
 
   function stoppeHub() {
     hubSec.classList.add("hidden");
     animRunning = false;
+    if (hubRafId) {
+      cancelAnimationFrame(hubRafId);
+      hubRafId = null;
+    }
   }
 
   /* ---------- Interaktion & Tastatur ---------- */
@@ -80734,12 +80770,22 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     if (window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.play === "function") {
       window.AUDIO_SYNTH.play("click");
     }
+    if (hubSec && !hubSec.classList.contains("hidden") && !animRunning) {
+      starteHub();
+    }
   }
 
   modalClose.onclick = schliesseModal;
   modalOv.onclick = (e) => {
     if (e.target === modalOv) schliesseModal();
   };
+
+  // Re-Start Animationsframe beim Wechseln von Hintergrund-Tabs
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && hubSec && !hubSec.classList.contains("hidden") && !animRunning) {
+      starteHub();
+    }
+  });
 
   /* ---------- Bereichs-Aktionen ---------- */
   function oeffneBereich(id) {
