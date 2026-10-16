@@ -12314,6 +12314,96 @@ body.retro .wbLaunchBtn,
   border: 1px solid rgba(56, 189, 248, 0.35);
 }
 
+/* Simulation / Live-Einspeisung Dropdown */
+.wbSimDropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.wbSimBtn,
+body.retro .wbSimBtn {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  color: #38bdf8 !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  padding: 5px 11px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.wbSimBtn:hover,
+body.retro .wbSimBtn:hover {
+  background: rgba(56, 189, 248, 0.2) !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4) !important;
+  color: #ffffff !important;
+}
+
+.wbSimMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: rgba(11, 18, 33, 0.98);
+  border: 1px solid #1e3a5f;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(56, 189, 248, 0.2);
+  padding: 6px;
+  min-width: 230px;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wbSimItem,
+body.retro .wbSimItem {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: #cbd5e1 !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  padding: 7px 10px !important;
+  border-radius: 6px !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+}
+
+.wbSimItem:hover {
+  background: rgba(30, 41, 59, 0.8) !important;
+  color: #ffffff !important;
+}
+
+.wbSimItem.ok:hover {
+  background: rgba(16, 185, 129, 0.2) !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  color: #6ee7b7 !important;
+}
+
+.wbSimItem.bad:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+  color: #fca5a5 !important;
+}
+
+.wbSimItem.step:hover {
+  background: rgba(245, 158, 11, 0.2) !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
+  color: #fde68a !important;
+}
+
 .wbCloseBtn {
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid #334155;
@@ -13461,6 +13551,297 @@ body.lp #lpPanel {
   0% { r: 6px; opacity: 1; stroke-width: 3.5px; }
   60% { r: 24px; opacity: 0.6; stroke-width: 2px; }
   100% { r: 32px; opacity: 0; stroke-width: 0.5px; }
+}
+
+/* ==========================================================================
+   WISSENSBAUM DYNAMISCHE FARB-EINSPEISUNG & LIVE-ENERGIE-PULSE
+   ========================================================================== */
+
+/* 1. Dynamischer Energie-Kanal (SVG Path) */
+.wbLiveEnergyBeam {
+  fill: none;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.wbLiveEnergyBeam.beam-richtig,
+.wbLiveEnergyBeam.beam-ok {
+  stroke: #10b981;
+  stroke-width: 4px;
+  filter: drop-shadow(0 0 8px #34d399) drop-shadow(0 0 16px #10b981);
+  stroke-dasharray: 80 500;
+  stroke-dashoffset: 580;
+  animation: wbEnergyBeamSurge 0.75s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+.wbLiveEnergyBeam.beam-falsch,
+.wbLiveEnergyBeam.beam-weissnicht,
+.wbLiveEnergyBeam.beam-bad {
+  stroke: #ef4444;
+  stroke-width: 4px;
+  filter: drop-shadow(0 0 8px #f43f5e) drop-shadow(0 0 16px #ef4444);
+  stroke-dasharray: 80 500;
+  stroke-dashoffset: 580;
+  animation: wbEnergyBeamSurge 0.75s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+.wbLiveEnergyBeam.beam-teilweise,
+.wbLiveEnergyBeam.beam-step {
+  stroke: #f59e0b;
+  stroke-width: 4px;
+  filter: drop-shadow(0 0 8px #fbbf24) drop-shadow(0 0 16px #f59e0b);
+  stroke-dasharray: 80 500;
+  stroke-dashoffset: 580;
+  animation: wbEnergyBeamSurge 0.75s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes wbEnergyBeamSurge {
+  0% { stroke-dashoffset: 580; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { stroke-dashoffset: -80; opacity: 0; }
+}
+
+/* 2. Fliegender Energie-Bullet (Photon) */
+.wbEnergyBullet {
+  pointer-events: none;
+}
+.wbEnergyBullet.bullet-richtig,
+.wbEnergyBullet.bullet-ok {
+  fill: #34d399;
+  filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 12px #10b981);
+}
+.wbEnergyBullet.bullet-falsch,
+.wbEnergyBullet.bullet-weissnicht,
+.wbEnergyBullet.bullet-bad {
+  fill: #f43f5e;
+  filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 12px #ef4444);
+}
+.wbEnergyBullet.bullet-teilweise,
+.wbEnergyBullet.bullet-step {
+  fill: #fbbf24;
+  filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 12px #f59e0b);
+}
+
+/* 3. Konzentrische Schockwellen (Shockwaves) */
+.wbShockwave {
+  fill: none;
+  pointer-events: none;
+  transform-origin: center;
+}
+.wbShockwave.shock-richtig,
+.wbShockwave.shock-ok {
+  stroke: #10b981;
+  animation: wbShockwaveAnim 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+.wbShockwave.shock-falsch,
+.wbShockwave.shock-weissnicht,
+.wbShockwave.shock-bad {
+  stroke: #ef4444;
+  animation: wbShockwaveAnim 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+.wbShockwave.shock-teilweise,
+.wbShockwave.shock-step {
+  stroke: #f59e0b;
+  animation: wbShockwaveAnim 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes wbShockwaveAnim {
+  0% { r: 6px; opacity: 1; stroke-width: 4px; }
+  60% { opacity: 0.7; stroke-width: 2px; }
+  100% { r: 42px; opacity: 0; stroke-width: 0.5px; }
+}
+
+/* 4. Partikel-Funken (Sparks) */
+.wbImpactSpark {
+  pointer-events: none;
+  animation: wbSparkScatter 0.7s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+}
+.wbImpactSpark.spark-richtig,
+.wbImpactSpark.spark-ok {
+  fill: #6ee7b7;
+  filter: drop-shadow(0 0 4px #10b981);
+}
+.wbImpactSpark.spark-falsch,
+.wbImpactSpark.spark-weissnicht,
+.wbImpactSpark.spark-bad {
+  fill: #fca5a5;
+  filter: drop-shadow(0 0 4px #ef4444);
+}
+.wbImpactSpark.spark-teilweise,
+.wbImpactSpark.spark-step {
+  fill: #fde68a;
+  filter: drop-shadow(0 0 4px #f59e0b);
+}
+
+@keyframes wbSparkScatter {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+/* 5. Schwebendes Hologramm-Badge */
+.wbHoloFloatingBadge {
+  pointer-events: none;
+  animation: wbFloatingBadgeFly 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.wbBadgeBg {
+  stroke-width: 1.5;
+}
+.wbBadgeBg.bg-richtig,
+.wbBadgeBg.bg-ok {
+  fill: rgba(6, 78, 59, 0.94);
+  stroke: #34d399;
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.8));
+}
+.wbBadgeBg.bg-falsch,
+.wbBadgeBg.bg-weissnicht,
+.wbBadgeBg.bg-bad {
+  fill: rgba(127, 29, 29, 0.94);
+  stroke: #f87171;
+  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.8));
+}
+.wbBadgeBg.bg-teilweise,
+.wbBadgeBg.bg-step {
+  fill: rgba(120, 53, 15, 0.94);
+  stroke: #fbbf24;
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.8));
+}
+
+.wbBadgeText {
+  fill: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  dominant-baseline: central;
+}
+
+@keyframes wbFloatingBadgeFly {
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  15% { transform: translate(0, -14px) scale(1.08); opacity: 1; }
+  75% { transform: translate(0, -28px) scale(1); opacity: 1; }
+  100% { transform: translate(0, -44px) scale(0.85); opacity: 0; }
+}
+
+/* 6. Harmonischer Puls an Kapitel-Knoten und Wurzel */
+.wbKapPulseRing {
+  fill: none;
+  pointer-events: none;
+  animation: wbKapPulseAnim 0.8s ease-out forwards;
+}
+.wbKapPulseRing.pulse-richtig,
+.wbKapPulseRing.pulse-ok {
+  stroke: #10b981;
+}
+.wbKapPulseRing.pulse-falsch,
+.wbKapPulseRing.pulse-weissnicht,
+.wbKapPulseRing.pulse-bad {
+  stroke: #ef4444;
+}
+.wbKapPulseRing.pulse-teilweise,
+.wbKapPulseRing.pulse-step {
+  stroke: #f59e0b;
+}
+
+@keyframes wbKapPulseAnim {
+  0% { r: 14px; opacity: 1; stroke-width: 3px; }
+  100% { r: 32px; opacity: 0; stroke-width: 0.5px; }
+}
+
+.wbRootPulseRing {
+  fill: none;
+  pointer-events: none;
+  animation: wbRootPulseAnim 0.9s ease-out forwards;
+}
+.wbRootPulseRing.pulse-richtig,
+.wbRootPulseRing.pulse-ok {
+  stroke: #34d399;
+}
+.wbRootPulseRing.pulse-falsch,
+.wbRootPulseRing.pulse-weissnicht,
+.wbRootPulseRing.pulse-bad {
+  stroke: #f87171;
+}
+
+@keyframes wbRootPulseAnim {
+  0% { r: 24px; opacity: 1; stroke-width: 3.5px; }
+  100% { r: 56px; opacity: 0; stroke-width: 0.5px; }
+}
+
+/* 7. Knoten-Reaktionen */
+.wbThemaNode.bloom-richtig {
+  animation: wbNodeBloomGood 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes wbNodeBloomGood {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.6); filter: drop-shadow(0 0 16px #34d399); }
+  70% { transform: scale(1.3); filter: drop-shadow(0 0 10px #10b981); }
+  100% { transform: scale(1); }
+}
+
+.wbThemaNode.shake-falsch {
+  animation: wbNodeShakeBad 0.6s ease-in-out;
+}
+@keyframes wbNodeShakeBad {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  20% { transform: scale(1.25) translate(-3px, 1px); filter: drop-shadow(0 0 12px #ef4444); }
+  40% { transform: scale(1.2) translate(3px, -2px); }
+  60% { transform: scale(1.2) translate(-2px, 2px); }
+  80% { transform: scale(1.1) translate(2px, -1px); }
+}
+
+/* 8. Seitenleisten-Zeilen-Flash */
+.wbLpZeile.flash-richtig {
+  background: rgba(16, 185, 129, 0.28) !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.4) !important;
+  transition: all 0.3s ease !important;
+}
+.wbLpZeile.flash-falsch {
+  background: rgba(239, 68, 68, 0.28) !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.4) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* 9. Cyber-Tutor Avatar Reaktionen */
+.wbTutorAvatar.cheer {
+  animation: wbTutorCheerAnim 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.8) !important;
+  border-color: #34d399 !important;
+}
+@keyframes wbTutorCheerAnim {
+  0% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.24) rotate(-9deg); }
+  50% { transform: scale(1.18) rotate(9deg); }
+  75% { transform: scale(1.1) rotate(-4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.wbTutorAvatar.think {
+  animation: wbTutorThinkAnim 0.8s ease-in-out;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.7) !important;
+  border-color: #f87171 !important;
+}
+@keyframes wbTutorThinkAnim {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.14) rotate(7deg); }
+  60% { transform: scale(1.08) rotate(-5deg); }
+  100% { transform: scale(1); }
+}
+
+/* 10. Ambient Living Tree (Atmender Bio-Hain) */
+.wbMasteredHalo {
+  fill: none;
+  stroke: #10b981;
+  stroke-width: 1.5;
+  opacity: 0.5;
+  animation: wbMasteredPulse 3.5s infinite ease-in-out;
+  pointer-events: none;
+}
+@keyframes wbMasteredPulse {
+  0%, 100% { r: 9px; opacity: 0.2; }
+  50% { r: 13px; opacity: 0.7; }
 }
 
 /* In-Game Sidebar #lpPanel Header & Legende */
@@ -69101,6 +69482,147 @@ GENERATORS.vlan = function (level) {
       "netzwerk-diagnose": { name: "Windows CMD Ping-Detektiv", fn: () => window.PING_DETEKTIV?.oeffne() }
     },
 
+    // Sanfte Zähler-Animation (Odometer)
+    animateCounter: function (el, endVal, suffix = "", duration = 450) {
+      if (!el) return;
+      const rawText = el.textContent || "0";
+      const startVal = parseInt(rawText.replace(/[^\d-]/g, ""), 10) || 0;
+      if (startVal === endVal) {
+        el.textContent = `${endVal}${suffix}`;
+        return;
+      }
+      const startTime = performance.now();
+      const diff = endVal - startVal;
+      const step = (currentTime) => {
+        const elapsed = Math.min(currentTime - startTime, duration);
+        const progress = 1 - Math.pow(1 - elapsed / duration, 3);
+        const val = Math.round(startVal + diff * progress);
+        el.textContent = `${val}${suffix}`;
+        if (elapsed < duration) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = `${endVal}${suffix}`;
+        }
+      };
+      requestAnimationFrame(step);
+    },
+
+    // Holographische Farb-Einspeisung & Energie-Pulse
+    speiseEnergieEin: function (kn, urteil, containerOrSvg) {
+      try {
+        const svg = containerOrSvg || document.getElementById("wbSvgCanvasInGame") || document.getElementById("wbSvgCanvas");
+        if (!svg) return;
+
+        let node = null;
+        const groups = svg.querySelectorAll(".wbThemaGroup");
+        for (const g of groups) {
+          if (g.dataset.kn === kn) {
+            node = g;
+            break;
+          }
+        }
+        if (!node && groups.length > 0) {
+          node = groups[Math.floor(Math.random() * groups.length)];
+        }
+        if (!node) return;
+
+        const tx = parseFloat(node.dataset.tx);
+        const ty = parseFloat(node.dataset.ty);
+        const kx = parseFloat(node.dataset.kx);
+        const ky = parseFloat(node.dataset.ky);
+        const c1x = parseFloat(node.dataset.c1x);
+        const c1y = parseFloat(node.dataset.c1y);
+        const tcx = parseFloat(node.dataset.tcx);
+        const tcy = parseFloat(node.dataset.tcy);
+        const C = parseFloat(node.dataset.c || (svg.id === "wbSvgCanvasInGame" ? "190" : "420"));
+
+        if (isNaN(tx) || isNaN(ty)) return;
+
+        const uClass = (urteil === "richtig" || urteil === "ok") ? "richtig" :
+                       (urteil === "falsch" || urteil === "weissnicht" || urteil === "bad") ? "falsch" : "teilweise";
+
+        let energyLayer = svg.querySelector("#wbEnergyLayer");
+        if (!energyLayer) {
+          energyLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          energyLayer.id = "wbEnergyLayer";
+          energyLayer.style.pointerEvents = "none";
+          svg.appendChild(energyLayer);
+        }
+
+        const st = typeof window.lpStand === "function" ? window.lpStand() : { themen: {} };
+        const tInfo = st.themen?.[kn] || {};
+        const status = typeof window.lpStatus === "function" ? window.lpStatus(tInfo) : "neu";
+        let badgeText = "+100 XP";
+        if (uClass === "richtig") {
+          badgeText = status === "sitzt" ? "⭐ GEMEISTERT!" : "+100 XP · ▲ WÄCHST";
+        } else if (uClass === "falsch") {
+          badgeText = "⚠️ LÜCKE ERFASST";
+        } else {
+          badgeText = "+50 XP · FESTIGEN";
+        }
+
+        const pathD = `M ${C} ${C} Q ${c1x} ${c1y} ${kx} ${ky} Q ${tcx} ${tcy} ${tx} ${ty}`;
+
+        let sparksHtml = "";
+        for (let s = 0; s < 6; s++) {
+          const angle = (s * 60) * Math.PI / 180;
+          const dist = 26;
+          const dx = Math.round(dist * Math.cos(angle));
+          const dy = Math.round(dist * Math.sin(angle));
+          sparksHtml += `<circle cx="${tx}" cy="${ty}" r="2.2" class="wbImpactSpark spark-${uClass}" style="--dx:${dx}px; --dy:${dy}px; animation-delay:0.35s; transform-origin:${tx}px ${ty}px;"/>`;
+        }
+
+        const surgeGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        surgeGroup.innerHTML = `
+          <path d="${pathD}" class="wbLiveEnergyBeam beam-${uClass}"/>
+          <circle r="5" class="wbEnergyBullet bullet-${uClass}">
+            <animateMotion path="${pathD}" dur="0.6s" fill="freeze" repeatCount="1"/>
+          </circle>
+          <circle cx="${tx}" cy="${ty}" r="6" class="wbShockwave shock-${uClass}" style="animation-delay:0.25s; transform-origin:${tx}px ${ty}px;"/>
+          <circle cx="${tx}" cy="${ty}" r="6" class="wbShockwave shock-${uClass}" style="animation-delay:0.42s; transform-origin:${tx}px ${ty}px;"/>
+          ${sparksHtml}
+          <circle cx="${kx}" cy="${ky}" r="14" class="wbKapPulseRing pulse-${uClass}" style="animation-delay:0.2s; transform-origin:${kx}px ${ky}px;"/>
+          <circle cx="${C}" cy="${C}" r="24" class="wbRootPulseRing pulse-${uClass}" style="animation-delay:0.05s; transform-origin:${C}px ${C}px;"/>
+          <g class="wbHoloFloatingBadge badge-${uClass}" style="--orig-x:${tx}px; --orig-y:${ty}px; transform-origin:${tx}px ${ty}px;">
+            <rect x="${tx - 58}" y="${ty - 34}" width="116" height="20" rx="10" class="wbBadgeBg bg-${uClass}"/>
+            <text x="${tx}" y="${ty - 22}" text-anchor="middle" class="wbBadgeText">${badgeText}</text>
+          </g>
+        `;
+
+        energyLayer.appendChild(surgeGroup);
+
+        const circle = node.querySelector(".wbThemaNode");
+        if (circle) {
+          circle.classList.remove("bloom-richtig", "shake-falsch");
+          void circle.offsetWidth;
+          if (uClass === "richtig") circle.classList.add("bloom-richtig");
+          else if (uClass === "falsch") circle.classList.add("shake-falsch");
+        }
+
+        const tutorAv = document.querySelector(".wbTutorAvatar");
+        if (tutorAv) {
+          tutorAv.classList.remove("cheer", "think");
+          void tutorAv.offsetWidth;
+          if (uClass === "richtig") tutorAv.classList.add("cheer");
+          else if (uClass === "falsch") tutorAv.classList.add("think");
+        }
+
+        const zeile = document.querySelector(`.wbLpZeile[data-kn="${kn ? kn.replace(/["\\]/g, '\\$&') : ''}"]`);
+        if (zeile) {
+          zeile.classList.remove("flash-richtig", "flash-falsch");
+          void zeile.offsetWidth;
+          if (uClass === "richtig") zeile.classList.add("flash-richtig");
+          else if (uClass === "falsch") zeile.classList.add("flash-falsch");
+        }
+
+        setTimeout(() => {
+          surgeGroup.remove();
+        }, 2000);
+      } catch (err) {
+        console.error("Fehler bei speiseEnergieEin:", err);
+      }
+    },
+
     // Oeffnet das moderne Wissensbaum-Dashboard
     oeffne: function (gewaehltesLf) {
       try {
@@ -69153,6 +69675,24 @@ GENERATORS.vlan = function (level) {
               <div class="wbViewToggle">
                 <button type="button" class="wbViewBtn akt" data-view="radial" id="wbBtnRadial">🌀 Radial-Baum</button>
                 <button type="button" class="wbViewBtn" data-view="dendro" id="wbBtnDendro">📊 Struktur-Baum</button>
+              </div>
+
+              <!-- Live-Simulation Dropdown -->
+              <div class="wbSimDropdown">
+                <button type="button" class="wbSimBtn" id="wbSimBtn" title="Live-Farbeinspeisung testen">
+                  <span>⚡ Live-Einspeisung</span> <span style="font-size:0.65rem; opacity:0.8;">▼</span>
+                </button>
+                <div class="wbSimMenu" id="wbSimMenu" style="display:none;">
+                  <button type="button" class="wbSimItem ok" id="wbSimBtnOk">
+                    <span>🟢 Richtig (+XP &amp; Meisterschaft)</span>
+                  </button>
+                  <button type="button" class="wbSimItem bad" id="wbSimBtnBad">
+                    <span>🔴 Wissenslücke (Warnwelle)</span>
+                  </button>
+                  <button type="button" class="wbSimItem step" id="wbSimBtnStep">
+                    <span>🟡 Festigen (+50 XP)</span>
+                  </button>
+                </div>
               </div>
 
               <!-- Close -->
@@ -69266,6 +69806,34 @@ GENERATORS.vlan = function (level) {
         this.rendereAnsicht();
       };
 
+      // Live-Simulation Dropdown Handlers
+      const simBtn = document.getElementById("wbSimBtn");
+      const simMenu = document.getElementById("wbSimMenu");
+      if (simBtn && simMenu) {
+        simBtn.onclick = (e) => {
+          e.stopPropagation();
+          simMenu.style.display = simMenu.style.display === "none" ? "flex" : "none";
+        };
+        document.addEventListener("click", () => {
+          if (simMenu) simMenu.style.display = "none";
+        });
+        document.getElementById("wbSimBtnOk")?.addEventListener("click", (e) => {
+          e.stopPropagation();
+          simMenu.style.display = "none";
+          this.speiseEnergieEin(this.aktThema || null, "richtig");
+        });
+        document.getElementById("wbSimBtnBad")?.addEventListener("click", (e) => {
+          e.stopPropagation();
+          simMenu.style.display = "none";
+          this.speiseEnergieEin(this.aktThema || null, "falsch");
+        });
+        document.getElementById("wbSimBtnStep")?.addEventListener("click", (e) => {
+          e.stopPropagation();
+          simMenu.style.display = "none";
+          this.speiseEnergieEin(this.aktThema || null, "teilweise");
+        });
+      }
+
       // Quiz Launch Modal Toggle
       document.getElementById("wbLaunchQuizBtn").onclick = () => {
         document.getElementById("wbAdaptiveModal").classList.add("offen");
@@ -69371,17 +69939,17 @@ GENERATORS.vlan = function (level) {
         if (sub) sub.textContent = `${this.aktLf}: ${lfTitel} · Westermann Grundstufe · ${data.stats.gesamt} Wissensbausteine`;
 
         const elMastery = document.getElementById("wbMasteryPercent");
-        if (elMastery) elMastery.textContent = `${data.mastery} %`;
+        if (elMastery) this.animateCounter(elMastery, data.mastery, " %");
         const elFill = document.getElementById("wbProgressFill");
         if (elFill) elFill.style.width = `${data.mastery}%`;
         const elSitzt = document.getElementById("wbCountSitzt");
-        if (elSitzt) elSitzt.textContent = data.stats.sitzt;
+        if (elSitzt) this.animateCounter(elSitzt, data.stats.sitzt);
         const elFest = document.getElementById("wbCountFestigen");
-        if (elFest) elFest.textContent = data.stats.festigen;
+        if (elFest) this.animateCounter(elFest, data.stats.festigen);
         const elLuecke = document.getElementById("wbCountLuecke");
-        if (elLuecke) elLuecke.textContent = data.stats.luecke;
+        if (elLuecke) this.animateCounter(elLuecke, data.stats.luecke);
         const elNeu = document.getElementById("wbCountNeu");
-        if (elNeu) elNeu.textContent = data.stats.neu;
+        if (elNeu) this.animateCounter(elNeu, data.stats.neu);
 
         const stage = document.getElementById("wbStageWrap");
         if (!stage) return;
@@ -69458,11 +70026,26 @@ GENERATORS.vlan = function (level) {
           const hatEinheit = this.findeEinheit(kn) != null;
           const beacon = status === "luecke" ? `<circle cx="${tx}" cy="${ty}" r="12" class="wbLueckeBeacon"/>` : "";
           const ring = hatEinheit ? `<circle cx="${tx}" cy="${ty}" r="14" class="wbEinheitRing"/>` : "";
+          const halo = status === "sitzt" ? `<circle cx="${tx}" cy="${ty}" r="13" class="wbMasteredHalo"/>` : "";
 
           svgKnoten += `
-            <g class="wbThemaGroup wbAnimatedNode ${isAkt ? "akt" : ""}" data-kn="${this.esc(kn)}" data-kap="${kObj.kap}" style="animation-delay:${animIndex * 0.03 + 0.2}s;" tabindex="0">
+            <g class="wbThemaGroup wbAnimatedNode ${isAkt ? "akt" : ""}"
+               data-kn="${this.esc(kn)}"
+               data-kap="${kObj.kap}"
+               data-c="${C}"
+               data-tx="${tx}"
+               data-ty="${ty}"
+               data-kx="${kx}"
+               data-ky="${ky}"
+               data-c1x="${c1x}"
+               data-c1y="${c1y}"
+               data-tcx="${tcx}"
+               data-tcy="${tcy}"
+               style="animation-delay:${animIndex * 0.03 + 0.15}s; transform-origin:${tx}px ${ty}px;"
+               tabindex="0">
               ${beacon}
               ${ring}
+              ${halo}
               <circle cx="${tx}" cy="${ty}" r="8" fill="${farbe}" class="wbThemaNode"/>
               <title>${this.esc(kn)} · ${this.NAMEN[status]}</title>
             </g>
@@ -69537,6 +70120,7 @@ GENERATORS.vlan = function (level) {
           svg.querySelectorAll(".wbThemaGroup").forEach((x) => x.classList.remove("akt"));
           g.classList.add("akt");
           this.zeigeInspector(kn, kap);
+          this.speiseEnergieEin(kn, "teilweise", svg);
         };
         // Hover: Zweige illuminieren
         g.onmouseenter = () => {
@@ -70122,9 +70706,25 @@ GENERATORS.vlan = function (level) {
             }
           }
 
+          const halo = status === "sitzt" ? `<circle cx="${tx}" cy="${ty}" r="${rad + 4}" class="wbMasteredHalo"/>` : "";
+
           svgKnoten += `
-            <g class="wbThemaGroup ${isThemaAkt ? "akt" : ""}" data-kn="${this.esc(kn)}" data-kap="${this.esc(kObj.kap)}" tabindex="0">
+            <g class="wbThemaGroup ${isThemaAkt ? "akt" : ""}"
+               data-kn="${this.esc(kn)}"
+               data-kap="${this.esc(kObj.kap)}"
+               data-c="${C}"
+               data-tx="${tx}"
+               data-ty="${ty}"
+               data-kx="${kx}"
+               data-ky="${ky}"
+               data-c1x="${c1x}"
+               data-c1y="${c1y}"
+               data-tcx="${tcx}"
+               data-tcy="${tcy}"
+               style="transform-origin:${tx}px ${ty}px;"
+               tabindex="0">
               ${rings}
+              ${halo}
               <circle cx="${tx}" cy="${ty}" r="${rad + (isThemaAkt ? 2 : 0)}" fill="${farbe}" class="wbThemaNode"/>
               <title>${this.esc(kn)} · ${this.NAMEN[status]}${t.n ? ` · ${Math.round(t.m * 100)} % (${t.n} Antworten)` : ""}${mitEinheit.has(kn) ? " · Lerneinheit vorhanden" : ""} (Klick: 3 gezielte Fragen)</title>
             </g>
@@ -70187,6 +70787,14 @@ GENERATORS.vlan = function (level) {
           ${wurzelHtml}
         </svg>
       `;
+
+      // Live-Energieeinspeisung bei Urteil (richtig / falsch / teilweise)
+      if (urteil && aktuell) {
+        const svgEl = document.getElementById("wbSvgCanvasInGame");
+        if (svgEl) {
+          this.speiseEnergieEin(aktuell, urteil, svgEl);
+        }
+      }
 
       // Interaktive Klicks auf Knoten
       container.querySelectorAll(".wbThemaGroup").forEach((el) => {
