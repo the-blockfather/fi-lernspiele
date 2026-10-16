@@ -11527,6 +11527,8 @@ body.retro .modalTrenner { color: #dcc3a4; border-top-color: rgba(255, 166, 80, 
   gap: 8px;
   min-width: 0;
   flex: 1 1 auto;
+  max-width: calc(100% - 110px);
+  overflow: hidden;
 }
 
 .vlPanelTitel {
@@ -11548,8 +11550,10 @@ body.retro .modalTrenner { color: #dcc3a4; border-top-color: rgba(255, 166, 80, 
   align-items: center;
   gap: 4px;
   transition: all 0.18s ease;
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
   white-space: nowrap;
+  position: relative;
+  z-index: 2;
 }
 
 .vlPanelToggle:hover .vlPanelCloseAction {
@@ -13010,6 +13014,10 @@ body.lp #game {
   align-items: start !important;
 }
 
+body.lp #game.hidden {
+  display: none !important;
+}
+
 /* HUD Header in body.lp */
 body.lp .hud.glass {
   grid-column: 1 / -1;
@@ -13791,7 +13799,7 @@ body.lp #lpTipp:hover {
     <div id="kursEmpf"></div>
     <div class="layout">
       <aside class="tree glass" aria-label="Ordner">
-        <button class="primary lpKnopf" id="lpStartBtn">🧠 Lernmodus</button>
+        <button class="primary lpKnopf" id="lpStartBtn">🌳 Wissensbaum &amp; Lernmodus</button>
         <div class="lpInfoHome" id="lpInfoHome"></div>
         <input class="search" id="suche" type="search" placeholder="Test suchen …" aria-label="Test suchen">
         <button type="button" class="mobileTreeToggle" id="mobileTreeToggle" aria-expanded="false">
@@ -67972,6 +67980,7 @@ GENERATORS.vlan = function (level) {
               <button type="button" class="vlTabBtn aktiv" id="vlTabHandout">📝 Handout</button>
               <button type="button" class="vlTabBtn" id="vlTabCoach">💬 KI-Tutor</button>
               <button type="button" class="vlTabBtn" id="vlTabMaterial">📚 Material</button>
+              <button type="button" class="vlTabBtn" id="vlTabWissensbaum" title="Wissensbaum &amp; Adaptiver Lernpfad" style="color:#34d399;">🌳 Wissensbaum</button>
               <button type="button" class="vlTabBtn" id="vlTabSkillTree" title="IHK-Stoffnetz &amp; Skill-Tree" style="color:#c4b5fd;">🕸️ Skill-Tree</button>
             </div>
             <div class="vlTabInhalt aktiv" id="vlPaneHandout">
@@ -68095,6 +68104,13 @@ GENERATORS.vlan = function (level) {
     $v("vlTabHandout").onclick = () => wechsleTab("handout");
     $v("vlTabCoach").onclick = () => wechsleTab("coach");
     $v("vlTabMaterial").onclick = () => wechsleTab("material");
+    if ($v("vlTabWissensbaum")) {
+      $v("vlTabWissensbaum").onclick = () => {
+        if (window.WISSENSBAUM && typeof window.WISSENSBAUM.oeffne === "function") {
+          window.WISSENSBAUM.oeffne();
+        }
+      };
+    }
     if ($v("vlTabSkillTree")) {
       $v("vlTabSkillTree").onclick = () => {
         if (window.STOFFNETZ && typeof window.STOFFNETZ.oeffneModal === "function") {
@@ -69087,19 +69103,27 @@ GENERATORS.vlan = function (level) {
 
     // Oeffnet das moderne Wissensbaum-Dashboard
     oeffne: function (gewaehltesLf) {
-      if (gewaehltesLf) this.aktLf = gewaehltesLf;
-      this.initModal();
-      const modal = document.getElementById(this.modalId);
-      if (modal) {
-        modal.classList.add("offen");
-        this.aktualisiereLfTabs();
-        this.rendereAnsicht();
+      try {
+        if (gewaehltesLf) this.aktLf = gewaehltesLf;
+        this.initModal();
+        const modal = document.getElementById(this.modalId);
+        if (modal) {
+          modal.classList.add("offen");
+          modal.style.display = "flex";
+          this.aktualisiereLfTabs();
+          this.rendereAnsicht();
+        }
+      } catch (err) {
+        console.error("WISSENSBAUM.oeffne Fehler:", err);
       }
     },
 
     schliessen: function () {
       const modal = document.getElementById(this.modalId);
-      if (modal) modal.classList.remove("offen");
+      if (modal) {
+        modal.classList.remove("offen");
+        modal.style.display = "none";
+      }
     },
 
     initModal: function () {
@@ -69338,34 +69362,44 @@ GENERATORS.vlan = function (level) {
 
     // Hauptansicht rendern
     rendereAnsicht: function () {
-      const data = this.holeLernfeldDaten();
+      try {
+        const data = this.holeLernfeldDaten();
 
-      // Sub-Bar aktualisieren
-      const lfTitel = window.BAUM?.lf?.[this.aktLf] || "Grundlagen";
-      const sub = document.getElementById("wbHeaderSubText");
-      if (sub) sub.textContent = `${this.aktLf}: ${lfTitel} · Westermann Grundstufe · ${data.stats.gesamt} Wissensbausteine`;
+        // Sub-Bar aktualisieren
+        const lfTitel = window.BAUM?.lf?.[this.aktLf] || "Grundlagen";
+        const sub = document.getElementById("wbHeaderSubText");
+        if (sub) sub.textContent = `${this.aktLf}: ${lfTitel} · Westermann Grundstufe · ${data.stats.gesamt} Wissensbausteine`;
 
-      document.getElementById("wbMasteryPercent").textContent = `${data.mastery} %`;
-      document.getElementById("wbProgressFill").style.width = `${data.mastery}%`;
-      document.getElementById("wbCountSitzt").textContent = data.stats.sitzt;
-      document.getElementById("wbCountFestigen").textContent = data.stats.festigen;
-      document.getElementById("wbCountLuecke").textContent = data.stats.luecke;
-      document.getElementById("wbCountNeu").textContent = data.stats.neu;
+        const elMastery = document.getElementById("wbMasteryPercent");
+        if (elMastery) elMastery.textContent = `${data.mastery} %`;
+        const elFill = document.getElementById("wbProgressFill");
+        if (elFill) elFill.style.width = `${data.mastery}%`;
+        const elSitzt = document.getElementById("wbCountSitzt");
+        if (elSitzt) elSitzt.textContent = data.stats.sitzt;
+        const elFest = document.getElementById("wbCountFestigen");
+        if (elFest) elFest.textContent = data.stats.festigen;
+        const elLuecke = document.getElementById("wbCountLuecke");
+        if (elLuecke) elLuecke.textContent = data.stats.luecke;
+        const elNeu = document.getElementById("wbCountNeu");
+        if (elNeu) elNeu.textContent = data.stats.neu;
 
-      const stage = document.getElementById("wbStageWrap");
-      if (!stage) return;
+        const stage = document.getElementById("wbStageWrap");
+        if (!stage) return;
 
-      if (this.aktAnsicht === "radial") {
-        this.rendereRadialBaum(stage, data);
-      } else {
-        this.rendereDendroBaum(stage, data);
-      }
+        if (this.aktAnsicht === "radial") {
+          this.rendereRadialBaum(stage, data);
+        } else {
+          this.rendereDendroBaum(stage, data);
+        }
 
-      // Falls vorher ein Thema gewählt war, Inspektor behalten, sonst erstes Thema anzeigen
-      if (this.aktThema) {
-        this.zeigeInspector(this.aktThema, this.aktKap);
-      } else if (data.themenJeKap[0]?.themen[0]) {
-        this.zeigeInspector(data.themenJeKap[0].themen[0], data.themenJeKap[0].kap);
+        // Falls vorher ein Thema gewählt war, Inspektor behalten, sonst erstes Thema anzeigen
+        if (this.aktThema) {
+          this.zeigeInspector(this.aktThema, this.aktKap);
+        } else if (data.themenJeKap[0]?.themen[0]) {
+          this.zeigeInspector(data.themenJeKap[0].themen[0], data.themenJeKap[0].kap);
+        }
+      } catch (err) {
+        console.error("WISSENSBAUM.rendereAnsicht Fehler:", err);
       }
     },
 
@@ -72326,7 +72360,13 @@ function lpErgebnisVerdrahten() {
 }
 
 const LP_GRUND = { video: "🎬 Kontrollfrage", einstufung: "Einstufung", luecke: "Lücke", festigen: "Festigen", wiederholen: "Wiederholung", fokus: "Fokus", frei: "Mix", retest: "🔁 Nachgefragt" };
-$("lpStartBtn").onclick = lpStartDialog;
+$("lpStartBtn").onclick = () => {
+  if (window.WISSENSBAUM && typeof window.WISSENSBAUM.oeffne === "function") {
+    window.WISSENSBAUM.oeffne();
+  } else {
+    lpStartDialog();
+  }
+};
 $("lpForm").onsubmit = (e) => { e.preventDefault(); lpFrageSenden(); };
 $("lpTipp").onclick = () => { if (S && S.lp) { lpCoach("du", "Was soll ich als Nächstes lernen?"); lpKi("frage", "Was soll ich als Nächstes lernen? Nenne die 2 wichtigsten Themen und je einen konkreten Schritt."); } };
 function lpInfoHome() {
@@ -75781,6 +75821,27 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     };
   });
 
+  // Resiliente Event-Delegation für alle Hub-Schaltflächen (inkl. Wissensbaum & Ringknoten)
+  hubSec.addEventListener("click", (e) => {
+    const wb = e.target.closest("#hubWissensbaumBtn");
+    if (wb) {
+      e.preventDefault();
+      e.stopPropagation();
+      oeffneWissensbaum();
+      return;
+    }
+    const node = e.target.closest(".hubRingNode");
+    if (node && node.dataset.idx !== undefined) {
+      const idx = parseInt(node.dataset.idx, 10);
+      if (RING_ITEMS[idx]) {
+        e.preventDefault();
+        e.stopPropagation();
+        setzeFokus(idx, false);
+        oeffneBereich(RING_ITEMS[idx].id);
+      }
+    }
+  });
+
   // Tastatursteuerung
   document.addEventListener("keydown", (e) => {
     if (hubSec.classList.contains("hidden")) return;
@@ -75808,7 +75869,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     } else if (e.key === "Enter" || e.key === "ArrowUp" || e.key === " ") {
       e.preventDefault();
       oeffneBereich(RING_ITEMS[focusIdx].id);
-    } else if (e.key >= "1" && e.key <= "6") {
+    } else if (e.key >= "1" && e.key <= "7") {
       const targetIdx = parseInt(e.key, 10) - 1;
       setzeFokus(targetIdx, false);
       oeffneBereich(RING_ITEMS[targetIdx].id);
@@ -75864,7 +75925,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       oeffneKiLehrerModal();
     } else if (id === "experimentell" || id === "in_entwicklung" || id === "dev" || id === "halle") {
       oeffneExperimentellModal();
-    } else if (id === "lern") {
+    } else if (id === "lern" || id === "wissensbaum" || id === "baum" || id === "lernpfad") {
       oeffneWissensbaum();
     } else if (id === "arena") {
       oeffneArenaModal();
@@ -76176,16 +76237,23 @@ function kursListeHtml() {
 
   // 2. Wissensbaum (Modernes Dashboard & Adaptiver Lernmodus)
   function oeffneWissensbaum() {
-    schliesseModal();
-    if (window.WISSENSBAUM && typeof window.WISSENSBAUM.oeffne === "function") {
-      window.WISSENSBAUM.oeffne();
-    } else if (typeof lpStartDialog === "function") {
-      lpStartDialog();
-    } else if (typeof lpStarten === "function") {
-      stoppeHub();
-      const pool = typeof lpPool === "function" ? lpPool() : [];
-      const kaps = [...new Set(pool.map((q) => q.kap))];
-      lpStarten({ lf: "alle", kaps, ziel: { art: "zeit", wert: 15 }, frei: "1", einstufung: true });
+    try {
+      schliesseModal();
+      if (window.WISSENSBAUM && typeof window.WISSENSBAUM.oeffne === "function") {
+        window.WISSENSBAUM.oeffne();
+      } else if (typeof lpStartDialog === "function") {
+        lpStartDialog();
+      } else if (typeof lpStarten === "function") {
+        stoppeHub();
+        const pool = typeof lpPool === "function" ? lpPool() : [];
+        const kaps = [...new Set(pool.map((q) => q.kap))];
+        lpStarten({ lf: "alle", kaps, ziel: { art: "zeit", wert: 15 }, frei: "1", einstufung: true });
+      }
+    } catch (err) {
+      console.error("Fehler beim Öffnen des Wissensbaums:", err);
+      if (typeof lpStartDialog === "function") {
+        lpStartDialog();
+      }
     }
   }
 
