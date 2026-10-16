@@ -3171,6 +3171,9 @@ header.top {
 .retroIntroWin {
   max-width: 620px;
   width: 95%;
+  max-height: min(92vh, 660px);
+  display: flex;
+  flex-direction: column;
   margin: auto;
   background: #2d1d12;
   border: 4px solid var(--fxdark);
@@ -3178,6 +3181,14 @@ header.top {
   padding: 16px;
   color: var(--fxcream);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+#introBody {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 4px;
 }
 
 .introKopf {
@@ -3187,6 +3198,25 @@ header.top {
   border-bottom: 2px solid var(--fxdark);
   padding-bottom: 8px;
   margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.introCloseBtn {
+  margin-left: auto;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--fxdark);
+  color: var(--fxcream);
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+.introCloseBtn:hover {
+  background: var(--fxorg);
+  color: #fff;
+  border-color: var(--fxorg2);
 }
 
 .introIcon {
@@ -3296,9 +3326,11 @@ header.top {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 12px;
   border-top: 2px solid var(--fxdark);
   padding-top: 10px;
+  flex-shrink: 0;
+  background: #2d1d12;
 }
 
 .introBtn {
@@ -20309,7 +20341,7 @@ GENERATORS.detektiv = function (level) {
           "optionen": [
             {
               "text": "2,4 Mbit/s (300 kByte/s × 8 = 2.400 kbit/s = 2,4 Mbit/s)",
-              "richtig: true,
+              "richtig": true,
               "korrektur": "Exakt! Byte mal 8 ergibt Bit (2.400 kbit/s), geteilt durch 1.000 ergibt 2,4 Mbit/s."
             },
             {
@@ -27704,9 +27736,7 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
         ],
         "sicherung": {
           "merksatz": "Managebar = Management-IP + Konfiguration (VLAN, STP, Ports). Mirrorport (SPAN) = Kopie des Verkehrs für Wireshark/IDS.",
-          "handout": "### 1. Managebare Switches & Port Mirroring\n\n- **Unmanaged vs. Managed Switches:**\n  - **Unmanaged:** Plug & Play, keine Konfiguration, keine IP-Adresse, keine VLANs.\n  - **Managed Switch:** Besitzt eine eigene **Management-IP-Adresse**. Konfiguration über **HTTPS** (Web-GUI) oder **SSH (Port 22)**. Telnet (Port 23) und HTTP (Port 80) sind wegen fehlender Verschlüsselung unzulässig!\n\n- **Wichtige Managed-Features (IHK-Prüfungsfokus):**\n  - **VLANs (IEEE 802.1Q):** Logische Trennung von Netzen auf demselben Switch.\n  - **Spanning Tree Protocol (STP / RSTP - IEEE 802.1D/w):** Verhindert fatale Loops und Broadcast-Stürme bei redundanter Verkabelung.\n  - **Port Mirroring (SPAN &ndash; Switched Port Analyzer):** Spiegelt Datenverkehr von Quellports auf einen dedizierten **Mirrorport**, an dem Sniffer (**Wireshark**) oder ein **IDS (Intrusion Detection System)** den Datenverkehr mitschneiden können.\n  - **Link Aggregation (LACP &ndash; IEEE 802.3ad / 802.1AX):** Bündelt mehrere physische Leitungen zu einem logischen Kanal für höheren Durchsatz und Redundanz."
         }
-      }
       }
     ],
     "nachtest": [
@@ -73786,12 +73816,15 @@ document.addEventListener("keydown", (e) => {
       <div class="introKopf">
         <span class="introIcon">⚔️</span>
         <h3 id="introTitel">FI-Quiz: Das JRPG-Lernabenteuer</h3>
+        <button type="button" class="introCloseBtn" id="introCloseBtn" title="Überspringen &amp; zum Hauptmenü" aria-label="Schließen">✕</button>
       </div>
       <div id="introBody"></div>
       <div class="introAktionen" id="introAktionen"></div>
     </div>
   `;
   document.body.appendChild(m);
+  const introClose = m.querySelector("#introCloseBtn");
+  if (introClose) introClose.onclick = () => zu();
 
   function renderStep() {
     const body = $("introBody");
