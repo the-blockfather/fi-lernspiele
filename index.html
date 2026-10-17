@@ -15631,6 +15631,266 @@ html[data-theme="outdoor"] .vlLayerTable td { border-bottom: 1px solid var(--f-g
   margin-top: var(--a-3);
 }
 
+/* --- M5: Aktivierung & Vermutungen (Token-konform) --- */
+.vlVermutungBox {
+  margin-top: var(--a-3);
+  padding: var(--a-3);
+  background: var(--f-2);
+  border: 1px solid var(--linie);
+  border-radius: var(--r-m);
+}
+
+.vlVermutungTitel {
+  font-weight: 600;
+  font-size: var(--gr-s);
+  color: var(--akzent);
+  margin-bottom: var(--a-2);
+  display: flex;
+  align-items: center;
+  gap: var(--a-1);
+}
+
+.vlVermutungOptionen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--a-2);
+}
+
+.vlVermutungOpt {
+  display: flex;
+  align-items: center;
+  gap: var(--a-2);
+  padding: var(--a-2) var(--a-3);
+  background: var(--f-3);
+  border: 1px solid var(--linie);
+  border-radius: var(--r-s);
+  color: var(--t-1);
+  font-family: inherit;
+  font-size: var(--gr-s);
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--d-1) var(--e-standard), border-color var(--d-1) var(--e-standard);
+}
+
+.vlVermutungOpt:hover {
+  border-color: var(--akzent);
+  background: var(--f-4);
+  transform: translateY(-1px);
+}
+
+.vlVermutungOpt.aktiv,
+.vlVermutungOpt.gewaehlt {
+  border-color: var(--akzent);
+  background: var(--akzent-flaeche);
+}
+
+.vlVermutungFeedback {
+  margin-top: var(--a-2);
+  padding: var(--a-2);
+  background: var(--f-3);
+  border: 1px solid var(--linie);
+  border-radius: var(--r-s);
+  animation: eintreten var(--d-2) var(--e-standard);
+}
+
+.vlVermutungTutor {
+  font-size: var(--gr-s);
+  color: var(--t-2);
+  font-style: italic;
+}
+
+.vlBuehneHinweisRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--a-2);
+  margin-bottom: var(--a-2);
+  padding: var(--a-1) var(--a-2);
+  background: var(--f-2);
+  border: 1px solid var(--linie);
+  border-radius: var(--r-s);
+}
+
+.vlBuehneHinweis {
+  font-size: var(--gr-xs);
+  color: var(--akzent);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--a-1);
+}
+
+.vlBuehneWahlLink {
+  font-size: var(--gr-xs);
+  color: var(--t-2);
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.vlBuehneWahlLink:hover {
+  color: var(--akzent);
+}
+
+.vlBuehneKnotenAktiv {
+  cursor: pointer !important;
+}
+
+.vlBuehneKnotenAktiv rect {
+  stroke: var(--akzent) !important;
+  stroke-width: 2.5px !important;
+  filter: drop-shadow(0 0 4px var(--akzent-flaeche));
+}
+
+.vlReglerBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--a-1);
+  margin-bottom: var(--a-3);
+  padding: var(--a-2);
+  background: var(--f-2);
+  border: 1px solid var(--linie);
+  border-radius: var(--r-m);
+}
+
+.vlReglerKopf {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--gr-s);
+}
+
+.vlReglerLabel {
+  color: var(--t-2);
+}
+
+.vlReglerZahl {
+  color: var(--akzent);
+  font-weight: 700;
+  font-size: var(--gr-m);
+}
+
+.vlRegler {
+  width: 100%;
+  accent-color: var(--akzent);
+  cursor: pointer;
+  margin: var(--a-1) 0;
+}
+
+/* --- M6: Tutor-Zustände, Phasen-Route & Lernziel-Bilanz --- */
+.tutor-ruhig .vlTutorDockFigur,
+.tutor-ruhig .toonFigureWrap {
+  animation: atmen var(--d-4) ease-in-out infinite;
+}
+
+.tutor-spricht .vlTutorDockFigur {
+  transform: translateY(-2px);
+  transition: transform var(--d-1) var(--e-standard);
+}
+
+.tutor-zeigt .vlTutorDockFigur {
+  transform: rotate(-3deg) translateX(-2px);
+  transition: transform var(--d-2) var(--e-standard);
+}
+
+.tutor-denkt .vlTutorDockFigur {
+  transform: rotate(2deg);
+  transition: transform var(--d-2) var(--e-standard);
+}
+
+.tutor-freut .vlTutorDockFigur {
+  animation: puls var(--d-2) var(--e-standard);
+}
+
+.tutor-hoppla .vlTutorDockFigur {
+  transform: rotate(-3deg);
+  transition: transform var(--d-2) var(--e-standard);
+}
+
+.vlVergleichBalkenWrap {
+  position: relative;
+  height: 8px;
+  background: var(--f-3);
+  border-radius: var(--r-voll);
+  overflow: hidden;
+  margin-top: var(--a-1);
+}
+
+.vlVergleichBalken {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  transition: transform var(--d-4) var(--e-standard);
+}
+
+.vlVergleichBalken.vor {
+  background: var(--t-3);
+  opacity: 0.5;
+}
+
+.vlVergleichBalken.nach {
+  background: var(--ok);
+}
+
+.vlTitelFeier {
+  display: inline-block;
+  animation: funkeln var(--d-3) var(--e-standard);
+}
+
+.ui-route {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--a-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ui-route-schritt {
+  display: flex;
+  align-items: center;
+  gap: var(--a-1);
+  font-size: var(--gr-xs);
+  color: var(--t-3);
+}
+
+.ui-route-schritt.aktiv {
+  color: var(--akzent);
+  font-weight: 600;
+}
+
+.ui-route-schritt.erledigt {
+  color: var(--ok);
+}
+
+.ui-route-punkt {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-voll);
+  background: var(--f-4);
+  border: 1px solid var(--linie);
+}
+
+.ui-route-schritt.aktiv .ui-route-punkt {
+  background: var(--akzent);
+  border-color: var(--akzent);
+  box-shadow: 0 0 6px var(--akzent-flaeche);
+}
+
+.ui-route-schritt.erledigt .ui-route-punkt {
+  background: var(--ok);
+  border-color: var(--ok);
+}
+
+
 
 /* ---- wissensbaum.css ---- */
 /* wissensbaum.css - Modernes Wissensbaum-Dashboard & Dynamische Wachstums-Engine */
@@ -19724,6 +19984,24 @@ GENERATORS.detektiv = function (level) {
           text: "Du suchst in einem vollen Raum eine bestimmte Person und rufst ihren Namen. Alle hören es, auch die, die nicht gemeint sind. Im Netzwerk heißt so ein Ruf an alle Broadcast.",
           frage: "Was passiert mit einem Broadcast, wenn die Rechner an einem Switch hängen, dem Verteiler für die Kabel?"
         },
+        vermutung: {
+          tutor: "Schauen wir uns an, wie der Switch auf Schicht 2 entscheidet.",
+          optionen: [
+            {
+              text: "Der Switch leitet den Broadcast an alle Ports weiter (fluten).",
+              szene: [
+                { tu: "hebe", ziel: "switch" },
+                { tu: "welle", bei: "switch", ueber: ["hostA>switch", "switch>router"] }
+              ]
+            },
+            {
+              text: "Der Switch filtert den Broadcast und stoppt ihn sofort."
+            },
+            {
+              text: "Der Switch sendet die Nachricht nur an das Standardgateway."
+            }
+          ]
+        },
         aufbau: [
           {
             text: "PC A hat die IP-Adresse 192.168.1.10, seine Anschrift im Netz. Im lokalen Netz spricht man Geräte aber über die feste MAC-Adresse der Netzwerkkarte an.",
@@ -19806,6 +20084,24 @@ GENERATORS.detektiv = function (level) {
           text: "PC A will ein Datenpaket an 10.0.0.5 schicken. Diese Adresse liegt nicht in seinem eigenen Netz, und er hat nur ein Kabel – das geht zum Switch.",
           frage: "Wohin schickt PC A das Paket, wenn das Ziel nicht im eigenen Netz liegt?"
         },
+        vermutung: {
+          tutor: "Prüfen wir, welchen Weg PC A für Adressen außerhalb seines Netzes wählt.",
+          optionen: [
+            {
+              text: "An das Standardgateway (den Router im eigenen Subnetz).",
+              szene: [
+                { tu: "hebe", ziel: "router" },
+                { tu: "paket", von: "hostA", via: ["switch"], nach: "router", label: "IP: 10.0.0.5" }
+              ]
+            },
+            {
+              text: "Direkt an den Zielserver über den Switch."
+            },
+            {
+              text: "Als Broadcast an alle Rechner im Raum."
+            }
+          ]
+        },
         aufbau: [
           {
             text: "Das Präfix /24 ist die Subnetzmaske in Kurzform. Die ersten drei Zahlen benennen das Netz, PC A (192.168.1.10) liegt also im Netz 192.168.1.0.",
@@ -19871,6 +20167,24 @@ GENERATORS.detektiv = function (level) {
           text: "Das Paket liegt jetzt beim Router. Er hat mehrere Anschlüsse, Interfaces genannt: eth0 ins lokale Netz, eth1 zu Server B, wan0 ins Internet. Woher weiß er, welches er nehmen soll?",
           frage: "Wonach entscheidet ein Router, über welches Interface er ein Paket schickt?"
         },
+        vermutung: {
+          tutor: "Schauen wir in die Routing-Tabelle des Routers.",
+          optionen: [
+            {
+              text: "Er nimmt die Route mit dem längsten passenden Präfix (Longest Prefix Match).",
+              szene: [
+                { tu: "hebe", ziel: "router" },
+                { tu: "paket", von: "router", nach: "hostB", label: "eth1 (/24)" }
+              ]
+            },
+            {
+              text: "Er nimmt immer die oberste Zeile in seiner Tabelle."
+            },
+            {
+              text: "Er verteilt die Pakete abwechselnd auf alle Interfaces."
+            }
+          ]
+        },
         aufbau: [
           {
             text: "Der Router führt eine Routing-Tabelle. Jede Zeile sagt: Für dieses Zielnetz nimm dieses Interface, also diesen Anschluss.",
@@ -19911,6 +20225,19 @@ GENERATORS.detektiv = function (level) {
         probe: {
           art: "mc",
           frage: "In der Tabelle stehen 10.0.0.0/8 über wan0 und 10.0.0.0/24 über eth1. Das Paket geht an 10.0.0.5. Welches Interface nimmt der Router?",
+          buehne: {
+            art: "knoten",
+            knoten: {
+              optionZuKnoten: {
+                0: "hostB",
+                1: "cloud"
+              }
+            },
+            falsch_szene: [
+              { tu: "paket", von: "router", nach: "cloud", label: "wan0 (/8 zu ungenau!)" },
+              { tu: "hebe", ziel: "cloud" }
+            ]
+          },
           optionen: [
             {
               text: "eth1, weil /24 die längere Netzmaske ist",
@@ -19950,6 +20277,24 @@ GENERATORS.detektiv = function (level) {
         anker: {
           text: "Das Paket läuft jetzt über mehrere Router bis zum Ziel. Eine Frage, die in der Prüfung gern gestellt wird: Was ändert sich dabei eigentlich, und was nicht?",
           frage: "Welche Adressen ändern sich auf dem Weg, welche bleiben?"
+        },
+        vermutung: {
+          tutor: "Begleiten wir das Paket von Hop zu Hop.",
+          optionen: [
+            {
+              text: "IP-Adressen bleiben gleich, MAC-Adressen wechseln an jedem Router.",
+              szene: [
+                { tu: "paket", von: "hostA", via: ["switch"], nach: "router", label: "SIP: .1.10 | DIP: 10.0.0.5" },
+                { tu: "etikett", id: "paket", label: "MAC: Router -> Next Hop" }
+              ]
+            },
+            {
+              text: "Beide Adressarten (IP und MAC) bleiben unverändert."
+            },
+            {
+              text: "Beide Adressarten wechseln bei jedem Hop komplett."
+            }
+          ]
         },
         aufbau: [
           {
@@ -23770,6 +24115,10 @@ GENERATORS.detektiv = function (level) {
             "text": "CIDR (Classless Inter-Domain Routing) ersetzt starre Netzklassen durch flexible Präfixlängen wie /24, um Adressverschwendung zu stoppen.",
             absatz: "<p>Das <b>CIDR-Präfix</b> (Classless Inter-Domain Routing, RFC 1519) ersetzt die historischen, starren Netzklassen A, B und C. Die Zahl hinter dem Schrägstrich zählt schlicht die <b>Gesamtzahl der gesetzten Einsen (1-Bits)</b> in der 32-Bit-Subnetzmaske:</p><ul><li>Bei einer Standardmaske von <code>255.255.255.0</code> sind die ersten drei Oktette komplett mit Einsen gefüllt: $8 + 8 + 8 = 24$ Einsen $\\rightarrow$ Schreibweise <b>/24</b>.</li><li>Die restlichen Bits sind <b>Hostbits</b>: Bei 32 Bit Gesamtbreite verbleiben genau $32 - 24 = 8$ Bits für die Adressierung von Rechnern.</li><li><b>Goldene Regel:</b> Je größer das Präfix (/28 statt /24), desto mehr Bits gehören zum Netzteil und desto <i>weniger</i> Geräte passen in das Subnetz!</li></ul>",
             diagramm: "start",
+            szene: [
+              { tu: "bits", balken: 0, von: 0, bis: 23, rolle: "N" },
+              { tu: "bits", balken: 0, von: 24, bis: 31, rolle: "H" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Schreibweise</th><th>Dezimale Maske</th><th>Binäre Maske (32 Bit)</th><th>Netz- / Hostbits</th></tr></thead><tbody><tr><td><b>Klassisch (Dotted Decimal)</b></td><td><code>255.255.255.0</code></td><td><code>11111111.11111111.11111111.00000000</code></td><td>24 Netzbits, 8 Hostbits</td></tr><tr><td><b>CIDR-Präfix</b></td><td><b>/24</b></td><td>24 führende Einsen</td><td>Hostbits = $32 - 24 = 8$</td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Warum CIDR 1993 das Internet gerettet hat",
@@ -23780,12 +24129,20 @@ GENERATORS.detektiv = function (level) {
             "text": "Präfix-Umrechnung: Volle 255er-Oktette zählen je 8 Bit; das unvollständige Oktett steuert die restlichen Netzbits bei (z. B. 255.255.240.0 = /20).",
             absatz: "<p>Um eine dezimale Subnetzmaske im Kopf in ein CIDR-Präfix umzurechnen, teilst du die Maske in <b>volle 255er-Oktette</b> und das eine <b>angebrochene Oktett</b> auf:</p><ul><li>Jedes volle <code>255</code> steuert exakt <b>8 Einsen</b> bei ($255.255.255$ sind also $3 \\times 8 = 24$ Einsen).</li><li>Im angebrochenen Oktett zählst du die führenden Bits ab. Ein Wert von <code>224</code> entspricht binär <code>11100000</code>, also <b>3 Einsen</b> ($128 + 64 + 32 = 224$).</li><li>Das Gesamtpräfix lautet demnach: $24 + 3 = \\mathbf{/27}$.</li></ul>",
             diagramm: "m27",
+            szene: [
+              { tu: "bits", balken: 0, von: 0, bis: 26, rolle: "N" },
+              { tu: "bits", balken: 0, von: 27, bis: 31, rolle: "H" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Einsen</th><th>Binärwert</th><th>Dezimaler Oktettwert</th><th>Präfix im 4. Oktett</th></tr></thead><tbody><tr><td>1</td><td><code>10000000</code></td><td><b>128</b></td><td>/25</td></tr><tr><td>2</td><td><code>11000000</code></td><td><b>192</b></td><td>/26</td></tr><tr><td>3</td><td><code>11100000</code></td><td><b>224</b></td><td>/27</td></tr><tr><td>4</td><td><code>11110000</code></td><td><b>240</b></td><td>/28</td></tr><tr><td>5</td><td><code>11111000</code></td><td><b>248</b></td><td>/29</td></tr><tr><td>6</td><td><code>11111100</code></td><td><b>252</b></td><td>/30</td></tr><tr><td>7</td><td><code>11111110</code></td><td><b>254</b></td><td>/31 (RFC 3021 Point-to-Point)</td></tr><tr><td>8</td><td><code>11111111</code></td><td><b>255</b></td><td>/32 (Host-Route)</td></tr></tbody></table>"
           },
           {
             "text": "Rückrechnung zum Dezimalwert: Das Präfix in 8er-Blöcke teilen (z. B. /27 = 8+8+8+3); die restlichen Bits ergeben den Oktettwert (z. B. 3 Bits = 224).",
             absatz: "<p>Auch die <b>Rückrechnung</b> von Präfix zur Maske gelingt in Sekunden durch Zerlegung in 8er-Päckchen:</p><ul><li><b>Beispiel /20:</b> $20 = 8 + 8 + 4$. Die ersten beiden Oktette sind voll gefüllt (<code>255.255.</code>).</li><li>Das 3. Oktett erhält <b>4 Einsen</b>: $128 + 64 + 32 + 16 = \\mathbf{240}$.</li><li>Das 4. Oktett hat keine Netzbits mehr, also <code>0</code>. Die fertige Subnetzmaske lautet: <code>255.255.240.0</code>!</li><li>Die verbleibenden Hostbits berechnen sich zu: $H = 32 - 20 = 12$ Bits ($2^{12} = 4.096$ Adressen).</li></ul>",
             diagramm: "m20",
+            szene: [
+              { tu: "bits", balken: 0, von: 0, bis: 19, rolle: "N" },
+              { tu: "bits", balken: 0, von: 20, bis: 31, rolle: "H" }
+            ],
             video: {
               titel: "Wie funktioniert Subnetting? (Kompakt erklärt)",
               kanal: "Patrick Boekhoven",
@@ -23842,6 +24199,9 @@ GENERATORS.detektiv = function (level) {
             "text": "Schrittweiten-Formel: Die Schrittweite im interessierenden Oktett berechnet sich blitzschnell aus 256 minus Subnetzmasken-Wert (z. B. 256 − 192 = 64).",
             absatz: "<p>Die <b>Blockgröße (Schrittweite)</b> ist der Schlüssel, um Subnetting-Klausuraufgaben in Sekundenschnelle ohne jede Binärrechnung im Kopf zu lösen:</p><ul><li><b>Die magische IHK-Formel:</b> $\\mathbf{\\text{Blockgröße} = 256 - \\text{Wert im angebrochenen Oktett}}$.</li><li>Bei der Maske <code>255.255.255.224</code> (/27) rechnest du einfach: $256 - 224 = \\mathbf{32}$.</li><li><b>Bedeutung:</b> Jedes Subnetz belegt im letzten Oktett exakt 32 Adressen. Die Teilnetze beginnen immer bei den Vielfachen dieser Zahl: <code>.0</code>, <code>.32</code>, <code>.64</code>, <code>.96</code>, <code>.128</code>, usw.</li></ul>",
             diagramm: "bl32",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_1" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Präfix</th><th>Maskenwert</th><th>Rechnung (256 − Maske)</th><th>Blockgröße (Schrittweite)</th><th>Subnetzanfänge (.x)</th></tr></thead><tbody><tr><td><b>/25</b></td><td>128</td><td>$256 - 128$</td><td><b>128</b></td><td>0, 128</td></tr><tr><td><b>/26</b></td><td>192</td><td>$256 - 192$</td><td><b>64</b></td><td>0, 64, 128, 192</td></tr><tr><td><b>/27</b></td><td>224</td><td>$256 - 224$</td><td><b>32</b></td><td>0, 32, 64, 96, 128, 160, 192, 224</td></tr><tr><td><b>/28</b></td><td>240</td><td>$256 - 240$</td><td><b>16</b></td><td>0, 16, 32, 48, 64, 80, 96, ...</td></tr><tr><td><b>/29</b></td><td>248</td><td>$256 - 248$</td><td><b>8</b></td><td>0, 8, 16, 24, 32, 40, ...</td></tr><tr><td><b>/30</b></td><td>252</td><td>$256 - 252$</td><td><b>4</b></td><td>0, 4, 8, 12, 16, 20, ...</td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Warum niemand in der IT-Praxis binär rechnet",
@@ -23852,6 +24212,9 @@ GENERATORS.detektiv = function (level) {
             "text": "Hostformel: Die Anzahl nutzbarer Hosts im Subnetz ist immer 2 hoch Hostbits minus 2 (abzüglich Netz-ID und Broadcast).",
             absatz: "<p>Aus der Blockgröße und den Hostbits leitet sich direkt die Anzahl der <b>nutzbaren Hosts</b> ab:</p><ul><li><b>Gesamtzahl der Adressen:</b> Identisch mit der Blockgröße, also $2^H$ ($H$ = Hostbits).</li><li><b>Nutzbare Host-Adressen:</b> Immer $\\mathbf{2^H - 2}$ (abzüglich Netzadresse und Broadcast).</li><li><b>Wichtig für Großnetze:</b> Liegt das Präfix unter /24, wandert die Blockgröße in das 3. Oktett: Bei <code>/23</code> (Maske <code>255.255.254.0</code>) ist die Blockgröße im 3. Oktett $256 - 254 = 2$. Jedes Subnetz umfasst <b>512 Adressen</b> (510 nutzbare Hosts)!</li></ul>",
             diagramm: "bl64",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_1" }
+            ],
             video: {
               titel: "So funktioniert Subnetting (IPv4) - Schritt für Schritt",
               kanal: "Patrick Boekhoven",
@@ -23908,6 +24271,9 @@ GENERATORS.detektiv = function (level) {
             "text": "IHK-Methode zur Subnetz-Zuordnung: Mit Schrittweite und Vielfachen prüfen, in welchen Block eine gegebene IP-Adresse fällt.",
             absatz: "<p>Mit der Blockgrößen-Methode löst du die häufigste IHK-Prüfungsaufgabe (<i>'Gegeben ist IP x.x.x.x/y. Berechnen Sie Netz-ID, Broadcast und nutzbaren Bereich!'</i>) in 4 einfachen Schritten:</p><ol><li><b>Schritt 1 (Blockgröße):</b> Bei <code>/26</code> ist die Maske <code>255.255.255.192</code>. Blockgröße: $256 - 192 = \\mathbf{64}$.</li><li><b>Schritt 2 (Netzadresse finden):</b> Zähle die Vielfachen von 64 auf (0, 64, 128, 192). Das größte Vielfache, das $\\le 77$ ist, lautet <b>64</b>. Die Netzadresse ist somit <code>192.168.10.64</code>.</li><li><b>Schritt 3 (Broadcast):</b> Nächstes Netz minus 1 (bzw. $\\text{Netzadresse} + \\text{Blockgröße} - 1$): $64 + 64 - 1 = \\mathbf{127}$. Die Broadcast-Adresse lautet <code>192.168.10.127</code>.</li><li><b>Schritt 4 (Nutzbare Hosts):</b> Dazwischen liegen die nutzbaren IPs von <code>Netzadresse + 1</code> (<b>.65</b>) bis <code>Broadcast - 1</code> (<b>.126</b>).</li></ol>",
             diagramm: "netz64",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_2" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Eigenschaft</th><th>Berechnung</th><th>Konkreter Wert</th><th>Bedeutung</th></tr></thead><tbody><tr><td><b>Netzadresse (Net-ID)</b></td><td>Größtes Vielfaches $\\le 77$</td><td><code>192.168.10.64</code></td><td>Subnetz-Kennung (Routing)</td></tr><tr><td><b>1. nutzbare Host-IP</b></td><td>Netzadresse + 1</td><td><code>192.168.10.65</code></td><td>Erster nutzbarer Rechner (oft Default Gateway)</td></tr><tr><td><b>Gegebener Host</b></td><td>Liegt im Intervall</td><td><code>192.168.10.77</code></td><td>Das abzufragende Testgerät</td></tr><tr><td><b>Letzte nutzbare Host-IP</b></td><td>Broadcast − 1</td><td><code>192.168.10.126</code></td><td>Letzter nutzbarer Rechner</td></tr><tr><td><b>Broadcast-Adresse</b></td><td>Netz + Blockgröße − 1</td><td><code>192.168.10.127</code></td><td>Rundruf an alle Geräte im Subnetz</td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Die Verwirrung um die Broadcast-Adresse",
@@ -23918,6 +24284,10 @@ GENERATORS.detektiv = function (level) {
             "text": "Subnetting im 3. Oktett: Die Schrittweite steuert das 3. Oktett, während das 4. Oktett den gesamten Bereich von 0 bis 255 für Hosts durchläuft.",
             absatz: "<p>Das Verfahren funktioniert <b>vollkommen identisch bei Subnetzen im 3. Oktett</b> (z. B. <code>172.16.35.5/20</code>):</p><ul><li>Maske bei /20 ist <code>255.255.240.0</code>. Das angebrochene Oktett ist das <b>3. Oktett</b> (240).</li><li>Blockgröße im 3. Oktett: $256 - 240 = \\mathbf{16}$.</li><li>Vielfache von 16: 0, 16, <b>32</b>, 48... Die Zahl 35 liegt zwischen 32 und 47!</li><li><b>Netzadresse:</b> <code>172.16.32.0</code>.</li><li><b>Broadcast-Adresse:</b> $32 + 16 - 1 = 47$ im 3. Oktett und <code>.255</code> im 4. Oktett $\\rightarrow$ <code>172.16.47.255</code>!</li><li><b>Nutzbarer Bereich:</b> <code>172.16.32.1</code> bis <code>172.16.47.254</code> (insgesamt 4.094 Hosts).</li></ul>",
             diagramm: "host77",
+            szene: [
+              { tu: "bits", balken: 0, von: 0, bis: 25, rolle: "N" },
+              { tu: "bits", balken: 0, von: 26, bis: 31, rolle: "H" }
+            ],
             video: {
               titel: "Subnetting berechnen in unter 1 Minute (IHK Prüfungstrick)",
               kanal: "Patrick Boekhoven",
@@ -39396,6 +39766,10 @@ SW-ETAGE-01# copy running-config startup-config
             "text": "IPv6 besitzt eine 128-Bit-Adresse, gegliedert in 8 Blöcke zu je 4 Hexadezimalziffern, getrennt durch Doppelpunkte.",
             absatz: "<p>Eine IPv6-Adresse besteht aus gewaltigen <b>128 Bit</b> &ndash; viermal so lang wie eine IPv4-Adresse (32 Bit). Das ergibt einen schier unvorstellbaren Adressraum von $2^{128} \\approx 3{,}4 \\times 10^{38}$ IP-Adressen (ca. 600 Billiarden Adressen pro Quadratmillimeter Erdoberfläche!).</p><ul><li><b>Schreibweise:</b> Um 128 Bit lesbar darzustellen, wird IPv6 nicht in Dezimalzahlen, sondern in <b>hexadezimaler Form</b> notiert.</li><li><b>8 Blöcke (Hextets):</b> Die Adresse ist in 8 Blöcke zu je <b>16 Bit</b> unterteilt, getrennt durch <b>Doppelpunkte</b>.</li><li>Jeder Block besteht aus genau <b>4 Hexadezimal-Ziffern</b> (<code>0&ndash;9</code>, <code>a&ndash;f</code>), da jede Hexziffer exakt 4 Bits codiert ($4 \\times 4 = 16$ Bit).</li></ul>",
             diagramm: "start",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_0" },
+              { tu: "hebe", ziel: "raumTeil_1" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Eigenschaft</th><th>IPv4</th><th>IPv6</th></tr></thead><tbody><tr><td><b>Adresslänge</b></td><td>32 Bit (4 Byte)</td><td><b>128 Bit (16 Byte)</b></td></tr><tr><td><b>Schreibweise</b></td><td>Dotted-Decimal (z. B. <code>192.168.1.1</code>)</td><td><b>Hexadezimal (z. B. <code>2001:0db8:...</code>)</b></td></tr><tr><td><b>Trennzeichen</b></td><td>Punkte (<code>.</code>)</td><td><b>Doppelpunkte (<code>:</code>)</b></td></tr><tr><td><b>Blöcke</b></td><td>4 Oktette zu je 8 Bit</td><td><b>8 Blöcke zu je 16 Bit</b></td></tr><tr><td><b>Adressraum</b></td><td>ca. 4,3 Milliarden ($2^{32}$)</td><td><b>ca. 340 Sextillionen ($2^{128}$)</b></td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Warum Hexadezimal statt Dezimal?",
@@ -39406,6 +39780,10 @@ SW-ETAGE-01# copy running-config startup-config
             "text": "RFC 5952 Kürzungsregeln: Führende Nullen in einem Block dürfen entfallen; eine einmalige Folge von Nullblöcken wird durch Doppel-Doppelpunkt (::) ersetzt.",
             absatz: "<p>Da 32 Hexadezimalziffern im Alltag unhandlich sind, definiert der Standard <b>RFC 5952</b> genau <b>zwei verbindliche Kürzungsregeln</b>:</p><ol><li><b>Regel 1 &ndash; Führende Nullen weglassen:</b> In jedem einzelnen Block dürfen führende Nullen gestrichen werden: <code>0db8</code> $\\rightarrow$ <code>db8</code>, <code>0001</code> $\\rightarrow$ <code>1</code>, <code>0000</code> $\\rightarrow$ <code>0</code>. <i>Wichtig:</i> Nachfolgende Nullen dürfen NIEMALS entfallen (aus <code>1200</code> darf niemals <code>12</code> werden, sonst ändert sich der Wert von 4608 auf 18!).</li><li><b>Regel 2 &ndash; Nullblöcke komprimieren mit <code>::</code>:</b> Eine zusammenhängende Folge von reinen Nullblöcken darf durch einen Doppel-Doppelpunkt <code>::</code> ersetzt werden.</li><li><b>IHK-Klausurfalle:</b> Der Doppel-Doppelpunkt <code>::</code> darf in einer Adresse <b>nur genau ein einziges Mal</b> vorkommen! (Bei zwei <code>::</code> wäre die Anzahl der Nullen pro Lücke mathematisch uneindeutig).</li><li>Sind zwei Folgen von Nullblöcken gleich lang, wird laut RFC 5952 immer die <b>erste Folge</b> gekürzt!</li></ol>",
             diagramm: "start",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_2" },
+              { tu: "hebe", ziel: "raumTeil_3" }
+            ],
             widgetHtml: "<div class=\"vlCallout\"><p><b>Kürzungs-Schritte am Beispiel:</b></p><p>1. Voll: <code>2001:0db8:0000:0000:0001:0000:0000:0001</code><br>2. Regel 1 (Führende Nullen weg): <code>2001:db8:0:0:1:0:0:1</code><br>3. Regel 2 (Erste Nullfolge wird ::): <code>2001:db8::1:0:0:1</code> &checkmark;</p></div>",
             video: {
               titel: "IP ADRESSEN einfach erklärt (IPv4 vs IPv6)",
@@ -39463,6 +39841,10 @@ SW-ETAGE-01# copy running-config startup-config
             "text": "Expansion von IPv6-Adressen: Jede Gruppe wird mit führenden Nullen auf 4 Ziffern ergänzt und :: mit der passenden Anzahl an Null-Blöcken aufgefüllt.",
             absatz: "<p>In IHK-Prüfungen musst du häufig den umgekehrten Weg gehen: <b>Gekürzte Adressen wieder voll ausschreiben</b>. Das gelingt in 4 logischen Schritten:</p><ol><li><b>Sichtbare Blöcke zählen:</b> Bei <code>2001:db8::8a2e:370:7334</code> siehst du 5 Blöcke (<code>2001</code>, <code>db8</code>, <code>8a2e</code>, <code>370</code>, <code>7334</code>).</li><li><b>Fehlende Nullblöcke im <code>::</code> berechnen:</b> Da jede vollständige IPv6-Adresse exakt 8 Blöcke hat, stecken im <code>::</code> genau $\\mathbf{8 - 5 = 3}$ Nullblöcke!</li><li><b>Nullblöcke einsetzen:</b> <code>2001:db8:0:0:0:8a2e:370:7334</code> (nun sind es 8 Blöcke).</li><li><b>Auf 4 Hexziffern auffüllen:</b> Führende Nullen ergänzen $\\rightarrow$ <code>2001:0db8:0000:0000:0000:8a2e:0370:7334</code>!</li></ol>",
             diagramm: "start",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_4" },
+              { tu: "hebe", ziel: "raumTeil_5" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Gekürzte Adresse</th><th>Sichtbare Blöcke</th><th>Fehlende Blöcke im ::</th><th>Voll ausgeschriebene Adresse</th></tr></thead><tbody><tr><td><code>fe80::1</code></td><td>2 (fe80, 1)</td><td>$8 - 2 =$ <b>6 Blöcke</b></td><td><code>fe80:0000:0000:0000:0000:0000:0000:0001</code></td></tr><tr><td><code>::1</code></td><td>1 (1)</td><td>$8 - 1 =$ <b>7 Blöcke</b></td><td><code>0000:0000:0000:0000:0000:0000:0000:0001</code></td></tr><tr><td><code>::</code></td><td>0 (keiner)</td><td>$8 - 0 =$ <b>8 Blöcke</b></td><td><code>0000:0000:0000:0000:0000:0000:0000:0000</code></td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Der kanonische Adressvergleich",
@@ -39473,6 +39855,10 @@ SW-ETAGE-01# copy running-config startup-config
             "text": "Wichtige IPv6-Spezialadressen: ::1/128 (Loopback), ::/128 (unbestimmte Adresse), fe80::/10 (Link-Local) und ff00::/8 (Multicast; kein Broadcast in IPv6!).",
             absatz: "<p>Die wichtigsten <b>IPv6-Spezialadressen</b> für die IHK-Abschlussprüfung:</p><ul><li><b>Loopback-Adresse (<code>::1</code> bzw. <code>::1/128</code>):</b> Entspricht exakt <code>127.0.0.1</code> bei IPv4 (adressiert den eigenen lokalen Host / localhost).</li><li><b>Unspecified Address (<code>::</code> bzw. <code>::/128</code>):</b> Alle 128 Bits sind 0. Entspricht <code>0.0.0.0</code> bei IPv4 (wird z. B. vor der Zuweisung einer IP-Adresse oder bei Routen als Default-Route <code>::/0</code> verwendet).</li><li><b>Link-Local Adressen (<code>fe80::/10</code>):</b> Jedes IPv6-Interface generiert automatisch eine Link-Local-Adresse. Sie ist <b>nicht im Internet routbar</b> und dient der Kommunikation im lokalen LAN-Segment (z. B. für Router Advertisements und Neighbor Discovery).</li><li><b>Unique Local Adressen (ULA, <code>fc00::/7</code>, meist <code>fd00::/8</code>):</b> Das IPv6-Pendant zu den privaten IPv4-Adressen (RFC 1918). Im Firmennetz frei routbar, aber nicht im globalen Internet.</li><li><b>Multicast Adressen (<code>ff00::/8</code>):</b> Bei IPv6 gibt es <b>keinen Broadcast mehr</b>! Alle Rundrufe wurden durch gezielte Multicast-Gruppen ersetzt (z. B. <code>ff02::1</code> für alle IPv6-Knoten im lokalen Link).</li></ul>",
             diagramm: "start",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_6" },
+              { tu: "hebe", ziel: "raumTeil_7" }
+            ],
             video: {
               titel: "Unicast, Multicast, Broadcast, Anycast einfach erklärt",
               kanal: "Patrick Boekhoven",
@@ -39514,6 +39900,10 @@ SW-ETAGE-01# copy running-config startup-config
             "text": "Struktur einer Global Unicast Adresse: 48-Bit-Global-Routing-Präfix, 16-Bit-Subnetz-ID für bis zu 65.536 Subnetze und 64-Bit-Interface-Identifier.",
             absatz: "<p>Im Gegensatz zu IPv4, wo Subnetzmasken je nach Hostbedarf beliebig verschoben wurden, herrscht bei IPv6 eine feste, weltweite Standard-Architektur: <b>Die 64 + 64 Trennung!</b></p><ul><li><b>Netzwerkpräfix (die ersten 64 Bit):</b> Identifiziert weltweit das Netz und das lokale Subnetz (4 Blöcke).</li><li><b>Interface-Identifier (die letzten 64 Bit):</b> Identifiziert eindeutig die Netzwerkschnittstelle des Endgeräts (4 Blöcke).</li><li><b>Goldene IHK-Regel:</b> Jedes Standard-LAN, WLAN oder VLAN hat bei IPv6 <b>immer das Präfix /64</b>! In einem einzigen /64-Subnetz existieren $2^{64} \\approx 18{,}4$ Trillionen IP-Adressen &ndash; Adressknappheit im lokalen Netz gehört endgültig der Vergangenheit an.</li></ul>",
             diagramm: "halb",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_0" },
+              { tu: "hebe", ziel: "raumTeil_1" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Bereich</th><th>Bitbreite</th><th>Hextets (Blöcke)</th><th>Funktion</th></tr></thead><tbody><tr><td><b>Globales Routing-Präfix</b></td><td>48 Bit</td><td>Blöcke 1 bis 3</td><td>Wird von RIR / ISP zugeteilt (z. B. <code>2001:db8:abcd::</code>)</td></tr><tr><td><b>Subnetz-ID</b></td><td>16 Bit</td><td>Block 4</td><td>Wird vom Kunden-Admin für interne VLANs vergeben</td></tr><tr><td><b>Interface-ID</b></td><td>64 Bit</td><td>Blöcke 5 bis 8</td><td>Geräte-ID (SLAAC, EUI-64, Privacy Extensions, DHCPv6)</td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Warum man niemals kleiner als /64 subnetten sollte",
@@ -39524,6 +39914,10 @@ SW-ETAGE-01# copy running-config startup-config
             "text": "Subnetzberechnung bei /64-Grenze: Jeder Kunde erhält meist ein /48- oder /56-Präfix; die Subnetz-ID bestimmt das Teilnetz ohne Hostbit-Rechnerei.",
             absatz: "<p>Die Berechnung der Subnetze für einen Firmen- oder Privatkunden ist dank der 64-Bit-Grenze denkbar einfach:</p><ul><li><b>IHK-Formel:</b> $\\mathbf{\\text{Subnetzbits} = 64 - \\text{Kundenpräfix}}$ $\\rightarrow$ $\\mathbf{\\text{Anzahl Subnetze} = 2^{\\text{Subnetzbits}}}$.</li><li><b>Firmenanschluss (/48):</b> Der Provider weist 48 Bit zu. Dem Kunden verbleiben $64 - 48 = \\mathbf{16}$ Subnetzbits im 4. Block. Das ergibt $2^{16} = \\mathbf{65.536}$ vollwertige /64-Subnetze (von <code>:0000:</code> bis <code>:ffff:</code>)!</li><li><b>Privatkunden- / KMU-Anschluss (/56):</b> Der Provider weist 56 Bit zu. Dem Kunden verbleiben $64 - 56 = \\mathbf{8}$ Subnetzbits. Das ergibt $2^8 = \\mathbf{256}$ vollwertige /64-Subnetze (von <code>:00::/64</code> bis <code>:ff::/64</code>).</li></ul>",
             diagramm: "ebenen",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_0" },
+              { tu: "hebe", ziel: "raumTeil_1" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Kunden-Zuteilung</th><th>Präfix</th><th>Subnetzbits ($64 - P$)</th><th>Mögliche /64-Subnetze ($2^S$)</th><th>Einsatzbereich</th></tr></thead><tbody><tr><td><b>Großkunde / Konzern</b></td><td><b>/48</b></td><td>16 Bit</td><td><b>65.536 Subnetze</b></td><td>Campus, Rechenzentren, weltweite Standorte</td></tr><tr><td><b>KMU / DSL-Privat</b></td><td><b>/56</b></td><td>8 Bit</td><td><b>256 Subnetze</b></td><td>Standard-Business-Anschluss, moderne Router</td></tr><tr><td><b>Kleinstanschluss</b></td><td><b>/60</b></td><td>4 Bit</td><td><b>16 Subnetze</b></td><td>Kleine Zweigstellen, Home-Offices</td></tr><tr><td><b>Einzelnes LAN</b></td><td><b>/64</b></td><td>0 Bit</td><td><b>1 Subnetz</b></td><td>Ein einzelnes VLAN / Subnetz</td></tr></tbody></table>",
             video: {
               titel: "IPv6 Subnetting & Adressaufbau einfach erklärt",
@@ -39581,6 +39975,9 @@ SW-ETAGE-01# copy running-config startup-config
             "text": "IPv6-Adressen in URLs: Da der Doppelpunkt für Portangaben reserviert ist, müssen IPv6-Literale in eckige Klammern gesetzt werden (z. B. http://[2001:db8::1]:8080/).",
             absatz: "<p>In Web-URLs (RFC 3986) trennt standardmäßig ein Doppelpunkt den Hostnamen bzw. die IP-Adresse von der optionalen Portnummer (z. B. <code>http://192.168.1.1:8080/</code>). Da eine IPv6-Adresse jedoch <b>selbst aus Doppelpunkten</b> besteht, entsteht ein gravierender Syntaxkonflikt:</p><ul><li>Würde man <code>http://2001:db8::1:8080/</code> eingeben, könnte kein Webbrowser oder Proxy entscheiden: Ist <code>8080</code> der TCP-Port oder der letzte 16-Bit-Hexblock der IPv6-Adresse?</li><li><b>Die RFC-Lösung (Bracket Notation):</b> In URLs muss eine literale IPv6-Adresse <b>immer in eckige Klammern <code>[...]</code></b> gesetzt werden!</li><li>Syntax: <code>http://[IPv6-Adresse]:Port/Pfad</code></li></ul>",
             diagramm: "start",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_0" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Typ</th><th>Ungültige Syntax</th><th>Korrekte RFC-3986-Syntax</th><th>Erklärung</th></tr></thead><tbody><tr><td><b>Standard-Web (Port 80)</b></td><td><code>http://2001:db8::1/</code></td><td><code>http://[2001:db8::1]/</code></td><td>Klammern zwingend erforderlich</td></tr><tr><td><b>Alternativer Port (8080)</b></td><td><code>http://2001:db8::1:8080/</code></td><td><code>http://[2001:db8::1]:8080/</code></td><td>Port folgt nach der geschlossenen Klammer</td></tr><tr><td><b>Sicheres Web (HTTPS 8443)</b></td><td><code>https://::1:8443/</code></td><td><code>https://[::1]:8443/admin</code></td><td>Lokaler Host auf HTTPS-Port 8443</td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: URL vs. Terminal-Befehl",
@@ -46766,6 +47163,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
             "text": "Das OSI-7-Schichtenmodell und das TCP/IP-4-Schichtenmodell standardisieren Netzwerkprotokolle herstellerunabhängig in modulare Funktionsebenen.",
             "absatz": "<p>Bis in die 1980er Jahre herrschte im Netzwerk babylonische Sprachverwirrung: IBM sprach SNA, DEC sprach DECnet und Apple nur AppleTalk – kein System verstand das andere.</p><p>Um diesen Wildwuchs zu beenden, schuf die ISO das <b>OSI-Referenzmodell mit 7 Schichten</b>. Das Grundprinzip: <b>Jede Schicht hat genau eine feste Aufgabe</b>. Beim Senden wandern die Daten von oben nach unten (Kapselung wie ein Brief in immer neuen Umschlägen), beim Empfangen werden sie von unten nach oben wieder ausgepackt.</p>",
             "diagramm": "osi",
+            "szene": [
+              { "tu": "hebe", "ziel": "a7", "text": "Schicht 7 (Anwendung)" },
+              { "tu": "welle", "bei": "a4" },
+              { "tu": "welle", "bei": "a1" }
+            ],
             "widgetHtml": "<table class=\"vlLayerTable\"><thead><tr><th>OSI-Schicht (7)</th><th>TCP/IP-Schicht (4)</th><th>Aufgabe</th></tr></thead><tbody><tr><td><span class=\"vlLayerBadge lApp\">7 Anwendung, 6 Darstellung, 5 Sitzung</span></td><td><span class=\"vlLayerBadge lApp\">Anwendung</span></td><td>Programme (Browser, Mail), Formate, Sessions</td></tr><tr><td><span class=\"vlLayerBadge lTrans\">4 Transport</span></td><td><span class=\"vlLayerBadge lTrans\">Transport</span></td><td>Ende-zu-Ende, Ports, TCP / UDP</td></tr><tr><td><span class=\"vlLayerBadge lNet\">3 Vermittlung</span></td><td><span class=\"vlLayerBadge lNet\">Internet</span></td><td>Netzübergreifendes Routing, IP-Adressen</td></tr><tr><td><span class=\"vlLayerBadge lLink\">2 Sicherung, 1 Bitübertragung</span></td><td><span class=\"vlLayerBadge lLink\">Netzzugang</span></td><td>Lokale Frames (MAC) &amp; Kabel/Signale</td></tr></tbody></table>",
             "anekdote": {
               "titel": "Aus der Praxis: Der Protokollkrieg",
@@ -46947,6 +47349,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
             "text": "Kapselung beim Senden: Daten durchlaufen die Schichten von oben nach unten (Daten → Segment → Paket → Frame → Bits), wobei jede Schicht eigene Header hinzufügt.",
             "absatz": "<p>Fordert dein Browser eine Webseite an, durchläuft die Nachricht die Schichten wie einen Fahrstuhl von oben nach unten:</p><ul><li><b>Obere Schichten (Software):</b> Schicht 7 (Anwendung: Programme wie HTTP, DNS), Schicht 6 (Darstellung: UTF-8, Kompression) und Schicht 5 (Sitzung: Dialog halten). <i>In TCP/IP alle drei zur Anwendungsschicht verschmolzen!</i></li><li><b>Mittlere Schichten (Netzwerk-Kern):</b> Schicht 4 (Transport: logische Ende-zu-Ende-Verbindung, <b>Ports</b> für Anwendungen, TCP/UDP) und Schicht 3 (Vermittlung: weltweites Routing über <b>IP-Adressen</b>).</li><li><b>Untere Schichten (Kabel &amp; Physik):</b> Schicht 2 (Sicherung: lokaler Hop per <b>MAC-Adresse</b> und Prüfsumme) und Schicht 1 (Bitübertragung: Strom-, Funk- oder Lichtpulse auf dem Medium).</li></ul>",
             "diagramm": "aufg",
+            "szene": [
+              { "tu": "hebe", "ziel": "b0", "text": "Schicht 7: Anwendungsdaten" },
+              { "tu": "hebe", "ziel": "b3", "text": "Schicht 4: Ports (TCP/UDP)" },
+              { "tu": "hebe", "ziel": "b4", "text": "Schicht 3: IP-Routing" }
+            ],
             "anekdote": {
               "titel": "Prüfungs-Merksatz (IHK)",
               "text": "Von Schicht 7 bis 1: <b>A</b>lle <b>D</b>eutschen <b>S</b>chüler <b>T</b>rinken <b>V</b>iel <b>S</b>chlechtes <b>B</b>ier!<br>(<b>A</b>nwendung, <b>D</b>arstellung, <b>S</b>itzung, <b>T</b>ransport, <b>V</b>ermittlung, <b>S</b>icherung, <b>B</b>itübertragung)."
@@ -47048,6 +47455,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
             "text": "Dreistufige Adress-Hierarchie: Schicht 2 adressiert Interfaces per MAC, Schicht 3 Hosts per IP und Schicht 4 Anwendungen per Portnummer.",
             "absatz": "<p>Wie finden Milliarden von Datenpaketen weltweit punktgenau ihr Ziel? Über eine dreistufige Adress-Hierarchie:</p><ul><li><b>MAC-Adresse (Layer 2 · 48 Bit hexadezimal):</b> <i>Die Haustür im lokalen Raum.</i> Sie ist fest in die Netzwerkkarte eingebrannt und gilt immer nur bis zum nächsten Hop (Switch/Router-Interface).</li><li><b>IP-Adresse (Layer 3 · 32 oder 128 Bit):</b> <i>Postleitzahl &amp; Straße weltweit.</i> Sie bleibt über den gesamten weltweiten Weg identisch, damit Router das Ziel über Netzwerkgrenzen hinweg finden.</li><li><b>Portnummer (Layer 4 · 16 Bit · 0–65535):</b> <i>Die Zimmernummer im Haus.</i> Sie sagt dem Betriebssystem, an welches Programm die Daten übergeben werden (z. B. Port 80/443 für Webserver, Port 53 für DNS).</li></ul>",
             "diagramm": "adr",
+            "szene": [
+              { "tu": "hebe", "ziel": "m", "text": "MAC (Hop-zu-Hop)" },
+              { "tu": "paket", "von": "m", "nach": "i" },
+              { "tu": "hebe", "ziel": "p", "text": "Port (Zimmernummer)" }
+            ],
             "widgetHtml": "<table class=\"vlLayerTable\"><thead><tr><th>Gerät</th><th>OSI-Schicht</th><th>Was wertet es aus?</th><th>Analogie</th></tr></thead><tbody><tr><td><b>Hub / Repeater</b></td><td><span class=\"vlLayerBadge lLink\">Schicht 1</span></td><td>Keine Adressen (nur elektrische Signale/Bits)</td><td>Megafon (brüllt alles an jeden Port)</td></tr><tr><td><b>Switch / Bridge</b></td><td><span class=\"vlLayerBadge lLink\">Schicht 2</span></td><td><b>Ziel-MAC-Adresse</b> (Frame, SAT-Tabelle)</td><td>Postbote im Treppenhaus</td></tr><tr><td><b>Router</b></td><td><span class=\"vlLayerBadge lNet\">Schicht 3</span></td><td><b>Netzanteil der Ziel-IP</b> (Routingtabelle)</td><td>Globaler Lotse / Fernverkehr</td></tr></tbody></table>",
             "anekdote": {
               "titel": "Prüfungsfalle: Layer-3-Switch",
@@ -47702,6 +48114,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           {
             "text": "Ein Ethernet-Frame kapselt das IP-Paket auf Schicht 2 mit Präambel, Ziel- und Quell-MAC, EtherType, Nutzdaten (46–1500 Byte) und FCS-Prüfsumme.",
             "diagramm": "over",
+            "szene": [
+              { "tu": "hebe", "ziel": "a", "text": "Header (14 B)" },
+              { "tu": "paket", "von": "a", "nach": "b" },
+              { "tu": "hebe", "ziel": "c", "text": "FCS (4 B)" }
+            ],
             "absatz": `<p>Ein <b>Ethernet-Frame</b> ist der standardisierte Frachtcontainer von Schicht 2: Er schnappt sich das IP-Paket aus Schicht 3 und umhüllt es für den Transport über Kupfer oder Glasfaser.</p>
 <ul>
   <li><b>Präambel (8 Byte):</b> Bitfolge zur Taktsynchronisation auf der Leitung – sie ermöglicht dem Empfänger-Chip das präzise Einrasten, zählt aber <i>nicht</i> zum Daten-Overhead!</li>
@@ -47881,6 +48298,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           {
             "text": "Das 2 Byte große Typfeld (EtherType) signalisiert der empfangenden Netzwerkkarte das Protokoll der Schicht 3 (z. B. 0x0800 für IPv4, 0x86DD für IPv6, 0x0806 für ARP).",
             "diagramm": "vlan",
+            "szene": [
+              { "tu": "hebe", "ziel": "v1", "text": "TPID 0x8100 (VLAN-Kennung)" },
+              { "tu": "welle", "bei": "v2" },
+              { "tu": "hebe", "ziel": "v4", "text": "12-Bit VLAN-ID (4094 nutzbare Netze)" }
+            ],
             "absatz": `<p>Woher weiß die Netzwerkkarte, welches Protokoll in den Nutzdaten steckt? Über das 2 Byte große <b>Typfeld (EtherType)</b>:</p>
 <ul>
   <li><code>0x0800</code> $\\to$ <b>IPv4</b></li>
@@ -48072,6 +48494,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           {
             "text": "Schicht-4-Transportprotokolle: TCP bietet verbindungsorientierte, garantierte Zustellung mit Flusskontrolle; UDP überträgt verbindungslos und schnell mit minimalem Overhead.",
             "diagramm": "sock",
+            "szene": [
+              { "tu": "hebe", "ziel": "i", "text": "IP-Adresse (Host)" },
+              { "tu": "paket", "von": "i", "nach": "p" },
+              { "tu": "hebe", "ziel": "s", "text": "Socket = IP:Port" }
+            ],
             "absatz": `<p>Während IP auf Schicht 3 den Rechner im Netz findet, adressiert Schicht 4 die konkrete Anwendung über <b>16-Bit-Ports</b> ($2^{16} = 65.536$ Ports, 0 bis 65535).</p>
 <p>Die unschlagbare Kombination aus <b>IP-Adresse + Port</b> bildet den sogenannten <b>Socket</b> (z. B. <code>203.0.113.5:443</code>). Jede Netzwerkverbindung ist durch das 5-Tupel (Quell-IP, Quell-Port, Ziel-IP, Ziel-Port, Protokoll) weltweit eineindeutig bestimmt.</p>
 <p>Auf Schicht 4 herrschen zwei völlig verschiedene Philosophien:</p>
@@ -49005,6 +49432,25 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Ein PC ruft eine Webseite auf. Bis die Bits auf der Leitung sind, wird die Anfrage mehrfach eingepackt.",
           "frage": "Was kommt auf jeder Schicht dazu, und wessen Adressen stehen darin?"
         },
+        "vermutung": {
+          "tutor": "Verfolgen wir, wie die Daten Schicht für Schicht eingepackt werden.",
+          "optionen": [
+            {
+              "text": "Jede Schicht packt ihren Header davor; Schicht 2 hängt zusätzlich einen Trailer an.",
+              "szene": [
+                { "tu": "hebe", "ziel": "e0" },
+                { "tu": "hebe", "ziel": "e2" },
+                { "tu": "hebe", "ziel": "e3" }
+              ]
+            },
+            {
+              "text": "Die Daten werden auf jeder Schicht komprimiert und verschlüsselt."
+            },
+            {
+              "text": "Alle Schichten schreiben ihre Information in eine einzige Kopfzeile."
+            }
+          ]
+        },
         "aufbau": [
           {
             "text": "Jede Schicht fügt beim Senden Headerdaten hinzu (Kapselung) und der Empfänger entfernt sie schichtweise wieder (Entkapselung).",
@@ -49267,6 +49713,20 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Auf Schicht 7 läuft, was der Nutzer sieht: Webseiten, Dateien, Mails.",
           "frage": "Welches Protokoll gehört zu welcher Aufgabe, und auf welchem Port lauscht es?"
         },
+        "vermutung": {
+          "tutor": "Schauen wir uns die Standardports auf der Anwendungsbühne an.",
+          "optionen": [
+            {
+              "text": "Über standardisierte Portnummern (z. B. 25 für SMTP, 80 für HTTP, 443 für HTTPS)."
+            },
+            {
+              "text": "Anhand der MAC-Adresse der Netzwerkkarte."
+            },
+            {
+              "text": "Über den Dateinamen am Ende der URL."
+            }
+          ]
+        },
         "aufbau": [
           {
             "text": "Anwendungsprotokolle auf Schicht 7 wie HTTP/HTTPS, DNS, DHCP und SSH stellen die Dienste bereit und lauschen auf standardisierten Well-Known Ports.",
@@ -49297,6 +49757,19 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
         "probe": {
           "art": "mc",
           "frage": "Welches Protokoll versendet E-Mails?",
+          "buehne": {
+            "art": "knoten",
+            "knoten": {
+              "optionZuKnoten": {
+                "0": "q2",
+                "1": "q4",
+                "2": "q3"
+              }
+            },
+            "falsch_szene": [
+              { "tu": "hebe", "ziel": "q4" }
+            ]
+          },
           "optionen": [
             {
               "text": "SMTP",
@@ -49461,6 +49934,20 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Bevor der erste Frame fließt, haben im Hintergrund schon mehrere Hilfsprotokolle gearbeitet.",
           "frage": "Welches Protokoll beantwortet welche Frage?"
         },
+        "vermutung": {
+          "tutor": "Blicken wir hinter die Kulissen der Netzwerkdienste.",
+          "optionen": [
+            {
+              "text": "ARP (IP zu MAC), DNS (Name zu IP), DHCP (Konfiguration), ICMP (Fehlermeldungen)."
+            },
+            {
+              "text": "Nur der Webserver regelt alle Netzwerkaufgaben selbst."
+            },
+            {
+              "text": "HTML und CSS übernehmen die Steuerung der Datenströme."
+            }
+          ]
+        },
         "aufbau": [
           {
             "text": "Hilfs- und Diagnoseprotokolle: ARP löst IP-Adressen in MAC-Adressen auf, ICMP meldet Fehler und steuert Diagnosewerkzeuge wie Ping und Traceroute.",
@@ -49486,6 +49973,18 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
         "probe": {
           "art": "mc",
           "frage": "Ein PC will einen Server im Internet erreichen. Nach welcher IP fragt er per ARP?",
+          "buehne": {
+            "art": "knoten",
+            "knoten": {
+              "optionZuKnoten": {
+                "0": "p0",
+                "2": "p1"
+              }
+            },
+            "falsch_szene": [
+              { "tu": "hebe", "ziel": "p1" }
+            ]
+          },
           "optionen": [
             {
               "text": "Nach der IP seines Standardgateways",
@@ -50240,6 +50739,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           {
             "text": "Schutzziele der Informationssicherheit: Vertraulichkeit (Verschlüsselung), Integrität (Prüfsummen/Signaturen) und Authentizität (Zertifikate).",
             "diagramm": "hyb",
+            "szene": [
+              { "tu": "hebe", "ziel": "y0", "text": "Asymmetrischer Schlüsselaustausch" },
+              { "tu": "paket", "von": "y0", nach: "y1" },
+              { "tu": "hebe", "ziel": "y2", "text": "Symmetrische Datenübertragung" }
+            ],
             "absatz": `<p>Das ursprüngliche Arpanet war auf Gutmütigkeit und reinen Klartext ausgelegt. Im modernen Internet muss jede Übertragung gegen Mitlesen (Vertraulichkeit) und Manipulation (Integrität) gehärtet werden. Dafür gibt es drei Grundmodelle:</p>
 <ul>
   <li><b>Symmetrische Verschlüsselung (z. B. AES-256):</b> Sender und Empfänger nutzen <i>denselben</i> geheimen Schlüssel. Extrem schnell und sparsam – doch wie tauscht man den Schlüssel über ein unsicheres Netz sicher aus?</li>
@@ -50370,6 +50874,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           {
             "text": "TLS (Transport Layer Security) verschlüsselt die Verbindung auf Anwendungsebene (z. B. HTTPS auf Port 443) mittels asymmetrischem Handshake und symmetrischer Session.",
             "diagramm": "tls",
+            "szene": [
+              { "tu": "hebe", "ziel": "l0", "text": "TCP-Verbindung steht" },
+              { "tu": "paket", "von": "l0", nach: "l1" },
+              { "tu": "hebe", "ziel": "l2", "text": "Verschlüsselte TLS-Records" }
+            ],
             "absatz": `<p>Siehst du im Browser das geschlossene Vorhängeschloss, sorgt <b>TLS (Transport Layer Security)</b> für Sicherheit. Es verschlüsselt die Daten der oberen Schichten, bevor sie an Schicht 4 übergeben werden:</p>
 <ol>
   <li><b>TCP-Handshake:</b> Zuerst wird die normale Transportverbindung über Schicht 4 aufgebaut (SYN $\to$ SYN-ACK $\to$ ACK).</li>
@@ -50556,6 +51065,10 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           {
             "text": "IPsec (Internet Protocol Security) sichert IP-Verkehr auf Schicht 3 ab und wird im Tunnel- oder Transportmodus für standortübergreifende VPN-Verbindungen eingesetzt.",
             "diagramm": "ahesp",
+            "szene": [
+              { "tu": "welle", "bei": "ah" },
+              { "tu": "hebe", "ziel": "esp", "text": "ESP: Verschlüsselung & Integrität" }
+            ],
             "absatz": `<p>Während TLS auf Schicht 5 einzelne Anwendungen absichert, schützt <b>IPsec (Internet Protocol Security)</b> ganze Datenströme transparent direkt auf <b>Schicht 3 (Netzwerkschicht)</b>:</p>
 <p><b>Die zwei Betriebsmodi:</b></p>
 <ul>
@@ -54349,6 +54862,24 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           text: "Eine Telefonnummer hat eine Vorwahl und eine Anschlussnummer. Die Vorwahl verrät das Ortsnetz, der Rest den Teilnehmer. Eine IP-Adresse ist genauso aufgebaut.",
           frage: "Woran erkennt ein Rechner, wie viele Stellen der Adresse zum Netz gehören?"
         },
+        vermutung: {
+          tutor: "Schauen wir uns die Bit-Ebene einer IPv4-Adresse an.",
+          optionen: [
+            {
+              text: "Die Subnetzmaske trennt die Bits in Netz- und Hostanteil.",
+              szene: [
+                { tu: "bits", balken: 0, von: 0, bis: 23, rolle: "N" },
+                { tu: "bits", balken: 0, von: 24, bis: 31, rolle: "H" }
+              ]
+            },
+            {
+              text: "Der Router bestimmt das Netz allein durch die Kabellänge."
+            },
+            {
+              text: "Jede Zahl zwischen den Punkten bildet ein eigenes Subnetz."
+            }
+          ]
+        },
         aufbau: [
           {
             "text": "Eine IPv4-Adresse besteht aus 32 Bit, gegliedert in einen Netzanteil (fürs Routing) und einen Hostanteil (für lokale Endgeräte).",
@@ -54412,6 +54943,13 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
         probe: {
           art: "mc",
           frage: "Eine Adresse hat das Präfix /26. Wie viele Hostbits bleiben übrig?",
+          buehne: {
+            art: "bits",
+            bits: { erwartet: 26 },
+            falsch_szene: [
+              { tu: "bits", balken: 0, von: 24, bis: 31, rolle: "H" }
+            ]
+          },
           optionen: [
             {
               text: "6, denn 32 − 26 = 6",
@@ -54452,6 +54990,20 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           text: "Ein Rechner hat die Adresse 192.168.10.77/26. Du sollst sein Netz beschreiben: Wie heißt es, wo endet es, und wie viele Geräte passen hinein?",
           frage: "Welche Adressen gehören zu diesem Netz, und welche davon darf ein Gerät tragen?"
         },
+        vermutung: {
+          tutor: "Sehen wir uns an, welche beiden Adressen eine Sonderrolle haben.",
+          optionen: [
+            {
+              text: "Erste = Netzadresse (alle Hostbits 0), Letzte = Broadcast (alle Hostbits 1)."
+            },
+            {
+              text: "Sie sind für den Router und den Drucker reserviert."
+            },
+            {
+              text: "Die Netzwerkkarten können ungerade Zahlen nicht verarbeiten."
+            }
+          ]
+        },
         aufbau: [
           {
             "text": "Nicht zuweisbare Adressen: In jedem Subnetz sind die Netzadresse (alle Hostbits 0) und die Broadcast-Adresse (alle Hostbits 1) reserviert.",
@@ -54479,6 +55031,10 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           art: "frei",
           frage: "Wie viele Geräte können in einem /27-Netz eine Adresse bekommen?",
           akzeptiert: ["30"],
+          buehne: {
+            art: "regler",
+            regler: { erwartet: 30, min: 2, max: 64, schritt: 2 }
+          },
           tipp: "Hostbits = 32 − 27 = 5. Wie viele Adressen sind das, und wie viele davon sind besonders?",
           loesung: "30. Ein /27 hat 5 Hostbits, also 2⁵ = 32 Adressen. Netzadresse und Broadcast gehören keinem Gerät, es bleiben 32 − 2 = 30 nutzbare Hosts.",
           beleg: { handout: "Subnetting verstehen und rechnen" }
@@ -54502,6 +55058,20 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
         anker: {
           text: "Eine Firma hat das Netz 192.168.10.0/24 mit 254 Plätzen für Geräte. Sie will vier Abteilungen voneinander trennen, jede soll ein eigenes Netz bekommen.",
           frage: "Wie teilt man ein Netz in vier gleich große Netze?"
+        },
+        vermutung: {
+          tutor: "Lass uns Bits leihen und Netze zuschneiden.",
+          optionen: [
+            {
+              text: "2 Bits vom Hostteil leihen -> 2² = 4 Subnetze mit je /26."
+            },
+            {
+              text: "Einfach 4 verschiedene IP-Adressen an denselben Switch anschließen."
+            },
+            {
+              text: "Die Subnetzmaske auf 255.255.255.4 ändern."
+            }
+          ]
         },
         aufbau: [
           {
@@ -54573,6 +55143,20 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
         anker: {
           text: "Drei Abteilungen brauchen 100, 50 und 20 Geräte, dazu kommt eine Router-Verbindung mit 2. Der Adressraum ist 192.168.20.0/24, also 256 Adressen.",
           frage: "Passen alle Netze hinein, wenn jedes gleich groß sein muss?"
+        },
+        vermutung: {
+          tutor: "Prüfen wir, wie unterschiedlich große Netze ohne Lücken hineinpassen.",
+          optionen: [
+            {
+              text: "Nein, feste Größen verschwenden Platz; mit VLSM passt jedes Netz maßgeschneidert."
+            },
+            {
+              text: "Ja, wenn man allen Abteilungen einfach dieselbe /24-Maske gibt."
+            },
+            {
+              text: "Nein, ein /24-Netz kann generell nur eine einzige Abteilung aufnehmen."
+            }
+          ]
         },
         aufbau: [
           {
@@ -55801,17 +56385,29 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           {
             "text": "Beim Stern laufen alle Leitungen von einem zentralen Koppelelement (heute fast ausnahmslos ein Switch) sternförmig zu den Endpunkten.",
             "absatz": "Vorteile des Sterns: Fällt ein einzelnes Endgerät oder Kabel aus, bleibt das restliche Netz voll betriebsbereit. Die Fehlersuche ist einfach und Erweiterungen sind im laufenden Betrieb möglich. Nachteil: Fällt der zentrale Switch aus (Single Point of Failure), sind alle angebundenen Stationen isoliert.",
-            "diagramm": "stern"
+            "diagramm": "stern",
+            "szene": [
+              { "tu": "hebe", "ziel": "sw", "text": "Zentraler Switch" },
+              { "tu": "paket", "von": "sw", "nach": "a" }
+            ]
           },
           {
             "text": "Wird ein Endpunkt selbst Mittelpunkt eines weiteren Sterns, entsteht der erweiterte Stern (Baum-Topologie). Das ist heute der weltweite Standard im LAN.",
             "absatz": "In der Gebäudeverkabelung verbindet ein Core-Switch mehrere Distribution-Switches, an denen wiederum Etagen-Switches und schließlich Arbeitsplatz-PCs hängen.",
-            "diagramm": "baum"
+            "diagramm": "baum",
+            "szene": [
+              { "tu": "hebe", "ziel": "sv", "text": "Core-Switch" },
+              { "tu": "paket", "von": "sv", "nach": "e1" }
+            ]
           },
           {
             "text": "Vollständige Masche (Full Mesh): Jede Station ist mit jeder anderen Station über eine eigene Direktleitung verbunden.",
             "absatz": "Die benötigte Leitungsanzahl wächst quadratisch nach der Gauß-Formel $L = \\frac{n \\cdot (n - 1)}{2}$. Bei 4 Stationen sind es 6 Leitungen, bei 10 bereits 45, bei 50 Stationen astronomische 1.225 Leitungen! Wegen der enormen Kosten für Ports und Kabel wird eine Vollvermaschung nur bei hochkritischen Core-Routern oder im WAN-Backbone eingesetzt.",
-            "diagramm": "masche"
+            "diagramm": "masche",
+            "szene": [
+              { "tu": "hebe", "ziel": "a", "text": "Jeder mit jedem" },
+              { "tu": "paket", "von": "a", "nach": "d" }
+            ]
           },
           {
             "text": "Unvollständige Masche (Partial Mesh): Ein erweiterter Stern wird an strategisch wichtigen Punkten um redundante Querverbindungen ergänzt.",
@@ -56068,12 +56664,20 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
           {
             "text": "Die drei genormten Verkabelungsebenen vom Campus bis zum Schreibtisch:",
             "absatz": "Vom zentralen Standortverteiler führt die Verkabelung sternförmig in drei hierarchischen Stufen zu den Enddosen:",
-            "diagramm": "ebenen"
+            "diagramm": "ebenen",
+            "szene": [
+              { "tu": "hebe", "ziel": "sv", "text": "Standortverteiler" },
+              { "tu": "paket", "von": "sv", "nach": "gv" }
+            ]
           },
           {
             "text": "1. Primärbereich (Geländeverkabelung / Campus Backbone):",
             "absatz": "Verbindet den Standortverteiler (SV) mit den Gebäudeverteilern (GV) mehrerer Gebäude auf einem Betriebsgelände. Wegen großer Distanzen (bis zu mehrere Kilometer) und zum Schutz vor Potenzialunterschieden sowie Blitzeinschlägen kommen hier fast ausschließlich **Lichtwellenleiter (LWL, meist Singlemode)** zum Einsatz.",
-            "diagramm": "prim"
+            "diagramm": "prim",
+            "szene": [
+              { "tu": "hebe", "ziel": "sv", "text": "Primärbereich LWL" },
+              { "tu": "paket", "von": "sv", "nach": "gv" }
+            ]
           },
           {
             "text": "2. Sekundärbereich (Steigbereich / Building Backbone):",
@@ -56083,7 +56687,11 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
           {
             "text": "3. Tertiärbereich (Horizontalverkabelung / Floor Cabling):",
             "absatz": "Verbindet den Etagenverteiler (EV) horizontal über Brüstungskanäle, Doppelböden oder Unterflursysteme mit den informationstechnischen Anschlüssen (TA, Datendosen) der Arbeitsplätze. Hier dominiert geschirmtes Kupferkabel (S/FTP). Wichtig für die IHK: Die Faustformel fordert **einen Etagenverteiler je 1.000 m² Nutzfläche**, um die 90-Meter-Längengrenze nicht zu reißen!",
-            "diagramm": "ter"
+            "diagramm": "ter",
+            "szene": [
+              { "tu": "hebe", "ziel": "ev", "text": "Etagenverteiler" },
+              { "tu": "paket", "von": "ev", "nach": "ta" }
+            ]
           }
         ],
         "widgetHtml": `<div class="card" style="padding:16px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;margin:12px 0;">
@@ -56359,12 +56967,20 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
           {
             "text": "Der Permanent Link (Installationsstrecke) ist die fest in Wänden, Decken oder Unterflur verlegte Strecke.",
             "absatz": "Er beginnt an der Buchse des Patchfelds im Etagenverteiler und endet an der Datendose (TA) am Arbeitsplatz. Nach EN 50173 darf der Permanent Link **höchstens 90 Meter** lang sein. Für diese feste Strecke haftet der ausführende Elektroinstallateur mit einem Abnahmemessprotokoll.",
-            "diagramm": "perm"
+            "diagramm": "perm",
+            "szene": [
+              { "tu": "hebe", "ziel": "pf", "text": "Start Patchfeld" },
+              { "tu": "paket", "von": "pf", "nach": "ta" }
+            ]
           },
           {
             "text": "Der Channel Link (Übertragungskanal) ist die vollständige Ende-zu-Ende-Verbindung von Switch-Port bis Netzwerkkarte des Endgeräts.",
             "absatz": "Er umfasst den Permanent Link plus das Patchkabel im Verteilerschrank (meist max. 5 m) plus das Geräteanschlusskabel am Arbeitsplatz (meist max. 5 m). Der Channel Link darf **höchstens 100 Meter** lang sein.",
-            "diagramm": "chan"
+            "diagramm": "chan",
+            "szene": [
+              { "tu": "hebe", "ziel": "sw", "text": "Vollständiger Channel Link" },
+              { "tu": "paket", "von": "sw", "nach": "pc" }
+            ]
           },
           {
             "text": "Berechnungsbeispiel nach Norm:",
@@ -56374,7 +56990,11 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
           {
             "text": "Die klassische Prüfungsfalle der IHK:",
             "absatz": "Ein Platz mit 92 m Festkabel, 3 m Patchkabel und 5 m Anschlusskabel ergibt in Summe genau 100 m Channel Link. Obwohl der Gesamtweg nicht über 100 m liegt, ist die Anlage unzulässig und erhält kein Zertifikat: Die Feststrecke hat mit 92 m die 90-Meter-Grenze überschritten!",
-            "diagramm": "perm"
+            "diagramm": "perm",
+            "szene": [
+              { "tu": "welle", "bei": "pf" },
+              { "tu": "hebe", "ziel": "ta", "text": "Grenzverletzung > 90 m" }
+            ]
           },
           {
             "text": "Netzwerkschränke folgen weltweit der 19-Zoll-Norm (DIN 41494 / IEC 60297):",
@@ -57351,7 +57971,11 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
           {
             "text": "Strukturierte Verkabelungen sind ohne lückenlose Dokumentation wertlos: Alle Dosen, Kabel und Verteiler gehören in maßstabsgetreue Lagepläne und tragen eindeutige Kennzeichnungen.",
             "absatz": "Eine vollständige Dokumentation nach DIN EN 50174 umfasst: 1. Grundriss- und Trassenpläne, 2. Schrankansichten (Rack-Layouts), 3. Fortlaufende Port- und Rangierlisten sowie 4. Qualifizierte Messprotokolle für jeden einzelnen Permanent Link.",
-            "diagramm": "doku"
+            "diagramm": "doku",
+            "szene": [
+              { "tu": "hebe", "ziel": "g", "text": "Gebäudekennung" },
+              { "tu": "paket", "von": "g", "nach": "s" }
+            ]
           },
           {
             "text": "Systematische Kennzeichnung der Liegenschaft:",
@@ -57366,7 +57990,11 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
           {
             "text": "Das standardisierte Beschriftungsschema nach DIN EN 50174:",
             "absatz": "Aufbau: `Gebäude - Stock (römisch) . Verteiler - Patchfeld . Port`\nBeispiel: `C-IV.1-2.9` bedeutet:\n• `C` = Gebäude C\n• `IV` = 4. Obergeschoss (römisch IV)\n• `1` = Etagenverteiler 1\n• `2` = Patchfeld 2 (Panel 2)\n• `9` = Port 9 auf diesem Patchpanel. Dieser Code steht identisch auf der Datendose im Büro und auf dem Patchpanel im Schrank!",
-            "diagramm": "doku"
+            "diagramm": "doku",
+            "szene": [
+              { "tu": "hebe", "ziel": "v", "text": "Verteiler" },
+              { "tu": "paket", "von": "v", "nach": "p" }
+            ]
           },
           {
             "text": "Die Port- und Rangierliste am Verteilerschrank:",
@@ -57608,17 +58236,29 @@ Syntax: \`Gebäude - Stockwerk(römisch) . Verteiler - Patchpanel . Port\`
           {
             "text": "Die genormte Zuordnung von Kategorie und Klasse nach EN 50173 und ISO/IEC 11801:",
             "absatz": "• **Cat 5e (100 MHz):** Klasse D – Standard für Gigabit-Ethernet (1000Base-T).\n• **Cat 6 (250 MHz):** Klasse E – 1 Gbit/s über 100 m; 10 Gbit/s nur stark eingeschränkt (bis max. ca. 55 m).\n• **Cat 6A (500 MHz):** Klasse EA – Vollwertiges 10-Gigabit-Ethernet (10GBase-T) über die vollen 100 Meter!\n• **Cat 7 (600 MHz):** Klasse F – Paargeschirmt (S/FTP), erfordert Spezialstecker (GG45, TERA).\n• **Cat 7A (1000 MHz):** Klasse FA – Geeignet für Multimedia, Kabel-TV und Highspeed-Netze.\n• **Cat 8 (2000 MHz):** Klasse I/II bzw. G – Für 25GBase-T und 40GBase-T im Rechenzentrum bis 30 Meter.",
-            "diagramm": "kat"
+            "diagramm": "kat",
+            "szene": [
+              { "tu": "hebe", "ziel": "c6a", "text": "Cat 6A (500 MHz, Klasse EA)" },
+              { "tu": "welle", "bei": "c7" }
+            ]
           },
           {
             "text": "Das Bottleneck-Prinzip: Die Strecke ist immer nur so stark wie ihr schwächstes Glied!",
             "absatz": "Wird in einer Kette aus Cat 7 Patchpanel (600 MHz) und Cat 6A Verlegekabel (500 MHz) eine einzige Cat 5e Anschlussdose (100 MHz) oder ein minderwertiges Cat 5e Patchkabel eingesetzt, fällt die gesamte zertifizierte Strecke sofort auf **Klasse D (100 MHz)** zurück!",
-            "diagramm": "schwach"
+            "diagramm": "schwach",
+            "szene": [
+              { "tu": "hebe", "ziel": "d", "text": "Engpass: Cat 5e Dose" },
+              { "tu": "paket", "von": "d", "nach": "st" }
+            ]
           },
           {
             "text": "Warum selbst beste Bauteile die Klasse verfehlen können:",
             "absatz": "Selbst wenn ausschließlich zertifizierte Cat 6A-Komponenten verbaut wurden, kann die fertige Strecke bei der Messung durchfallen (FAIL): Zu starke Knicke (Unterschreiten des Biegeradius), Quetschungen durch Kabelbinder, zu langes Abisolieren der Schirmung oder schlechte Erdung erzeugen unzulässiges Übersprechen (NEXT) und Rückflussdämpfung.",
-            "diagramm": "kb"
+            "diagramm": "kb",
+            "szene": [
+              { "tu": "hebe", "ziel": "b", "text": "Kategorie (Bauteil)" },
+              { "tu": "paket", "von": "b", "nach": "s" }
+            ]
           }
         ],
         "widgetHtml": `<div class="card" style="padding:16px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;margin:12px 0;">
@@ -57941,12 +58581,20 @@ Syntax: \`Gebäude - Stockwerk(römisch) . Verteiler - Patchpanel . Port\`
           {
             "text": "Ein Standard-Netzwerkkabel (Twisted-Pair) enthält immer genau 4 verdrillte Adernpaare, also insgesamt 8 einzeln farblich isolierte Kupferadern.",
             "absatz": "Die 4 Paare besitzen standardisierte Kennfarben: Blau/Weiß-Blau, Orange/Weiß-Orange, Grün/Weiß-Grün und Braun/Weiß-Braun. Jedes Paar hat eine leicht unterschiedliche Schlaglänge (Drill-Steigung), um auch das Nebensprechen (Crosstalk) zwischen den benachbarten Paaren im selben Kabel zu minimieren.",
-            "diagramm": "kabel"
+            "diagramm": "kabel",
+            "szene": [
+              { "tu": "hebe", "ziel": "k", "text": "Twisted-Pair Kabel" },
+              { "tu": "paket", "von": "k", "nach": "p1" }
+            ]
           },
           {
             "text": "Der Leiterdurchmesser wird international nach AWG (American Wire Gauge) angegeben:",
             "absatz": "Hier gilt die eiserne Grundregel: **Je kleiner die AWG-Zahl, desto dicker ist der Kupferdraht!**\n• **AWG 22 (0,644 mm) & AWG 23 (0,572 mm):** Dicke Vollkupfer-Drähte (Solid Core) mit minimalem Widerstand. Sie werden ausschließlich als feste **Verlegekabel** in Wänden und Trassen verlegt.\n• **AWG 26 (0,405 mm) & AWG 27 (0,361 mm):** Dünne, flexible Litzen aus vielen feinen Drähtchen. Sie werden für flexible **Patch- und Anschlusskabel** verwendet, die bewegt und gebogen werden.",
-            "diagramm": "awg"
+            "diagramm": "awg",
+            "szene": [
+              { "tu": "hebe", "ziel": "a22", "text": "AWG 22 (starr, dick)" },
+              { "tu": "paket", "von": "a22", "nach": "a23" }
+            ]
           },
           {
             "text": "Verdrillung schützt vor magnetischer Induktion (z. B. Motoren, Leuchtstoffröhren):",
@@ -57961,7 +58609,11 @@ Syntax: \`Gebäude - Stockwerk(römisch) . Verteiler - Patchpanel . Port\`
           {
             "text": "Die genormte Schirmungskennzeichnung nach ISO/IEC 11801: Schema `XX / Y TP`",
             "absatz": "• `XX` = Gesamtschirm um alle 4 Paare (`U` = ungeschirmt, `F` = Folienschirm, `S` = Geflechtschirm, `SF` = Geflecht + Folie)\n• `/` = Trennzeichen\n• `Y` = Paarschirm um jedes einzelne Adernpaar (`U` = ungeschirmt, `F` = Folienschirm)\n• `TP` = Twisted Pair.\nBeispiel **S/FTP**: Außen ein dichter Kupfer-Geflechtschirm (S), um jedes einzelne Adernpaar eine Alu-Folie (FTP) – der Spitzenstandard in Europa!",
-            "diagramm": "schirm"
+            "diagramm": "schirm",
+            "szene": [
+              { "tu": "hebe", "ziel": "k", "text": "S/FTP Kabel" },
+              { "tu": "paket", "von": "k", "nach": "g" }
+            ]
           }
         ],
         "widgetHtml": `<div class="card" style="padding:16px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;margin:12px 0;">
@@ -58897,12 +59549,20 @@ Syntax: **\`XX / Y TP\`**
           {
             "text": "Multimode-Faser (Gradientenfaser, OM1 bis OM5):",
             "absatz": "Besitzt einen relativ dicken Faserkern von **50 µm** (moderner Standard) oder **62,5 µm** (altes OM1). Lichtstrahlen treten in vielen verschiedenen Winkeln (Moden) ein und legen unterschiedlich lange Wege zurück. Diese **Modendispersion (Laufzeitunterschiede)** verzerrt die Lichtimpulse und begrenzt die maximale Reichweite bei 10 Gbit/s typischerweise auf 300 bis 550 Meter. Als Sender genügen preiswerte LEDs oder VCSEL-Laserdioden (850 nm / 1300 nm).",
-            "diagramm": "mm"
+            "diagramm": "mm",
+            "szene": [
+              { "tu": "hebe", "ziel": "s", "text": "Sender (LED/VCSEL)" },
+              { "tu": "paket", "von": "s", "nach": "f" }
+            ]
           },
           {
             "text": "Singlemode-Faser (Monomode, OS1 / OS2):",
             "absatz": "Besitzt einen winzigen Faserkern von nur ca. **9 µm**. Das Licht breitet sich ausschließlich als einzelne axiale Grundmode geradeaus aus – Modendispersion existiert praktisch nicht! Die Reichweite wird ausschließlich durch die minimale Materialdämpfung begrenzt ($< 0{,}4\\text{ dB/km}$ bei 1310/1550 nm). Singlemode ermöglicht Distanzen von **10 bis über 80 Kilometern** im Weitverkehr und Campus-Backbone, erfordert jedoch präzise Halbleiterlaser.",
-            "diagramm": "sm"
+            "diagramm": "sm",
+            "szene": [
+              { "tu": "hebe", "ziel": "f", "text": "Singlemode (9 µm Kern)" },
+              { "tu": "paket", "von": "f", "nach": "e" }
+            ]
           },
           {
             "text": "Genormte Leistungsklassen und Farbcodierung nach ISO/IEC 11801:",
@@ -58912,7 +59572,11 @@ Syntax: **\`XX / Y TP\`**
           {
             "text": "Die IHK-Rechenformel für das Bandbreiten-Längen-Produkt:",
             "absatz": "Bei Multimode-Fasern ist das Bandbreiten-Längen-Produkt $B'$ in $\\text{MHz} \\cdot \\text{km}$ konstant. Die nutzbare Bandbreite $B$ berechnet sich aus dem Quotienten mit der Länge $l$ in Kilometern:\n$$B = \\frac{B'}{l}$$\nBeispiel OM2 ($B' = 500\\text{ MHz} \\cdot \\text{km}$) auf $2{,}5\\text{ km}$: $B = \\frac{500}{2{,}5} = 200\\text{ MHz}$.",
-            "diagramm": "bpl"
+            "diagramm": "bpl",
+            "szene": [
+              { "tu": "hebe", "ziel": "b", "text": "Bandbreiten-Längen-Produkt B'" },
+              { "tu": "paket", "von": "b", "nach": "l" }
+            ]
           },
           {
             "text": "Dämpfungs- und Bandbreitenrechnung an einem Praxisbeispiel:",
@@ -59238,7 +59902,11 @@ Syntax: **\`XX / Y TP\`**
           {
             "text": "Ethernet-Bezeichnungen nach IEEE 802.3 folgen einem streng dreiteiligen Baukasten-Prinzip: `[Datenrate] [Modulationsart] - [Übertragungsmedium]`.",
             "absatz": "Die Zahl am Anfang gibt die Brutto-Übertragungsrate an: Eine reine Zahl steht für Megabit pro Sekunde (z. B. `10` = 10 Mbit/s, `100` = 100 Mbit/s, `1000` = 1.000 Mbit/s bzw. 1 Gbit/s). Steht ein `G` hinter der Zahl, bedeutet es Gigabit pro Sekunde (z. B. `10G` = 10 Gbit/s, `40G` = 40 Gbit/s, `100G` = 100 Gbit/s).",
-            "diagramm": "eth"
+            "diagramm": "eth",
+            "szene": [
+              { "tu": "hebe", "ziel": "z", "text": "1000 Mbit/s (Datenrate)" },
+              { "tu": "paket", "von": "z", "nach": "b" }
+            ]
           },
           {
             "text": "Der Mittelteil 'Base' steht für Basisband-Übertragung (Baseband):",
@@ -59248,12 +59916,20 @@ Syntax: **\`XX / Y TP\`**
           {
             "text": "Der Buchstabe nach dem Bindestrich kennzeichnet das physikalische Übertragungsmedium:",
             "absatz": "• **`T` = Twisted Pair (Kupferkabel):** `1000Base-T` nutzt 4 verdrillte Paare für Gigabit-Ethernet über bis zu 100 Meter.\n• **`T1` = Single Pair Ethernet (SPE):** Nutzt nur ein einziges Adernpaar für Automotive- und IoT-Industrieanwendungen über 15 m bis 40 m.\n• **`TX`:** Fast Ethernet (100 Mbit/s) über 2 Paare Cat 5.",
-            "diagramm": "eth"
+            "diagramm": "eth",
+            "szene": [
+              { "tu": "hebe", "ziel": "m", "text": "T = Twisted Pair" },
+              { "tu": "welle", "bei": "m" }
+            ]
           },
           {
             "text": "Optische Medien (Glasfaser) und Kupfer-Twinax:",
             "absatz": "• **`SR` / `SR4` (Short Reach):** Multimode-Glasfaser (850 nm) für Strecken bis 100 m bzw. 300 m.\n• **`LR` / `LR4` (Long Reach):** Singlemode-Glasfaser (1310 nm) für Distanzen bis 10 Kilometer.\n• **`ER` / `ER4` (Extended Reach):** Singlemode-Glasfaser (1550 nm) für Distanzen bis 40 Kilometer.\n• **`CR` / `CR4` (Copper Reach):** Passive Kupfer-Twinaxial-Direktverbindung (DAC) für Server-Racks bis maximal 7 bis 10 Meter.",
-            "diagramm": "med"
+            "diagramm": "med",
+            "szene": [
+              { "tu": "hebe", "ziel": "sr", "text": "SR: Multimode (Short Reach)" },
+              { "tu": "welle", "bei": "lr" }
+            ]
           },
           {
             "text": "Wichtige IHK-Besonderheiten und Buch-Errata:",
@@ -59650,7 +60326,11 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
           {
             "text": "WLAN (IEEE 802.11) als Tertiärverlängerung & Shared Medium:",
             "absatz": "In der strukturierten Verkabelung nach DIN EN 50173 hängen WLAN-Access-Points (APs) an regulären RJ45-Telekommunikationsauslässen (TA) der Tertiärebene und werden meist direkt per Power over Ethernet (PoE) mit Betriebsspannung und Daten versorgt. Funk ist physikalisch ein **Shared Medium** (Half-Duplex) mit CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance). Alle gleichzeitig eingebuchten Clients teilen sich die begrenzte Brutto-Bandbreite der Funkzelle, sodass die reale Netto-Datenrate in der Praxis nur etwa 40 bis 50 % des Bruttowerts beträgt.",
-            "diagramm": "ap"
+            "diagramm": "ap",
+            "szene": [
+              { "tu": "hebe", "ziel": "ap", "text": "Access Point an TA" },
+              { "tu": "paket", "von": "ap", "nach": "nb" }
+            ]
           },
           {
             "text": "Betriebsarten: Infrastructure Mode vs. Ad-hoc Mode:",
@@ -59660,12 +60340,20 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
           {
             "text": "Die Wi-Fi-Generationen (Wi-Fi 4 bis Wi-Fi 7):",
             "absatz": "Um die kryptischen IEEE-Namen abzulösen, führte die Wi-Fi Alliance verständliche Versionsnummern ein: **Wi-Fi 4 (802.11n)** funkte erstmals auf 2,4 und 5 GHz mit MIMO. **Wi-Fi 5 (802.11ac)** arbeitet **ausschließlich im 5-GHz-Band** (bis 6,9 Gbit/s mit Wave 2 MU-MIMO). **Wi-Fi 6 (802.11ax)** optimiert dichte Netze durch OFDMA (Orthogonal Frequency Division Multiple Access), 1024-QAM und Target Wake Time (TWT) auf beiden Bändern. **Wi-Fi 7 (802.11be)** bringt Multi-Link Operation (MLO) und 320-MHz-Kanäle für bis zu 46 Gbit/s.",
-            "diagramm": "wifi"
+            "diagramm": "wifi",
+            "szene": [
+              { "tu": "hebe", "ziel": "w6", "text": "Wi-Fi 6 (802.11ax)" },
+              { "tu": "welle", "bei": "w7" }
+            ]
           },
           {
             "text": "Wi-Fi 6E und der Sonderfall WiGig (802.11ad):",
             "absatz": "**Wi-Fi 6E** erweitert den Standard 802.11ax um das völlig ungestörte **6-GHz-Band** (5.925 bis 7.125 GHz), das riesige, unterbrechungsfreie 80- und 160-MHz-Kanäle ohne Störung durch ältere Geräte bietet. **Vorsicht vor IHK-Lehrbuchfehlern:** Das Westermann-Tabellenbuch ordnet **802.11ad** fälschlicherweise Wi-Fi 6 zu. Tatsächlich ist 802.11ad das sogenannte **WiGig** im extrem hochfrequenten **60-GHz-Band** (Millimeterwellen). Es bietet gigantische Datenraten (bis 7 Gbit/s), durchdringt jedoch keine Wände und dient primär der Sichtverbindung im selben Raum.",
-            "diagramm": "wifi"
+            "diagramm": "wifi",
+            "szene": [
+              { "tu": "welle", "bei": "w6" },
+              { "tu": "hebe", "ziel": "wg", "text": "WiGig 802.11ad (60 GHz)" }
+            ]
           },
           {
             "text": "Klassifizierung drahtloser Netze nach Reichweite (WPAN, WLAN, WWAN):",
@@ -60602,6 +61290,10 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
             "text": "VLSM-Ausgangsszenario: Ein vorgegebener Adressblock muss optimal auf mehrere Abteilungen mit unterschiedlichem Hostbedarf aufgeteilt werden.",
             absatz: "<p>Das Ausgangsszenario einer typischen <b>IHK-Abschlussprüfungsaufgabe</b>: Ein Unternehmen erhält den Adressbereich <code>172.16.0.0/22</code>. Wie viele Adressen stehen uns insgesamt zur Verfügung?</p><ul><li>Ein <b>/22-Präfix</b> lässt $32 - 22 = 10$ Hostbits frei.</li><li>Das ergibt insgesamt $2^{10} = \\mathbf{1.024}$ IP-Adressen (von <code>172.16.0.0</code> bis <code>172.16.3.255</code>).</li><li>Die Aufgabe fordert 5 Teilnetze: Verwaltung (300 Hosts), Produktion (200), Lager (60), Server (20) und eine WAN-Strecke (2 Hosts).</li><li><b>Warum VLSM?</b> Bei FLSM (Fixed Length) müssten alle Netze die gleiche Maske bekommen – wir müssten alle auf 300 Hosts dimensionieren ($5 \\times 512 = 2.560$ IPs), was den /22-Block sofort sprengen würde! VLSM schneidet jedem Teilnetz eine individuelle Maske zu.</li></ul>",
             diagramm: "block",
+            szene: [
+              { tu: "bits", balken: 0, von: 0, bis: 21, rolle: "N" },
+              { tu: "bits", balken: 0, von: 22, bis: 31, rolle: "H" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Subnetz</th><th>Hostbedarf</th><th>FLSM-Verschwendung</th><th>VLSM-Ansatz</th></tr></thead><tbody><tr><td><b>Verwaltung</b></td><td>300 Hosts</td><td>512 IPs (/23)</td><td>Maßgeschneidertes /23 (512 IPs)</td></tr><tr><td><b>Produktion</b></td><td>200 Hosts</td><td>512 IPs (312 verschenkt!)</td><td>Passgenaues /24 (256 IPs)</td></tr><tr><td><b>Lager</b></td><td>60 Hosts</td><td>512 IPs (452 verschenkt!)</td><td>Passgenaues /26 (64 IPs)</td></tr><tr><td><b>Server</b></td><td>20 Hosts</td><td>512 IPs (492 verschenkt!)</td><td>Passgenaues /27 (32 IPs)</td></tr><tr><td><b>WAN-Link</b></td><td>2 Hosts</td><td>512 IPs (510 verschenkt!)</td><td>Passgenaues /30 (4 IPs)</td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Warum VLSM unverzichtbar ist",
@@ -60612,6 +61304,9 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
             "text": "Hostbits bestimmen: Für jeden Bedarf wird das kleinste H gesucht, für das 2 hoch H minus 2 größer oder gleich der benötigten Hostanzahl ist.",
             absatz: "<p>Um für jedes Netz das <b>kleinste passende Präfix</b> zu finden, nutzt man die IHK-Bedingung: $\\mathbf{2^H - 2 \\ge \\text{Bedarf}}$ ($H$ = Anzahl der Hostbits):</p><ul><li><b>Verwaltung (300 Hosts):</b> $H=8$ liefert nur $2^8 - 2 = 254$ (zu wenig!). Mit $H=9$ erhalten wir $2^9 - 2 = \\mathbf{510}$ nutzbare Hosts. Präfix: $32 - 9 = \\mathbf{/23}$ (Blockgröße 512).</li><li><b>Produktion (200 Hosts):</b> $H=8$ liefert $2^8 - 2 = \\mathbf{254}$ Hosts $\\ge 200$. Präfix: $32 - 8 = \\mathbf{/24}$ (Blockgröße 256).</li><li><b>Lager (60 Hosts):</b> $H=6$ liefert $2^6 - 2 = \\mathbf{62}$ Hosts $\\ge 60$. Präfix: $32 - 6 = \\mathbf{/26}$ (Blockgröße 64).</li><li><b>Server (20 Hosts):</b> $H=5$ liefert $2^5 - 2 = \\mathbf{30}$ Hosts $\\ge 20$. Präfix: $32 - 5 = \\mathbf{/27}$ (Blockgröße 32).</li><li><b>WAN (2 Hosts):</b> $H=2$ liefert $2^2 - 2 = \\mathbf{2}$ Hosts $\\ge 2$. Präfix: $32 - 2 = \\mathbf{/30}$ (Blockgröße 4).</li></ul>",
             diagramm: "plan",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_0" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Netz</th><th>Bedarf</th><th>Hostbits $H$</th><th>Nutzbare Hosts ($2^H - 2$)</th><th>Präfix</th><th>Blockgröße ($2^H$)</th></tr></thead><tbody><tr><td><b>Verwaltung</b></td><td>300</td><td><b>9</b></td><td>510</td><td><b>/23</b></td><td>512</td></tr><tr><td><b>Produktion</b></td><td>200</td><td><b>8</b></td><td>254</td><td><b>/24</b></td><td>256</td></tr><tr><td><b>Lager</b></td><td>60</td><td><b>6</b></td><td>62</td><td><b>/26</b></td><td>64</td></tr><tr><td><b>Server</b></td><td>20</td><td><b>5</b></td><td>30</td><td><b>/27</b></td><td>32</td></tr><tr><td><b>WAN</b></td><td>2</td><td><b>2</b></td><td>2</td><td><b>/30</b></td><td>4</td></tr></tbody></table>",
             video: {
               titel: "VLSM oder Subnetting 2.0. Einfach erklärt!",
@@ -60669,6 +61364,9 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
             "text": "IHK-Kardinalregel 1: Größte Teilnetze zuerst zuweisen, um Adresslücken und Fragmentierung im Adressraum zu vermeiden.",
             absatz: "<p><b>IHK-Kardinalregel 1: Große Netze ZUERST!</b></p><ul><li>In VLSM-Klausuren <b>musst</b> du die Netze strikt nach ihrer Blockgröße absteigend sortieren: <b>/23 $\\rightarrow$ /24 $\\rightarrow$ /26 $\\rightarrow$ /27 $\\rightarrow$ /30</b>.</li><li><b>Warum?</b> Wenn man mit kleinen Netzen beginnt, zerschneidet man den Adressraum (Fragmentierung). Ein großes Netz (wie /23 mit 512 Adressen) darf aber nicht an einer ungeraden Stelle beginnen – es würde keinen passenden Platz mehr finden!</li><li>Wer die Netze von groß nach klein einteilt, garantiert eine lückenlose, saubere Belegung.</li></ul>",
             diagramm: "plan",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_0" }
+            ],
             widgetHtml: "<div class=\"vlCallout\"><p><b>Sortier-Reihenfolge für den Plan:</b></p><ol><li><b>Verwaltung</b> (/23, Block 512) &ndash; Größtes Subnetz zuerst!</li><li><b>Produktion</b> (/24, Block 256)</li><li><b>Lager</b> (/26, Block 64)</li><li><b>Server</b> (/27, Block 32)</li><li><b>WAN-Link</b> (/30, Block 4) &ndash; Kleinstes Subnetz ganz zum Schluss!</li></ol></div>",
             anekdote: {
               titel: "Die klassische Prüfungsfalle im IHK-Aufgabentext",
@@ -60679,6 +61377,9 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
             "text": "IHK-Kardinalregel 2: Bit-Alignment beachten; jedes Teilnetz darf nur an einer Adresse beginnen, die ein ganzzahliges Vielfaches seiner Blockgröße ist.",
             absatz: "<p><b>IHK-Kardinalregel 2: Bit-Ausrichtung (Alignment auf Vielfache der Blockgröße)!</b></p><ul><li>Ein Teilnetz darf <b>nur dort beginnen</b>, wo alle seine Hostbits <code>0</code> sind. Das bedeutet mathematisch: Die Netzadresse muss immer ein <b>ganzzahliges Vielfaches seiner eigenen Blockgröße</b> sein!</li><li><b>1. Verwaltung (/23, Block 512):</b> Start bei <code>172.16.0.0</code> bis <code>172.16.1.255</code>.</li><li><b>2. Produktion (/24, Block 256):</b> Direkt dahinter ab <code>172.16.2.0</code> bis <code>172.16.2.255</code>. (2.0 ist ein Vielfaches von 256).</li><li><b>3. Lager (/26, Block 64):</b> Direkt dahinter ab <code>172.16.3.0</code> bis <code>172.16.3.63</code>.</li><li><b>4. Server (/27, Block 32):</b> Start bei <code>172.16.3.64</code> bis <code>172.16.3.95</code>. (64 ist ein Vielfaches von 32 $\rightarrow$ passt perfekt!).</li><li><b>5. WAN (/30, Block 4):</b> Start bei <code>172.16.3.96</code> bis <code>172.16.3.99</code>. (96 ist ein Vielfaches von 4 $\rightarrow$ passt perfekt!).</li></ul>",
             diagramm: "zoom1",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_1" }
+            ],
             video: {
               titel: "VLSM Subnetting Beispielaufgabe komplett durchgerechnet",
               kanal: "Patrick Boekhoven",
@@ -60719,6 +61420,9 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
             "text": "Pflichtgrößen für jedes Subnetz: Netzadresse, erste Host-IP, letzte Host-IP, Broadcast-Adresse und neue Subnetzmaske (Dotted Decimal und CIDR).",
             absatz: "<p>Zu jedem Teilnetz im VLSM-Plan verlangt die IHK stets <b>fünf verbindliche Kenngrößen</b>:</p><ol><li><b>Netzadresse (Net-ID):</b> Erste IP des Blocks (alle Hostbits 0).</li><li><b>Subnetzmaske:</b> In Dotted-Decimal und CIDR-Präfix.</li><li><b>1. nutzbare Host-IP:</b> Netzadresse + 1.</li><li><b>Letzte nutzbare Host-IP:</b> Broadcast − 1.</li><li><b>Broadcast-Adresse:</b> Letzte IP des Blocks (alle Hostbits 1).</li></ol><p><b>Beispiel Server-Netz (<code>172.16.3.64/27</code>):</b></p><ul><li>Blockgröße 32 $\\rightarrow$ Netzadresse: <code>172.16.3.64</code>.</li><li>Broadcast: $64 + 32 - 1 = \\mathbf{95} \\rightarrow$ <code>172.16.3.95</code>.</li><li>Nutzbarer Hostbereich: <code>172.16.3.65</code> bis <code>172.16.3.94</code> (30 Hosts, 20 belegt, 10 Reserve).</li></ul>",
             diagramm: "srvraum",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_1" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Netz</th><th>Netzadresse & Maske</th><th>Erster Host</th><th>Letzter Host</th><th>Broadcast-Adresse</th><th>Puffer</th></tr></thead><tbody><tr><td><b>Verwaltung</b></td><td><code>172.16.0.0 /23</code> (255.255.254.0)</td><td><code>172.16.0.1</code></td><td><code>172.16.1.254</code></td><td><code>172.16.1.255</code></td><td>+210 IPs</td></tr><tr><td><b>Produktion</b></td><td><code>172.16.2.0 /24</code> (255.255.255.0)</td><td><code>172.16.2.1</code></td><td><code>172.16.2.254</code></td><td><code>172.16.2.255</code></td><td>+54 IPs</td></tr><tr><td><b>Lager</b></td><td><code>172.16.3.0 /26</code> (255.255.255.192)</td><td><code>172.16.3.1</code></td><td><code>172.16.3.62</code></td><td><code>172.16.3.63</code></td><td>+2 IPs</td></tr><tr><td><b>Server</b></td><td><code>172.16.3.64 /27</code> (255.255.255.224)</td><td><code>172.16.3.65</code></td><td><code>172.16.3.94</code></td><td><code>172.16.3.95</code></td><td>+10 IPs</td></tr><tr><td><b>WAN-Link</b></td><td><code>172.16.3.96 /30</code> (255.255.255.252)</td><td><code>172.16.3.97</code></td><td><code>172.16.3.98</code></td><td><code>172.16.3.99</code></td><td>0 IPs</td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Die .0 und .255 im /23-Netz",
@@ -60729,6 +61433,9 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
             "text": "Point-to-Point-WAN-Links: Nutzen ein /30-Präfix mit 2 Hostbits (4 Adressen gesamt, genau 2 nutzbare Host-IPs) oder modern /31 nach RFC 3021.",
             absatz: "<p>Besonderheit bei Point-to-Point-WAN-Strecken (<b>/30</b>):</p><ul><li>Ein /30-Netz hat nur <b>2 Hostbits</b> ($2^2 = 4$ Adressen gesamt).</li><li>Abzüglich Netz-ID (.96) und Broadcast (.99) bleiben genau <b>2 nutzbare IP-Adressen</b>: <code>172.16.3.97</code> (Router A) und <code>172.16.3.98</code> (Router B).</li><li>Hier bleibt kein einziger Host frei – das Netz ist zu 100 % ausgelastet, was bei statischen Router-Links absolut gewollt ist.</li></ul>",
             diagramm: "zoom2",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_2" }
+            ],
             video: {
               titel: "So funktioniert Subnetting (IPv4) - Schritt für Schritt",
               kanal: "Patrick Boekhoven",
@@ -60769,6 +61476,9 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
             "text": "Abschlusskontrolle: Überlappungsprüfung aller Subnetzgrenzen, Kontrolle der Hostkapazitäten und lückenlose Dokumentation.",
             absatz: "<p>Bevor du eine VLSM-Aufgabe in der IHK-Klausur abgibst, machst du den dreifachen <b>Qualitäts- und Plausibilitäts-Check</b>:</p><ol><li><b>1. Bedarfs-Check:</b> Reichen die nutzbaren Hosts für jede Abteilung? Ja, überall gibt es genügend Puffer ($210 + 54 + 2 + 10 + 0 = 276$ Reserve-IPs in den Netzen).</li><li><b>2. Überschneidungs-Check (Lückenlosigkeit):</b> Jedes nachfolgende Netz beginnt exakt an der IP $\\text{Broadcast des Vorgängers} + 1$:<ul><li>Verwaltung Ende: <code>172.16.1.255</code> $\\rightarrow$ Produktion Start: <code>172.16.2.0</code> $\\checkmark$</li><li>Produktion Ende: <code>172.16.2.255</code> $\\rightarrow$ Lager Start: <code>172.16.3.0</code> $\\checkmark$</li><li>Lager Ende: <code>172.16.3.63</code> $\\rightarrow$ Server Start: <code>172.16.3.64</code> $\\checkmark$</li><li>Server Ende: <code>172.16.3.95</code> $\\rightarrow$ WAN Start: <code>172.16.3.96</code> $\\checkmark$</li></ul></li><li><b>3. Gesamtbilanz:</b> Der ursprüngliche Block <code>172.16.0.0/22</code> umfasst $2^{10} = 1.024$ Adressen.</li></ol>",
             diagramm: "plan",
+            szene: [
+              { tu: "hebe", ziel: "raumTeil_3" }
+            ],
             widgetHtml: "<table class=\"vlLayerTable\"><thead><tr><th>Kategorie</th><th>Berechnung</th><th>IP-Adressen</th><th>Anteil am Block</th></tr></thead><tbody><tr><td><b>Belegte Blöcke</b></td><td>$512 + 256 + 64 + 32 + 4$</td><td><b>868 Adressen</b></td><td>84,8 %</td></tr><tr><td><b>Ungenutzte Reserve</b></td><td>$1.024 - 868$</td><td><b>156 Adressen</b></td><td>15,2 %</td></tr><tr><td><b>Gesamter /22-Block</b></td><td>$2^{10}$</td><td><b>1.024 Adressen</b></td><td>100,0 %</td></tr></tbody></table>",
             anekdote: {
               titel: "Aus der Praxis: Der zusammenhängende Restblock",
@@ -60779,6 +61489,9 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
             "text": "Mathematische Gegenprobe: Logisches UND aus IP-Adresse und Subnetzmaske muss exakt die berechnete Netz-ID des jeweiligen Subnetzes ergeben.",
             absatz: "<p>Mathematische Gegenprobe mit <b>bitweisem logischem UND</b>:</p><ul><li>Gehört die IP <code>172.16.1.200</code> zur Verwaltung? Mit der /23-Maske (<code>255.255.254.0</code>) verknüpft ergibt sich <code>172.16.0.0</code> $\\rightarrow$ Treffer!</li><li>Gehört die IP <code>172.16.2.5</code> zur Verwaltung? Verknüpft mit der /23-Maske ergibt sich <code>172.16.2.0</code> $\\ne 172.16.0.0$ $\\rightarrow$ Nein, gehört zur Produktion!</li><li>Kein Subnetz überlappt sich mit einem anderen. Der Plan ist mathematisch und didaktisch perfekt.</li></ul>",
             diagramm: "undprobe",
+            szene: [
+              { tu: "bits", balken: 0, von: 0, bis: 22, rolle: "N" }
+            ],
             video: {
               titel: "VLSM oder Subnetting 2.0. Einfach erklärt!",
               kanal: "Patrick Boekhoven",
@@ -74208,6 +74921,46 @@ GENERATORS.vlan = function (level) {
     einheitenFuer: function (themen) { return einheitenZuThema(themen || []); }
   };
 
+  // M6: Einheitliche Tutor-Zustände (ruhig, spricht, zeigt, denkt, freut, hoppla)
+  window.TUTOR = {
+    zustand: "ruhig",
+    timer: null,
+    setze: function (zustand) {
+      if (!["ruhig", "spricht", "zeigt", "denkt", "freut", "hoppla"].includes(zustand)) return;
+      this.zustand = zustand;
+      if (this.timer) { clearTimeout(this.timer); this.timer = null; }
+
+      const targets = document.querySelectorAll(".vlTutorDockFigur, .vlTutorDockCard, .vlTutorPodest, .vlTutorFigurWrap");
+      const alleZustaende = ["tutor-ruhig", "tutor-spricht", "tutor-zeigt", "tutor-denkt", "tutor-freut", "tutor-hoppla"];
+      targets.forEach((el) => {
+        el.classList.remove(...alleZustaende);
+        el.classList.add(`tutor-${zustand}`);
+      });
+
+      const poseMap = {
+        ruhig: "idle",
+        spricht: "talk",
+        zeigt: "show",
+        denkt: "think",
+        freut: "cheer",
+        hoppla: "hurt"
+      };
+
+      if (window.TOON && typeof window.TOON.setPose === "function") {
+        const toonFigs = document.querySelectorAll(".vlTutorDockFigur .toonFigureWrap, #vlTutorFigurWrap .toonFigureWrap, .vlLehrerToonFigur");
+        toonFigs.forEach((fig) => {
+          window.TOON.setPose(fig, poseMap[zustand] || "idle");
+        });
+      }
+
+      if (["freut", "hoppla", "zeigt"].includes(zustand)) {
+        this.timer = setTimeout(() => {
+          this.setze("ruhig");
+        }, zustand === "freut" ? 1800 : zustand === "hoppla" ? 1600 : 2500);
+      }
+    }
+  };
+
   // Die Themen in lernziele[].kn sind frei benannt ("Subnetting"), die im Wissensbaum fest
   // ("Subnetting & Subnetzmaske"). Gleichheit waere zu streng: wir vergleichen Woerter
   // (gleich, oder eines endet auf das andere, z. B. "Standardgateway" / "Gateway").
@@ -74797,13 +75550,23 @@ GENERATORS.vlan = function (level) {
       el.innerHTML = `<span class="vlFortschrittText">${esc(was)}</span>`;
       return;
     }
-    const punkte = E.phasen.map((p, i) => {
-      const zustand = i < phaseIdx ? "fertig" : i === phaseIdx ? "akt" : "offen";
-      return `<span class="vlPunkt ${zustand}" title="${esc(p.titel)}"></span>`;
-    }).join("");
+    const anzahl = E.phasen.length;
+    let stationsHtml = "";
+    E.phasen.forEach((p, i) => {
+      const status = i < phaseIdx ? "erledigt" : i === phaseIdx ? "aktiv" : "offen";
+      const legacyZustand = i < phaseIdx ? "fertig" : i === phaseIdx ? "akt" : "offen";
+      const ariaLabel = `Phase ${i + 1}: ${p.titel} (${status})`;
+      stationsHtml += `<li class="ui-route-station ${status}" title="${esc(ariaLabel)}" aria-label="${esc(ariaLabel)}">` +
+        `<span class="ui-route-punkt vlPunkt ${legacyZustand}"></span>` +
+      `</li>`;
+      if (i < anzahl - 1) {
+        const linieErledigt = i < phaseIdx ? " erledigt" : "";
+        stationsHtml += `<span class="ui-route-linie${linieErledigt}" aria-hidden="true"></span>`;
+      }
+    });
     el.innerHTML = `
-      <span class="vlFortschrittText">Phase ${phaseIdx + 1} von ${E.phasen.length} · ${esc(aktPhase().titel)}</span>
-      <span class="vlPunkte">${punkte}</span>`;
+      <span class="vlFortschrittText">Phase ${phaseIdx + 1} von ${anzahl} · ${esc(aktPhase().titel)}</span>
+      <ol class="ui-route vlPunkte" aria-label="Phasen-Route">${stationsHtml}</ol>`;
   }
 
   function zeichneHandout(neueId) {
@@ -74936,6 +75699,18 @@ GENERATORS.vlan = function (level) {
             e.preventDefault();
             const z = $v("vlZurueck");
             if (z && z.style.display !== "none") z.click();
+          }
+        } else if (modus === "probe") {
+          if (["1", "2", "3", "4"].includes(e.key)) {
+            const idx = parseInt(e.key, 10) - 1;
+            const btn = document.querySelector(`.vlOption[data-i="${idx}"]`);
+            if (btn && !btn.disabled) { e.preventDefault(); btn.click(); }
+          }
+        } else if (modus === "anker") {
+          if (["1", "2", "3", "4"].includes(e.key)) {
+            const idx = parseInt(e.key, 10) - 1;
+            const btn = document.querySelector(`.vlVermutungOpt[data-idx="${idx}"]`);
+            if (btn) { e.preventDefault(); btn.click(); }
           }
         }
       });
@@ -75325,6 +76100,9 @@ GENERATORS.vlan = function (level) {
       if (los) {
         los.onclick = () => {
           ton("click");
+          if (!reduzierteBewegung()) {
+            fahreKamera(mobileAusschnitt(AUSSCHNITT_START));
+          }
           // Shrink- und Dock-Animation: Tutor schrumpft flüssig auf seinen rechten Platz
           const stage = $v("vlBegruessungStage");
           if (stage) {
@@ -75384,12 +76162,57 @@ GENERATORS.vlan = function (level) {
 
   function zeichneAnker(k, p) {
     zeigeDiagramm(null, null);
+    const v = p.vermutung;
+    let vermutungHtml = "";
+    if (v && Array.isArray(v.optionen) && v.optionen.length >= 2) {
+      vermutungHtml = `
+        <div class="vlVermutungBox" id="vlVermutungBox">
+          <div class="vlVermutungTitel">${window.ICON ? window.ICON("stern", { groesse: "s" }) : "💡"} Was vermutest du?</div>
+          <div class="vlVermutungOptionen">
+            ${v.optionen.map((opt, i) => `
+              <button type="button" class="vlVermutungOpt ui-option" data-idx="${i}">
+                <span class="ui-option-taste">${i + 1}</span>
+                <span class="ui-option-text">${esc(opt.text)}</span>
+              </button>
+            `).join("")}
+          </div>
+          <div class="vlVermutungFeedback" id="vlVermutungFeedback" hidden></div>
+        </div>`;
+    }
+
+    const weiterText = v ? "Weiter zum Aufbau" : "Schauen wir es uns an";
     k.innerHTML = sprecher(
       `<span class="vlPhaseLabel">${esc(p.titel)}</span>${esc(p.anker.text)}
-       <div class="vlAnkerFrage">${window.ICON ? window.ICON("frage", { groesse: "s" }) : "❓"} ${esc(p.anker.frage)}</div>`,
-      `<button type="button" class="vlBtn primary" id="vlWeiter">Schauen wir es uns an ${window.ICON ? window.ICON("weiter", { groesse: "s" }) : "➔"}</button>`
+       <div class="vlAnkerFrage">${window.ICON ? window.ICON("frage", { groesse: "s" }) : "❓"} ${esc(p.anker.frage)}</div>
+       ${vermutungHtml}`,
+      `<button type="button" class="vlBtn primary" id="vlWeiter">${weiterText} ${window.ICON ? window.ICON("weiter", { groesse: "s" }) : "➔"}</button>`
     );
-    $v("vlWeiter").onclick = () => { modus = "aufbau"; schrittIdx = 0; taktIdx = 0; ton("click"); zeichne(); };
+
+    const weiterBtn = $v("vlWeiter");
+    if (weiterBtn) {
+      weiterBtn.onclick = () => { modus = "aufbau"; schrittIdx = 0; taktIdx = 0; ton("click"); zeichne(); };
+    }
+
+    if (v && v.optionen) {
+      const optBtns = k.querySelectorAll(".vlVermutungOpt");
+      optBtns.forEach((btn) => {
+        btn.onclick = () => {
+          const idx = parseInt(btn.dataset.idx, 10);
+          const opt = v.optionen[idx];
+          optBtns.forEach((b) => b.classList.remove("aktiv", "gewaehlt"));
+          btn.classList.add("aktiv", "gewaehlt");
+          ton("click");
+          const fb = $v("vlVermutungFeedback");
+          if (fb) {
+            fb.hidden = false;
+            fb.innerHTML = `<span class="vlVermutungTutor">${esc(v.tutor || "Schauen wir, ob du recht hast.")}</span>`;
+          }
+          if (opt && opt.szene && window.MOTION) {
+            window.MOTION.spiele(opt.szene);
+          }
+        };
+      });
+    }
   }
 
   function zeichneAufbau(k, p) {
@@ -75543,13 +76366,16 @@ GENERATORS.vlan = function (level) {
     function spieleAktuellenTakt() {
       const aktTakt = takte[taktIdx];
       if (aktTakt && aktTakt.szene && window.MOTION) {
+        if (window.TUTOR && typeof window.TUTOR.setze === "function") window.TUTOR.setze("zeigt");
         window.MOTION.spiele(aktTakt.szene);
       } else if (s.szene && taktIdx === 0 && window.MOTION) {
+        if (window.TUTOR && typeof window.TUTOR.setze === "function") window.TUTOR.setze("zeigt");
         window.MOTION.spiele(s.szene);
       } else if (aktTakt && window.TAKTE && typeof window.TAKTE.autoSignale === "function") {
         const knoten = ermittleSichtbareKnoten(s.diagramm);
         const signale = window.TAKTE.autoSignale(aktTakt.text, knoten);
         if (signale && signale.length > 0 && window.MOTION) {
+          if (window.TUTOR && typeof window.TUTOR.setze === "function") window.TUTOR.setze("zeigt");
           window.MOTION.spiele(signale);
         } else {
           if (typeof window.BUEHNE_NOCHMAL_ZEIGEN === "function") window.BUEHNE_NOCHMAL_ZEIGEN(false);
@@ -75560,6 +76386,9 @@ GENERATORS.vlan = function (level) {
     }
 
     function aktualisiereTaktAnsicht() {
+      if (window.TUTOR && typeof window.TUTOR.setze === "function") {
+        window.TUTOR.setze("spricht");
+      }
       const container = $v("vlTakteContainer");
       if (container) {
         const elTakte = container.querySelectorAll(".ui-takt");
@@ -75669,24 +76498,129 @@ GENERATORS.vlan = function (level) {
   }
 
   function zeichneProbe(k, p, nachWiederholung) {
+    if (window.TUTOR && typeof window.TUTOR.setze === "function") {
+      window.TUTOR.setze("denkt");
+    }
     const pr = p.probe;
+    const b = pr.buehne;
     if (window.MOTION) window.MOTION.stoppe();
     if (typeof window.BUEHNE_NOCHMAL_ZEIGEN === "function") window.BUEHNE_NOCHMAL_ZEIGEN(false);
     zeigeDiagramm(null, null);
     const kopf = `<span class="vlPhaseLabel">Probe${nachWiederholung ? " · zweiter Versuch" : ""}</span>${esc(pr.frage)}`;
     let eingabe;
+    let hinweisBuehne = "";
+    if (b && (b.art === "knoten" || b.art === "bits")) {
+      hinweisBuehne = `
+        <div class="vlBuehneHinweisRow">
+          <span class="vlBuehneHinweis">${window.ICON ? window.ICON("ziel", { groesse: "s" }) : "🎯"} Direkt auf der Bühne antippen:</span>
+          <button type="button" class="vlBuehneWahlLink" id="vlBuehneWahlLink">Lieber per Auswahl antworten</button>
+        </div>`;
+    }
+
     if (pr.art === "frei") {
+      let reglerHtml = "";
+      if (b && b.art === "regler" && b.regler) {
+        const rMin = b.regler.min != null ? b.regler.min : 0;
+        const rMax = b.regler.max != null ? b.regler.max : 64;
+        const rSchritt = b.regler.schritt != null ? b.regler.schritt : 1;
+        const rInit = b.regler.erwartet != null ? Math.max(rMin, b.regler.erwartet - 4) : rMin;
+        reglerHtml = `
+          <div class="vlReglerBox">
+            <div class="vlReglerKopf">
+              <label for="vlBuehneRegler" class="vlReglerLabel">Wert per Regler wählen:</label>
+              <span class="vlReglerZahl" id="vlReglerZahl">${rInit}</span>
+            </div>
+            <input type="range" class="vlRegler" id="vlBuehneRegler" min="${rMin}" max="${rMax}" step="${rSchritt}" value="${rInit}">
+          </div>`;
+      }
       eingabe = `
+        ${reglerHtml}
         <form class="vlProbeForm" id="vlProbeForm">
           <input type="text" id="vlProbeIn" placeholder="Deine Antwort" maxlength="60" autocomplete="off">
           <button type="submit" class="ui-knopf ui-knopf-primaer vlBtn primary">Prüfen</button>
         </form>
         ${pr.tipp ? `<button type="button" class="ui-knopf ui-knopf-sekundaer vlTippBtn" id="vlTippBtn">${window.ICON ? window.ICON("stern", { groesse: "s" }) : "💡"} Tipp anzeigen</button><div class="vlTipp" id="vlTipp" hidden>${esc(pr.tipp)}</div>` : ""}`;
     } else {
-      eingabe = `<div class="vlOptionen">` + (pr.optionen || []).map((o, i) =>
+      eingabe = hinweisBuehne + `<div class="vlOptionen">` + (pr.optionen || []).map((o, i) =>
         `<button type="button" class="vlOption ui-option" data-i="${i}"><span class="ui-option-taste">${i + 1}</span><span class="ui-option-text">${esc(o.text)}</span></button>`).join("") + `</div>`;
     }
     k.innerHTML = sprecher(kopf, eingabe);
+
+    if (b && b.art === "regler") {
+      const rSlider = $v("vlBuehneRegler");
+      if (rSlider) {
+        rSlider.oninput = () => {
+          const z = $v("vlReglerZahl");
+          if (z) z.textContent = rSlider.value;
+          const inp = $v("vlProbeIn");
+          if (inp) inp.value = rSlider.value;
+        };
+      }
+    }
+
+    if (b && b.art === "knoten" && b.knoten && b.knoten.optionZuKnoten) {
+      const mapping = b.knoten.optionZuKnoten;
+      const svg = $v("vlSvgStage") || document.querySelector(".vlStageSvg, svg");
+      const aliasZuId = {
+        hostA: "vlHostA", hostB: "vlHostB", hostC: "vlHostC", hostD: "vlHostD",
+        switch: "vlSwitchNode", router: "vlRouterNode", cloud: "vlCloudNode"
+      };
+      Object.entries(mapping).forEach(([optIdxStr, kId]) => {
+        const optIdx = parseInt(optIdxStr, 10);
+        const targetId = aliasZuId[kId] || kId;
+        const el = (svg && svg.querySelector(`[data-knoten="${kId}"], #${targetId}, #${kId}`)) || $v(targetId) || $v(kId);
+        if (el) {
+          el.classList.add("vlBuehneKnotenAktiv");
+          el.onclick = (ev) => {
+            ev.stopPropagation();
+            const optBtn = k.querySelector(`.vlOption[data-i="${optIdx}"]`);
+            if (optBtn && !optBtn.disabled) {
+              const o = (pr.optionen || [])[optIdx];
+              if (o && !o.richtig && b.falsch_szene && window.MOTION) {
+                window.MOTION.spiele(b.falsch_szene);
+              }
+              optBtn.click();
+            }
+          };
+        }
+      });
+    }
+
+    if (b && b.art === "bits" && b.bits && b.bits.erwartet != null) {
+      const svg = $v("vlSvgStage") || document.querySelector(".vlStageSvg, svg");
+      if (svg) {
+        const bitElements = svg.querySelectorAll(".vlBit[data-bit]");
+        bitElements.forEach((el) => {
+          el.classList.add("vlBuehneKnotenAktiv");
+          el.onclick = (ev) => {
+            ev.stopPropagation();
+            const bitVal = parseInt(el.getAttribute("data-bit"), 10);
+            if (bitVal === b.bits.erwartet) {
+              const rIdx = (pr.optionen || []).findIndex((o) => o.richtig);
+              if (rIdx >= 0) k.querySelector(`.vlOption[data-i="${rIdx}"]`)?.click();
+            } else {
+              if (b.falsch_szene && window.MOTION) {
+                window.MOTION.spiele(b.falsch_szene);
+              }
+              const fIdx = (pr.optionen || []).findIndex((o) => !o.richtig);
+              if (fIdx >= 0) k.querySelector(`.vlOption[data-i="${fIdx}"]`)?.click();
+            }
+          };
+        });
+      }
+    }
+
+    const wahlLink = $v("vlBuehneWahlLink");
+    if (wahlLink) {
+      wahlLink.onclick = () => {
+        const optEl = k.querySelector(".vlOptionen");
+        if (optEl) {
+          optEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          const firstBtn = optEl.querySelector("button");
+          if (firstBtn) firstBtn.focus();
+        }
+      };
+    }
 
     if (pr.art === "frei") {
       $v("vlProbeForm").onsubmit = (e) => {
@@ -75704,13 +76638,16 @@ GENERATORS.vlan = function (level) {
         btn.onclick = () => {
           const idx = parseInt(btn.dataset.i, 10);
           const o = pr.optionen[idx];
-          k.querySelectorAll(".vlOption").forEach((b, bIdx) => {
-            b.disabled = true;
+          if (!o.richtig && b && b.falsch_szene && window.MOTION) {
+            window.MOTION.spiele(b.falsch_szene);
+          }
+          k.querySelectorAll(".vlOption").forEach((bBtn, bIdx) => {
+            bBtn.disabled = true;
             const optData = pr.optionen[bIdx];
             if (optData && optData.richtig) {
-              b.classList.add("richtig");
-              if (!b.querySelector(".ui-option-icon")) {
-                b.insertAdjacentHTML("beforeend", `<span class="ui-option-icon">${window.ICON ? window.ICON("haken", { groesse: "s" }) : "✓"}</span>`);
+              bBtn.classList.add("richtig");
+              if (!bBtn.querySelector(".ui-option-icon")) {
+                bBtn.insertAdjacentHTML("beforeend", `<span class="ui-option-icon">${window.ICON ? window.ICON("haken", { groesse: "s" }) : "✓"}</span>`);
               }
             }
           });
@@ -75739,6 +76676,9 @@ GENERATORS.vlan = function (level) {
     merkeFuerWiederholung(p, richtig, eingabe);
 
     if (richtig) {
+      if (window.TUTOR && typeof window.TUTOR.setze === "function") {
+        window.TUTOR.setze("freut");
+      }
       e.richtig = true;
       ton("correct");
       if (btn) {
@@ -75767,6 +76707,9 @@ GENERATORS.vlan = function (level) {
       return;
     }
 
+    if (window.TUTOR && typeof window.TUTOR.setze === "function") {
+      window.TUTOR.setze("hoppla");
+    }
     ton("wrong");
     versuche++;
     if (btn) {
@@ -75836,6 +76779,10 @@ GENERATORS.vlan = function (level) {
 
   // Nach der Probe: hat die Phase einen Uebungsblock (p.uebung, siehe f_uebung.js), kommt er vor der Sicherung.
   function nachProbe(p) {
+    document.querySelectorAll(".vlBuehneKnotenAktiv").forEach((el) => {
+      el.classList.remove("vlBuehneKnotenAktiv");
+      el.onclick = null;
+    });
     const weiterFn = () => {
       modus = (p.uebung && p.uebung.length && window.Uebung) ? "uebung" : "sicherung";
       zeichne();
@@ -75872,6 +76819,9 @@ GENERATORS.vlan = function (level) {
   }
 
   function zeichneSicherung(k, p) {
+    if (window.TUTOR && typeof window.TUTOR.setze === "function") {
+      window.TUTOR.setze("freut");
+    }
     const warNeu = freigegeben.indexOf(p.id) < 0;
     if (warNeu) freigegeben.push(p.id);
     zeichneHandout(warNeu ? p.id : null);
@@ -75886,6 +76836,18 @@ GENERATORS.vlan = function (level) {
         <button type="button" class="vlBtn primary" id="vlWeiter">${letzte ? "Zum Abschlusstest ➔" : "Nächste Phase ➔"}</button>
        </div>`
     );
+
+    // Sicherungsflug: Merksatz-Badge fliegt sanft in das Handout-Icon
+    const merksatzEl = k.querySelector(".vlMerksatzGross");
+    const zielEl = $v("vlPanelToggle") || $v("vlTabHandout") || document.querySelector(".vlKopfRechts");
+    if (merksatzEl && zielEl && window.MOTION && typeof window.MOTION.AKTIONEN.fliege === "function") {
+      setTimeout(() => {
+        try {
+          window.MOTION.AKTIONEN.fliege({ von: merksatzEl, nach: zielEl, text: "🔑 Handout" });
+        } catch (_) {}
+      }, 350);
+    }
+
     $v("vlWeiter").onclick = () => {
       ton("click");
       if (letzte && E.uebung && E.uebung.length && window.Uebung) { modus = "abschluss"; }
@@ -75982,6 +76944,9 @@ GENERATORS.vlan = function (level) {
   function zeichneBilanz(k) {
     zeigeDiagramm("tabelle", null);
     speichereLernstand();
+    if (window.TUTOR && typeof window.TUTOR.setze === "function") {
+      window.TUTOR.setze("freut");
+    }
     const minuten = Math.max(1, Math.round((Date.now() - begonnen) / 60000));
     const zeilen = (E.lernziele || []).map((l) => {
       const e = ergebnis[l.id] || { richtig: false, versuche: 0 };
@@ -75992,10 +76957,29 @@ GENERATORS.vlan = function (level) {
       return `<li><span class="vlBilanzZeichen ${e.richtig ? "ok" : "offen"}">${zeichen}</span> ${esc(l.text)} <span class="muted">· ${esc(text)}</span></li>`;
     }).join("");
     const vor = E._vorQuote, nach = E._nachQuote;
-    const vergleich = (typeof vor === "number" && typeof nach === "number")
-      ? `<div class="vlVergleich">Einstiegstest ${vor} % → Abschlusstest ${nach} %${nach > vor ? ` <b>(+${nach - vor})</b>` : ""}</div>` : "";
+    let vergleich = "";
+    if (typeof vor === "number" || typeof nach === "number") {
+      const vVal = typeof vor === "number" ? Math.max(0, Math.min(100, Math.round(vor))) : 0;
+      const nVal = typeof nach === "number" ? Math.max(0, Math.min(100, Math.round(nach))) : 100;
+      const zuwachs = nVal - vVal;
+      vergleich = `
+        <div class="vlVergleich vlVergleichBalken" aria-label="Wissenszuwachs">
+          <div class="vlVergleichZeile">
+            <span class="vlVergleichLabel">Einstiegstest:</span>
+            <div class="vlVergleichTrack"><div class="vlVergleichFill vor" style="width: ${vVal}%;"></div></div>
+            <span class="vlVergleichWert">${typeof vor === "number" ? vVal + " %" : "–"}</span>
+          </div>
+          <div class="vlVergleichZeile">
+            <span class="vlVergleichLabel">Abschlusstest:</span>
+            <div class="vlVergleichTrack"><div class="vlVergleichFill nach" style="width: ${nVal}%;"></div></div>
+            <span class="vlVergleichWert">${nVal} %</span>
+          </div>
+          ${zuwachs > 0 ? `<div class="vlVergleichPlus"><b>+${zuwachs} %</b> Wissenszuwachs! 🎉</div>` : ""}
+        </div>`;
+    }
     k.innerHTML = sprecher(
-      `<span class="vlPhaseLabel">Einheit geschafft</span>Du warst ${minuten} Minuten dran.${vergleich}
+      `<div class="vlTitelFeier"><span>🎉</span><span>Großartig gemacht!</span></div>
+       <span class="vlPhaseLabel">Einheit geschafft</span>Du warst ${minuten} Minuten dran.${vergleich}
        <ul class="vlBilanz">${zeilen}</ul>
        <div class="vlRueckHinweis">Offene Punkte liegen jetzt in deiner Wiederholung und kommen im Fehler-Training wieder.</div>`,
       `<div class="vlKartenAktionen">
