@@ -16427,6 +16427,184 @@ html[data-theme="outdoor"] .vlLayerTable td { border-bottom: 1px solid var(--f-g
   border-color: var(--akzent);
 }
 
+/* ---------------- Sprachgesteuerte Tutor-KI (Voice Tutor) ---------------- */
+.vlTutorDockCard {
+  position: relative;
+}
+
+.vlTutorDockAktionen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--a-1);
+  width: 100%;
+  margin-top: var(--a-1);
+}
+
+.vlTutorVoiceBtn,
+.vlTutorAutoTtsBtn {
+  width: 100%;
+  padding: var(--a-1) var(--a-2);
+  border-radius: var(--r-1);
+  border: 1px solid var(--linie);
+  background: var(--f-3);
+  color: var(--t-1);
+  font-size: var(--gr-xs);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--d-2) var(--e-standard), border-color var(--d-2) var(--e-standard), transform var(--d-1) var(--e-standard);
+  text-align: center;
+}
+
+.vlTutorVoiceBtn.mic {
+  border-color: var(--akzent);
+  background: var(--akzent-flaeche);
+  color: var(--t-1);
+}
+
+.vlTutorVoiceBtn:hover,
+.vlTutorAutoTtsBtn:hover {
+  background: var(--f-4);
+  border-color: var(--akzent);
+}
+
+.vlTutorVoiceBtn.lauscht,
+.vlCoachMicBtn.lauscht {
+  border-color: var(--fehler);
+  background: var(--fehler-flaeche);
+  color: var(--fehler);
+  animation: puls var(--d-4) infinite;
+}
+
+.vlTutorVoiceBtn.tts.aktiv,
+.vlTutorAutoTtsBtn.aktiv,
+.vlCoachVoiceToggle.aktiv {
+  border-color: var(--ok);
+  background: var(--ok-flaeche);
+  color: var(--ok);
+}
+
+.vlTutorDock.spricht .vlTutorDockFigur {
+  border-color: var(--ok);
+  box-shadow: 0 0 14px var(--ok-flaeche);
+}
+
+.vlTutorDock.lauscht .vlTutorDockFigur {
+  border-color: var(--fehler);
+  box-shadow: 0 0 14px var(--fehler-flaeche);
+}
+
+.vlTutorSoundWave {
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  height: 12px;
+  margin-top: 2px;
+}
+
+.vlTutorDock.spricht .vlTutorSoundWave {
+  display: inline-flex;
+}
+
+.vlTutorSoundWave span {
+  width: 3px;
+  height: 10px;
+  border-radius: var(--r-voll);
+  background: var(--ok);
+  animation: welle var(--d-3) infinite alternate;
+}
+
+.vlTutorSoundWave span:nth-child(2) {
+  height: 12px;
+  animation-delay: 120ms;
+}
+
+.vlTutorSoundWave span:nth-child(3) {
+  height: 8px;
+  animation-delay: 240ms;
+}
+
+.vlTutorVoiceBubble {
+  position: absolute;
+  right: calc(100% + var(--a-2));
+  top: 0;
+  width: 270px;
+  max-width: 72vw;
+  background: var(--f-2);
+  border: 1px solid var(--akzent);
+  border-radius: var(--r-2);
+  padding: var(--a-2) var(--a-3);
+  color: var(--t-1);
+  font-size: var(--gr-xs);
+  line-height: 1.45;
+  box-shadow: var(--schatten-2);
+  z-index: 40;
+}
+
+.vlVoiceSub {
+  color: var(--t-2);
+  font-size: var(--gr-xs);
+}
+
+.vlVoiceBubbleAntwort {
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.vlCoachVoiceBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--a-2);
+  margin-bottom: var(--a-2);
+}
+
+.vlCoachQuickChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--a-1);
+  margin-bottom: var(--a-2);
+}
+
+.vlQuickChip {
+  padding: var(--a-1) var(--a-2);
+  border-radius: var(--r-voll);
+  border: 1px solid var(--linie);
+  background: var(--f-3);
+  color: var(--t-2);
+  font-size: var(--gr-xs);
+  cursor: pointer;
+  transition: background var(--d-2) var(--e-standard), color var(--d-2) var(--e-standard), border-color var(--d-2) var(--e-standard);
+}
+
+.vlQuickChip:hover {
+  background: var(--akzent-flaeche);
+  border-color: var(--akzent);
+  color: var(--t-1);
+}
+
+.vlCoachMicBtn {
+  flex-shrink: 0;
+  padding: var(--a-2);
+}
+
+.vlMsgSpeakBtn {
+  margin-top: var(--a-1);
+  padding: 2px var(--a-2);
+  border-radius: var(--r-1);
+  border: 1px solid var(--linie);
+  background: var(--f-2);
+  color: var(--t-2);
+  font-size: var(--gr-xs);
+  cursor: pointer;
+}
+
+.vlMsgSpeakBtn:hover {
+  border-color: var(--akzent);
+  color: var(--t-1);
+}
+
+
 /* ---- wissensbaum.css ---- */
 /* wissensbaum.css - Modernes Wissensbaum-Dashboard & Dynamische Wachstums-Engine */
 
@@ -76339,6 +76517,673 @@ ARTEN.sniper = {
   };
 })();
 
+/* ---- f_sprach_tutor.js ---- */
+// f_sprach_tutor.js - Sprachgesteuerte Tutor-KI (Web Speech API: Speech-to-Text + Text-to-Speech)
+// mit mathematisch-technischer Aussprache-Engine, Lippensynchronisation (window.TOON),
+// Hands-Free-Sprachbefehlen und zweistufigem KI-Gehirn (Cloud /coach + lokales LF3-Didaktik-Gehirn).
+(function () {
+  "use strict";
+
+  const STORAGE_KEY_AUTO_TTS = "fi-quiz-sprach-auto-v1";
+  const STORAGE_KEY_RATE = "fi-quiz-sprach-rate-v1";
+
+  let autoVorlesen = false;
+  let sprechTempo = 1.02;
+  let sprichtGerade = false;
+  let hoertGeradeZu = false;
+  let aktiverErkenner = null;
+  let stimmenCache = [];
+  let lipSyncTimer = null;
+
+  try {
+    autoVorlesen = localStorage.getItem(STORAGE_KEY_AUTO_TTS) === "1";
+    const r = parseFloat(localStorage.getItem(STORAGE_KEY_RATE));
+    if (!isNaN(r) && r >= 0.75 && r <= 1.4) sprechTempo = r;
+  } catch (_) {}
+
+  // ---------------------------------------------------------------- 1. Stimmen-Verwaltung (Web Speech Synthesis)
+  function ladeStimmen() {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return [];
+    try {
+      const alle = window.speechSynthesis.getVoices() || [];
+      if (alle.length) stimmenCache = alle;
+    } catch (_) {}
+    return stimmenCache;
+  }
+
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    ladeStimmen();
+    if (typeof window.speechSynthesis.onvoiceschanged !== "undefined") {
+      window.speechSynthesis.onvoiceschanged = ladeStimmen;
+    }
+  }
+
+  function waehleBesteDeutscheStimme(geschlecht) {
+    const stimmen = ladeStimmen();
+    const deStimmen = stimmen.filter((v) => /^de([-_]|$)/i.test(v.lang || ""));
+    if (!deStimmen.length) return stimmen[0] || null;
+
+    // Priorisiere Natural / Neural Stimmen (Edge / Windows / Google)
+    const istWeiblich = geschlecht === "w";
+    const bevorzugteNamenW = ["katja", "amala", "seraphina", "hedda", "anna", "google deutsch", "natural", "neural"];
+    const bevorzugteNamenM = ["conrad", "killian", "florian", "stefan", "markus", "google deutsch", "natural", "neural"];
+    const suchListe = istWeiblich ? bevorzugteNamenW : bevorzugteNamenM;
+
+    // 1. Natural/Online + passender Name
+    for (const k of suchListe) {
+      const treffer = deStimmen.find((v) => {
+        const n = (v.name || "").toLowerCase();
+        return n.includes(k) && (n.includes("natural") || n.includes("online") || n.includes("neural"));
+      });
+      if (treffer) return treffer;
+    }
+
+    // 2. Passender Name allgemein
+    for (const k of suchListe) {
+      const treffer = deStimmen.find((v) => (v.name || "").toLowerCase().includes(k));
+      if (treffer) return treffer;
+    }
+
+    // 3. Irgendeine Natural-Stimme auf Deutsch
+    const naturalDe = deStimmen.find((v) => /natural|neural|online/i.test(v.name || ""));
+    if (naturalDe) return naturalDe;
+
+    return deStimmen[0];
+  }
+
+  // ---------------------------------------------------------------- 2. Mathe-, Formel- & Netzwerk-Aussprache-Normalisierer
+  function bereiteTextFuerSpracheVor(rohText) {
+    if (!rohText) return "";
+    let s = String(rohText);
+
+    // HTML-Elemente mit aria-label oder math-Attributen freundlich auflösen, dann Tags entfernen
+    s = s.replace(/<br\s*\/?>/gi, ". ");
+    s = s.replace(/<\/(p|div|li|h[1-6]|tr|blockquote)>/gi, ". ");
+    s = s.replace(/<[^>]+>/g, " ");
+
+    // HTML-Entities dekodieren
+    s = s
+      .replace(/&nbsp;/gi, " ")
+      .replace(/&amp;/gi, " und ")
+      .replace(/&lt;/gi, " kleiner als ")
+      .replace(/&gt;/gi, " größer als ")
+      .replace(/&quot;/gi, "")
+      .replace(/&#39;/gi, "")
+      .replace(/&radic;/gi, "√")
+      .replace(/&Omega;/gi, "Ω");
+
+    // LaTeX-Kommandos für Elektrotechnik & Mathematik in gesprochenes Lehrer-Deutsch übersetzen
+    s = s.replace(/\\hat\s*\{\s*U\s*\}/g, " U-Dach ");
+    s = s.replace(/\\hat\s*\{\s*u\s*\}/g, " u-Dach ");
+    s = s.replace(/\\hat\s*\{\s*I\s*\}/g, " I-Dach ");
+    s = s.replace(/[Ûû]/g, " U-Dach ");
+    s = s.replace(/[Îî]/g, " I-Dach ");
+
+    s = s.replace(/U_\s*\{\s*\\text\s*\{\s*eff\s*\}\s*\}/gi, " U-effektiv ");
+    s = s.replace(/U_\s*\{\s*eff\s*\}/gi, " U-effektiv ");
+    s = s.replace(/\bU_eff\b/gi, " U-effektiv ");
+    s = s.replace(/I_\s*\{\s*\\text\s*\{\s*eff\s*\}\s*\}/gi, " I-effektiv ");
+    s = s.replace(/\bI_eff\b/gi, " I-effektiv ");
+    s = s.replace(/P_\s*\{\s*\\text\s*\{\s*ab\s*\}\s*\}/gi, " P-ab ");
+    s = s.replace(/P_\s*\{\s*\\text\s*\{\s*zu\s*\}\s*\}/gi, " P-zu ");
+    s = s.replace(/\bP_ab\b/g, " P-ab ");
+    s = s.replace(/\bP_zu\b/g, " P-zu ");
+    s = s.replace(/\bP_V\b/g, " P-Verlust ");
+    s = s.replace(/\bR_L\b/g, " R-Leitung ");
+    s = s.replace(/\bI_N\b/g, " Neutralleiterstrom I-N ");
+
+    // Brüche & Wurzeln
+    s = s.replace(/\\frac\s*\{([^}]+)\}\s*\{([^}]+)\}/g, " $1 geteilt durch $2 ");
+    s = s.replace(/\\sqrt\s*\{([^}]+)\}/g, " Wurzel aus $1 ");
+    s = s.replace(/√\s*(\d+)/g, " Wurzel aus $1 ");
+    s = s.replace(/√/g, " Wurzel aus ");
+
+    // Griechische Symbole & Operatoren
+    s = s.replace(/\\Delta\s*U/g, " Delta U ");
+    s = s.replace(/ΔU/g, " Delta U ");
+    s = s.replace(/\\cos\s*\\varphi|\\cos\s*\(\s*\\varphi\s*\)|cos\s*\(\s*φ\s*\)|cos\s*φ/gi, " Cosinus Phi ");
+    s = s.replace(/\\varphi|\\phi|φ/g, " Phi ");
+    s = s.replace(/\\eta|η/g, " Eta ");
+    s = s.replace(/\\Omega|Ω/g, " Ohm ");
+    s = s.replace(/\\mu\s*m|µm/g, " Mikrometer ");
+    s = s.replace(/\\oplus|⊕/g, " X-O-R ");
+    s = s.replace(/\\cdot|·/g, " mal ");
+    s = s.replace(/\\times|×/g, " mal ");
+    s = s.replace(/\\approx|≈/g, " ist ungefähr ");
+    s = s.replace(/\\neq|≠/g, " ungleich ");
+    s = s.replace(/\\le|≤/g, " kleiner gleich ");
+    s = s.replace(/\\ge|≥/g, " größer gleich ");
+    s = s.replace(/\\to|→|➔/g, " führt zu ");
+
+    // Potenzen
+    s = s.replace(/2\s*\^\s*\{([^}]+)\}/g, " 2 hoch $1 ");
+    s = s.replace(/2\s*\^\s*(\d+)/g, " 2 hoch $1 ");
+    s = s.replace(/I\s*\^\s*2|I²/g, " I Quadrat ");
+    s = s.replace(/mm²/g, " Quadratmillimeter ");
+    s = s.replace(/²/g, " Quadrat ");
+
+    // Übrige LaTeX-Wrapper entfernen
+    s = s.replace(/\\(?:text|mathrm|mathbf)\s*\{([^}]+)\}/g, "$1");
+    s = s.replace(/\\[,;!]/g, " ");
+    s = s.replace(/\$\$/g, " ");
+    s = s.replace(/\$/g, " ");
+
+    // Netzwerktechnik-Notation für flüssige Aussprache
+    // IPv4 + CIDR (z.B. 192.168.191.12/18)
+    s = s.replace(/\b(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\/(\d{1,2})\b/g, "$1 Punkt $2 Punkt $3 Punkt $4 Slash $5");
+    // IPv4 alleine
+    s = s.replace(/\b(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\b/g, "$1 Punkt $2 Punkt $3 Punkt $4");
+    // CIDR Präfix alleine (z.B. /18, /24, /64)
+    s = s.replace(/(^|\s)\/(\d{1,3})\b/g, "$1 Slash $2");
+    // IEEE Standards
+    s = s.replace(/802\.1Q/gi, "802 Punkt 1 Q");
+    s = s.replace(/802\.3af/gi, "802 Punkt 3 a f");
+    s = s.replace(/802\.3at/gi, "802 Punkt 3 a t");
+    s = s.replace(/802\.3bt/gi, "802 Punkt 3 b t");
+
+    // Einheiten
+    s = s.replace(/\bGbit\/s\b/g, "Gigabit pro Sekunde");
+    s = s.replace(/\bMbit\/s\b/g, "Megabit pro Sekunde");
+    s = s.replace(/\bkbit\/s\b/g, "Kilobit pro Sekunde");
+    s = s.replace(/\bkWh\b/g, "Kilowattstunden");
+    s = s.replace(/\bWh\b/g, "Wattstunden");
+    s = s.replace(/\bAh\b/g, "Amperestunden");
+    s = s.replace(/\bms\b/g, "Millisekunden");
+
+    // Markdown & Emojis bereinigen
+    s = s.replace(/[*_`~#|>]/g, " ");
+    s = s.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, " ");
+    s = s.replace(/\s+/g, " ").trim();
+    return s;
+  }
+
+  // ---------------------------------------------------------------- 3. Visuelle Lippensynchronisation & Status-UI
+  function setzeTutorSprechPose(aktiv) {
+    sprichtGerade = !!aktiv;
+    const dock = document.getElementById("vlTutorDock");
+    if (dock) dock.classList.toggle("spricht", sprichtGerade);
+
+    const ttsBtn = document.getElementById("vlTutorTtsBtn");
+    if (ttsBtn) {
+      ttsBtn.classList.toggle("aktiv", sprichtGerade);
+      ttsBtn.innerHTML = sprichtGerade ? "⏹️ Stopp" : "🔊 Vorlesen";
+      ttsBtn.title = sprichtGerade ? "Sprachausgabe stoppen" : "Aktuellen Schritt vom KI-Tutor vorlesen lassen";
+    }
+
+    const coachTtsBtn = document.getElementById("vlCoachSpeakStopBtn");
+    if (coachTtsBtn) {
+      coachTtsBtn.hidden = !sprichtGerade;
+    }
+
+    clearInterval(lipSyncTimer);
+    const figWraps = document.querySelectorAll("#vlTutorDock .toonFigureWrap, #vlBegruessungStage .toonFigureWrap");
+    if (sprichtGerade && window.TOON) {
+      figWraps.forEach((el) => window.TOON.setPose(el, "talk"));
+      let toggle = false;
+      lipSyncTimer = setInterval(() => {
+        if (!sprichtGerade) {
+          clearInterval(lipSyncTimer);
+          return;
+        }
+        toggle = !toggle;
+        figWraps.forEach((el) => window.TOON.setPose(el, toggle ? "talk" : "show"));
+      }, 650);
+    } else if (window.TOON) {
+      figWraps.forEach((el) => window.TOON.setPose(el, "idle"));
+    }
+  }
+
+  function zeigeDockBlase(htmlText, dauerMs) {
+    const blase = document.getElementById("vlTutorVoiceBubble");
+    if (!blase) return;
+    blase.innerHTML = htmlText;
+    blase.hidden = false;
+    if (blase._hideTimer) clearTimeout(blase._hideTimer);
+    if (dauerMs && dauerMs > 0) {
+      blase._hideTimer = setTimeout(() => {
+        blase.hidden = true;
+      }, dauerMs);
+    }
+  }
+
+  function versteckeDockBlase() {
+    const blase = document.getElementById("vlTutorVoiceBubble");
+    if (blase) blase.hidden = true;
+  }
+
+  // ---------------------------------------------------------------- 4. Sprachausgabe (TTS)
+  function stoppeSprache() {
+    clearInterval(lipSyncTimer);
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (_) {}
+    }
+    setzeTutorSprechPose(false);
+  }
+
+  function sprich(rohText, optionen) {
+    const opt = optionen || {};
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      if (opt.warnungWennNichtVerfuegbar) {
+        zeigeDockBlase("⚠️ Dein Browser unterstützt leider keine Sprachausgabe.", 4000);
+      }
+      return false;
+    }
+
+    const sprechText = bereiteTextFuerSpracheVor(rohText);
+    if (!sprechText) return false;
+
+    stoppeSprache();
+
+    try {
+      const u = new SpeechSynthesisUtterance(sprechText);
+      u.lang = "de-DE";
+      u.rate = opt.rate || sprechTempo;
+      u.pitch = opt.geschlecht === "w" ? 1.05 : opt.geschlecht === "r" ? 0.92 : 1.0;
+
+      const stimme = waehleBesteDeutscheStimme(opt.geschlecht || "m");
+      if (stimme) u.voice = stimme;
+
+      u.onstart = () => {
+        setzeTutorSprechPose(true);
+      };
+      u.onend = () => {
+        setzeTutorSprechPose(false);
+        if (typeof opt.onEnd === "function") opt.onEnd();
+      };
+      u.onerror = () => {
+        setzeTutorSprechPose(false);
+      };
+
+      window.speechSynthesis.speak(u);
+      return true;
+    } catch (_) {
+      setzeTutorSprechPose(false);
+      return false;
+    }
+  }
+
+  // ---------------------------------------------------------------- 5. Lokales Didaktik-Gehirn (100% Offline-Fallback & Fach-Tutor)
+  const FACHWISSEN_FALLBACK = [
+    {
+      stichworte: ["wurzel 2", "325", "scheitelwert", "spitzenwert", "effektivwert", "sinus", "wechselstrom"],
+      antwort: "Bei 230 Volt Wechselstrom gibt der Effektivwert ($U_{\\text{eff}} = 230\\,\\text{V}$) an, welche Gleichspannung dieselbe Wärmeleistung liefern würde. Die Sinuswelle schwingt aber höher aus: Der Scheitelwert beträgt $\\hat{U} = U_{\\text{eff}} \\cdot \\sqrt{2} \\approx 230\\,\\text{V} \\cdot 1{,}414 \\approx 325\\,\\text{V}$."
+    },
+    {
+      stichworte: ["wurzel 3", "400", "drehstrom", "120", "außenleiter", "strang", "neutralleiter", "stern"],
+      antwort: "Im 3-Phasen-Drehstromnetz sind L1, L2 und L3 um je 120 Grad versetzt. Zwischen einem Außenleiter und dem Neutralleiter N liegen $230\\,\\text{V}$ an. Zwischen zwei Außenleitern (z. B. L1 nach L2) wirkt der Verkettungsfaktor $\\sqrt{3} \\approx 1{,}732$: $230\\,\\text{V} \\cdot \\sqrt{3} \\approx 400\\,\\text{V}$."
+    },
+    {
+      stichworte: ["ohm", "widerstand", "spannung", "stromstärke", "leistung", "wirkungsgrad", "u = r", "p = u"],
+      antwort: "Das Ohmsche Gesetz lautet $U = R \\cdot I$ (Spannung gleich Widerstand mal Strom). Für die elektrische Leistung gilt $P = U \\cdot I = I^2 \\cdot R$. Weil die Verlustleistung im Kabel quadratisch mit dem Strom $I$ wächst ($I^2 \\cdot R$), arbeitet PoE mit hoher Spannung (ca. 48–57 V) und kleinem Strom."
+    },
+    {
+      stichworte: ["usv", "vfi", "vi", "vfd", "online", "offline", "doppelwandler", "umschaltzeit", "autonomie"],
+      antwort: "Nach IEC 62040-3 gibt es drei USV-Klassen: **VFD** (Offline, 4–10 ms Umschaltzeit), **VI** (Line-Interactive mit AVR-Spannungsregler, 2–4 ms) und **VFI** (Online-Doppelwandler, **0 ms Umschaltzeit**). Für Server im Rechenzentrum ist VFI der Standard."
+    },
+    {
+      stichworte: ["padding", "64 byte", "mindestgröße", "fcs", "frame", "802.1q", "vlan", "header"],
+      antwort: "Ein Ethernet-Frame muss mindestens **64 Byte** groß sein (ohne 8 Byte Präambel/SFD). Ohne VLAN-Tag sind 14 Byte Header + 4 Byte FCS = **18 Byte** fester Overhead, also muss die Payload mindestens **46 Byte** lang sein. Ist sie kürzer, füllt Padding die Differenz auf (mit 4-Byte VLAN-Tag ab unter 42 Byte)."
+    },
+    {
+      stichworte: ["xor", "exklusiv", "parität", "parity", "even", "odd", "crc", "fehlererkennung"],
+      antwort: "Bitweises **XOR ($\\oplus$)** liefert **1**, wenn die beiden Bits unterschiedlich sind, und **0**, wenn sie gleich sind. Ein einfaches Paritätsbit ergänzt die Einsen auf eine gerade (Even) oder ungerade (Odd) Anzahl, erkennt aber keine 2-Bit-Fehler. Deshalb nutzt Ethernet im FCS-Feld **CRC-32**."
+    },
+    {
+      stichworte: ["/18", "drucker", "191", "194", "schrittweite", "subnetz", "192.168"],
+      antwort: "Bei **/18** (`255.255.192.0`) liegt die Grenze im 3. Oktett mit der Schrittweite $256 - 192 = 64$. Die Blöcke starten bei `0`, `64`, `128` und `192`. Deshalb liegt `.191.12` noch im Netz `192.168.128.0/18` (Broadcast `.191.255`), während `.194.215` schon im nächsten Subnetz `192.168.192.0/18` liegt!"
+    },
+    {
+      stichworte: ["poe", "802.3af", "802.3at", "802.3bt", "power over ethernet"],
+      antwort: "Power over Ethernet versorgt Geräte über das Netzwerkkabel: **PoE (802.3af)** liefert bis 15,4 W am Switch (12,95 W am Gerät), **PoE+ (802.3at)** bis 30 W (25,5 W am Gerät) über 2 Adernpaare, und **PoE++ (802.3bt)** bis 60 W (Typ 3) bzw. 90–100 W (Typ 4) über alle 4 Adernpaare."
+    },
+    {
+      stichworte: ["dora", "dhcp", "discover", "offer", "request", "ack", "apipa", "169.254"],
+      antwort: "DHCP vergibt IP-Adressen im **DORA-Zyklus**: 1. **D**iscover (Client-Broadcast), 2. **O**ffer (Angebot vom Server), 3. **R**equest (Anforderung durch Client), 4. **A**cknowledge (Bestätigung). Antwortet kein DHCP-Server, weist sich der Client selbst eine **APIPA-Adresse** aus `169.254.0.0/16` zu."
+    }
+  ];
+
+  function antworteLokal(frage, ctx) {
+    const fLow = String(frage || "").toLowerCase();
+    const p = ctx && ctx.phaseObj;
+    const e = ctx && ctx.einheitObj;
+    const seite = (p && p.probe && p.probe.beleg && p.probe.beleg.seite) ? ` (Buch S. ${p.probe.beleg.seite})` : "";
+
+    // 1. Wunsch nach einfacherer Erklärung / "Verstehe ich nicht" / "Erklär nochmal"
+    if (/einfach|versteh|nochmal|anders|check.*nicht|erklär|erklaer|zusammenfass/i.test(fLow)) {
+      const teile = [];
+      if (p && p.probe && p.probe.erklaerung2) {
+        teile.push(`**Kurz & anschaulich erklärt:** ${p.probe.erklaerung2}`);
+      } else if (p && p.aufbau && p.aufbau.length) {
+        const kernsaetze = p.aufbau.map((s) => s.text).filter(Boolean).slice(0, 2);
+        if (kernsaetze.length) teile.push(`**Der Kern dieser Phase:** ${kernsaetze.join(" ")}`);
+      }
+      if (p && p.sicherung && p.sicherung.merksatz) {
+        teile.push(`🔑 **Merksatz:** ${p.sicherung.merksatz}`);
+      }
+      if (teile.length) return teile.join("\n\n");
+    }
+
+    // 2. Wunsch nach einem Tipp / Rechenweg zur aktuellen Probe
+    if (/tipp|hinweis|wie rechne|ansatz|hilf|hilfe|probe|aufgabe/i.test(fLow)) {
+      if (p && p.probe) {
+        const hinweis = p.probe.hinweis || p.probe.erklaerung2 || (p.sicherung && p.sicherung.merksatz);
+        if (hinweis) {
+          return `🧭 **Tipp zur aktuellen Aufgabe${seite}:** ${hinweis}\n\n Überlege dir damit den nächsten Schritt – du schaffst das!`;
+        }
+      }
+    }
+
+    // 3. Direkte Frage nach dem Merksatz
+    if (/merksatz|wichtigste|prüfungsrelevant|ihk/i.test(fLow)) {
+      if (p && p.sicherung && p.sicherung.merksatz) {
+        return `🔑 **IHK-Merksatz dieser Phase:** ${p.sicherung.merksatz}`;
+      }
+    }
+
+    // 4. Stichwort-Suche im aktuellen Fachwissen-Katalog
+    for (const eintrag of FACHWISSEN_FALLBACK) {
+      if (eintrag.stichworte.some((w) => fLow.includes(w))) {
+        const zusatz = (p && p.sicherung && p.sicherung.merksatz)
+          ? `\n\n🔑 **Passend zu unserer Phase:** ${p.sicherung.merksatz}`
+          : "";
+        return eintrag.antwort + zusatz;
+      }
+    }
+
+    // 5. Semantische Wort-Überlappung in den Takten & Handouts der aktuellen Einheit
+    const suchWoerter = fLow
+      .replace(/[?!.,;:()"']/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length >= 4 && !["warum", "wieso", "weshalb", "welche", "welcher", "welches", "kannst", "bitte", "erkläre", "erklären", "bedeutet", "eigentlich", "genau"].includes(w));
+
+    if (e && Array.isArray(e.phasen) && suchWoerter.length > 0) {
+      let besterSatz = "";
+      let besterScore = 0;
+
+      e.phasen.forEach((ph) => {
+        const kandidaten = [];
+        (ph.aufbau || []).forEach((schritt) => {
+          if (schritt.text) kandidaten.push(schritt.text);
+          if (schritt.absatz) kandidaten.push(schritt.absatz);
+          if (Array.isArray(schritt.takte)) {
+            schritt.takte.forEach((t) => { if (t.text) kandidaten.push(t.text); });
+          }
+        });
+        if (ph.sicherung && ph.sicherung.merksatz) kandidaten.push(ph.sicherung.merksatz);
+        if (ph.probe && ph.probe.erklaerung2) kandidaten.push(ph.probe.erklaerung2);
+
+        kandidaten.forEach((kText) => {
+          const kClean = String(kText).replace(/<[^>]+>/g, " ");
+          const kLow = kClean.toLowerCase();
+          let score = 0;
+          suchWoerter.forEach((sw) => {
+            if (kLow.includes(sw)) score += 2;
+          });
+          if (ph === p) score += 1; // Aktuelle Phase bevorzugen
+          if (score > besterScore && kClean.length > 25) {
+            besterScore = score;
+            besterSatz = kClean.trim();
+          }
+        });
+      });
+
+      if (besterSatz && besterScore >= 2) {
+        const merk = (p && p.sicherung && p.sicherung.merksatz && !besterSatz.includes(p.sicherung.merksatz))
+          ? `\n\n🔑 **Merksatz:** ${p.sicherung.merksatz}`
+          : "";
+        return `${besterSatz}${merk}`;
+      }
+    }
+
+    // 6. Universeller kontextbezogener Fallback aus der aktuellen Phase
+    if (p) {
+      const erkl = (p.probe && p.probe.erklaerung2) ||
+        (p.aufbau && p.aufbau[0] && (p.aufbau[0].absatz || p.aufbau[0].text)) ||
+        (p.sicherung && p.sicherung.merksatz) || "";
+      const merk = (p.sicherung && p.sicherung.merksatz) ? `\n\n🔑 **Merksatz${seite}:** ${p.sicherung.merksatz}` : "";
+      if (erkl) {
+        return `Schauen wir uns dazu den Kern von **${p.titel}** an:\n\n${String(erkl).replace(/<[^>]+>/g, "")}${merk}`;
+      }
+    }
+
+    return "Gute Frage! Schau dir dazu den aktuellen Schritt auf der Bühne und den Merksatz im Handout rechts an. Du kannst mich auch nach einem **Tipp**, einer **einfacheren Erklärung** oder Begriffen wie **Wurzel 2**, **Drehstrom**, **Padding**, **XOR** oder **USV** fragen!";
+  }
+
+  // ---------------------------------------------------------------- 6. Hands-Free Sprachbefehle erkennen & ausführen
+  function pruefeSprachBefehl(transkript, callbacks) {
+    const t = String(transkript || "").toLowerCase().trim();
+    if (!t) return false;
+    const cb = callbacks || {};
+
+    // 1. Stopp / Ruhe
+    if (/^(stopp|stop|ruhe|leise|pause|halt)$/i.test(t)) {
+      stoppeSprache();
+      zeigeDockBlase("🔇 Sprachausgabe gestoppt.", 2500);
+      return true;
+    }
+
+    // 2. Weiter / Nächster Schritt / Los geht's
+    if (/^(weiter|nächster schritt|naechster schritt|nächster takt|weitergehen|fortfahren|los geht'?s|starten)$/i.test(t)) {
+      const weiterBtn = document.getElementById("vlWeiter") || document.getElementById("vlLos");
+      if (weiterBtn && !weiterBtn.disabled) {
+        zeigeDockBlase("⏭️ Sprachbefehl: <b>Weiter</b>", 2000);
+        weiterBtn.click();
+        return true;
+      }
+    }
+
+    // 3. Zurück / Vorheriger Schritt
+    if (/^(zurück|zurueck|schritt zurück|vorheriger schritt|vorheriger takt)$/i.test(t)) {
+      const zurueckBtn = document.getElementById("vlZurueck");
+      if (zurueckBtn && zurueckBtn.style.display !== "none" && !zurueckBtn.disabled) {
+        zeigeDockBlase("⏮️ Sprachbefehl: <b>Zurück</b>", 2000);
+        zurueckBtn.click();
+        return true;
+      }
+    }
+
+    // 4. Vorlesen
+    if (/^(vorlesen|lies vor|lies mir das vor|lies das vor|was steht da|bitte vorlesen)$/i.test(t)) {
+      if (typeof cb.vorlesenAktuell === "function") {
+        zeigeDockBlase("🔊 Ich lese dir den aktuellen Abschnitt vor …", 3000);
+        cb.vorlesenAktuell();
+        return true;
+      }
+    }
+
+    // 5. Option 1..4 wählen (in Vermutung oder Probe)
+    const optMatch = /^(?:antwort|option|wahl|nummer)\s*(eins|zwei|drei|vier|1|2|3|4)$/i.exec(t) ||
+      /^(erste|zweite|dritte|vierte)\s*(?:antwort|option)$/i.exec(t);
+    if (optMatch) {
+      const wort = optMatch[1].toLowerCase();
+      const map = { "1": 0, "eins": 0, "erste": 0, "2": 1, "zwei": 1, "zweite": 1, "3": 2, "drei": 2, "dritte": 2, "4": 3, "vier": 3, "vierte": 3 };
+      const idx = map[wort];
+      if (typeof idx === "number") {
+        const btn = document.querySelector(`.vlOption[data-i="${idx}"]:not([disabled]), .vlVermutungOpt[data-idx="${idx}"]:not([disabled])`);
+        if (btn) {
+          zeigeDockBlase(`✅ Sprachbefehl: <b>Option ${idx + 1}</b> gewählt`, 2200);
+          btn.click();
+          return true;
+        }
+      }
+    }
+
+    // 6. Labor öffnen
+    if (/^(öffne.*labor|oeffne.*labor|rechenlabor|elektrolabor|ins labor)$/i.test(t)) {
+      const labBtn = document.getElementById("vlLaborBrueckeBtn") || document.getElementById("vlBilanzLaborBtn");
+      if (labBtn) {
+        zeigeDockBlase("🧪 Öffne das interaktive Labor …", 2500);
+        labBtn.click();
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // ---------------------------------------------------------------- 7. Spracherkennung (Speech-to-Text / Mikrofon)
+  function unterstuetztSprachErkennung() {
+    return typeof window !== "undefined" && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+  }
+
+  function stoppeMikrofon() {
+    hoertGeradeZu = false;
+    if (aktiverErkenner) {
+      try { aktiverErkenner.stop(); } catch (_) {}
+      aktiverErkenner = null;
+    }
+    aktualisiereMikrofonButtons(false);
+  }
+
+  function aktualisiereMikrofonButtons(aktiv) {
+    const dockMic = document.getElementById("vlTutorMicBtn");
+    if (dockMic) {
+      dockMic.classList.toggle("lauscht", !!aktiv);
+      dockMic.setAttribute("aria-pressed", aktiv ? "true" : "false");
+      dockMic.innerHTML = aktiv ? "🔴 Höre zu …" : "🎙️ Fragen";
+    }
+    const coachMic = document.getElementById("vlCoachMicBtn");
+    if (coachMic) {
+      coachMic.classList.toggle("lauscht", !!aktiv);
+      coachMic.setAttribute("aria-pressed", aktiv ? "true" : "false");
+      coachMic.innerHTML = aktiv ? "🔴" : "🎙️";
+    }
+    const dock = document.getElementById("vlTutorDock");
+    if (dock) {
+      dock.classList.toggle("lauscht", !!aktiv);
+    }
+  }
+
+  function starteMikrofon(callbacks) {
+    const cb = callbacks || {};
+    if (hoertGeradeZu) {
+      stoppeMikrofon();
+      return;
+    }
+
+    // Wenn der Tutor gerade spricht, beim Klick aufs Mikrofon sofort stummschalten
+    if (sprichtGerade) {
+      stoppeSprache();
+    }
+
+    const SpeechRec = typeof window !== "undefined" && (window.SpeechRecognition || window.webkitSpeechRecognition);
+    if (!SpeechRec) {
+      zeigeDockBlase("🎙️ Dein Browser unterstützt die direkte Mikrofon-Spracherkennung nicht (Tipp: Microsoft Edge oder Chrome nutzen). Ich öffne dir das Textfeld!", 5000);
+      if (typeof cb.oeffneChatFallback === "function") cb.oeffneChatFallback();
+      return;
+    }
+
+    try {
+      const rec = new SpeechRec();
+      aktiverErkenner = rec;
+      rec.lang = "de-DE";
+      rec.continuous = false;
+      rec.interimResults = true;
+      rec.maxAlternatives = 1;
+
+      let erkanntesFinale = "";
+
+      rec.onstart = () => {
+        hoertGeradeZu = true;
+        aktualisiereMikrofonButtons(true);
+        zeigeDockBlase(`🎙️ <b>Ich höre zu …</b><br><span class="vlVoiceSub">Frag mich etwas zum Stoff oder sag z. B. „Weiter“, „Lies vor“, „Tipp“ oder „Erklär's einfacher“.</span>`, 0);
+      };
+
+      rec.onresult = (event) => {
+        let zwischen = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const res = event.results[i];
+          if (res.isFinal) {
+            erkanntesFinale += res[0].transcript;
+          } else {
+            zwischen += res[0].transcript;
+          }
+        }
+        const anzeige = (erkanntesFinale || zwischen).trim();
+        if (anzeige) {
+          zeigeDockBlase(`🎙️ „<i>${anzeige.replace(/[<>]/g, "")}</i>“`, 0);
+          const input = document.getElementById("vlCoachIn");
+          if (input) input.value = anzeige.slice(0, 300);
+        }
+      };
+
+      rec.onerror = (ev) => {
+        hoertGeradeZu = false;
+        aktualisiereMikrofonButtons(false);
+        if (ev && ev.error === "not-allowed") {
+          zeigeDockBlase("⚠️ Bitte erlaube den Mikrofon-Zugriff oben in der Adressleiste deines Browsers.", 5000);
+        } else if (ev && ev.error === "no-speech") {
+          zeigeDockBlase("🎙️ Ich habe nichts gehört. Tippe nochmal auf <b>🎙️ Fragen</b>, wenn du sprechen möchtest.", 3500);
+        } else {
+          versteckeDockBlase();
+        }
+      };
+
+      rec.onend = () => {
+        hoertGeradeZu = false;
+        aktiverErkenner = null;
+        aktualisiereMikrofonButtons(false);
+        const text = erkanntesFinale.trim();
+        if (!text) return;
+
+        // Prüfen, ob es ein direkter Hands-Free-Sprachbefehl ist
+        if (pruefeSprachBefehl(text, cb)) {
+          const input = document.getElementById("vlCoachIn");
+          if (input) input.value = "";
+          return;
+        }
+
+        // Sonst als Fachfrage an den KI-Tutor senden (mit aktivierter Sprach-Antwort!)
+        if (typeof cb.onFrageErkannt === "function") {
+          cb.onFrageErkannt(text);
+        }
+      };
+
+      rec.start();
+    } catch (_) {
+      hoertGeradeZu = false;
+      aktualisiereMikrofonButtons(false);
+      if (typeof cb.oeffneChatFallback === "function") cb.oeffneChatFallback();
+    }
+  }
+
+  // ---------------------------------------------------------------- 8. Auto-Vorlesen Umschalter
+  function setzeAutoVorlesen(an) {
+    autoVorlesen = !!an;
+    try {
+      localStorage.setItem(STORAGE_KEY_AUTO_TTS, autoVorlesen ? "1" : "0");
+    } catch (_) {}
+    const autoBtns = document.querySelectorAll("#vlTutorAutoTtsBtn, #vlCoachAutoTtsBtn");
+    autoBtns.forEach((b) => {
+      b.classList.toggle("aktiv", autoVorlesen);
+      b.setAttribute("aria-pressed", autoVorlesen ? "true" : "false");
+      b.innerHTML = autoVorlesen ? "🔁 Auto-Stimme: AN" : "🔁 Auto-Stimme: AUS";
+    });
+    if (!autoVorlesen && sprichtGerade) {
+      stoppeSprache();
+    }
+    return autoVorlesen;
+  }
+
+  window.SPRACH_TUTOR = {
+    sprich: sprich,
+    stoppeSprache: stoppeSprache,
+    starteMikrofon: starteMikrofon,
+    stoppeMikrofon: stoppeMikrofon,
+    antworteLokal: antworteLokal,
+    bereiteTextFuerSpracheVor: bereiteTextFuerSpracheVor,
+    zeigeDockBlase: zeigeDockBlase,
+    versteckeDockBlase: versteckeDockBlase,
+    istAutoVorlesen: () => autoVorlesen,
+    setzeAutoVorlesen: setzeAutoVorlesen,
+    sprichtGerade: () => sprichtGerade,
+    hoertGeradeZu: () => hoertGeradeZu,
+    unterstuetztSprachErkennung: unterstuetztSprachErkennung
+  };
+})();
+
 /* ---- f_sql_krimi.js ---- */
 // f_sql_krimi.js - Interaktiver SQL-Krimi & In-Browser SQLite/Relational-Studio
 // Modellunternehmen: MedTech Sanitas GmbH (LF05 Beispieldatenbank)
@@ -81134,17 +81979,29 @@ GENERATORS.vlan = function (level) {
               <div class="vlMaterial" id="vlMaterialListe"></div>
             </div>
             <div class="vlTabInhalt" id="vlPaneCoach">
+              <div class="vlCoachVoiceBar">
+                <button type="button" class="ui-knopf ui-knopf-sekundaer vlCoachVoiceToggle${window.SPRACH_TUTOR && window.SPRACH_TUTOR.istAutoVorlesen() ? " aktiv" : ""}" id="vlCoachAutoTtsBtn" aria-pressed="${window.SPRACH_TUTOR && window.SPRACH_TUTOR.istAutoVorlesen() ? "true" : "false"}">
+                  ${window.SPRACH_TUTOR && window.SPRACH_TUTOR.istAutoVorlesen() ? "🔁 Auto-Stimme: AN" : "🔁 Auto-Stimme: AUS"}
+                </button>
+                <button type="button" class="ui-knopf ui-knopf-sekundaer vlCoachStopBtn" id="vlCoachSpeakStopBtn" hidden>⏹️ Stopp</button>
+              </div>
               <div class="vlCoachHistory" id="vlCoachHistory">
-                <div class="vlMsg tutor">Halte jederzeit an und frage mich, wenn etwas unklar ist. Ich sehe, in welcher Phase du gerade bist.</div>
+                <div class="vlMsg tutor">Halte jederzeit an und frage mich per Text oder Mikrofon (🎙️), wenn etwas unklar ist. Ich sehe, in welcher Phase du gerade bist – und kann dir den Stoff auch vorlesen!</div>
+              </div>
+              <div class="vlCoachQuickChips" id="vlCoachQuickChips">
+                <button type="button" class="vlQuickChip" data-q="Erklär mir den aktuellen Schritt bitte nochmal einfacher!">💡 Einfacher erklären</button>
+                <button type="button" class="vlQuickChip" data-q="Gib mir bitte einen Tipp zur Aufgabe dieser Phase!">🧭 Tipp zur Aufgabe</button>
+                <button type="button" class="vlQuickChip" data-q="Wie lautet der wichtigste IHK-Merksatz dieser Phase?">🔑 IHK-Merksatz</button>
               </div>
               <form class="vlCoachForm" id="vlCoachForm">
-                <label for="vlCoachIn" class="vlCoachLabel">${window.ICON ? window.ICON("chat", { groesse: "s" }) : "💬"} Frage an den KI-Tutor stellen:</label>
+                <label for="vlCoachIn" class="vlCoachLabel">${window.ICON ? window.ICON("chat", { groesse: "s" }) : "💬"} Frage stellen oder per Mikrofon sprechen:</label>
                 <div class="vlCoachInputRow">
-                  <input type="text" id="vlCoachIn" placeholder="Deine Frage zum Stoff …" maxlength="300" autocomplete="off">
+                  <button type="button" class="ui-knopf ui-knopf-sekundaer vlCoachMicBtn" id="vlCoachMicBtn" title="Per Mikrofon fragen oder Sprachbefehl geben" aria-label="Spracheingabe starten">🎙️</button>
+                  <input type="text" id="vlCoachIn" placeholder="Frage eintippen oder 🎙️ drücken …" maxlength="300" autocomplete="off">
                   <button type="submit" class="ui-knopf ui-knopf-primaer">Fragen</button>
                 </div>
               </form>
-              <div class="vlCoachHinweis" id="vlCoachHinweis"></div>
+              <div class="vlCoachHinweis" id="vlCoachHinweis">🎙️ <b>Sprachbefehle:</b> „Weiter“, „Zurück“, „Vorlesen“, „Option 1–4“, „Tipp“ oder freie Fachfrage sprechen.</div>
             </div>
           </div>
         </aside>
@@ -81173,6 +82030,34 @@ GENERATORS.vlan = function (level) {
     }
     $v("vlMaterialListe").innerHTML = materialHtml();
     $v("vlCoachForm").onsubmit = frageAbsenden;
+    if ($v("vlCoachMicBtn")) {
+      $v("vlCoachMicBtn").onclick = () => {
+        ton("click");
+        starteSprachMikrofon();
+      };
+    }
+    if ($v("vlCoachAutoTtsBtn")) {
+      $v("vlCoachAutoTtsBtn").onclick = () => {
+        ton("click");
+        if (window.SPRACH_TUTOR) {
+          const neu = window.SPRACH_TUTOR.setzeAutoVorlesen(!window.SPRACH_TUTOR.istAutoVorlesen());
+          if (neu) leseAktuellenAbschnittVor();
+        }
+      };
+    }
+    if ($v("vlCoachSpeakStopBtn")) {
+      $v("vlCoachSpeakStopBtn").onclick = () => {
+        ton("click");
+        if (window.SPRACH_TUTOR) window.SPRACH_TUTOR.stoppeSprache();
+      };
+    }
+    document.querySelectorAll("#vlCoachQuickChips .vlQuickChip").forEach((chip) => {
+      chip.onclick = () => {
+        ton("click");
+        const q = chip.dataset.q;
+        if (q) stelleFrageAnTutor(q, window.SPRACH_TUTOR && window.SPRACH_TUTOR.istAutoVorlesen());
+      };
+    });
     const nBtn = $v("vlNochmalBtn");
     if (nBtn) {
       nBtn.onclick = () => {
@@ -81610,6 +82495,66 @@ GENERATORS.vlan = function (level) {
     k.querySelectorAll("#vlProbeIn, #vlProbeForm button, #vlTippBtn").forEach((el) => { el.disabled = true; });
   }
 
+  function tutorGeschlecht() {
+    const f = window.TOON ? window.TOON.resolveCharId(LEHRER_FIGUR) : LEHRER_FIGUR;
+    return (window.TOON_GENDER && window.TOON_GENDER[f]) ||
+      (f === "ada" || f === "sanitas" ? "w" : (f === "robot" || f === "zombie" ? "r" : "m"));
+  }
+
+  function ermittleVorleseTextAktuell() {
+    const p = aktPhase();
+    if (!p) return "";
+    if (modus === "anker" && p.anker) {
+      return `${p.titel}. ${p.anker.text || ""} ${p.anker.frage || ""}`;
+    }
+    if (modus === "aufbau" && p.aufbau) {
+      const s = p.aufbau[schrittIdx];
+      if (!s) return "";
+      const takte = ermittleTakte(s);
+      if (istAllesAufEinmal()) {
+        const alle = takte.map((t) => t.text).join(" ");
+        return `${s.text && s.absatz ? s.text + ". " : ""}${alle}`;
+      }
+      const aktT = takte[taktIdx] ? takte[taktIdx].text : "";
+      return `${taktIdx === 0 && s.text && s.absatz ? s.text + ". " : ""}${aktT}`;
+    }
+    if (modus === "probe" && p.probe) {
+      return `Prüfungsfrage: ${p.probe.frage || ""}`;
+    }
+    if (modus === "wiederholung" && p.probe) {
+      return `${p.probe.erklaerung2 || ""} Versuchen wir die Frage noch einmal: ${p.probe.frage || ""}`;
+    }
+    if (modus === "loesung" && p.probe) {
+      return `Die richtige Lösung lautet: ${p.probe.loesung || ""}. ${p.probe.erklaerung2 || ""}`;
+    }
+    if (modus === "sicherung" && p.sicherung) {
+      return `Phase geschafft! Dein Merksatz fürs Handout: ${p.sicherung.merksatz || ""}`;
+    }
+    return "";
+  }
+
+  function leseAktuellenAbschnittVor() {
+    if (!window.SPRACH_TUTOR) return;
+    const txt = ermittleVorleseTextAktuell();
+    if (txt) {
+      window.SPRACH_TUTOR.sprich(txt, { geschlecht: tutorGeschlecht(), warnungWennNichtVerfuegbar: true });
+    }
+  }
+
+  function starteSprachMikrofon() {
+    if (!window.SPRACH_TUTOR) return;
+    window.SPRACH_TUTOR.starteMikrofon({
+      vorlesenAktuell: leseAktuellenAbschnittVor,
+      oeffneChatFallback: () => {
+        if (panelIstZu()) setzePanel(false, true);
+        wechsleTab("coach");
+      },
+      onFrageErkannt: (frageText) => {
+        stelleFrageAnTutor(frageText, true);
+      }
+    });
+  }
+
   // ---------------------------------------------------------------- Unterricht zeichnen
   function zeichne() {
     zeichneFortschritt();
@@ -81631,7 +82576,7 @@ GENERATORS.vlan = function (level) {
     else if (modus === "uebung") zeichneUebung(k, p);
     else if (modus === "sicherung") zeichneSicherung(k, p);
 
-    // Tutor-Dock Chat-Knopf verdrahten
+    // Tutor-Dock Knöpfe (Sprache, Vorlesen, Chat) verdrahten
     const chatBtn = k.querySelector("#vlTutorDockChatBtn");
     if (chatBtn) {
       chatBtn.onclick = () => {
@@ -81639,6 +82584,39 @@ GENERATORS.vlan = function (level) {
         if (panelIstZu()) setzePanel(false, true);
         wechsleTab("coach");
       };
+    }
+    const micBtn = k.querySelector("#vlTutorMicBtn");
+    if (micBtn) {
+      micBtn.onclick = () => {
+        ton("click");
+        starteSprachMikrofon();
+      };
+    }
+    const ttsBtn = k.querySelector("#vlTutorTtsBtn");
+    if (ttsBtn) {
+      ttsBtn.onclick = () => {
+        ton("click");
+        if (window.SPRACH_TUTOR && window.SPRACH_TUTOR.sprichtGerade()) {
+          window.SPRACH_TUTOR.stoppeSprache();
+        } else {
+          leseAktuellenAbschnittVor();
+        }
+      };
+    }
+    const autoBtn = k.querySelector("#vlTutorAutoTtsBtn");
+    if (autoBtn) {
+      autoBtn.onclick = () => {
+        ton("click");
+        if (window.SPRACH_TUTOR) {
+          const neu = window.SPRACH_TUTOR.setzeAutoVorlesen(!window.SPRACH_TUTOR.istAutoVorlesen());
+          if (neu) leseAktuellenAbschnittVor();
+        }
+      };
+    }
+
+    // Automatische Sprachausgabe bei aktivem Auto-Vorlesen
+    if (window.SPRACH_TUTOR && window.SPRACH_TUTOR.istAutoVorlesen()) {
+      setTimeout(() => leseAktuellenAbschnittVor(), 120);
     }
   }
 
@@ -81831,12 +82809,14 @@ GENERATORS.vlan = function (level) {
     schreibe($v("vlGrussText"), grussData.text, zeigeRest);
   }
 
-  // Rechts angedockter Tutor für Lerneinheiten: Mehr Platz für Text & Netzwerkdiagramme
+  // Rechts angedockter Tutor für Lerneinheiten: Mehr Platz für Text & Netzwerkdiagramme + Sprachsteuerung
   function sprecher(text, inhalt) {
     const charId = window.TOON ? window.TOON.resolveCharId(LEHRER_FIGUR) : "linus";
     const toonFigHtml = window.TOON
       ? window.TOON.renderFigureHtml(charId, { pose: "talk", height: 84, className: "vlLehrerToonFigur" })
       : getLehrerSpriteHtml("talk", 84);
+    const autoAn = !!(window.SPRACH_TUTOR && window.SPRACH_TUTOR.istAutoVorlesen());
+    const spricht = !!(window.SPRACH_TUTOR && window.SPRACH_TUTOR.sprichtGerade());
 
     return `
       <div class="vlDialogZeile tutorRechts">
@@ -81846,19 +82826,32 @@ GENERATORS.vlan = function (level) {
           ${inhalt || ""}
         </div>
 
-        <!-- Rechts angedockter Tutor-Begleiter -->
-        <aside class="vlTutorDock" id="vlTutorDock" aria-label="Aktiver KI-Tutor: ${esc(LEHRER_NAME)}">
+        <!-- Rechts angedockter Tutor-Begleiter mit Sprachsteuerung -->
+        <aside class="vlTutorDock${spricht ? " spricht" : ""}" id="vlTutorDock" aria-label="Aktiver KI-Tutor: ${esc(LEHRER_NAME)}">
           <div class="vlTutorDockCard">
+            <div class="vlTutorVoiceBubble" id="vlTutorVoiceBubble" hidden></div>
             <div class="vlTutorDockFigur" title="${esc(LEHRER_NAME)}: ${esc(LEHRER_MOTTO)}">
               ${toonFigHtml}
+              <span class="vlTutorSoundWave" aria-hidden="true"><span></span><span></span><span></span></span>
             </div>
             <div class="vlTutorDockInfo">
               <span class="vlTutorDockName">${esc(LEHRER_NAME)}</span>
-              <span class="vlTutorDockRolle">KI-Tutor</span>
+              <span class="vlTutorDockRolle">Sprach- &amp; KI-Tutor</span>
             </div>
-            <button type="button" class="vlTutorDockChatBtn" id="vlTutorDockChatBtn" title="KI-Tutor Chat öffnen">
-              💬 Fragen
-            </button>
+            <div class="vlTutorDockAktionen">
+              <button type="button" class="vlTutorVoiceBtn mic" id="vlTutorMicBtn" title="Per Mikrofon mit dem KI-Tutor sprechen oder Sprachbefehl geben">
+                🎙️ Fragen
+              </button>
+              <button type="button" class="vlTutorVoiceBtn tts${spricht ? " aktiv" : ""}" id="vlTutorTtsBtn" title="Aktuellen Abschnitt vom KI-Tutor vorlesen lassen">
+                ${spricht ? "⏹️ Stopp" : "🔊 Vorlesen"}
+              </button>
+              <button type="button" class="vlTutorDockChatBtn" id="vlTutorDockChatBtn" title="KI-Tutor Chat &amp; Verlauf öffnen">
+                💬 Chat
+              </button>
+              <button type="button" class="vlTutorAutoTtsBtn${autoAn ? " aktiv" : ""}" id="vlTutorAutoTtsBtn" aria-pressed="${autoAn ? "true" : "false"}" title="Automatisches Vorlesen bei jedem Schritt ein-/ausschalten">
+                ${autoAn ? "🔁 Auto-Stimme: AN" : "🔁 Auto-Stimme: AUS"}
+              </button>
+            </div>
           </div>
         </aside>
       </div>`;
@@ -82137,6 +83130,9 @@ GENERATORS.vlan = function (level) {
       }
 
       spieleAktuellenTakt();
+      if (window.SPRACH_TUTOR && window.SPRACH_TUTOR.istAutoVorlesen()) {
+        leseAktuellenAbschnittVor();
+      }
     }
 
     // Weiter- und Zurück-Aktionen
@@ -82932,36 +83928,91 @@ GENERATORS.vlan = function (level) {
     return d;
   }
 
-  function frageAbsenden(e) {
-    e.preventDefault();
-    const input = $v("vlCoachIn");
-    const frage = (input.value || "").replace(/\s+/g, " ").trim().slice(0, 300);
+  function formatiereTutorAntwortHtml(rohText) {
+    const htmlBasis = esc(rohText)
+      .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\n/g, "<br>");
+    return formatiereFormeln(htmlBasis);
+  }
+
+  function zeigeTutorAntwortFertig(msgEl, antwortText, sollVorlesen) {
+    const html = formatiereTutorAntwortHtml(antwortText);
+    if (msgEl) {
+      msgEl.innerHTML = `<div class="vlMsgBody">${html}</div>` +
+        `<button type="button" class="vlMsgSpeakBtn" title="Diese Antwort vorlesen lassen">🔊 Vorlesen</button>`;
+      const spkBtn = msgEl.querySelector(".vlMsgSpeakBtn");
+      if (spkBtn && window.SPRACH_TUTOR) {
+        spkBtn.onclick = () => {
+          ton("click");
+          window.SPRACH_TUTOR.sprich(antwortText, { geschlecht: tutorGeschlecht(), warnungWennNichtVerfuegbar: true });
+        };
+      }
+    }
+    const h = $v("vlCoachHistory");
+    if (h) h.scrollTop = h.scrollHeight;
+
+    // Wenn die Seitenspalte geschlossen ist, Antwort kompakt direkt in der Sprechblase am Tutor-Dock zeigen
+    if (panelIstZu() && window.SPRACH_TUTOR) {
+      window.SPRACH_TUTOR.zeigeDockBlase(
+        `<div class="vlVoiceBubbleAntwort">${html}</div>`,
+        12000
+      );
+    }
+
+    if (sollVorlesen && window.SPRACH_TUTOR) {
+      window.SPRACH_TUTOR.sprich(antwortText, { geschlecht: tutorGeschlecht() });
+    }
+  }
+
+  function stelleFrageAnTutor(rohFrage, ausSprache) {
+    const frage = String(rohFrage || "").replace(/\s+/g, " ").trim().slice(0, 300);
     if (!frage) return;
 
-    // Dieselben Schranken wie im Lernpfad: keine Personendaten hinausschicken.
+    const sollVorlesen = !!(ausSprache || (window.SPRACH_TUTOR && window.SPRACH_TUTOR.istAutoVorlesen()));
+
     if (typeof RE_PII !== "undefined" && RE_PII.test(frage)) {
-      coachZeile("tutor", "Bitte keine persönlichen Daten (E-Mail, Telefon, IBAN) in die Frage.");
+      const warn = "Bitte keine persönlichen Daten (E-Mail, Telefon, IBAN) in die Frage eingeben.";
+      const m = coachZeile("tutor", "");
+      zeigeTutorAntwortFertig(m, warn, sollVorlesen);
       return;
     }
-    input.value = "";
+
+    const input = $v("vlCoachIn");
+    if (input) input.value = "";
     coachZeile("user", esc(frage));
+
+    const antwortLokalAusgeben = () => {
+      const lokal = window.SPRACH_TUTOR
+        ? window.SPRACH_TUTOR.antworteLokal(frage, { einheitObj: E, phaseObj: aktPhase(), modus: modus })
+        : "Im Handout rechts steht der Stoff dieser Phase mit Buchseite.";
+      const m = coachZeile("tutor", "");
+      zeigeTutorAntwortFertig(m, lokal, sollVorlesen);
+    };
 
     const url = (typeof coachUrl === "function") ? coachUrl() : "";
     if (!url) {
-      coachZeile("tutor", "Der KI-Tutor ist in dieser Version nicht eingerichtet. Im Handout rechts steht der Stoff dieser Phase mit Buchseite.");
+      antwortLokalAusgeben();
       return;
     }
 
-    const los = () => sendeFrage(url, frage);
+    const los = () => sendeFrage(url, frage, sollVorlesen);
     const istPublic = (typeof KONFIG !== "undefined" && KONFIG.modus === "public");
     const zugestimmt = (typeof store !== "undefined" && typeof K !== "undefined") ? store.get(K.ds, false) : true;
     if (istPublic && !zugestimmt && typeof datenschutz === "function") {
-      return datenschutz(los, () => coachZeile("tutor", "Ohne Zustimmung bleibt es beim Handout rechts."));
+      return datenschutz(los, antwortLokalAusgeben);
     }
     los();
   }
 
-  async function sendeFrage(url, frage) {
+  function frageAbsenden(e) {
+    e.preventDefault();
+    const input = $v("vlCoachIn");
+    const frage = input ? input.value : "";
+    stelleFrageAnTutor(frage, false);
+  }
+
+  async function sendeFrage(url, frage, sollVorlesen) {
     const m = coachZeile("tutor", "<span class='muted'>denkt nach …</span>");
     try {
       const r = await fetch(url, {
@@ -82975,19 +84026,22 @@ GENERATORS.vlan = function (level) {
       if (!r.ok) throw new Error(d.fehler || "HTTP " + r.status);
       const text = String(d.text || "").trim();
       if (!text) throw new Error("leere Antwort");
-      m.innerHTML = esc(text).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\n/g, "<br>");
-    } catch (err) {
-      // Kein erfundener Ersatztext: lieber ehrlich sagen, dass gerade nichts kommt.
-      const p = aktPhase();
-      const seite = p && p.probe && p.probe.beleg ? p.probe.beleg.seite : "";
-      m.innerHTML = `<span class="muted">Der KI-Tutor ist gerade nicht erreichbar (${esc(err.message)}).</span>` +
-        (seite ? ` Zu dieser Phase steht der Stoff im Buch auf <b>S. ${esc(seite)}</b> und rechts im Handout.` : "");
+      zeigeTutorAntwortFertig(m, text, sollVorlesen);
+    } catch (_) {
+      // Zweistufiges KI-Gehirn: Nahtloser lokaler Fach-Tutor bei Offline-Modus oder Server-Limit
+      const lokal = window.SPRACH_TUTOR
+        ? window.SPRACH_TUTOR.antworteLokal(frage, { einheitObj: E, phaseObj: aktPhase(), modus: modus })
+        : "Zu dieser Phase steht der Stoff rechts im Handout.";
+      zeigeTutorAntwortFertig(m, lokal, sollVorlesen);
     }
-    const h = $v("vlCoachHistory"); if (h) h.scrollTop = h.scrollHeight;
   }
 
   // ---------------------------------------------------------------- Ende
   function beenden() {
+    if (window.SPRACH_TUTOR) {
+      window.SPRACH_TUTOR.stoppeSprache();
+      window.SPRACH_TUTOR.stoppeMikrofon();
+    }
     if (window.KiAuftritt) window.KiAuftritt.abbrechen();
     clearInterval(schreibLauf);
     speichereLernstand();
