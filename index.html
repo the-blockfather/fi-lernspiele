@@ -16416,7 +16416,16 @@ html[data-theme="outdoor"] .vlLayerTable td { border-bottom: 1px solid var(--f-g
   border-color: var(--ok);
 }
 
+.vlLaborBrueckeBtn {
+  border-color: var(--akzent);
+  background: var(--akzent-flaeche);
+  color: var(--t-1);
+}
 
+.vlLaborBrueckeBtn:hover {
+  background: var(--akzent-tief);
+  border-color: var(--akzent);
+}
 
 /* ---- wissensbaum.css ---- */
 /* wissensbaum.css - Modernes Wissensbaum-Dashboard & Dynamische Wachstums-Engine */
@@ -24929,6 +24938,15 @@ GENERATORS.detektiv = function (level) {
               korrektur: "Das angebrochene Oktett 240 zählt mit: 11110000 hat 4 Einsen. Also 16 + 4 = 20."
             }
           ],
+          buehne: {
+            art: "bits",
+            diagramm: "m20",
+            bits: { erwartet: 20 },
+            falsch_szene: [
+              { tu: "bits", balken: 0, von: 0, bis: 19, rolle: "N" },
+              { tu: "bits", balken: 0, von: 20, bis: 31, rolle: "H" }
+            ]
+          },
           loesung: "/20. Zwei volle Oktette sind 16 Einsen, 240 = 11110000 hat 4 Einsen, zusammen 20.",
           beleg: BELEG
         },
@@ -25015,6 +25033,21 @@ GENERATORS.detektiv = function (level) {
               korrektur: "28 ist das Präfix, also die Netzbits. Für die Hosts zählen die übrigen 4 Bits."
             }
           ],
+          buehne: {
+            art: "regler",
+            diagramm: "bl32",
+            regler: {
+              label: "Nutzbare Hosts bei /28 (2⁴ − 2) einstellen:",
+              min: 0,
+              max: 32,
+              schritt: 2,
+              erwartet: 14,
+              einheit: "Hosts"
+            },
+            falsch_szene: [
+              { tu: "hebe", ziel: "raumTeil_1" }
+            ]
+          },
           loesung: "14. /28 hat 32 - 28 = 4 Hostbits, 2^4 = 16 Adressen, minus 2 sind 14 nutzbar.",
           beleg: BELEG
         },
@@ -32709,6 +32742,16 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
               "korrektur": "Auch das meint die Switch-Tabelle."
             }
           ],
+          "buehne": {
+            "art": "knoten",
+            "diagramm": "swt",
+            "knoten": {
+              "optionZuKnoten": { "0": "p1", "1": "s", "2": "p2" }
+            },
+            "falsch_szene": [
+              { "tu": "hebe", "ziel": "s", "text": "Forwarding / Bridge Table = Switch" }
+            ]
+          },
           "loesung": "Routing-Tabelle gehört zum Router.",
           "beleg": {
             "seite": "340"
@@ -32807,6 +32850,16 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
               "korrektur": "Das Ziel sagt nur, wohin der Frame soll, nicht, wo der Absender hängt."
             }
           ],
+          "buehne": {
+            "art": "knoten",
+            "diagramm": "lern",
+            "knoten": {
+              "optionZuKnoten": { "0": "l0", "1": "l1" }
+            },
+            "falsch_szene": [
+              { "tu": "hebe", "ziel": "l0", "text": "Immer aus der Quell-MAC lernen!" }
+            ]
+          },
           "loesung": "Lernen aus der Quell-MAC.",
           "beleg": {
             "seite": "340"
@@ -34442,6 +34495,16 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
               "korrektur": "Das sind Portlisten, keine Routing-Tabelle."
             }
           ],
+          "buehne": {
+            "art": "knoten",
+            "diagramm": "rt",
+            "knoten": {
+              "optionZuKnoten": { "0": "r", "1": "lan", "2": "wlan" }
+            },
+            "falsch_szene": [
+              { "tu": "hebe", "ziel": "r", "text": "Routing-Tabelle speichert Netze!" }
+            ]
+          },
           "loesung": "Netzkennungen mit Port.",
           "beleg": {
             "seite": "343"
@@ -34545,6 +34608,17 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
               "korrektur": "Der Eintrag ist gültig und sehr wichtig."
             }
           ],
+          "buehne": {
+            "art": "knoten",
+            "diagramm": "dr",
+            "knoten": {
+              "optionZuKnoten": { "0": "b", "1": "t", "2": "c" }
+            },
+            "falsch_szene": [
+              { "tu": "paket", "von": "t", "nach": "b" },
+              { "tu": "hebe", "ziel": "b", "text": "0.0.0.0 = Default Gateway" }
+            ]
+          },
           "loesung": "Default-Route.",
           "beleg": {
             "seite": "344"
@@ -54732,21 +54806,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Ab hier gilt Prüfungsmodus: gemischte Aufgaben über alles ab Seite 306.",
           "frage": "Was weißt du ohne Nachschlagen?"
         },
-        
-        vermutung: {
-                  "tutor": "Starten wir den Prüfungsflug: Prüfen wir, welche Kernregeln für Gebäudeverkabelung und Übertragungsmedien gelten.",
-                  "optionen": [
-                            {
-                                      "text": "Kupfer-Channel-Links sind auf max. 100 m (90 m Verlegekabel + 10 m Patchkabel) begrenzt; 10GBase-T über 100 m erfordert Cat 6A, während Singlemode-Glasfaser (9 µm Kern) weite Distanzen überbrückt."
-                            },
-                            {
-                                      "text": "Cat 6 reicht für 10 Gbit/s über die volle Distanz von 100 m aus, und die maximale Gesamtlänge einer Twisted-Pair-Strecke darf bis zu 150 m betragen."
-                            },
-                            {
-                                      "text": "Glasfaserkabel übertragen Daten grundsätzlich ohne jede Dämpfung über unbegrenzte Strecken, weshalb Kern- und Fasertypen in der Praxis austauschbar sind."
-                            }
-                  ]
-        },"video": {
+        "video": {
           "id": "TsdRuCc78jQ",
           "titel": "IHK-Prüfungsfokus: Verkabelung, LWL & WLAN-Standards (Boekhoven)"
         },
@@ -55128,21 +55188,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Weiter mit den Schichtenmodellen und Protokollen.",
           "frage": "Welche Schicht macht was?"
         },
-        
-        vermutung: {
-                  "tutor": "Blicken wir auf Schichten und Protokolle: Untersuchen wir, wie Datenpakete gekapselt und transportiert werden.",
-                  "optionen": [
-                            {
-                                      "text": "Schicht 2 kapselt Pakete in Ethernet-Frames mit Quell-/Ziel-MAC und FCS-Prüfsumme, während Schicht 4 per TCP verbindungs- oder per UDP verbindungslos den Transport regelt."
-                            },
-                            {
-                                      "text": "Die Fehlerprüfung per FCS erfolgt erst auf Schicht 4 durch TCP, weshalb Ethernet-Frames auf Schicht 2 keine eigenen Prüfsummen besitzen."
-                            },
-                            {
-                                      "text": "UDP ist veraltet und unsicher, deshalb nutzen alle modernen Internetanwendungen ausnahmslos TCP zur fehlerfreien Übertragung."
-                            }
-                  ]
-        },"video": {
+        "video": {
           "id": "ZH2Wdg2AIzM",
           "titel": "IHK-Prüfungsfokus: OSI-Schichtenmodell, TCP/IP & Protokolle (IT & Medien)"
         },
@@ -55522,21 +55568,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Adressen gibt es auf allen Ebenen.",
           "frage": "Welche Adresse gehört wohin?"
         },
-        
-        vermutung: {
-                  "tutor": "Überprüfen wir die Adresshierarchie: Welche Adresse erfüllt auf welcher Ebene welche Aufgabe?",
-                  "optionen": [
-                            {
-                                      "text": "MAC-Adressen (48 Bit) gelten nur lokal von Hop zu Hop, IPv4 (32 Bit) und IPv6 (128 Bit) routen End-to-End, und Portnummern (16 Bit) adressieren den Zielprozess."
-                            },
-                            {
-                                      "text": "Die MAC-Adresse des Quellrechners bleibt über alle Router hinweg bis zum Ziel-Webserver im Paket unverändert erhalten."
-                            },
-                            {
-                                      "text": "Eine IP-Adresse ist weltweit fest an ein einzelnes Gerät gekoppelt, sodass Subnetzmaske und Portnummern für das Routing überflüssig sind."
-                            }
-                  ]
-        },"video": {
+        "video": {
           "id": "ZH2Wdg2AIzM",
           "titel": "IHK-Prüfungsfokus: Adressierung, Subnetting & Ports im Überblick"
         },
@@ -56188,21 +56220,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Wer wertet was aus? Dazu MAC-Tabelle und Routing-Tabelle.",
           "frage": "Welches Gerät entscheidet wonach?"
         },
-        
-        vermutung: {
-                  "tutor": "Analysieren wir die Weiterleitungslogik: Welches Netzwerkgerät entscheidet auf welcher Grundlage?",
-                  "optionen": [
-                            {
-                                      "text": "Switches leiten Frames anhand der Ziel-MAC weiter und trennen Kollisionsdomänen; Router leiten Pakete anhand des Netzanteils der Ziel-IP weiter und trennen Broadcast-Domänen."
-                            },
-                            {
-                                      "text": "Ein Layer-2-Switch trennt Broadcast-Domänen und leitet IP-Pakete direkt anhand der IP-Routing-Tabelle an das Standard-Gateway weiter."
-                            },
-                            {
-                                      "text": "Ein Hub ist einfach ein kleiner Switch, der Pakete intern speichert und genauso intelligent verteilt."
-                            }
-                  ]
-        },"video": {
+        "video": {
           "id": "VYa2xcIMnPM",
           "titel": "IHK-Prüfungsfokus: Hub, Switch, Router & Routing-Tabelle (Boekhoven)"
         },
@@ -56527,21 +56545,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Kurz und knackig: Wer legt Normen fest?",
           "frage": "Welches Gremium macht was?"
         },
-        
-        vermutung: {
-                  "tutor": "Verschaffen wir uns Klarheit im Normen-Dschungel: Welches Gremium verantwortet welche Standards?",
-                  "optionen": [
-                            {
-                                      "text": "Die ISO normt international alles außer Elektrotechnik (Zuständigkeit der IEC), während das IEEE in der 802-Familie Schicht 1 und 2 für LAN, Ethernet und WLAN definiert."
-                            },
-                            {
-                                      "text": "Das IEEE legt weltweit alle IP-Routingprotokolle und Internetstandards fest, während die ISO ausschließlich für Computerkabel zuständig ist."
-                            },
-                            {
-                                      "text": "Europäische Normen (EN) sind unverbindliche Empfehlungen, die deutsche DIN-Normen nicht überschreiben dürfen."
-                            }
-                  ]
-        },"video": {
+        "video": {
           "id": "TsdRuCc78jQ",
           "titel": "IHK-Prüfungsfokus: Normungsorganisationen & IEEE 802 Standards"
         },
@@ -56872,21 +56876,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           "text": "Rechenaufgaben aus den ersten Einheiten. Nimm Zettel und Stift.",
           "frage": "Wie viele Hosts passen ins Netz?"
         },
-        
-        vermutung: {
-                  "tutor": "Rechnen wir die Netzgrößen durch: Wie bestimmt man Subnetzgrenzen und nutzbare Host-Adressen exakt?",
-                  "optionen": [
-                            {
-                                      "text": "Die Anzahl nutzbarer Host-Adressen berechnet sich mit 2^h - 2, weil die erste Adresse Netz-ID und die letzte Broadcast-Adresse ist; bei VLSM plant man absteigend vom größten Netz."
-                            },
-                            {
-                                      "text": "In einem /26-Netz mit Blockgröße 64 können alle 64 Adressen an Clients vergeben werden, da Broadcasts in modernen Netzen nicht mehr reserviert werden müssen."
-                            },
-                            {
-                                      "text": "Die Subnetzmaske bestimmt nur die Geschwindigkeit der Datenübertragung und hat keinen Einfluss auf die maximale Rechneranzahl im Netzwerk."
-                            }
-                  ]
-        },"video": {
+        "video": {
           "id": "ZH2Wdg2AIzM",
           "titel": "IHK-Prüfungsfokus: Subnetting, VLSM & IPv6-Rechnungen im Kopf"
         },
@@ -57353,6 +57343,17 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
               "korrektur": "Genau umgekehrt: RAID 6 ist durch 2 Paritätsblöcke sicherer als RAID 5."
             }
           ],
+          "buehne": {
+            "art": "knoten",
+            "diagramm": "diag_raid_basic",
+            "knoten": {
+              "optionZuKnoten": { "0": "r6", "1": "r0", "2": "r5" }
+            },
+            "falsch_szene": [
+              { "tu": "hebe", "ziel": "r5" },
+              { "tu": "hebe", "ziel": "r6" }
+            ]
+          },
           "loesung": "RAID 5 verkraftet den gleichzeitigen Ausfall von maximal 1 Platte. RAID 6 besitzt zwei verteilte Prüfsummen und verkraftet den Ausfall von bis zu 2 Platten.",
           "beleg": { seite: 380 }
         },
@@ -57475,6 +57476,17 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
               "korrektur": "Nein, es ist eine rein mathematisch-statistische Zuverlässigkeitsfrage."
             }
           ],
+          "buehne": {
+            "art": "knoten",
+            "diagramm": "diag_raid_comb",
+            "knoten": {
+              "optionZuKnoten": { "0": "r10", "1": "r01", "2": "hsp" }
+            },
+            "falsch_szene": [
+              { "tu": "hebe", "ziel": "r10" },
+              { "tu": "welle", "bei": "r10" }
+            ]
+          },
           "loesung": "Bei RAID 10 (Stripe über Spiegel) führt der Defekt einer Platte nur zum Ausfall eines Spiegels; die anderen Spiegel arbeiten unberührt weiter. Bei RAID 01 fällt sofort ein kompletter Verbund aus.",
           "beleg": { seite: 380 }
         },
@@ -57598,6 +57610,22 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
               "korrektur": "Viel zu wenig, das wäre RAID 1 bzw. RAID 10."
             }
           ],
+          "buehne": {
+            "art": "regler",
+            "diagramm": "diag_kapazitaet",
+            "regler": {
+              "label": "Nettokapazität RAID 5 (8 × 10 TB) einstellen:",
+              "min": 20,
+              "max": 80,
+              "schritt": 10,
+              "erwartet": 70,
+              "einheit": "TB"
+            },
+            "falsch_szene": [
+              { "tu": "hebe", "ziel": "k_r5" },
+              { "tu": "hebe", "ziel": "k_r6" }
+            ]
+          },
           "loesung": "RAID 5: (8 − 1) × 10 TB = 70 TB. RAID 6: (8 − 2) × 10 TB = 60 TB.",
           "beleg": { seite: 381 }
         },
@@ -57865,6 +57893,22 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
             { text: "16 Ampere", richtig: false },
             { text: "0,1 Ampere", richtig: false }
           ],
+          buehne: {
+            art: "regler",
+            diagramm: "stromkreis",
+            regler: {
+              label: "Stromstärke I einstellen (I = P / U):",
+              min: 0,
+              max: 20,
+              schritt: 1,
+              erwartet: 10,
+              einheit: "A"
+            },
+            falsch_szene: [
+              { tu: "hebe", ziel: "leitung" },
+              { tu: "hebe", ziel: "schrank" }
+            ]
+          },
           loesung: "I = P / U = 2300 W / 230 V = 10 A.",
           beleg: { seite: 321 }
         },
@@ -57954,6 +57998,17 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
             { text: "400 V, weil die Frequenz 50 Hz die Spannung vervielfacht.", richtig: false },
             { text: "162 V (230 V geteilt durch √2).", richtig: false }
           ],
+          buehne: {
+            art: "knoten",
+            diagramm: "sinus",
+            knoten: {
+              optionZuKnoten: { "0": "peak", "1": "eff", "2": "null" }
+            },
+            falsch_szene: [
+              { tu: "hebe", ziel: "eff" },
+              { tu: "paket", von: "eff", bis: "peak", label: "× √2 = 325 V" }
+            ]
+          },
           loesung: "U_max = 230 V · √2 ≈ 325,27 V. Bauelemente müssen für die Spitzenspannung isoliert sein.",
           beleg: { seite: 323 }
         },
@@ -58047,6 +58102,18 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
             { text: "460 V (Addition von zweimal 230 V)", richtig: false },
             { text: "0 V, weil die Phasen sich gegenseitig auslöschen", richtig: false }
           ],
+          buehne: {
+            art: "knoten",
+            diagramm: "drehstrom",
+            knoten: {
+              optionZuKnoten: { "0": "pdu", "1": "l1", "2": "l2", "3": "stern" }
+            },
+            falsch_szene: [
+              { tu: "hebe", ziel: "l1" },
+              { tu: "hebe", ziel: "l2" },
+              { tu: "paket", von: "stern", bis: "pdu", label: "√3 · 230 V = 400 V" }
+            ]
+          },
           loesung: "Zwischen zwei Außenleitern liegt immer die verkettete Leiterspannung von 400 V an.",
           beleg: { seite: 325 }
         },
@@ -58138,6 +58205,17 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
             { text: "Anschluss an ein TN-C-Netz ohne separaten Schutzleiter.", richtig: false },
             { text: "Akkusatz mit genau 230 V Gleichspannung ohne Wechselrichter.", richtig: false }
           ],
+          buehne: {
+            art: "knoten",
+            diagramm: "usv",
+            knoten: {
+              optionZuKnoten: { "0": "wechsel", "1": "netz", "2": "last", "3": "akku" }
+            },
+            falsch_szene: [
+              { tu: "hebe", ziel: "akku" },
+              { tu: "paket", von: "akku", bis: "wechsel", label: "0 ms Dauerwandler" }
+            ]
+          },
           loesung: "Server benötigen VFI-Online-USVs mit 0 ms Umschaltzeit und saubere TN-S-Erdung.",
           beleg: { seite: 328 }
         },
@@ -80869,7 +80947,8 @@ GENERATORS.vlan = function (level) {
       if (los) {
         los.onclick = () => {
           ton("click");
-          if (!reduzierteBewegung()) {
+          const istPruefungsflug = E && (E.reihe === 31 || E.reihe === 32 || (E.id && E.id.includes("pruefungsflug")));
+          if (!reduzierteBewegung() && !istPruefungsflug) {
             fahreKamera(mobileAusschnitt(AUSSCHNITT_START));
           }
           // Shrink- und Dock-Animation: Tutor schrumpft flüssig auf seinen rechten Platz
@@ -81274,34 +81353,38 @@ GENERATORS.vlan = function (level) {
     const b = pr.buehne;
     if (window.MOTION) window.MOTION.stoppe();
     if (typeof window.BUEHNE_NOCHMAL_ZEIGEN === "function") window.BUEHNE_NOCHMAL_ZEIGEN(false);
-    zeigeDiagramm(null, null);
+    zeigeDiagramm((b && b.diagramm) || null, null);
     const kopf = `<span class="vlPhaseLabel">Probe${nachWiederholung ? " · zweiter Versuch" : ""}</span>${formatiereFormeln(esc(pr.frage))}`;
     let eingabe;
     let hinweisBuehne = "";
-    if (b && (b.art === "knoten" || b.art === "bits")) {
+    if (b && (b.art === "knoten" || b.art === "bits" || (b.art === "regler" && pr.art !== "frei"))) {
+      const hinweisText = b.art === "regler" ? "Per Regler einstellen oder unten auswählen:" : "Direkt auf der Bühne antippen:";
       hinweisBuehne = `
         <div class="vlBuehneHinweisRow">
-          <span class="vlBuehneHinweis">${window.ICON ? window.ICON("ziel", { groesse: "s" }) : "🎯"} Direkt auf der Bühne antippen:</span>
+          <span class="vlBuehneHinweis">${window.ICON ? window.ICON("ziel", { groesse: "s" }) : "🎯"} ${hinweisText}</span>
           <button type="button" class="vlBuehneWahlLink" id="vlBuehneWahlLink">Lieber per Auswahl antworten</button>
         </div>`;
     }
 
+    let reglerHtml = "";
+    if (b && b.art === "regler" && b.regler) {
+      const rMin = b.regler.min != null ? b.regler.min : 0;
+      const rMax = b.regler.max != null ? b.regler.max : 64;
+      const rSchritt = b.regler.schritt != null ? b.regler.schritt : 1;
+      const rEinheit = b.regler.einheit ? " " + esc(b.regler.einheit) : "";
+      const rInit = b.regler.erwartet != null ? Math.max(rMin, b.regler.erwartet - 4 * rSchritt) : rMin;
+      reglerHtml = `
+        <div class="vlReglerBox">
+          <div class="vlReglerKopf">
+            <label for="vlBuehneRegler" class="vlReglerLabel">${esc(b.regler.label || "Wert per Regler wählen:")}</label>
+            <span class="vlReglerZahl" id="vlReglerZahl" data-einheit="${esc(b.regler.einheit || "")}">${rInit}${rEinheit}</span>
+          </div>
+          <input type="range" class="vlRegler" id="vlBuehneRegler" min="${rMin}" max="${rMax}" step="${rSchritt}" value="${rInit}">
+          ${pr.art !== "frei" ? `<button type="button" class="ui-knopf ui-knopf-primaer vlBtn primary" id="vlBuehneReglerPruefen">Eingestellten Wert prüfen</button>` : ""}
+        </div>`;
+    }
+
     if (pr.art === "frei") {
-      let reglerHtml = "";
-      if (b && b.art === "regler" && b.regler) {
-        const rMin = b.regler.min != null ? b.regler.min : 0;
-        const rMax = b.regler.max != null ? b.regler.max : 64;
-        const rSchritt = b.regler.schritt != null ? b.regler.schritt : 1;
-        const rInit = b.regler.erwartet != null ? Math.max(rMin, b.regler.erwartet - 4) : rMin;
-        reglerHtml = `
-          <div class="vlReglerBox">
-            <div class="vlReglerKopf">
-              <label for="vlBuehneRegler" class="vlReglerLabel">Wert per Regler wählen:</label>
-              <span class="vlReglerZahl" id="vlReglerZahl">${rInit}</span>
-            </div>
-            <input type="range" class="vlRegler" id="vlBuehneRegler" min="${rMin}" max="${rMax}" step="${rSchritt}" value="${rInit}">
-          </div>`;
-      }
       eingabe = `
         ${reglerHtml}
         <form class="vlProbeForm" id="vlProbeForm">
@@ -81310,7 +81393,7 @@ GENERATORS.vlan = function (level) {
         </form>
         ${pr.tipp ? `<button type="button" class="ui-knopf ui-knopf-sekundaer vlTippBtn" id="vlTippBtn">${window.ICON ? window.ICON("stern", { groesse: "s" }) : "💡"} Tipp anzeigen</button><div class="vlTipp" id="vlTipp" hidden>${formatiereFormeln(esc(pr.tipp))}</div>` : ""}`;
     } else {
-      eingabe = hinweisBuehne + `<div class="vlOptionen">` + (pr.optionen || []).map((o, i) =>
+      eingabe = hinweisBuehne + reglerHtml + `<div class="vlOptionen">` + (pr.optionen || []).map((o, i) =>
         `<button type="button" class="vlOption ui-option" data-i="${i}"><span class="ui-option-taste">${i + 1}</span><span class="ui-option-text">${formatiereFormeln(esc(o.text))}</span></button>`).join("") + `</div>`;
     }
     k.innerHTML = sprecher(kopf, eingabe);
@@ -81320,9 +81403,28 @@ GENERATORS.vlan = function (level) {
       if (rSlider) {
         rSlider.oninput = () => {
           const z = $v("vlReglerZahl");
-          if (z) z.textContent = rSlider.value;
+          const einh = z && z.dataset.einheit ? " " + z.dataset.einheit : "";
+          if (z) z.textContent = rSlider.value + einh;
           const inp = $v("vlProbeIn");
           if (inp) inp.value = rSlider.value;
+        };
+      }
+      const rPruefBtn = $v("vlBuehneReglerPruefen");
+      if (rPruefBtn && rSlider && b.regler) {
+        rPruefBtn.onclick = () => {
+          const val = parseFloat(rSlider.value);
+          const ziel = parseFloat(b.regler.erwartet);
+          const tol = b.regler.toleranz != null ? parseFloat(b.regler.toleranz) : 0.5;
+          if (Math.abs(val - ziel) <= tol) {
+            const rIdx = (pr.optionen || []).findIndex((o) => o.richtig);
+            if (rIdx >= 0) k.querySelector(`.vlOption[data-i="${rIdx}"]`)?.click();
+          } else {
+            if (b.falsch_szene && window.MOTION) {
+              window.MOTION.spiele(b.falsch_szene);
+            }
+            const fIdx = (pr.optionen || []).findIndex((o) => !o.richtig);
+            if (fIdx >= 0) k.querySelector(`.vlOption[data-i="${fIdx}"]`)?.click();
+          }
         };
       }
     }
@@ -81587,6 +81689,104 @@ GENERATORS.vlan = function (level) {
     });
   }
 
+  function laborBrueckeFuerEinheit(einheitId, phaseId) {
+    if (!einheitId) return null;
+    const hebeModalVor = (id) => {
+      const el = document.getElementById(id);
+      if (el) el.style.zIndex = "9999";
+    };
+    if (einheitId === "lf03-strom-drehstrom-usv") {
+      const tabMap = { p1: "ohm", p2: "sinus", p3: "drehstrom", p4: "usv" };
+      const labelMap = {
+        p1: "⚡ Im Elektro-Labor: Ohm & Zuleitung simulieren",
+        p2: "〰️ Im Elektro-Labor: Sinus & √2 testen",
+        p3: "🔄 Im Elektro-Labor: 3-Phasen-Drehstrom & √3 testen",
+        p4: "🔋 Im Elektro-Labor: USV & Autonomiezeit simulieren"
+      };
+      const tab = tabMap[phaseId] || "ohm";
+      return {
+        label: labelMap[phaseId] || "⚡ Im Elektro- & USV-Labor simulieren",
+        action: () => {
+          if (window.ELEKTRO_LABOR && typeof window.ELEKTRO_LABOR.oeffne === "function") {
+            window.ELEKTRO_LABOR.oeffne(tab);
+            hebeModalVor("elektroLaborModal");
+          }
+        }
+      };
+    }
+    if (einheitId === "lf03-speicher-raid-verbund") {
+      return {
+        label: "💽 Im RAID- & Storage-Labor simulieren",
+        action: () => {
+          if (window.RAID_LABOR && typeof window.RAID_LABOR.oeffne === "function") {
+            window.RAID_LABOR.oeffne();
+            hebeModalVor("raidLaborModal");
+          }
+        }
+      };
+    }
+    if (einheitId === "lf03-subnetting-grundlagen" || einheitId === "lf03-cidr-pruefung" || einheitId === "lf03-vlsm-aufgabe") {
+      return {
+        label: "🧮 Im Subnetting-Labor ausprobieren",
+        action: () => {
+          const btn = document.getElementById("btnSubnetLabor");
+          if (btn) {
+            btn.click();
+            hebeModalVor("subnetModal");
+          } else if (window.RECHENLABOR && typeof window.RECHENLABOR.oeffne === "function") {
+            window.RECHENLABOR.oeffne();
+            hebeModalVor("rechenModalOverlay");
+          }
+        }
+      };
+    }
+    if (einheitId === "lf03-ipv6-grundlagen" || einheitId === "lf03-adressen-privat-ipv6") {
+      return {
+        label: "⚡ IPv6-Speedrun starten",
+        action: () => {
+          if (window.IPV6_SPEEDRUN && typeof window.IPV6_SPEEDRUN.start === "function") {
+            window.IPV6_SPEEDRUN.start();
+            hebeModalVor("ipv6SpeedrunModal");
+          }
+        }
+      };
+    }
+    if (einheitId === "lf03-diagnose-ping-traceroute" || einheitId === "lf03-diagnose-dns-schnelltest" || einheitId === "lf03-labor-fehlersuche-pt" || einheitId === "lf03-ipdhcp-konfiguration") {
+      return {
+        label: "💻 Im Ping/CLI-Terminal testen",
+        action: () => {
+          if (window.PING_DETEKTIV && typeof window.PING_DETEKTIV.oeffne === "function") {
+            window.PING_DETEKTIV.oeffne();
+            hebeModalVor("cliModalOverlay");
+          }
+        }
+      };
+    }
+    if (einheitId === "lf03-verkabelung-topologie" || einheitId === "lf03-auswahl-nic-switch" || einheitId === "lf03-labor-geraete-adressen") {
+      return {
+        label: "🗄️ Im 19\"-Rack-Hero bauen",
+        action: () => {
+          if (window.RACK_HERO && typeof window.RACK_HERO.oeffne === "function") {
+            window.RACK_HERO.oeffne();
+            hebeModalVor("rackHeroModal");
+          }
+        }
+      };
+    }
+    if (einheitId === "lf03-client-last-ladezeit" || einheitId === "lf03-geraete-verfahren-manage" || einheitId === "lf03-pruefungsflug-2") {
+      return {
+        label: "🧮 Im IHK-Rechenlabor trainieren",
+        action: () => {
+          if (window.RECHENLABOR && typeof window.RECHENLABOR.oeffne === "function") {
+            window.RECHENLABOR.oeffne();
+            hebeModalVor("rechenModalOverlay");
+          }
+        }
+      };
+    }
+    return null;
+  }
+
   function zeichneSicherung(k, p) {
     if (window.TUTOR && typeof window.TUTOR.setze === "function") {
       window.TUTOR.setze("freut");
@@ -81598,10 +81798,12 @@ GENERATORS.vlan = function (level) {
     const s = p.sicherung || {};
     const letzte = phaseIdx >= E.phasen.length - 1;
     const sandbox = p.sandbox ? `<button type="button" class="vlBtn" id="vlSandboxBtn">🧪 Kurz selbst ausprobieren</button>` : "";
+    const laborBruecke = laborBrueckeFuerEinheit(E && E.id, p && p.id);
+    const laborBtn = laborBruecke ? `<button type="button" class="vlBtn vlLaborBrueckeBtn" id="vlLaborBrueckeBtn">${esc(laborBruecke.label)}</button>` : "";
     k.innerHTML = sprecher(
       `<span class="vlPhaseLabel">Gesichert</span>Das Wichtigste aus dieser Phase steht jetzt in deinem Handout.
        ${s.merksatz ? `<div class="vlMerksatzGross">${window.ICON ? window.ICON("schluessel", { groesse: "s" }) : "🔑"} ${formatiereFormeln(esc(s.merksatz))}</div>` : ""}`,
-      `<div class="vlKartenAktionen">${sandbox}
+      `<div class="vlKartenAktionen">${sandbox}${laborBtn}
         <button type="button" class="vlBtn primary" id="vlWeiter">${letzte ? "Zum Abschlusstest ➔" : "Nächste Phase ➔"}</button>
        </div>`
     );
@@ -81626,6 +81828,8 @@ GENERATORS.vlan = function (level) {
     };
     const sb = $v("vlSandboxBtn");
     if (sb) sb.onclick = () => zeigeSandbox(p);
+    const lb = $v("vlLaborBrueckeBtn");
+    if (lb && laborBruecke) lb.onclick = () => { ton("click"); laborBruecke.action(); };
   }
 
   // ---------------------------------------------------------------- Sandbox (kurzes Ausprobieren)
@@ -81746,18 +81950,23 @@ GENERATORS.vlan = function (level) {
           ${zuwachs > 0 ? `<div class="vlVergleichPlus"><b>+${zuwachs} %</b> Wissenszuwachs! 🎉</div>` : ""}
         </div>`;
     }
+    const laborBruecke = laborBrueckeFuerEinheit(E && E.id, null);
+    const laborBtn = laborBruecke ? `<button type="button" class="vlBtn vlLaborBrueckeBtn" id="vlBilanzLaborBtn">${esc(laborBruecke.label)}</button>` : "";
     k.innerHTML = sprecher(
       `<div class="vlTitelFeier"><span>🎉</span><span>Großartig gemacht!</span></div>
        <span class="vlPhaseLabel">Einheit geschafft</span>Du warst ${minuten} Minuten dran.${vergleich}
        <ul class="vlBilanz">${zeilen}</ul>
        <div class="vlRueckHinweis">Offene Punkte liegen jetzt in deiner Wiederholung und kommen im Fehler-Training wieder.</div>`,
       `<div class="vlKartenAktionen">
+         ${laborBtn}
          <button type="button" class="vlBtn" id="vlHoDownload">⬇ Handout speichern (.md)</button>
          <button type="button" class="vlBtn" id="vlHoDruck">🖨 Handout drucken / als PDF</button>
          <button type="button" class="vlBtn" id="vlNochmal">⟲ Einheit wiederholen</button>
          <button type="button" class="vlBtn primary" id="vlFertig">Zurück ins Menü ➔</button>
        </div>`
     );
+    const blb = $v("vlBilanzLaborBtn");
+    if (blb && laborBruecke) blb.onclick = () => { ton("click"); laborBruecke.action(); };
     $v("vlHoDownload").onclick = () => { ton("click"); handoutSpeichern(); };
     $v("vlHoDruck").onclick = () => { ton("click"); handoutDrucken(); };
     $v("vlNochmal").onclick = () => startVorlesung(E.id);
