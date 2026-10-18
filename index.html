@@ -13115,6 +13115,57 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
 .ui-icon.m { width: 20px; height: 20px; }
 .ui-icon.l { width: 24px; height: 24px; }
 
+/* ==========================================================================
+   14. FORMEL-TYPOGRAFIE & MATH (formatiereFormeln)
+   ========================================================================== */
+.ui-formel-block {
+  display: block;
+  text-align: center;
+  margin: var(--a-3) auto;
+  padding: var(--a-2) var(--a-4);
+  background: var(--f-2);
+  border: 1px solid var(--linie);
+  border-radius: var(--r-m);
+  color: var(--t-1);
+  font-family: var(--schrift-mono);
+  font-size: var(--gr-l);
+  overflow-x: auto;
+}
+.ui-formel-inline {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  white-space: nowrap;
+  font-family: var(--schrift-mono);
+  color: var(--akzent-hell);
+  padding: 0 var(--a-1);
+}
+.ui-bruch {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0 var(--a-1);
+  font-size: 0.9em;
+  line-height: 1.1;
+}
+.ui-bruch-zaehler {
+  border-bottom: 1.5px solid currentColor;
+  padding-bottom: 2px;
+}
+.ui-bruch-nenner {
+  padding-top: 2px;
+}
+.ui-wurzel {
+  display: inline-flex;
+  align-items: baseline;
+}
+.ui-radikand {
+  border-top: 1.5px solid currentColor;
+  padding-top: 1px;
+  margin-left: 1px;
+}
+
 /* ---- vorlesung.css ---- */
 /* vorlesung.css - Interaktive-KI-Vorlesung im Kurzgesagt-Stil (Explorable Explanations) */
 .vlWrap {
@@ -18611,6 +18662,7 @@ body.lp #lpTipp:hover {
 /* ======================================================================= Grundlagen */
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fFormel = (s) => (s == null ? "" : (typeof window !== "undefined" && typeof window.FORMATIERE_FORMELN === "function" ? window.FORMATIERE_FORMELN(s) : String(s)));
 const shuffle = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const readJson = (id, fb) => { try { const t = $(id)?.textContent.trim(); return t && !t.startsWith("@@") ? JSON.parse(t) : fb; } catch (e) { return fb; } };
@@ -35609,15 +35661,15 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
 #### 2. Non-Blocking Backplane & Forwarding Rate (IHK-Formeln)
 | Kenngröße | Bedeutung & Definition | Formel / Rechenweg |
 | :--- | :--- | :--- |
-| **Switching Fabric (Backplane)** | Interne Bandbreitenkapazität der Schaltmatrix | $\\text{Backplane} = \\sum (\\text{Ports} \\times \\text{Geschwindigkeit} \\times 2 \\text{ [Vollduplex]})$ |
-| **Non-Blocking** | Jeder Port kann gleichzeitig mit maximaler Datenrate senden und empfangen, ohne dass Stau entsteht | Backplane $\\ge$ Theoretischer Max-Durchsatz |
-| **Forwarding Rate (Mpps)** | Anzahl der 64-Byte-Pakete, die der Switch pro Sekunde verarbeiten kann | $1 \\text{ Gbps Port} = 1{,}488 \\text{ Mpps}$<br>$10 \\text{ Gbps Port} = 14{,}88 \\text{ Mpps}$ |
+| **Switching Fabric (Backplane)** | Interne Bandbreitenkapazität der Schaltmatrix | Backplane = ∑ (Ports × Geschwindigkeit × 2 [Vollduplex]) |
+| **Non-Blocking** | Jeder Port kann gleichzeitig mit maximaler Datenrate senden und empfangen, ohne dass Stau entsteht | Backplane ≥ Theoretischer Max-Durchsatz |
+| **Forwarding Rate (Mpps)** | Anzahl der 64-Byte-Pakete, die der Switch pro Sekunde verarbeiten kann | 1 Gbps Port = 1,488 Mpps<br>10 Gbps Port = 14,88 Mpps |
 
 * **Rechenbeispiel für die IHK-Abschlussprüfung:**
-  * Ein Switch verfügt über: $48 \\times 1 \\text{ Gbit/s RJ45} + 4 \\times 10 \\text{ Gbit/s SFP+}$.
-  * Summe Port-Bandbreite einfach: $(48 \\times 1) + (4 \\times 10) = 48 + 40 = 88 \\text{ Gbit/s}$.
-  * Erforderliche Non-Blocking Backplane: $88 \\text{ Gbit/s} \\times 2 = \\mathbf{176 \\text{ Gbit/s}}$.
-  * Erforderliche Forwarding Rate: $(48 \\times 1{,}488 \\text{ Mpps}) + (4 \\times 14{,}88 \\text{ Mpps}) = 71{,}42 + 59{,}52 = \\mathbf{130{,}94 \\text{ Mpps}}$.
+  * Ein Switch verfügt über: 48 × 1 Gbit/s RJ45 + 4 × 10 Gbit/s SFP+.
+  * Summe Port-Bandbreite einfach: (48 × 1) + (4 × 10) = 48 + 40 = 88 Gbit/s.
+  * Erforderliche Non-Blocking Backplane: 88 Gbit/s × 2 = **176 Gbit/s**.
+  * Erforderliche Forwarding Rate: (48 × 1,488 Mpps) + (4 × 14,88 Mpps) = 71,42 + 59,52 = **130,94 Mpps**.
 
 #### 3. Management-Ebenen im Überblick
 * **Unmanaged:** Keine IP, keine Konfigurationsmöglichkeiten. Reines Layer-2-Plug-and-Play. Keine VLANs.
@@ -35720,7 +35772,7 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
           },
           {
             text: "Leitungsverluste über 100 m Kabellänge erklären die Differenz zwischen PSE- und PD-Leistung.",
-            absatz: "In Prüfungen wird häufig gefragt, warum am Endgerät (PD) weniger Watt ankommen als am Switch (PSE) eingespeist werden. Der Grund ist schlicht die Physik: Kupferadern besitzen einen ohmschen Leitungswiderstand. Über die maximal zulässige Permantent-Link-Länge von 90 m bzw. 100 m Channel-Länge entsteht ein Spannungsabfall ($P_{\\text{Verlust}} = I^2 \\times R$). Beim 802.3af-Standard werden am Port bis zu 15,4 W abgegeben, doch am Ende des 100-Meter-Kabels sind normativ nur 12,95 W garantiert. Bei 802.3at (PoE+) speist der Port 30 W ein, wovon 25,5 W am Endgerät ankommen.",
+            absatz: "In Prüfungen wird häufig gefragt, warum am Endgerät (PD) weniger Watt ankommen als am Switch (PSE) eingespeist werden. Der Grund ist schlicht die Physik: Kupferadern besitzen einen ohmschen Leitungswiderstand. Über die maximal zulässige Permantent-Link-Länge von 90 m bzw. 100 m Channel-Länge entsteht ein Spannungsabfall (<i>P</i><sub>Verlust</sub> = <i>I</i>² · <i>R</i>). Beim 802.3af-Standard werden am Port bis zu 15,4 W abgegeben, doch am Ende des 100-Meter-Kabels sind normativ nur 12,95 W garantiert. Bei 802.3at (PoE+) speist der Port 30 W ein, wovon 25,5 W am Endgerät ankommen.",
             diagramm: "diag_poe",
             szene: [
               { tu: "hebe", ziel: "poe_af" },
@@ -35732,7 +35784,7 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
           },
           {
             text: "Das PoE-Gesamtbudget (Power Budget) des Switches ist der kritische Flaschenhals bei der Dimensionierung.",
-            absatz: "Ein weitverbreiteter Trugschluss lautet: Ein Switch mit 24 PoE+-Ports kann alle 24 Ports mit 30 Watt versorgen. Dafür wäre eine Netzteilleistung von $24 \\times 30 \\text{ W} = 720 \\text{ W}$ allein für PoE nötig! Viele preisgünstige Enterprise-Switches besitzen jedoch nur ein internes Netzteil mit z. B. 180 Watt oder 370 Watt PoE-Budget. Schließt man mehr Geräte an, als das Budget hergibt, überlastet das Netzteil. Managed Switches bieten deshalb Port-Prioritäten (Critical, High, Low): Wird das Budget überschritten, schaltet der Switch automatisch die Ports mit der niedrigsten Priorität ab.",
+            absatz: "Ein weitverbreiteter Trugschluss lautet: Ein Switch mit 24 PoE+-Ports kann alle 24 Ports mit 30 Watt versorgen. Dafür wäre eine Netzteilleistung von 24 × 30 W = 720 W allein für PoE nötig! Viele preisgünstige Enterprise-Switches besitzen jedoch nur ein internes Netzteil mit z. B. 180 Watt oder 370 Watt PoE-Budget. Schließt man mehr Geräte an, als das Budget hergibt, überlastet das Netzteil. Managed Switches bieten deshalb Port-Prioritäten (Critical, High, Low): Wird das Budget überschritten, schaltet der Switch automatisch die Ports mit der niedrigsten Priorität ab.",
             diagramm: "diag_poe",
             szene: [
               { tu: "hebe", ziel: "poe_at" },
@@ -35827,12 +35879,12 @@ $$V = \\frac{\\text{Betriebszeit}}{\\text{Gesamtzeit}} \\times 100\\,\\%$$
   * **Endspan:** Der Switch selbst ist PoE-fähig und speist Strom direkt am Port ein.
   * **Midspan:** Ein separater **PoE-Injektor** zwischen normalem Switch und Endgerät speist die Versorgungsspannung ein.
 * **PD (Powered Device):** Das stromempfangende Endgerät.
-* **Resistive Signature (Handshake):** Verhindert das Zerstören normaler NICs. Das PSE legt ca. 2,7 bis 10 V an; misst es einen Abschlusswiderstand von $23{,}75 \\text{ bis } 26{,}25 \\text{ k}\\Omega$, wird erkannt, dass ein PoE-PD angeschlossen ist, und erst dann die Betriebsspannung zugeschaltet.
+* **Resistive Signature (Handshake):** Verhindert das Zerstören normaler NICs. Das PSE legt ca. 2,7 bis 10 V an; misst es einen Abschlusswiderstand von 23,75 bis 26,25 kΩ, wird erkannt, dass ein PoE-PD angeschlossen ist, und erst dann die Betriebsspannung zugeschaltet.
 
 #### 3. IHK-Berechnungsschema: PoE-Gesamtbudget
 In Prüfungen muss häufig ermittelt werden, ob ein Switch-Netzteil ausreicht oder wie viele Geräte angeschlossen werden können.
 
-$$\\text{Benötigtes Budget } P_{\\text{gesamt}} = \\sum (n_{\\text{Geräte}} \\times P_{\\text{Port-Standard}})$$
+**Formel:** Benötigtes Budget <i>P</i><sub>gesamt</sub> = ∑ (<i>n</i><sub>Geräte</sub> × <i>P</i><sub>Port-Standard</sub>)
 
 * **Musteraufgabe:**
   * Ein Switch hat ein PoE-Budget von **370 Watt**.
@@ -35840,11 +35892,11 @@ $$\\text{Benötigtes Budget } P_{\\text{gesamt}} = \\sum (n_{\\text{Geräte}} \\
     * 14× VoIP-Telefone nach 802.3af (je 15,4 W)
     * 4× Wi-Fi 6 APs nach 802.3at (je 30,0 W)
   * **Rechnung:**
-    * Telefone: $14 \\times 15{,}4 \\text{ W} = 215{,}6 \\text{ W}$
-    * Access Points: $4 \\times 30{,}0 \\text{ W} = 120{,}0 \\text{ W}$
-    * Summe: $215{,}6 \\text{ W} + 120{,}0 \\text{ W} = \\mathbf{335{,}6 \\text{ W}}$
+    * Telefone: 14 × 15,4 W = 215,6 W
+    * Access Points: 4 × 30,0 W = 120,0 W
+    * Summe: 215,6 W + 120,0 W = **335,6 W**
   * **Bewertung:**
-    * Restliches Budget: $370 \\text{ W} - 335{,}6 \\text{ W} = \\mathbf{34{,}4 \\text{ W}}$.
+    * Restliches Budget: 370 W − 335,6 W = **34,4 W**.
     * Der Switch reicht aus! Es könnte sogar noch ein weiterer PoE+-Access-Point (30 W) oder zwei weitere Telefone (je 15,4 W = 30,8 W) angeschlossen werden.`
         }
       }
@@ -57777,7 +57829,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
         aufbau: [
           {
             text: "Das Ohmsche Gesetz besagt: Die elektrische Spannung U (in Volt) ist das Produkt aus Widerstand R (in Ohm) und Stromstärke I (in Ampere): U = R · I.",
-            absatz: "Das <b>Ohmsche Gesetz</b> ($U = R \\cdot I$) bildet das Fundament der gesamten Elektrotechnik. Die Spannung $U$ (gemessen in Volt, V) treibt den elektrischen Strom $I$ (in Ampere, A) durch den Widerstand $R$ (in Ohm, $\\Omega$). Stellt man die Formel um, erhält man $I = \\frac{U}{R}$ und $R = \\frac{U}{I}$.",
+            absatz: "Das <b>Ohmsche Gesetz</b> (<i>U</i> = <i>R</i> · <i>I</i>) bildet das Fundament der gesamten Elektrotechnik. Die Spannung <i>U</i> (gemessen in Volt, V) treibt den elektrischen Strom <i>I</i> (in Ampere, A) durch den Widerstand <i>R</i> (in Ohm, Ω). Stellt man die Formel um, erhält man <i>I</i> = <i>U</i> / <i>R</i> und <i>R</i> = <i>U</i> / <i>I</i>.",
             diagramm: "stromkreis",
             szene: [
               { tu: "hebe", ziel: "quelle" },
@@ -57786,17 +57838,17 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           },
           {
             text: "Die elektrische Leistung P (in Watt) ist das Produkt aus Spannung und Strom: P = U · I. Zusammen mit U = R · I ergibt sich die Verlustleistung P = I² · R.",
-            absatz: "Die elektrische <b>Wirkleistung</b> $P$ (Einheit: Watt, W) berechnet sich im Gleichstromkreis und bei rein ohmscher Last im Wechselstromkreis durch: $$\\mathbf{P = U \\cdot I}$$ Setzt man das Ohmsche Gesetz ein ($U = R \\cdot I$), ergibt sich für die im Leiter entstehende Wärmeverlustleistung: $$\\mathbf{P_{\\text{Verlust}} = I^2 \\cdot R}$$ Das bedeutet: Verdoppelt sich die Stromstärke, vervierfacht ($2^2 = 4$) sich die Verlustwärme im Kabel!",
+            absatz: "Die elektrische <b>Wirkleistung</b> <i>P</i> (Einheit: Watt, W) berechnet sich im Gleichstromkreis und bei rein ohmscher Last im Wechselstromkreis durch: <div class=\"ui-formel-block\"><b><i>P</i> = <i>U</i> · <i>I</i></b></div> Setzt man das Ohmsche Gesetz ein (<i>U</i> = <i>R</i> · <i>I</i>), ergibt sich für die im Leiter entstehende Wärmeverlustleistung: <div class=\"ui-formel-block\"><b><i>P</i><sub>Verlust</sub> = <i>I</i>² · <i>R</i></b></div> Das bedeutet: Verdoppelt sich die Stromstärke, vervierfacht (2² = 4) sich die Verlustwärme im Kabel!",
             diagramm: "stromkreis",
             szene: [
               { tu: "hebe", ziel: "schrank" },
               { tu: "paket", von: "quelle", bis: "schrank", label: "P = 3.680 W" }
             ],
-            widgetHtml: "<table class=\"ui-tabelle\"><thead><tr><th>Formelzeichen</th><th>Physikalische Größe</th><th>Einheit</th><th>Formeldreieck</th></tr></thead><tbody><tr><td><b>U</b></td><td>Elektrische Spannung</td><td>Volt (V)</td><td>$U = R \\cdot I = \\frac{P}{I}$</td></tr><tr><td><b>I</b></td><td>Elektrische Stromstärke</td><td>Ampere (A)</td><td>$I = \\frac{U}{R} = \\frac{P}{U}$</td></tr><tr><td><b>R</b></td><td>Elektrischer Widerstand</td><td>Ohm ($\\Omega$)</td><td>$R = \\frac{U}{I} = \\frac{U^2}{P}$</td></tr><tr><td><b>P</b></td><td>Elektrische Leistung</td><td>Watt (W)</td><td>$P = U \\cdot I = I^2 \\cdot R$</td></tr></tbody></table>"
+            widgetHtml: "<table class=\"ui-tabelle\"><thead><tr><th>Formelzeichen</th><th>Physikalische Größe</th><th>Einheit</th><th>Formeldreieck</th></tr></thead><tbody><tr><td><b>U</b></td><td>Elektrische Spannung</td><td>Volt (V)</td><td><i>U</i> = <i>R</i> · <i>I</i> = <i>P</i> / <i>I</i></td></tr><tr><td><b>I</b></td><td>Elektrische Stromstärke</td><td>Ampere (A)</td><td><i>I</i> = <i>U</i> / <i>R</i> = <i>P</i> / <i>U</i></td></tr><tr><td><b>R</b></td><td>Elektrischer Widerstand</td><td>Ohm (Ω)</td><td><i>R</i> = <i>U</i> / <i>I</i> = <i>U</i>² / <i>P</i></td></tr><tr><td><b>P</b></td><td>Elektrische Leistung</td><td>Watt (W)</td><td><i>P</i> = <i>U</i> · <i>I</i> = <i>I</i>² · <i>R</i></td></tr></tbody></table>"
           },
           {
             text: "Der Leitungswiderstand steigt mit der Kabellänge und sinkt mit dem Querschnitt. Der Spannungsabfall darf nach DIN 18015 maximal 3 % der Nennspannung betragen.",
-            absatz: "Jedes Kabel besitzt einen materialabhängigen Widerstand. Für Kupfer gilt der spezifische Widerstand $\\rho \\approx 0{,}01786\\,\\frac{\\Omega \\cdot \\text{mm}^2}{\\text{m}}$ (bzw. die Leitfähigkeit $\\kappa = 56\\,\\frac{\\text{m}}{\\Omega \\cdot \\text{mm}^2}$). Da der Strom hin und zurück fließt ($2 \\cdot l$), berechnet sich der <b>Spannungsabfall</b> $\\Delta U$ zu: $$\\Delta U = \\frac{2 \\cdot l \\cdot I}{\\kappa \\cdot A}$$ Nach <b>DIN 18015</b> darf der Spannungsabfall vom Zähler bis zur Steckdose maximal **3 %** ($3\\,\\% \\text{ von } 230\\,\\text{V} = 6{,}9\\,\\text{V}$) betragen, um Fehlfunktionen von Servernetzteilen und Kabelbrände zu verhindern.",
+            absatz: "Jedes Kabel besitzt einen materialabhängigen Widerstand. Für Kupfer gilt der spezifische Widerstand ρ ≈ 0,01786 (Ω · mm²) / m (bzw. die Leitfähigkeit κ = 56 m / (Ω · mm²)). Da der Strom hin und zurück fließt (2 · <i>l</i>), berechnet sich der <b>Spannungsabfall</b> Δ<i>U</i> zu: <div class=\"ui-formel-block\"><b>Δ<i>U</i> = (2 · <i>l</i> · <i>I</i>) / (κ · <i>A</i>)</b></div> Nach <b>DIN 18015</b> darf der Spannungsabfall vom Zähler bis zur Steckdose maximal **3 %** (3 % von 230 V = 6,9 V) betragen, um Fehlfunktionen von Servernetzteilen und Kabelbrände zu verhindern.",
             diagramm: "stromkreis",
             szene: [
               { tu: "hebe", ziel: "leitung" },
@@ -57869,7 +57921,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
         aufbau: [
           {
             text: "Unser Stromnetz liefert Wechselspannung mit einer sinusförmigen Kurve und einer Frequenz von 50 Hertz, was einer Periodendauer von T = 20 Millisekunden entspricht.",
-            absatz: "Im europäischen Stromnetz wechselt die Spannung periodisch ihre Richtung und Stärke mit einer Frequenz von **50 Hz** ($f = 50\\,\\text{s}^{-1}$). Eine vollständige Sinusperiode dauert $T = \\frac{1}{f} = \\frac{1}{50\\,\\text{s}} = \\mathbf{20\\,\\text{ms}}$. Innerhalb dieser 20 ms steigt die Spannung auf ihr positives Maximum, fällt durch Null auf ein negatives Minimum und kehrt zu Null zurück.",
+            absatz: "Im europäischen Stromnetz wechselt die Spannung periodisch ihre Richtung und Stärke mit einer Frequenz von **50 Hz** (<i>f</i> = 50 s⁻¹). Eine vollständige Sinusperiode dauert <i>T</i> = 1 / <i>f</i> = 1 / 50 s = <b>20 ms</b>. Innerhalb dieser 20 ms steigt die Spannung auf ihr positives Maximum, fällt durch Null auf ein negatives Minimum und kehrt zu Null zurück.",
             diagramm: "sinus",
             szene: [
               { tu: "hebe", ziel: "null" }
@@ -57877,7 +57929,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           },
           {
             text: "Der angegebene Wert von 230 V ist der Effektivwert (U_eff). Er erzeugt an einem ohmschen Widerstand exakt dieselbe Wärmeleistung wie 230 V Gleichspannung.",
-            absatz: "Da eine Sinusspannung ständig ihren Momentanwert ändert, definiert man den **Effektivwert** ($U_{\\text{eff}}$ oder $U_{\\text{RMS}}$, Root Mean Square). Er ist physikalisch definiert als diejenige Gleichspannung, die an einem ohmschen Widerstand (z. B. einer Heizwendel) im zeitlichen Mittel **exakt dieselbe thermische Wirkleistung** erzeugt wie die zeitlich veränderliche Wechselspannung.",
+            absatz: "Da eine Sinusspannung ständig ihren Momentanwert ändert, definiert man den **Effektivwert** (<i>U</i><sub>eff</sub> oder <i>U</i><sub>RMS</sub>, Root Mean Square). Er ist physikalisch definiert als diejenige Gleichspannung, die an einem ohmschen Widerstand (z. B. einer Heizwendel) im zeitlichen Mittel **exakt dieselbe thermische Wirkleistung** erzeugt wie die zeitlich veränderliche Wechselspannung.",
             diagramm: "sinus",
             szene: [
               { tu: "hebe", ziel: "eff" }
@@ -57885,7 +57937,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           },
           {
             text: "Der Spitzenwert U_max ist um den Faktor Wurzel 2 (ca. 1,414) größer als der Effektivwert: U_max = U_eff · Wurzel 2 = 230 V · 1,4142 ≈ 325,27 Volt.",
-            absatz: "Weil die Leistung proportional zum Quadrat der Spannung ist ($P \\sim u^2(t)$), entspricht die mittlere Leistung dem Integral von $\\sin^2(t)$ über eine Periode. Der Mittelwert von $\\sin^2(t)$ ist exakt **0,5**. Zieht man daraus für die Spannung die Wurzel, erhält man: $$\\mathbf{U_{\\text{eff}} = \\frac{U_{\\text{max}}}{\\sqrt{2}} \\approx 0{,}7071 \\cdot U_{\\text{max}}}$$ Umgekehrt berechnet sich die maximale Spitzenspannung zu: $$\\mathbf{U_{\\text{max}} = U_{\\text{eff}} \\cdot \\sqrt{2} = 230\\,\\text{V} \\cdot 1{,}4142 \\approx 325{,}27\\,\\text{V}}$$ Alle Bauelemente (Kondensatoren, Isolierungen, Halbleiter) in Netzteilen müssen für mindestens 325 V Spannungsfestigkeit ausgelegt sein!",
+            absatz: "Weil die Leistung proportional zum Quadrat der Spannung ist (<i>P</i> ~ <i>u</i>²(<i>t</i>)), entspricht die mittlere Leistung dem Integral von sin²(<i>t</i>) über eine Periode. Der Mittelwert von sin²(<i>t</i>) ist exakt **0,5**. Zieht man daraus für die Spannung die Wurzel, erhält man: <div class=\"ui-formel-block\"><b><i>U</i><sub>eff</sub> = <i>U</i><sub>max</sub> / √2 ≈ 0,7071 · <i>U</i><sub>max</sub></b></div> Umgekehrt berechnet sich die maximale Spitzenspannung zu: <div class=\"ui-formel-block\"><b><i>U</i><sub>max</sub> = <i>U</i><sub>eff</sub> · √2 = 230 V · 1,4142 ≈ 325,27 V</b></div> Alle Bauelemente (Kondensatoren, Isolierungen, Halbleiter) in Netzteilen müssen für mindestens 325 V Spannungsfestigkeit ausgelegt sein!",
             diagramm: "sinus",
             szene: [
               { tu: "hebe", ziel: "peak" },
@@ -57958,7 +58010,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
         aufbau: [
           {
             text: "Drehstrom besteht aus drei einzelnen Wechselströmen (L1, L2, L3), deren Sinuswellen zeitlich um 120 Grad (ein Drittel einer Periode) phasenverschoben sind.",
-            absatz: "Der **Dreiphasenwechselstrom** (umgangssprachlich *Drehstrom* oder *Starkstrom*) wird durch drei im Kreis angeordnete Generatorspulen erzeugt. Dadurch besitzen die drei Außenleiter **L1 (braun)**, **L2 (schwarz)** und **L3 (grau)** identische Amplituden und Frequenzen, sind jedoch um **120°** ($T/3 \\approx 6{,}67\\,\\text{ms}$) gegeneinander zeitversetzt.",
+            absatz: "Der **Dreiphasenwechselstrom** (umgangssprachlich *Drehstrom* oder *Starkstrom*) wird durch drei im Kreis angeordnete Generatorspulen erzeugt. Dadurch besitzen die drei Außenleiter **L1 (braun)**, **L2 (schwarz)** und **L3 (grau)** identische Amplituden und Frequenzen, sind jedoch um **120°** (<i>T</i> / 3 ≈ 6,67 ms) gegeneinander zeitversetzt.",
             diagramm: "drehstrom",
             szene: [
               { tu: "hebe", ziel: "l1" },
@@ -57968,7 +58020,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           },
           {
             text: "In der Sternschaltung laufen die Enden im Sternpunkt (Neutralleiter N) zusammen. Gegen N misst man die Strangspannung von 230 V.",
-            absatz: "Schaltet man die drei Phasen in einer **Sternschaltung** zusammen, bilden ihre Enden den gemeinsamen **Sternpunkt**, der mit dem **Neutralleiter (N, blau)** verbunden ist. Die Spannung zwischen einem beliebigen Außenleiter und dem Neutralleiter heißt **Strangspannung** (oder Sternspannung): $$\\mathbf{U_{\\text{Strang}} = U_{L-N} = 230\\,\\text{V}}$$ Bei symmetrischer Belastung aller drei Phasen heben sich die Ströme im Sternpunkt vektoriell exakt auf: $$\\mathbf{I_N = I_{L1} + I_{L2} + I_{L3} = 0\\,\\text{A}}$$ Der Neutralleiter führt keinen Strom!",
+            absatz: "Schaltet man die drei Phasen in einer **Sternschaltung** zusammen, bilden ihre Enden den gemeinsamen **Sternpunkt**, der mit dem **Neutralleiter (N, blau)** verbunden ist. Die Spannung zwischen einem beliebigen Außenleiter und dem Neutralleiter heißt **Strangspannung** (oder Sternspannung): <div class=\"ui-formel-block\"><b><i>U</i><sub>Strang</sub> = <i>U</i><sub>L-N</sub> = 230 V</b></div> Bei symmetrischer Belastung aller drei Phasen heben sich die Ströme im Sternpunkt vektoriell exakt auf: <div class=\"ui-formel-block\"><b><i>I</i><sub>N</sub> = <i>I</i><sub>L1</sub> + <i>I</i><sub>L2</sub> + <i>I</i><sub>L3</sub> = 0 A</b></div> Der Neutralleiter führt keinen Strom!",
             diagramm: "drehstrom",
             szene: [
               { tu: "hebe", ziel: "stern" },
@@ -57977,13 +58029,13 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           },
           {
             text: "Zwischen zwei Außenleitern (z. B. L1 und L2) liegt die verkettete Spannung U_ver = 230 V · Wurzel 3 ≈ 400 Volt an.",
-            absatz: "Misst man die Spannung zwischen zwei Außenleitern ($U_{L1-L2}$), misst man die vektorielle Differenz zweier 230-V-Zeiger, die einen Winkel von 120° einschließen. Aus der Trigonometrie des gleichschenkligen Dreiecks folgt: $$U_{L1-L2} = 2 \\cdot U_{\\text{Strang}} \\cdot \\cos(30^\\circ) = 2 \\cdot 230\\,\\text{V} \\cdot \\frac{\\sqrt{3}}{2} = \\mathbf{230\\,\\text{V} \\cdot \\sqrt{3} \\approx 398{,}37\\,\\text{V} \\approx 400\\,\\text{V}}$$ Der Faktor $\\mathbf{\\sqrt{3} \\approx 1{,}732}$ heißt **Verkettungsfaktor**.<br>Die gesamte Drehstrom-Wirkleistung beträgt: $$\\mathbf{P = \\sqrt{3} \\cdot U \\cdot I \\cdot \\cos\\varphi}$$",
+            absatz: "Misst man die Spannung zwischen zwei Außenleitern (<i>U</i><sub>L1-L2</sub>), misst man die vektorielle Differenz zweier 230-V-Zeiger, die einen Winkel von 120° einschließen. Aus der Trigonometrie des gleichschenkligen Dreiecks folgt: <div class=\"ui-formel-block\"><b><i>U</i><sub>L1-L2</sub> = 2 · <i>U</i><sub>Strang</sub> · cos(30°) = 2 · 230 V · (√3 / 2) = 230 V · √3 ≈ 398,37 V ≈ 400 V</b></div> Der Faktor <b>√3 ≈ 1,732</b> heißt **Verkettungsfaktor**.<br>Die gesamte Drehstrom-Wirkleistung beträgt: <div class=\"ui-formel-block\"><b><i>P</i> = √3 · <i>U</i> · <i>I</i> · cos φ</b></div>",
             diagramm: "drehstrom",
             szene: [
               { tu: "hebe", ziel: "pdu" },
               { tu: "paket", von: "l1", bis: "pdu", label: "400 V Drehstrom" }
             ],
-            widgetHtml: "<table class=\"ui-tabelle\"><thead><tr><th>Schaltungsart</th><th>Spannung</th><th>Leiterstrom</th><th>Neutralleiter (N)</th><th>Einsatz im RZ</th></tr></thead><tbody><tr><td><b>Sternschaltung (Y)</b></td><td>$U_{\\text{verkettet}} = \\sqrt{3} \\cdot U_{\\text{strang}} = 400\\,\\text{V}$</td><td>$I_{\\text{Leiter}} = I_{\\text{Strang}}$</td><td>Vorhanden ($I_N = 0\\,\\text{A}$ bei Symmetrie)</td><td>Rack-PDUs (liefern 230 V je Server)</td></tr><tr><td><b>Dreieckschaltung ($\\Delta$)</b></td><td>$U_{\\text{verkettet}} = U_{\\text{strang}} = 400\\,\\text{V}$</td><td>$I_{\\text{Leiter}} = \\sqrt{3} \\cdot I_{\\text{Strang}}$</td><td>Nicht vorhanden</td><td>Große USV-Anlagen, Kältemaschinen</td></tr></tbody></table>"
+            widgetHtml: "<table class=\"ui-tabelle\"><thead><tr><th>Schaltungsart</th><th>Spannung</th><th>Leiterstrom</th><th>Neutralleiter (N)</th><th>Einsatz im RZ</th></tr></thead><tbody><tr><td><b>Sternschaltung (Y)</b></td><td><i>U</i><sub>verkettet</sub> = √3 · <i>U</i><sub>strang</sub> = 400 V</td><td><i>I</i><sub>Leiter</sub> = <i>I</i><sub>Strang</sub></td><td>Vorhanden (<i>I</i><sub>N</sub> = 0 A bei Symmetrie)</td><td>Rack-PDUs (liefern 230 V je Server)</td></tr><tr><td><b>Dreieckschaltung (Δ)</b></td><td><i>U</i><sub>verkettet</sub> = <i>U</i><sub>strang</sub> = 400 V</td><td><i>I</i><sub>Leiter</sub> = √3 · <i>I</i><sub>Strang</sub></td><td>Nicht vorhanden</td><td>Große USV-Anlagen, Kältemaschinen</td></tr></tbody></table>"
           }
         ],
         probe: {
@@ -58061,7 +58113,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           },
           {
             text: "Die Pufferzeit t (Autonomiezeit) berechnet sich aus Batterieenergie und IT-Last: t = (U_Akku · Q_Ah · Wirkungsgrad) / Lastleistung.",
-            absatz: "Die **Autonomiezeit** $t$ (Pufferzeit) gibt an, wie lange die USV die IT-Last ohne Netzstrom versorgen kann. Formel: $$\\mathbf{t = \\frac{U_{\\text{Akku}} \\cdot Q_{\\text{Akku}} \\cdot \\eta}{P_{\\text{Last}}}}$$ <b>Beispiel:</b> Ein 48-V-Akkupack mit $Q = 100\\,\\text{Ah}$ hat eine Brutto-Kapazität von $48\\,\\text{V} \\cdot 100\\,\\text{Ah} = 4.800\\,\\text{Wh}$. Bei einem Wirkungsgrad $\\eta = 0{,}90$ (90 %) und einer Serverlast von $P = 2.400\\,\\text{W}$ ergibt sich: $$t = \\frac{4.800\\,\\text{Wh} \\cdot 0{,}90}{2.400\\,\\text{W}} = \\frac{4.320\\,\\text{Wh}}{2.400\\,\\text{W}} = \\mathbf{1{,}8\\,\\text{Stunden}} = \\mathbf{108\\,\\text{Minuten}}$$",
+            absatz: "Die **Autonomiezeit** <i>t</i> (Pufferzeit) gibt an, wie lange die USV die IT-Last ohne Netzstrom versorgen kann. Formel: <div class=\"ui-formel-block\"><b><i>t</i> = (<i>U</i><sub>Akku</sub> · <i>Q</i><sub>Akku</sub> · η) / <i>P</i><sub>Last</sub></b></div> <b>Beispiel:</b> Ein 48-V-Akkupack mit <i>Q</i> = 100 Ah hat eine Brutto-Kapazität von 48 V · 100 Ah = 4.800 Wh. Bei einem Wirkungsgrad η = 0,90 (90 %) und einer Serverlast von <i>P</i> = 2.400 W ergibt sich: <div class=\"ui-formel-block\"><b><i>t</i> = (4.800 Wh · 0,90) / 2.400 W = 4.320 Wh / 2.400 W = 1,8 Stunden = 108 Minuten</b></div>",
             diagramm: "usv",
             szene: [
               { tu: "hebe", ziel: "akku" },
@@ -59785,7 +59837,7 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
           },
           {
             "text": "Vollständige Masche (Full Mesh): Jede Station ist mit jeder anderen Station über eine eigene Direktleitung verbunden.",
-            "absatz": "Die benötigte Leitungsanzahl wächst quadratisch nach der Gauß-Formel $L = \\frac{n \\cdot (n - 1)}{2}$. Bei 4 Stationen sind es 6 Leitungen, bei 10 bereits 45, bei 50 Stationen astronomische 1.225 Leitungen! Wegen der enormen Kosten für Ports und Kabel wird eine Vollvermaschung nur bei hochkritischen Core-Routern oder im WAN-Backbone eingesetzt.",
+            "absatz": "Die benötigte Leitungsanzahl wächst quadratisch nach der Gauß-Formel <i>L</i> = (<i>n</i> · (<i>n</i> − 1)) / 2. Bei 4 Stationen sind es 6 Leitungen, bei 10 bereits 45, bei 50 Stationen astronomische 1.225 Leitungen! Wegen der enormen Kosten für Ports und Kabel wird eine Vollvermaschung nur bei hochkritischen Core-Routern oder im WAN-Backbone eingesetzt.",
             "diagramm": "masche",
             "szene": [
               { "tu": "hebe", "ziel": "a", "text": "Jeder mit jedem" },
@@ -59818,11 +59870,11 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
     </div>
     <div style="background:var(--bg-main);padding:10px;border-left:4px solid #10b981;border-radius:4px;">
       <strong style="color:#10b981;">Formel Vollvermaschung</strong><br>
-      $$\\text{Leitungen} = \\frac{n \\cdot (n - 1)}{2}$$<br>
-      • <strong>4 Stationen:</strong> $\\frac{4 \\cdot 3}{2} = 6\\text{ Leitungen}$<br>
-      • <strong>5 Stationen:</strong> $\\frac{5 \\cdot 4}{2} = 10\\text{ Leitungen}$<br>
-      • <strong>10 Stationen:</strong> $\\frac{10 \\cdot 9}{2} = 45\\text{ Leitungen}$<br>
-      • <strong>20 Stationen:</strong> $\\frac{20 \\cdot 19}{2} = 190\\text{ Leitungen}$
+      <div class="ui-formel-block"><b><i>L</i> = (<i>n</i> · (<i>n</i> − 1)) / 2</b></div>
+      • <strong>4 Stationen:</strong> (4 · 3) / 2 = 6 Leitungen<br>
+      • <strong>5 Stationen:</strong> (5 · 4) / 2 = 10 Leitungen<br>
+      • <strong>10 Stationen:</strong> (10 · 9) / 2 = 45 Leitungen<br>
+      • <strong>20 Stationen:</strong> (20 · 19) / 2 = 190 Leitungen
     </div>
   </div>
 </div>`,
@@ -60006,17 +60058,17 @@ R1# copy running-config startup-config   # Sichert die Konfiguration dauerhaft i
 | :--- | :--- | :--- | :--- | :--- |
 | **Stern** | Alle Endgeräte führen zu einem zentralen Switch | Einzelleitungs-Bruch isoliert; leichte Fehlersuche; beliebig erweiterbar | Switch ist Single Point of Failure (SPoF); hoher Kabelbedarf | Heutiger Standard in jedem LAN |
 | **Erweiterter Stern (Baum)** | Hierarchische Kaskadierung (Core ➔ Distribution ➔ Access) | Klare Strukturierung, skalierbar für Tausende Hosts, getrennte Broadcast-Domänen | Ausfall übergeordneter Switches trennt ganze Segmente | Standard in strukturierter Gebäudeverkabelung |
-| **Vollständige Masche** | Jede Station besitzt Direktverbindung zu jeder anderen | Maximale Redundanz; kein SPoF; kürzeste Übertragungswege | Extrem teuer; exponentieller Port- und Kabelbedarf: $L = \\frac{n(n-1)}{2}$ | WAN-Backbones, Rechenzentren, Flugüberwachung |
+| **Vollständige Masche** | Jede Station besitzt Direktverbindung zu jeder anderen | Maximale Redundanz; kein SPoF; kürzeste Übertragungswege | Extrem teuer; exponentieller Port- und Kabelbedarf: <i>L</i> = (<i>n</i> · (<i>n</i> − 1)) / 2 | WAN-Backbones, Rechenzentren, Flugüberwachung |
 | **Unvollständige Masche** | Stern/Baum mit strategischen Querverbindungen | Hohe Ausfallsicherheit bei vertretbaren Kosten; Spanning-Tree blockiert Loops | Erfordert Routing- oder STP-Protokolle gegen Schleifen | Campus-Netze, Server-Cluster |
-| **Bus** | Eine durchgehende Leitung (Koax 10Base2) mit Abschlusswiderständen (50 $\\Omega$) | Minimaler Kabelaufwand; keine aktiven Verteiler nötig | Kabelbruch stoppt gesamtes Netz; Kollisionen bei Last; schwer lokalisierbare Fehler | Veraltet im LAN; Sensornetze (CAN-Bus) |
+| **Bus** | Eine durchgehende Leitung (Koax 10Base2) mit Abschlusswiderständen (50 Ω) | Minimaler Kabelaufwand; keine aktiven Verteiler nötig | Kabelbruch stoppt gesamtes Netz; Kollisionen bei Last; schwer lokalisierbare Fehler | Veraltet im LAN; Sensornetze (CAN-Bus) |
 | **Ring** | Geschlossene Ringleitung von Host zu Host (Token Passing) | Keine Kollisionen; exakt deterministische Antwort- und Wartezeit | Ausfall einer Station unterbricht Ring (ohne Dual-Ring) | Profibus / Industrieautomatisierung |
 
 #### 3. IHK-Berechnung zur Vollvermaschung
-Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
-- **$n = 4$ Stationen:** $\\frac{4 \\cdot 3}{2} = 6\\text{ Leitungen}$
-- **$n = 5$ Stationen:** $\\frac{5 \\cdot 4}{2} = 10\\text{ Leitungen}$
-- **$n = 10$ Stationen:** $\\frac{10 \\cdot 9}{2} = 45\\text{ Leitungen}$
-- **$n = 20$ Stationen:** $\\frac{20 \\cdot 19}{2} = 190\\text{ Leitungen}$`
+Formel: <i>L</i> = (<i>n</i> · (<i>n</i> − 1)) / 2
+- **<i>n</i> = 4 Stationen:** (4 · 3) / 2 = 6 Leitungen
+- **<i>n</i> = 5 Stationen:** (5 · 4) / 2 = 10 Leitungen
+- **<i>n</i> = 10 Stationen:** (10 · 9) / 2 = 45 Leitungen
+- **<i>n</i> = 20 Stationen:** (20 · 19) / 2 = 190 Leitungen`
         }
       },
       {
@@ -60336,12 +60388,12 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
 #### 2. Die drei Verkabelungsbereiche im Detail
 | Ebene | Bezeichnung | Verbindung | Typisches Medium | Maximale Längen |
 | :--- | :--- | :--- | :--- | :--- |
-| **Primärbereich** | Geländeverkabelung (Campus Backbone) | Standortverteiler (SV) ➔ Gebäudeverteiler (GV) | Lichtwellenleiter (Singlemode 9/125 $\\mu$m) | Bis zu $1.500\\text{ m}$ (Singlemode bis mehrere km) |
-| **Sekundärbereich** | Steigbereich (Building Backbone) | Gebäudeverteiler (GV) ➔ Etagenverteiler (EV) | LWL (Multimode 50/125 $\\mu$m / Singlemode) oder Kupfer (Cat 7/8) | Bis zu $500\\text{ m}$ |
-| **Tertiärbereich** | Horizontalverkabelung (Floor Cabling) | Etagenverteiler (EV) ➔ Anschlussdose (TA) | Geschirmtes Twisted-Pair (S/FTP Cat 6A / Cat 7) oder FTTD | **Maximal 90 m Festkabel** ($+ 10\\text{ m}$ Patchkabel = $100\\text{ m}$) |
+| **Primärbereich** | Geländeverkabelung (Campus Backbone) | Standortverteiler (SV) ➔ Gebäudeverteiler (GV) | Lichtwellenleiter (Singlemode 9/125 µm) | Bis zu 1.500 m (Singlemode bis mehrere km) |
+| **Sekundärbereich** | Steigbereich (Building Backbone) | Gebäudeverteiler (GV) ➔ Etagenverteiler (EV) | LWL (Multimode 50/125 µm / Singlemode) oder Kupfer (Cat 7/8) | Bis zu 500 m |
+| **Tertiärbereich** | Horizontalverkabelung (Floor Cabling) | Etagenverteiler (EV) ➔ Anschlussdose (TA) | Geschirmtes Twisted-Pair (S/FTP Cat 6A / Cat 7) oder FTTD | **Maximal 90 m Festkabel** (+ 10 m Patchkabel = 100 m) |
 
 #### 3. Wichtige Planungsregeln der EN 50173
-- **Faustformel für Etagenverteiler:** Mindestens **1 Etagenverteiler je $1.000\\text{ m}^2$ Nutzfläche** (Verhinderung von Überschreitungen der 90-Meter-Grenze bei verwinkelten Grundrissen).
+- **Faustformel für Etagenverteiler:** Mindestens **1 Etagenverteiler je 1.000 m² Nutzfläche** (Verhinderung von Überschreitungen der 90-Meter-Grenze bei verwinkelten Grundrissen).
 - **Galvanische Trennung im Primärbereich:** Gebäudeübergreifende Strecken müssen zwingend über Glasfaser (LWL) geführt werden, um gefährliche Ausgleichsströme bei unterschiedlichen Erdungspotenzialen und Blitzeinschlägen zu verhindern.
 - **FTTD (Fibre to the Desk):** Verlegung von Glasfaserkabeln bis an den Schreibtisch bei extremen Bandbreitenanforderungen oder abhörsicheren Umgebungen.`
         }
@@ -60432,9 +60484,9 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
     </div>
     <div style="background:var(--bg-main);padding:10px;border-left:4px solid #10b981;border-radius:4px;">
       <strong style="color:#10b981;">19-Zoll-Bemaßung</strong><br>
-      • <strong>Breite:</strong> $19\\text{ Zoll} = 19 \\times 25{,}4\\text{ mm} = 482{,}6\\text{ mm}$<br>
-      • <strong>Höheneinheit (HE):</strong> $1\\text{ HE} = 1{,}75\\text{ Zoll} = 44{,}45\\text{ mm}$<br>
-      • <strong>42-HE-Racks:</strong> Typische Höhe für Rechenzentren ($42 \\times 44{,}45 \\approx 1{,}87\\text{ m}$).
+      • <strong>Breite:</strong> 19 Zoll = 19 × 25,4 mm = 482,6 mm<br>
+      • <strong>Höheneinheit (HE):</strong> 1 HE = 1,75 Zoll = 44,45 mm<br>
+      • <strong>42-HE-Racks:</strong> Typische Höhe für Rechenzentren (42 × 44,45 ≈ 1,87 m).
     </div>
   </div>
 </div>`,
@@ -60748,18 +60800,17 @@ Formel: $$L = \\frac{n \\cdot (n - 1)}{2}$$
 
 > [!WARNING] IHK-Prüfungsfalle
 > Eine Verkabelung ist nur dann normkonform, wenn **beide** Grenzwerte unabhängig voneinander eingehalten werden!
-> Beispiel: $92\\text{ m Festkabel} + 5\\text{ m Patchkabel} = 97\\text{ m Channel Link}$.
-> Obwohl $97\\text{ m} \\le 100\\text{ m}$ ist, ist die Anlage **unzulässig**, weil der Permanent Link mit $92\\text{ m} > 90\\text{ m}$ überzogen wurde!
+> Beispiel: 92 m Festkabel + 5 m Patchkabel = 97 m Channel Link.
+> Obwohl 97 m ≤ 100 m ist, ist die Anlage **unzulässig**, weil der Permanent Link mit 92 m > 90 m überzogen wurde!
 
 #### 2. Consolidation Point (CP / Sammelpunkt)
 - **Funktion:** Zusätzlicher passiver Steckpunkt im Tertiärbereich zwischen Etagenverteiler und Dose (z. B. in Großraumbüros oder Schulungsräumen).
 - **Nutzen:** Arbeitsplätze können bei Raumumbauten flexibel umgestellt werden, ohne neue Kabel bis in den Verteilerschrank ziehen zu müssen.
-- **Regel:** Permanent Link vom Patchfeld über CP bis zur Dose darf in Summe $90\\text{ m}$ nicht überschreiten. Mindestabstand EV zu CP: $15\\text{ m}$.
+- **Regel:** Permanent Link vom Patchfeld über CP bis zur Dose darf in Summe 90 m nicht überschreiten. Mindestabstand EV zu CP: 15 m.
 
 #### 3. 19-Zoll-Schranknormung (DIN 41494 / IEC 60297)
-- **Einbaubreite:** Exakt $19\\text{ Zoll} = 19 \\times 25{,}4\\text{ mm} = 482{,}6\\text{ mm}$ (Lochmittenabstand ca. 465 mm).
-- **Höheneinheit (HE / U):**
-  $$1\\text{ HE} = 1{,}75\\text{ Zoll} = 44{,}45\\text{ mm}$$
+- **Einbaubreite:** Exakt 19 Zoll = 19 × 25,4 mm = 482,6 mm (Lochmittenabstand ca. 465 mm).
+- **Höheneinheit (HE / U):** 1 HE = 1,75 Zoll = 44,45 mm
 - **Baugruppen im Schrank:**
   - **Patchpanel:** Passives Verteilerfeld, starr mit Verlegekabeln verbunden.
   - **Rangierpanel (Kabelmanagement):** 1-HE-Blenden mit Bürsten oder Bügeln zur sauberen Führung von Patchkabeln ohne Knicke.
@@ -62084,10 +62135,10 @@ Syntax: \`Gebäude - Stockwerk(römisch) . Verteiler - Patchpanel . Port\`
     </div>
     <div style="background:var(--bg-main);padding:10px;border-left:4px solid #10b981;border-radius:4px;">
       <strong style="color:#10b981;">AWG-Regeln (Kupferleiter)</strong><br>
-      • <strong>AWG 22:</strong> $0{,}644\\text{ mm}$ (starr, Festverlegung)<br>
-      • <strong>AWG 23:</strong> $0{,}572\\text{ mm}$ (starr, Cat 7 Verlegekabel)<br>
-      • <strong>AWG 24:</strong> $0{,}511\\text{ mm}$ (starr, Cat 6 Verlegekabel)<br>
-      • <strong>AWG 26/27:</strong> $0{,}405 / 0{,}361\\text{ mm}$ (Litze, Patchkabel)<br>
+      • <strong>AWG 22:</strong> 0,644 mm (starr, Festverlegung)<br>
+      • <strong>AWG 23:</strong> 0,572 mm (starr, Cat 7 Verlegekabel)<br>
+      • <strong>AWG 24:</strong> 0,511 mm (starr, Cat 6 Verlegekabel)<br>
+      • <strong>AWG 26/27:</strong> 0,405 / 0,361 mm (Litze, Patchkabel)<br>
       <em>Faustregel: Kleinere AWG = dickerer Leiter!</em>
     </div>
   </div>
@@ -62300,11 +62351,11 @@ Syntax: \`Gebäude - Stockwerk(römisch) . Verteiler - Patchpanel . Port\`
 
 | AWG-Stufe | Durchmesser | Querschnitt | Leitertyp | Typische Verwendung |
 | :---: | :---: | :---: | :--- | :--- |
-| **AWG 22** | $0{,}644\\text{ mm}$ | $0{,}326\\text{ mm}^2$ | Vollkupfer-Draht (starr) | Hochwertige Cat 7A / Cat 8 Verlegekabel |
-| **AWG 23** | $0{,}572\\text{ mm}$ | $0{,}258\\text{ mm}^2$ | Vollkupfer-Draht (starr) | Standard Cat 7 / Cat 6A Verlegekabel |
-| **AWG 24** | $0{,}511\\text{ mm}$ | $0{,}205\\text{ mm}^2$ | Vollkupfer-Draht (starr) | Standard Cat 6 / Cat 5e Verlegekabel |
-| **AWG 26** | $0{,}405\\text{ mm}$ | $0{,}129\\text{ mm}^2$ | Kupfer-Litze (flexibel) | Standard Patchkabel im Schrank / Büro |
-| **AWG 27** | $0{,}361\\text{ mm}$ | $0{,}102\\text{ mm}^2$ | Kupfer-Litze (sehr flexibel) | Slim-Patchkabel für High-Density-Racks |
+| **AWG 22** | 0,644 mm | 0,326 mm² | Vollkupfer-Draht (starr) | Hochwertige Cat 7A / Cat 8 Verlegekabel |
+| **AWG 23** | 0,572 mm | 0,258 mm² | Vollkupfer-Draht (starr) | Standard Cat 7 / Cat 6A Verlegekabel |
+| **AWG 24** | 0,511 mm | 0,205 mm² | Vollkupfer-Draht (starr) | Standard Cat 6 / Cat 5e Verlegekabel |
+| **AWG 26** | 0,405 mm | 0,129 mm² | Kupfer-Litze (flexibel) | Standard Patchkabel im Schrank / Büro |
+| **AWG 27** | 0,361 mm | 0,102 mm² | Kupfer-Litze (sehr flexibel) | Slim-Patchkabel für High-Density-Racks |
 
 #### 3. Schirmungskürzel nach ISO/IEC 11801
 Syntax: **\`XX / Y TP\`**
@@ -63024,7 +63075,7 @@ Syntax: **\`XX / Y TP\`**
           },
           {
             "text": "Singlemode-Faser (Monomode, OS1 / OS2):",
-            "absatz": "Besitzt einen winzigen Faserkern von nur ca. **9 µm**. Das Licht breitet sich ausschließlich als einzelne axiale Grundmode geradeaus aus – Modendispersion existiert praktisch nicht! Die Reichweite wird ausschließlich durch die minimale Materialdämpfung begrenzt ($< 0{,}4\\text{ dB/km}$ bei 1310/1550 nm). Singlemode ermöglicht Distanzen von **10 bis über 80 Kilometern** im Weitverkehr und Campus-Backbone, erfordert jedoch präzise Halbleiterlaser.",
+            "absatz": "Besitzt einen winzigen Faserkern von nur ca. **9 µm**. Das Licht breitet sich ausschließlich als einzelne axiale Grundmode geradeaus aus – Modendispersion existiert praktisch nicht! Die Reichweite wird ausschließlich durch die minimale Materialdämpfung begrenzt (< 0,4 dB/km bei 1310/1550 nm). Singlemode ermöglicht Distanzen von **10 bis über 80 Kilometern** im Weitverkehr und Campus-Backbone, erfordert jedoch präzise Halbleiterlaser.",
             "diagramm": "sm",
             "szene": [
               { "tu": "hebe", "ziel": "f", "text": "Singlemode (9 µm Kern)" },
@@ -63038,7 +63089,7 @@ Syntax: **\`XX / Y TP\`**
           },
           {
             "text": "Die IHK-Rechenformel für das Bandbreiten-Längen-Produkt:",
-            "absatz": "Bei Multimode-Fasern ist das Bandbreiten-Längen-Produkt $B'$ in $\\text{MHz} \\cdot \\text{km}$ konstant. Die nutzbare Bandbreite $B$ berechnet sich aus dem Quotienten mit der Länge $l$ in Kilometern:\n$$B = \\frac{B'}{l}$$\nBeispiel OM2 ($B' = 500\\text{ MHz} \\cdot \\text{km}$) auf $2{,}5\\text{ km}$: $B = \\frac{500}{2{,}5} = 200\\text{ MHz}$.",
+            "absatz": "Bei Multimode-Fasern ist das Bandbreiten-Längen-Produkt <i>B'</i> in MHz · km konstant. Die nutzbare Bandbreite <i>B</i> berechnet sich aus dem Quotienten mit der Länge <i>l</i> in Kilometern:\n<i>B</i> = <i>B'</i> / <i>l</i>\nBeispiel OM2 (<i>B'</i> = 500 MHz · km) auf 2,5 km: <i>B</i> = 500 / 2,5 = 200 MHz.",
             "diagramm": "bpl",
             "szene": [
               { "tu": "hebe", "ziel": "b", "text": "Bandbreiten-Längen-Produkt B'" },
@@ -63047,7 +63098,7 @@ Syntax: **\`XX / Y TP\`**
           },
           {
             "text": "Dämpfungs- und Bandbreitenrechnung an einem Praxisbeispiel:",
-            "absatz": "Eine OM3-Faser besitzt $B' = 1500\\text{ MHz} \\cdot \\text{km}$ und einen Dämpfungsbelag von $3{,}0\\text{ dB/km}$. Bei einer Verlegelänge von $300\\text{ m} = 0{,}3\\text{ km}$:\n1. **Nutzbare Bandbreite:** $B = \\frac{1500\\text{ MHz} \\cdot \\text{km}}{0{,}3\\text{ km}} = 5.000\\text{ MHz}$.\n2. **Gesamtdämpfung der Faser:** $a = 3{,}0\\text{ dB/km} \\times 0{,}3\\text{ km} = 0{,}9\\text{ dB}$.",
+            "absatz": "Eine OM3-Faser besitzt <i>B'</i> = 1500 MHz · km und einen Dämpfungsbelag von 3,0 dB/km. Bei einer Verlegelänge von 300 m = 0,3 km:\n1. **Nutzbare Bandbreite:** <i>B</i> = (1500 MHz · km) / 0,3 km = 5.000 MHz.\n2. **Gesamtdämpfung der Faser:** <i>a</i> = 3,0 dB/km × 0,3 km = 0,9 dB.",
             "diagramm": "om3"
           }
         ],
@@ -63059,17 +63110,17 @@ Syntax: **\`XX / Y TP\`**
     <div style="background:var(--bg-main);padding:10px;border-left:4px solid #3b82f6;border-radius:4px;">
       <strong style="color:#3b82f6;">Multimode (OM) vs. Singlemode (OS)</strong><br>
       • <strong>Singlemode (OS2, 9 µm, Gelb):</strong> Keine Modendispersion, Reichweiten bis 40–80 km.<br>
-      • <strong>OM3 (50 µm, Aqua):</strong> 10 Gbit/s bis 300 m ($B' = 1500\\text{ MHz}\\cdot\\text{km}$)<br>
-      • <strong>OM4 (50 µm, Violett):</strong> 10 Gbit/s bis 550 m ($B' = 3500\\text{ MHz}\\cdot\\text{km}$)<br>
+      • <strong>OM3 (50 µm, Aqua):</strong> 10 Gbit/s bis 300 m (<i>B'</i> = 1500 MHz · km)<br>
+      • <strong>OM4 (50 µm, Violett):</strong> 10 Gbit/s bis 550 m (<i>B'</i> = 3500 MHz · km)<br>
       • <strong>OM5 (50 µm, Limegrün):</strong> SWDM Multiplexing
     </div>
     <div style="background:var(--bg-main);padding:10px;border-left:4px solid #10b981;border-radius:4px;">
       <strong style="color:#10b981;">IHK-Formeln (Länge immer in km!)</strong><br>
-      $$B = \\frac{B'}{l} \\quad \\text{in MHz}$$<br>
-      $$\\text{Dämpfung } a = a' \\cdot l \\quad \\text{in dB}$$<br>
+      <i>B</i> = <i>B'</i> / <i>l</i> (in MHz)<br>
+      Dämpfung <i>a</i> = <i>a'</i> · <i>l</i> (in dB)<br>
       <em>Beispiel 300 m (0,3 km) OM3:</em><br>
-      $B = \\frac{1500}{0{,}3} = 5.000\\text{ MHz}$<br>
-      $a = 3{,}0 \\times 0{,}3 = 0{,}9\\text{ dB}$
+      <i>B</i> = 1500 / 0,3 = 5.000 MHz<br>
+      <i>a</i> = 3,0 × 0,3 = 0,9 dB
     </div>
   </div>
 </div>`,
@@ -63333,22 +63384,22 @@ Syntax: **\`XX / Y TP\`**
 | **Kerndurchmesser** | **50 µm** (OM2–OM5) oder 62,5 µm (OM1) | **ca. 9 µm** (OS1, OS2) | ca. 980 µm (Kunststoff) |
 | **Manteldurchmesser** | 125 µm | 125 µm | 1000 µm |
 | **Lichtausbreitung** | Viele Moden (Zickzack-Weg) | Nur axiale Grundmode (geradeaus) | Viele Moden |
-| **Limitierender Faktor** | **Modendispersion** (Laufzeitunterschiede) | Nur Materialdämpfung ($< 0{,}4\\text{ dB/km}$) | Hohe Dämpfung ($> 150\\text{ dB/km}$) |
+| **Limitierender Faktor** | **Modendispersion** (Laufzeitunterschiede) | Nur Materialdämpfung (< 0,4 dB/km) | Hohe Dämpfung (> 150 dB/km) |
 | **Lichtquelle** | LED oder VCSEL-Laser (850 / 1300 nm) | Halbleiter-Laser (1310 / 1550 nm) | LED (Rotlicht 650 nm) |
 | **Klassen & Kennfarbe** | OM1 (Orange), OM2 (Orange), **OM3 (Aqua)**, **OM4 (Violett)**, OM5 (Lime) | **OS1 (Gelb)**, **OS2 (Gelb)** | Meist Schwarz/Grau |
 | **Reichweite** | Typisch bis ca. 300–550 m bei 10G | **10 km bis über 80 km** (Weitverkehr) | Max. 50–100 m (Hi-Fi, Kfz) |
 
 #### 3. IHK-Rechenformeln für LWL
 1. **Nutzbare Bandbreite (Bandbreiten-Längen-Produkt):**
-   $$B = \\frac{B'}{l} \\quad [\\text{in MHz}]$$
-   *(Wichtig: Die Verlegelänge $l$ muss immer in **Kilometern** eingesetzt werden!)*
+   *B* = *B'* / *l* [in MHz]
+   *(Wichtig: Die Verlegelänge *l* muss immer in **Kilometern** eingesetzt werden!)*
 2. **Streckendämpfung (Dämpfungsbelag):**
-   $$a_{\\text{gesamt}} = a' \\cdot l \\quad [\\text{in dB}]$$
-   *(Dämpfungsbelag $a'$ in dB/km, Länge $l$ in km).*
+   *a*<sub>gesamt</sub> = *a'* · *l* [in dB]
+   *(Dämpfungsbelag *a'* in dB/km, Länge *l* in km).*
 
-*Beispielrechnung:* OM3-Faser mit $B' = 1500\\text{ MHz}\\cdot\\text{km}$ und $a' = 3{,}0\\text{ dB/km}$ auf $300\\text{ m} = 0{,}3\\text{ km}$:
-- $B = \\frac{1500}{0{,}3} = 5.000\\text{ MHz}$
-- $a = 3{,}0 \\times 0{,}3 = 0{,}9\\text{ dB}$`
+*Beispielrechnung:* OM3-Faser mit *B'* = 1500 MHz · km und *a'* = 3,0 dB/km auf 300 m = 0,3 km:
+- *B* = 1500 / 0,3 = 5.000 MHz
+- *a* = 3,0 × 0,3 = 0,9 dB`
         }
       },
       {
@@ -63702,24 +63753,24 @@ Syntax: **\`XX / Y TP\`**
           "merksatz": "Zahl = Datenrate, Base = Basisband, Rest = Medium. Buch für die Prüfung, Norm für die Praxis.",
           "handout": `### IHK-Handout: IEEE 802.3 Ethernet-Nomenklatur
 
-#### 1. Baukasten-Syntax
-$$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\text{Modulation}} - \\underbrace{\\text{T}}_{\\text{Medium}}$$
+#### 1. Baukasten-Syntax: \`[Datenrate] [Modulation] - [Medium/Reichweite]\`
+Beispiel: **1000** (Datenrate: 1000 Mbit/s) **Base** (Modulation: Basisband) **- T** (Medium: Twisted Pair)
 
 - **Datenrate:**
-  - Zahl ohne Buchstabe = Megabit/s ($10 = 10\\text{ Mbit/s}$, $100 = 100\\text{ Mbit/s}$, $1000 = 1\\text{ Gbit/s}$).
-  - Zahl mit \`G\` = Gigabit/s ($10G = 10\\text{ Gbit/s}$, $40G = 40\\text{ Gbit/s}$, $100G = 100\\text{ Gbit/s}$).
+  - Zahl ohne Buchstabe = Megabit/s (10 = 10 Mbit/s, 100 = 100 Mbit/s, 1000 = 1 Gbit/s).
+  - Zahl mit \`G\` = Gigabit/s (10G = 10 Gbit/s, 40G = 40 Gbit/s, 100G = 100 Gbit/s).
 - **Modulation:**
   - \`Base\` = Basisband (digitales Signal direkt auf Leitung, exklusive Kanalnutzung).
   - \`Broad\` = Breitband (historisch, Frequenzmodulation mit Trägern).
 - **Medium & Reichweite:**
-  - \`T\` = Twisted Pair Kupferkabel (Standard: 4 Adernpaare, max. $100\\text{ m}$).
-  - \`TX\` = Fast Ethernet über 2 Adernpaare Cat 5 ($100\\text{ m}$).
-  - \`T1\` = Single Pair Ethernet (Automotive / Industrie über 1 Adernpaar, $15 - 40\\text{ m}$).
-  - \`CR\` = Copper Reach (Twinaxial Direct Attach Cable / DAC für Racks, $\\le 7 - 10\\text{ m}$).
-  - \`SR\` / \`SX\` = Short Reach / Wavelength (Multimode-LWL, 850 nm, $\\le 300 - 550\\text{ m}$).
-  - \`LR\` / \`LX\` = Long Reach / Wavelength (Singlemode-LWL, 1310 nm, bis $10\\text{ km}$).
-  - \`ER\` = Extended Reach (Singlemode-LWL, 1550 nm, bis $40\\text{ km}$).
-  - \`ZR\` = Ultra Long Reach (Singlemode-LWL, bis $80\\text{ km}$).
+  - \`T\` = Twisted Pair Kupferkabel (Standard: 4 Adernpaare, max. 100 m).
+  - \`TX\` = Fast Ethernet über 2 Adernpaare Cat 5 (100 m).
+  - \`T1\` = Single Pair Ethernet (Automotive / Industrie über 1 Adernpaar, 15–40 m).
+  - \`CR\` = Copper Reach (Twinaxial Direct Attach Cable / DAC für Racks, ≤ 7–10 m).
+  - \`SR\` / \`SX\` = Short Reach / Wavelength (Multimode-LWL, 850 nm, ≤ 300–550 m).
+  - \`LR\` / \`LX\` = Long Reach / Wavelength (Singlemode-LWL, 1310 nm, bis 10 km).
+  - \`ER\` = Extended Reach (Singlemode-LWL, 1550 nm, bis 40 km).
+  - \`ZR\` = Ultra Long Reach (Singlemode-LWL, bis 80 km).
 
 #### 2. Wichtige IHK-Prüfungshinweise
 - **Ziffer am Ende (z. B. \`SR4\`, \`LR4\`):** Zählt die Anzahl der **parallelen Übertragungskanäle (Lanes)** (z. B. 4 Lanes à 10 Gbit/s = 40 Gbit/s), **keine** Kabelkategorie!
@@ -64060,9 +64111,9 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
 #### 1. Übersicht der Funknetz-Klassen (Reichweiten)
 | Klassifizierung | Reichweite | IEEE-Normen / Technologien | Typische Einsatzbereiche & IHK-Beispiele |
 | :--- | :--- | :--- | :--- |
-| **WPAN** (Wireless Personal Area Network) | bis ca. $10\\text{ m}$ | **Bluetooth** (IEEE 802.15.1), **ZigBee** (IEEE 802.15.4), NFC | Headsets, Tastaturen, Smart-Home-Sensoren (Lampen, Heizung, Mesh) |
-| **WLAN** (Wireless Local Area Network) | bis ca. $100\\text{ m}$ | **IEEE 802.11** (Wi-Fi 4 / 5 / 6 / 6E / 7) | Gebäude-, Büro- und Campusvernetzung, Mobile Clients |
-| **WMAN** (Wireless Metropolitan Area Network) | bis ca. $5 - 50\\text{ km}$ | Historisch: WiMAX (IEEE 802.16) | Stadtweite drahtlose Vernetzung, Campuskopplung |
+| **WPAN** (Wireless Personal Area Network) | bis ca. 10 m | **Bluetooth** (IEEE 802.15.1), **ZigBee** (IEEE 802.15.4), NFC | Headsets, Tastaturen, Smart-Home-Sensoren (Lampen, Heizung, Mesh) |
+| **WLAN** (Wireless Local Area Network) | bis ca. 100 m | **IEEE 802.11** (Wi-Fi 4 / 5 / 6 / 6E / 7) | Gebäude-, Büro- und Campusvernetzung, Mobile Clients |
+| **WMAN** (Wireless Metropolitan Area Network) | bis ca. 5–50 km | Historisch: WiMAX (IEEE 802.16) | Stadtweite drahtlose Vernetzung, Campuskopplung |
 | **WWAN** (Wireless Wide Area Network) | unbegrenzt / global | **Mobilfunk** (LTE/4G, 5G, 6G), **Richtfunkstrecken** | Vernetzung von Außenstellen, mobile Firmen-Laptops, Schiffs-/Bahnfunk |
 
 ---
@@ -64070,12 +64121,12 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
 #### 2. Die Wi-Fi-Generationen (IEEE 802.11) im direkten Vergleich
 | Generation | IEEE-Standard | Frequenzbänder | Max. Brutto-Datenrate | Wichtigste IHK-Schlüsselmerkmale |
 | :--- | :--- | :--- | :--- | :--- |
-| **Wi-Fi 4** | **802.11n** | $2{,}4\\text{ GHz}$ & $5\\text{ GHz}$ | $600\\text{ Mbit/s}$ | Einführung von **MIMO** (Multiple Input Multiple Output, bis zu 4 Datenströme), $40\\text{ MHz}$ Kanalbreite |
-| **Wi-Fi 5** | **802.11ac** | **Nur 5 GHz!** | bis $6{,}9\\text{ Gbit/s}$ | **Kein 2,4 GHz!** MU-MIMO (Multi-User MIMO Wave 2), Kanalbündelung bis $160\\text{ MHz}$, 256-QAM |
-| **Wi-Fi 6** | **802.11ax** | $2{,}4\\text{ GHz}$ & $5\\text{ GHz}$ | bis $9{,}6\\text{ Gbit/s}$ | **OFDMA** (Subträger-Aufteilung für viele Clients gleichzeitig), 1024-QAM, **TWT** (Target Wake Time spart Akku) |
-| **Wi-Fi 6E** | **802.11ax (ext.)** | $2{,}4 + 5 + \\mathbf{6\\text{ GHz}}$ | bis $9{,}6\\text{ Gbit/s}$ | Erweitert Wi-Fi 6 um das saubere, ungestörte $6\\text{-GHz-Band}$ ($5{,}925 - 7{,}125\\text{ GHz}$, bis zu 14 neue 80-MHz-Kanäle ohne Radar/DFS) |
-| **Wi-Fi 7** | **802.11be** | $2{,}4 + 5 + 6\\text{ GHz}$ | bis $46\\text{ Gbit/s}$ | **MLO** (Multi-Link Operation: gleichzeitiges Senden über mehrere Bänder), $320\\text{ MHz}$ Kanäle, 4096-QAM |
-| *WiGig* | **802.11ad** | **60 GHz** | bis $7\\text{ Gbit/s}$ | **KEIN Wi-Fi 6!** Millimeterwellen-Richtfunk; wird durch Wände vollständig absorbiert (reiner Sichtfunk im Raum) |
+| **Wi-Fi 4** | **802.11n** | 2,4 GHz & 5 GHz | 600 Mbit/s | Einführung von **MIMO** (Multiple Input Multiple Output, bis zu 4 Datenströme), 40 MHz Kanalbreite |
+| **Wi-Fi 5** | **802.11ac** | **Nur 5 GHz!** | bis 6,9 Gbit/s | **Kein 2,4 GHz!** MU-MIMO (Multi-User MIMO Wave 2), Kanalbündelung bis 160 MHz, 256-QAM |
+| **Wi-Fi 6** | **802.11ax** | 2,4 GHz & 5 GHz | bis 9,6 Gbit/s | **OFDMA** (Subträger-Aufteilung für viele Clients gleichzeitig), 1024-QAM, **TWT** (Target Wake Time spart Akku) |
+| **Wi-Fi 6E** | **802.11ax (ext.)** | 2,4 + 5 + **6 GHz** | bis 9,6 Gbit/s | Erweitert Wi-Fi 6 um das saubere, ungestörte 6-GHz-Band (5,925–7,125 GHz, bis zu 14 neue 80-MHz-Kanäle ohne Radar/DFS) |
+| **Wi-Fi 7** | **802.11be** | 2,4 + 5 + 6 GHz | bis 46 Gbit/s | **MLO** (Multi-Link Operation: gleichzeitiges Senden über mehrere Bänder), 320 MHz Kanäle, 4096-QAM |
+| *WiGig* | **802.11ad** | **60 GHz** | bis 7 Gbit/s | **KEIN Wi-Fi 6!** Millimeterwellen-Richtfunk; wird durch Wände vollständig absorbiert (reiner Sichtfunk im Raum) |
 
 ---
 
@@ -64095,7 +64146,7 @@ $$\\underbrace{\\text{1000}}_{\\text{Datenrate}} \\underbrace{\\text{Base}}_{\\t
 #### 4. Typische IHK-Prüfungsfallen
 - **Westermann-Druckfehler:** 802.11ad ist **WiGig** (60 GHz) und **nicht** Wi-Fi 6! Wi-Fi 6 ist exakt **802.11ax**.
 - **Frequenzband von Wi-Fi 5:** 802.11ac funkt **ausschließlich** im 5-GHz-Band! Router, die für 2,4 GHz und 5 GHz beworben werden, betreiben im 2,4-GHz-Band das ältere 802.11n.
-- **ZigBee:** Basiert auf **IEEE 802.15.4** ($868\\text{ MHz}$, $915\\text{ MHz}$ und $2{,}4\\text{ GHz}$). Es ist **kein** Bluetooth, sondern ein energieeffizientes Mesh-Protokoll für IoT und Gebäudeautomation.`
+- **ZigBee:** Basiert auf **IEEE 802.15.4** (868 MHz, 915 MHz und 2,4 GHz). Es ist **kein** Bluetooth, sondern ein energieeffizientes Mesh-Protokoll für IoT und Gebäudeautomation.`
         }
       }
     ],
@@ -67595,7 +67646,8 @@ function kMd(t) {   // kleines Markdown: **fett**, `code`, Listen mit "- ", Abs�
     if (/^- /.test(z)) { if (!liste) { out += "<ul>"; liste = true; } out += "<li>" + inl(z.slice(2)) + "</li>"; }
     else { if (liste) { out += "</ul>"; liste = false; } if (z.trim()) out += "<p>" + inl(z) + "</p>"; }
   }
-  return out + (liste ? "</ul>" : "");
+  const res = out + (liste ? "</ul>" : "");
+  return typeof window !== "undefined" && window.FORMATIERE_FORMELN ? window.FORMATIERE_FORMELN(res) : res;
 }
 const kPlain = (t) => String(t ?? "").replace(/\*\*|`/g, "").replace(/\s+/g, " ").trim();
 function kZahl(s) { const t = String(s).replace(/[.\s'’ ]/g, "").replace(",", "."); if (!/^-?\d+(\.\d+)?$/.test(t)) return null; return Number(t); }
@@ -74356,15 +74408,15 @@ Ablaufverfolgung beendet.`, "success");
           distraktoren: gewaehlt.distraktoren,
           erklaerung: `
             <b>Lösungsweg:</b><br>
-            1. Präfix <code>/${prefix}</code> bedeutet: $h = 32 - ${prefix} = ${hostBits}$ Host-Bits.<br>
-            2. Schrittweite im 4. Oktett: $2^{${hostBits}} = ${blockSize}$.<br>
+            1. Präfix <code>/${prefix}</code> bedeutet: <i>h</i> = 32 − ${prefix} = ${hostBits} Host-Bits.<br>
+            2. Schrittweite im 4. Oktett: 2<sup>${hostBits}</sup> = ${blockSize}.<br>
             3. Die Vielfachen von ${blockSize} lauten: ${netzOct4}, ${netzOct4 + blockSize}...<br>
-            4. Da $${netzOct4} \\le ${randomHostOct4} < ${netzOct4 + blockSize}$, ist:<br>
+            4. Da ${netzOct4} ≤ ${randomHostOct4} < ${netzOct4 + blockSize}, ist:<br>
             &bull; Netzadresse: <code>${netzadresse}</code><br>
             &bull; Erster Host: <code>${ersterHost}</code><br>
             &bull; Letzter Host: <code>${letzterHost}</code><br>
             &bull; Broadcastadresse: <code>${broadcast}</code><br>
-            &bull; Nutzbare Hosts: $2^{${hostBits}} - 2 = ${nutzbareHosts}$.
+            &bull; Nutzbare Hosts: 2<sup>${hostBits}</sup> − 2 = ${nutzbareHosts}.
           `,
           falle: "IHK-Falle: Häufig wird vergessen, die 2 Spezialadressen (Netz- und Broadcastadresse) abzuziehen, oder der letzte Host wird fälschlicherweise als Broadcastadresse vergeben."
         };
@@ -74416,10 +74468,10 @@ Ablaufverfolgung beendet.`, "success");
           ],
           erklaerung: `
             <b>Norm DIN EN 80000-13 / IEC 80000-13:</b><br>
-            1. Dateigröße in Byte: $${dateigroesseVal}\\text{ ${einheit}} = ${bytes.toLocaleString("de-DE")}\\text{ Byte}$.<br>
-            2. Dateigröße in Bit: $${bytes.toLocaleString("de-DE")} \\times 8 = ${bits.toLocaleString("de-DE")}\\text{ Bit}$.<br>
-            3. Bandbreite in bit/s: $${mbit}\\text{ Mbit/s} = ${bitProSek.toLocaleString("de-DE")}\\text{ bit/s}$ (SI-Präfix!).<br>
-            4. Dauer $t = \\frac{${bits.toLocaleString("de-DE")}}{${bitProSek.toLocaleString("de-DE")}} = \\mathbf{${dauerRund}\\text{ Sekunden}}$.
+            1. Dateigröße in Byte: ${dateigroesseVal} ${einheit} = ${bytes.toLocaleString("de-DE")} Byte.<br>
+            2. Dateigröße in Bit: ${bytes.toLocaleString("de-DE")} × 8 = ${bits.toLocaleString("de-DE")} Bit.<br>
+            3. Bandbreite in bit/s: ${mbit} Mbit/s = ${bitProSek.toLocaleString("de-DE")} bit/s (SI-Präfix!).<br>
+            4. Dauer <i>t</i> = ${bits.toLocaleString("de-DE")} / ${bitProSek.toLocaleString("de-DE")} = <b>${dauerRund} Sekunden</b>.
           `,
           falle: "IHK-Falle: Netzwerk-Bandbreiten (Mbit/s, Gbit/s) sind immer dezimal (10^6, 10^9), während Dateigrößen (MiB, GiB) binär (2^20, 2^30) sind!"
         };
@@ -74458,10 +74510,10 @@ Ablaufverfolgung beendet.`, "success");
           ],
           erklaerung: `
             <b>Berechnung nach Zuverlässigkeitstheorie:</b><br>
-            1. Formel für Parallelschaltung: $A_{ges} = 1 - (1 - A_1) \\times (1 - A_2)$.<br>
-            2. Unverfügbarkeit einzeln: $1 - ${a1Dec} = ${(1 - a1Dec).toFixed(4)}$.<br>
-            3. Gesamt-Unverfügbarkeit: ${(1 - a1Dec).toFixed(4)} \\times ${(1 - a1Dec).toFixed(4)} = ${(Math.pow(1 - a1Dec, 2)).toFixed(8)}$.<br>
-            4. Jahresausfallzeit $T_{down} = ${(Math.pow(1 - a1Dec, 2)).toFixed(8)} \\times 525.600\\text{ min} = \\mathbf{${ausfallMin}\\text{ Minuten}}$.
+            1. Formel für Parallelschaltung: <i>A</i><sub>ges</sub> = 1 − (1 − <i>A</i>₁) × (1 − <i>A</i>₂).<br>
+            2. Unverfügbarkeit einzeln: 1 − ${a1Dec} = ${(1 - a1Dec).toFixed(4)}.<br>
+            3. Gesamt-Unverfügbarkeit: ${(1 - a1Dec).toFixed(4)} × ${(1 - a1Dec).toFixed(4)} = ${(Math.pow(1 - a1Dec, 2)).toFixed(8)}.<br>
+            4. Jahresausfallzeit <i>T</i><sub>down</sub> = ${(Math.pow(1 - a1Dec, 2)).toFixed(8)} × 525.600 min = <b>${ausfallMin} Minuten</b>.
           `,
           falle: "IHK-Falle: Parallelschaltung erhöht die Verfügbarkeit drastisch (Multiplikation der Fehlerwahrscheinlichkeiten), Reihenschaltung verringert sie!"
         };
@@ -74510,10 +74562,10 @@ Ablaufverfolgung beendet.`, "success");
           ],
           erklaerung: `
             <b>RAID-Formeln:</b><br>
-            &bull; RAID 5: $(N - 1) \\times S$ (1 Platte geht für verteilte Parität ab).<br>
-            &bull; RAID 6: $(N - 2) \\times S$ (2 Platten gehen für duale Parität ab).<br>
-            &bull; RAID 10: $(N / 2) \\times S$ (Striping über Spiegelpaare).<br>
-            Rechnung: $${formel} = \\mathbf{${netto}\\text{ TB}}$.
+            &bull; RAID 5: (<i>N</i> − 1) × <i>S</i> (1 Platte geht für verteilte Parität ab).<br>
+            &bull; RAID 6: (<i>N</i> − 2) × <i>S</i> (2 Platten gehen für duale Parität ab).<br>
+            &bull; RAID 10: (<i>N</i> / 2) × <i>S</i> (Striping über Spiegelpaare).<br>
+            Rechnung: ${formel} = <b>${netto} TB</b>.
           `,
           falle: "IHK-Falle: Bei RAID 6 gehen immer 2 Festplattenäquivalente für die doppelte Parität ab, bei RAID 5 nur eine."
         };
@@ -74547,13 +74599,13 @@ Ablaufverfolgung beendet.`, "success");
           distraktoren: [
             { text: `${sOhnePuffer} VA`, grund: "Sicherheitsreserve von 20 % vergessen!" },
             { text: `${Math.round(pGesamt * reserve)} VA`, grund: "cos φ ignoriert: Watt fälschlich 1:1 mit VA gleichgesetzt!" },
-            { text: `${Math.round(pGesamt * cosPhi * reserve)} VA`, grund: "cos φ multipliziert statt dividiert ($P = S \\times \\cos \\varphi \\implies S = P / \\cos \\varphi$). " }
+            { text: `${Math.round(pGesamt * cosPhi * reserve)} VA`, grund: "cos φ multipliziert statt dividiert (<i>P</i> = <i>S</i> × cos φ ➔ <i>S</i> = <i>P</i> / cos φ)." }
           ],
           erklaerung: `
             <b>Elektrotechnische Grundlagen (DIN EN 62040-3):</b><br>
-            1. Formel für Wirkleistung: $P = S \\times \\cos \\varphi$.<br>
-            2. Umstellen nach Scheinleistung $S$: $S = \\frac{P}{\\cos \\varphi} = \\frac{${pGesamt}\\text{ W}}{${cosPhi}} = ${sOhnePuffer}\\text{ VA}$.<br>
-            3. Mit 20 % Reserve: $S_{USV} = ${sOhnePuffer}\\text{ VA} \\times 1{,}2 = \\mathbf{${sMitPuffer}\\text{ VA}}$.
+            1. Formel für Wirkleistung: <i>P</i> = <i>S</i> × cos φ.<br>
+            2. Umstellen nach Scheinleistung <i>S</i>: <i>S</i> = <i>P</i> / cos φ = ${pGesamt} W / ${cosPhi} = ${sOhnePuffer} VA.<br>
+            3. Mit 20 % Reserve: <i>S</i><sub>USV</sub> = ${sOhnePuffer} VA × 1,2 = <b>${sMitPuffer} VA</b>.
           `,
           falle: "IHK-Falle: Scheinleistung (VA) und Wirkleistung (Watt) sind bei Wechselstrom wegen Blindanteilen ungleich! Formel immer umstellen: S = P / cos φ."
         };
@@ -74738,7 +74790,10 @@ Ablaufverfolgung beendet.`, "success");
     }
 
     // Didaktischen Lösungsweg einblenden
-    document.getElementById("rechenSolutionSteps").innerHTML = aktuelleAufgabe.erklaerung;
+    const erklHtml = (typeof window !== "undefined" && window.FORMATIERE_FORMELN)
+      ? window.FORMATIERE_FORMELN(aktuelleAufgabe.erklaerung)
+      : aktuelleAufgabe.erklaerung;
+    document.getElementById("rechenSolutionSteps").innerHTML = erklHtml;
     const pitBox = document.getElementById("rechenPitfallBox");
     pitBox.style.display = "block";
     pitBox.innerHTML = `⚠️ <b>Prüfungsfalle:</b> ${aktuelleAufgabe.falle}`;
@@ -79325,6 +79380,159 @@ GENERATORS.vlan = function (level) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, (c) =>
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
+
+  // Automatische Formel- & LaTeX-Typografie: Wandelt $...$ (inline), $$...$$ (Block)
+  // sowie LaTeX-Fragmente (\cdot, \frac, \Omega, \sqrt, etc.) in semantisches HTML/Unicode um.
+  function ersetzeBefehlMitKlammern(str, befehlName, transformiere) {
+    const muster = new RegExp("\\\\" + befehlName + "\\s*\\{", "g");
+    let m;
+    let s = str;
+    while ((m = muster.exec(s)) !== null) {
+      const startIdx = m.index;
+      const klammerAufIdx = startIdx + m[0].length - 1;
+      let tiefe = 1;
+      let klammerZuIdx = -1;
+      for (let i = klammerAufIdx + 1; i < s.length; i++) {
+        if (s[i] === "{") tiefe++;
+        else if (s[i] === "}") {
+          tiefe--;
+          if (tiefe === 0) { klammerZuIdx = i; break; }
+        }
+      }
+      if (klammerZuIdx !== -1) {
+        const inhalt = s.substring(klammerAufIdx + 1, klammerZuIdx);
+        const ersatz = transformiere(inhalt);
+        s = s.substring(0, startIdx) + ersatz + s.substring(klammerZuIdx + 1);
+        muster.lastIndex = startIdx + ersatz.length;
+      } else {
+        break;
+      }
+    }
+    return s;
+  }
+
+  function ersetzeBrueche(str) {
+    let s = str;
+    const muster = /\\frac\s*\{/g;
+    let m;
+    while ((m = muster.exec(s)) !== null) {
+      const startIdx = m.index;
+      const zaehlerAuf = startIdx + m[0].length - 1;
+      let tiefe = 1;
+      let zaehlerZu = -1;
+      for (let i = zaehlerAuf + 1; i < s.length; i++) {
+        if (s[i] === "{") tiefe++;
+        else if (s[i] === "}") {
+          tiefe--;
+          if (tiefe === 0) { zaehlerZu = i; break; }
+        }
+      }
+      if (zaehlerZu !== -1 && s.substring(zaehlerZu + 1).trimStart().startsWith("{")) {
+        const rest = s.substring(zaehlerZu + 1);
+        const nennerAufRel = rest.indexOf("{");
+        const nennerAuf = zaehlerZu + 1 + nennerAufRel;
+        tiefe = 1;
+        let nennerZu = -1;
+        for (let i = nennerAuf + 1; i < s.length; i++) {
+          if (s[i] === "{") tiefe++;
+          else if (s[i] === "}") {
+            tiefe--;
+            if (tiefe === 0) { nennerZu = i; break; }
+          }
+        }
+        if (nennerZu !== -1) {
+          const zaehler = s.substring(zaehlerAuf + 1, zaehlerZu);
+          const nenner = s.substring(nennerAuf + 1, nennerZu);
+          const ersatz = `<span class="ui-bruch"><span class="ui-bruch-zaehler">${zaehler}</span><span class="ui-bruch-nenner">${nenner}</span></span>`;
+          s = s.substring(0, startIdx) + ersatz + s.substring(nennerZu + 1);
+          muster.lastIndex = startIdx + ersatz.length;
+          continue;
+        }
+      }
+      break;
+    }
+    return s;
+  }
+
+  function formatiereFormeln(str) {
+    if (str == null) return "";
+    let s = String(str);
+    if (!s.includes("$") && !s.includes("\\") && !s.includes("{,}")) return s;
+
+    function konvertiereMath(m) {
+      let t = m.trim();
+      t = t.replace(/\{,\}/g, ",");
+      t = t.replace(/\^\{\\circ\}/g, "°").replace(/\^\\circ/g, "°");
+      t = ersetzeBrueche(t);
+      t = ersetzeBefehlMitKlammern(t, "sqrt", (inhalt) => `<span class="ui-wurzel">√<span class="ui-radikand">${inhalt}</span></span>`);
+      t = t.replace(/\\sqrt\s*([0-9a-zA-Z])/g, "√$1");
+      t = ersetzeBefehlMitKlammern(t, "mathbf", (inhalt) => `<b>${inhalt}</b>`);
+      t = ersetzeBefehlMitKlammern(t, "textbf", (inhalt) => `<b>${inhalt}</b>`);
+      t = ersetzeBefehlMitKlammern(t, "text", (inhalt) => inhalt);
+      t = ersetzeBefehlMitKlammern(t, "mathrm", (inhalt) => inhalt);
+      t = ersetzeBefehlMitKlammern(t, "operatorname", (inhalt) => inhalt);
+      t = ersetzeBefehlMitKlammern(t, "mathit", (inhalt) => `<i>${inhalt}</i>`);
+      t = t.replace(/\\cdot/g, " · ")
+           .replace(/\\times/g, " × ")
+           .replace(/\\Omega/g, "Ω")
+           .replace(/\\mu/g, "µ")
+           .replace(/\\Delta/g, "Δ")
+           .replace(/\\varphi|\\phi/g, "φ")
+           .replace(/\\pi/g, "π")
+           .replace(/\\rho/g, "ρ")
+           .replace(/\\kappa/g, "κ")
+           .replace(/\\eta/g, "η")
+           .replace(/\\alpha/g, "α")
+           .replace(/\\beta/g, "β")
+           .replace(/\\gamma/g, "γ")
+           .replace(/\\approx/g, " ≈ ")
+           .replace(/\\sim/g, " ~ ")
+           .replace(/\\pm/g, " ± ")
+           .replace(/\\(?:le|leq)/g, " ≤ ")
+           .replace(/\\(?:ge|geq)/g, " ≥ ")
+           .replace(/\\(?:ne|neq)/g, " ≠ ")
+           .replace(/\\(?:to|rightarrow)/g, " ➔ ")
+           .replace(/\\leftarrow/g, " ← ")
+           .replace(/\\implies/g, " ⇒ ")
+           .replace(/\\iff/g, " ⇔ ")
+           .replace(/\\infty/g, "∞")
+           .replace(/\\cos/g, "cos")
+           .replace(/\\sin/g, "sin")
+           .replace(/\\circ/g, "°")
+           .replace(/\\([,;]|quad)/g, " ");
+      t = t.replace(/_\{([^{}]+)\}/g, "<sub>$1</sub>");
+      t = t.replace(/_([a-zA-Z0-9]+)/g, "<sub>$1</sub>");
+      t = t.replace(/\^\{([^{}]+)\}/g, (match, exp) => {
+        if (exp === "2") return "²";
+        if (exp === "3") return "³";
+        if (exp === "circ" || exp === "\\circ") return "°";
+        return `<sup>${exp}</sup>`;
+      });
+      t = t.replace(/\^([0-9a-zA-Z+-]+)/g, (match, exp) => {
+        if (exp === "2") return "²";
+        if (exp === "3") return "³";
+        return `<sup>${exp}</sup>`;
+      });
+      t = t.replace(/(^|[^a-zA-Z0-9<>])([UIRPtfTlAQnS])(?=[^a-zA-Z0-9<>]|$)/g, (match, pre, v) => pre + `<i>${v}</i>`);
+      t = t.replace(/\s+/g, " ").trim();
+      return t;
+    }
+
+    s = s.replace(/\$\$([\s\S]+?)\$\$/g, (match, formel) => `<div class="ui-formel-block">${konvertiereMath(formel)}</div>`);
+    s = s.replace(/\$([^\$\n]+?)\$/g, (match, formel) => `<span class="ui-formel-inline">${konvertiereMath(formel)}</span>`);
+    s = s.replace(/\{,\}/g, ",")
+         .replace(/\\Omega/g, "Ω")
+         .replace(/\\cdot/g, "·")
+         .replace(/\\times/g, "×")
+         .replace(/\\approx/g, "≈")
+         .replace(/\\ge\b/g, "≥")
+         .replace(/\\le\b/g, "≤")
+         .replace(/\\rightarrow\b/g, "➔")
+         .replace(/\\text\{([^{}]+)\}/g, "$1")
+         .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, "$1 / $2");
+    return s;
+  }
+  if (typeof window !== "undefined") window.FORMATIERE_FORMELN = formatiereFormeln;
   const $v = (id) => document.getElementById(id);
 
   function istAllesAufEinmal() {
@@ -80419,7 +80627,7 @@ GENERATORS.vlan = function (level) {
     });
     if (liste) aus.push("</ul>");
     if (inTabelle) spueleTabelle();
-    return aus.join("\n");
+    return formatiereFormeln(aus.join("\n"));
   }
 
   function handoutSpeichern() {
@@ -80733,7 +80941,7 @@ GENERATORS.vlan = function (level) {
             ${v.optionen.map((opt, i) => `
               <button type="button" class="vlVermutungOpt ui-option" data-idx="${i}">
                 <span class="ui-option-taste">${i + 1}</span>
-                <span class="ui-option-text">${esc(opt.text)}</span>
+                <span class="ui-option-text">${formatiereFormeln(esc(opt.text))}</span>
               </button>
             `).join("")}
           </div>
@@ -80743,8 +80951,8 @@ GENERATORS.vlan = function (level) {
 
     const weiterText = v ? "Weiter zum Aufbau" : "Schauen wir es uns an";
     k.innerHTML = sprecher(
-      `<span class="vlPhaseLabel">${esc(p.titel)}</span>${esc(p.anker.text)}
-       <div class="vlAnkerFrage">${window.ICON ? window.ICON("frage", { groesse: "s" }) : "❓"} ${esc(p.anker.frage)}</div>
+      `<span class="vlPhaseLabel">${esc(p.titel)}</span>${formatiereFormeln(esc(p.anker.text))}
+       <div class="vlAnkerFrage">${window.ICON ? window.ICON("frage", { groesse: "s" }) : "❓"} ${formatiereFormeln(esc(p.anker.frage))}</div>
        ${vermutungHtml}`,
       `<button type="button" class="vlBtn primary" id="vlWeiter">${weiterText} ${window.ICON ? window.ICON("weiter", { groesse: "s" }) : "➔"}</button>`
     );
@@ -80766,7 +80974,7 @@ GENERATORS.vlan = function (level) {
           const fb = $v("vlVermutungFeedback");
           if (fb) {
             fb.hidden = false;
-            fb.innerHTML = `<span class="vlVermutungTutor">${esc(v.tutor || "Schauen wir, ob du recht hast.")}</span>`;
+            fb.innerHTML = `<span class="vlVermutungTutor">${formatiereFormeln(esc(v.tutor || "Schauen wir, ob du recht hast."))}</span>`;
           }
           if (opt && opt.szene && window.MOTION) {
             window.MOTION.spiele(opt.szene);
@@ -80801,7 +81009,7 @@ GENERATORS.vlan = function (level) {
 
     // 2. Kernsatz (falls vorhanden)
     if (s.text && s.absatz) {
-      html += `<h3 class="vlKernsatz">${esc(s.text)}</h3>`;
+      html += `<h3 class="vlKernsatz">${formatiereFormeln(esc(s.text))}</h3>`;
     }
 
     // 3. Takte-Container
@@ -80815,14 +81023,14 @@ GENERATORS.vlan = function (level) {
         else if (i === taktIdx) klasse += " aktuell";
         else klasse += " ausstehend";
       }
-      html += `<div class="${klasse}" data-takt-idx="${i}">${takt.text}</div>`;
+      html += `<div class="${klasse}" data-takt-idx="${i}">${formatiereFormeln(takt.text)}</div>`;
     });
     html += `</div>`;
 
     // 4. Custom Widget (erscheint erst ab dem letzten Takt oder bei "Alles auf einmal")
     if (s.widgetHtml) {
       const sichtbar = allesAufEinmal || taktIdx >= takte.length - 1;
-      html += `<div class="vlCustomWidget ${sichtbar ? "sichtbar" : "ausstehend"}" id="vlSchrittWidget">${s.widgetHtml}</div>`;
+      html += `<div class="vlCustomWidget ${sichtbar ? "sichtbar" : "ausstehend"}" id="vlSchrittWidget">${formatiereFormeln(s.widgetHtml)}</div>`;
     }
 
     // 5. Randnotizen-Leiste (Beleg, Video, Anekdote)
@@ -81067,7 +81275,7 @@ GENERATORS.vlan = function (level) {
     if (window.MOTION) window.MOTION.stoppe();
     if (typeof window.BUEHNE_NOCHMAL_ZEIGEN === "function") window.BUEHNE_NOCHMAL_ZEIGEN(false);
     zeigeDiagramm(null, null);
-    const kopf = `<span class="vlPhaseLabel">Probe${nachWiederholung ? " · zweiter Versuch" : ""}</span>${esc(pr.frage)}`;
+    const kopf = `<span class="vlPhaseLabel">Probe${nachWiederholung ? " · zweiter Versuch" : ""}</span>${formatiereFormeln(esc(pr.frage))}`;
     let eingabe;
     let hinweisBuehne = "";
     if (b && (b.art === "knoten" || b.art === "bits")) {
@@ -81100,10 +81308,10 @@ GENERATORS.vlan = function (level) {
           <input type="text" id="vlProbeIn" placeholder="Deine Antwort" maxlength="60" autocomplete="off">
           <button type="submit" class="ui-knopf ui-knopf-primaer vlBtn primary">Prüfen</button>
         </form>
-        ${pr.tipp ? `<button type="button" class="ui-knopf ui-knopf-sekundaer vlTippBtn" id="vlTippBtn">${window.ICON ? window.ICON("stern", { groesse: "s" }) : "💡"} Tipp anzeigen</button><div class="vlTipp" id="vlTipp" hidden>${esc(pr.tipp)}</div>` : ""}`;
+        ${pr.tipp ? `<button type="button" class="ui-knopf ui-knopf-sekundaer vlTippBtn" id="vlTippBtn">${window.ICON ? window.ICON("stern", { groesse: "s" }) : "💡"} Tipp anzeigen</button><div class="vlTipp" id="vlTipp" hidden>${formatiereFormeln(esc(pr.tipp))}</div>` : ""}`;
     } else {
       eingabe = hinweisBuehne + `<div class="vlOptionen">` + (pr.optionen || []).map((o, i) =>
-        `<button type="button" class="vlOption ui-option" data-i="${i}"><span class="ui-option-taste">${i + 1}</span><span class="ui-option-text">${esc(o.text)}</span></button>`).join("") + `</div>`;
+        `<button type="button" class="vlOption ui-option" data-i="${i}"><span class="ui-option-taste">${i + 1}</span><span class="ui-option-text">${formatiereFormeln(esc(o.text))}</span></button>`).join("") + `</div>`;
     }
     k.innerHTML = sprecher(kopf, eingabe);
 
@@ -81255,7 +81463,7 @@ GENERATORS.vlan = function (level) {
           <span class="vlRueckIcon">${window.ICON ? window.ICON("haken", { groesse: "m" }) : "✓"}</span>
           <div class="vlRueckInhalt">
             <b>Richtig.</b> ${esc(korrektur || "")}
-            <div class="vlLoesungText">${esc(p.probe.loesung)}</div>
+            <div class="vlLoesungText">${formatiereFormeln(esc(p.probe.loesung))}</div>
           </div>
         </div>
         <button type="button" class="ui-knopf ui-knopf-primaer vlBtn primary" id="vlWeiter">Weiter ➔</button>`);
@@ -81287,7 +81495,7 @@ GENERATORS.vlan = function (level) {
             <b>Noch nicht ganz.</b> ${esc(korrektur || "")}
             <div class="vlLoesungTitel">Lösungsweg:</div>
             <div class="vlLoesungZeilen">
-              ${zeilen.map((z, idx) => `<div class="vlLoesungZeile" style="animation-delay: ${idx * 160}ms;">${esc(z)}</div>`).join("")}
+              ${zeilen.map((z, idx) => `<div class="vlLoesungZeile" style="animation-delay: ${idx * 160}ms;">${formatiereFormeln(esc(z))}</div>`).join("")}
             </div>
           </div>
         </div>
@@ -81304,7 +81512,7 @@ GENERATORS.vlan = function (level) {
             <b>Auch das war es nicht.</b> ${esc(korrektur || "")}
             <div class="vlLoesungTitel">Lösungsweg:</div>
             <div class="vlLoesungZeilen">
-              ${zeilen.map((z, idx) => `<div class="vlLoesungZeile" style="animation-delay: ${idx * 160}ms;">${esc(z)}</div>`).join("")}
+              ${zeilen.map((z, idx) => `<div class="vlLoesungZeile" style="animation-delay: ${idx * 160}ms;">${formatiereFormeln(esc(z))}</div>`).join("")}
             </div>
             <div class="vlRueckHinweis">Die Frage kommt später in der Wiederholung noch einmal.</div>
           </div>
@@ -81322,7 +81530,7 @@ GENERATORS.vlan = function (level) {
     const w = p.wiederholung || { text: p.probe.loesung };
     zeigeDiagramm(w.diagramm, null);
     k.innerHTML = sprecher(
-      `<span class="vlPhaseLabel">Nochmal anders</span>${w.text}`,
+      `<span class="vlPhaseLabel">Nochmal anders</span>${formatiereFormeln(w.text)}`,
       `<button type="button" class="ui-knopf ui-knopf-primaer vlBtn primary" id="vlWeiter">Jetzt nochmal die Frage ➔</button>`
     );
     if (w.szene && window.MOTION) {
@@ -81392,7 +81600,7 @@ GENERATORS.vlan = function (level) {
     const sandbox = p.sandbox ? `<button type="button" class="vlBtn" id="vlSandboxBtn">🧪 Kurz selbst ausprobieren</button>` : "";
     k.innerHTML = sprecher(
       `<span class="vlPhaseLabel">Gesichert</span>Das Wichtigste aus dieser Phase steht jetzt in deinem Handout.
-       ${s.merksatz ? `<div class="vlMerksatzGross">${window.ICON ? window.ICON("schluessel", { groesse: "s" }) : "🔑"} ${esc(s.merksatz)}</div>` : ""}`,
+       ${s.merksatz ? `<div class="vlMerksatzGross">${window.ICON ? window.ICON("schluessel", { groesse: "s" }) : "🔑"} ${formatiereFormeln(esc(s.merksatz))}</div>` : ""}`,
       `<div class="vlKartenAktionen">${sandbox}
         <button type="button" class="vlBtn primary" id="vlWeiter">${letzte ? "Zum Abschlusstest ➔" : "Nächste Phase ➔"}</button>
        </div>`
@@ -81474,9 +81682,9 @@ GENERATORS.vlan = function (level) {
     k.innerHTML = sprecher(
       `<span class="vlPhaseLabel">${esc(titel)} · Frage ${testIdx + 1} von ${fragen.length}</span>
        ${testIdx === 0 && hinweis ? `<div class="vlTestHinweis">${esc(hinweis)}</div>` : ""}
-       ${esc(f.frage)}`,
+       ${formatiereFormeln(esc(f.frage))}`,
       `<div class="vlOptionen">${f.optionen.map((o, i) =>
-        `<button type="button" class="vlOption" data-i="${i}">${esc(o.text)}</button>`).join("")}</div>`
+        `<button type="button" class="vlOption" data-i="${i}">${formatiereFormeln(esc(o.text))}</button>`).join("")}</div>`
     );
     k.querySelectorAll(".vlOption").forEach((btn) => {
       btn.onclick = () => {
@@ -81493,7 +81701,7 @@ GENERATORS.vlan = function (level) {
         k.insertAdjacentHTML("beforeend", `
           <div class="vlRueck ${o.richtig ? "richtig" : "falsch"}">
             <b>${o.richtig ? "✓ Richtig." : "✗ Falsch."}</b>
-            ${o.richtig ? "" : " Richtig wäre: " + esc((f.optionen.find((x) => x.richtig) || {}).text)}
+            ${o.richtig ? "" : " Richtig wäre: " + formatiereFormeln(esc((f.optionen.find((x) => x.richtig) || {}).text))}
             <button type="button" class="vlBtn primary" id="vlWeiter">Weiter ➔</button>
           </div>`);
         $v("vlWeiter").onclick = () => { testIdx++; zeichne(); };
@@ -83348,7 +83556,7 @@ function gattSvg(typ, n, stil, name) {
 }
 const symboleSvg = (typ, n, stil) => `<svg class="symSvg" viewBox="0 0 70 40" width="84" height="48" role="img" aria-label="${esc(gatterName(typ))}">${gattSvg(typ, n || 2, stil || stilNeu()).svg}</svg>`;
 // Karten-Text "sym:NAND" (Zuordnen) -> Symbol; sonst Text
-const kartenInhalt = (t) => (/^sym:[A-Z]+$/.test(t) ? `<span class="symk" data-sym="${t.slice(4)}">${symboleSvg(t.slice(4), t.slice(4) === "NOT" ? 1 : 2)}</span>` : `<span class="zt2">${esc(t)}</span>`);
+const kartenInhalt = (t) => (/^sym:[A-Z]+$/.test(t) ? `<span class="symk" data-sym="${t.slice(4)}">${symboleSvg(t.slice(4), t.slice(4) === "NOT" ? 1 : 2)}</span>` : `<span class="zt2">${fFormel(esc(t))}</span>`);
 const kartenKlar = (t) => (/^sym:[A-Z]+$/.test(t) ? "Symbol " + gatterName(t.slice(4)) : t);
 function symboleNeuZeichnen(root) { (root || document).querySelectorAll(".symk").forEach((e) => { const t = e.dataset.sym; e.innerHTML = symboleSvg(t, t === "NOT" ? 1 : 2); }); }
 
@@ -83938,7 +84146,7 @@ function artVon(pack, q) { // alte Paketformate umsetzen
   return "mc";
 }
 // Fragetext: ab der ersten Zeile mit Zeilenumbruch als Codeblock (z. B. Python-Schnipsel)
-function fText(q) { const t = String(q.f || ""), i = t.indexOf("\n"); return (i < 0 ? esc(t) : esc(t.slice(0, i)) + `<pre class="code">${esc(t.slice(i + 1))}</pre>`) + (q.symbol ? symbolBox(q) : ""); }
+function fText(q) { const t = String(q.f || ""), i = t.indexOf("\n"); return fFormel((i < 0 ? esc(t) : esc(t.slice(0, i)) + `<pre class="code">${esc(t.slice(i + 1))}</pre>`) + (q.symbol ? symbolBox(q) : "")); }
 function logikFehler(q) {   // Netzliste + Modus prüfen (nur Form; die Lösungen rechnet das Quiz selbst)
   const modi = ["lesen", "schalten", "zaehlen", "tabelle", "gattertyp", "erkennen"], m = q.modus || "lesen";
   if (!modi.includes(m)) return "modus unbekannt";
@@ -84183,7 +84391,7 @@ function naechste() {
     $("bNein").onclick = () => antwortGeschlossen(q.a === false, q.a ? "Ja, stimmt" : "Nein, stimmt nicht", "bNein", q.a ? "bJa" : "bNein");
   } else if (q.art === "mc") {
     const opts = shuffle(q.optionen.map((o, i) => ({ o, i })));
-    box.innerHTML = kopf + `<div class="text">${fText(q)}</div><div class="opts">` + opts.map((x, k) => `<button id="o${x.i}" data-i="${x.i}"><span class="taste">${k + 1}</span>${esc(x.o)}</button>`).join("") + `</div><div class="tasten">Tasten: 1–${opts.length}</div><div id="fb"></div>`;
+    box.innerHTML = kopf + `<div class="text">${fText(q)}</div><div class="opts">` + opts.map((x, k) => `<button id="o${x.i}" data-i="${x.i}"><span class="taste">${k + 1}</span>${fFormel(esc(x.o))}</button>`).join("") + `</div><div class="tasten">Tasten: 1–${opts.length}</div><div id="fb"></div>`;
     box.querySelectorAll("button[data-i]").forEach((b) => b.onclick = () => antwortGeschlossen(Number(b.dataset.i) === q.richtig, q.optionen[q.richtig], b.id, "o" + q.richtig, b.textContent.slice(1)));
   } else if (q.art === "rechnen" && q.bits) {                                    // Bit-Schalter statt Texteingabe (Generatoren, z. B. Subnetting-Sprint)
     const werte8 = [128, 64, 32, 16, 8, 4, 2, 1].slice(8 - q.bits);
@@ -84193,7 +84401,7 @@ function naechste() {
     box.querySelectorAll("#bits button").forEach((b) => b.onclick = () => { b.classList.toggle("an"); b.setAttribute("aria-pressed", b.classList.contains("an")); b.querySelector("b").textContent = b.classList.contains("an") ? "1" : "0"; $("bSum").textContent = parseInt(lies(), 2); });
     $("bPruef").onclick = () => { const v = lies(), ok = q.check(v); werte(ok ? "richtig" : "falsch", ok ? 10 : 0, q.loesung, v); };
   } else if (q.art === "rechnen") {
-    box.innerHTML = kopf + `<div class="text ${q.gen ? "mono" : ""}">${fText(q)}</div><form class="eingabe" id="rForm" autocomplete="off"><input id="rIn" inputmode="text" aria-label="Deine Antwort" placeholder="Ergebnis">${q.einheit ? `<span class="einheit">${esc(q.einheit)}</span>` : ""}<button class="primary" type="submit">Prüfen</button></form><div class="tasten">Komma oder Punkt, Tausenderpunkte und Leerzeichen sind egal.</div><div id="fb"></div>`;
+    box.innerHTML = kopf + `<div class="text ${q.gen ? "mono" : ""}">${fText(q)}</div><form class="eingabe" id="rForm" autocomplete="off"><input id="rIn" inputmode="text" aria-label="Deine Antwort" placeholder="Ergebnis">${q.einheit ? `<span class="einheit">${fFormel(esc(q.einheit))}</span>` : ""}<button class="primary" type="submit">Prüfen</button></form><div class="tasten">Komma oder Punkt, Tausenderpunkte und Leerzeichen sind egal.</div><div id="fb"></div>`;
     $("rForm").onsubmit = (e) => { e.preventDefault(); const v = $("rIn").value.trim(); if (!v) return; const ok = q.gen ? q.check(v) : pruefeRechnen(q, v); werte(ok ? "richtig" : "falsch", ok ? 10 : 0, q.loesung, v); };
     $("rIn").focus();
   } else if (q.art === "logik") {
@@ -84350,7 +84558,7 @@ function reihenfolgeUi(q, box, kopf) {
   const ol = $("reih");
   // Drag & Drop (f_dragdrop.js): ord folgt der Reihenfolge im DOM, die Nummern zaehlt das CSS
   const zeichne = () => {
-    ol.innerHTML = ord.map((x) => `<li data-id="${x}"><span class="dndGriff" aria-hidden="true">⠿</span><span class="rt">${esc(q.schritte[x])}</span><span class="rb"><button type="button" data-d="-1" aria-label="nach oben">▲</button><button type="button" data-d="1" aria-label="nach unten">▼</button></span></li>`).join("");
+    ol.innerHTML = ord.map((x) => `<li data-id="${x}"><span class="dndGriff" aria-hidden="true">⠿</span><span class="rt">${fFormel(esc(q.schritte[x]))}</span><span class="rb"><button type="button" data-d="-1" aria-label="nach oben">▲</button><button type="button" data-d="1" aria-label="nach unten">▼</button></span></li>`).join("");
     window.VlDnd.sortier(ol, { onChange: (ids) => { ord = ids.map(Number); }, gesperrt: () => !!(S && S.locked) });
   };
   $("rPruef").onclick = () => {
@@ -84443,9 +84651,9 @@ function werte(urteil, punkte, loesung, eingabe, extra) {
   let h = toonFeedbackHtml + `<div class="titel">${ok ? "✔" : unk ? "🤷" : urteil === "teilweise" ? "◐" : "✘"} ${titel}${q.art === "frei" && !unk ? ` · ${punkte}/10` : ""}</div>`;
   if (unk) h += `<div class="kinfo">Ehrlich zu sein hilft beim Lernen: Du siehst die Lösung, es kostet nichts und die Frage kommt später noch einmal.</div>`;
   if (strafe) h += `<div class="kinfo">−${strafe} Punkte für die falsche Antwort. Bei „Weiß ich nicht“ wäre es kostenlos gewesen.</div>`;
-  if (q.art === "frei") h += kiHtml(extra || {}) + `<details ${ok ? "" : "open"}><summary>Musterlösung</summary>${esc(q.muster || "")}</details>`;
-  else if (!ok) h += `<div class="erkl">Lösung: <b class="mono">${esc(loesung)}</b></div>`;
-  if (q.erkl) h += `<div class="erkl">${esc(q.erkl)}</div>`;
+  if (q.art === "frei") h += kiHtml(extra || {}) + `<details ${ok ? "" : "open"}><summary>Musterlösung</summary>${fFormel(esc(q.muster || ""))}</details>`;
+  else if (!ok) h += `<div class="erkl">Lösung: <b class="mono">${fFormel(esc(loesung))}</b></div>`;
+  if (q.erkl) h += `<div class="erkl">${fFormel(esc(q.erkl))}</div>`;
   h += ok && q.art !== "frei" ? (q.quelle ? `<div class="nach">📖 ${quelleHtml(q.quelle)}</div>` : "") : nachlesenHtml(q, loesung);
   const fb = $("fb"); fb.className = "fb " + (ok ? "ok" : urteil === "teilweise" || unk ? "mid" : "bad"); fb.innerHTML = h; fb.setAttribute("role", "status");
   const w = $("kiWarte"); if (w) w.classList.add("hidden");
@@ -84533,7 +84741,7 @@ function selbst(q, antwort, grund) { // Rückfall: Musterlösung zeigen, selbst 
   if ($("kiWarte")) $("kiWarte").classList.add("hidden");
   const fb = $("fb"); fb.className = "fb mid";
   fb.innerHTML = (grund ? `<div class="titel">KI-Bewertung gerade nicht möglich</div><div class="kinfo">${esc(grund)}</div>` : `<div class="titel">Vergleiche selbst</div>`) +
-    `<div class="erkl"><b>Musterlösung:</b> ${esc(q.muster || "")}</div>` +
+    `<div class="erkl"><b>Musterlösung:</b> ${fFormel(esc(q.muster || ""))}</div>` +
     ((q.stichworte || []).length ? `<div class="erkl"><b>Das sollte drin sein:</b> ${q.stichworte.map(esc).join(" · ")}</div>` : "") +
     `<div class="aktionen"><span>Wie war deine Antwort?</span><button id="sR">✔ Richtig</button><button id="sT">◐ Teilweise</button><button id="sF">✘ Falsch</button></div>`;
   const setz = (u, p) => werte(u, p, q.muster || "", antwort, { selbst: true });
@@ -85412,8 +85620,8 @@ function endGame() {
       <div class="balken"><div style="width:0;background:${t.quote >= 80 ? "var(--ok)" : t.quote >= 50 ? "var(--mid)" : "var(--bad)"}" data-w="${t.quote}"></div></div><span class="muted">${String(t.gut).replace(".", ",")}/${t.n}</span></div>`).join("")}</div>
     ${b.seiten.length ? `<div class="block glass"><h3>📖 Nachlernen im Buch</h3><ul class="nachlern">${b.seiten.map((s) => `<li><b>${seiteHtml(s.seite)}</b> – ${s.themen.map(esc).join(", ")} <span class="muted">(${s.n} Fehler)</span></li>`).join("")}</ul>
       <div class="muted" style="font-size:.85rem">Buch: ${esc(KONFIG.buch)}</div></div>` : ""}
-    ${b.fehler.length ? `<div class="block glass"><h3>Deine Fehler (${b.fehler.length})</h3>${b.fehler.map((a) => `<details class="fehler"><summary>${esc(a.q.f)}</summary>
-      ${a.eingabe ? `<div>Deine Antwort: <span class="mono">${esc(a.eingabe)}</span></div>` : ""}<div>Lösung: <b>${esc(a.q.art === "frei" ? (a.q.muster || "") : a.loesung)}</b></div>${a.q.erkl ? `<div class="muted">${esc(a.q.erkl)}</div>` : ""}${nachlesenHtml(a.q, a.loesung)}</details>`).join("")}</div>` : ""}
+    ${b.fehler.length ? `<div class="block glass"><h3>Deine Fehler (${b.fehler.length})</h3>${b.fehler.map((a) => `<details class="fehler"><summary>${fFormel(esc(a.q.f))}</summary>
+      ${a.eingabe ? `<div>Deine Antwort: <span class="mono">${fFormel(esc(a.eingabe))}</span></div>` : ""}<div>Lösung: <b>${fFormel(esc(a.q.art === "frei" ? (a.q.muster || "") : a.loesung))}</b></div>${a.q.erkl ? `<div class="muted">${fFormel(esc(a.q.erkl))}</div>` : ""}${nachlesenHtml(a.q, a.loesung)}</details>`).join("")}</div>` : ""}
     ${S.pack.typ === "lernpfad" ? lpErgebnisHtml() : ""}
     <div class="block glass"><h3>Auswertung speichern</h3><div class="knoepfe">
       <button class="primary" id="dlHtml">⬇ Auswertung (HTML / PDF)</button><button id="dlMd">⬇ Als Markdown</button>
@@ -85465,7 +85673,7 @@ body{font:15px/1.5 system-ui,Segoe UI,sans-serif;color:#141a26;max-width:820px;m
 <p class="noprint hin">Tipp: Mit Strg+P → „Als PDF speichern“ sichern.</p>
 <h2>Ergebnis nach Themen (schwächste zuerst)</h2><table><tr><th>Thema</th><th>Richtig</th><th></th><th></th></tr>${b.themen.map(zeile).join("")}</table>
 ${b.seiten.length ? `<h2>Nachlernen im Buch</h2><p class="m">${esc(KONFIG.buch)}</p><table><tr><th>Seite</th><th>Themen</th><th>Fehler</th></tr>${b.seiten.map((s) => `<tr><td><b>S. ${s.seite}</b></td><td>${s.themen.map(esc).join(", ")}</td><td>${s.n}</td></tr>`).join("")}</table>` : "<h2>Keine Fehler – stark!</h2>"}
-${b.fehler.length ? `<h2>Aufgaben zum Wiederholen</h2>${b.fehler.map((a) => `<div class="f"><b>${esc(a.q.f)}</b><br>${a.eingabe ? `<span class="m">Deine Antwort:</span> ${esc(a.eingabe)}<br>` : ""}<span class="m">Lösung:</span> ${esc(a.q.art === "frei" ? (a.q.muster || "") : a.loesung)}${a.q.erkl ? `<br><span class="m">${esc(a.q.erkl)}</span>` : ""}${a.q.quelle ? `<br><span class="m">📖 ${esc(a.q.quelle)} · Thema: ${esc(a.q.thema || "")}</span>` : ""}</div>`).join("")}` : ""}
+${b.fehler.length ? `<h2>Aufgaben zum Wiederholen</h2>${b.fehler.map((a) => `<div class="f"><b>${fFormel(esc(a.q.f))}</b><br>${a.eingabe ? `<span class="m">Deine Antwort:</span> ${fFormel(esc(a.eingabe))}<br>` : ""}<span class="m">Lösung:</span> ${fFormel(esc(a.q.art === "frei" ? (a.q.muster || "") : a.loesung))}${a.q.erkl ? `<br><span class="m">${fFormel(esc(a.q.erkl))}</span>` : ""}${a.q.quelle ? `<br><span class="m">📖 ${esc(a.q.quelle)} · Thema: ${esc(a.q.thema || "")}</span>` : ""}</div>`).join("")}` : ""}
 <p class="m" style="margin-top:24px;font-size:.8rem">Erstellt mit FI-Quiz ${esc(KONFIG.version)} · Seitenangaben: gedruckte Buchseiten</p></body></html>`;
 }
 function berichtMd(b) {
