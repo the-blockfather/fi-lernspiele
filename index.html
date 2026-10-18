@@ -12764,23 +12764,32 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   border: 1px solid var(--akzent-flaeche);
 }
 
-/* Haupt-Layout: CSS-Grid (58% Bühne, 42% Erzählung) */
+/* Haupt-Layout: Großzügige vertikale Anordnung (Bühne oben zentriert, Erzählung & Interaktion vollformatig darunter) */
 .vlLayout {
-  display: grid;
-  grid-template-columns: 58fr 42fr;
-  gap: var(--a-5);
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--a-4);
+  align-items: stretch;
   width: 100%;
   position: relative;
 }
 
 .vlBuehne {
+  width: 100%;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.vlStageContainer {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
 }
 
 .vlErzaehlung {
+  width: 100%;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -14030,23 +14039,25 @@ body.retro .dndPfeile button:hover:not(:disabled) { background: var(--akzent-fla
 .vlOptionen {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--a-3);
   margin-top: 14px;
+  width: 100%;
 }
 
 .vlOption {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: var(--a-3);
   text-align: left;
-  padding: var(--a-3) var(--a-4) !important;
-  font-size: var(--gr-s) !important;
-  font-weight: 500 !important;
-  line-height: 1.45;
-  background: var(--f-1);
+  padding: 12px 18px !important;
+  font-size: var(--gr-m) !important;
+  font-weight: 550 !important;
+  line-height: 1.5;
+  background: var(--f-2);
   border: 1.5px solid var(--f-3);
   border-radius: var(--r-m);
-  color: var(--t-2);
+  color: var(--t-1);
   cursor: pointer;
   transition: border-color var(--d-1) var(--e-standard),
               background var(--d-1) var(--e-standard),
@@ -14054,6 +14065,7 @@ body.retro .dndPfeile button:hover:not(:disabled) { background: var(--akzent-fla
               box-shadow var(--d-1) var(--e-standard);
   white-space: normal;
   box-sizing: border-box;
+  width: 100%;
 }
 
 @media (hover: hover) {
@@ -14283,24 +14295,36 @@ body.retro .dndPfeile button:hover:not(:disabled) { background: var(--akzent-fla
 /* Freitext-Probe */
 .vlProbeForm {
   display: flex;
-  gap: 8px;
+  gap: var(--a-3);
   margin-top: 14px;
-  flex-wrap: wrap;
+  max-width: 640px;
+  width: 100%;
 }
 
 .vlProbeForm input {
-  flex: 1 1 180px;
+  flex: 1 1 240px;
   min-width: 0;
-  padding: 9px 12px;
-  font-size: var(--gr-s);
+  padding: 11px 16px;
+  font-size: var(--gr-m);
   font-family: inherit;
-  background: var(--f-1);
+  background: var(--f-2);
   border: 1.5px solid var(--f-3);
   border-radius: var(--r-s);
   color: var(--t-1);
 }
 
-.vlProbeForm input:focus { outline: none; border-color: var(--akzent); }
+.vlProbeForm input:focus {
+  outline: none;
+  border-color: var(--akzent);
+  box-shadow: var(--glow-aktiv);
+}
+
+.vlProbeForm button {
+  padding: 0 var(--a-4);
+  font-size: var(--gr-s);
+  font-weight: 700;
+  white-space: nowrap;
+}
 
 .vlTippBtn {
   margin-top: 9px;
@@ -14456,31 +14480,48 @@ body.retro .dndPfeile button:hover:not(:disabled) { background: var(--akzent-fla
 /* Tutor-Spalte */
 .vlCoachForm {
   display: flex;
-  gap: 7px;
-  margin-top: 9px;
+  flex-direction: column;
+  gap: var(--a-2);
+  margin-top: var(--a-3);
 }
-
-.vlCoachForm input {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 8px 11px;
-  font-size: var(--gr-s);
-  font-family: inherit;
-  background: var(--f-1);
-  border: 1.5px solid var(--f-3);
-  border-radius: var(--r-s);
-  color: var(--t-1);
-}
-
-.vlCoachForm input:focus { outline: none; border-color: var(--akzent); }
 
 .vlCoachLabel {
   display: block;
   font-size: var(--gr-xs);
   font-weight: 700;
   color: var(--t-3);
-  margin-bottom: 6px;
   letter-spacing: 0.02em;
+}
+
+.vlCoachInputRow {
+  display: flex;
+  gap: var(--a-2);
+  width: 100%;
+}
+
+.vlCoachForm input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 14px;
+  font-size: var(--gr-s);
+  font-family: inherit;
+  background: var(--f-2);
+  border: 1.5px solid var(--f-3);
+  border-radius: var(--r-s);
+  color: var(--t-1);
+}
+
+.vlCoachForm input:focus {
+  outline: none;
+  border-color: var(--akzent);
+  box-shadow: var(--glow-aktiv);
+}
+
+.vlCoachForm button {
+  padding: 0 var(--a-4);
+  font-size: var(--gr-s);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .vlCoachHinweis {
@@ -15659,17 +15700,19 @@ html[data-theme="outdoor"] .vlLayerTable td { border-bottom: 1px solid var(--f-g
 .vlVermutungOpt {
   display: flex;
   align-items: center;
-  gap: var(--a-2);
-  padding: var(--a-2) var(--a-3);
+  gap: var(--a-3);
+  padding: 12px 16px;
   background: var(--f-3);
   border: 1px solid var(--linie);
   border-radius: var(--r-s);
   color: var(--t-1);
   font-family: inherit;
-  font-size: var(--gr-s);
+  font-size: var(--gr-m);
   text-align: left;
   cursor: pointer;
   transition: transform var(--d-1) var(--e-standard), border-color var(--d-1) var(--e-standard);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .vlVermutungOpt:hover {
@@ -67698,7 +67741,15 @@ const LABSIM = (() => {
       update();
       return Promise.resolve();
     }
-    return document.startViewTransition(update).finished.catch(() => {});
+    try {
+      const vt = document.startViewTransition(update);
+      if (vt.ready && typeof vt.ready.catch === "function") vt.ready.catch(() => {});
+      if (vt.updateCallbackDone && typeof vt.updateCallbackDone.catch === "function") vt.updateCallbackDone.catch(() => {});
+      return vt.finished.catch(() => {});
+    } catch (_) {
+      update();
+      return Promise.resolve();
+    }
   }
 
   window.MOTION = {
@@ -76635,8 +76686,10 @@ GENERATORS.vlan = function (level) {
               </div>
               <form class="vlCoachForm" id="vlCoachForm">
                 <label for="vlCoachIn" class="vlCoachLabel">${window.ICON ? window.ICON("chat", { groesse: "s" }) : "💬"} Frage an den KI-Tutor stellen:</label>
-                <input type="text" id="vlCoachIn" placeholder="Deine Frage zum Stoff …" maxlength="300" autocomplete="off">
-                <button type="submit" class="ui-knopf ui-knopf-primaer">Fragen</button>
+                <div class="vlCoachInputRow">
+                  <input type="text" id="vlCoachIn" placeholder="Deine Frage zum Stoff …" maxlength="300" autocomplete="off">
+                  <button type="submit" class="ui-knopf ui-knopf-primaer">Fragen</button>
+                </div>
               </form>
               <div class="vlCoachHinweis" id="vlCoachHinweis"></div>
             </div>
