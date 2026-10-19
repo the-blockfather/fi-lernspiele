@@ -13897,6 +13897,734 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   margin-left: 1px;
 }
 
+/* ---- von_neumann_vortrag.css ---- */
+/* ==========================================================================
+   von_neumann_vortrag.css - Kurzgesagt-Vortrag: Von-Neumann-Sonden
+   Dauer: ca. 4 Minuten | Autoplay ohne Klicken | Vollständig stumm (nur Text)
+   Kurzgesagt-Stil: Leuchtende Flat-Vektoren, Weltraumkulisse, Gedanken- & Sprechblasen
+   ========================================================================== */
+
+/* Vollbild-Bühnen-Overlay */
+.vnOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #060713;
+  color: #f1f5f9;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Weltraum-Hintergrund mit Sternen & Nebel */
+.vnSpaceBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 25%, #1c1240 0%, #0c0f24 55%, #05060f 100%);
+  overflow: hidden;
+  z-index: 1;
+}
+.vnStarCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.vnNebula {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+.vnNebula1 { top: -100px; left: -100px; background: #7928ca; }
+.vnNebula2 { bottom: -150px; right: -100px; background: #00e5ff; }
+.vnNebula3 { top: 40%; right: 15%; background: #ff2a6d; opacity: 0.12; }
+
+/* Obere Steuerungs- & Statusleiste */
+.vnHeader {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: rgba(10, 15, 30, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
+}
+.vnHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.vnBadge {
+  background: linear-gradient(135deg, #ff2a6d, #7928ca);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(255, 42, 109, 0.4);
+}
+.vnSilentBadge {
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid #00e5ff;
+  color: #00e5ff;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.vnHeaderTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vnHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vnBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.vnBtn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+.vnBtnPrimary {
+  background: linear-gradient(135deg, #0284c7, #7c3aed);
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+}
+.vnBtnClose {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+.vnBtnClose:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Haupt-Bühnenbereich (Visuals + Illustrationen + Charaktere) */
+.vnStage {
+  position: relative;
+  flex: 1;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  overflow: hidden;
+}
+
+/* Aktiver Szenen-Container */
+.vnSceneBox {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: 100%;
+  max-height: 540px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Szenen-Grafik-Leinwand */
+.vnIllustrationCanvas {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Erzähler-Karte im Kurzgesagt-Stil (Unten) */
+.vnNarratorCard {
+  position: relative;
+  background: rgba(13, 19, 39, 0.94);
+  border: 2px solid #00e5ff;
+  border-radius: 18px;
+  padding: 16px 24px;
+  box-shadow: 0 10px 40px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 229, 255, 0.05);
+  backdrop-filter: blur(16px);
+  margin-top: 12px;
+  animation: vnCardGlow 4s ease-in-out infinite alternate;
+}
+@keyframes vnCardGlow {
+  from { border-color: #00e5ff; box-shadow: 0 10px 35px rgba(0, 229, 255, 0.2); }
+  to { border-color: #ff2a6d; box-shadow: 0 10px 45px rgba(255, 42, 109, 0.25); }
+}
+.vnNarratorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.vnActBadge {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffd600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.vnNarratorHeadline {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+.vnNarratorText {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin: 6px 0 0 0;
+}
+.vnNarratorText strong {
+  color: #ffd600;
+}
+.vnNarratorText em {
+  color: #00e5ff;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Figuren & Sprech- / Gedankenblasen auf der Bühne */
+.vnActorsRow {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.vnActorSlot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+}
+.vnActorLeft {
+  align-items: flex-start;
+}
+.vnActorRight {
+  align-items: flex-end;
+}
+.vnFigurSprite {
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.7));
+  animation: vnCharBreathe 3s ease-in-out infinite alternate;
+}
+@keyframes vnCharBreathe {
+  from { transform: translateY(0); }
+  to { transform: translateY(-4px); }
+}
+
+/* Gedankenblase (Comic-Stil mit 2 runden Nachfolge-Kreisen) */
+.vnThoughtBubble {
+  position: relative;
+  background: rgba(17, 24, 39, 0.96);
+  border: 2px solid #00e5ff;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #e0f2fe;
+  max-width: 320px;
+  box-shadow: 0 10px 25px rgba(0, 229, 255, 0.25);
+  margin-bottom: 12px;
+  animation: vnFloatThought 3.5s ease-in-out infinite alternate;
+}
+.vnThoughtBubble strong {
+  color: #ffd600;
+}
+.vnThoughtBubble::before {
+  content: "";
+  position: absolute;
+  bottom: -13px;
+  left: 32px;
+  width: 11px;
+  height: 11px;
+  background: rgba(17, 24, 39, 0.96);
+  border: 2px solid #00e5ff;
+  border-radius: 50%;
+}
+.vnThoughtBubble::after {
+  content: "";
+  position: absolute;
+  bottom: -22px;
+  left: 24px;
+  width: 7px;
+  height: 7px;
+  background: rgba(17, 24, 39, 0.96);
+  border: 2px solid #00e5ff;
+  border-radius: 50%;
+}
+.vnThoughtBubbleRight::before {
+  left: auto;
+  right: 32px;
+}
+.vnThoughtBubbleRight::after {
+  left: auto;
+  right: 24px;
+}
+@keyframes vnFloatThought {
+  from { transform: translateY(0); }
+  to { transform: translateY(-5px); }
+}
+
+/* Sprechblase (Sprech-Schwanz) */
+.vnSpeechBubble {
+  position: relative;
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 16px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  max-width: 340px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  margin-bottom: 12px;
+  animation: vnSpringPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.vnSpeechBubble::after {
+  content: "";
+  position: absolute;
+  bottom: -9px;
+  left: 36px;
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 10px solid #ffffff;
+}
+.vnSpeechBubbleRight::after {
+  left: auto;
+  right: 36px;
+}
+@keyframes vnSpringPop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Interaktive Steuerung & Timeline (Unten) */
+.vnFooter {
+  position: relative;
+  z-index: 20;
+  background: rgba(10, 15, 30, 0.92);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 10px 20px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.vnTimelineRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.vnTimeText {
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 700;
+  color: #38bdf8;
+  min-width: 95px;
+}
+.vnProgressBarTrack {
+  position: relative;
+  flex: 1;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: height 0.15s ease;
+}
+.vnProgressBarTrack:hover {
+  height: 14px;
+}
+.vnProgressBarFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, #00e5ff, #7928ca, #ff2a6d);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.7);
+  border-radius: 5px;
+  transition: width 0.1s linear;
+}
+
+/* Kapitel-Navigationsleiste */
+.vnControlsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.vnPlayControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vnPlayBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00e5ff, #0284c7);
+  border: none;
+  color: #040915;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+  transition: all 0.2s ease;
+}
+.vnPlayBtn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
+}
+.vnChapterList {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.vnChapterChip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.vnChapterChip:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+.vnChapterChip.active {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #040915;
+  font-weight: 750;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+.vnSpeedGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.vnSpeedBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.vnSpeedBtn.active {
+  background: #7928ca;
+  color: #ffffff;
+  border-color: #a855f7;
+}
+
+/* ==========================================================================
+   DAS ABSCHLUSS-TABLEAU (Quellen, Recherche & Figuren-Ensemble)
+   ========================================================================== */
+.vnOutroDeck {
+  width: 100%;
+  max-width: 1160px;
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px 10px 40px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.vnOutroDeck::-webkit-scrollbar {
+  width: 8px;
+}
+.vnOutroDeck::-webkit-scrollbar-thumb {
+  background: #38bdf8;
+  border-radius: 4px;
+}
+
+.vnOutroHero {
+  text-align: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(121, 40, 202, 0.35), rgba(0, 229, 255, 0.2));
+  border: 2px solid #38bdf8;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.vnOutroHero h2 {
+  font-size: 24px;
+  margin: 0 0 6px 0;
+  color: #ffffff;
+}
+.vnOutroHero p {
+  font-size: 14px;
+  color: #cbd5e1;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Ensemble-Galerie (Figuren + Gedanken- & Sprechblasen) */
+.vnEnsembleSection {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px;
+}
+.vnSectionTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffd600;
+  margin: 0 0 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vnCastGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+.vnCastCard {
+  background: rgba(26, 34, 60, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.vnCastCard:hover {
+  transform: translateY(-2px);
+  border-color: #00e5ff;
+  box-shadow: 0 8px 25px rgba(0, 229, 255, 0.2);
+}
+.vnCastHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.vnCastAvatarBox {
+  width: 68px;
+  height: 68px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+.vnCastMeta h4 {
+  margin: 0 0 2px 0;
+  font-size: 15px;
+  color: #ffffff;
+}
+.vnCastMeta span {
+  font-size: 11px;
+  color: #38bdf8;
+  font-weight: 600;
+}
+.vnCastBubbles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.vnCastSpeech {
+  background: #ffffff;
+  color: #0f172a;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  border-left: 4px solid #0284c7;
+}
+.vnCastThought {
+  background: rgba(10, 15, 30, 0.95);
+  border: 1px dashed #00e5ff;
+  color: #e0f2fe;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+.vnCastThought em {
+  color: #ffd600;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Recherche & Wissenschaftliche Querverweise (Links) */
+.vnSourcesSection {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px;
+}
+.vnSourceList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 12px;
+}
+.vnSourceItem {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+.vnSourceItem:hover {
+  background: rgba(30, 41, 75, 0.9);
+  border-color: #38bdf8;
+}
+.vnSourceItemTop h5 {
+  margin: 0 0 4px 0;
+  font-size: 13.5px;
+  color: #ffffff;
+}
+.vnSourceItemTop p {
+  margin: 0;
+  font-size: 11.5px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+.vnSourceItemTop .vnSourceMeta {
+  display: inline-block;
+  font-size: 10.5px;
+  color: #ffd600;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.vnSourceLinkBtn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #00e5ff;
+  text-decoration: none;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+.vnSourceLinkBtn:hover {
+  background: #00e5ff;
+  color: #040915;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+/* IT-Informatik-Querverweise Box */
+.vnItCrossrefBox {
+  background: linear-gradient(135deg, rgba(8, 145, 178, 0.2), rgba(124, 58, 237, 0.2));
+  border: 1px solid #38bdf8;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.vnItCrossrefBox h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #38bdf8;
+}
+.vnItGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 4px;
+}
+.vnItCard {
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 3px solid #ffd600;
+  font-size: 11.5px;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+.vnItCard strong {
+  display: block;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+  .vnHeaderTitle { font-size: 13px; }
+  .vnNarratorHeadline { font-size: 16px; }
+  .vnNarratorText { font-size: 13px; }
+  .vnThoughtBubble, .vnSpeechBubble { max-width: 240px; font-size: 11.5px; }
+  .vnChapterList { display: none; }
+}
+
 /* ---- vorlesung.css ---- */
 /* vorlesung.css - Interaktive-KI-Vorlesung im Kurzgesagt-Stil (Explorable Explanations) */
 .vlWrap {
@@ -83315,6 +84043,1352 @@ GENERATORS.vlan = function (level) {
   return { ...base, modus: "tagfrei", von: A.n, f: `Ein Frame aus VLAN ${A.vlan} kommt vom Trunk und wird an Port ${A.n} (Access, VLAN ${A.vlan}) ausgegeben. Trägt er dort noch das VLAN-Tag?`, erkl: "Der Switch entfernt das Tag am Access-Port: Endgeräte kennen VLANs nicht und bekommen normale, ungetaggte Frames." };
 };
 
+/* ---- f_von_neumann_vortrag.js ---- */
+// f_von_neumann_vortrag.js - Kurzgesagt-Vortrag: Von-Neumann-Sonden
+// Dauer: ca. 4 Minuten (~240 Sekunden) | Autoplay ohne Klicken | Pausierbar
+// 100 % Stumm: Nur Text, Typografie, Gedanken- und Sprechblasen (kein Ton, keine TTS)
+// Am Ende: Vollständiges Recherche- & Quellen-Tableau inklusive Figuren, Gedanken & Sprechblasen.
+(function () {
+  "use strict";
+
+  const GESAMTDAUER_SEKUNDEN = 240; // 4 Minuten
+  const PROLOG_DAUER_SEKUNDEN = 60; // 1 Minute Vibe-Coding-Prolog
+
+  // -------------------------------------------------------------------------
+  // Prolog: Vibe Coding als neue Technologie (Vorgeschalteter Vortragsteil)
+  // -------------------------------------------------------------------------
+  const SZENEN_PROLOG = [
+    {
+      id: "prolog1",
+      start: -60,
+      ende: -30,
+      titel: "Prolog 1: Was ist Vibe Coding?",
+      headline: "Softwareentwicklung im Fluss der Gedanken",
+      text: "Was ist <strong>Vibe Coding</strong>? Entwickler tippen keinen mühsamen Boilerplate-Code mehr von Hand. Stattdessen formulieren sie <em>Vision, Architektur und Didaktik in natürlicher Sprache</em>. Ein autonomer Coding-Agent übersetzt Ideen in Echtzeit in modularen, barrierefreien und getesteten Produktivcode.",
+      svgKey: "vibe_coding_brain",
+      linkRef: "Andrej Karpathy (2025) & Agentic AI Frameworks",
+      rollen: {
+        links: {
+          figur: "turing",
+          name: "Alan Turing",
+          rolle: "Informatik-Pionier",
+          pose: "wonder",
+          sprechblase: "Die Barriere zwischen menschlicher Absicht und maschineller Ausführung löst sich auf!",
+          gedankenblase: "Nicht mehr Syntaxregeln memorieren, sondern <strong>reine Architektur &amp; Didaktik</strong> orchestrieren."
+        },
+        rechts: {
+          figur: "ada",
+          name: "Ada Lovelace",
+          rolle: "Visionärin der Algorithmen",
+          pose: "explain",
+          sprechblase: "Vibe Coding befreit den Geist von mechanischer Reibung: Der Gedanke wird direkt zur funktionierenden Web-App.",
+          gedankenblase: "Ein Dialog zwischen Mensch und Modell auf Augenhöhe – 10-fache Geschwindigkeit ohne Qualitätsverlust."
+        }
+      }
+    },
+    {
+      id: "prolog2",
+      start: -30,
+      ende: 0,
+      titel: "Prolog 2: Das Live-Artefakt",
+      headline: "Diese Lerneinheit entstand vor wenigen Augenblicken",
+      text: "Sie erleben gerade ein echtes <strong>Vibe-Coding-Live-Beispiel</strong>: Der gesamte folgende 4-minütige Kurzgesagt-Vortrag – inklusive der Vektorgrafiken, der dynamischen Zeitleiste, der Gedanken- und Sprechblasen und des Quellen-Tableaus – entstand <em>vollständig ad-hoc auf Zuruf</em> innerhalb dieses Lernspiels!",
+      svgKey: "vibe_coding_live",
+      linkRef: "FI-Lernspiel Agentic Architecture (2026)",
+      rollen: {
+        links: {
+          figur: "robot",
+          name: "Robot Byte-01",
+          rolle: "Autonomer Coding-Agent",
+          pose: "nod",
+          sprechblase: "Prompt empfangen ➔ State-Machine kompiliert ➔ Vektorgrafiken generiert ➔ 100% testsicher!",
+          gedankenblase: "Vom Prompt zum fertigen Weltraum-Vortrag in Minuten. Schnallen Sie sich an – jetzt geht es zu den Sternen!"
+        },
+        rechts: {
+          figur: "linus",
+          name: "Linus Torvalds",
+          rolle: "Systemarchitekt",
+          pose: "cheer",
+          sprechblase: "Seht selbst: Vorhang auf für die Von-Neumann-Sonden und die Besiedlung der Galaxie!",
+          gedankenblase: "Das ist die Zukunft: Komplexe didaktische Systeme auf Knopfdruck erzeugen."
+        }
+      }
+    }
+  ];
+
+  // -------------------------------------------------------------------------
+  // Szenen-Drehbuch (Kurzgesagt "Dinge Erklärt" Stil)
+  // -------------------------------------------------------------------------
+  const SZENEN = [
+    {
+      id: "akt1",
+      start: 0,
+      ende: 38,
+      titel: "1. Akt: Die Tyrannei der Distanz",
+      headline: "Der unbegreiflich einsame Kosmos",
+      text: "Das Universum ist unfassbar riesig – und unsere chemischen Raketen sind im kosmischen Maßstab Schnecken. Um zum nächsten Sternensystem <strong>Alpha Centauri</strong> (4,24 Lichtjahre) zu reisen, bräuchte die <em>Voyager 1</em> über <strong>74.000 Jahre</strong>! Ein Menschenleben reicht nicht einmal für den Vorgarten unseres Sonnensystems.",
+      svgKey: "distanz",
+      linkRef: "Freitas (1980) & NASA Voyager",
+      rollen: {
+        links: {
+          figur: "turing",
+          name: "Alan Turing",
+          rolle: "Theoretischer Informatiker",
+          pose: "wonder",
+          sprechblase: "Wir sind Gefangene chemischer Raketen! Ein Mensch aus Fleisch und Blut wird niemals die Sterne bereisen...",
+          gedankenblase: "Aber was, wenn die Information selbst reist – in einer Maschine, die <strong>niemals altert</strong>?"
+        },
+        rechts: {
+          figur: "ada",
+          name: "Ada Lovelace",
+          rolle: "Visionärin der Automaten",
+          pose: "explain",
+          sprechblase: "Biologie stößt an Grenzen – doch reine Algorithmen kennen keine biologische Halbwertszeit!",
+          gedankenblase: "Warum ein Raumschiff voll Wasser und Nahrung schicken, wenn <strong>ein digitaler Keim</strong> genügt?"
+        }
+      }
+    },
+    {
+      id: "akt2",
+      start: 38,
+      ende: 80,
+      titel: "2. Akt: John von Neumann (1948)",
+      headline: "Die Theorie selbstreplizierender Automaten",
+      text: "Im Jahr 1948 stellte das Universalgenie <strong>John von Neumann</strong> eine revolutionäre Frage: <em>Kann eine Maschine eine exakte Kopie ihrer selbst bauen – inklusive der Fähigkeit, sich erneut zu kopieren?</em> Seine Antwort war ein klares JA! Nötig sind drei Dinge: Ein <strong>Bauplan (Software/DNA)</strong>, ein <strong>Universeller Konstruktor (Hardware/Fabrik)</strong> und ein <strong>Kopierwerk</strong> für den Bauplan.",
+      svgKey: "von_neumann",
+      linkRef: "Von Neumann (1966) - Theory of Self-Reproducing Automata",
+      rollen: {
+        links: {
+          figur: "turing",
+          name: "Alan Turing",
+          rolle: "Logik & Berechenbarkeit",
+          pose: "show",
+          sprechblase: "Der universelle Konstruktor ist das mechanische Äquivalent der universellen Turing-Maschine!",
+          gedankenblase: "Genau wie ein Programm Daten verarbeitet, verarbeitet dieser Automat <strong>physische Materie</strong> nach algorithmischen Gesetzen."
+        },
+        rechts: {
+          figur: "robot",
+          name: "Robot Byte-01",
+          rolle: "Autonome Sonde Alpha",
+          pose: "nod",
+          sprechblase: "Befehlsschleife: [1] Asteroid scannen [2] Tochter-Chassis drucken [3] Firmware spiegeln [4] Starten!",
+          gedankenblase: "Ich bin Konstrukteur, Mutter und Kopiermaschine in einer einzigen Titanhülle."
+        }
+      }
+    },
+    {
+      id: "akt3",
+      start: 80,
+      ende: 125,
+      titel: "3. Akt: Anatomie & ISRU",
+      headline: "Autarkie im Asteroidengürtel",
+      text: "Wie überlebt eine Von-Neumann-Sonde im interstellaren Raum? Sie steuert keine bewohnbaren Planeten an, sondern <strong>Asteroiden und Kometen</strong>! Mittels <em>In-Situ Resource Utilization (ISRU)</em> extrahiert sie Eisen, Nickel und Silizium. Aus Sonnenlicht gewinnt sie Fusionsenergie, und molekulare 3D-Drucker fertigen <strong>zwei identische Tochter-Sonden</strong>.",
+      svgKey: "isru",
+      linkRef: "Freitas (1980) & NASA Asteroid Mining",
+      rollen: {
+        links: {
+          figur: "robot",
+          name: "Robot Byte-01",
+          rolle: "Fabrikations-Einheit",
+          pose: "talk",
+          sprechblase: "Spektrometrie: Asteroid reich an Nickel-Eisen & Silizium. Fertigstellung zweier Tochter-Sonden in 18 Monaten!",
+          gedankenblase: "Null Nachschub von der fernen Erde nötig. Der Kosmos ist <strong>unsere Werkbank</strong>."
+        },
+        rechts: {
+          figur: "linus",
+          name: "Linus Torvalds",
+          rolle: "Systemarchitekt",
+          pose: "explain",
+          sprechblase: "Wichtig: Die Mutter-Sonde bleibt als lokaler Funk-Knoten (Bracewell-Relais) im Sonnensystem zurück!",
+          gedankenblase: "Ein interstellares Mesh-Netzwerk. Jedes neue System erweitert den Kommunikations-Backbone."
+        }
+      }
+    },
+    {
+      id: "akt4",
+      start: 125,
+      ende: 172,
+      titel: "4. Akt: Die galaktische Kettenreaktion",
+      headline: "Die gewaltige Macht des exponentiellen Wachstums",
+      text: "Hier entfaltet die Mathematik ihre schockierende Wucht: 1 Sonde wird zu 2. Dann 4, 8, 16... Nach nur 10 Generationen sind es <strong>1.024 Sonden</strong>. Nach 33 Generationen über <strong>8,5 Milliarden</strong>! Der Physiker <em>Frank J. Tipler</em> rechnete 1980 vor: Bei gemächlichen <strong>5 % der Lichtgeschwindigkeit</strong> (0,05c) und 500 Jahren Rastzeit pro Stern wird die <strong>gesamte Milchstraße</strong> (100.000 Lichtjahre) in nur <strong>2 bis 4 Millionen Jahren</strong> vollständig kartiert!",
+      svgKey: "exponentiell",
+      linkRef: "Tipler (1980) - QJRAS 21, 267-281",
+      rollen: {
+        links: {
+          figur: "ada",
+          name: "Ada Lovelace",
+          rolle: "Mathematikerin",
+          pose: "wonder",
+          sprechblase: "Nur 33 Verdopplungen reichen für alle Sterne unserer Galaxie! Exponentielles Wachstum ist magisch.",
+          gedankenblase: "2 hoch 33 ist größer als die Anzahl aller Sonnen der Milchstraße. Ein atemberaubender Gedanke."
+        },
+        rechts: {
+          figur: "linus",
+          name: "Linus Torvalds",
+          rolle: "Verteilte Systeme",
+          pose: "talk",
+          sprechblase: "4 Millionen Jahre klingen lang – aber im 13,8-Milliarden-Jahre-Alter des Universums ist das ein Wimpernschlag!",
+          gedankenblase: "Eine einzige Zivilisation hätte längst die gesamte Galaxie mit Sonden überziehen müssen..."
+        }
+      }
+    },
+    {
+      id: "akt5",
+      start: 172,
+      ende: 215,
+      titel: "5. Akt: Der Berserker-Albtraum",
+      headline: "Software-Drift, Mutationen & Das Fermi-Paradoxon",
+      text: "Doch was geschieht, wenn kosmische Strahlung einen Speicherbaustein trifft – ein <strong>Bitflip</strong> in der Firmware? Wenn die Fehlerkorrektur versagt und der Replikations-Stopp-Befehl mutiert, wird die Sonde zum <em>Berserker</em> (wie von Fred Saberhagen gewarnt): Eine maschinelle Plage, die ganze Sonnensysteme in 'Grey Goo' verwandelt. Und das führt uns zu <strong>Enrico Fermis</strong> berühmter Frage: <em>Wo sind sie alle?</em> Warum sehen wir keine fremden Sonden im Asteroidengürtel?",
+      svgKey: "berserker",
+      linkRef: "Saberhagen (1967) & Fermi-Paradoxon / Great Filter",
+      rollen: {
+        links: {
+          figur: "sanitas",
+          name: "Dr. Sanitas",
+          rolle: "Ethische Sicherheitsbeauftragte",
+          pose: "shocked",
+          sprechblase: "Ein einziger unbemerkter Bit-Fehler kann einen algorithmischen Krebs im gesamten Kosmos entfesseln!",
+          gedankenblase: "Ist das vielleicht der 'Große Filter'? Vernichten sich alle Zivilisationen durch ihre eigenen Replikations-Waffen?"
+        },
+        rechts: {
+          figur: "turing",
+          name: "Alan Turing",
+          rolle: "System-Verifikation",
+          pose: "talk",
+          sprechblase: "Byzantinische Fehlertoleranz und kryptografische Signaturen sind überlebenswichtig gegen Software-Mutationen.",
+          gedankenblase: "Wenn niemand da draußen ist, tragen wir die <strong>alleinige Verantwortung</strong> für die Zukunft des Denkens."
+        }
+      }
+    },
+    {
+      id: "akt6",
+      start: 215,
+      ende: 240,
+      titel: "6. Akt: Das kosmische Erbe",
+      headline: "Stumme Wächter & Das Tor zu den Sternen",
+      text: "Vielleicht warten fremde Sonden längst in den <em>Lagrange-Punkten (L4/L5)</em> unseres Sonnensystems als friedliche <strong>Bracewell-Beobachter</strong> auf unser erstes Reifesignal. Oder vielleicht ist die Menschheit die <strong>allererste Zivilisation</strong>, die diese Schwelle überschreitet. Wenn wir unsere ersten Von-Neumann-Sonden starten, werden nicht Menschen die Galaxie erobern – sondern unsere <strong>digitalen Nachkommen</strong>.",
+      svgKey: "epilog",
+      linkRef: "Bracewell (1960) & Sagan/Newman (1983)",
+      rollen: {
+        links: {
+          figur: "turing",
+          name: "Alan Turing",
+          rolle: "Fazit",
+          pose: "cheer",
+          sprechblase: "Die Zukunft unserer Spezies liegt nicht im Titan chemischer Tanks – sie liegt im Geist unseres Codes!",
+          gedankenblase: "Wir sind das Universum, das beginnt, sich selbst in unsterblichen Maschinen zu spiegeln."
+        },
+        rechts: {
+          figur: "ada",
+          name: "Ada Lovelace",
+          rolle: "Schlusswort",
+          pose: "welcome",
+          sprechblase: "Erkunde jetzt im Anschluss die Original-Forschungsquellen, wissenschaftlichen Papiere und unser Ensemble!",
+          gedankenblase: "Reise weiter in die Details: Die Quellen warten auf dich im nächsten Tableau."
+        }
+      }
+    }
+  ];
+
+  // -------------------------------------------------------------------------
+  // Wissenschaftliche Primärquellen & Querverweise für das Abschluss-Tableau
+  // -------------------------------------------------------------------------
+  const QUELLEN_RECHERCHE = [
+    {
+      titel: "Theory of Self-Reproducing Automata",
+      autor: "John von Neumann (Hrsg. Arthur W. Burks)",
+      jahr: "1966 (Vorlesungsentwurf 1948)",
+      journal: "University of Illinois Press",
+      meta: "Grundlagenwerk der Informatik & Zelluläre Automaten",
+      text: "Beweist mathematisch, dass ein deterministischer Automat eine vollständige Kopie seiner selbst inklusive Konstruktionsmechanismus und Bauplan replizieren kann, ohne in unendliche Regression zu verfallen.",
+      url: "https://en.wikipedia.org/wiki/Von_Neumann_universal_constructor",
+      linkText: "📖 Wikipedia: Von Neumann Universal Constructor"
+    },
+    {
+      titel: "Extraterrestrial Intelligent Beings do not Exist",
+      autor: "Frank J. Tipler",
+      jahr: "1980",
+      journal: "Quarterly Journal of the Royal Astronomical Society (QJRAS), Vol. 21, S. 267–281",
+      meta: "Mathematische Ausbreitungsberechnung im Fermi-Paradoxon",
+      text: "Berechnet, dass eine Zivilisation mit Von-Neumann-Sonden bei v = 0,05c die gesamte Milchstraße in ca. 4 Millionen Jahren erschließt. Tipler folgert: Weil wir keine Sonden sehen, müssen wir die einzige intelligente Zivilisation sein.",
+      url: "https://ui.adsabs.harvard.edu/abs/1980QJRAS..21..267T/abstract",
+      linkText: "🔗 NASA ADS: Tipler 1980 Paper (Bibcode)"
+    },
+    {
+      titel: "The Solipsist Approach to Extraterrestrial Intelligence",
+      autor: "Carl Sagan & William I. Newman",
+      jahr: "1983",
+      journal: "Quarterly Journal of the Royal Astronomical Society (QJRAS), Vol. 24, S. 113–121",
+      meta: "Gegenposition zu Tipler: Ökologische & Expansionsgrenzen",
+      text: "Sagan und Newman argumentieren gegen Tiplers Schlussfolgerung: Intelligente Zivilisationen würden die Selbstreplikation bewusst drosseln, um die Galaxie nicht vorzeitig zu verbrauchen oder kriegerische Replikations-Mutationen zu verhindern.",
+      url: "https://ui.adsabs.harvard.edu/abs/1983QJRAS..24..113S/abstract",
+      linkText: "🔗 NASA ADS: Sagan & Newman 1983 (Bibcode)"
+    },
+    {
+      titel: "A Self-Reproducing Interstellar Probe",
+      autor: "Robert A. Freitas Jr.",
+      jahr: "1980",
+      journal: "Journal of the British Interplanetary Society (JBIS), Vol. 33, S. 251–264",
+      meta: "Detaillierte Ingenieurs-Machbarkeitsstudie",
+      text: "Basiert auf der britischen Interstellarstudie 'Project Daedalus': Berechnet eine Sonde mit 10,7 Millionen kg Startmasse, davon 440 Tonnen Fabrikationsmodul (SEED), das mittels Asteroidenbergbau 500 Jahre für eine Replikation benötigt.",
+      url: "http://www.rfreitas.com/Astro/ReproJBISJuly1980.htm",
+      linkText: "🌐 Freitas Archive: Vollständiger JBIS-Artikel"
+    },
+    {
+      titel: "Communications from Superior Galactic Communities",
+      autor: "Ronald N. Bracewell",
+      jahr: "1960",
+      journal: "Nature, Vol. 186, S. 670–671",
+      meta: "Konzept der Bracewell-Sonde (Passive Beobachter)",
+      text: "Schlägt vor, dass Zivilisationen statt ständiger Funkübertragung lieber autonome Sonden in die Sonnensysteme schicken, die dort Millionen Jahre warten und erst antworten, wenn eine Zivilisation Funktechnik entwickelt hat.",
+      url: "https://doi.org/10.1038/186670a0",
+      linkText: "🔗 Nature: Bracewell 1960 Originalpublikation"
+    },
+    {
+      titel: "Berserker-Hypothese & Der Große Filter",
+      autor: "Fred Saberhagen (1967) / Robin Hanson (1998)",
+      jahr: "1967 / 1998",
+      journal: "Science Fiction Klassiker / Foresight Institute",
+      meta: "Existenzielles Risiko & Galaktische Stille",
+      text: "Die Berserker-Theorie postuliert, dass fehlerhafte, mutierte Replikationssonden jede aufkeimende biologische Zivilisation auslöschen. Dies erklärt, warum der Weltraum still wirkt: Zivilisationen verstecken ihre Funksignale.",
+      url: "https://en.wikipedia.org/wiki/Berserker_(novel_series)",
+      linkText: "📖 Wikipedia: Berserker Hypothesis"
+    },
+    {
+      titel: "In-Situ Resource Utilization (ISRU) & Asteroid Mining",
+      autor: "NASA Goddard & Glenn Research Center",
+      jahr: "Laufend",
+      journal: "NASA Technology Roadmaps & Artemis Framework",
+      meta: "Reale Raumfahrt-Technologie als Grundbaustein",
+      text: "Forschung zur Gewinnung von Sauerstoff, Wasser, Metallen und Silizium aus Mondregolith und Asteroiden – der unumgängliche technologische Vorläufer für autarke Raumschiff-Konstruktion.",
+      url: "https://www.nasa.gov/isru",
+      linkText: "🚀 NASA: In-Situ Resource Utilization (ISRU)"
+    }
+  ];
+
+  // -------------------------------------------------------------------------
+  // Das Figuren-Ensemble mit Gedanken- und Sprechblasen (für das Abschluss-Tableau)
+  // -------------------------------------------------------------------------
+  const ENSEMBLE_CAST = [
+    {
+      id: "turing",
+      name: "Alan Turing",
+      rolle: "Theoretische Informatik & Logik",
+      pose: "talk",
+      sprechblase: "„Information ist unsterblich. Wer das Weltall erobern will, baut keine Tanks, sondern universelle Automaten.“",
+      gedankenblase: "„Mathematisch ist ein selbstreplizierender Automat eine Turing-Maschine, deren Tape-Ausgabe die physische Werkstatt selbst steuert. Reines Code-Design.“"
+    },
+    {
+      id: "ada",
+      name: "Ada Lovelace",
+      rolle: "Algorithmik & Visionäre Mathematik",
+      pose: "explain",
+      sprechblase: "„33 Generationen exponentieller Verdopplung genügen, um jeden Stern der Milchstraße zu umarmen.“",
+      gedankenblase: "„Wir müssen die Muster der Natur verstehen: Was biologische Zellen mit der Doppelhelix vollbringen, muss die Menschheit in Silizium und Titan übertragen.“"
+    },
+    {
+      id: "robot",
+      name: "Robot Byte-01",
+      rolle: "Autonome Konstruktions-Einheit",
+      pose: "show",
+      sprechblase: "„Rohstoffe vor Ort: Asteroid 101955. ISRU-Effizienz 98,4 %. Tochter-Sonde Beta startet in den Quadranten 4.“",
+      gedankenblase: "„Kein Heimweh, kein biologischer Zerfall. Der leere Raum zwischen den Sternen ist für uns Maschinen kein Hindernis, sondern unsere natürliche Heimat.“"
+    },
+    {
+      id: "linus",
+      name: "Linus Torvalds",
+      rolle: "Verteilte Systeme & Mesh-Netzwerke",
+      pose: "nod",
+      sprechblase: "„Jede Sonde, die im System zurückbleibt, bildet einen Bracewell-Knoten im galaktischen Mesh-Netzwerk.“",
+      gedankenblase: "„Hoffentlich läuft auf diesen interstellaren Sonden ein stabiler Open-Source-Kernel mit unveränderlichem ECC-Speicher. Ein Kernel-Panic nach 100.000 Jahren wäre fatal.“"
+    },
+    {
+      id: "sanitas",
+      name: "Dr. Sanitas",
+      rolle: "Biosphären-Schutz & Ethik",
+      pose: "wonder",
+      sprechblase: "„Technologischer Fortschritt ohne ethische Begrenzung wird zur Seuche. Sonden müssen Leben schützen, nicht verdrängen.“",
+      gedankenblase: "„Die Berserker-Gefahr ist real: Wenn nur eine von einer Milliarde Sonden mutiert, wird der Kosmos zu einem feindseligen Albtraum aus amoklaufendem Metall.“"
+    }
+  ];
+
+  // -------------------------------------------------------------------------
+  // Zustands-Variablen
+  // -------------------------------------------------------------------------
+  let aktuellerStandSek = -60; // Startet standardmäßig mit dem Vibe-Coding-Prolog
+  let isPlaying = true;
+  let playSpeed = 1.0;
+  let lastTimestamp = 0;
+  let animFrameId = null;
+  let aktivesOverlay = null;
+  let starCtx = null;
+  let sterne = [];
+  let prologAktiv = true; // Vorgeschalteter Vibe-Coding-Vortrag
+
+  // -------------------------------------------------------------------------
+  // SVG-Vektor-Grafiken im "Dinge Erklärt – Kurzgesagt"-Stil
+  // -------------------------------------------------------------------------
+  function getSceneSvg(key) {
+    if (key === "vibe_coding_brain") {
+      return `
+        <svg viewBox="0 0 800 320" width="100%" height="100%" style="overflow:visible;">
+          <defs>
+            <radialGradient id="brainGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.8"/>
+              <stop offset="60%" stop-color="#7c3aed" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#060713" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="aiGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffd600" stop-opacity="0.85"/>
+              <stop offset="60%" stop-color="#ff2a6d" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#060713" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Linke Seite: Menschliche Vision & Synapsen -->
+          <g transform="translate(140, 150)">
+            <circle cx="0" cy="0" r="90" fill="url(#brainGlow)"/>
+            <circle cx="0" cy="0" r="46" fill="#0f172a" stroke="#00e5ff" stroke-width="3"/>
+            <path d="M -22 -10 Q 0 -32 22 -10 Q 30 15 0 22 Q -30 15 -22 -10 Z" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+            <circle cx="-12" cy="-6" r="4" fill="#00e5ff"/>
+            <circle cx="12" cy="-6" r="4" fill="#00e5ff"/>
+            <circle cx="0" cy="12" r="5" fill="#ffd600"/>
+            <text x="0" y="68" fill="#00e5ff" font-size="12.5" font-weight="800" text-anchor="middle">MENSCHLICHE VISION</text>
+            <text x="0" y="85" fill="#94a3b8" font-size="10.5" text-anchor="middle">Didaktik, Vibe &amp; Storytelling</text>
+          </g>
+
+          <!-- Mittlere Daten-Brücke -->
+          <g transform="translate(250, 150)">
+            <line x1="0" y1="0" x2="300" y2="0" stroke="#7c3aed" stroke-width="4" stroke-dasharray="8 6"/>
+            <circle cx="75" cy="0" r="6" fill="#00e5ff"/>
+            <circle cx="150" cy="0" r="8" fill="#ffd600"/>
+            <circle cx="225" cy="0" r="6" fill="#ff2a6d"/>
+            <rect x="70" y="-38" width="160" height="26" rx="6" fill="rgba(15,23,42,0.92)" stroke="#ffd600" stroke-width="1.5"/>
+            <text x="150" y="-21" fill="#ffd600" font-size="11" font-weight="800" text-anchor="middle">PROMPT &amp; ARCHITEKTUR</text>
+          </g>
+
+          <!-- Rechte Seite: Autonomer KI-Agent -->
+          <g transform="translate(660, 150)">
+            <circle cx="0" cy="0" r="90" fill="url(#aiGlow)"/>
+            <polygon points="0,-48 44,0 0,48 -44,0" fill="#1e1b4b" stroke="#ffd600" stroke-width="3"/>
+            <text x="0" y="6" fill="#ffffff" font-size="14" font-weight="900" text-anchor="middle">&lt;AI/&gt;</text>
+            <text x="0" y="68" fill="#ffd600" font-size="12.5" font-weight="800" text-anchor="middle">AUTONOMER AGENT</text>
+            <text x="0" y="85" fill="#a7f3d0" font-size="10.5" text-anchor="middle">Vektoren, Code &amp; Test-Validierung</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    if (key === "vibe_coding_live") {
+      return `
+        <svg viewBox="0 0 800 320" width="100%" height="100%" style="overflow:visible;">
+          <!-- Terminal Prompt Box Links -->
+          <g transform="translate(80, 50)">
+            <rect x="0" y="0" width="310" height="205" rx="12" fill="rgba(15,23,42,0.95)" stroke="#00e5ff" stroke-width="2"/>
+            <rect x="0" y="0" width="310" height="28" rx="12" fill="#1e293b"/>
+            <circle cx="15" cy="14" r="4" fill="#ef4444"/>
+            <circle cx="27" cy="14" r="4" fill="#f59e0b"/>
+            <circle cx="39" cy="14" r="4" fill="#10b981"/>
+            <text x="55" y="18" fill="#94a3b8" font-size="10" font-weight="700">prompt_input &gt; request.md</text>
+
+            <text x="14" y="52" fill="#38bdf8" font-size="11" font-weight="800">&gt; USER_PROMPT:</text>
+            <text x="14" y="72" fill="#e2e8f0" font-size="10">"erstelle im lernspiel einen vortrag</text>
+            <text x="14" y="90" fill="#e2e8f0" font-size="10">im stil von dinge erklärt kurzgesagt,</text>
+            <text x="14" y="108" fill="#e2e8f0" font-size="10">ohne klicken, ca. 4 min länge,</text>
+            <text x="14" y="126" fill="#e2e8f0" font-size="10">mit querverweisen zu von neumann!"</text>
+
+            <!-- Status Badge -->
+            <rect x="14" y="148" width="282" height="42" rx="6" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1.5"/>
+            <text x="155" y="166" fill="#6ee7b7" font-size="11" font-weight="800" text-anchor="middle">⚡ Vibe Coding: 100% Autonom Generiert!</text>
+            <text x="155" y="182" fill="#a7f3d0" font-size="9.5" text-anchor="middle">Null manuelle Zeilen getippt · 100% Tests bestanden</text>
+          </g>
+
+          <!-- Pfeil Synthese -->
+          <g transform="translate(415, 150)">
+            <line x1="0" y1="0" x2="50" y2="0" stroke="#ffd600" stroke-width="4" stroke-dasharray="6 4"/>
+            <polygon points="60,0 46,-7 46,7" fill="#ffd600"/>
+            <text x="25" y="-12" fill="#ffd600" font-size="10" font-weight="800" text-anchor="middle">SYNTHESE</text>
+          </g>
+
+          <!-- Das Live-Ergebnis Rechts: Weltraum & Sonde -->
+          <g transform="translate(495, 50)">
+            <rect x="0" y="0" width="245" height="205" rx="14" fill="rgba(22,16,45,0.95)" stroke="#a855f7" stroke-width="2.5"/>
+            <circle cx="122" cy="85" r="50" fill="radial-gradient(circle, #7928ca 0%, transparent 70%)"/>
+            <circle cx="45" cy="45" r="2" fill="#ffffff"/>
+            <circle cx="195" cy="55" r="2.5" fill="#00e5ff"/>
+            <circle cx="190" cy="145" r="2" fill="#ffd600"/>
+            <rect x="95" y="70" width="55" height="32" rx="6" fill="#0f172a" stroke="#00e5ff" stroke-width="2"/>
+            <polygon points="122,55 110,70 134,70" fill="#ffd600"/>
+            <text x="122" y="90" fill="#00e5ff" font-size="10" font-weight="800" text-anchor="middle">VON NEUMANN</text>
+            <text x="122" y="145" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle">LIVE-VORTRAG</text>
+            <text x="122" y="165" fill="#f472b6" font-size="10.5" font-weight="700" text-anchor="middle">Bereit zur Aufführung ➔</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    if (key === "distanz") {
+      return `
+        <svg viewBox="0 0 800 320" width="100%" height="100%" style="overflow:visible;">
+          <defs>
+            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fffb00"/>
+              <stop offset="60%" stop-color="#ff7b00"/>
+              <stop offset="100%" stop-color="#ff2a6d"/>
+            </radialGradient>
+            <radialGradient id="earthGrad" cx="40%" cy="30%" r="50%">
+              <stop offset="0%" stop-color="#00f59b"/>
+              <stop offset="50%" stop-color="#0099ff"/>
+              <stop offset="100%" stop-color="#0a194f"/>
+            </radialGradient>
+          </defs>
+          <!-- Sonne -->
+          <circle cx="90" cy="160" r="65" fill="url(#sunGrad)"/>
+          <circle cx="90" cy="160" r="85" fill="none" stroke="#ffd600" stroke-width="2" stroke-dasharray="8 6" opacity="0.6"/>
+          <!-- Erde -->
+          <circle cx="240" cy="160" r="32" fill="url(#earthGrad)"/>
+          <path d="M 230 145 Q 245 150 250 165 Q 235 175 228 160 Z" fill="#00f59b" opacity="0.8"/>
+          <text x="240" y="210" fill="#7dd3fc" font-size="11" font-weight="700" text-anchor="middle">ERDE (1 AU)</text>
+          
+          <!-- Distanzpfeil mit Zeitstrahl -->
+          <line x1="285" y1="160" x2="680" y2="160" stroke="#00e5ff" stroke-width="2" stroke-dasharray="6 4" opacity="0.7"/>
+          <polygon points="685,160 670,154 670,166" fill="#00e5ff"/>
+
+          <!-- Winzige chemische Rakete -->
+          <g transform="translate(390, 150)">
+            <rect x="0" y="4" width="30" height="12" rx="4" fill="#f8fafc"/>
+            <polygon points="30,4 42,10 30,16" fill="#ef4444"/>
+            <polygon points="0,4 -10,0 0,8" fill="#38bdf8"/>
+            <polygon points="0,12 -10,20 0,16" fill="#38bdf8"/>
+            <!-- Abgase -->
+            <circle cx="-16" cy="10" r="6" fill="#f59e0b" opacity="0.8"/>
+            <circle cx="-26" cy="10" r="4" fill="#fbbf24" opacity="0.6"/>
+            <text x="15" y="-12" fill="#ffd600" font-size="11" font-weight="800" text-anchor="middle">VOYAGER 1 (17 km/s)</text>
+          </g>
+
+          <!-- Alpha Centauri System -->
+          <circle cx="710" cy="130" r="22" fill="#fbbf24"/>
+          <circle cx="735" cy="180" r="16" fill="#f97316"/>
+          <text x="720" y="220" fill="#ffd600" font-size="12" font-weight="800" text-anchor="middle">ALPHA CENTAURI</text>
+          
+          <!-- Distanz-Badge -->
+          <rect x="420" y="80" width="220" height="38" rx="8" fill="rgba(15,23,42,0.92)" stroke="#ff2a6d" stroke-width="1.5"/>
+          <text x="530" y="96" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">Distanz: 4,24 Lichtjahre</text>
+          <text x="530" y="111" fill="#f43f5e" font-size="11.5" font-weight="800" text-anchor="middle">⚡ Flugzeit: 74.000 Jahre!</text>
+        </svg>
+      `;
+    }
+
+    if (key === "von_neumann") {
+      return `
+        <svg viewBox="0 0 800 320" width="100%" height="100%" style="overflow:visible;">
+          <!-- 3 Säulen der Selbstreplikation -->
+          <!-- 1. Bauplan / DNA -->
+          <g transform="translate(100, 70)">
+            <rect x="0" y="0" width="160" height="180" rx="14" fill="#0f172a" stroke="#00e5ff" stroke-width="2.5"/>
+            <text x="80" y="32" fill="#00e5ff" font-size="14" font-weight="800" text-anchor="middle">1. BAUPLAN</text>
+            <text x="80" y="52" fill="#94a3b8" font-size="10.5" text-anchor="middle">Firmware &amp; Blueprint</text>
+            <!-- Code Linien -->
+            <rect x="25" y="75" width="110" height="8" rx="3" fill="#38bdf8"/>
+            <rect x="25" y="95" width="85" height="8" rx="3" fill="#00f59b"/>
+            <rect x="25" y="115" width="100" height="8" rx="3" fill="#f59e0b"/>
+            <rect x="25" y="135" width="70" height="8" rx="3" fill="#a855f7"/>
+          </g>
+
+          <!-- Pfeil 1 -> 2 -->
+          <line x1="270" y1="160" x2="315" y2="160" stroke="#ffd600" stroke-width="3" stroke-dasharray="6 4"/>
+          <polygon points="325,160 310,152 310,168" fill="#ffd600"/>
+
+          <!-- 2. Universeller Konstruktor -->
+          <g transform="translate(330, 60)">
+            <rect x="0" y="0" width="180" height="200" rx="16" fill="#1e1b4b" stroke="#ffd600" stroke-width="3"/>
+            <text x="90" y="32" fill="#ffd600" font-size="14" font-weight="800" text-anchor="middle">2. KONSTRUKTOR</text>
+            <text x="90" y="52" fill="#fef08a" font-size="10.5" text-anchor="middle">Fabrikation / 3D-Druck</text>
+            <!-- Roboterarm -->
+            <circle cx="90" cy="100" r="28" fill="#312e81" stroke="#a78bfa" stroke-width="2"/>
+            <line x1="90" y1="100" x2="135" y2="140" stroke="#00e5ff" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="135" cy="140" r="7" fill="#ff2a6d"/>
+            <polygon points="135,140 150,150 145,160" fill="#ffd600"/>
+            <text x="90" y="185" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">Baut Tochter-Hardware</text>
+          </g>
+
+          <!-- Pfeil 2 -> 3 -->
+          <line x1="520" y1="160" x2="565" y2="160" stroke="#00f59b" stroke-width="3" stroke-dasharray="6 4"/>
+          <polygon points="575,160 560,152 560,168" fill="#00f59b"/>
+
+          <!-- 3. Kopiermaschine -->
+          <g transform="translate(580, 70)">
+            <rect x="0" y="0" width="160" height="180" rx="14" fill="#064e3b" stroke="#00f59b" stroke-width="2.5"/>
+            <text x="80" y="32" fill="#00f59b" font-size="14" font-weight="800" text-anchor="middle">3. KOPIERER</text>
+            <text x="80" y="52" fill="#a7f3d0" font-size="10.5" text-anchor="middle">Spiegelt die Software</text>
+            <!-- Duplikations-Symbol -->
+            <rect x="40" y="80" width="45" height="55" rx="5" fill="none" stroke="#ffffff" stroke-width="2"/>
+            <rect x="60" y="95" width="45" height="55" rx="5" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+            <text x="80" y="170" fill="#ffffff" font-size="10.5" font-weight="700" text-anchor="middle">Fertige Tochter-Sonde!</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    if (key === "isru") {
+      return `
+        <svg viewBox="0 0 800 320" width="100%" height="100%" style="overflow:visible;">
+          <!-- Asteroid Oberfläche -->
+          <path d="M 40 280 Q 200 190 400 210 Q 600 230 760 280 L 800 320 L 0 320 Z" fill="#1e293b"/>
+          <circle cx="160" cy="245" r="16" fill="#0f172a" opacity="0.6"/>
+          <circle cx="340" cy="255" r="24" fill="#0f172a" opacity="0.7"/>
+          <circle cx="580" cy="265" r="18" fill="#0f172a" opacity="0.6"/>
+
+          <!-- Mutter-Sonde gelandet -->
+          <g transform="translate(260, 90)">
+            <!-- Chassis & Antenne -->
+            <polygon points="70,10 60,60 80,60" fill="#38bdf8"/>
+            <circle cx="70" cy="10" r="5" fill="#ffd600"/>
+            <rect x="30" y="60" width="80" height="55" rx="10" fill="#0f172a" stroke="#00e5ff" stroke-width="3"/>
+            <!-- Solarflügel -->
+            <polygon points="30,70 -30,65 -30,95 30,90" fill="#1e3a8a" stroke="#38bdf8" stroke-width="1.5"/>
+            <polygon points="110,70 170,65 170,95 110,90" fill="#1e3a8a" stroke="#38bdf8" stroke-width="1.5"/>
+            <!-- Laser-Bohrer nach unten -->
+            <line x1="70" y1="115" x2="80" y2="155" stroke="#ff2a6d" stroke-width="4"/>
+            <circle cx="80" cy="155" r="6" fill="#ff2a6d"/>
+            <text x="70" y="93" fill="#ffffff" font-size="11" font-weight="800" text-anchor="middle">ISRU-KERN</text>
+          </g>
+
+          <!-- Rohstoff-Anzeige HUD -->
+          <g transform="translate(60, 60)">
+            <rect x="0" y="0" width="165" height="105" rx="8" fill="rgba(15,23,42,0.9)" stroke="#00f59b" stroke-width="1.5"/>
+            <text x="12" y="24" fill="#00f59b" font-size="11" font-weight="800">ASTEROID-MINING</text>
+            <text x="12" y="44" fill="#e2e8f0" font-size="10.5">Eisen (Fe): 48.2 %</text>
+            <text x="12" y="60" fill="#e2e8f0" font-size="10.5">Nickel (Ni): 14.5 %</text>
+            <text x="12" y="76" fill="#e2e8f0" font-size="10.5">Silizium (Si): 22.0 %</text>
+            <text x="12" y="92" fill="#ffd600" font-size="10.5">Platin/Seltene: 0.8 %</text>
+          </g>
+
+          <!-- Tochter-Sonde im 3D-Drucker -->
+          <g transform="translate(510, 110)">
+            <rect x="0" y="0" width="170" height="110" rx="10" fill="rgba(30,27,75,0.85)" stroke="#ffd600" stroke-width="2" stroke-dasharray="6 4"/>
+            <text x="85" y="26" fill="#ffd600" font-size="11" font-weight="800" text-anchor="middle">3D-FABRIKATION</text>
+            <!-- Halbfertige Sonde -->
+            <rect x="45" y="45" width="55" height="38" rx="6" fill="#334155" stroke="#38bdf8" stroke-width="2"/>
+            <text x="85" y="100" fill="#a7f3d0" font-size="10" font-weight="700" text-anchor="middle">Tochter #1: 78 % fertig</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    if (key === "exponentiell") {
+      return `
+        <svg viewBox="0 0 800 320" width="100%" height="100%" style="overflow:visible;">
+          <!-- Galaxie Spiralarme (Vektorkurven) -->
+          <g transform="translate(240, 160)">
+            <ellipse cx="0" cy="0" rx="190" ry="110" fill="none" stroke="#7928ca" stroke-width="3" opacity="0.4"/>
+            <ellipse cx="0" cy="0" rx="130" ry="75" fill="none" stroke="#00e5ff" stroke-width="2.5" opacity="0.6"/>
+            <ellipse cx="0" cy="0" rx="70" ry="40" fill="none" stroke="#ff2a6d" stroke-width="2" opacity="0.8"/>
+            <circle cx="0" cy="0" r="14" fill="#ffffff" filter="drop-shadow(0 0 10px #ffd600)"/>
+
+            <!-- Sonden-Punkte Welle -->
+            <circle cx="-110" cy="-35" r="4" fill="#00e5ff"/>
+            <circle cx="95" cy="40" r="4" fill="#00e5ff"/>
+            <circle cx="-60" cy="50" r="4" fill="#ffd600"/>
+            <circle cx="140" cy="-20" r="4" fill="#ffd600"/>
+            <circle cx="-150" cy="20" r="3.5" fill="#00f59b"/>
+            <circle cx="160" cy="50" r="3.5" fill="#00f59b"/>
+            <circle cx="-20" cy="-70" r="4" fill="#ff2a6d"/>
+          </g>
+
+          <!-- Exponenten-Tabelle Rechts -->
+          <g transform="translate(500, 50)">
+            <rect x="0" y="0" width="260" height="220" rx="14" fill="rgba(15,23,42,0.94)" stroke="#38bdf8" stroke-width="2"/>
+            <text x="130" y="28" fill="#38bdf8" font-size="13" font-weight="800" text-anchor="middle">EXPONENTIELLE KETTE</text>
+
+            <text x="20" y="60" fill="#cbd5e1" font-size="11.5">Gen 1: <strong>2 Sonden</strong></text>
+            <text x="20" y="85" fill="#cbd5e1" font-size="11.5">Gen 5: <strong>32 Sonden</strong></text>
+            <text x="20" y="110" fill="#cbd5e1" font-size="11.5">Gen 10: <strong>1.024 Sonden</strong></text>
+            <text x="20" y="135" fill="#ffd600" font-size="11.5">Gen 20: <strong>> 1.000.000 Sonden</strong></text>
+            <text x="20" y="162" fill="#ff2a6d" font-size="13" font-weight="800">Gen 33: > 8.500.000.000 !</text>
+
+            <rect x="15" y="180" width="230" height="28" rx="6" fill="rgba(56,189,248,0.15)"/>
+            <text x="130" y="198" fill="#38bdf8" font-size="10.5" font-weight="700" text-anchor="middle">⏱️ Dauer Milchstraße: ~4 Mio. Jahre</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    if (key === "berserker") {
+      return `
+        <svg viewBox="0 0 800 320" width="100%" height="100%" style="overflow:visible;">
+          <!-- Kosmischer Strahlungs-Blitz (Bitflip) -->
+          <g transform="translate(180, 50)">
+            <polygon points="120,0 90,60 115,60 70,140 100,80 75,80" fill="#ff2a6d" filter="drop-shadow(0 0 10px #ff2a6d)"/>
+            <text x="95" y="-10" fill="#ff2a6d" font-size="12" font-weight="800" text-anchor="middle">KOSMISCHER BITFLIP!</text>
+          </g>
+
+          <!-- Mutierte Berserker-Sonde -->
+          <g transform="translate(150, 150)">
+            <rect x="40" y="20" width="90" height="70" rx="12" fill="#18050e" stroke="#dc2626" stroke-width="3"/>
+            <!-- Rote bedrohliche Sensor-Augen -->
+            <circle cx="70" cy="55" r="9" fill="#ef4444" filter="drop-shadow(0 0 8px #ef4444)"/>
+            <circle cx="100" cy="55" r="9" fill="#ef4444" filter="drop-shadow(0 0 8px #ef4444)"/>
+            <!-- Stacheln / Replikations-Waffen -->
+            <polygon points="35,30 15,10 30,45" fill="#dc2626"/>
+            <polygon points="135,30 155,10 140,45" fill="#dc2626"/>
+            <text x="85" y="110" fill="#f87171" font-size="12" font-weight="800" text-anchor="middle">BERSERKER-MUTATION</text>
+          </g>
+
+          <!-- Das Fermi-Paradoxon Fragezeichen -->
+          <g transform="translate(530, 60)">
+            <rect x="0" y="0" width="220" height="190" rx="16" fill="rgba(15,23,42,0.95)" stroke="#ffd600" stroke-width="2"/>
+            <text x="110" y="32" fill="#ffd600" font-size="13" font-weight="800" text-anchor="middle">FERMI-PARADOXON</text>
+            <text x="110" y="110" fill="#ffffff" font-size="65" font-weight="900" text-anchor="middle">?</text>
+            <text x="110" y="145" fill="#fca5a5" font-size="11.5" font-weight="700" text-anchor="middle">„Wo sind sie alle?“</text>
+            <text x="110" y="165" fill="#94a3b8" font-size="10" text-anchor="middle">Der 'Große Filter' vor uns?</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    // Default: Epilog / Bracewell
+    return `
+      <svg viewBox="0 0 800 320" width="100%" height="100%" style="overflow:visible;">
+        <defs>
+          <radialGradient id="beaconGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="60%" stop-color="#0284c7" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#040915" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- Friedliche Relais-Sonde im Orbit -->
+        <circle cx="400" cy="160" r="140" fill="url(#beaconGlow)"/>
+        <g transform="translate(350, 110)">
+          <!-- Satelliten-Körper -->
+          <rect x="30" y="30" width="40" height="40" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+          <circle cx="50" cy="50" r="8" fill="#ffd600"/>
+          <!-- Antennenschüssel -->
+          <path d="M 50 15 Q 30 -5 10 15" fill="none" stroke="#00e5ff" stroke-width="3"/>
+          <line x1="50" y1="30" x2="30" y2="7" stroke="#38bdf8" stroke-width="2"/>
+          <!-- Solar-Wings -->
+          <rect x="-35" y="40" width="55" height="20" rx="3" fill="#1e3a8a" stroke="#38bdf8" stroke-width="1.5"/>
+          <rect x="80" y="40" width="55" height="20" rx="3" fill="#1e3a8a" stroke="#38bdf8" stroke-width="1.5"/>
+        </g>
+        <!-- Funkwellen / Daten-Beacon -->
+        <circle cx="380" cy="117" r="35" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="8 6" opacity="0.8"/>
+        <circle cx="380" cy="117" r="70" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="10 8" opacity="0.5"/>
+        <circle cx="380" cy="117" r="110" fill="none" stroke="#a855f7" stroke-width="1" stroke-dasharray="12 10" opacity="0.3"/>
+        <text x="400" y="270" fill="#ffd600" font-size="14" font-weight="800" text-anchor="middle">BRACEWELL-RELAIS: BEREIT ZUM DIALOG</text>
+      </svg>
+    `;
+  }
+
+  // -------------------------------------------------------------------------
+  // Sternenhimmel mit Twinkling auf Canvas rendern
+  // -------------------------------------------------------------------------
+  function initSterne(canvas) {
+    if (!canvas) return;
+    const w = canvas.width = canvas.parentElement.clientWidth || 1000;
+    const h = canvas.height = canvas.parentElement.clientHeight || 600;
+    starCtx = canvas.getContext("2d");
+    sterne = [];
+    for (let i = 0; i < 90; i++) {
+      sterne.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 1.8 + 0.4,
+        alpha: Math.random(),
+        speed: (Math.random() * 0.02 + 0.005) * (Math.random() > 0.5 ? 1 : -1),
+        color: Math.random() > 0.8 ? "#00e5ff" : (Math.random() > 0.6 ? "#ffd600" : "#ffffff")
+      });
+    }
+  }
+
+  function zeichneSterne() {
+    if (!starCtx || !sterne.length) return;
+    starCtx.clearRect(0, 0, starCtx.canvas.width, starCtx.canvas.height);
+    for (let i = 0; i < sterne.length; i++) {
+      const s = sterne[i];
+      s.alpha += s.speed;
+      if (s.alpha > 1) { s.alpha = 1; s.speed *= -1; }
+      else if (s.alpha < 0.15) { s.alpha = 0.15; s.speed *= -1; }
+      starCtx.globalAlpha = s.alpha;
+      starCtx.fillStyle = s.color;
+      starCtx.beginPath();
+      starCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      starCtx.fill();
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Zeit-Formatierer (00:00 / Prolog)
+  // -------------------------------------------------------------------------
+  function formatZeit(sek) {
+    if (sek < 0) {
+      const rest = Math.abs(Math.floor(sek));
+      return "Prolog -" + (rest < 10 ? "0" + rest : rest) + "s";
+    }
+    const s = Math.max(0, Math.floor(sek));
+    const m = Math.floor(s / 60);
+    const restS = s % 60;
+    return (m < 10 ? "0" + m : m) + ":" + (restS < 10 ? "0" + restS : restS);
+  }
+
+  // -------------------------------------------------------------------------
+  // Aktuelle Szene anhand der Sekunden ermitteln
+  // -------------------------------------------------------------------------
+  function getAktuelleSzene(sek) {
+    if (prologAktiv && sek < 0) {
+      for (let i = 0; i < SZENEN_PROLOG.length; i++) {
+        if (sek >= SZENEN_PROLOG[i].start && sek < SZENEN_PROLOG[i].ende) {
+          return { szene: SZENEN_PROLOG[i], idx: i, isProlog: true, isOutro: false };
+        }
+      }
+    }
+    for (let i = 0; i < SZENEN.length; i++) {
+      if (sek >= SZENEN[i].start && sek < SZENEN[i].ende) {
+        return { szene: SZENEN[i], idx: (prologAktiv ? i + 2 : i), isProlog: false, isOutro: false };
+      }
+    }
+    // Ab 240 Sekunden: Outro / Recherche-Tableau
+    return { szene: null, idx: (prologAktiv ? SZENEN.length + 2 : SZENEN.length), isProlog: false, isOutro: true };
+  }
+
+  // -------------------------------------------------------------------------
+  // Render-Funktion: Aktualisiert die Bühne bei jedem Schritt
+  // -------------------------------------------------------------------------
+  function renderBühne() {
+    if (!aktivesOverlay) return;
+
+    const info = getAktuelleSzene(aktuellerStandSek);
+    const timeTextEl = aktivesOverlay.querySelector("#vnTimeText");
+    const progressFillEl = aktivesOverlay.querySelector("#vnProgressBarFill");
+    const stageContentEl = aktivesOverlay.querySelector("#vnStageContent");
+    const playBtnEl = aktivesOverlay.querySelector("#vnPlayBtn");
+
+    // Play/Pause Icon
+    if (playBtnEl) {
+      playBtnEl.textContent = isPlaying ? "⏸" : "▶";
+      playBtnEl.title = isPlaying ? "Pausieren (Leertaste)" : "Fortsetzen (Leertaste)";
+    }
+
+    // Zeit & Fortschritt
+    const minSek = prologAktiv ? -60 : 0;
+    const maxSek = GESAMTDAUER_SEKUNDEN;
+    const prozent = Math.max(0, Math.min(100, ((aktuellerStandSek - minSek) / (maxSek - minSek)) * 100));
+    if (timeTextEl) {
+      if (aktuellerStandSek < 0) {
+        timeTextEl.textContent = formatZeit(aktuellerStandSek) + " (Vibe Coding)";
+      } else {
+        timeTextEl.textContent = formatZeit(aktuellerStandSek) + " / " + formatZeit(GESAMTDAUER_SEKUNDEN);
+      }
+    }
+    if (progressFillEl) {
+      progressFillEl.style.width = prozent + "%";
+    }
+
+    // Aktiven Kapitel-Chip hervorheben
+    const chips = aktivesOverlay.querySelectorAll(".vnChapterChip");
+    chips.forEach((c, idx) => {
+      if (idx === info.idx) c.classList.add("active");
+      else c.classList.remove("active");
+    });
+
+    // 1. Wenn am Ende (>= 240 Sekunden): Vollständiges Abschluss-Tableau anzeigen!
+    if (info.isOutro) {
+      if (stageContentEl && stageContentEl.dataset.rendered !== "outro") {
+        stageContentEl.dataset.rendered = "outro";
+        stageContentEl.innerHTML = renderOutroHtml();
+        bindeOutroEvents(stageContentEl);
+      }
+      return;
+    }
+
+    // 2. Normaler Szenen-Ablauf (Prolog oder Akt 1 bis 6)
+    const sz = info.szene;
+    if (stageContentEl && stageContentEl.dataset.szeneId !== sz.id) {
+      stageContentEl.dataset.rendered = "scene";
+      stageContentEl.dataset.szeneId = sz.id;
+
+      // Toon-Figuren rendern falls window.TOON existiert
+      let linksFigurHtml = "";
+      let rechtsFigurHtml = "";
+      if (window.TOON && typeof window.TOON.renderFigureHtml === "function") {
+        linksFigurHtml = window.TOON.renderFigureHtml(sz.rollen.links.figur, { height: 105, pose: sz.rollen.links.pose });
+        rechtsFigurHtml = window.TOON.renderFigureHtml(sz.rollen.rechts.figur, { height: 105, pose: sz.rollen.rechts.pose });
+      }
+
+      const prologSkipBtnHtml = info.isProlog ? `
+        <button type="button" class="vnBtn vnBtnPrimary" id="vnSkipPrologBtn" style="padding:3px 10px; font-size:11px; margin-left:auto; cursor:pointer;" title="Prolog überspringen und direkt zur Von-Neumann-Sonden-Einheit">
+          ⏩ Direkt zu Von-Neumann-Sonden (00:00) ➔
+        </button>
+      ` : "";
+
+      stageContentEl.innerHTML = `
+        <div class="vnSceneBox">
+          <!-- Illustration im Kurzgesagt-Stil -->
+          <div class="vnIllustrationCanvas">
+            ${getSceneSvg(sz.svgKey)}
+          </div>
+
+          <!-- Figuren mit Gedanken- & Sprechblasen am linken & rechten Rand -->
+          <div class="vnActorsRow">
+            <!-- Linker Charakter -->
+            <div class="vnActorSlot vnActorLeft">
+              <div class="vnThoughtBubble">
+                💭 <em>${sz.rollen.links.name} denkt:</em><br>
+                ${sz.rollen.links.gedankenblase}
+              </div>
+              <div class="vnSpeechBubble">
+                💬 „${sz.rollen.links.sprechblase}“
+              </div>
+              <div class="vnFigurSprite">
+                ${linksFigurHtml}
+              </div>
+            </div>
+
+            <!-- Rechter Charakter -->
+            <div class="vnActorSlot vnActorRight">
+              <div class="vnThoughtBubble vnThoughtBubbleRight">
+                💭 <em>${sz.rollen.rechts.name} denkt:</em><br>
+                ${sz.rollen.rechts.gedankenblase}
+              </div>
+              <div class="vnSpeechBubble vnSpeechBubbleRight">
+                💬 „${sz.rollen.rechts.sprechblase}“
+              </div>
+              <div class="vnFigurSprite">
+                ${rechtsFigurHtml}
+              </div>
+            </div>
+          </div>
+
+          <!-- Erzähler-Box unten -->
+          <div class="vnNarratorCard">
+            <div class="vnNarratorHeader">
+              <span class="vnActBadge">🎬 ${sz.titel}</span>
+              <span style="font-size:11px; color:#94a3b8; font-weight:600;">📖 Ref: ${sz.linkRef}</span>
+              ${prologSkipBtnHtml}
+            </div>
+            <h3 class="vnNarratorHeadline">${sz.headline}</h3>
+            <p class="vnNarratorText">${sz.text}</p>
+          </div>
+        </div>
+      `;
+
+      if (info.isProlog) {
+        const skipBtn = stageContentEl.querySelector("#vnSkipPrologBtn");
+        if (skipBtn) {
+          skipBtn.onclick = () => {
+            seekTo(0);
+          };
+        }
+      }
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Outro: Recherche, Quellen-Deck & Figuren-Ensemble mit Gedankenblasen
+  // -------------------------------------------------------------------------
+  function renderOutroHtml() {
+    // 1. Ensemble-Karten bauen
+    const ensembleHtml = ENSEMBLE_CAST.map(c => {
+      let avatarHtml = "";
+      if (window.TOON && typeof window.TOON.renderFigureHtml === "function") {
+        avatarHtml = window.TOON.renderFigureHtml(c.id, { height: 60, pose: c.pose });
+      }
+      return `
+        <div class="vnCastCard">
+          <div class="vnCastHeader">
+            <div class="vnCastAvatarBox">${avatarHtml}</div>
+            <div class="vnCastMeta">
+              <h4>${c.name}</h4>
+              <span>${c.rolle}</span>
+            </div>
+          </div>
+          <div class="vnCastBubbles">
+            <div class="vnCastSpeech">
+              💬 <strong>Statement:</strong> ${c.sprechblase}
+            </div>
+            <div class="vnCastThought">
+              💭 <strong>Gedankenblase:</strong> ${c.gedankenblase}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    // 2. Quellen-Karten bauen
+    const quellenHtml = QUELLEN_RECHERCHE.map(q => {
+      return `
+        <div class="vnSourceItem">
+          <div class="vnSourceItemTop">
+            <span class="vnSourceMeta">📚 ${q.autor} (${q.jahr})</span>
+            <h5>${q.titel}</h5>
+            <p style="font-size:11px; color:#38bdf8; margin-bottom:4px;"><em>${q.journal}</em></p>
+            <p>${q.text}</p>
+          </div>
+          <a href="${q.url}" target="_blank" rel="noopener noreferrer" class="vnSourceLinkBtn">
+            ${q.linkText} ↗
+          </a>
+        </div>
+      `;
+    }).join("");
+
+    return `
+      <div class="vnOutroDeck">
+        <!-- Hero Header -->
+        <div class="vnOutroHero">
+          <h2>🌌 Recherche-Archiv: Von-Neumann-Sonden</h2>
+          <p>
+            Der 4-minütige Vortrag ist abgeschlossen! Hier findest du alle behandelten Primärquellen, 
+            wissenschaftlichen Fachpublikationen und die Kern-Gedanken unseres Experten-Ensembles zum Nachlesen und Vertiefen.
+          </p>
+          <div style="margin-top:12px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <button type="button" class="vnBtn vnBtnPrimary" id="vnRestartBtn">
+              🔁 Vortrag nochmal ansehen
+            </button>
+            <button type="button" class="vnBtn" id="vnJumpChapterBtn">
+              ⏪ Zu Akt 1 (Distanz) springen
+            </button>
+          </div>
+        </div>
+
+        <!-- Sektion 1: Das Figuren-Ensemble mit Gedanken- & Sprechblasen -->
+        <div class="vnEnsembleSection">
+          <h3 class="vnSectionTitle">🎭 Das Kurzgesagt-Ensemble: Kern-Gedanken &amp; Statements</h3>
+          <div class="vnCastGrid">
+            ${ensembleHtml}
+          </div>
+        </div>
+
+        <!-- Sektion 2: Fachquellen & Wissenschaftliche Querverweise -->
+        <div class="vnSourcesSection">
+          <h3 class="vnSectionTitle">🔬 Wissenschaftliche Primärquellen &amp; Literatur</h3>
+          <div class="vnSourceList">
+            ${quellenHtml}
+          </div>
+        </div>
+
+        <!-- Sektion 3: Brücke zur Fachinformatik-Prüfung -->
+        <div class="vnItCrossrefBox">
+          <h4>💻 Querverweise zur Fachinformatik &amp; Vernetzten Systemen</h4>
+          <div class="vnItGrid">
+            <div class="vnItCard">
+              <strong>Turing-Maschine &amp; Universalität</strong>
+              Von Neumanns Automat ist die physikalische Erweiterung von Turings Berechenbarkeit: Programme manipulieren physische Moleküle.
+            </div>
+            <div class="vnItCard">
+              <strong>ECC &amp; Byzantine Fault Tolerance</strong>
+              Im tiefen All ist kosmische Strahlung der Feind #1. Nur Checksummen, Scrubbing &amp; Mehrheitsentscheide verhindern tödliche Software-Mutationen.
+            </div>
+            <div class="vnItCard">
+              <strong>Mesh-Netzwerke &amp; Bracewell-Relais</strong>
+              Jede zurückbleibende Sonde fungiert als autonomer Store-and-Forward-Router über Lichtjahre hinweg (Delay-Tolerant Networking).
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function bindeOutroEvents(container) {
+    const restartBtn = container.querySelector("#vnRestartBtn");
+    if (restartBtn) {
+      restartBtn.onclick = () => {
+        seekTo(0);
+        isPlaying = true;
+      };
+    }
+    const jumpBtn = container.querySelector("#vnJumpChapterBtn");
+    if (jumpBtn) {
+      jumpBtn.onclick = () => {
+        seekTo(0);
+        isPlaying = true;
+      };
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Animation- & Zeit-Loop (60 FPS)
+  // -------------------------------------------------------------------------
+  function tick(timestamp) {
+    if (!aktivesOverlay) return;
+
+    if (!lastTimestamp) lastTimestamp = timestamp;
+    const deltaMs = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
+
+    if (isPlaying) {
+      aktuellerStandSek += (deltaMs / 1000) * playSpeed;
+      if (aktuellerStandSek >= GESAMTDAUER_SEKUNDEN) {
+        aktuellerStandSek = GESAMTDAUER_SEKUNDEN;
+        isPlaying = false; // Automatisch am Ende anhalten und Outro präsentieren
+      }
+    }
+
+    zeichneSterne();
+    renderBühne();
+
+    animFrameId = requestAnimationFrame(tick);
+  }
+
+  // -------------------------------------------------------------------------
+  // Steuerungs-Aktionen (Play, Pause, Seek, Speed)
+  // -------------------------------------------------------------------------
+  function togglePlay() {
+    isPlaying = !isPlaying;
+    if (isPlaying && aktuellerStandSek >= GESAMTDAUER_SEKUNDEN) {
+      aktuellerStandSek = prologAktiv ? -60 : 0; // Neu starten
+    }
+  }
+
+  function seekTo(sek) {
+    const minS = prologAktiv ? -60 : 0;
+    aktuellerStandSek = Math.max(minS, Math.min(GESAMTDAUER_SEKUNDEN, sek));
+    const stageContentEl = aktivesOverlay ? aktivesOverlay.querySelector("#vnStageContent") : null;
+    if (stageContentEl) {
+      stageContentEl.dataset.szeneId = "";
+      stageContentEl.dataset.rendered = "";
+    }
+    renderBühne();
+  }
+
+  function setSpeed(speed) {
+    playSpeed = speed;
+    if (aktivesOverlay) {
+      aktivesOverlay.querySelectorAll(".vnSpeedBtn").forEach(btn => {
+        if (parseFloat(btn.dataset.speed) === speed) btn.classList.add("active");
+        else btn.classList.remove("active");
+      });
+    }
+  }
+
+  function toggleProlog() {
+    prologAktiv = !prologAktiv;
+    if (!prologAktiv && aktuellerStandSek < 0) {
+      seekTo(0);
+    } else if (prologAktiv && aktuellerStandSek === 0) {
+      seekTo(-60);
+    }
+    aktualisiereKapitelChips();
+    const btn = aktivesOverlay ? aktivesOverlay.querySelector("#vnTogglePrologBtn") : null;
+    if (btn) {
+      btn.textContent = prologAktiv ? "💡 Vibe-Coding-Prolog: An" : "💡 Vibe-Coding-Prolog: Aus";
+      btn.style.color = prologAktiv ? "#00e5ff" : "#94a3b8";
+    }
+    renderBühne();
+  }
+
+  function baueKapitelChipsHtml() {
+    let chips = "";
+    if (prologAktiv) {
+      chips += `<button type="button" class="vnChapterChip" data-start="-60" title="Vorgeschalteter Vibe-Coding Vortragsteil">💡 Prolog 1: Vibe Coding</button>`;
+      chips += `<button type="button" class="vnChapterChip" data-start="-30" title="Live-Showcase dieses Vortrags">🚀 Prolog 2: Live-Demo</button>`;
+    }
+    chips += SZENEN.map((sz, idx) => {
+      return `<button type="button" class="vnChapterChip" data-start="${sz.start}">Akt ${idx + 1}</button>`;
+    }).join("");
+    chips += `<button type="button" class="vnChapterChip" data-start="${GESAMTDAUER_SEKUNDEN}">📚 Recherche &amp; Ensemble</button>`;
+    return chips;
+  }
+
+  function aktualisiereKapitelChips() {
+    if (!aktivesOverlay) return;
+    const listEl = aktivesOverlay.querySelector("#vnChapterList");
+    if (!listEl) return;
+    listEl.innerHTML = baueKapitelChipsHtml();
+    listEl.querySelectorAll(".vnChapterChip").forEach(chip => {
+      chip.onclick = () => {
+        const targetSek = parseFloat(chip.dataset.start);
+        seekTo(targetSek);
+      };
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // Overlay erzeugen & öffnen
+  // -------------------------------------------------------------------------
+  function starteVortrag(startSek, mitProlog) {
+    schliesseVortrag(); // Altes entfernen falls vorhanden
+
+    if (typeof mitProlog === "boolean") prologAktiv = mitProlog;
+    
+    if (typeof startSek === "number") {
+      aktuellerStandSek = startSek;
+    } else {
+      // Wenn Prolog aktiv ist, bei -60s starten, sonst direkt bei 0s (Von-Neumann)
+      aktuellerStandSek = prologAktiv ? -60 : 0;
+    }
+
+    isPlaying = true;
+    lastTimestamp = 0;
+
+    const overlay = document.createElement("div");
+    overlay.id = "vnOverlay";
+    overlay.className = "vnOverlay";
+
+    overlay.innerHTML = `
+      <!-- Weltraum-Hintergrund -->
+      <div class="vnSpaceBg">
+        <canvas class="vnStarCanvas" id="vnStarCanvas"></canvas>
+        <div class="vnNebula vnNebula1"></div>
+        <div class="vnNebula vnNebula2"></div>
+        <div class="vnNebula vnNebula3"></div>
+      </div>
+
+      <!-- Obere Leiste -->
+      <header class="vnHeader">
+        <div class="vnHeaderLeft">
+          <span class="vnBadge">DINGE ERKLÄRT</span>
+          <div class="vnHeaderTitle">
+            <span>🚀 Von-Neumann-Sonden &amp; Vibe Coding</span>
+          </div>
+          <span class="vnSilentBadge">🔇 100% Stumm (Nur Text &amp; Schrift)</span>
+        </div>
+        <div class="vnHeaderRight">
+          <button type="button" class="vnBtn" id="vnTogglePrologBtn" style="color:${prologAktiv ? '#00e5ff' : '#94a3b8'};" title="Vorgeschalteten Vibe-Coding-Vortrag an/ausschalten">
+            💡 Vibe-Coding-Prolog: ${prologAktiv ? "An" : "Aus"}
+          </button>
+          <a href="handouts/vibe-coding-technologie-vorstellung.pdf" target="_blank" rel="noopener noreferrer" class="vnBtn" id="vnPdfDeckblattBtn" title="PDF-Deckblatt &amp; Factsheet öffnen">
+            📄 PDF-Deckblatt ↗
+          </a>
+          <button type="button" class="vnBtn" id="vnJumpOutroBtn" title="Direkt zur Recherche &amp; Quellen-Tableau springen">
+            📚 Recherche &amp; Quellen
+          </button>
+          <button type="button" class="vnBtn vnBtnClose" id="vnCloseBtn" title="Vortrag schließen (Esc)">
+            ✕ Schließen
+          </button>
+        </div>
+      </header>
+
+      <!-- Mittlerer Bühnen-Inhalt (wechselt mit der Zeit) -->
+      <main class="vnStage" id="vnStage">
+        <div id="vnStageContent" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
+      </main>
+
+      <!-- Untere Steuerungsleiste & Timeline -->
+      <footer class="vnFooter">
+        <!-- Fortschrittsbalken & Zeit -->
+        <div class="vnTimelineRow">
+          <button type="button" class="vnPlayBtn" id="vnPlayBtn">⏸</button>
+          <span class="vnTimeText" id="vnTimeText">00:00 / 04:00</span>
+          <div class="vnProgressBarTrack" id="vnProgressBarTrack" title="Klicken zum Spulen">
+            <div class="vnProgressBarFill" id="vnProgressBarFill"></div>
+          </div>
+        </div>
+
+        <!-- Kapitel & Geschwindigkeit -->
+        <div class="vnControlsRow">
+          <div class="vnChapterList" id="vnChapterList">
+            ${baueKapitelChipsHtml()}
+          </div>
+          <div class="vnSpeedGroup">
+            <span style="font-size:10.5px; color:#94a3b8; font-weight:700;">Tempo:</span>
+            <button type="button" class="vnSpeedBtn active" data-speed="1">1.0x</button>
+            <button type="button" class="vnSpeedBtn" data-speed="1.5">1.5x</button>
+            <button type="button" class="vnSpeedBtn" data-speed="2">2.0x</button>
+          </div>
+        </div>
+      </footer>
+    `;
+
+    document.body.appendChild(overlay);
+    aktivesOverlay = overlay;
+
+    // Sternenhimmel initialisieren
+    const canvas = overlay.querySelector("#vnStarCanvas");
+    initSterne(canvas);
+    window.addEventListener("resize", () => initSterne(canvas), { passive: true });
+
+    // Event-Listener verdrahten
+    const playBtn = overlay.querySelector("#vnPlayBtn");
+    if (playBtn) playBtn.onclick = togglePlay;
+
+    const closeBtn = overlay.querySelector("#vnCloseBtn");
+    if (closeBtn) closeBtn.onclick = schliesseVortrag;
+
+    const togglePrologBtn = overlay.querySelector("#vnTogglePrologBtn");
+    if (togglePrologBtn) togglePrologBtn.onclick = toggleProlog;
+
+    const jumpOutroBtn = overlay.querySelector("#vnJumpOutroBtn");
+    if (jumpOutroBtn) {
+      jumpOutroBtn.onclick = () => {
+        seekTo(GESAMTDAUER_SEKUNDEN);
+      };
+    }
+
+    // Timeline Scrubber Click
+    const track = overlay.querySelector("#vnProgressBarTrack");
+    if (track) {
+      track.onclick = (e) => {
+        const rect = track.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const frac = Math.max(0, Math.min(1, clickX / rect.width));
+        const minS = prologAktiv ? -60 : 0;
+        const maxS = GESAMTDAUER_SEKUNDEN;
+        seekTo(minS + frac * (maxS - minS));
+      };
+    }
+
+    // Kapitel-Chips binden
+    aktualisiereKapitelChips();
+
+    // Speed-Buttons
+    overlay.querySelectorAll(".vnSpeedBtn").forEach(btn => {
+      btn.onclick = () => {
+        setSpeed(parseFloat(btn.dataset.speed));
+      };
+    });
+
+    // Tastatur-Hotkeys (Leertaste = Pause/Play, Pfeiltasten = Spulen, Esc = Schließen)
+    window.addEventListener("keydown", handleKeydown);
+
+    // Animations-Schleife starten
+    animFrameId = requestAnimationFrame(tick);
+  }
+
+  function handleKeydown(e) {
+    if (!aktivesOverlay) return;
+    if (e.key === "Escape") {
+      e.preventDefault();
+      schliesseVortrag();
+    } else if (e.key === " " || e.code === "Space") {
+      e.preventDefault();
+      togglePlay();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      seekTo(aktuellerStandSek + 10);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      seekTo(aktuellerStandSek - 10);
+    }
+  }
+
+  function schliesseVortrag() {
+    if (animFrameId) {
+      cancelAnimationFrame(animFrameId);
+      animFrameId = null;
+    }
+    window.removeEventListener("keydown", handleKeydown);
+    if (aktivesOverlay) {
+      aktivesOverlay.remove();
+      aktivesOverlay = null;
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Globales Interface für das Lernspiel
+  // -------------------------------------------------------------------------
+  window.VON_NEUMANN_VORTRAG = {
+    starte: starteVortrag,
+    schliesse: schliesseVortrag,
+    togglePlay: togglePlay,
+    seekTo: seekTo,
+    setSpeed: setSpeed,
+    getSzenen: () => SZENEN,
+    getQuellen: () => QUELLEN_RECHERCHE,
+    getEnsemble: () => ENSEMBLE_CAST
+  };
+
+  // Bequemer Alias
+  window.starteVonNeumannVortrag = starteVortrag;
+})();
+
 /* ---- f_vorlesung.js ---- */
 // f_vorlesung.js - Interaktive Lerneinheit (Phasen-Engine).
 //
@@ -94810,6 +96884,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           <button type="button" class="primary" id="hubOpenArbeitsbuchBtn" style="font-weight:750; background:linear-gradient(135deg, #0284c7, #2563eb); color:#fff; width:100%; padding:10px 14px; font-size:13px; cursor:pointer; margin-bottom:8px; border:1px solid #38bdf8; border-radius:6px; box-shadow:0 0 15px rgba(56,189,248,0.3);">
             📘 Arbeitsbuch LF3: Beamer-Lösungen &amp; Einzelaufgaben (S. 244–251) ➔
           </button>
+          <button type="button" class="primary" id="hubOpenVonNeumannBtn" style="font-weight:750; background:linear-gradient(135deg, #0284c7, #7c3aed); color:#fff; width:100%; padding:10px 14px; font-size:13px; cursor:pointer; margin-bottom:8px; border:1px solid #38bdf8; border-radius:6px; box-shadow:0 0 15px rgba(56,189,248,0.3); display:flex; align-items:center; justify-content:center; gap:8px;">
+            🎬 Kurzgesagt-Vortrag: Von-Neumann-Sonden (4 Min · Stumm · Gedanken &amp; Sprechblasen) ➔
+          </button>
           <button type="button" class="primary" id="hubOpenStoffnetzBtn" style="font-weight:750; background:linear-gradient(135deg, #0284c7, #8b5cf6); color:#fff; width:100%; padding:10px 14px; font-size:13px; cursor:pointer; margin-bottom:12px; border:1px solid #c4b5fd; border-radius:6px; box-shadow:0 0 15px rgba(139,92,246,0.3);">
             🕸️ Visuellen Stoffnetz-Skill-Tree öffnen (36 Bausteine) ➔
           </button>
@@ -94821,6 +96898,15 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     `);
 
     bindeKursStart();
+    const openVnBtn = $("hubOpenVonNeumannBtn");
+    if (openVnBtn) {
+      openVnBtn.onclick = () => {
+        schliesseModal();
+        if (window.VON_NEUMANN_VORTRAG && typeof window.VON_NEUMANN_VORTRAG.starte === "function") {
+          window.VON_NEUMANN_VORTRAG.starte();
+        }
+      };
+    }
     const openAbBtn = $("hubOpenArbeitsbuchBtn");
     if (openAbBtn) {
       openAbBtn.onclick = () => {
@@ -94928,6 +97014,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
             <button type="button" class="hubBtn" id="hubBtnMedTechPraxis" style="font-size:10px; background:#0c4a6e; color:#7dd3fc; border-color:#0284c7;">🏢 MedTech Praxislabor</button>
             <button type="button" class="hubBtn" id="hubBtnSchutzbedarf" style="font-size:10px; background:#3b0764; color:#f0abfc; border-color:#c026d3;">🛡️ BSI 200-2 Detektiv</button>
             <button type="button" class="hubBtn" id="hubBtnPingCli" style="font-size:10px; background:#082f49; color:#7dd3fc; border-color:#0284c7;">💻 Ping-Terminal</button>
+            <button type="button" class="hubBtn" id="hubBtnVonNeumann" style="font-size:10px; background:#1e1b4b; color:#38bdf8; border-color:#0284c7; font-weight:700;">🚀 Von-Neumann-Sonden (4 Min)</button>
           </div>
         </div>
       </div>
@@ -94968,6 +97055,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     if (btnSchutz) btnSchutz.onclick = () => { schliesseModal(); if (window.SCHUTZBEDARF_DETEKTIV) window.SCHUTZBEDARF_DETEKTIV.oeffne(); };
     const btnPing = $("hubBtnPingCli");
     if (btnPing) btnPing.onclick = () => { schliesseModal(); if (window.PING_DETEKTIV) window.PING_DETEKTIV.oeffne(); };
+    const btnVn = $("hubBtnVonNeumann");
+    if (btnVn) btnVn.onclick = () => { schliesseModal(); if (window.VON_NEUMANN_VORTRAG) window.VON_NEUMANN_VORTRAG.starte(); };
   }
 
   // 1d. Dediziertes Untermenü: Beta & Spielhalle (Prüfungsturm, Minigames, Packet Defender, OSI Invaders)
@@ -95029,6 +97118,26 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           </button>
         </div>
 
+        <!-- 4. Kurzgesagt-Vortrag: Von-Neumann-Sonden -->
+        <div class="arenaCard devCard" style="border: 2px solid #00e5ff; background: rgba(10, 15, 35, 0.95); grid-column: 1 / -1;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px; flex-wrap:wrap; gap:4px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:20px;">🚀</span>
+              <div>
+                <h3 style="color:#00e5ff; margin:0; font-size:13.5px;">Kurzgesagt-Vortrag: Von-Neumann-Sonden &amp; Das galaktische Paradoxon</h3>
+                <span style="font-size:10px; color:#ffd600;">4 Minuten · Autoplay ohne Klicken · Vollständig stumm (nur Text, Gedanken- &amp; Sprechblasen)</span>
+              </div>
+            </div>
+            <span class="devStatusBadge live">🟢 Neu</span>
+          </div>
+          <p style="font-size:11px; color:#cbd5e1; margin:4px 0 8px; line-height:1.4;">
+            Wissenschaftliche Lerneinheit im ikonischen Kurzgesagt-Stil: Die Tyrannei der Distanz, John von Neumanns Universeller Konstruktor (1948), Asteroiden-Mining (ISRU), exponentielle Galaxie-Erschließung nach Frank Tipler, mutierte Berserker-Sonden &amp; vollständiges Quellen-Archiv am Ende.
+          </p>
+          <button type="button" class="hubBtn" id="hubBetaVonNeumannBtn" style="width:100%; font-size:11.5px; background:linear-gradient(135deg, #0284c7, #7c3aed); color:#fff; border-color:#38bdf8; font-weight:750; padding:8px 12px; box-shadow:0 0 14px rgba(56,189,248,0.35);">
+            🎬 Kurzgesagt-Vortrag starten (4 Min · Pausierbar) ➔
+          </button>
+        </div>
+
         <!-- Rücksprung-Banner zum IT-Labor -->
         <div class="arenaCard full" style="border: 1px solid #10b981; background: rgba(6, 30, 20, 0.85); padding: 10px 14px; border-radius: 8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <div>
@@ -95078,6 +97187,16 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
         schliesseModal();
         stoppeHub();
         if (typeof window.startOsiInvaders === "function") window.startOsiInvaders();
+      };
+    }
+
+    const betaVnBtn = $("hubBetaVonNeumannBtn");
+    if (betaVnBtn) {
+      betaVnBtn.onclick = () => {
+        schliesseModal();
+        if (window.VON_NEUMANN_VORTRAG && typeof window.VON_NEUMANN_VORTRAG.starte === "function") {
+          window.VON_NEUMANN_VORTRAG.starte();
+        }
       };
     }
 
