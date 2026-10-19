@@ -75662,25 +75662,25 @@ Ablaufverfolgung beendet.`, "success");
 
   // Rendert die Toon-Figuren
   function renderAvatare() {
-    if (!window.TOON) return;
+    if (!window.TOON || typeof window.TOON.renderFigureHtml !== "function") return;
 
     // Prüfer
     const pEl = document.getElementById("simPrueferAvatar");
     if (pEl) {
-      window.TOON.createCharacter(pEl, aktivesSzenario.rollen.pruefer.figur, {
-        groesse: "m",
+      pEl.innerHTML = window.TOON.renderFigureHtml(aktivesSzenario.rollen.pruefer.figur, {
+        height: 104,
         pose: "talk",
-        faceDir: 1
+        className: "simToonFigur"
       });
     }
 
     // Kunde
     const kEl = document.getElementById("simPartnerAvatar");
     if (kEl) {
-      window.TOON.createCharacter(kEl, aktivesSzenario.rollen.partner.figur, {
-        groesse: "m",
+      kEl.innerHTML = window.TOON.renderFigureHtml(aktivesSzenario.rollen.partner.figur, {
+        height: 104,
         pose: "talk",
-        faceDir: 1
+        className: "simToonFigur"
       });
     }
 
@@ -75691,10 +75691,10 @@ Ablaufverfolgung beendet.`, "success");
       try {
         if (typeof getPlayerAvatarKey === "function") charId = getPlayerAvatarKey();
       } catch (_) {}
-      window.TOON.createCharacter(spEl, charId, {
-        groesse: "m",
+      spEl.innerHTML = window.TOON.renderFigureHtml(charId, {
+        height: 104,
         pose: "walk",
-        faceDir: -1
+        className: "simToonFigur"
       });
     }
   }
