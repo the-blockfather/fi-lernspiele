@@ -8079,6 +8079,377 @@ body.retro #introModal h3 {
   font-size: 13.5px;
 }
 
+/* ---- pruefungs_simulator.css ---- */
+/* pruefungs_simulator.css - Styling fuer den IHK-Pruefungs- & Beratungs-Simulator */
+.simOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(10, 15, 29, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #f8fafc;
+}
+
+/* Header-Leiste */
+.simHeader {
+  height: 56px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.7);
+}
+.simTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.simTitleBadge {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.simTitleText {
+  font-weight: 600;
+  font-size: 15px;
+}
+.simMetaStats {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.simPunkteKonto {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+.simCloseBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #94a3b8;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.simCloseBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* 2D-Hauptbuehne (Raum) */
+.simStage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #1e293b, #090d16);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 24px;
+}
+
+/* Raum-Deko-Hintergrund */
+.simRoomBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.6;
+}
+.simRoomFloor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: linear-gradient(to bottom, #111827, #030712);
+  border-top: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Akteure auf der Buehne */
+.simActorsWrap {
+  width: 100%;
+  max-width: 1100px;
+  height: 280px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 40px;
+  z-index: 2;
+}
+
+/* Prüfer-Station (Links) */
+.simStationPruefer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 220px;
+}
+.simPrueferTable {
+  width: 160px;
+  height: 48px;
+  background: linear-gradient(135deg, #334155, #1e293b);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px 8px 0 0;
+  margin-top: -16px;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.simTablePlateText {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  background: #0f172a;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Gedankenblase des Prüfers */
+.simThoughtBubble {
+  position: absolute;
+  bottom: 180px;
+  left: 10px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px dashed #38bdf8;
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #e0f2fe;
+  max-width: 260px;
+  box-shadow: 0 8px 30px rgba(56, 189, 248, 0.2);
+  z-index: 10;
+  animation: simFloat 3s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.simThoughtBubble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 30px;
+  width: 12px;
+  height: 12px;
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 50%;
+  box-shadow: 0 8px 0 -4px rgba(15, 23, 42, 0.95);
+}
+@keyframes simFloat {
+  from { transform: translateY(0); }
+  to { transform: translateY(-6px); }
+}
+
+/* Notizblock am Schreibtisch */
+.simNoteBadge {
+  margin-top: 6px;
+  font-size: 11px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid #38bdf8;
+  color: #cbd5e1;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Partner/Kunden-Station (Mitte) */
+.simStationPartner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 260px;
+}
+.simSpeechBubble {
+  position: absolute;
+  bottom: 185px;
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 16px;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.45;
+  width: 320px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  z-index: 10;
+}
+.simSpeechBubble::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: #ffffff transparent;
+  display: block;
+  width: 0;
+}
+
+/* Spieler-Station (Rechts mit Walk-In Animation) */
+.simStationPlayer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 180px;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.simStationPlayer.isWalkingIn {
+  transform: translateX(180px);
+  opacity: 0;
+}
+.simStationPlayer.hasWalkedIn {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Untere Interaktions- & Dialog-Konsole */
+.simConsole {
+  min-height: 220px;
+  background: #090d16;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5;
+}
+.simPromptPrompt {
+  font-size: 14px;
+  font-weight: 600;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.simOptionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: 200px;
+}
+.simOptionBtn {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  text-align: left;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.simOptionBtn:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+}
+.simOptionNum {
+  background: rgba(255, 255, 255, 0.12);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Auswertungs- & End-Dialog */
+.simResultCard {
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 540px;
+  margin: auto;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+.simResultGrade {
+  font-size: 48px;
+  font-weight: 800;
+  color: #38bdf8;
+  margin: 10px 0;
+}
+.simResultPoints {
+  font-size: 16px;
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+.simFeedbackList {
+  text-align: left;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Mobile Optimierung */
+@media (max-width: 768px) {
+  .simActorsWrap {
+    padding: 0 10px;
+    height: 240px;
+  }
+  .simSpeechBubble {
+    width: 220px;
+    font-size: 12px;
+    bottom: 150px;
+  }
+  .simThoughtBubble {
+    max-width: 170px;
+    font-size: 11px;
+    bottom: 140px;
+  }
+  .simPrueferTable {
+    width: 120px;
+  }
+}
+
 /* ---- rack_hero.css ---- */
 /* ==========================================================================
    rack_hero.css - Backpack Hero / Resident Evil Inventory inspired 19-Inch Rack Tetris
@@ -75053,6 +75424,441 @@ Ablaufverfolgung beendet.`, "success");
   };
 })();
 
+/* ---- f_pruefungs_simulator.js ---- */
+// f_pruefungs_simulator.js - Mündlicher IHK-Prüfungs- & Beratungs-Simulator
+// 2D-Bühne mit Prüfer, Gesprächspartner (Kunde/Kollege) und Spieler (Walk-In-Choreografie).
+// Zeigt die Gedanken des Prüfers ("💭"), das digitale Klemmbrett und IHK-Notenberechnung.
+(function () {
+  "use strict";
+
+  // Registry für vordefinierte und dynamische Szenarien
+  const SZENARIEN = {
+    "raid-dr-weber": {
+      id: "raid-dr-weber",
+      titel: "Storage-Beratung: Arztpraxis Dr. Weber",
+      lernfeld: "LF02",
+      thema: "Massenspeicher, RAID & Datensicherung",
+      rollen: {
+        pruefer: { figur: "turing", name: "Herr Prof. Weber-Prüfstein", rolle: "IHK-Prüfer" },
+        partner: { figur: "sanitas", name: "Frau Dr. Weber", rolle: "Praxisinhaberin" }
+      },
+      schritte: [
+        {
+          partnerSagt: "Guten Tag! Wir digitalisieren gerade unsere Praxisakten. Mein Schwager meinte, zwei gespiegelte Festplatten (RAID 1) reichen völlig aus und wir sparen uns das teure Backup. Was sagen Sie als IT-Fachkraft dazu?",
+          prueferDenkt: "💭 Mal sehen, ob der Prüfling Verfügbarkeit sauber von Datensicherung trennen kann...",
+          prueferNotiz: "📝 Prüft Verständnis: RAID vs. Backup",
+          optionen: [
+            {
+              text: "Ein RAID 1 schützt vor dem Ausfall einer Festplatte, ersetzt aber niemals ein Backup. Gegen Viren, Ransomware, versehentliches Löschen oder Blitzschlag hilft nur ein getrenntes Backup (3-2-1-Regel).",
+              korrekt: true,
+              punkte: 35,
+              partnerReaktion: "Oh! Verstehe. Wenn ich also versehentlich eine Patientenakte lösche, löscht das RAID sie auf beiden Platten sofort mit!",
+              partnerPose: "talk",
+              prueferReaktion: "💭 Exzellent! Saubere Trennung von Ausfallsicherheit und Datensicherung, 3-2-1-Regel souverän platziert.",
+              prueferPose: "nod",
+              prueferNotiz: "✔ 3-2-1-Regel & Schutzziele präzise erläutert (+35 Pkt)",
+              feedback: "Sehr gut! Ein RAID schützt nur die Ausfallsicherheit (High Availability), nicht die Integrität gegen logische Fehler oder Schadsoftware."
+            },
+            {
+              text: "Ihr Schwager hat im Prinzip recht. Da RAID 1 Daten in Echtzeit spiegelt, haben Sie immer eine 1:1-Sicherung. Ein zusätzliches Backup wäre reine Geldverschwendung.",
+              korrekt: false,
+              punkte: -25,
+              partnerReaktion: "Klasse, das spart uns viel Budget für neue medizinische Geräte!",
+              partnerPose: "cheer",
+              prueferReaktion: "💭 K.O.-Fehler! Bei einem Cryptotrojaner wären jetzt alle Patientendaten unwiederbringlich verschlüsselt.",
+              prueferPose: "hurt",
+              prueferNotiz: "❌ Fataler Fachfehler: Verwechselt RAID mit Backup (-25 Pkt)",
+              feedback: "IHK-Todsünde: Ein RAID ist KEIN Backup! Versehentliches Löschen oder Ransomware überträgt sich sofort auf alle gespiegelten Platten."
+            },
+            {
+              text: "RAID 1 ist veraltet. Nehmen Sie lieber ein RAID 0, das ist doppelt so schnell beim Laden der Röntgenbilder.",
+              korrekt: false,
+              punkte: -30,
+              partnerReaktion: "Schnelligkeit klingt gut, aber was passiert, wenn eine Platte kaputtgeht?",
+              partnerPose: "think",
+              prueferReaktion: "💭 Bei RAID 0 führt der Ausfall einer einzigen Platte zum Totalverlust ALLER Daten! Für eine Arztpraxis unverantwortlich.",
+              prueferPose: "hurt",
+              prueferNotiz: "❌ Schlägt RAID 0 ohne Redundanz vor (-30 Pkt)",
+              feedback: "Gefährlich! RAID 0 bietet null Fehlertoleranz (Striping ohne Parität). Fällt eine Platte aus, sind alle Daten verloren."
+            }
+          ]
+        },
+        {
+          partnerSagt: "Gut, dass Sie das aufklären! Reicht es denn, wenn wir abends einfach einen USB-Stick anstecken und die Daten darauf kopieren?",
+          prueferDenkt: "💭 Jetzt geht es um die professionelle Umsetzung: 3-2-1-Regel, Medienbruch und Verschlüsselung (DSGVO).",
+          prueferNotiz: "📝 Prüft Backup-Konzept & DSGVO-Konformität",
+          optionen: [
+            {
+              text: "Nein, ein einfacher USB-Stick ist fehleranfällig und unzureichend. Wir empfehlen ein automatisiertes Backup nach 3-2-1: Daten auf NAS sichern und zusätzlich eine versionierte, verschlüsselte Kopie räumlich getrennt (z. B. DSGVO-konforme Cloud oder externes Medium im Safe).",
+              korrekt: true,
+              punkte: 35,
+              partnerReaktion: "Das klingt nach einem durchdachten und sicheren Plan. Datenschutz hat bei uns oberste Priorität.",
+              partnerPose: "cheer",
+              prueferReaktion: "💭 Hervorragend! Automatisiert, räumlich getrennt und DSGVO-Aspekte berücksichtigt.",
+              prueferPose: "nod",
+              prueferNotiz: "✔ 3-2-1-Regel, Verschlüsselung & Medienbruch gemeistert (+35 Pkt)",
+              feedback: "Genau richtig: Manuelle USB-Sticks werden oft vergessen, gehen verloren oder sind unverschlüsselt ein DSGVO-Sicherheitsrisiko."
+            },
+            {
+              text: "Ja, ein USB-Stick reicht völlig. Lassen Sie ihn einfach dauerhaft am Server eingesteckt, damit die Sprechstundenhilfe nicht daran denken muss.",
+              korrekt: false,
+              punkte: -20,
+              partnerReaktion: "Praktisch! Dann müssen wir uns um nichts mehr kümmern.",
+              partnerPose: "talk",
+              prueferReaktion: "💭 Bleibt der USB-Stick dauerhaft eingesteckt, verschlüsselt Ransomware das Backup gleich mit! Kein Medienbruch.",
+              prueferPose: "hurt",
+              prueferNotiz: "❌ Kein Offline-Backup / Ransomware-Falle übersehen (-20 Pkt)",
+              feedback: "Falsch: Ein dauerhaft verbundener Datenträger bietet keinen Schutz vor Ransomware. Mindestens eine Kopie muss offline (Air-Gapped) sein."
+            }
+          ]
+        },
+        {
+          partnerSagt: "Und wenn doch mal eine Festplatte im Server ausfällt: Können meine Mitarbeiterinnen dann sofort weiterarbeiten, oder steht die Praxis still?",
+          prueferDenkt: "💭 Frage zur Ausfallsicherheit: Hot-Swap, Rebuild-Phase und degraded Mode.",
+          prueferNotiz: "📝 Prüft Verständnis von Hot-Swap & Rebuild",
+          optionen: [
+            {
+              text: "Bei einem RAID 1 mit Hot-Swap-fähigen Festplatten läuft das System ohne Unterbrechung weiter. Die defekte Platte wird im laufenden Betrieb getauscht und der Rebuild startet automatisch im Hintergrund.",
+              korrekt: true,
+              punkte: 30,
+              partnerReaktion: "Perfekt! Ein Ausfall im laufenden Praxisbetrieb wäre eine Katastrophe gewesen. Sie haben uns überzeugt!",
+              partnerPose: "cheer",
+              prueferReaktion: "💭 Technisch einwandfrei auf den Punkt gebracht. Hot-Swap und Weiterbetrieb souverän dargelegt.",
+              prueferPose: "jump",
+              prueferNotiz: "✔ Hot-Swap & unterbrechungsfreier Betrieb perfekt (+30 Pkt)",
+              feedback: "Exzellent: Hot-Swap-Laufwerke ermöglichen den Plattenwechsel im laufenden Serverbetrieb (Degraded Mode $\\rightarrow$ Rebuild)."
+            },
+            {
+              text: "Nein, bei einem Plattendefekt muss der Server sofort für 3 Tage heruntergefahren werden, bis der Hersteller neue Hardware schickt.",
+              korrekt: false,
+              punkte: -15,
+              partnerReaktion: "Drei Tage keine Patienten behandeln? Das können wir uns nicht leisten!",
+              partnerPose: "think",
+              prueferReaktion: "💭 Das ist der Sinn eines RAIDs: Redundanz zur Vermeidung von Downtimes!",
+              prueferPose: "hurt",
+              prueferNotiz: "❌ Zweck von Hochverfügbarkeit nicht verstanden (-15 Pkt)",
+              feedback: "Falsch: Genau dafür existiert RAID (Redundant Array of Independent Disks) – um Hardwaredefekte unterbrechungsfrei abzufedern."
+            }
+          ]
+        }
+      ]
+    }
+  };
+
+  // Aktueller Zustand
+  let aktivesSzenario = null;
+  let aktuellerSchrittIdx = 0;
+  let punkteStand = 0;
+  let maxPunkte = 100;
+  let notizenHistorie = [];
+
+  // Berechnet IHK-Note
+  function berechneIhkNote(prozent) {
+    if (prozent >= 92) return { note: "1", text: "Sehr gut", farbe: "#10b981" };
+    if (prozent >= 81) return { note: "2", text: "Gut", farbe: "#38bdf8" };
+    if (prozent >= 67) return { note: "3", text: "Befriedigend", farbe: "#fbbf24" };
+    if (prozent >= 50) return { note: "4", text: "Ausreichend", farbe: "#f97316" };
+    if (prozent >= 30) return { note: "5", text: "Mangelhaft", farbe: "#ef4444" };
+    return { note: "6", text: "Ungenügend", farbe: "#dc2626" };
+  }
+
+  // Erzeugt das DOM-Overlay
+  function oeffneSimulator(szenarioId) {
+    const s = SZENARIEN[szenarioId] || SZENARIEN["raid-dr-weber"];
+    aktivesSzenario = s;
+    aktuellerSchrittIdx = 0;
+    punkteStand = 0;
+    notizenHistorie = [];
+
+    // Vorhandenes Overlay entfernen
+    const alt = document.getElementById("simOverlay");
+    if (alt) alt.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "simOverlay";
+    overlay.className = "simOverlay";
+
+    overlay.innerHTML = `
+      <div class="simHeader">
+        <div class="simTitleGroup">
+          <span class="simTitleBadge">${s.lernfeld} Mündliche Prüfung</span>
+          <span class="simTitleText">${s.titel}</span>
+        </div>
+        <div class="simMetaStats">
+          <div class="simPunkteKonto">
+            <span>Score:</span>
+            <span id="simPunkteVal">0</span> / 100
+          </div>
+          <button class="simCloseBtn" id="simCloseBtn" title="Simulation beenden">✕ Beenden</button>
+        </div>
+      </div>
+
+      <div class="simStage">
+        <div class="simRoomBg"></div>
+        <div class="simRoomFloor"></div>
+
+        <div class="simActorsWrap">
+          <!-- Prüfer Station Links -->
+          <div class="simStationPruefer">
+            <div class="simThoughtBubble" id="simPrueferThought">
+              💭 Raum vorbereitet. Wir beginnen mit der Fallberatung.
+            </div>
+            <div id="simPrueferAvatar"></div>
+            <div class="simPrueferTable">
+              <span class="simTablePlateText">IHK Prüfungsausschuss</span>
+            </div>
+            <div class="simNoteBadge" id="simPrueferNote">📝 Bereit für Fallbeurteilung</div>
+          </div>
+
+          <!-- Partner/Kunde Station Mitte -->
+          <div class="simStationPartner">
+            <div class="simSpeechBubble" id="simPartnerSpeech">
+              ...
+            </div>
+            <div id="simPartnerAvatar"></div>
+            <div class="simTablePlateText" style="margin-top:6px;">${s.rollen.partner.name} (${s.rollen.partner.rolle})</div>
+          </div>
+
+          <!-- Spieler Station Rechts mit Walk-In -->
+          <div class="simStationPlayer isWalkingIn" id="simPlayerStation">
+            <div id="simPlayerAvatar"></div>
+            <div class="simTablePlateText" style="margin-top:6px;">Du (IT-Spezialist)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="simConsole" id="simConsole">
+        <div class="simPromptPrompt">
+          <span>Deine Antwort / Beratungsempfehlung:</span>
+          <span style="font-size:12px; color:#64748b;">Wähle die fachlich und kaufmännisch beste Lösung</span>
+        </div>
+        <div class="simOptionsList" id="simOptionsList"></div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    document.getElementById("simCloseBtn").addEventListener("click", () => {
+      overlay.remove();
+    });
+
+    // Avatare initialisieren
+    renderAvatare();
+
+    // Walk-In Animation starten
+    setTimeout(() => {
+      const pStation = document.getElementById("simPlayerStation");
+      if (pStation) {
+        pStation.classList.remove("isWalkingIn");
+        pStation.classList.add("hasWalkedIn");
+        if (window.TOON) {
+          window.TOON.setPose(document.getElementById("simPlayerAvatar"), "idle");
+        }
+      }
+      // Ersten Schritt laden
+      zeigeSchritt(0);
+    }, 400);
+  }
+
+  // Rendert die Toon-Figuren
+  function renderAvatare() {
+    if (!window.TOON) return;
+
+    // Prüfer
+    const pEl = document.getElementById("simPrueferAvatar");
+    if (pEl) {
+      window.TOON.createCharacter(pEl, aktivesSzenario.rollen.pruefer.figur, {
+        groesse: "m",
+        pose: "talk",
+        faceDir: 1
+      });
+    }
+
+    // Kunde
+    const kEl = document.getElementById("simPartnerAvatar");
+    if (kEl) {
+      window.TOON.createCharacter(kEl, aktivesSzenario.rollen.partner.figur, {
+        groesse: "m",
+        pose: "talk",
+        faceDir: 1
+      });
+    }
+
+    // Spieler (Linus/Ada oder Player Avatar)
+    const spEl = document.getElementById("simPlayerAvatar");
+    if (spEl) {
+      let charId = "linus";
+      try {
+        if (typeof getPlayerAvatarKey === "function") charId = getPlayerAvatarKey();
+      } catch (_) {}
+      window.TOON.createCharacter(spEl, charId, {
+        groesse: "m",
+        pose: "walk",
+        faceDir: -1
+      });
+    }
+  }
+
+  // Zeigt einen Dialogschritt an
+  function zeigeSchritt(idx) {
+    aktuellerSchrittIdx = idx;
+    const schritt = aktivesSzenario.schritte[idx];
+    if (!schritt) {
+      zeigeAbschluss();
+      return;
+    }
+
+    // Kunde spricht
+    const partnerSpeech = document.getElementById("simPartnerSpeech");
+    if (partnerSpeech) partnerSpeech.textContent = schritt.partnerSagt;
+    if (window.TOON) {
+      window.TOON.setPose(document.getElementById("simPartnerAvatar"), "talk");
+    }
+
+    // Prüfer denkt
+    const prueferThought = document.getElementById("simPrueferThought");
+    if (prueferThought) prueferThought.textContent = schritt.prueferDenkt;
+
+    const prueferNote = document.getElementById("simPrueferNote");
+    if (prueferNote) prueferNote.textContent = schritt.prueferNotiz;
+
+    // Optionen aufbauen
+    const optList = document.getElementById("simOptionsList");
+    if (!optList) return;
+    optList.innerHTML = "";
+
+    schritt.optionen.forEach((opt, oIdx) => {
+      const btn = document.createElement("button");
+      btn.className = "simOptionBtn";
+      btn.innerHTML = `
+        <span class="simOptionNum">${oIdx + 1}</span>
+        <span>${opt.text}</span>
+      `;
+      btn.addEventListener("click", () => waehleOption(schritt, opt));
+      optList.appendChild(btn);
+    });
+  }
+
+  // Verarbeitet die gewählte Option
+  function waehleOption(schritt, opt) {
+    // Punkte aktualisieren
+    punkteStand = Math.max(0, Math.min(100, punkteStand + opt.punkte));
+    const pVal = document.getElementById("simPunkteVal");
+    if (pVal) pVal.textContent = punkteStand;
+
+    // Reaktionen der Figuren
+    if (window.TOON) {
+      window.TOON.setPose(document.getElementById("simPartnerAvatar"), opt.partnerPose || "talk");
+      window.TOON.setPose(document.getElementById("simPrueferAvatar"), opt.prueferPose || "talk");
+      window.TOON.setPose(document.getElementById("simPlayerAvatar"), opt.korrekt ? "nod" : "think");
+    }
+
+    // Sprechblase & Gedankenblase aktualisieren
+    const partnerSpeech = document.getElementById("simPartnerSpeech");
+    if (partnerSpeech) partnerSpeech.textContent = opt.partnerReaktion;
+
+    const prueferThought = document.getElementById("simPrueferThought");
+    if (prueferThought) prueferThought.textContent = opt.prueferReaktion;
+
+    const prueferNote = document.getElementById("simPrueferNote");
+    if (prueferNote) {
+      prueferNote.textContent = opt.prueferNotiz;
+      notizenHistorie.push({
+        text: opt.prueferNotiz,
+        korrekt: opt.korrekt,
+        feedback: opt.feedback
+      });
+    }
+
+    // Konsole auf Weiter-Zustand setzen
+    const optList = document.getElementById("simOptionsList");
+    if (!optList) return;
+
+    optList.innerHTML = `
+      <div style="background: rgba(15, 23, 42, 0.8); padding: 14px; border-radius: 8px; border-left: 4px solid ${opt.korrekt ? '#10b981' : '#ef4444'}; font-size: 13.5px; line-height: 1.5;">
+        <strong>${opt.korrekt ? '✅ IHK-Fachurteil: Positiv' : '⚠️ IHK-Kritikpunkt:'}</strong><br>
+        ${opt.feedback}
+      </div>
+      <button class="simOptionBtn primary" id="simNextBtn" style="justify-content: center; font-weight: 700; margin-top: 8px;">
+        Weiter zum nächsten Beratungsschritt ➔
+      </button>
+    `;
+
+    document.getElementById("simNextBtn").addEventListener("click", () => {
+      zeigeSchritt(aktuellerSchrittIdx + 1);
+    });
+  }
+
+  // Abschluss-Auswertung
+  function zeigeAbschluss() {
+    const bewertung = berechneIhkNote(punkteStand);
+    const consoleEl = document.getElementById("simConsole");
+    if (!consoleEl) return;
+
+    if (window.TOON) {
+      window.TOON.setPose(document.getElementById("simPrueferAvatar"), punkteStand >= 67 ? "cheer" : "think");
+      window.TOON.setPose(document.getElementById("simPartnerAvatar"), punkteStand >= 50 ? "cheer" : "hurt");
+      window.TOON.setPose(document.getElementById("simPlayerAvatar"), punkteStand >= 50 ? "jump" : "hurt");
+    }
+
+    const partnerSpeech = document.getElementById("simPartnerSpeech");
+    if (partnerSpeech) {
+      partnerSpeech.textContent = punkteStand >= 67 
+        ? "Vielen herzlichen Dank! Sie haben unsere Praxis vor einer echten Datenkatastrophe bewahrt."
+        : "Hm, da müssen wir wohl nochmal mit einem anderen Dienstleister sprechen...";
+    }
+
+    const prueferThought = document.getElementById("simPrueferThought");
+    if (prueferThought) {
+      prueferThought.textContent = `💭 Das Fachgespräch ist beendet. Gesamtergebnis: ${bewertung.text} (${punkteStand}/100 Punkte).`;
+    }
+
+    consoleEl.innerHTML = `
+      <div class="simResultCard">
+        <div style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8;">
+          IHK Prüfungsergebnis Mündliche Simulation
+        </div>
+        <div class="simResultGrade" style="color: ${bewertung.farbe};">
+          Note ${bewertung.note} (${bewertung.text})
+        </div>
+        <div class="simResultPoints">
+          Erreichte Punktzahl: <strong>${punkteStand} von 100 Punkten</strong>
+        </div>
+
+        <div class="simFeedbackList">
+          <strong>Protokoll des Prüfungsausschusses:</strong>
+          <ul style="margin: 8px 0 0 16px; padding: 0;">
+            ${notizenHistorie.map(n => `<li style="color:${n.korrekt ? '#38bdf8' : '#f87171'}">${n.text}</li>`).join("")}
+          </ul>
+        </div>
+
+        <button class="simOptionBtn primary" id="simFinishBtn" style="justify-content: center; font-weight: 700; width: 100%;">
+          Simulation abschließen & zurück zum Hauptmenü
+        </button>
+      </div>
+    `;
+
+    document.getElementById("simFinishBtn").addEventListener("click", () => {
+      const ov = document.getElementById("simOverlay");
+      if (ov) ov.remove();
+    });
+  }
+
+  // Universeller Starter: Kann vordefinierte oder dynamische Themen starten
+  window.PRUEFUNGSSIMULATOR = {
+    starte: oeffneSimulator,
+    starteThema: function (themaKey) {
+      // Fallback auf Standard, falls Thema noch nicht dediziert hinterlegt
+      oeffneSimulator(themaKey || "raid-dr-weber");
+    },
+    registriereSzenario: function (szenario) {
+      if (szenario && szenario.id) {
+        SZENARIEN[szenario.id] = szenario;
+      }
+    }
+  };
+})();
+
 /* ---- f_rack_hero.js ---- */
 // f_rack_hero.js - "Rack Hero: 19-Zoll Tetris" (Backpack Hero Vibe für Fachinformatiker)
 // 42U Server-Rack Tetris mit Schwerpunkt-Statik, Kaltgang/Warmgang DIN EN 50600 & Phasen-Balancing.
@@ -93833,6 +94639,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
             Handlungsorientierte Prüfungs-Module aus der IHK-Praxis: SQL-Krimi, IHK-Rechenlabor, MedTech-Praxis, BSI-Schutzbedarfs-Detektiv &amp; Ping-Terminal.
           </p>
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:6px;">
+            <button type="button" class="hubBtn" id="hubBtnPruefungsSim" style="font-size:10px; background:#0f172a; color:#38bdf8; border-color:#0284c7; font-weight:700;">🎭 IHK-Prüfungs-Simulator</button>
             <button type="button" class="hubBtn" id="hubBtnSqlKrimi" style="font-size:10px; background:#1e1b4b; color:#c4b5fd; border-color:#8b5cf6;">🔍 SQL-Krimi (LF05)</button>
             <button type="button" class="hubBtn" id="hubBtnRechenlabor" style="font-size:10px; background:#14532d; color:#86efac; border-color:#22c55e;">🧮 IHK-Rechenlabor</button>
             <button type="button" class="hubBtn" id="hubBtnMedTechPraxis" style="font-size:10px; background:#0c4a6e; color:#7dd3fc; border-color:#0284c7;">🏢 MedTech Praxislabor</button>
@@ -93866,6 +94673,8 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     if (btnRack) btnRack.onclick = () => { schliesseModal(); if (window.RACK_HERO) window.RACK_HERO.oeffne(); };
 
     // Research-Module
+    const btnSim = $("hubBtnPruefungsSim");
+    if (btnSim) btnSim.onclick = () => { schliesseModal(); if (window.PRUEFUNGSSIMULATOR) window.PRUEFUNGSSIMULATOR.starte(); };
     const btnSql = $("hubBtnSqlKrimi");
     if (btnSql) btnSql.onclick = () => { schliesseModal(); if (window.SQL_KRIMI) window.SQL_KRIMI.oeffne(); };
     const btnRechen = $("hubBtnRechenlabor");
