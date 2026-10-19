@@ -84919,6 +84919,7 @@ GENERATORS.vlan = function (level) {
         </div>`;
     }
 
+    const weiterText = v ? "Weiter zum Aufbau" : "Schauen wir es uns an";
     const ankerText = p.anker ? formatiereFormeln(esc(p.anker.text)) : "";
     const ankerFrage = (p.anker && p.anker.frage) ? `<div class="vlAnkerFrage">${window.ICON ? window.ICON("frage", { groesse: "s" }) : "❓"} ${formatiereFormeln(esc(p.anker.frage))}</div>` : "";
 
