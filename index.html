@@ -92419,11 +92419,19 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     },
     {
       id: "experimentell",
-      titel: "🧪 IT-LABOR & ARCADE",
+      titel: "🔬 IT-LABOR & SANDBOX",
       kurz: "IT-Labor",
-      desc: "100-Etagen Prüfungsturm, Netzwerk-Sandboxes, Packet Defender & Minispiele",
-      wichtel: "Hier findest du das interaktive IT-Labor, den Prüfungsturm und schnelle Mini-Games!",
+      desc: "Interaktive Sandboxes: Subnetz-Slider, OSI-Kapselung, RJ45-Patcher, RAID, USV & Sysadmin-Simulationen",
+      wichtel: "Hier experimentierst du hands-on: Subnetze schieben, Pakete kapseln, Kabel patchen und Racks organisieren!",
       icon: A.item ? (A.item["PotionRed"] || A.item["Hourglass"] || A.item["GoldKey"]) : null
+    },
+    {
+      id: "beta",
+      titel: "🧪 BETA & SPIELHALLE",
+      kurz: "Beta-Arcade",
+      desc: "100-Etagen Prüfungsturm, Speed-Minigames, Packet Defender (Tower Defense) & OSI Invaders",
+      wichtel: "Hier findest du den 100-Etagen Prüfungsturm, schnelle Mini-Games und die Arcade-Prototypen!",
+      icon: A.item ? (A.item["Hourglass"] || A.item["PotionBlue"] || A.item["GoldKey"]) : null
     },
     {
       id: "lern",
@@ -92539,7 +92547,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       </div>
 
       <div class="hubKeyHints">
-        <span>Tasten: ◀ ▶ Drehen · Enter Öffnen · 1–6 Direktwahl · Touch-Swipe</span>
+        <span>Tasten: ◀ ▶ Drehen · Enter Öffnen · 1–9 Direktwahl · Touch-Swipe</span>
       </div>
     </div>
 
@@ -93400,7 +93408,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     } else if (e.key === "Enter" || e.key === "ArrowUp" || e.key === " ") {
       e.preventDefault();
       oeffneBereich(RING_ITEMS[focusIdx].id);
-    } else if (e.key >= "1" && e.key <= "7") {
+    } else if (e.key >= "1" && e.key <= String(RING_ITEMS.length)) {
       const targetIdx = parseInt(e.key, 10) - 1;
       setzeFokus(targetIdx, false);
       oeffneBereich(RING_ITEMS[targetIdx].id);
@@ -93473,8 +93481,10 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       oeffneArbeitsbuchModal();
     } else if (id === "ki_lehrer" || id === "vorlesung") {
       oeffneKiLehrerModal();
-    } else if (id === "experimentell" || id === "in_entwicklung" || id === "dev" || id === "halle") {
+    } else if (id === "experimentell" || id === "in_entwicklung" || id === "dev" || id === "labor") {
       oeffneExperimentellModal();
+    } else if (id === "beta" || id === "spielhalle" || id === "halle" || id === "arcade" || id === "turm") {
+      oeffneBetaModal();
     } else if (id === "lern" || id === "wissensbaum" || id === "baum" || id === "lernpfad") {
       oeffneWissensbaum();
     } else if (id === "arena") {
@@ -93754,35 +93764,20 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     });
   }
 
-  // 1c. Neues Untermenü: Experimentell (Prüfungsturm, Minispiele, Sandboxes & Research-Module)
+  // 1c. IT-Labor & Sandboxes (Praxis-Simulationen, Indie-Hits & Research-Module)
   function oeffneExperimentellModal() {
-    const turmStand = window.PRUEFUNGSTURM ? window.PRUEFUNGSTURM.getStand() : { maxEtage: 1, aktuelleEtage: 1 };
-    zeigeModal("🧪 Experimentelles IT-Labor & Spielhalle", `
-      <p class="modalLead">Innovative IT-Labore, Minispiele, Roguelike-Herausforderungen und experimentelle Spielmodi in Entwicklung.</p>
+    zeigeModal("🔬 IT-Labor & Sandboxes", `
+      <p class="modalLead">Taktile IT-Praxis zum Anfassen: Schiebe Subnetze, analysiere Frames Schicht für Schicht, patche Kupferkabel und verwalte Racks.</p>
       <div class="modalGridCards">
-        <!-- 1. Spielhalle & Prüfungsturm -->
-        <div class="arenaCard full devHighlightCard" style="border: 2px solid #ffd36b; background: rgba(28, 20, 10, 0.95); margin-bottom: 8px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px; flex-wrap:wrap; gap:4px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:22px;">🕹️</span>
-              <div>
-                <h3 style="color:#ffd36b; margin:0; font-size:14px;">Spielhalle & Prüfungsturm</h3>
-                <span style="font-size:10px; color:#fde68a;">Roguelike & 4 Speed-Mini-Games</span>
-              </div>
-            </div>
-            <span class="devStatusBadge live">🏰 Etage ${turmStand.aktuelleEtage} / 100</span>
+        <!-- Banner zur neuen Beta & Spielhalle -->
+        <div class="arenaCard full" style="border: 2px dashed #f59e0b; background: rgba(30, 20, 10, 0.7); padding: 10px 14px; border-radius: 8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <b style="color:#fbbf24; font-size:12.5px; display:block;">🧪 Suchst du Prüfungsturm &amp; Arcade-Games?</b>
+            <span style="font-size:11px; color:#d1d5db;">Der 100-Etagen Prüfungsturm, Speed-Minigames, Packet Defender &amp; OSI Invaders sind jetzt in der neuen Rubrik <b>BETA &amp; SPIELHALLE</b>!</span>
           </div>
-          <p style="margin:4px 0 8px; font-size:11.5px; line-height:1.4; color:#e2e8f0;">
-            Kämpfe dich durch 100 Etagen des Roguelike-Prüfungsturms oder trainiere Subnetting, VLANs und Rechenwege in schnellen Mini-Games:
-          </p>
-          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:6px; margin-bottom:6px;">
-            <button type="button" class="primary" id="hubDevTurmBtn" style="font-size:11px; padding:7px 8px; background:#b45309; border-color:#f59e0b; font-weight:700;">🏰 Prüfungsturm</button>
-            <button type="button" class="ghost" id="hubDevTriageBtn" style="font-size:11px; padding:7px 8px;">📦 Subnetz-Triage</button>
-            <button type="button" class="ghost" id="hubDevVlanBtn" style="font-size:11px; padding:7px 8px;">🔀 VLAN-Dispatcher</button>
-            <button type="button" class="ghost" id="hubDevBlocksBtn" style="font-size:11px; padding:7px 8px;">🧱 Block-Allocator</button>
-            <button type="button" class="ghost" id="hubDevSniperBtn" style="font-size:11px; padding:7px 8px;">🎯 Rechen-Sniper</button>
-            <button type="button" class="primary" id="hubDevIpv6Btn" style="font-size:11px; padding:7px 8px; background:#7c3aed; border-color:#a78bfa; font-weight:700;">⚡ IPv6-Speedrun</button>
-          </div>
+          <button type="button" class="primary" id="hubSwitchToBetaBtn" style="background:linear-gradient(135deg, #d97706, #b45309); color:#fff; border:none; border-radius:5px; padding:7px 13px; font-size:11.5px; font-weight:750; cursor:pointer;">
+            🧪 Zur Beta &amp; Spielhalle ➔
+          </button>
         </div>
 
         <!-- HIGHLIGHT: Die beiden neuen Browser-Games (Papers Please & Backpack Hero Vibe) -->
@@ -93791,7 +93786,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="font-size:24px;">⭐</span>
               <div>
-                <h3 style="color:#38bdf8; margin:0; font-size:14px; text-transform:uppercase; letter-spacing:0.04em;">Neue Indie-Hits: Games der nächsten Generation</h3>
+                <h3 style="color:#38bdf8; margin:0; font-size:14px; text-transform:uppercase; letter-spacing:0.04em;">Neue Indie-Hits: Taktile Praxis-Simulationen</h3>
                 <span style="font-size:10px; color:#bae6fd;">Inspiriert von 'Papers, Please' &amp; 'Backpack Hero'</span>
               </div>
             </div>
@@ -93812,20 +93807,20 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           </div>
         </div>
 
-        <!-- 2. Interaktives IT-Labor / Sandboxes -->
+        <!-- Interaktives IT-Labor / Sandboxes -->
         <div class="arenaCard full devHighlightCard" style="border: 2px solid #10b981; background: rgba(6, 30, 20, 0.95); margin-bottom: 8px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px; flex-wrap:wrap; gap:4px;">
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="font-size:22px;">🔬</span>
               <div>
-                <h3 style="color:#6ee7b7; margin:0; font-size:14px;">Interaktives IT-Labor (Sandboxes)</h3>
-                <span style="font-size:10px; color:#a7f3d0;">Subnetting-Slider · OSI-Kapselung · RJ45-Patcher</span>
+                <h3 style="color:#6ee7b7; margin:0; font-size:14px;">Interaktive Sandboxes &amp; Messplätze</h3>
+                <span style="font-size:10px; color:#a7f3d0;">Subnetting-Slider · OSI-Kapselung · RJ45-Patcher · RAID · USV</span>
               </div>
             </div>
             <span class="devStatusBadge live">🟢 Live</span>
           </div>
           <p style="margin:4px 0 8px; font-size:11.5px; line-height:1.4; color:#e2e8f0;">
-            Erforsche IT-Konzepte zum Anfassen: Schiebe Präfixe von /1 bis /30, beobachte die Kapselung von Anwendungsdaten in Schicht 2–7 oder patche TIA-568A/B Kupferkabel.
+            Erforsche IT-Konzepte zum Anfassen: Schiebe Präfixe von /1 bis /30, beobachte die Kapselung von Anwendungsdaten in Schicht 2–7, patche TIA-568A/B Kupferkabel oder berechne RAID &amp; USV-Laufzeiten.
           </p>
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:6px;">
             <button type="button" class="primary" id="hubExpSubnetBtn" style="font-size:11px; padding:7px 8px; background:#059669; border-color:#34d399; font-weight:700;">📊 Subnetz-Slider</button>
@@ -93836,42 +93831,14 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           </div>
         </div>
 
-        <!-- 3. LF03 Packet Defender (Tower Defense) -->
-        <div class="arenaCard devCard" style="border: 1px solid #f59e0b; background: rgba(30, 24, 15, 0.92);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
-            <h3 style="color:#fbbf24; margin:0; font-size:12.5px;">🛡️ LF03 Packet Defender</h3>
-            <span class="devStatusBadge wip">🟡 Prototyp</span>
-          </div>
-          <p style="font-size:10.5px; color:#dfd0bc; margin:4px 0 8px; line-height:1.35;">
-            Netzwerk-Tower-Defense: Platziere Firewalls, Paketfilter & IDS-Türme, um das LAN vor DDoS- und Broadcast-Stürmen zu schützen.
-          </p>
-          <button type="button" class="hubBtn" id="hubStartPacketDefenderBtn" style="width:100%; font-size:10px; background:#452814; color:#ffd36b; border-color:#f59e0b;">
-            🛡️ Tower Defense testen ➔
-          </button>
-        </div>
-
-        <!-- 4. LF03 OSI Invaders (Space Arcade) -->
-        <div class="arenaCard devCard" style="border: 1px solid #ec4899; background: rgba(30, 15, 25, 0.92);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
-            <h3 style="color:#f472b6; margin:0; font-size:12.5px;">👾 LF03 OSI Invaders</h3>
-            <span class="devStatusBadge wip">🟡 Prototyp</span>
-          </div>
-          <p style="font-size:10.5px; color:#dfd0bc; margin:4px 0 8px; line-height:1.35;">
-            Retro Space Arcade: Zerstöre feindliche Frames Schicht für Schicht von Layer 7 bis Layer 2 mit den passenden Protokoll-Kanonen.
-          </p>
-          <button type="button" class="hubBtn" id="hubStartOsiInvadersBtn" style="width:100%; font-size:10px; background:#40172e; color:#fbcfe8; border-color:#ec4899;">
-            👾 OSI Arcade testen ➔
-          </button>
-        </div>
-
-        <!-- 5. Forschung & Zukunfts-Labor -->
+        <!-- Forschung & Zukunfts-Labor -->
         <div class="arenaCard devCard full" style="border: 1px solid #8b5cf6; background: rgba(22, 16, 35, 0.92);" id="hubExpResearchBox">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
-            <h3 style="color:#a78bfa; margin:0; font-size:12.5px;">🔬 Forschungs-Labor: Neue Module</h3>
+            <h3 style="color:#a78bfa; margin:0; font-size:12.5px;">🔬 Forschungs-Labor: Praxislabore (Research)</h3>
             <span class="devStatusBadge plan">🚀 Research Active</span>
           </div>
           <p style="font-size:10.5px; color:#dfd0bc; margin:4px 0 8px; line-height:1.35;">
-            Hier entstehen die neuen handlungsorientierten Prüfungs-Module aus dem Research-Ordner (SQL-Krimi, IHK-Rechenlabor, BSI-Schutzbedarfs-Detektiv & Ping-Terminal).
+            Handlungsorientierte Prüfungs-Module aus der IHK-Praxis: SQL-Krimi, IHK-Rechenlabor, MedTech-Praxis, BSI-Schutzbedarfs-Detektiv &amp; Ping-Terminal.
           </p>
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:6px;">
             <button type="button" class="hubBtn" id="hubBtnSqlKrimi" style="font-size:10px; background:#1e1b4b; color:#c4b5fd; border-color:#8b5cf6;">🔍 SQL-Krimi (LF05)</button>
@@ -93884,28 +93851,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       </div>
     `);
 
-    // Event Listener für Experimentell-Modal
-    const devTurmBtn = $("hubDevTurmBtn");
-    if (devTurmBtn) {
-      devTurmBtn.onclick = () => {
-        schliesseModal();
-        stoppeHub();
-        if (window.PRUEFUNGSTURM && typeof window.PRUEFUNGSTURM.starteTurm === "function") {
-          window.PRUEFUNGSTURM.starteTurm();
-        }
-      };
-    }
-    const devTriageBtn = $("hubDevTriageBtn");
-    if (devTriageBtn) devTriageBtn.onclick = () => window.fTriageStarten();
-    const devVlanBtn = $("hubDevVlanBtn");
-    if (devVlanBtn) devVlanBtn.onclick = () => window.fVlanStarten();
-    const devBlocksBtn = $("hubDevBlocksBtn");
-    if (devBlocksBtn) devBlocksBtn.onclick = () => window.fBlocksStarten();
-    const devSniperBtn = $("hubDevSniperBtn");
-    if (devSniperBtn) devSniperBtn.onclick = () => window.fArcadeStarten();
-    const devIpv6Btn = $("hubDevIpv6Btn");
-    if (devIpv6Btn) devIpv6Btn.onclick = () => { schliesseModal(); if (typeof window.startIpv6Speedrun === "function") window.startIpv6Speedrun(); };
+    // Cross-Banner Switcher
+    const switchBeta = $("hubSwitchToBetaBtn");
+    if (switchBeta) switchBeta.onclick = () => oeffneBetaModal();
 
+    // Sandboxes
     const expSubnet = $("hubExpSubnetBtn");
     if (expSubnet) expSubnet.onclick = () => { schliesseModal(); if (window.SANDBOX_STUDIO) window.SANDBOX_STUDIO.oeffne("subnet"); };
     const expOsi = $("hubExpOsiBtn");
@@ -93917,30 +93867,13 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     const expElektro = $("hubExpElektroBtn");
     if (expElektro) expElektro.onclick = () => { schliesseModal(); if (window.ELEKTRO_LABOR) window.ELEKTRO_LABOR.oeffne(); };
 
-    const startDefBtn = $("hubStartPacketDefenderBtn");
-    if (startDefBtn) {
-      startDefBtn.onclick = () => {
-        schliesseModal();
-        stoppeHub();
-        if (typeof window.startPacketDefender === "function") window.startPacketDefender();
-      };
-    }
-    const startOsiBtn = $("hubStartOsiInvadersBtn");
-    if (startOsiBtn) {
-      startOsiBtn.onclick = () => {
-        schliesseModal();
-        stoppeHub();
-        if (typeof window.startOsiInvaders === "function") window.startOsiInvaders();
-      };
-    }
-
-    // Hookups für die beiden neuen Highlights
+    // Indie-Hits
     const btnSysadmin = $("hubStartSysadminPleaseBtn");
     if (btnSysadmin) btnSysadmin.onclick = () => { schliesseModal(); if (window.SYSADMIN_PLEASE) window.SYSADMIN_PLEASE.oeffne(); };
     const btnRack = $("hubStartRackHeroBtn");
     if (btnRack) btnRack.onclick = () => { schliesseModal(); if (window.RACK_HERO) window.RACK_HERO.oeffne(); };
 
-    // Hookups für die neuen Research-Module
+    // Research-Module
     const btnSql = $("hubBtnSqlKrimi");
     if (btnSql) btnSql.onclick = () => { schliesseModal(); if (window.SQL_KRIMI) window.SQL_KRIMI.oeffne(); };
     const btnRechen = $("hubBtnRechenlabor");
@@ -93951,6 +93884,121 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     if (btnSchutz) btnSchutz.onclick = () => { schliesseModal(); if (window.SCHUTZBEDARF_DETEKTIV) window.SCHUTZBEDARF_DETEKTIV.oeffne(); };
     const btnPing = $("hubBtnPingCli");
     if (btnPing) btnPing.onclick = () => { schliesseModal(); if (window.PING_DETEKTIV) window.PING_DETEKTIV.oeffne(); };
+  }
+
+  // 1d. Dediziertes Untermenü: Beta & Spielhalle (Prüfungsturm, Minigames, Packet Defender, OSI Invaders)
+  function oeffneBetaModal() {
+    const turmStand = window.PRUEFUNGSTURM ? window.PRUEFUNGSTURM.getStand() : { maxEtage: 1, aktuelleEtage: 1 };
+    zeigeModal("🧪 Beta & Spielhalle · Arcade & Roguelike", `
+      <p class="modalLead">Roguelike-Herausforderungen, Speed-Minigames und experimentelle Arcade-Prototypen in Entwicklung.</p>
+      <div class="modalGridCards">
+        <!-- 1. Prüfungsturm & Speed-Minispiele -->
+        <div class="arenaCard full devHighlightCard" style="border: 2px solid #ffd36b; background: rgba(28, 20, 10, 0.95); margin-bottom: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px; flex-wrap:wrap; gap:4px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:22px;">🏰</span>
+              <div>
+                <h3 style="color:#ffd36b; margin:0; font-size:14px;">100-Etagen Prüfungsturm &amp; Speed-Games</h3>
+                <span style="font-size:10px; color:#fde68a;">Roguelike &amp; 5 Speed-Minigames</span>
+              </div>
+            </div>
+            <span class="devStatusBadge live">🏰 Etage ${turmStand.aktuelleEtage} / 100</span>
+          </div>
+          <p style="margin:4px 0 8px; font-size:11.5px; line-height:1.4; color:#e2e8f0;">
+            Kämpfe dich durch 100 Etagen des Roguelike-Prüfungsturms oder trainiere Subnetting, VLANs, Block-Allokation und Rechenwege in schnellen Mini-Games:
+          </p>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:6px; margin-bottom:6px;">
+            <button type="button" class="primary" id="hubBetaTurmBtn" style="font-size:11px; padding:7px 8px; background:#b45309; border-color:#f59e0b; font-weight:700;">🏰 Prüfungsturm</button>
+            <button type="button" class="ghost" id="hubBetaTriageBtn" style="font-size:11px; padding:7px 8px;">📦 Subnetz-Triage</button>
+            <button type="button" class="ghost" id="hubBetaVlanBtn" style="font-size:11px; padding:7px 8px;">🔀 VLAN-Dispatcher</button>
+            <button type="button" class="ghost" id="hubBetaBlocksBtn" style="font-size:11px; padding:7px 8px;">🧱 Block-Allocator</button>
+            <button type="button" class="ghost" id="hubBetaSniperBtn" style="font-size:11px; padding:7px 8px;">🎯 Rechen-Sniper</button>
+            <button type="button" class="primary" id="hubBetaIpv6Btn" style="font-size:11px; padding:7px 8px; background:#7c3aed; border-color:#a78bfa; font-weight:700;">⚡ IPv6-Speedrun</button>
+          </div>
+        </div>
+
+        <!-- 2. LF03 Packet Defender (Tower Defense) -->
+        <div class="arenaCard devCard" style="border: 1px solid #f59e0b; background: rgba(30, 24, 15, 0.92);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+            <h3 style="color:#fbbf24; margin:0; font-size:12.5px;">🛡️ LF03 Packet Defender</h3>
+            <span class="devStatusBadge wip">🟡 Prototyp</span>
+          </div>
+          <p style="font-size:10.5px; color:#dfd0bc; margin:4px 0 8px; line-height:1.35;">
+            Netzwerk-Tower-Defense: Platziere Firewalls, Paketfilter &amp; IDS-Türme, um das LAN vor DDoS- und Broadcast-Stürmen zu schützen.
+          </p>
+          <button type="button" class="hubBtn" id="hubBetaPacketDefenderBtn" style="width:100%; font-size:10px; background:#452814; color:#ffd36b; border-color:#f59e0b;">
+            🛡️ Tower Defense testen ➔
+          </button>
+        </div>
+
+        <!-- 3. LF03 OSI Invaders (Space Arcade) -->
+        <div class="arenaCard devCard" style="border: 1px solid #ec4899; background: rgba(30, 15, 25, 0.92);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+            <h3 style="color:#f472b6; margin:0; font-size:12.5px;">👾 LF03 OSI Invaders</h3>
+            <span class="devStatusBadge wip">🟡 Prototyp</span>
+          </div>
+          <p style="font-size:10.5px; color:#dfd0bc; margin:4px 0 8px; line-height:1.35;">
+            Retro Space Arcade: Zerstöre feindliche Frames Schicht für Schicht von Layer 7 bis Layer 2 mit den passenden Protokoll-Kanonen.
+          </p>
+          <button type="button" class="hubBtn" id="hubBetaOsiInvadersBtn" style="width:100%; font-size:10px; background:#40172e; color:#fbcfe8; border-color:#ec4899;">
+            👾 OSI Arcade testen ➔
+          </button>
+        </div>
+
+        <!-- Rücksprung-Banner zum IT-Labor -->
+        <div class="arenaCard full" style="border: 1px solid #10b981; background: rgba(6, 30, 20, 0.85); padding: 10px 14px; border-radius: 8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <b style="color:#6ee7b7; font-size:12.5px; display:block;">🔬 Zurück zum IT-Labor &amp; Sandboxes?</b>
+            <span style="font-size:11px; color:#d1d5db;">Subnetz-Slider, OSI-Kapselung, RJ45-Patcher, Sysadmin Please &amp; Praxislabore.</span>
+          </div>
+          <button type="button" class="primary" id="hubSwitchToLaborBtn" style="background:#059669; border-color:#34d399; color:#fff; border:none; border-radius:5px; padding:7px 13px; font-size:11.5px; font-weight:750; cursor:pointer;">
+            🔬 Zum IT-Labor wechseln ➔
+          </button>
+        </div>
+      </div>
+    `);
+
+    // Event Listener für Beta & Spielhalle
+    const betaTurmBtn = $("hubBetaTurmBtn");
+    if (betaTurmBtn) {
+      betaTurmBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (window.PRUEFUNGSTURM && typeof window.PRUEFUNGSTURM.starteTurm === "function") {
+          window.PRUEFUNGSTURM.starteTurm();
+        }
+      };
+    }
+    const betaTriageBtn = $("hubBetaTriageBtn");
+    if (betaTriageBtn) betaTriageBtn.onclick = () => window.fTriageStarten();
+    const betaVlanBtn = $("hubBetaVlanBtn");
+    if (betaVlanBtn) betaVlanBtn.onclick = () => window.fVlanStarten();
+    const betaBlocksBtn = $("hubBetaBlocksBtn");
+    if (betaBlocksBtn) betaBlocksBtn.onclick = () => window.fBlocksStarten();
+    const betaSniperBtn = $("hubBetaSniperBtn");
+    if (betaSniperBtn) betaSniperBtn.onclick = () => window.fArcadeStarten();
+    const betaIpv6Btn = $("hubBetaIpv6Btn");
+    if (betaIpv6Btn) betaIpv6Btn.onclick = () => { schliesseModal(); if (typeof window.startIpv6Speedrun === "function") window.startIpv6Speedrun(); };
+
+    const startDefBtn = $("hubBetaPacketDefenderBtn");
+    if (startDefBtn) {
+      startDefBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (typeof window.startPacketDefender === "function") window.startPacketDefender();
+      };
+    }
+    const startOsiBtn = $("hubBetaOsiInvadersBtn");
+    if (startOsiBtn) {
+      startOsiBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (typeof window.startOsiInvaders === "function") window.startOsiInvaders();
+      };
+    }
+
+    const switchLabor = $("hubSwitchToLaborBtn");
+    if (switchLabor) switchLabor.onclick = () => oeffneExperimentellModal();
   }
 
   // Alias für Rückwärtskompatibilität
