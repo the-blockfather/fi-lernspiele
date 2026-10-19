@@ -92459,19 +92459,11 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     },
     {
       id: "optionen",
-      titel: "⚙️ OPTIONEN & AUDIO",
-      kurz: "Optionen",
-      desc: "Synthesizer-Audio, WebGL-Bloom, Retro-Scanlines, Outdoor-Helligkeit & Prüfungsregeln",
-      wichtel: "Passe Sound, Helligkeit, Sonne-Modus, Shader und die Quiz-Schwierigkeit an!",
-      icon: A.item ? (A.item["GoldKey"] || A.item["Hourglass"]) : null
-    },
-    {
-      id: "profil",
-      titel: "🧙 HELDEN-PROFIL",
-      kurz: "Profil & Sync",
-      desc: "Toon-Kleiderschrank, freigeschaltete Kopfbedeckungen, IT-Berufsklasse & Cloud-Sync",
-      wichtel: "Passe deinen Toon-Helden an, rüste Kopfbedeckungen aus und sichere deinen Spielstand!",
-      icon: A.item ? A.item["MoneyBag"] : null
+      titel: "⚙️ OPTIONEN, PROFIL & SYNC",
+      kurz: "Optionen & Profil",
+      desc: "Helden-Kleiderschrank, IT-Berufsklasse, Cloud-Sync (QR), Synthesizer-Audio & Display-Optionen",
+      wichtel: "Hier verwalst du deinen Helden, synchronisierst Spielstände und passt Sound, Grafik & Regeln an!",
+      icon: A.item ? (A.item["GoldKey"] || A.item["MoneyBag"] || A.item["Hourglass"]) : null
     }
   ];
 
@@ -92547,7 +92539,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
       </div>
 
       <div class="hubKeyHints">
-        <span>Tasten: ◀ ▶ Drehen · Enter Öffnen · 1–9 Direktwahl · Touch-Swipe</span>
+        <span>Tasten: ◀ ▶ Drehen · Enter Öffnen · 1–8 Direktwahl · Touch-Swipe</span>
       </div>
     </div>
 
@@ -93492,9 +93484,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     } else if (id === "tests") {
       oeffneTestsModal();
     } else if (id === "optionen" || id === "settings") {
-      oeffneOptionenModal();
-    } else if (id === "profil") {
-      oeffneProfilModal();
+      oeffneOptionenModal("opt");
+    } else if (id === "profil" || id === "sync") {
+      oeffneOptionenModal(id === "sync" ? "sync" : "char");
     }
   }
 
@@ -94462,8 +94454,9 @@ function kursListeHtml() {
     bindTestBtns();
   }
 
-  // 6. Profil, Cosmetics & Sync
-  function oeffneProfilModal() {
+  // 6. Optionen, Helden-Profil, Berufsklasse & Cloud-Sync (Vereintes Kontrollzentrum)
+  function oeffneOptionenModal(startTab = "opt") {
+    // Profil- & Helden-Daten
     const curAv = cfg().av || "linus";
     const curHat = (cfg().cosmetics || {}).hat || "";
     const info = kurseInfo();
@@ -94476,19 +94469,193 @@ function kursListeHtml() {
       syncData = { code: c, ein: true };
       store.set("fi-quiz-sync-v1", syncData);
     }
-
     const curKlasse = window.IT_KLASSEN ? window.IT_KLASSEN.getAktuelleKlasse() : { id: "paladin" };
 
-    zeigeModal("⚙️ Profil, Kleiderschrank & Cloud-Sync", `
-      <div class="profilTabs">
-        <button type="button" class="tabBtn sel" id="tabBtnChar">Helden-Kleiderschrank</button>
-        <button type="button" class="tabBtn" id="tabBtnPet">IT-Begleiter (Cube-Pets)</button>
-        <button type="button" class="tabBtn" id="tabBtnKlasse">IT-Berufsklasse</button>
-        <button type="button" class="tabBtn" id="tabBtnSync">Cloud-Sync (QR-Code)</button>
-        <button type="button" class="tabBtn" id="tabBtnOpt">Optionen</button>
+    // Optionen- & Audio-Daten
+    const theme = localStorage.getItem("fi-quiz-theme-v1") || "auto";
+    const brightnessVal = Math.round(parseFloat(localStorage.getItem("fi-quiz-brightness-v1") || "1.0") * 100);
+    const musicVol = Math.round((window.CHIPTUNE && typeof window.CHIPTUNE.getVolume === "function" ? window.CHIPTUNE.getVolume() : 0.5) * 100);
+    const musicMuted = window.CHIPTUNE && typeof window.CHIPTUNE.isMuted === "function" ? window.CHIPTUNE.isMuted() : false;
+    const soundVol = Math.round((window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.getVolume === "function" ? window.AUDIO_SYNTH.getVolume() : 0.25) * 100);
+    const soundMuted = window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.isMuted === "function" ? window.AUDIO_SYNTH.isMuted() : false;
+    const strafe = store.get("fi-quiz-strafe-v1", false);
+    const unwichtig = store.get("fi-quiz-unwichtige-v1", false);
+    const sprache = (typeof K2 !== "undefined" && K2.ueber ? store.get(K2.ueber, "") : store.get("fi-quiz-ueber-v1", "")) || "";
+    const bloom = !window.SHADER_FX || window.SHADER_FX.bloom;
+    const crt = window.SHADER_FX && window.SHADER_FX.crt;
+
+    zeigeModal("⚙️ Optionen, Helden-Profil & Cloud-Sync", `
+      <div class="profilTabs optTabs">
+        <button type="button" class="tabBtn ${startTab === "opt" ? "sel" : ""}" id="tabBtnOpt">⚙️ Optionen &amp; Audio</button>
+        <button type="button" class="tabBtn ${startTab === "char" ? "sel" : ""}" id="tabBtnChar">🧙 Kleiderschrank</button>
+        <button type="button" class="tabBtn ${startTab === "pet" ? "sel" : ""}" id="tabBtnPet">🐾 IT-Begleiter</button>
+        <button type="button" class="tabBtn ${startTab === "klasse" ? "sel" : ""}" id="tabBtnKlasse">🛡️ Berufsklasse</button>
+        <button type="button" class="tabBtn ${startTab === "sync" ? "sel" : ""}" id="tabBtnSync">☁️ Cloud-Sync</button>
       </div>
 
-      <div id="tabContentChar" class="tabContent">
+      <!-- Tab 1: Optionen & Audio -->
+      <div id="tabContentOpt" class="tabContent ${startTab === "opt" ? "" : "hidden"}">
+        <div class="optContainer">
+          <!-- 1. Display, Design & Helligkeit (Outdoor-Sonne) -->
+          <div class="optSection">
+            <div class="optSectionTitle">
+              <span>☀️</span>
+              <span>Display, Design &amp; Helligkeit</span>
+            </div>
+            <div class="optSectionSub">
+              Wähle dein bevorzugtes Farbschema oder aktiviere den <b>Outdoor-Sonnentag-Modus</b> mit reflexionsfreiem, maximalem Schwarz-Weiß-Kontrast für helle Tage.
+            </div>
+
+            <div class="optSegmentGroup" id="optThemeGroup">
+              <button type="button" class="optSegmentBtn ${theme === "dark" ? "active" : ""}" data-theme-val="dark">
+                <span style="font-size:16px;">🌙</span>
+                <span>Dunkel</span>
+                <small style="opacity:0.75">Cyber Dark</small>
+              </button>
+              <button type="button" class="optSegmentBtn ${theme === "light" ? "active" : ""}" data-theme-val="light">
+                <span style="font-size:16px;">💡</span>
+                <span>Hell</span>
+                <small style="opacity:0.75">Clean Light</small>
+              </button>
+              <button type="button" class="optSegmentBtn outdoorBtn ${theme === "outdoor" ? "active" : ""}" data-theme-val="outdoor" title="Maximaler Kontrast für direktes Sonnenlicht draußen">
+                <span style="font-size:16px;">☀️</span>
+                <span>Sonne / Outdoor</span>
+                <small style="opacity:0.85;font-weight:700">High-Contrast</small>
+              </button>
+              <button type="button" class="optSegmentBtn ${theme === "auto" ? "active" : ""}" data-theme-val="auto">
+                <span style="font-size:16px;">🖥️</span>
+                <span>System</span>
+                <small style="opacity:0.75">Automatisch</small>
+              </button>
+            </div>
+
+            <div class="optSliderRow">
+              <div class="optSliderLabel">
+                <span>🔆</span>
+                <span>Helligkeits-Boost:</span>
+              </div>
+              <div class="optSliderControl">
+                <input type="range" class="optRangeInput" id="optBrightnessInput" min="70" max="140" step="5" value="${brightnessVal}">
+                <span class="optValBadge" id="optBrightnessVal">${brightnessVal} %</span>
+                <button type="button" class="optMiniBtn" id="optBrightnessReset" title="Auf 100% zurücksetzen">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Audio & Sound-Regler -->
+          <div class="optSection">
+            <div class="optSectionTitle">
+              <span>🎵</span>
+              <span>Audio &amp; Sound-Lautstärke</span>
+            </div>
+            <div class="optSectionSub">
+              WebAudio Synthesizer: 8-Bit Chiptune Hintergrundmusik &amp; Soundeffekte für Interaktionen und Quizfragen.
+            </div>
+
+            <div class="optSliderRow">
+              <div class="optSliderLabel">
+                <span>🎶</span>
+                <span>8-Bit Musik:</span>
+              </div>
+              <div class="optSliderControl">
+                <input type="range" class="optRangeInput" id="optMusicVolInput" min="0" max="100" step="5" value="${musicMuted ? 0 : musicVol}">
+                <span class="optValBadge" id="optMusicVolVal">${musicMuted ? "0 %" : musicVol + " %"}</span>
+                <button type="button" class="optMiniBtn" id="optMusicMuteBtn">${musicMuted ? "Stumm: An" : "Stumm"}</button>
+              </div>
+            </div>
+
+            <div class="optSliderRow">
+              <div class="optSliderLabel">
+                <span>🔊</span>
+                <span>Sound-Effekte (SFX):</span>
+              </div>
+              <div class="optSliderControl">
+                <input type="range" class="optRangeInput" id="optSoundVolInput" min="0" max="100" step="5" value="${soundMuted ? 0 : soundVol}">
+                <span class="optValBadge" id="optSoundVolVal">${soundMuted ? "0 %" : soundVol + " %"}</span>
+                <button type="button" class="optMiniBtn" id="optSoundTestBtn">▶ Test</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Quiz-Schwierigkeit & Modus -->
+          <div class="optSection">
+            <div class="optSectionTitle">
+              <span>🎯</span>
+              <span>Quiz-Schwierigkeit &amp; Prüfungsregeln</span>
+            </div>
+            <div class="optSectionSub">
+              Passe das Regelwerk deinen Lernbedürfnissen an – von entspanntem Lernen bis zum harten IHK-Prüfungsdrill.
+            </div>
+
+            <div class="optSegmentGroup" id="optDiffGroup" style="margin-bottom:8px">
+              <button type="button" class="optSegmentBtn ${!strafe ? "active" : ""}" id="optDiffEasy">
+                <span style="font-size:16px;">🟢</span>
+                <span>Entspannt</span>
+                <small style="opacity:0.75">Keine Minuspunkte</small>
+              </button>
+              <button type="button" class="optSegmentBtn ${strafe ? "active" : ""}" id="optDiffHard">
+                <span style="font-size:16px;">🔴</span>
+                <span>IHK-Prüfungsdrill</span>
+                <small style="opacity:0.75">Raten kostet Punkte</small>
+              </button>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px; margin-top:6px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                <input type="checkbox" id="optCheckStrafe" ${strafe ? "checked" : ""}>
+                <span>Raten kostet Punkte (falsch −3 Punkte, „Weiß ich nicht“ kostenlos)</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                <input type="checkbox" id="optCheckUnwichtig" ${unwichtig ? "checked" : ""}>
+                <span>Nicht prüfungsrelevante Fragen überspringen</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 4. Retro-Grafik & Shader -->
+          <div class="optSection">
+            <div class="optSectionTitle">
+              <span>✨</span>
+              <span>Grafik-Shader &amp; Retro-Look</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                <input type="checkbox" id="optBloomShader" ${bloom ? "checked" : ""}>
+                <span>WebGL Neon-Bloom Shader (Glow für Laser &amp; Netzknoten)</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                <input type="checkbox" id="optCrtShader" ${crt ? "checked" : ""}>
+                <span>Retro CRT-Scanlines &amp; Krümmung (Arcade-Look)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 5. Sprachauswahl -->
+          <div class="optSection">
+            <div class="optSectionTitle">
+              <span>🌐</span>
+              <span>Übersetzungshilfe</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:11.5px;flex-wrap:wrap;">
+              <span>Sprache für den Übersetzen-Knopf:</span>
+              <select id="optSpracheSelect" style="background:#1c1812;color:#fff;border:1px solid #7c3aed;padding:4px 8px;border-radius:4px;">
+                <option value="" ${sprache === "" ? "selected" : ""}>Aus (nur Deutsch)</option>
+                <option value="en" ${sprache === "en" ? "selected" : ""}>English</option>
+                <option value="ro" ${sprache === "ro" ? "selected" : ""}>Română</option>
+                <option value="tr" ${sprache === "tr" ? "selected" : ""}>Türkçe</option>
+                <option value="ru" ${sprache === "ru" ? "selected" : ""}>Русский</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;align-items:center;margin-top:4px;">
+            <button type="button" class="primary" id="optDoneBtn" style="padding:6px 16px;">Fertig &amp; Schließen</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Helden-Kleiderschrank -->
+      <div id="tabContentChar" class="tabContent ${startTab === "char" ? "" : "hidden"}">
         <h4>Wähle deinen IT-Prüfungshelden:</h4>
         <div class="toonHeroGrid" id="profileToonGrid">
           ${(window.TOON ? window.TOON.chars : []).map((ch) => {
@@ -94513,7 +94680,7 @@ function kursListeHtml() {
           }).join("")}
         </div>
 
-        <h4 style="margin-top:14px">Freigeschaltete Kopfbedeckungen & Cosmetics:</h4>
+        <h4 style="margin-top:14px">Freigeschaltete Kopfbedeckungen &amp; Cosmetics:</h4>
         <div class="cosmeticsGrid">
           <button type="button" class="cosmeticBtn ${curHat === "" ? "sel" : ""}" data-hat="">
             <span>Keine</span>
@@ -94533,7 +94700,8 @@ function kursListeHtml() {
         </div>
       </div>
 
-      <div id="tabContentPet" class="tabContent hidden">
+      <!-- Tab 3: IT-Begleiter (Cube-Pets) -->
+      <div id="tabContentPet" class="tabContent ${startTab === "pet" ? "" : "hidden"}">
         <h4>Wähle deinen IT-Begleiter (Cube-Pets):</h4>
         <p class="modalLead">Dein treuer IT-Begleiter schwebt im Hub und steht dir bei Quizfragen und Bosskämpfen motivierend zur Seite:</p>
         <div class="cubePetGrid" id="profilePetGrid">
@@ -94558,7 +94726,8 @@ function kursListeHtml() {
         </div>
       </div>
 
-      <div id="tabContentKlasse" class="tabContent hidden">
+      <!-- Tab 4: IT-Berufsklasse -->
+      <div id="tabContentKlasse" class="tabContent ${startTab === "klasse" ? "" : "hidden"}">
         <h4>Wähle deine IT-Fachrichtung (Berufsklasse):</h4>
         <p class="modalLead">Jede Klasse bietet passive Boni und einen einzigartigen Kampf-Skill [Q]:</p>
         <div class="klasseGrid">
@@ -94588,7 +94757,8 @@ function kursListeHtml() {
         </div>
       </div>
 
-      <div id="tabContentSync" class="tabContent hidden">
+      <!-- Tab 5: Cloud-Sync (QR-Code & Backup) -->
+      <div id="tabContentSync" class="tabContent ${startTab === "sync" ? "" : "hidden"}">
         <h4>Spielstand-Abgleich per Code oder QR-Code</h4>
         <p class="modalLead">Gleiche deinen Fortschritt freiwillig zwischen PC und Smartphone ab. Völlig anonym ohne E-Mail oder Passwort.</p>
         <div class="syncCodeBox">
@@ -94615,21 +94785,24 @@ function kursListeHtml() {
           </div>
         </div>
       </div>
-
-      <div id="tabContentOpt" class="tabContent hidden">
-        <h4>⚡ Grafik- & Sound-Engine (Next-Gen):</h4>
-        <div class="optList">
-          <label><input type="checkbox" id="optSound" ${!window.AUDIO_SYNTH || !window.AUDIO_SYNTH.isMuted() ? "checked" : ""}> 🔊 Synthesizer-Audio & Haptik (Web Audio 0 KB)</label>
-          <label><input type="checkbox" id="optBloom" ${!window.SHADER_FX || window.SHADER_FX.bloom ? "checked" : ""}> ✨ WebGL Neon-Bloom Shader (Glow für Laser & Netze)</label>
-          <label><input type="checkbox" id="optCrt" ${window.SHADER_FX && window.SHADER_FX.crt ? "checked" : ""}> 📺 Retro CRT-Scanlines & Krümmung (Arcade-Look)</label>
-        </div>
-        <h4 style="margin-top:14px">🎯 Quiz-Regeln:</h4>
-        <div class="optList">
-          <label><input type="checkbox" id="optUnwichtig" ${store.get("fi-quiz-unwichtige-v1", false) ? "checked" : ""}> Nicht prüfungsrelevante Fragen überspringen</label>
-          <label><input type="checkbox" id="optStrafe" ${store.get("fi-quiz-strafe-v1", false) ? "checked" : ""}> Raten kostet Punkte (falsch −3, „Weiß ich nicht“ kostenlos)</label>
-        </div>
-      </div>
     `);
+
+    // Tabs Navigation
+    const tOpt = $("tabBtnOpt"), tChar = $("tabBtnChar"), tPet = $("tabBtnPet"), tKlasse = $("tabBtnKlasse"), tSync = $("tabBtnSync");
+    const cOpt = $("tabContentOpt"), cChar = $("tabContentChar"), cPet = $("tabContentPet"), cKlasse = $("tabContentKlasse"), cSync = $("tabContentSync");
+
+    function aktiviereTab(aktBtn, aktContent) {
+      [tOpt, tChar, tPet, tKlasse, tSync].forEach((b) => b && b.classList.remove("sel"));
+      [cOpt, cChar, cPet, cKlasse, cSync].forEach((c) => c && c.classList.add("hidden"));
+      if (aktBtn) aktBtn.classList.add("sel");
+      if (aktContent) aktContent.classList.remove("hidden");
+    }
+
+    if (tOpt) tOpt.onclick = () => aktiviereTab(tOpt, cOpt);
+    if (tChar) tChar.onclick = () => aktiviereTab(tChar, cChar);
+    if (tPet) tPet.onclick = () => aktiviereTab(tPet, cPet);
+    if (tKlasse) tKlasse.onclick = () => aktiviereTab(tKlasse, cKlasse);
+    if (tSync) tSync.onclick = () => { aktiviereTab(tSync, cSync); renderQr(); };
 
     // Avatar wechseln
     modalBody.querySelectorAll("[data-av]").forEach((b) => {
@@ -94665,35 +94838,18 @@ function kursListeHtml() {
       };
     });
 
-    // Tabs
-    const tChar = $("tabBtnChar"), tPet = $("tabBtnPet"), tKlasse = $("tabBtnKlasse"), tSync = $("tabBtnSync"), tOpt = $("tabBtnOpt");
-    const cChar = $("tabContentChar"), cPet = $("tabContentPet"), cKlasse = $("tabContentKlasse"), cSync = $("tabContentSync"), cOpt = $("tabContentOpt");
-
-    function aktiviereTab(aktBtn, aktContent) {
-      [tChar, tPet, tKlasse, tSync, tOpt].forEach(b => b && b.classList.remove("sel"));
-      [cChar, cPet, cKlasse, cSync, cOpt].forEach(c => c && c.classList.add("hidden"));
-      if (aktBtn) aktBtn.classList.add("sel");
-      if (aktContent) aktContent.classList.remove("hidden");
-    }
-
-    if (tChar) tChar.onclick = () => aktiviereTab(tChar, cChar);
-    if (tPet) tPet.onclick = () => aktiviereTab(tPet, cPet);
-    if (tKlasse) tKlasse.onclick = () => aktiviereTab(tKlasse, cKlasse);
-    if (tSync) tSync.onclick = () => { aktiviereTab(tSync, cSync); renderQr(); };
-    if (tOpt) tOpt.onclick = () => oeffneOptionenModal();
-
+    // Klasse wählen
     modalBody.querySelectorAll(".klasseWahlBtn").forEach(btn => {
       btn.onclick = () => {
         const kId = btn.dataset.klasse;
         if (window.IT_KLASSEN && window.IT_KLASSEN.setKlasse(kId)) {
           if (window.ton) window.ton("fanfare");
-          oeffneProfilModal();
-          const tk = $("tabBtnKlasse");
-          if (tk) tk.click();
+          oeffneOptionenModal("klasse");
         }
       };
     });
 
+    // Cloud-Sync: QR-Code rendern
     function renderQr() {
       const code = (store.get("fi-quiz-sync-v1", {}).code || "");
       if (code && typeof FI_QR !== "undefined") {
@@ -94701,11 +94857,17 @@ function kursListeHtml() {
           const qr = FI_QR(0, "M");
           qr.addData(window.location.origin + window.location.pathname + "#sync=" + code);
           qr.make();
-          $("syncQrContainer").innerHTML = qr.createSvgTag({ cellSize: 3, margin: 2, scalable: true });
+          const el = $("syncQrContainer");
+          if (el) el.innerHTML = qr.createSvgTag({ cellSize: 3, margin: 2, scalable: true });
         } catch (e) {
-          $("syncQrContainer").textContent = "QR-Code Code: " + code;
+          const el = $("syncQrContainer");
+          if (el) el.textContent = "QR-Code Code: " + code;
         }
       }
+    }
+
+    if (startTab === "sync") {
+      renderQr();
     }
 
     const copyCodeBtn = $("syncCopyCodeBtn");
@@ -94807,209 +94969,7 @@ function kursListeHtml() {
       };
     }
 
-    // Optionen Events
-    const optS = $("optSound");
-    if (optS) {
-      optS.onchange = (e) => {
-        store.set("fi-quiz-ton-v1", e.target.checked);
-        if (window.AUDIO_SYNTH) window.AUDIO_SYNTH.setMuted(!e.target.checked);
-      };
-    }
-    const optB = $("optBloom");
-    if (optB) {
-      optB.onchange = (e) => {
-        if (window.SHADER_FX) window.SHADER_FX.bloom = e.target.checked;
-      };
-    }
-    const optC = $("optCrt");
-    if (optC) {
-      optC.onchange = (e) => {
-        if (window.SHADER_FX) window.SHADER_FX.crt = e.target.checked;
-      };
-    }
-    const optU = $("optUnwichtig");
-    if (optU) optU.onchange = (e) => store.set("fi-quiz-unwichtige-v1", e.target.checked);
-    const optSt = $("optStrafe");
-    if (optSt) optSt.onchange = (e) => store.set("fi-quiz-strafe-v1", e.target.checked);
-  }
-
-  // 6b. Neues Optionen- & Einstellungs-Center (Audio, Outdoor/Helligkeit, Regeln)
-  function oeffneOptionenModal() {
-    const theme = localStorage.getItem("fi-quiz-theme-v1") || "auto";
-    const brightnessVal = Math.round(parseFloat(localStorage.getItem("fi-quiz-brightness-v1") || "1.0") * 100);
-    const musicVol = Math.round((window.CHIPTUNE && typeof window.CHIPTUNE.getVolume === "function" ? window.CHIPTUNE.getVolume() : 0.5) * 100);
-    const musicMuted = window.CHIPTUNE && typeof window.CHIPTUNE.isMuted === "function" ? window.CHIPTUNE.isMuted() : false;
-    const soundVol = Math.round((window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.getVolume === "function" ? window.AUDIO_SYNTH.getVolume() : 0.25) * 100);
-    const soundMuted = window.AUDIO_SYNTH && typeof window.AUDIO_SYNTH.isMuted === "function" ? window.AUDIO_SYNTH.isMuted() : false;
-    const strafe = store.get("fi-quiz-strafe-v1", false);
-    const unwichtig = store.get("fi-quiz-unwichtige-v1", false);
-    const sprache = (typeof K2 !== "undefined" && K2.ueber ? store.get(K2.ueber, "") : store.get("fi-quiz-ueber-v1", "")) || "";
-    const bloom = !window.SHADER_FX || window.SHADER_FX.bloom;
-    const crt = window.SHADER_FX && window.SHADER_FX.crt;
-
-    zeigeModal("⚙️ Optionen & Einstellungen", `
-      <div class="optContainer">
-        <!-- 1. Display, Design & Helligkeit (Outdoor-Sonne) -->
-        <div class="optSection">
-          <div class="optSectionTitle">
-            <span>☀️</span>
-            <span>Display, Design &amp; Helligkeit</span>
-          </div>
-          <div class="optSectionSub">
-            Wähle dein bevorzugtes Farbschema oder aktiviere den <b>Outdoor-Sonnentag-Modus</b> mit reflexionsfreiem, maximalem Schwarz-Weiß-Kontrast für helle Tage.
-          </div>
-
-          <div class="optSegmentGroup" id="optThemeGroup">
-            <button type="button" class="optSegmentBtn ${theme === "dark" ? "active" : ""}" data-theme-val="dark">
-              <span style="font-size:16px;">🌙</span>
-              <span>Dunkel</span>
-              <small style="opacity:0.75">Cyber Dark</small>
-            </button>
-            <button type="button" class="optSegmentBtn ${theme === "light" ? "active" : ""}" data-theme-val="light">
-              <span style="font-size:16px;">💡</span>
-              <span>Hell</span>
-              <small style="opacity:0.75">Clean Light</small>
-            </button>
-            <button type="button" class="optSegmentBtn outdoorBtn ${theme === "outdoor" ? "active" : ""}" data-theme-val="outdoor" title="Maximaler Kontrast für direktes Sonnenlicht draußen">
-              <span style="font-size:16px;">☀️</span>
-              <span>Sonne / Outdoor</span>
-              <small style="opacity:0.85;font-weight:700">High-Contrast</small>
-            </button>
-            <button type="button" class="optSegmentBtn ${theme === "auto" ? "active" : ""}" data-theme-val="auto">
-              <span style="font-size:16px;">🖥️</span>
-              <span>System</span>
-              <small style="opacity:0.75">Automatisch</small>
-            </button>
-          </div>
-
-          <div class="optSliderRow">
-            <div class="optSliderLabel">
-              <span>🔆</span>
-              <span>Helligkeits-Boost:</span>
-            </div>
-            <div class="optSliderControl">
-              <input type="range" class="optRangeInput" id="optBrightnessInput" min="70" max="140" step="5" value="${brightnessVal}">
-              <span class="optValBadge" id="optBrightnessVal">${brightnessVal} %</span>
-              <button type="button" class="optMiniBtn" id="optBrightnessReset" title="Auf 100% zurücksetzen">Reset</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2. Audio & Sound-Regler -->
-        <div class="optSection">
-          <div class="optSectionTitle">
-            <span>🎵</span>
-            <span>Audio &amp; Sound-Lautstärke</span>
-          </div>
-          <div class="optSectionSub">
-            WebAudio Synthesizer: 8-Bit Chiptune Hintergrundmusik &amp; Soundeffekte für Interaktionen und Quizfragen.
-          </div>
-
-          <div class="optSliderRow">
-            <div class="optSliderLabel">
-              <span>🎶</span>
-              <span>8-Bit Musik:</span>
-            </div>
-            <div class="optSliderControl">
-              <input type="range" class="optRangeInput" id="optMusicVolInput" min="0" max="100" step="5" value="${musicMuted ? 0 : musicVol}">
-              <span class="optValBadge" id="optMusicVolVal">${musicMuted ? "0 %" : musicVol + " %"}</span>
-              <button type="button" class="optMiniBtn" id="optMusicMuteBtn">${musicMuted ? "Stumm: An" : "Stumm"}</button>
-            </div>
-          </div>
-
-          <div class="optSliderRow">
-            <div class="optSliderLabel">
-              <span>🔊</span>
-              <span>Sound-Effekte (SFX):</span>
-            </div>
-            <div class="optSliderControl">
-              <input type="range" class="optRangeInput" id="optSoundVolInput" min="0" max="100" step="5" value="${soundMuted ? 0 : soundVol}">
-              <span class="optValBadge" id="optSoundVolVal">${soundMuted ? "0 %" : soundVol + " %"}</span>
-              <button type="button" class="optMiniBtn" id="optSoundTestBtn">▶ Test</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3. Quiz-Schwierigkeit & Modus -->
-        <div class="optSection">
-          <div class="optSectionTitle">
-            <span>🎯</span>
-            <span>Quiz-Schwierigkeit &amp; Prüfungsregeln</span>
-          </div>
-          <div class="optSectionSub">
-            Passe das Regelwerk deinen Lernbedürfnissen an – von entspanntem Lernen bis zum harten IHK-Prüfungsdrill.
-          </div>
-
-          <div class="optSegmentGroup" id="optDiffGroup" style="margin-bottom:8px">
-            <button type="button" class="optSegmentBtn ${!strafe ? "active" : ""}" id="optDiffEasy">
-              <span style="font-size:16px;">🟢</span>
-              <span>Entspannt</span>
-              <small style="opacity:0.75">Keine Minuspunkte</small>
-            </button>
-            <button type="button" class="optSegmentBtn ${strafe ? "active" : ""}" id="optDiffHard">
-              <span style="font-size:16px;">🔴</span>
-              <span>IHK-Prüfungsdrill</span>
-              <small style="opacity:0.75">Raten kostet Punkte</small>
-            </button>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px; margin-top:6px;">
-            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-              <input type="checkbox" id="optCheckStrafe" ${strafe ? "checked" : ""}>
-              <span>Raten kostet Punkte (falsch −3 Punkte, „Weiß ich nicht“ kostenlos)</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-              <input type="checkbox" id="optCheckUnwichtig" ${unwichtig ? "checked" : ""}>
-              <span>Nicht prüfungsrelevante Fragen überspringen</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- 4. Retro-Grafik & Shader -->
-        <div class="optSection">
-          <div class="optSectionTitle">
-            <span>✨</span>
-            <span>Grafik-Shader &amp; Retro-Look</span>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px;">
-            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-              <input type="checkbox" id="optBloomShader" ${bloom ? "checked" : ""}>
-              <span>WebGL Neon-Bloom Shader (Glow für Laser &amp; Netzknoten)</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-              <input type="checkbox" id="optCrtShader" ${crt ? "checked" : ""}>
-              <span>Retro CRT-Scanlines &amp; Krümmung (Arcade-Look)</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- 5. Sprachauswahl -->
-        <div class="optSection">
-          <div class="optSectionTitle">
-            <span>🌐</span>
-            <span>Übersetzungshilfe</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:11.5px;flex-wrap:wrap;">
-            <span>Sprache für den Übersetzen-Knopf:</span>
-            <select id="optSpracheSelect" style="background:#1c1812;color:#fff;border:1px solid #7c3aed;padding:4px 8px;border-radius:4px;">
-              <option value="" ${sprache === "" ? "selected" : ""}>Aus (nur Deutsch)</option>
-              <option value="en" ${sprache === "en" ? "selected" : ""}>English</option>
-              <option value="ro" ${sprache === "ro" ? "selected" : ""}>Română</option>
-              <option value="tr" ${sprache === "tr" ? "selected" : ""}>Türkçe</option>
-              <option value="ru" ${sprache === "ru" ? "selected" : ""}>Русский</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Verknüpfung zu Helden-Profil -->
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;flex-wrap:wrap;gap:8px;">
-          <button type="button" class="hubBtn" id="optToProfilBtn" style="border-color:#38bdf8;color:#7dd3fc;">🧙 Zum Helden-Kleiderschrank &amp; Cloud-Sync ➔</button>
-          <button type="button" class="primary" id="optDoneBtn" style="padding:6px 14px;">Fertig</button>
-        </div>
-      </div>
-    `);
-
-    // Theme Buttons
+    // Optionen Events: Theme Buttons
     modalBody.querySelectorAll("[data-theme-val]").forEach((btn) => {
       btn.onclick = () => {
         const val = btn.dataset.themeVal;
@@ -95145,10 +95105,13 @@ function kursListeHtml() {
       };
     }
 
-    // Bottom Navigation
-    const toProf = $("optToProfilBtn"), done = $("optDoneBtn");
-    if (toProf) toProf.onclick = () => oeffneProfilModal();
+    // Schließen
+    const done = $("optDoneBtn");
     if (done) done.onclick = () => schliesseModal();
+  }
+
+  function oeffneProfilModal(startTab = "char") {
+    oeffneOptionenModal(startTab);
   }
 
   // Quick Buttons im HUD
@@ -95243,10 +95206,10 @@ function kursListeHtml() {
   }
 
   const syncBtn = $("hubSyncBtn");
-  if (syncBtn) syncBtn.onclick = () => oeffneBereich("profil");
+  if (syncBtn) syncBtn.onclick = () => oeffneOptionenModal("sync");
 
   const plBadge = $("hubPlayerBadge");
-  if (plBadge) plBadge.onclick = () => oeffneBereich("profil");
+  if (plBadge) plBadge.onclick = () => oeffneOptionenModal("char");
 
   // KIS-Wichtel Klick öffnet Coach-Chat
   $("hubWichtelCoachLink").onclick = () => {
@@ -95301,6 +95264,7 @@ function kursListeHtml() {
   window.setzeFokus = setzeFokus;
   window.oeffneBereich = oeffneBereich;
   window.oeffneProfilModal = oeffneProfilModal;
+  window.oeffneOptionenModal = oeffneOptionenModal;
   window.setCosmeticHat = (hat) => {
     const c = cfg().cosmetics || {};
     c.hat = hat;
