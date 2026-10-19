@@ -8174,10 +8174,10 @@ body.retro #introModal h3 {
 
 /* 2D-Hauptbuehne (Raum) */
 .simStage {
-  height: 250px;
+  height: 290px;
   flex-shrink: 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: radial-gradient(circle at 50% 30%, #1e293b, #090d16);
   display: flex;
   align-items: flex-end;
@@ -8208,8 +8208,8 @@ body.retro #introModal h3 {
 /* Akteure auf der Buehne */
 .simActorsWrap {
   width: 100%;
-  max-width: 1000px;
-  height: 220px;
+  max-width: 1020px;
+  height: 250px;
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -8224,7 +8224,7 @@ body.retro #introModal h3 {
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 220px;
+  width: 230px;
 }
 .simPrueferTable {
   width: 150px;
@@ -8254,16 +8254,18 @@ body.retro #introModal h3 {
 /* Comic-Gedankenblase des Prüfers */
 .simThoughtBubble {
   position: absolute;
-  bottom: 145px;
+  bottom: 125px;
   left: -20px;
   background: rgba(15, 23, 42, 0.96);
   border: 2px solid #38bdf8;
   border-radius: 20px;
   padding: 10px 14px;
-  font-size: 12.5px;
+  font-size: 12px;
   line-height: 1.4;
   color: #e0f2fe;
-  max-width: 260px;
+  max-width: 270px;
+  max-height: 110px;
+  overflow-y: auto;
   box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
   z-index: 10;
   animation: simFloat 3.2s ease-in-out infinite alternate;
@@ -8315,19 +8317,21 @@ body.retro #introModal h3 {
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 240px;
+  width: 260px;
 }
 .simSpeechBubble {
   position: absolute;
-  bottom: 145px;
+  bottom: 125px;
   background: #ffffff;
   color: #0f172a;
   border-radius: 16px;
-  padding: 10px 16px;
-  font-size: 13px;
+  padding: 10px 14px;
+  font-size: 12.5px;
   font-weight: 500;
   line-height: 1.4;
-  width: 280px;
+  width: 320px;
+  max-height: 115px;
+  overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
   z-index: 10;
 }
