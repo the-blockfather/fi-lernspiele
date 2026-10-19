@@ -8085,7 +8085,7 @@ body.retro #introModal h3 {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(10, 15, 29, 0.95);
+  background: rgba(10, 15, 29, 0.96);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
@@ -8095,7 +8095,7 @@ body.retro #introModal h3 {
   color: #f8fafc;
 }
 
-/* Header-Leiste mit Themen-Dropdown & Modus-Umschaltung */
+/* Header-Leiste */
 .simHeader {
   min-height: 58px;
   padding: 8px 20px;
@@ -8103,7 +8103,7 @@ body.retro #introModal h3 {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(15, 23, 42, 0.9);
   gap: 12px;
   flex-wrap: wrap;
 }
@@ -8124,7 +8124,6 @@ body.retro #introModal h3 {
   white-space: nowrap;
 }
 
-/* Dropdown für Szenarien / Themen */
 .simSelectThema {
   background: #1e293b;
   border: 1px solid #38bdf8;
@@ -8139,34 +8138,6 @@ body.retro #introModal h3 {
 .simSelectThema option {
   background: #0f172a;
   color: #f8fafc;
-}
-
-/* Modus-Umschalter (Buttons vs. Freitext) */
-.simModeToggle {
-  display: inline-flex;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  padding: 2px;
-  gap: 2px;
-}
-.simModeBtn {
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  font-size: 11.5px;
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-height: auto;
-}
-.simModeBtn.active {
-  background: #38bdf8;
-  color: #0f172a;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
 }
 
 .simMetaStats {
@@ -8203,17 +8174,17 @@ body.retro #introModal h3 {
 
 /* 2D-Hauptbuehne (Raum) */
 .simStage {
-  flex: 1;
+  height: 250px;
+  flex-shrink: 0;
   position: relative;
   overflow: hidden;
   background: radial-gradient(circle at 50% 30%, #1e293b, #090d16);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 24px;
+  padding-bottom: 16px;
 }
 
-/* Raum-Deko-Hintergrund */
 .simRoomBg {
   position: absolute;
   inset: 0;
@@ -8229,7 +8200,7 @@ body.retro #introModal h3 {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 90px;
+  height: 70px;
   background: linear-gradient(to bottom, #111827, #030712);
   border-top: 2px solid rgba(255, 255, 255, 0.08);
 }
@@ -8237,13 +8208,13 @@ body.retro #introModal h3 {
 /* Akteure auf der Buehne */
 .simActorsWrap {
   width: 100%;
-  max-width: 1100px;
-  height: 290px;
+  max-width: 1000px;
+  height: 220px;
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0 40px;
+  padding: 0 30px;
   z-index: 2;
 }
 
@@ -8253,15 +8224,15 @@ body.retro #introModal h3 {
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 240px;
+  width: 220px;
 }
 .simPrueferTable {
-  width: 170px;
-  height: 48px;
+  width: 150px;
+  height: 42px;
   background: linear-gradient(135deg, #334155, #1e293b);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px 8px 0 0;
-  margin-top: -16px;
+  margin-top: -14px;
   position: relative;
   z-index: 3;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
@@ -8270,7 +8241,7 @@ body.retro #introModal h3 {
   justify-content: center;
 }
 .simTablePlateText {
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -8280,31 +8251,30 @@ body.retro #introModal h3 {
   border-radius: 4px;
 }
 
-/* Gedankenblase des Prüfers (Comic-Wölkchen-Stil) */
+/* Comic-Gedankenblase des Prüfers */
 .simThoughtBubble {
   position: absolute;
-  bottom: 185px;
+  bottom: 145px;
   left: -20px;
   background: rgba(15, 23, 42, 0.96);
   border: 2px solid #38bdf8;
-  border-radius: 22px;
-  padding: 12px 16px;
-  font-size: 13px;
-  line-height: 1.45;
+  border-radius: 20px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  line-height: 1.4;
   color: #e0f2fe;
-  max-width: 290px;
+  max-width: 260px;
   box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
   z-index: 10;
   animation: simFloat 3.2s ease-in-out infinite alternate;
 }
-/* Kleine Gedanken-Kugeln unter der Wolke */
 .simThoughtBubble::before {
   content: "";
   position: absolute;
-  bottom: -16px;
+  bottom: -14px;
   left: 45px;
-  width: 13px;
-  height: 13px;
+  width: 11px;
+  height: 11px;
   background: rgba(15, 23, 42, 0.96);
   border: 2px solid #38bdf8;
   border-radius: 50%;
@@ -8312,29 +8282,28 @@ body.retro #introModal h3 {
 .simThoughtBubble::after {
   content: "";
   position: absolute;
-  bottom: -28px;
-  left: 36px;
-  width: 8px;
-  height: 8px;
+  bottom: -24px;
+  left: 38px;
+  width: 7px;
+  height: 7px;
   background: rgba(15, 23, 42, 0.96);
   border: 2px solid #38bdf8;
   border-radius: 50%;
 }
 @keyframes simFloat {
   from { transform: translateY(0); }
-  to { transform: translateY(-7px); }
+  to { transform: translateY(-6px); }
 }
 
-/* Notizblock am Schreibtisch */
 .simNoteBadge {
-  margin-top: 6px;
-  font-size: 11px;
-  padding: 4px 8px;
+  margin-top: 4px;
+  font-size: 10.5px;
+  padding: 3px 8px;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 6px;
   border-left: 3px solid #38bdf8;
   color: #cbd5e1;
-  max-width: 230px;
+  max-width: 210px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -8346,46 +8315,46 @@ body.retro #introModal h3 {
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 260px;
+  width: 240px;
 }
 .simSpeechBubble {
   position: absolute;
-  bottom: 185px;
+  bottom: 145px;
   background: #ffffff;
   color: #0f172a;
-  border-radius: 18px;
-  padding: 12px 18px;
-  font-size: 13.5px;
+  border-radius: 16px;
+  padding: 10px 16px;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 1.45;
-  width: 320px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  line-height: 1.4;
+  width: 280px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
   z-index: 10;
 }
 .simSpeechBubble::after {
   content: "";
   position: absolute;
-  bottom: -9px;
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 9px 9px 0;
+  border-width: 8px 8px 0;
   border-style: solid;
   border-color: #ffffff transparent;
   display: block;
   width: 0;
 }
 
-/* Spieler-Station (Rechts mit Walk-In Animation) */
+/* Spieler-Station (Rechts) */
 .simStationPlayer {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 180px;
+  width: 160px;
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .simStationPlayer.isWalkingIn {
-  transform: translateX(180px);
+  transform: translateX(160px);
   opacity: 0;
 }
 .simStationPlayer.hasWalkedIn {
@@ -8393,162 +8362,181 @@ body.retro #introModal h3 {
   opacity: 1;
 }
 
-/* Untere Interaktions- & Dialog-Konsole */
-.simConsole {
-  min-height: 230px;
+/* =========================================================================
+   Interaktiver Chat-Bereich (Unten, wie ein moderner Messenger)
+   ========================================================================= */
+.simChatSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background: #090d16;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Chatverlauf (Scrollbar) */
+.simChatHistory {
+  flex: 1;
+  overflow-y: auto;
   padding: 16px 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  z-index: 5;
-}
-.simPromptPrompt {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-/* Option-Buttons Modus */
-.simOptionsList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-  max-height: 200px;
-}
-.simOptionBtn {
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #f1f5f9;
+/* Chat-Nachrichten */
+.simChatMsg {
+  max-width: 78%;
   padding: 12px 16px;
-  border-radius: 10px;
+  border-radius: 14px;
   font-size: 13.5px;
-  text-align: left;
-  line-height: 1.4;
-  cursor: pointer;
-  transition: all 0.15s;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  line-height: 1.5;
+  animation: simMsgIn 0.2s ease-out;
 }
-.simOptionBtn:hover:not(:disabled) {
-  background: rgba(56, 189, 248, 0.15);
-  border-color: #38bdf8;
-  transform: translateY(-2px);
+@keyframes simMsgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.simOptionNum {
-  background: rgba(255, 255, 255, 0.12);
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+
+/* Nachricht vom Kunden */
+.simChatMsg.partner {
+  align-self: flex-start;
+  background: #1e293b;
+  color: #f1f5f9;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom-left-radius: 3px;
+}
+.simChatMsgAuthor {
   font-size: 11px;
   font-weight: 700;
-  flex-shrink: 0;
-  margin-top: 1px;
+  color: #38bdf8;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* Freitext-Eingabemodus */
-.simTextformWrap {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Eigene Nachricht (Spieler) */
+.simChatMsg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #ffffff;
+  border-bottom-right-radius: 3px;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
 }
-.simTextarea {
-  width: 100%;
-  min-height: 80px;
+
+/* Prüfer-Feedback Einblendung im Chat */
+.simChatMsg.feedback {
+  align-self: center;
+  max-width: 90%;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #38bdf8;
+  border-left: 4px solid #10b981;
+  border-radius: 10px;
+  color: #e2e8f0;
+  font-size: 13px;
+}
+.simChatMsg.feedback.kritik {
+  border-left-color: #ef4444;
+}
+
+/* Eingabe-Leiste unten */
+.simChatInputBar {
+  padding: 12px 20px;
+  background: #0f172a;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.simChatInput {
+  flex: 1;
   background: #1e293b;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  padding: 12px 14px;
+  border-radius: 24px;
+  padding: 12px 18px;
   color: #f8fafc;
   font-family: inherit;
   font-size: 14px;
-  line-height: 1.45;
-  resize: vertical;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
-.simTextarea:focus {
+.simChatInput:focus {
   border-color: #38bdf8;
   box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
 }
-.simTextSubmitBtn {
-  align-self: flex-end;
+.simChatSendBtn {
   background: linear-gradient(135deg, #0284c7, #2563eb);
   color: #fff;
   border: none;
   font-weight: 700;
-  padding: 10px 20px;
-  border-radius: 8px;
+  font-size: 13.5px;
+  padding: 12px 20px;
+  border-radius: 24px;
   cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+}
+.simChatSendBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+}
+.simChatSendBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
-/* Auswertungs- & End-Dialog */
-.simResultCard {
+/* Vorschlag-Chips / Denkanstöße */
+.simChipsRow {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px 8px;
+  overflow-x: auto;
   background: #0f172a;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-radius: 16px;
-  padding: 24px;
-  max-width: 560px;
-  margin: auto;
-  text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
 }
-.simResultGrade {
-  font-size: 48px;
-  font-weight: 800;
-  color: #38bdf8;
-  margin: 10px 0;
-}
-.simResultPoints {
-  font-size: 16px;
+.simPromptChip {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #94a3b8;
-  margin-bottom: 20px;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
 }
-.simFeedbackList {
-  text-align: left;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  padding: 14px 18px;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 20px;
+.simPromptChip:hover {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border-color: #38bdf8;
 }
 
 /* Mobile Optimierung */
 @media (max-width: 768px) {
-  .simHeader {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    height: auto;
-    padding: 10px 14px;
+  .simStage {
+    height: 180px;
   }
   .simActorsWrap {
-    padding: 0 8px;
-    height: 250px;
+    height: 160px;
+    padding: 0 10px;
   }
   .simSpeechBubble {
-    width: 220px;
-    font-size: 12px;
-    bottom: 150px;
+    width: 200px;
+    font-size: 11.5px;
+    bottom: 110px;
   }
   .simThoughtBubble {
-    max-width: 170px;
+    max-width: 160px;
     font-size: 11px;
-    bottom: 140px;
-    left: -5px;
+    bottom: 110px;
+    left: -10px;
   }
-  .simPrueferTable {
-    width: 120px;
+  .simChatMsg {
+    max-width: 90%;
   }
 }
 
@@ -75529,16 +75517,16 @@ Ablaufverfolgung beendet.`, "success");
 /* ---- f_pruefungs_simulator.js ---- */
 // f_pruefungs_simulator.js - Mündlicher IHK-Prüfungs- & Beratungs-Simulator
 // 2D-Bühne mit Prüfer, Gesprächspartner (Kunde/Kollege) und Spieler (Walk-In-Choreografie).
-// Bietet Themenauswahl (LF02 Storage, LF02 Hardware/CAD, LF03 Subnetting/VLAN, LF05 Python/Logik),
-// Umschaltung zwischen Button-Auswahl und Freitext-Eingabe sowie Comic-Gedankenblasen des Prüfers.
+// Bietet einen interaktiven, fortlaufenden Chatverlauf mit freier Texteingabe,
+// tiefergehenden Rückfragen (5 Schritte pro Fall), Denkanstoß-Chips und Live-Gedankenblasen.
 (function () {
   "use strict";
 
-  // Registry für vielfältige Prüfungsszenarien aus LF02, LF03 und LF05
+  // Ausführliche Szenarien mit 5 interaktiven Gesprächsstufen
   const SZENARIEN = {
     "raid-dr-weber": {
       id: "raid-dr-weber",
-      titel: "Storage & Backup: Arztpraxis Dr. Weber",
+      titel: "Storage- & Ausfallsicherheits-Beratung: Praxis Dr. Weber",
       lernfeld: "LF02",
       thema: "Massenspeicher, RAID & Datensicherung",
       rollen: {
@@ -75547,115 +75535,61 @@ Ablaufverfolgung beendet.`, "success");
       },
       schritte: [
         {
-          partnerSagt: "Guten Tag! Wir digitalisieren gerade unsere Praxisakten. Mein Schwager meinte, zwei gespiegelte Festplatten (RAID 1) reichen völlig aus und wir sparen uns das teure Backup. Was sagen Sie als IT-Fachkraft dazu?",
-          prueferDenkt: "💭 Mal sehen, ob der Prüfling Verfügbarkeit sauber von Datensicherung trennen kann...",
+          partnerSagt: "Guten Tag! Wir digitalisieren gerade unsere gesamten Patientenakten. Mein Schwager meinte neulich beim Abendessen: 'Baut euch zwei gespiegelte Festplatten (RAID 1) ein, dann spart ihr euch das teure externe Backup, weil ja ohnehin alles doppelt existiert!' Was sagen Sie als IT-Spezialist zu diesem Ratschlag?",
+          prueferDenkt: "💭 K.O.-Klassiker der IHK-Mündlichen! Ich bin gespannt, ob der Prüfling Verfügbarkeit sauber von Datensicherung trennen kann...",
           prueferNotiz: "📝 Prüft Verständnis: RAID vs. Backup",
-          stichworte: ["kein backup", "ausfall", "3-2-1", "viren", "ransomware", "löschen", "verfügbarkeit", "trennen", "hardware"],
-          musterAntwort: "Ein RAID 1 schützt nur vor einem Hardwaredefekt, ist aber kein Backup. Versehentlich gelöschte Akten oder Ransomware-Verschlüsselung werden sofort auf beide Platten gespiegelt. Ein getrenntes Backup (3-2-1-Regel) ist unverzichtbar.",
-          optionen: [
-            {
-              text: "Ein RAID 1 schützt vor dem Ausfall einer Festplatte, ersetzt aber niemals ein Backup. Gegen Viren, Ransomware, versehentliches Löschen oder Blitzschlag hilft nur ein getrenntes Backup (3-2-1-Regel).",
-              korrekt: true,
-              punkte: 35,
-              partnerReaktion: "Oh! Verstehe. Wenn ich also versehentlich eine Patientenakte lösche, löscht das RAID sie auf beiden Platten sofort mit!",
-              partnerPose: "talk",
-              prueferReaktion: "💭 Exzellent! Saubere Trennung von Ausfallsicherheit und Datensicherung, 3-2-1-Regel souverän platziert.",
-              prueferPose: "nod",
-              prueferNotiz: "✔ 3-2-1-Regel & Schutzziele präzise erläutert (+35 Pkt)",
-              feedback: "Sehr gut! Ein RAID schützt nur die Ausfallsicherheit (High Availability), nicht die Integrität gegen logische Fehler oder Schadsoftware."
-            },
-            {
-              text: "Ihr Schwager hat im Prinzip recht. Da RAID 1 Daten in Echtzeit spiegelt, haben Sie immer eine 1:1-Sicherung. Ein zusätzliches Backup wäre reine Geldverschwendung.",
-              korrekt: false,
-              punkte: -25,
-              partnerReaktion: "Klasse, das spart uns viel Budget für neue medizinische Geräte!",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 K.O.-Fehler! Bei einem Cryptotrojaner wären jetzt alle Patientendaten unwiederbringlich verschlüsselt.",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Fataler Fachfehler: Verwechselt RAID mit Backup (-25 Pkt)",
-              feedback: "IHK-Todsünde: Ein RAID ist KEIN Backup! Versehentliches Löschen oder Ransomware überträgt sich sofort auf alle gespiegelten Platten."
-            },
-            {
-              text: "RAID 1 ist veraltet. Nehmen Sie lieber ein RAID 0, das ist doppelt so schnell beim Laden der Röntgenbilder.",
-              korrekt: false,
-              punkte: -30,
-              partnerReaktion: "Schnelligkeit klingt gut, aber was passiert, wenn eine Platte kaputtgeht?",
-              partnerPose: "think",
-              prueferReaktion: "💭 Bei RAID 0 führt der Ausfall einer einzigen Platte zum Totalverlust ALLER Daten! Für eine Arztpraxis unverantwortlich.",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Schlägt RAID 0 ohne Redundanz vor (-30 Pkt)",
-              feedback: "Gefährlich! RAID 0 bietet null Fehlertoleranz (Striping ohne Parität). Fällt eine Platte aus, sind alle Daten verloren."
-            }
-          ]
+          stichworte: ["kein backup", "ausfall", "3-2-1", "viren", "ransomware", "löschen", "verfügbarkeit", "trennen", "hardware", "spiegel", "cryptotrojaner"],
+          musterAntwort: "Ein RAID 1 schützt ausschließlich vor dem Hardwareausfall einer einzelnen Platte. Es ist aber keinesfalls ein Backup! Versehentlich gelöschte Akten oder Ransomware-Verschlüsselungen werden in Echtzeit synchron auf beide Platten geschrieben. Ein separates, versioniertes Backup (3-2-1-Regel) ist unverzichtbar.",
+          tipps: ["Erkläre den Unterschied zwischen Hardwareausfall und logischem Fehler (Viren/Löschen)", "Erwähne die 3-2-1-Backup-Regel"],
+          reaktionGut: "Oh Schreck! Daran habe ich überhaupt nicht gedacht. Wenn eine Mitarbeiterin versehentlich eine Akte löscht oder ein Virus zuschlägt, löscht das RAID die Daten auf beiden Platten gleichzeitig weg!",
+          reaktionSchlecht: "Mein Schwager klang aber sehr überzeugt. Warum sollten wir doppelt Geld ausgeben, wenn doch zwei Platten im Server stecken?"
         },
         {
-          partnerSagt: "Gut, dass Sie das aufklären! Reicht es denn, wenn wir abends einfach einen USB-Stick anstecken und die Daten darauf kopieren?",
-          prueferDenkt: "💭 Jetzt geht es um die professionelle Umsetzung: 3-2-1-Regel, Medienbruch und Verschlüsselung (DSGVO).",
-          prueferNotiz: "📝 Prüft Backup-Konzept & DSGVO-Konformität",
-          stichworte: ["usb", "automatisch", "offline", "air-gap", "verschlüsselt", "dsgvo", "safe", "medienbruch", "nas"],
-          musterAntwort: "Nein, USB-Sticks sind unzuverlässig und werden oft vergessen. Wir empfehlen ein automatisiertes Backup auf ein NAS und mindestens eine verschlüsselte Kopie außer Haus oder offline (Air-Gap) gemäß DSGVO.",
-          optionen: [
-            {
-              text: "Nein, ein einfacher USB-Stick ist fehleranfällig und unzureichend. Wir empfehlen ein automatisiertes Backup nach 3-2-1: Daten auf NAS sichern und zusätzlich eine versionierte, verschlüsselte Kopie räumlich getrennt (z. B. DSGVO-konforme Cloud oder externes Medium im Safe).",
-              korrekt: true,
-              punkte: 35,
-              partnerReaktion: "Das klingt nach einem durchdachten und sicheren Plan. Datenschutz hat bei uns oberste Priorität.",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 Hervorragend! Automatisiert, räumlich getrennt und DSGVO-Aspekte berücksichtigt.",
-              prueferPose: "nod",
-              prueferNotiz: "✔ 3-2-1-Regel, Verschlüsselung & Medienbruch gemeistert (+35 Pkt)",
-              feedback: "Genau richtig: Manuelle USB-Sticks werden oft vergessen, gehen verloren oder sind unverschlüsselt ein DSGVO-Sicherheitsrisiko."
-            },
-            {
-              text: "Ja, ein USB-Stick reicht völlig. Lassen Sie ihn einfach dauerhaft am Server eingesteckt, damit die Sprechstundenhilfe nicht daran denken muss.",
-              korrekt: false,
-              punkte: -20,
-              partnerReaktion: "Praktisch! Dann müssen wir uns um nichts mehr kümmern.",
-              partnerPose: "talk",
-              prueferReaktion: "💭 Bleibt der USB-Stick dauerhaft eingesteckt, verschlüsselt Ransomware das Backup gleich mit! Kein Medienbruch.",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Kein Offline-Backup / Ransomware-Falle übersehen (-20 Pkt)",
-              feedback: "Falsch: Ein dauerhaft verbundener Datenträger bietet keinen Schutz vor Ransomware. Mindestens eine Kopie muss offline (Air-Gapped) sein."
-            }
-          ]
+          partnerSagt: "Puh, gut dass Sie mich davor bewahrt haben! Aber tut es dann nicht einfach ein handelsüblicher 1-TB-USB-Stick, den wir abends nach Praxisschluss kurz anstecken und alles rüberkopieren?",
+          prueferDenkt: "💭 Frage zur Backup-Praxis: Automatisierung, Medienbruch, DSGVO-Verschlüsselung und Ausfallsicherheit von Flash-Speicher.",
+          prueferNotiz: "📝 Prüft Backup-Medien & Automatisierung",
+          stichworte: ["usb", "automatisch", "offline", "air-gap", "verschlüsselt", "dsgvo", "safe", "medienbruch", "nas", "zuverlässig"],
+          musterAntwort: "Nein, ein USB-Stick ist für geschäftskritische Patientendaten ungeeignet. USB-Sticks haben begrenzte Schreibzyklen, gehen leicht verloren und manuelle Kopien werden im Praxisalltag vergessen. Wir benötigen ein automatisiertes Backup (z. B. auf ein NAS) und mindestens eine verschlüsselte Kopie außer Haus oder offline (Air-Gap) gemäß DSGVO.",
+          tipps: ["Gefahren von USB-Sticks (Verlust, Verschleiß, menschliches Vergessen)", "Bedeutung von Automatisierung und Verschlüsselung nach DSGVO"],
+          reaktionGut: "Stimmt, wenn viel los ist, vergisst man das manuelle Kopieren schnell. Und wenn der unverschlüsselte Stick verloren geht, droht ein massives DSGVO-Bußgeld!",
+          reaktionSchlecht: "Aber ein USB-Stick ist so schön billig und unkompliziert. Warum muss es denn immer gleich so teuer sein?"
         },
         {
-          partnerSagt: "Und wenn doch mal eine Festplatte im Server ausfällt: Können meine Mitarbeiterinnen dann sofort weiterarbeiten, oder steht die Praxis still?",
-          prueferDenkt: "💭 Frage zur Ausfallsicherheit: Hot-Swap, Rebuild-Phase und degraded Mode.",
+          partnerSagt: "Das leuchtet mir ein. Und wenn wir das NAS im Serverraum stehen haben: Was machen wir, wenn es in der Praxis brennt oder ein Rohrbruch die IT unter Wasser setzt?",
+          prueferDenkt: "💭 Jetzt sind wir mitten in der 3-2-1-Backup-Regel: Die '1' (mindestens 1 Kopie an einem räumlich getrennten Standort).",
+          prueferNotiz: "📝 Prüft räumliche Trennung & Brand/Wasserschutz",
+          stichworte: ["3-2-1", "räumlich", "getrennt", "brand", "wasser", "cloud", "dsgvo", "safe", "rechenzentrum", "offsite", "extern"],
+          musterAntwort: "Hier greift die 3-2-1-Regel: 3 Kopien, 2 verschiedene Medientypen, 1 Kopie an einem externen Standort (Off-Site). Zum Schutz vor Brand, Wasser oder Diebstahl muss eine versionierte und verschlüsselte Sicherung in ein deutsches Rechenzentrum (DSGVO-Cloud) oder auf getauschte RDX-Medien in einem feuerfesten Tresor außerhalb der Praxis erfolgen.",
+          tipps: ["3-2-1-Regel (1 Kopie außer Haus / Off-Site)", "Schutz vor Brand, Diebstahl, Elementarschäden"],
+          reaktionGut: "Absolut überzeugend! Ein zweiter Server im selben Raum bringt bei einem Feuer schließlich gar nichts. Eine verschlüsselte Cloud-Kopie in Deutschland ist die sicherste Lösung.",
+          reaktionSchlecht: "Brennt es denn so oft? Das klingt mir jetzt doch etwas zu paranoid..."
+        },
+        {
+          partnerSagt: "Kommen wir zurück zum Server selbst: Was passiert ganz konkret, wenn montags um 10:00 Uhr während der vollen Sprechstunde eine der beiden RAID-Festplatten mit einem lauten Klackern den Geist aufgibt? Steht dann die gesamte Praxis still?",
+          prueferDenkt: "💭 Frage zur Ausfallsicherheit im Betrieb: Hot-Swap, degraded Mode und unterbrechungsfreier Weiterbetrieb.",
           prueferNotiz: "📝 Prüft Verständnis von Hot-Swap & Rebuild",
-          stichworte: ["hot-swap", "weiterarbeiten", "laufender betrieb", "rebuild", "unterbrechungsfrei", "tauschen", "degraded"],
-          musterAntwort: "Dank Hot-Swap können die Mitarbeiterinnen ohne Unterbrechung weiterarbeiten. Die defekte Festplatte wird im laufenden Betrieb entnommen und der Rebuild läuft automatisch im Hintergrund.",
-          optionen: [
-            {
-              text: "Bei einem RAID 1 mit Hot-Swap-fähigen Festplatten läuft das System ohne Unterbrechung weiter. Die defekte Platte wird im laufenden Betrieb getauscht und der Rebuild startet automatisch im Hintergrund.",
-              korrekt: true,
-              punkte: 30,
-              partnerReaktion: "Perfekt! Ein Ausfall im laufenden Praxisbetrieb wäre eine Katastrophe gewesen. Sie haben uns überzeugt!",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 Technisch einwandfrei auf den Punkt gebracht. Hot-Swap und Weiterbetrieb souverän dargelegt.",
-              prueferPose: "jump",
-              prueferNotiz: "✔ Hot-Swap & unterbrechungsfreier Betrieb perfekt (+30 Pkt)",
-              feedback: "Exzellent: Hot-Swap-Laufwerke ermöglichen den Plattenwechsel im laufenden Serverbetrieb (Degraded Mode ➔ Rebuild)."
-            },
-            {
-              text: "Nein, bei einem Plattendefekt muss der Server sofort für 3 Tage heruntergefahren werden, bis der Hersteller neue Hardware schickt.",
-              korrekt: false,
-              punkte: -15,
-              partnerReaktion: "Drei Tage keine Patienten behandeln? Das können wir uns nicht leisten!",
-              partnerPose: "think",
-              prueferReaktion: "💭 Das ist der Sinn eines RAIDs: Redundanz zur Vermeidung von Downtimes!",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Zweck von Hochverfügbarkeit nicht verstanden (-15 Pkt)",
-              feedback: "Falsch: Genau dafür existiert RAID (Redundant Array of Independent Disks) – um Hardwaredefekte unterbrechungsfrei abzufedern."
-            }
-          ]
+          stichworte: ["hot-swap", "weiterarbeiten", "laufender betrieb", "rebuild", "unterbrechungsfrei", "tauschen", "degraded", "ausfallsicherheit"],
+          musterAntwort: "Dank RAID 1 mit Hot-Swap-fähigen Festplatten läuft der Betrieb ohne Unterbrechung weiter! Das RAID schaltet in den sogenannten Degraded Mode (Warnleuchte am Server leuchtet gelb). Die defekte Festplatte wird im laufenden Praxisbetrieb herausgezogen und durch eine neue ersetzt. Das System synchronisiert sich (Rebuild) automatisch im Hintergrund.",
+          tipps: ["Erwähne Hot-Swap (Tausch im laufenden Betrieb)", "Erkläre, dass der Server im Degraded Mode weiterarbeitet"],
+          reaktionGut: "Fantastisch! Meine Sprechstundenhilfen können also einfach weiterarbeiten und niemand muss die Patienten nach Hause schicken.",
+          reaktionSchlecht: "Drei Tage Praxisstillstand und Terminausfälle können wir uns unmöglich leisten!"
+        },
+        {
+          partnerSagt: "Eine letzte Frage noch: Unser IT-Wartungsvertrag bietet verschiedene Wiederherstellungszeiten. Wie oft sollten wir ein vollständiges Backup machen und wie schnell müssen die Daten im Ernstfall wieder da sein?",
+          prueferDenkt: "💭 Königsdisziplin im Notfallmanagement: RPO (Recovery Point Objective) und RTO (Recovery Time Objective).",
+          prueferNotiz: "📝 Prüft RPO, RTO & Wiederanlaufzeit",
+          stichworte: ["rpo", "rto", "wiederherstellung", "täglich", "zeitfenster", "sla", "ausfallzeit", "restore", "test", "datenverlust"],
+          musterAntwort: "Das bestimmt sich nach RPO (maximal tolerierbarer Datenverlust) und RTO (maximal tolerierbare Ausfallzeit). Für eine Praxis empfehlen wir tägliche Vollsicherungen und stündliche Schnappschüsse (RPO < 1 Stunde). Die RTO sollte durch vorinstallierte Notfall-Images auf unter 2 bis 4 Stunden begrenzt werden. Zudem müssen regelmäßige Restore-Tests durchgeführt werden.",
+          tipps: ["Begriffe RPO (wie viele Daten dürfen fehlen) und RTO (wie lange darf es dauern) nennen", "Regelmäßige Rücksicherungstests (Restore) erwähnen"],
+          reaktionGut: "Perfekt! Sie haben das Thema wirklich von der Festplatte bis zum Notfallhandbuch ganzheitlich durchdacht. Sie bekommen den Auftrag!",
+          reaktionSchlecht: "Restore-Tests? Wir hoffen einfach, dass nichts passiert."
         }
       ]
     },
 
     "hardware-cad-workstation": {
       id: "hardware-cad-workstation",
-      titel: "Hardware-Dimensionierung: CAD-Büro PlanTec",
+      titel: "Hardware-Dimensionierung: CAD-Ingenieurbüro PlanTec",
       lernfeld: "LF02",
       thema: "Workstation, CPU, ECC-RAM & Ergonomie",
       rollen: {
@@ -75664,216 +75598,129 @@ Ablaufverfolgung beendet.`, "success");
       },
       schritte: [
         {
-          partnerSagt: "Wir zeichnen aufwendige 3D-CAD-Modelle. Unser Azubi will billige Consumer-Gaming-PCs von der Stange kaufen. Reicht das nicht völlig aus?",
-          prueferDenkt: "💭 Entscheidende Differenzierung: Consumer-PC vs. zertifizierte CAD-Workstation (ECC-RAM, ISV-Treiber, Dauerlast).",
+          partnerSagt: "Hallo! Wir konstruieren komplexe Industrieanlagen in 3D-CAD. Unser neuer Werkstudent schlägt vor, billige Consumer-Gaming-PCs im Elektronikmarkt zu kaufen, weil die ja 'extrem viel Takt fürs Geld' bieten. Reicht das nicht für unsere Ingenieure?",
+          prueferDenkt: "💭 Differenzierung: Consumer-PC vs. zertifizierte CAD-Workstation (ECC-Speicher, ISV-Treiber, Stabilität bei Dauerlast).",
           prueferNotiz: "📝 Prüft Workstation-Kriterien vs. Gaming-PC",
-          stichworte: ["ecc", "workstation", "isv", "treiber", "stabilität", "cad", "zertifiziert", "absturz", "dauerlast"],
-          musterAntwort: "Für professionelles CAD empfiehlt sich eine zertifizierte Workstation mit ECC-RAM zur Verhinderung von Bitflips und speziellen Workstation-Grafikkarten mit ISV-zertifizierten Treibern für maximale Berechnungsgenauigkeit.",
-          optionen: [
-            {
-              text: "Für professionelles CAD empfiehlt sich eine Workstation mit ECC-Speicher (verhindert Datenkorruption bei stundenlangen Renderings) und Grafikkarten mit ISV-zertifizierten Treibern, die Rechenfehler ausschließen.",
-              korrekt: true,
-              punkte: 35,
-              partnerReaktion: "Verstehe! Wenn ein Modell nach 4 Stunden Rechenzeit wegen eines Bitflips abstürzt, kostet uns das tausende Euro Arbeitszeit.",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 Sehr präzise. ECC-RAM und ISV-Zertifizierung sind die Kernargumente im B2B-Umfeld.",
-              prueferPose: "nod",
-              prueferNotiz: "✔ ECC-Speicher & ISV-Zertifizierung fundiert begründet (+35 Pkt)",
-              feedback: "Hervorragend: Workstations zeichnen sich durch ISV-Zertifizierung (AutoCAD, SolidWorks), ECC-Fehlerkorrektur und 24/7-Komponenten aus."
-            },
-            {
-              text: "Ja, Gaming-PCs sind dank RGB-Beleuchtung und Übertaktung viel schneller. Bauen Sie einfach die schnellste Gamer-Grafikkarte ein.",
-              korrekt: false,
-              punkte: -25,
-              partnerReaktion: "Bunte Lüfter im Ingenieurbüro? Hauptsache es läuft...",
-              partnerPose: "think",
-              prueferReaktion: "💭 Gaming-Treiber sind auf hohe FPS in Spielen optimiert, nicht auf mathematische Kanten- und Geometriegenauigkeit in CAD!",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Ungeeignete Consumer-Hardware für CAD empfohlen (-25 Pkt)",
-              feedback: "Falsch: Gaming-Hardware ohne ISV-Treiber führt bei CAD-Anwendungen häufig zu Darstellungsfehlern und Instabilitäten."
-            }
-          ]
+          stichworte: ["ecc", "workstation", "isv", "treiber", "stabilität", "cad", "zertifiziert", "absturz", "dauerlast", "bitflip"],
+          musterAntwort: "Nein, Gaming-PCs sind für professionelles CAD ungeeignet. Eine echte CAD-Workstation benötigt ECC-RAM, um Bitflips und Datenkorruption bei stundenlangen Berechnungen zu verhindern. Zudem sind spezielle Profi-Grafikkarten mit ISV-zertifizierten Treibern (z. B. für AutoCAD, SolidWorks) zwingend erforderlich, um Geometriefehler und Treiberabstürze auszuschließen.",
+          tipps: ["Erkläre den Nutzen von ECC-RAM gegen Speicher-Bitflips", "Erwähne ISV-Zertifizierung für professionelle CAD-Software"],
+          reaktionGut: "Verstehe! Wenn ein Modell nach 5 Stunden Renderzeit wegen eines unbemerkt gekippten Bits abstürzt oder fehlerhaft geplottet wird, kostet uns das tausende Euro.",
+          reaktionSchlecht: "Aber Gamer spielen doch auch stundenlang ohne Absturz..."
         },
         {
-          partnerSagt: "Welchen Monitor empfehlen Sie unseren Konstrukteuren, die 8 Stunden täglich feine Vektoren und Pläne zeichnen?",
-          prueferDenkt: "💭 Ergonomie & Displaytechnologie: IPS vs. TN, Höhenverstellbarkeit, Farbraum, Bildwiederholrate.",
+          partnerSagt: "Und beim Prozessor: Sollen wir lieber eine CPU mit extrem vielen Kernen (z. B. 32 Kerne) und niedrigem Takt nehmen, oder weniger Kerne mit maximalem Single-Core-Takt?",
+          prueferDenkt: "💭 Architektur-Wissen: Single-Thread-Limitierung beim 3D-Modellieren vs. Multi-Threading beim Rendering/Simulation.",
+          prueferNotiz: "📝 Prüft CPU-Architektur: Single- vs. Multi-Core",
+          stichworte: ["single-core", "takt", "single-thread", "modellieren", "render", "kerne", "multi-core", "frequenz", "ghz"],
+          musterAntwort: "Das hängt vom Workflow ab: Das interaktive Konstruieren und Zeichnen in CAD läuft fast ausschließlich auf einem einzelnen Kern (Single-Thread-Leistung / hoher Takt). Nur Rendern und FEM-Simulationen nutzen viele Kerne parallel. Ein Prozessor mit hohem Ein-Kern-Turbotakt (z. B. 8 bis 16 schnelle Kerne) bietet daher die beste Alltagsleistung.",
+          tipps: ["Unterscheide CAD-Konstruktion (Single-Thread/hoher Takt) und Rendering (Multi-Core)", "Empfiehl 8–16 Kerne mit hohem Boost-Takt"],
+          reaktionGut: "Sehr aufschlussreich! Dann hätten 32 langsame Kerne unsere Zeichner im Alltag sogar ausgebremst.",
+          reaktionSchlecht: "Ich dachte immer: Mehr Kerne sind immer automatisch schneller."
+        },
+        {
+          partnerSagt: "Unsere Konstrukteure sitzen täglich 8 bis 9 Stunden vor den Schirmen. Welche Kriterien sind bei der Display-Auswahl nach Bildschirmarbeitsverordnung unverzichtbar?",
+          prueferDenkt: "💭 Ergonomie & Displaytechnologie: IPS-Panel, 4K/WQHD, Höhenverstellbarkeit, Flimmerfreiheit, Farbraum.",
           prueferNotiz: "📝 Prüft Bildschirmarbeitsverordnung & Paneltechnik",
-          stichworte: ["ips", "höhenverstellbar", "ergonomie", "blickwinkel", "auflösung", "4k", "flimmerfrei", "farbraum"],
-          musterAntwort: "Ein IPS-Panel mit hoher Auflösung (mindestens WQHD/4K), 100 % sRGB-Farbraumabdeckung und ergonomischer Höhenverstellbarkeit sowie Pivot-Funktion nach Bildschirmarbeitsverordnung.",
-          optionen: [
-            {
-              text: "Einen 27–32 Zoll Monitor mit blickwinkelstabilem IPS-Panel, 4K-Auflösung, flimmerfreier Hintergrundbeleuchtung und voller Höhen- und Neigungsverstellbarkeit nach Bildschirmarbeitsverordnung.",
-              korrekt: true,
-              punkte: 35,
-              partnerReaktion: "Ausgezeichnet, die Gesundheit und ermüdungsfreies Arbeiten unserer Mitarbeiter ist uns sehr wichtig.",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 Perfekt: Ergonomie, Paneltechnik (IPS) und Auflösung sauber kombiniert.",
-              prueferPose: "nod",
-              prueferNotiz: "✔ Ergonomie & IPS-Displaytechnologie gemeistert (+35 Pkt)",
-              feedback: "Klasse: IPS bietet farbechte Blickwinkel, und ergonomische Verstellbarkeit ist gesetzliche Vorgabe am Bildschirmarbeitsplatz."
-            },
-            {
-              text: "Kaufen Sie die billigsten TN-Panels mit 240 Hz. Die Konstrukteure brauchen maximale Reaktionszeit für schnelle Mausbewegungen.",
-              korrekt: false,
-              punkte: -20,
-              partnerReaktion: "Die Farben sehen von der Seite aber sehr verwaschen und dunkel aus...",
-              partnerPose: "hurt",
-              prueferReaktion: "💭 TN-Panels haben extrem schlechte Blickwinkel und Farbverfälschungen. Völlig ungeeignet für Grafik und CAD.",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Fehlberatung bei Displaytechnologie (-20 Pkt)",
-              feedback: "Falsch: TN-Panels sind für E-Sport gedacht. Für Konstruktion und Büro sind IPS- oder VA-Panels Pflicht."
-            }
-          ]
+          stichworte: ["ips", "höhenverstellbar", "ergonomie", "blickwinkel", "auflösung", "4k", "flimmerfrei", "farbraum", "srgb", "pivot"],
+          musterAntwort: "Unverzichtbar sind: Ein blickwinkelstabiles und farbtreues IPS-Panel (mindestens 99 % sRGB), eine ermüdungsfreie Auflösung (27\" WQHD oder 32\" 4K), Flimmerfreiheit (Flicker-Free / Low Blue Light) sowie eine vollständige ergonomische Verstellbarkeit (Höhe, Neigung, Schwenken) nach Bildschirmarbeitsverordnung.",
+          tipps: ["IPS-Panel wegen Farbtreue und Blickwinkel", "Ergonomie: Höhenverstellbarkeit und Flimmerfreiheit"],
+          reaktionGut: "Klasse! Die Gesundheit und die Augen unserer Mitarbeiter müssen geschützt werden. Ergonomie rechnet sich immer.",
+          reaktionSchlecht: "Ein starrer Billigmonitor mit TN-Panel tut es doch auch, man schaut ja nur von vorne drauf..."
         },
         {
-          partnerSagt: "Wie dimensionieren wir das Netzteil für die Workstation sinnvoll bezüglich Stromkosten und Langlebigkeit?",
-          prueferDenkt: "💭 Wirkungsgrad & 80-Plus-Zertifizierung: Lastbereich bei 50 %, Gold/Platinum-Effizienz.",
+          partnerSagt: "Was empfehlen Sie beim internen Massenspeicher für die großen Projektbaugruppen? Reicht eine normale SATA-SSD oder lohnt sich PCIe 4.0 / 5.0 NVMe?",
+          prueferDenkt: "💭 Übertragungsraten & Protokolle: SATA III (600 MB/s) vs. NVMe (PCIe 4.0 ca. 7.000 MB/s) und IOPS.",
+          prueferNotiz: "📝 Prüft NVMe vs. SATA & Datendurchsatz",
+          stichworte: ["nvme", "pcie", "m.2", "sata", "iops", "durchsatz", "sekunde", "ladezeiten", "mb/s", "gb/s"],
+          musterAntwort: "Definitiv eine M.2 NVMe SSD über PCIe 4.0 oder 5.0! SATA III ist auf ca. 550 MB/s limitiert. Moderne NVMe-SSDs erreichen über 7.000 MB/s und hunderttausende IOPS. Große CAD-Baugruppen mit Gigabytes an Texturen und Bauteilen laden damit in wenigen Sekunden statt Minuten.",
+          tipps: ["Vergleiche SATA (550 MB/s) mit NVMe PCIe 4.0 (7.000 MB/s)", "Erwähne IOPS und Ladezeiten bei großen CAD-Baugruppen"],
+          reaktionGut: "Zeitersparnis bei jedem Projektstart! Das summiert sich bei 10 Ingenieuren auf hunderte Stunden im Jahr.",
+          reaktionSchlecht: "Ob die Datei in 5 oder in 30 Sekunden lädt, ist uns eigentlich egal."
+        },
+        {
+          partnerSagt: "Und wie dimensionieren wir das Netzteil wirtschaftlich, damit die Workstations unter Volllast energieeffizient und leise laufen?",
+          prueferDenkt: "💭 80-Plus-Zertifizierung und der Wirkungsgrad-Peak bei ca. 50 % Auslastung.",
           prueferNotiz: "📝 Prüft Energieeffizienz & 80-Plus-Wirkungsgrad",
-          stichworte: ["80 plus", "gold", "platinum", "wirkungsgrad", "50", "auslastung", "netzteil", "effizienz", "stromkosten"],
-          musterAntwort: "Ein Markennetzteil mit 80-Plus-Gold- oder Platinum-Zertifizierung, dimensioniert so, dass es bei durchschnittlicher Volllast im optimalen Wirkungsgradbereich von etwa 50 % arbeitet.",
-          optionen: [
-            {
-              text: "Ein Netzteil mit 80-Plus-Gold- oder Platinum-Zertifizierung. Es sollte so gewählt werden, dass die typische Arbeitslast bei ca. 50 % liegt, wo Schaltnetzteile ihren höchsten Wirkungsgrad erzielen.",
-              korrekt: true,
-              punkte: 30,
-              partnerReaktion: "Klasse! Niedrige Stromkosten und geringe Abwärme schützen unsere Betriebskosten.",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 Ausgezeichnet! Der Wirkungsgrad-Peak bei 50 % Auslastung ist IHK-Prüfungsstandardwissen.",
-              prueferPose: "jump",
-              prueferNotiz: "✔ 80-Plus & Effizienz-Peak bei 50 % Last fundiert dargelegt (+30 Pkt)",
-              feedback: "Richtig: 80-Plus-Netzteile erreichen bei 50 % Last ihren besten Wirkungsgrad und erzeugen die geringste Verlustwärme."
-            },
-            {
-              text: "Kaufen Sie ein 300-Watt-Büronetzteil ohne Zertifizierung, das läuft dann immer auf 100 % Anschlag und verbraucht weniger.",
-              korrekt: false,
-              punkte: -20,
-              partnerReaktion: "Riecht das nicht verbrannt, wenn die Workstation unter Volllast rendert?",
-              partnerPose: "think",
-              prueferReaktion: "💭 Ein unterdimensioniertes Netzteil ohne Schutzschaltungen führt zu Notabschaltungen oder Brandschäden!",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Gefährliche Netzteil-Unterdimensionierung (-20 Pkt)",
-              feedback: "Gefährlich: Dauerhafte Volllast führt zu thermischer Überlastung und Systemabstürzen. 80-Plus-Zertifikate garantieren Effizienz."
-            }
-          ]
+          stichworte: ["80 plus", "gold", "platinum", "wirkungsgrad", "50", "auslastung", "netzteil", "effizienz", "stromkosten", "kühlung"],
+          musterAntwort: "Wir wählen ein Markennetzteil mit 80-Plus-Gold- oder Platinum-Zertifizierung. Die Nennleistung sollte so gewählt werden, dass die typische Arbeitslast bei etwa 50 % der Maximallast liegt. In diesem Bereich arbeiten Schaltnetzteile mit dem höchsten Wirkungsgrad (geringste Stromverschwendung) und bleiben dank geringer Abwärme flüsterleise.",
+          tipps: ["80-Plus Gold oder Platinum", "Wirkungsgrad-Peak bei ca. 50 % Auslastung erklären"],
+          reaktionGut: "Spitzenmäßig! Geringe Abwärme schont die Bauteile und spart Stromkosten im Sommer bei der Klimatisierung.",
+          reaktionSchlecht: "Ein billiges 400-Watt-Büronetzteil am Limit spart doch Anschaffungskosten..."
         }
       ]
     },
 
     "netzwerk-vlan-subnetting": {
       id: "netzwerk-vlan-subnetting",
-      titel: "Netzwerk-Segmentierung: Autohaus Nord (LF03)",
+      titel: "Netzwerk-Sicherheit & Segmentierung: Autohaus Nord (LF03)",
       lernfeld: "LF03",
-      thema: "VLANs, Subnetting & Sicherheit",
+      thema: "VLANs, Subnetting & Schicht-3-Routing",
       rollen: {
-        pruefer: { figur: "turing", name: "Prüfer Dipl.-Ing. Jansen", rolle: "IHK-Prüfer" },
+        pruefer: { figur: "turing", name: "Dipl.-Ing. Jansen", rolle: "IHK-Prüfer" },
         partner: { figur: "ada", name: "Frau Becker", rolle: "IT-Leiterin Autohaus Nord" }
       },
       schritte: [
         {
-          partnerSagt: "Im Autohaus hängen Verwaltung, Werkstatt-Diagnose und das kostenlose Kunden-WLAN an denselben unmanaged Switches. Ist das sicher?",
-          prueferDenkt: "💭 Frage zur logischen Netzwerktrennung: VLAN (IEEE 802.1Q), Broadcast-Domänen und Schutzbedarfe.",
-          prueferNotiz: "📝 Prüft Sicherheitsrisiko flacher Netze & VLAN-Bedarf",
-          stichworte: ["vlan", "trennung", "802.1q", "sicherheit", "broadcast", "kunden-wlan", "switch", "managed"],
-          musterAntwort: "Nein, das ist hochgradig unsicher. Gäste im Kunden-WLAN können unverschlüsselten internen Datenverkehr abhören. Es müssen getrennte VLANs (IEEE 802.1Q) mit managed Switches eingerichtet werden.",
-          optionen: [
-            {
-              text: "Nein, ein flaches Netz ohne Trennung ist ein massives Sicherheitsrisiko. Externe Gäste im WLAN könnten Diagnosetools und Verwaltungsdaten abfangen. Wir müssen zwingend getrennte VLANs (IEEE 802.1Q) mit managed Switches einrichten.",
-              korrekt: true,
-              punkte: 35,
-              partnerReaktion: "Genau diese Sicherheitslücke müssen wir sofort schließen! Unsere Kundendaten dürfen keinesfalls einsehbar sein.",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 Sehr gut erkannt: Flache Netze ohne 802.1Q-Segmentierung verletzen grundlegende Schutzziele.",
-              prueferPose: "nod",
-              prueferNotiz: "✔ VLAN-Segmentierung & Sicherheitsrisiko sauber begründet (+35 Pkt)",
-              feedback: "Perfekt: VLANs teilen ein physisches Netz logisch in isolierte Broadcast-Domänen auf."
-            },
-            {
-              text: "Das ist völlig unbedenklich. Solange das Kunden-WLAN ein WPA2-Passwort hat, kann niemand auf den unmanaged Switch zugreifen.",
-              korrekt: false,
-              punkte: -25,
-              partnerReaktion: "Aber wenn alle im selben Subnetz sind, kann doch jeder jeden anpingen?",
-              partnerPose: "think",
-              prueferReaktion: "💭 Falsch! Jeder Gast im WLAN befindet sich in derselben Broadcast-Domäne wie die Buchhaltungsserver.",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Sicherheitsrisiko in flachem Netz ignoriert (-25 Pkt)",
-              feedback: "IHK-Fehler: Ein WLAN-Passwort trennt nicht das interne Netzwerk, wenn dahinter derselbe unmanaged Switch hängt."
-            }
-          ]
+          partnerSagt: "Guten Tag! In unserem Autohaus hängen derzeit alle Geräte (Verwaltung, Werkstatt-Diagnose und das kostenlose Kunden-WLAN) an denselben unmanaged Switches in einem gemeinsamen Netz (192.168.1.0/24). Welche gravierenden Risiken birgt dieses flache Netz?",
+          prueferDenkt: "💭 Netzwerk-Grundlagen: Sicherheitsrisiko flacher Netze, fehlende Trennung, Sniffing im Kunden-WLAN, Broadcast-Überlastung.",
+          prueferNotiz: "📝 Prüft Sicherheitsrisiken flacher Netzwerke",
+          stichworte: ["flach", "kunden-wlan", "abhören", "sniffing", "broadcast", "mitm", "trennung", "verwaltung", "sicherheit", "dsgvo"],
+          musterAntwort: "Ein flaches Netz ohne Segmentierung ist grob fahrlässig. Jeder Gast im kostenlosen Kunden-WLAN kann den unverschlüsselten Datenverkehr der Verwaltung und Diagnose abhören (Sniffing, Man-in-the-Middle) oder interne Server direkt angreifen. Zudem verlangsamen Broadcast-Stürme alle Systeme. Eine logische Trennung (z. B. via VLANs) ist zwingend erforderlich.",
+          tipps: ["Gäste im WLAN können interne Server und Patientendaten/Kundendaten sehen", "Broadcast-Stürme und Sniffing erklären"],
+          reaktionGut: "Ein Albtraum für den Datenschutz! Wenn ein Kunde auf unsere Finanzierungsverträge zugreift, hafte ich persönlich.",
+          reaktionSchlecht: "Aber die Gäste haben doch nur ein WLAN-Passwort, wie sollen die denn an die Kabel-Rechner rankommen?"
         },
         {
-          partnerSagt: "Wie viele nutzbare Host-IPs haben wir in einem Subnetz mit der Präfixmaske /26 für die Werkstatt?",
-          prueferDenkt: "💭 Rechnerische Subnetting-Prüfung: 32 - 26 = 6 Hostbits. 2^6 - 2 = 62 Hosts.",
-          prueferNotiz: "📝 Prüft Subnetting-Rechnung (/26)",
-          stichworte: ["62", "hosts", "64", "netz-id", "broadcast", "hostbits", "host-bits", "abziehen"],
-          musterAntwort: "Bei /26 verbleiben 6 Hostbits (32 - 26 = 6). 2 hoch 6 ergibt 64 Adressen minus 2 (Netz-ID und Broadcast) = genau 62 nutzbare Host-Adressen.",
-          optionen: [
-            {
-              text: "Genau 62 nutzbare Host-Adressen (32 - 26 = 6 Host-Bits; 2^6 = 64 Adressen abzüglich Netzadresse und Broadcast-Adresse).",
-              korrekt: true,
-              punkte: 35,
-              partnerReaktion: "62 Anschlüsse reichen für unsere 45 Diagnose-Terminals perfekt aus!",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 Einwandfrei gerechnet: 2^n - 2 sauber angewendet.",
-              prueferPose: "nod",
-              prueferNotiz: "✔ Subnetting /26 blitzsauber berechnet (+35 Pkt)",
-              feedback: "Exakt: Bei /26 stehen 6 Bit für Hosts zur Verfügung: 64 minus 2 = 62 nutzbare IP-Adressen."
-            },
-            {
-              text: "Genau 64 nutzbare Hosts. Man kann alle Adressen von der ersten bis zur letzten an Endgeräte vergeben.",
-              korrekt: false,
-              punkte: -20,
-              partnerReaktion: "Darf man die erste und letzte Adresse wirklich vergeben?",
-              partnerPose: "think",
-              prueferReaktion: "💭 Typische IHK-Falle: Netz-ID und Broadcast-Adresse dürfen niemals Hosts zugewiesen werden!",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ -2 für Netz-ID und Broadcast vergessen (-20 Pkt)",
-              feedback: "Rechenfalle: Die erste Adresse ist die Netz-ID, die letzte ist der Broadcast. Nutzbar sind immer 2^n - 2."
-            }
-          ]
+          partnerSagt: "Wie trennen wir diese drei Bereiche auf moderner Hardware technisch sauber, ohne drei komplett getrennte physische Kabeltrassen verlegen zu müssen?",
+          prueferDenkt: "💭 Schicht-2-Segmentierung: IEEE 802.1Q VLANs, Managed Switches, Trunk-Ports.",
+          prueferNotiz: "📝 Prüft VLAN (IEEE 802.1Q) & Managed Switches",
+          stichworte: ["vlan", "802.1q", "managed switch", "trunk", "tagged", "untagged", "logisch", "segmentierung", "trennung"],
+          musterAntwort: "Über virtuelle lokale Netze (VLANs nach IEEE 802.1Q) auf managed Switches. Dabei wird die vorhandene Verkabelung gemeinsam genutzt, aber der Datenverkehr logisch in getrennte Broadcast-Domänen isoliert (z. B. VLAN 10 Verwaltung, VLAN 20 Werkstatt, VLAN 30 Gäste). Zwischen den Switches wird ein VLAN-Trunk (Tagged) eingerichtet.",
+          tipps: ["Managed Switches mit IEEE 802.1Q VLANs", "Logische Trennung auf gemeinsamer Verkabelung via Trunk"],
+          reaktionGut: "Hervorragend! Wir sparen uns teure Tiefbauarbeiten und neue Kabel und haben trotzdem drei vollkommen getrennte Netze.",
+          reaktionSchlecht: "Wir können doch einfach drei Subnetze auf denselben unmanaged Switch legen, das trennt doch auch?"
         },
         {
-          partnerSagt: "Über welche Komponente müssen die verschiedenen VLANs miteinander kommunizieren, wenn die Werkstatt auf den Teileserver in der Verwaltung zugreifen muss?",
-          prueferDenkt: "💭 Inter-VLAN-Routing: Layer-3-Switch oder Router mit Firewall-Regeln.",
-          prueferNotiz: "📝 Prüft Inter-VLAN-Routing & Layer-3",
-          stichworte: ["router", "layer 3", "layer-3", "firewall", "routing", "inter-vlan", "gateway"],
-          musterAntwort: "Über einen Router oder Layer-3-Switch (Inter-VLAN-Routing). Dort regeln Access Control Lists (ACLs) oder Firewall-Regeln, wer auf welche Server zugreifen darf.",
-          optionen: [
-            {
-              text: "Über einen Router oder einen Layer-3-Switch (Inter-VLAN-Routing). Dort kann über Firewall-Regeln (ACLs) genau definiert werden, welcher Werkstatt-Client auf welche Freigabe zugreifen darf.",
-              korrekt: true,
-              punkte: 30,
-              partnerReaktion: "Perfekt, so bleibt der unberechtigte Datenverkehr geblockt und nur nötige Zugriffe sind erlaubt.",
-              partnerPose: "cheer",
-              prueferReaktion: "💭 Sehr gut: Schicht 3 (Vermittlung) und Zugriffskontrolle präzise benannt.",
-              prueferPose: "jump",
-              prueferNotiz: "✔ Layer-3-Routing & Firewall-Zugriffskontrolle meisterhaft (+30 Pkt)",
-              feedback: "Richtig: VLAN-Trennung auf Schicht 2 erfordert Schicht-3-Routing (Router oder L3-Switch) für kontrollierten Übergang."
-            },
-            {
-              text: "Wir stecken einfach ein Patchkabel zwischen zwei Ports der verschiedenen VLANs am Layer-2-Switch.",
-              korrekt: false,
-              punkte: -20,
-              partnerReaktion: "Erzeugt das nicht eine gefährliche Schleife im Netzwerk?",
-              partnerPose: "hurt",
-              prueferReaktion: "💭 Das verbindet die VLANs unkontrolliert oder erzeugt Broadcast-Loops! Völlig falsches Netzwerkverständnis.",
-              prueferPose: "hurt",
-              prueferNotiz: "❌ Layer-2-Kurzschluss statt Layer-3-Routing vorgeschlagen (-20 Pkt)",
-              feedback: "Falsch: VLANs dürfen nicht per Patchkabel kurzgeschlossen werden. Zur Kommunikation wird ein Routing auf Schicht 3 benötigt."
-            }
-          ]
+          partnerSagt: "Wir wollen der Werkstatt ein eigenes Subnetz geben und planen mit ca. 50 Anschlüssen (Diagnosegeräte, Hebebühnen, Notebooks). Welches Subnetz-Präfix (CIDR) ist hierfür die sparsamste und passendste Wahl?",
+          prueferDenkt: "💭 Rechnerisches Subnetting: Gesucht ist das kleinste Präfix für >= 50 Hosts (/26 = 62 Hosts, /27 = 30 Hosts).",
+          prueferNotiz: "📝 Prüft Subnetting-Dimensionierung (/26)",
+          stichworte: ["/26", "62", "hosts", "64", "hostbits", "host-bits", "präfix", "255.255.255.192"],
+          musterAntwort: "Das optimale Präfix ist /26 (Subnetzmaske 255.255.255.192). Bei /26 verbleiben 6 Host-Bits (32 - 26 = 6). 2^6 ergibt 64 Adressen minus 2 (Netz-ID und Broadcast) = genau 62 nutzbare Host-IPs. Ein /27 wäre mit 30 Hosts zu klein.",
+          tipps: ["Präfix /26 wählen (ergibt 62 nutzbare Adressen)", "Erkläre, warum /27 mit 30 Hosts zu klein wäre"],
+          reaktionGut: "Genau auf den Punkt gerechnet: 62 Adressen bieten genug Reserve für künftige Diagnosegeräte!",
+          reaktionSchlecht: "Warum nicht einfach /24? Dann haben wir 254 Adressen und müssen nicht rechnen."
+        },
+        {
+          partnerSagt: "Jetzt sind Verwaltung und Werkstatt getrennt. Aber die Werkstatt-Meister müssen auf das Teilelager-ERP in der Verwaltung zugreifen können. Wie regeln wir das kontrolliert?",
+          prueferDenkt: "💭 Inter-VLAN-Routing & Firewall-Zugriffskontrolle: Schicht 3 (Router / L3-Switch) und ACLs / Firewall.",
+          prueferNotiz: "📝 Prüft Inter-VLAN-Routing & Firewall (ACLs)",
+          stichworte: ["router", "layer 3", "layer-3", "firewall", "routing", "inter-vlan", "acl", "zugriffskontrolle", "port"],
+          musterAntwort: "Über Inter-VLAN-Routing auf Schicht 3 (über einen Router oder Layer-3-Switch) kombiniert mit einer Firewall. Über Access Control Lists (ACLs) oder Firewall-Regeln erlauben wir exakt nur den Zugriff der Werkstatt-PCs auf die IP und den Port des ERP-Servers. Alle anderen Zugriffe bleiben strikt blockiert.",
+          tipps: ["Inter-VLAN-Routing über Router oder Layer-3-Switch", "Firewall / ACLs zur gezielten Freigabe einzelner Ports"],
+          reaktionGut: "Perfekt! So kann die Werkstatt arbeiten, aber niemand kommt an die Buchhaltung oder die Personalakten heran.",
+          reaktionSchlecht: "Wir können doch einfach ein Kabel zwischen Port 1 und Port 2 am Switch stecken..."
+        },
+        {
+          partnerSagt: "Zum Schluss: Wie stellen wir sicher, dass sich niemand in der Werkstatt unbemerkt mit einem privaten Laptop an eine freie Netzwerkdose hängt?",
+          prueferDenkt: "💭 Physische & Schicht-2-Port-Sicherheit: Port Security, 802.1X (RADIUS) oder MAC-Filter.",
+          prueferNotiz: "📝 Prüft Port-Security & 802.1X Network Access Control",
+          stichworte: ["port security", "802.1x", "mac", "radius", "authentifizierung", "sperren", "dose", "abschalten"],
+          musterAntwort: "Über Port Security am managed Switch (der Port merkt sich die erlaubte MAC-Adresse und schaltet bei fremden Geräten sofort ab) oder noch professioneller über IEEE 802.1X (Network Access Control mit RADIUS-Server), bei dem sich jedes Endgerät per Zertifikat oder Benutzerdaten authentifizieren muss.",
+          tipps: ["Port Security am Switch (MAC-Bindung)", "IEEE 802.1X / RADIUS für Netzwerk-Zugangskontrolle"],
+          reaktionGut: "Hervorragend! Unerlaubte Geräte haben an unseren Netzwerkdosen keine Chance. Das ist IT-Sicherheit nach Lehrbuch!",
+          reaktionSchlecht: "Wir kleben einfach einen Warnaufkleber auf die Wanddose..."
         }
       ]
     }
   };
 
-  // Aktueller Zustand
+  // Zustand des Dialogs
   let aktivesSzenario = null;
   let aktuellerSchrittIdx = 0;
   let punkteStand = 0;
-  let notizenHistorie = [];
-  let eingabeModus = "auswahl"; // "auswahl" | "freitext"
+  let chatHistorie = []; // { von: "partner"|"user"|"pruefer", text: "", korrekt: bool }
+  let isWartenAufAntwort = false;
 
-  // Berechnet IHK-Note
   function berechneIhkNote(prozent) {
     if (prozent >= 92) return { note: "1", text: "Sehr gut", farbe: "#10b981" };
     if (prozent >= 81) return { note: "2", text: "Gut", farbe: "#38bdf8" };
@@ -75883,16 +75730,15 @@ Ablaufverfolgung beendet.`, "success");
     return { note: "6", text: "Ungenügend", farbe: "#dc2626" };
   }
 
-  // Erzeugt das DOM-Overlay
   function oeffneSimulator(szenarioId) {
     const sId = szenarioId || "raid-dr-weber";
     const s = SZENARIEN[sId] || SZENARIEN["raid-dr-weber"];
     aktivesSzenario = s;
     aktuellerSchrittIdx = 0;
     punkteStand = 0;
-    notizenHistorie = [];
+    chatHistorie = [];
+    isWartenAufAntwort = true;
 
-    // Vorhandenes Overlay entfernen
     const alt = document.getElementById("simOverlay");
     if (alt) alt.remove();
 
@@ -75900,7 +75746,6 @@ Ablaufverfolgung beendet.`, "success");
     overlay.id = "simOverlay";
     overlay.className = "simOverlay";
 
-    // Dropdown-Optionen generieren
     const dropdownHtml = Object.keys(SZENARIEN).map(key => {
       const sz = SZENARIEN[key];
       const sel = key === s.id ? "selected" : "";
@@ -75910,16 +75755,10 @@ Ablaufverfolgung beendet.`, "success");
     overlay.innerHTML = `
       <div class="simHeader">
         <div class="simTitleGroup">
-          <span class="simTitleBadge">IHK-Prüfungs-Simulator</span>
+          <span class="simTitleBadge">IHK-Prüfungs- &amp; Beratungs-Chat</span>
           <select class="simSelectThema" id="simThemaSelect" title="Szenario wechseln">
             ${dropdownHtml}
           </select>
-        </div>
-
-        <!-- Umschaltung Antwortmodus -->
-        <div class="simModeToggle">
-          <button class="simModeBtn ${eingabeModus === 'auswahl' ? 'active' : ''}" id="simModeBtnAuswahl">🔘 Antwort-Auswahl</button>
-          <button class="simModeBtn ${eingabeModus === 'freitext' ? 'active' : ''}" id="simModeBtnFreitext">✍️ Freitext-Eingabe</button>
         </div>
 
         <div class="simMetaStats">
@@ -75931,6 +75770,7 @@ Ablaufverfolgung beendet.`, "success");
         </div>
       </div>
 
+      <!-- 2D-Raumbühne -->
       <div class="simStage">
         <div class="simRoomBg"></div>
         <div class="simRoomFloor"></div>
@@ -75945,13 +75785,13 @@ Ablaufverfolgung beendet.`, "success");
             <div class="simPrueferTable">
               <span class="simTablePlateText">${s.rollen.pruefer.name}</span>
             </div>
-            <div class="simNoteBadge" id="simPrueferNote">📝 Bereit für Fallbeurteilung</div>
+            <div class="simNoteBadge" id="simPrueferNote">📝 Bereit für Fachgespräch</div>
           </div>
 
           <!-- Partner/Kunde Station Mitte mit Sprechblase -->
           <div class="simStationPartner">
             <div class="simSpeechBubble" id="simPartnerSpeech">
-              ...
+              Guten Tag! Ich freue mich auf die Beratung.
             </div>
             <div id="simPartnerAvatar"></div>
             <div class="simTablePlateText" style="margin-top:6px;">${s.rollen.partner.name} (${s.rollen.partner.rolle})</div>
@@ -75965,14 +75805,20 @@ Ablaufverfolgung beendet.`, "success");
         </div>
       </div>
 
-      <div class="simConsole" id="simConsole">
-        <div class="simPromptPrompt">
-          <span>Deine Beratungsempfehlung:</span>
-          <span style="font-size:12px; color:#64748b;" id="simModeHinweisText">
-            ${eingabeModus === 'auswahl' ? 'Wähle die beste kaufmännische & technische Option' : 'Formuliere deine freie Fachantwort an den Kunden'}
-          </span>
-        </div>
-        <div id="simInteractionArea"></div>
+      <!-- Interaktiver Chatbot-Bereich Unten -->
+      <div class="simChatSection">
+        <div class="simChatHistory" id="simChatHistory"></div>
+
+        <!-- Vorschlags-Chips / Denkanstöße -->
+        <div class="simChipsRow" id="simChipsRow"></div>
+
+        <!-- Chat-Eingabeleiste -->
+        <form class="simChatInputBar" id="simChatForm">
+          <input type="text" class="simChatInput" id="simChatInput" autocomplete="off" placeholder="Tippe deine Fachberatung an den Kunden ein (Enter zum Absenden)..." />
+          <button type="submit" class="simChatSendBtn" id="simChatSendBtn">
+            <span>Senden</span> ➔
+          </button>
+        </form>
       </div>
     `;
 
@@ -75987,18 +75833,9 @@ Ablaufverfolgung beendet.`, "success");
       oeffneSimulator(e.target.value);
     });
 
-    document.getElementById("simModeBtnAuswahl").addEventListener("click", () => {
-      eingabeModus = "auswahl";
-      document.getElementById("simModeBtnAuswahl").classList.add("active");
-      document.getElementById("simModeBtnFreitext").classList.remove("active");
-      zeigeSchritt(aktuellerSchrittIdx);
-    });
-
-    document.getElementById("simModeBtnFreitext").addEventListener("click", () => {
-      eingabeModus = "freitext";
-      document.getElementById("simModeBtnFreitext").classList.add("active");
-      document.getElementById("simModeBtnAuswahl").classList.remove("active");
-      zeigeSchritt(aktuellerSchrittIdx);
+    document.getElementById("simChatForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      sendeBenutzerAntwort();
     });
 
     // Avatare initialisieren
@@ -76014,35 +75851,31 @@ Ablaufverfolgung beendet.`, "success");
           window.TOON.setPose(document.getElementById("simPlayerAvatar"), "idle");
         }
       }
-      zeigeSchritt(0);
+      starteSchritt(0);
     }, 400);
   }
 
-  // Rendert die Toon-Figuren
   function renderAvatare() {
     if (!window.TOON || typeof window.TOON.renderFigureHtml !== "function") return;
 
-    // Prüfer
     const pEl = document.getElementById("simPrueferAvatar");
     if (pEl) {
       pEl.innerHTML = window.TOON.renderFigureHtml(aktivesSzenario.rollen.pruefer.figur, {
-        height: 104,
+        height: 96,
         pose: "talk",
         className: "simToonFigur"
       });
     }
 
-    // Kunde
     const kEl = document.getElementById("simPartnerAvatar");
     if (kEl) {
       kEl.innerHTML = window.TOON.renderFigureHtml(aktivesSzenario.rollen.partner.figur, {
-        height: 104,
+        height: 96,
         pose: "talk",
         className: "simToonFigur"
       });
     }
 
-    // Spieler
     const spEl = document.getElementById("simPlayerAvatar");
     if (spEl) {
       let charId = "linus";
@@ -76050,15 +75883,14 @@ Ablaufverfolgung beendet.`, "success");
         if (typeof getPlayerAvatarKey === "function") charId = getPlayerAvatarKey();
       } catch (_) {}
       spEl.innerHTML = window.TOON.renderFigureHtml(charId, {
-        height: 104,
+        height: 96,
         pose: "walk",
         className: "simToonFigur"
       });
     }
   }
 
-  // Zeigt einen Dialogschritt an
-  function zeigeSchritt(idx) {
+  function starteSchritt(idx) {
     aktuellerSchrittIdx = idx;
     const schritt = aktivesSzenario.schritte[idx];
     if (!schritt) {
@@ -76066,94 +75898,116 @@ Ablaufverfolgung beendet.`, "success");
       return;
     }
 
-    // Kunde spricht
+    isWartenAufAntwort = true;
+
+    // Kunde spricht auf der Bühne
     const partnerSpeech = document.getElementById("simPartnerSpeech");
     if (partnerSpeech) partnerSpeech.textContent = schritt.partnerSagt;
     if (window.TOON && typeof window.TOON.setPose === "function") {
       window.TOON.setPose(document.getElementById("simPartnerAvatar"), "talk");
     }
 
-    // Prüfer denkt in Gedankenblase
+    // Prüfer denkt
     const prueferThought = document.getElementById("simPrueferThought");
     if (prueferThought) prueferThought.textContent = schritt.prueferDenkt;
 
     const prueferNote = document.getElementById("simPrueferNote");
     if (prueferNote) prueferNote.textContent = schritt.prueferNotiz;
 
-    const area = document.getElementById("simInteractionArea");
-    if (!area) return;
-    area.innerHTML = "";
+    // Nachricht in den Chatverlauf einfügen
+    fuegeNachrichtEin("partner", schritt.partnerSagt, aktivesSzenario.rollen.partner.name);
 
-    if (eingabeModus === "auswahl") {
-      // Modus: Button-Auswahl
-      const list = document.createElement("div");
-      list.className = "simOptionsList";
+    // Denkanstoß-Chips anzeigen
+    baueChips(schritt);
 
-      schritt.optionen.forEach((opt, oIdx) => {
-        const btn = document.createElement("button");
-        btn.className = "simOptionBtn";
-        btn.innerHTML = `
-          <span class="simOptionNum">${oIdx + 1}</span>
-          <span>${opt.text}</span>
-        `;
-        btn.addEventListener("click", () => verarbeiteOption(schritt, opt));
-        list.appendChild(btn);
+    // Eingabefeld fokussieren
+    const inp = document.getElementById("simChatInput");
+    if (inp) {
+      inp.disabled = false;
+      inp.focus();
+    }
+  }
+
+  function baueChips(schritt) {
+    const row = document.getElementById("simChipsRow");
+    if (!row) return;
+    row.innerHTML = "";
+
+    const tipps = schritt.tipps || [];
+    tipps.forEach(t => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "simPromptChip";
+      chip.textContent = "💡 " + t;
+      chip.addEventListener("click", () => {
+        const inp = document.getElementById("simChatInput");
+        if (inp) {
+          inp.value = t;
+          inp.focus();
+        }
       });
-      area.appendChild(list);
-    } else {
-      // Modus: Freitext-Eingabe
-      const wrap = document.createElement("div");
-      wrap.className = "simTextformWrap";
-      wrap.innerHTML = `
-        <textarea class="simTextarea" id="simFreitextInput" placeholder="Formuliere deine Fachantwort an den Kunden (z. B. Begründung, Schutzziele, Fachbegriffe)..."></textarea>
-        <button class="simTextSubmitBtn" id="simFreitextSubmitBtn">Antwort absenden & bewerten lassen ➔</button>
+      row.appendChild(chip);
+    });
+  }
+
+  function fuegeNachrichtEin(von, text, autor) {
+    const hist = document.getElementById("simChatHistory");
+    if (!hist) return;
+
+    const d = document.createElement("div");
+    d.className = `simChatMsg ${von}`;
+
+    if (von === "partner") {
+      d.innerHTML = `
+        <div class="simChatMsgAuthor">💬 ${autor || "Kunde"}</div>
+        <div>${text}</div>
       `;
-      area.appendChild(wrap);
-
-      document.getElementById("simFreitextSubmitBtn").addEventListener("click", () => {
-        const txt = document.getElementById("simFreitextInput").value.trim();
-        if (!txt) return;
-        verarbeiteFreitext(schritt, txt);
-      });
+    } else if (von === "user") {
+      d.innerHTML = `
+        <div style="font-size:11px; opacity:0.8; margin-bottom:2px;">Du</div>
+        <div>${text}</div>
+      `;
+    } else if (von === "feedback") {
+      d.innerHTML = text;
     }
+
+    hist.appendChild(d);
+    hist.scrollTop = hist.scrollHeight;
   }
 
-  // Verarbeitet die gewählte Option
-  function verarbeiteOption(schritt, opt) {
-    punkteStand = Math.max(0, Math.min(100, punkteStand + opt.punkte));
-    const pVal = document.getElementById("simPunkteVal");
-    if (pVal) pVal.textContent = punkteStand;
+  function sendeBenutzerAntwort() {
+    if (!isWartenAufAntwort) return;
+    const inp = document.getElementById("simChatInput");
+    if (!inp) return;
+    const text = inp.value.trim();
+    if (!text) return;
 
-    // Figuren-Posen
+    inp.value = "";
+    inp.disabled = true;
+    isWartenAufAntwort = false;
+
+    // Eigene Nachricht in Chat
+    fuegeNachrichtEin("user", text);
+
     if (window.TOON && typeof window.TOON.setPose === "function") {
-      window.TOON.setPose(document.getElementById("simPartnerAvatar"), opt.partnerPose || "talk");
-      window.TOON.setPose(document.getElementById("simPrueferAvatar"), opt.prueferPose || "talk");
-      window.TOON.setPose(document.getElementById("simPlayerAvatar"), opt.korrekt ? "nod" : "think");
+      window.TOON.setPose(document.getElementById("simPlayerAvatar"), "talk");
     }
 
-    const partnerSpeech = document.getElementById("simPartnerSpeech");
-    if (partnerSpeech) partnerSpeech.textContent = opt.partnerReaktion;
-
+    // Prüfer & Kunde denken kurz nach
     const prueferThought = document.getElementById("simPrueferThought");
-    if (prueferThought) prueferThought.textContent = opt.prueferReaktion;
+    if (prueferThought) prueferThought.textContent = "💭 Prüfe fachliche Argumentation auf IHK-Kriterien...";
 
-    const prueferNote = document.getElementById("simPrueferNote");
-    if (prueferNote) {
-      prueferNote.textContent = opt.prueferNotiz;
-      notizenHistorie.push({
-        text: opt.prueferNotiz,
-        korrekt: opt.korrekt,
-        feedback: opt.feedback
-      });
-    }
-
-    zeigeFeedback(opt.korrekt, opt.feedback);
+    setTimeout(() => {
+      bewerteAntwort(text);
+    }, 600);
   }
 
-  // Verarbeitet Freitext-Antwort (Intelligente Stichwort- & Didaktik-Analyse)
-  function verarbeiteFreitext(schritt, text) {
-    const stichworte = schritt.stichworte || [];
+  function bewerteAntwort(text) {
+    const schritt = aktivesSzenario.schritte[aktuellerSchrittIdx];
+    if (!schritt) return;
+
     const lower = text.toLowerCase();
+    const stichworte = schritt.stichworte || [];
     let treffer = 0;
 
     stichworte.forEach(sw => {
@@ -76161,75 +76015,68 @@ Ablaufverfolgung beendet.`, "success");
     });
 
     const quote = stichworte.length > 0 ? (treffer / stichworte.length) : 0.5;
-    const istKorrekt = quote >= 0.3 || (lower.length > 30 && treffer >= 1);
-    const punkte = istKorrekt ? Math.round(25 + quote * 10) : -15;
+    const laengeGut = text.length >= 25;
+    const istKorrekt = (quote >= 0.25 || treffer >= 2) && laengeGut;
 
+    const punkte = istKorrekt ? Math.round(16 + quote * 8) : -10;
     punkteStand = Math.max(0, Math.min(100, punkteStand + punkte));
+
     const pVal = document.getElementById("simPunkteVal");
     if (pVal) pVal.textContent = punkteStand;
 
-    const feedback = istKorrekt
-      ? `Sehr überzeugend argumentiert (${treffer} relevante IHK-Fachbegriffe erkannt). Musterlösung: "${schritt.musterAntwort}"`
-      : `Noch unvollständig formuliert. Wichtige Aspekte haben gefehlt. Musterlösung: "${schritt.musterAntwort}"`;
-
+    // Figuren-Posen
     if (window.TOON && typeof window.TOON.setPose === "function") {
       window.TOON.setPose(document.getElementById("simPartnerAvatar"), istKorrekt ? "cheer" : "think");
       window.TOON.setPose(document.getElementById("simPrueferAvatar"), istKorrekt ? "nod" : "hurt");
-      window.TOON.setPose(document.getElementById("simPlayerAvatar"), istKorrekt ? "nod" : "think");
+      window.TOON.setPose(document.getElementById("simPlayerAvatar"), istKorrekt ? "nod" : "hurt");
     }
 
+    // Reaktion des Kunden
+    const kundenAntwort = istKorrekt ? schritt.reaktionGut : schritt.reaktionSchlecht;
     const partnerSpeech = document.getElementById("simPartnerSpeech");
-    if (partnerSpeech) {
-      partnerSpeech.textContent = istKorrekt 
-        ? "Das leuchtet mir ein! Vielen Dank für diese verständliche und kompetente Erklärung."
-        : "Hm, das habe ich noch nicht ganz verstanden, können Sie das genauer begründen?";
-    }
+    if (partnerSpeech) partnerSpeech.textContent = kundenAntwort;
 
+    fuegeNachrichtEin("partner", kundenAntwort, aktivesSzenario.rollen.partner.name);
+
+    // Prüfer-Gedankenblase & Klemmbrett
     const prueferThought = document.getElementById("simPrueferThought");
     if (prueferThought) {
       prueferThought.textContent = istKorrekt
-        ? `💭 Gute freie Formulierung! Relevante Fachkompetenz und kundennahe Sprache erkannt (+${punkte} Pkt).`
-        : `💭 Zu vage oder Kernbegriffe verfehlt. In der IHK-Mündlichen muss hier präziser argumentiert werden.`;
+        ? `💭 Starke Fachberatung! (${treffer} Kernbegriffe treffsicher platziert, +${punkte} Pkt)`
+        : `💭 Fachlich unvollständig oder irreführend formuliert (${treffer} Treffer, ${punkte} Pkt).`;
     }
 
-    const notiz = istKorrekt ? `✔ Freitext-Argumentation solide (+${punkte} Pkt)` : `⚠️ Freitext mit Lücken (-15 Pkt)`;
+    const notiz = istKorrekt 
+      ? `✔ Schritt ${aktuellerSchrittIdx + 1}: Fachkompetenz bewiesen (+${punkte} Pkt)` 
+      : `⚠️ Schritt ${aktuellerSchrittIdx + 1}: Lückenhaft (${punkte} Pkt)`;
     const prueferNote = document.getElementById("simPrueferNote");
     if (prueferNote) prueferNote.textContent = notiz;
 
-    notizenHistorie.push({
-      text: notiz,
-      korrekt: istKorrekt,
-      feedback: feedback
-    });
-
-    zeigeFeedback(istKorrekt, feedback);
-  }
-
-  // Zeigt den Übergangs-Feedback-Screen
-  function zeigeFeedback(korrekt, feedbackText) {
-    const area = document.getElementById("simInteractionArea");
-    if (!area) return;
-
-    area.innerHTML = `
-      <div style="background: rgba(15, 23, 42, 0.85); padding: 14px; border-radius: 8px; border-left: 4px solid ${korrekt ? '#10b981' : '#ef4444'}; font-size: 13.5px; line-height: 1.5;">
-        <strong>${korrekt ? '✅ IHK-Fachurteil: Fachlich überzeugt' : '⚠️ IHK-Kritikpunkt:'}</strong><br>
-        ${feedbackText}
+    // IHK-Feedback-Kasten im Chat einblenden
+    const fbHtml = `
+      <div style="font-weight:700; color:${istKorrekt ? '#38bdf8' : '#f87171'}; margin-bottom:4px;">
+        ${istKorrekt ? '✅ IHK-Prüferurteil: Fachlich überzeugend' : '⚠️ IHK-Kritikpunkt / Nachbesserung erforderlich:'}
       </div>
-      <button class="simOptionBtn primary" id="simNextBtn" style="justify-content: center; font-weight: 700; margin-top: 10px; width: 100%;">
-        Weiter zum nächsten Beratungsschritt ➔
+      <div style="margin-bottom:6px;"><strong>IHK-Musterbegründung:</strong> ${schritt.musterAntwort}</div>
+      <button type="button" class="simOptionBtn primary" id="simChatNextStepBtn" style="font-size:12px; padding:6px 14px; margin-top:4px;">
+        Nächste Kundenfrage aufrufen ➔
       </button>
     `;
 
-    document.getElementById("simNextBtn").addEventListener("click", () => {
-      zeigeSchritt(aktuellerSchrittIdx + 1);
+    fuegeNachrichtEin(`feedback ${istKorrekt ? '' : 'kritik'}`, fbHtml);
+
+    document.getElementById("simChatNextStepBtn").addEventListener("click", () => {
+      starteSchritt(aktuellerSchrittIdx + 1);
     });
   }
 
-  // Abschluss-Auswertung
   function zeigeAbschluss() {
     const bewertung = berechneIhkNote(punkteStand);
-    const consoleEl = document.getElementById("simConsole");
-    if (!consoleEl) return;
+    const chipsRow = document.getElementById("simChipsRow");
+    if (chipsRow) chipsRow.innerHTML = "";
+
+    const form = document.getElementById("simChatForm");
+    if (form) form.style.display = "none";
 
     if (window.TOON && typeof window.TOON.setPose === "function") {
       window.TOON.setPose(document.getElementById("simPrueferAvatar"), punkteStand >= 67 ? "cheer" : "think");
@@ -76237,40 +76084,26 @@ Ablaufverfolgung beendet.`, "success");
       window.TOON.setPose(document.getElementById("simPlayerAvatar"), punkteStand >= 50 ? "jump" : "hurt");
     }
 
-    const partnerSpeech = document.getElementById("simPartnerSpeech");
-    if (partnerSpeech) {
-      partnerSpeech.textContent = punkteStand >= 67 
-        ? "Vielen Dank! Ihre Beratung war professionell und wir fühlen uns bei Ihnen bestens aufgehoben."
-        : "Hm, da müssen wir wohl nochmal mit einem anderen IT-Dienstleister sprechen...";
-    }
-
     const prueferThought = document.getElementById("simPrueferThought");
     if (prueferThought) {
-      prueferThought.textContent = `💭 Das Fachgespräch ist beendet. Gesamtergebnis: ${bewertung.text} (${punkteStand}/100 Punkte).`;
+      prueferThought.textContent = `💭 Das Fachgespräch ist beendet. Gesamtnote: ${bewertung.note} (${bewertung.text}) mit ${punkteStand}/100 Punkten.`;
     }
 
-    consoleEl.innerHTML = `
+    const endHtml = `
       <div class="simResultCard">
-        <div style="font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8;">
-          IHK Prüfungsergebnis Mündliche Simulation
+        <div style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8;">
+          IHK Prüfungsprotokoll Mündliches Fachgespräch
         </div>
         <div class="simResultGrade" style="color: ${bewertung.farbe};">
           Note ${bewertung.note} (${bewertung.text})
         </div>
         <div class="simResultPoints">
-          Erreichte Punktzahl: <strong>${punkteStand} von 100 Punkten</strong>
+          Erreichte Punktzahl: <strong>${punkteStand} von 100 Punkten</strong> (5 Prüfungsstufen absolviert)
         </div>
 
-        <div class="simFeedbackList">
-          <strong>Protokoll des Prüfungsausschusses:</strong>
-          <ul style="margin: 8px 0 0 16px; padding: 0;">
-            ${notizenHistorie.map(n => `<li style="color:${n.korrekt ? '#38bdf8' : '#f87171'}">${n.text}</li>`).join("")}
-          </ul>
-        </div>
-
-        <div style="display:flex; gap:10px;">
+        <div style="display:flex; gap:10px; margin-top:16px;">
           <button class="simOptionBtn" id="simRetryBtn" style="justify-content: center; flex:1;">
-            🔄 Gleiches Thema wiederholen
+            🔄 Szenario wiederholen
           </button>
           <button class="simOptionBtn primary" id="simFinishBtn" style="justify-content: center; font-weight: 700; flex:1;">
             Zurück zum Hauptmenü
@@ -76278,6 +76111,8 @@ Ablaufverfolgung beendet.`, "success");
         </div>
       </div>
     `;
+
+    fuegeNachrichtEin("feedback", endHtml);
 
     document.getElementById("simRetryBtn").addEventListener("click", () => {
       oeffneSimulator(aktivesSzenario.id);
@@ -76289,7 +76124,6 @@ Ablaufverfolgung beendet.`, "success");
     });
   }
 
-  // Universeller Starter
   window.PRUEFUNGSSIMULATOR = {
     starte: oeffneSimulator,
     starteThema: function (themaKey) {
