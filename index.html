@@ -93469,7 +93469,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
 
   /* ---------- Bereichs-Aktionen ---------- */
   function oeffneBereich(id) {
-    if (id === "ki_lehrer" || id === "vorlesung") {
+    if (id === "arbeitsbuch") {
+      oeffneArbeitsbuchModal();
+    } else if (id === "ki_lehrer" || id === "vorlesung") {
       oeffneKiLehrerModal();
     } else if (id === "experimentell" || id === "in_entwicklung" || id === "dev" || id === "halle") {
       oeffneExperimentellModal();
@@ -93486,6 +93488,210 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     }
   }
 
+  // 1a. Dediziertes Untermenü: Arbeitsbuch LF3 – Beamer-Musterlösungen & Einzelaufgaben (S. 244–251)
+  function oeffneArbeitsbuchModal() {
+    zeigeModal("📘 Arbeitsbuch LF3 · Beamer-Lösungen & Einzelaufgaben", `
+      <p class="modalLead">
+        <b>Westermann Arbeitsbuch Lernfeld 3 (S. 244–251):</b> Beamer-Lösungen für Kapitel 3.9 und die Wiederholungstests 1 &amp; 2 mit vollständigen Rechenwegen und didaktischer Phasen-Navigation. Jede Aufgabe kann einzeln am Beamer gestartet oder als Gesamteinheit durchgeführt werden.
+      </p>
+
+      <div class="modalGridCards">
+        <!-- Session 1: S. 244-248 -->
+        <div class="arenaCard full" style="border: 2px solid #38bdf8; background: rgba(15, 23, 42, 0.95); margin-bottom: 12px; padding: 14px; border-radius: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px; flex-wrap:wrap; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:24px;">⚡</span>
+              <div>
+                <h3 style="color:#38bdf8; margin:0; font-size:15px; font-weight:800;">Teil 1: Strom, USV &amp; Datacenter-Digitalisierung</h3>
+                <span style="font-size:11px; color:#94a3b8;">Kapitel 3.9 &amp; Wiederholungstest 1 (S. 244–248) · 4 Aufgaben · 45 min</span>
+              </div>
+            </div>
+            <button type="button" class="primary hubStartAbBtn" data-einheit="lf03-arbeitsbuch-wiederholung-1" style="font-weight:750; background:linear-gradient(135deg, #0284c7, #2563eb); color:#fff; padding:6px 14px; font-size:12px; border:none; border-radius:5px; cursor:pointer;">
+              ▶ Ganze Session starten (45 min)
+            </button>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px; margin-top: 10px;">
+            <!-- Aufgabe 3.9 -->
+            <div style="background:rgba(30,41,59,0.7); border:1px solid #334155; border-radius:6px; padding:10px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:750; color:#fde047; font-size:12px;">S. 244–245 · Kap. 3.9</span>
+                  <span class="ui-chip ui-chip-ok" style="font-size:10px;">Aufgabe 1</span>
+                </div>
+                <b style="color:#e2e8f0; font-size:12.5px; display:block; margin-bottom:4px;">Stromversorgung &amp; USV-Pufferzeit</b>
+                <p style="font-size:11px; color:#94a3b8; margin:0 0 8px; line-height:1.4;">
+                  IT-Last vs. RZ-Infrastruktur (Radio/Heizung-Falle), Schuko (3,68 kW), Drehstrom CEE (11 / 22 / 43,6 kW) &amp; USV-Laufzeit (240 Wh / 650 W ≈ 20 min).
+                </p>
+              </div>
+              <button type="button" class="primary hubStartPhaseBtn" data-einheit="lf03-arbeitsbuch-wiederholung-1" data-phase="0" style="background:#0284c7; color:#fff; border:none; border-radius:4px; padding:6px 10px; font-size:11.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;">
+                ➔ Aufgabe 3.9 einzeln aufrufen
+              </button>
+            </div>
+
+            <!-- WT1 1.1 -->
+            <div style="background:rgba(30,41,59,0.7); border:1px solid #334155; border-radius:6px; padding:10px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:750; color:#fde047; font-size:12px;">S. 246–247 · WT1</span>
+                  <span class="ui-chip ui-chip-ok" style="font-size:10px;">Aufgabe 1.1</span>
+                </div>
+                <b style="color:#e2e8f0; font-size:12.5px; display:block; margin-bottom:4px;">Fotodigitalisierung &amp; Übertragungszeit</b>
+                <p style="font-size:11px; color:#94a3b8; margin:0 0 8px; line-height:1.4;">
+                  8.000 Scans à 15×20 cm, 4.800 dpi, 24 Bit RGB = 3,214 GB/Bild (25,71 TB/Tag). Durchsatz bei 1 GbE (2 Bilder/min) &amp; Transferdauer (7,14 h vs. 1,43 h bei 5 GbE).
+                </p>
+              </div>
+              <button type="button" class="primary hubStartPhaseBtn" data-einheit="lf03-arbeitsbuch-wiederholung-1" data-phase="1" style="background:#0284c7; color:#fff; border:none; border-radius:4px; padding:6px 10px; font-size:11.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;">
+                ➔ Aufgabe 1.1 einzeln aufrufen
+              </button>
+            </div>
+
+            <!-- WT1 1.2 -->
+            <div style="background:rgba(30,41,59,0.7); border:1px solid #334155; border-radius:6px; padding:10px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:750; color:#fde047; font-size:12px;">S. 247 · WT1</span>
+                  <span class="ui-chip ui-chip-ok" style="font-size:10px;">Aufgabe 1.2</span>
+                </div>
+                <b style="color:#e2e8f0; font-size:12.5px; display:block; margin-bottom:4px;">RAID 5, RAID 6 &amp; JBOD-Berechnung</b>
+                <p style="font-size:11px; color:#94a3b8; margin:0 0 8px; line-height:1.4;">
+                  Netto-Kapazitäten: 6×2 TiB im RAID 5 (10 TiB) vs. RAID 6 (8 TiB), 7 ungleiche Disks im RAID 5 (12 TiB) und Restnutzung als JBOD (5,2 TiB).
+                </p>
+              </div>
+              <button type="button" class="primary hubStartPhaseBtn" data-einheit="lf03-arbeitsbuch-wiederholung-1" data-phase="2" style="background:#0284c7; color:#fff; border:none; border-radius:4px; padding:6px 10px; font-size:11.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;">
+                ➔ Aufgabe 1.2 einzeln aufrufen
+              </button>
+            </div>
+
+            <!-- WT1 2 & 3 -->
+            <div style="background:rgba(30,41,59,0.7); border:1px solid #334155; border-radius:6px; padding:10px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:750; color:#fde047; font-size:12px;">S. 247–248 · WT1</span>
+                  <span class="ui-chip ui-chip-ok" style="font-size:10px;">Aufgabe 2 &amp; 3</span>
+                </div>
+                <b style="color:#e2e8f0; font-size:12.5px; display:block; margin-bottom:4px;">Serverkonsolidierung, LiFePO4 &amp; SSH</b>
+                <p style="font-size:11px; color:#94a3b8; margin:0 0 8px; line-height:1.4;">
+                  6 Jahre alte USV-Akkus tauschen, neue LiFePO4 (240 Wh bei 900 W = 15,2 min), USV-Klassen VFD/VI/VFI &amp; SSH (Port 22, verschlüsselt) vs. Telnet (Port 23).
+                </p>
+              </div>
+              <button type="button" class="primary hubStartPhaseBtn" data-einheit="lf03-arbeitsbuch-wiederholung-1" data-phase="3" style="background:#0284c7; color:#fff; border:none; border-radius:4px; padding:6px 10px; font-size:11.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;">
+                ➔ Aufgabe 2 &amp; 3 einzeln aufrufen
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Session 2: S. 248-251 -->
+        <div class="arenaCard full" style="border: 2px solid #8b5cf6; background: rgba(15, 23, 42, 0.95); margin-bottom: 12px; padding: 14px; border-radius: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px; flex-wrap:wrap; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:24px;">🌐</span>
+              <div>
+                <h3 style="color:#a78bfa; margin:0; font-size:15px; font-weight:800;">Teil 2: Netzwerk, OSI, IPv6 &amp; Troubleshooting</h3>
+                <span style="font-size:11px; color:#94a3b8;">Wiederholungstest 2 (S. 248–251) · 3 Aufgaben · 45 min</span>
+              </div>
+            </div>
+            <button type="button" class="primary hubStartAbBtn" data-einheit="lf03-arbeitsbuch-wiederholung-2" style="font-weight:750; background:linear-gradient(135deg, #7c3aed, #4f46e5); color:#fff; padding:6px 14px; font-size:12px; border:none; border-radius:5px; cursor:pointer;">
+              ▶ Ganze Session starten (45 min)
+            </button>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px; margin-top: 10px;">
+            <!-- WT2 1.1 & 1.2 -->
+            <div style="background:rgba(30,41,59,0.7); border:1px solid #334155; border-radius:6px; padding:10px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:750; color:#fde047; font-size:12px;">S. 248–249 · WT2</span>
+                  <span class="ui-chip ui-chip-ok" style="font-size:10px;">Aufgabe 1</span>
+                </div>
+                <b style="color:#e2e8f0; font-size:12.5px; display:block; margin-bottom:4px;">7 OSI-Schichten, MAC-OUI &amp; DNS</b>
+                <p style="font-size:11px; color:#94a3b8; margin:0 0 8px; line-height:1.4;">
+                  Zuordnung aller 7 Schichten &amp; Netzwerkgeräte, MAC-OUI (14:ab:c5), nslookup hp.com über Port 53, Loopback-Resolver 127.0.0.53 und Load Balancing.
+                </p>
+              </div>
+              <button type="button" class="primary hubStartPhaseBtn" data-einheit="lf03-arbeitsbuch-wiederholung-2" data-phase="0" style="background:#7c3aed; color:#fff; border:none; border-radius:4px; padding:6px 10px; font-size:11.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;">
+                ➔ Aufgabe 1.1 &amp; 1.2 einzeln aufrufen
+              </button>
+            </div>
+
+            <!-- WT2 2 -->
+            <div style="background:rgba(30,41,59,0.7); border:1px solid #334155; border-radius:6px; padding:10px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:750; color:#fde047; font-size:12px;">S. 250 · WT2</span>
+                  <span class="ui-chip ui-chip-ok" style="font-size:10px;">Aufgabe 2</span>
+                </div>
+                <b style="color:#e2e8f0; font-size:12.5px; display:block; margin-bottom:4px;">IPv6-Dekompression &amp; /56 Subnetze</b>
+                <p style="font-size:11px; color:#94a3b8; margin:0 0 8px; line-height:1.4;">
+                  Vorteile IPv6 (SLAAC, kein NAT), 2003:: und fe80:: unkomprimiert, 256 /64-Subnetze (64-56=8 Bit), Link-Local fe80:: als Gateway &amp; ipconfig /all.
+                </p>
+              </div>
+              <button type="button" class="primary hubStartPhaseBtn" data-einheit="lf03-arbeitsbuch-wiederholung-2" data-phase="1" style="background:#7c3aed; color:#fff; border:none; border-radius:4px; padding:6px 10px; font-size:11.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;">
+                ➔ Aufgabe 2 einzeln aufrufen
+              </button>
+            </div>
+
+            <!-- WT2 3 -->
+            <div style="background:rgba(30,41,59,0.7); border:1px solid #334155; border-radius:6px; padding:10px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:750; color:#fde047; font-size:12px;">S. 251 · WT2</span>
+                  <span class="ui-chip ui-chip-ok" style="font-size:10px;">Aufgabe 3</span>
+                </div>
+                <b style="color:#e2e8f0; font-size:12.5px; display:block; margin-bottom:4px;">Diagnose, DHCP &amp; /18-Drucker-Falle</b>
+                <p style="font-size:11px; color:#94a3b8; margin:0 0 8px; line-height:1.4;">
+                  ping-Parameter (-t, -n, -l), Loopback (127.0.0.1 / ::1), DHCP-DORA &amp; Subnetzmaske 255.255.192.0 (/18): Warum der Drucker nicht erreichbar war.
+                </p>
+              </div>
+              <button type="button" class="primary hubStartPhaseBtn" data-einheit="lf03-arbeitsbuch-wiederholung-2" data-phase="2" style="background:#7c3aed; color:#fff; border:none; border-radius:4px; padding:6px 10px; font-size:11.5px; font-weight:700; cursor:pointer; width:100%; text-align:center;">
+                ➔ Aufgabe 3 einzeln aufrufen
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 24-Fragen Quiz Pack -->
+        <div class="arenaCard full" style="border: 2px dashed #f59e0b; background: rgba(30, 20, 10, 0.7); padding: 12px; border-radius: 8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <b style="color:#fbbf24; font-size:13px; display:block;">⚡ Prüfungs-Quiz: 24 Fragen zu den Arbeitsbuch-Tests</b>
+            <span style="font-size:11px; color:#d1d5db;">Spiele alle 24 Fragen aus Kapitel 3.9 und den Wiederholungstests 1 &amp; 2 als interaktives Klassen-Quiz!</span>
+          </div>
+          <button type="button" class="primary" id="hubStartAbQuizBtn" style="background:linear-gradient(135deg, #d97706, #b45309); color:#fff; border:none; border-radius:5px; padding:8px 14px; font-size:12px; font-weight:750; cursor:pointer;">
+            ⚡ 24 Arbeitsbuch-Fragen im Quiz spielen ➔
+          </button>
+        </div>
+      </div>
+    `);
+
+    modalBody.querySelectorAll(".hubStartAbBtn").forEach((btn) => {
+      btn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (typeof window.startVorlesung === "function") window.startVorlesung(btn.dataset.einheit);
+      };
+    });
+    modalBody.querySelectorAll(".hubStartPhaseBtn").forEach((btn) => {
+      btn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        const eId = btn.dataset.einheit;
+        const pIdx = parseInt(btn.dataset.phase, 10);
+        if (typeof window.startVorlesung === "function") window.startVorlesung(eId, pIdx);
+      };
+    });
+    const quizBtn = $("hubStartAbQuizBtn");
+    if (quizBtn) {
+      quizBtn.onclick = () => {
+        schliesseModal();
+        stoppeHub();
+        if (typeof window.startGame === "function") {
+          window.startGame("lf03-arbeitsbuch-wiederholungstests");
+        }
+      };
+    }
+  }
+
   // 1b. Untermenü: KI-Lehrer & Vorlesungen (Fokus rein auf die 32 Einheiten & Stoffnetz)
   function oeffneKiLehrerModal() {
     zeigeModal("🎓 KI-Lehrer & Vorlesungen", `
@@ -93498,7 +93704,7 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
               <span style="font-size:22px;">🎓</span>
               <div>
                 <h3 style="color:#38bdf8; margin:0; font-size:14px;">Interaktive-KI-Vorlesung</h3>
-                <span style="font-size:10px; color:#7dd3fc;">${Object.keys(window.LERNEINHEITEN || {}).length} Einheiten zu Lernfeld 3: Router und Subnetting bis Prüfungsflug</span>
+                <span style="font-size:10px; color:#7dd3fc;">32 Einheiten zu Lernfeld 3: Router und Subnetting bis Prüfungsflug</span>
               </div>
             </div>
             <span class="devStatusBadge live">🟢 Spielbereit</span>
@@ -93510,6 +93716,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
           <div style="font-size:10px; color:#94a3b8; margin-bottom:10px; background:rgba(0,0,0,0.3); padding:5px 8px; border-radius:3px;">
             📚 <b>Fachbuch:</b> Westermann S. 306–364 · <b>Obsidian:</b> 20_Begriffe/Router.md · <b>Tutor:</b> Live & Offline
           </div>
+          <button type="button" class="primary" id="hubOpenArbeitsbuchBtn" style="font-weight:750; background:linear-gradient(135deg, #0284c7, #2563eb); color:#fff; width:100%; padding:10px 14px; font-size:13px; cursor:pointer; margin-bottom:8px; border:1px solid #38bdf8; border-radius:6px; box-shadow:0 0 15px rgba(56,189,248,0.3);">
+            📘 Arbeitsbuch LF3: Beamer-Lösungen &amp; Einzelaufgaben (S. 244–251) ➔
+          </button>
           <button type="button" class="primary" id="hubOpenStoffnetzBtn" style="font-weight:750; background:linear-gradient(135deg, #0284c7, #8b5cf6); color:#fff; width:100%; padding:10px 14px; font-size:13px; cursor:pointer; margin-bottom:12px; border:1px solid #c4b5fd; border-radius:6px; box-shadow:0 0 15px rgba(139,92,246,0.3);">
             🕸️ Visuellen Stoffnetz-Skill-Tree öffnen (36 Bausteine) ➔
           </button>
@@ -93521,6 +93730,12 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
     `);
 
     bindeKursStart();
+    const openAbBtn = $("hubOpenArbeitsbuchBtn");
+    if (openAbBtn) {
+      openAbBtn.onclick = () => {
+        oeffneArbeitsbuchModal();
+      };
+    }
     const openSnBtn = $("hubOpenStoffnetzBtn");
     if (openSnBtn) {
       openSnBtn.onclick = () => {
@@ -93749,7 +93964,9 @@ window.FANCY_SND = {"boom":"data:audio/mpeg;base64,SUQzBAAAAAAAaFRJVDIAAAAMAAADR
   // 1c. Lernkurse als Teil des KI-Lehrers: Liste mit Sternen, Start ueber den Kurs-Player (mit KI-Lehrer-Rahmen)
   // Alle KI-Lehrer-Einheiten aus window.LERNEINHEITEN, sortiert nach "reihe" (neue Einheiten erscheinen von selbst)
 function einheitenListeHtml() {
-  const alle = Object.values(window.LERNEINHEITEN || {}).sort((a, b) => (a.reihe || 99) - (b.reihe || 99) || String(a.id).localeCompare(b.id));
+  const alle = Object.values(window.LERNEINHEITEN || {})
+    .filter((u) => !String(u.id).includes("arbeitsbuch"))
+    .sort((a, b) => (a.reihe || 99) - (b.reihe || 99) || String(a.id).localeCompare(b.id));
   const e = (t) => String(t == null ? "" : t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   return alle.map((u, i) => `<button type="button" class="primary hubEinheitBtn" data-einheit="${e(u.id)}" style="font-weight:700; background:#0369a1; color:#fff; width:100%; padding:8px 12px; font-size:12px; cursor:pointer; margin-top:${i ? 6 : 0}px; text-align:left;">🎓 ${e(u.reihe || i + 1)}. ${e(u.titel)} · ${e(u.dauer_min || 20)} min ➔</button>`).join("");
 }
@@ -94887,6 +95104,13 @@ function kursListeHtml() {
   }
 
   // Quick Buttons im HUD
+  const abQuickBtn = $("hubArbeitsbuchBtn");
+  if (abQuickBtn) {
+    abQuickBtn.onclick = () => {
+      oeffneArbeitsbuchModal();
+    };
+  }
+
   const optBtn = $("hubOptionenBtn");
   if (optBtn) {
     optBtn.onclick = () => {
