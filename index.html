@@ -14627,6 +14627,10 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   flex: 1;
   margin-top: 4px;
 }
+.vnAgendaGrid6 {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+}
 .vnAgendaCard {
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -14637,6 +14641,23 @@ body.retro .synWahlBox { border-radius: 0; border: 3px solid var(--pix); }
   justify-content: space-between;
   gap: 6px;
   transition: all 0.25s ease;
+}
+.vnAgendaCardCompact {
+  padding: 7px 10px;
+  gap: 3px;
+  border-radius: 10px;
+}
+.vnAgendaCardCompact .vnAgendaIcon {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+}
+.vnAgendaCardCompact h4 {
+  font-size: 12px;
+}
+.vnAgendaCardCompact p {
+  font-size: 10px;
+  line-height: 1.25;
 }
 .vnAgendaCard.active {
   border-color: #ffd600;
@@ -85085,363 +85106,426 @@ GENERATORS.vlan = function (level) {
   // -------------------------------------------------------------------------
   const SZENEN_NEUMANN = [
     {
-      id: "akt1",
+      id: "akt0",
       start: 0,
-      ende: 38,
-      titel: "1. Akt: Die Tyrannei der Distanz",
-      headline: "Der unbegreiflich einsame Kosmos",
-      text: "Stell dir vor, du blickst in den Nachthimmel: Über 100 Milliarden Sterne – doch für uns unerreichbar. Selbst mit der schnellsten Sonde der Menschheit (<em>Voyager 1</em>) bräuchte die Reise zum nächsten Nachbarn <strong>Alpha Centauri</strong> über <strong>74.000 Jahre</strong>! Ein biologisches Menschenleben reicht nicht einmal für den kosmischen Vorgarten.",
+      ende: 18,
+      isAgenda: true,
+      chipLabel: "📋 Fahrplan",
+      kapitel: "AGENDA · DER 4-MINUTEN-FAHRPLAN",
+      titel: "Von-Neumann-Sonden & Selbstreplikation",
+      untertitel: "Wie algorithmische Maschinen und automatisierte Fabriken die Galaxie erschließen",
+      linkRef: "John von Neumann (1948) & Frank J. Tipler (1980)",
+      agendaPunkte: [
+        { num: "01", icon: "🚀", titel: "Die kosmische Schranke", desc: "Warum chemische Raketen an interstellaren Distanzen scheitern." },
+        { num: "02", icon: "📐", titel: "John von Neumann (1948)", desc: "Die 3 Säulen mathematischer Selbstreplikation ohne Endlosschleife." },
+        { num: "03", icon: "⛏", titel: "Anatomie & ISRU", desc: "Asteroiden-Bergbau, Sonnenöfen und autarke Fertigung vor Ort." },
+        { num: "04", icon: "📈", titel: "Galaktische Kettenreaktion", desc: "Die Wucht von 2^n: Die gesamte Milchstraße in nur 4 Mio. Jahren." },
+        { num: "05", icon: "☣", titel: "Der Berserker-Albtraum", desc: "Kosmische Bitflips, mutierte Firmware und Fermis Stille." },
+        { num: "06", icon: "✨", titel: "Das kosmische Erbe", desc: "Stumme Bracewell-Wächter und unser unsterblicher Code im All." }
+      ],
       svgKey: "distanz",
-      linkRef: "Freitas (1980) & NASA Voyager Mission",
       takte: [
         {
-          id: "akt1_t1",
+          id: "akt0_t1",
           start: 0,
-          ende: 13,
-          headline: "Die unbegreifliche Leere des Raums",
-          text: "Das Universum ist gigantisch – und unsere chemischen Raketen kriechen im kosmischen Maßstab wie Schnecken durch das Nichts.",
-          aktiv: "links",
-          typ: "sprechblase",
-          blaseText: "Wir sind Gefangene chemischer Tanks! Kein Wesen aus Fleisch und Blut wird jemals lebend die Sterne bereisen...",
-          name: "Alan Turing",
-          pose: "wonder"
-        },
-        {
-          id: "akt1_t2",
-          start: 13,
-          ende: 25,
-          headline: "74.000 Jahre bis Alpha Centauri",
-          text: "Um nur 4,24 Lichtjahre zu überbrücken, vergehen Zivilisationen. Fleisch und Blut altern, Nahrung und Sauerstoff gehen zur Neige.",
-          aktiv: "links",
-          typ: "gedankenblase",
-          blaseText: "Was aber, wenn nicht sterbliche Körper reisen – sondern unsterbliche <strong>Algorithmen</strong>?",
-          name: "Alan Turing",
-          pose: "talk"
-        },
-        {
-          id: "akt1_t3",
-          start: 25,
-          ende: 38,
-          headline: "Ein neues interstellares Paradigma",
-          text: "Biologie stößt an Grenzen. Wir müssen den Kosmos mit den Gesetzen der Information und der Selbstorganisation erobern.",
-          aktiv: "rechts",
-          typ: "sprechblase",
-          blaseText: "Algorithmen kennen keine biologische Halbwertszeit: Ein digitaler Keim genügt für die ganze Galaxie!",
-          name: "Ada Lovelace",
-          pose: "explain"
+          ende: 18,
+          stepIdx: -1,
+          moderator: {
+            figur: "turing",
+            name: "Alan Turing",
+            pose: "explain",
+            typ: "sprechblase",
+            blaseText: "Willkommen zur interstellaren Expedition! Ich begleite euch durch die 6 Akte der Selbstreplikation – vom mathematischen Fundament bis zur Galaxie!"
+          }
         }
       ],
       rollen: {
-        links: {
-          figur: "turing",
-          name: "Alan Turing",
-          rolle: "Theoretischer Informatiker",
-          pose: "wonder"
+        links: { figur: "turing", name: "Alan Turing", rolle: "Moderator", pose: "explain" },
+        rechts: { figur: "ada", name: "Ada Lovelace", rolle: "Co-Moderatorin", pose: "talk" }
+      }
+    },
+    {
+      id: "akt1",
+      start: 18,
+      ende: 55,
+      isAgenda: false,
+      chipLabel: "1. Distanz",
+      kapitel: "1. AKT · DIE KOSMISCHE SCHRANKE",
+      titel: "Die kosmische Schranke",
+      untertitel: "Warum chemische Raketen an der Unendlichkeit des Raums scheitern",
+      linkRef: "Freitas (1980) & NASA Voyager Mission",
+      svgKey: "distanz",
+      einleitung: "Das Universum ist unvorstellbar leer – chemische Raketen kriechen wie Schnecken durch das Nichts. Fleisch und Blut altern, Nahrung und Treibstoff gehen zur Neige.",
+      unterpunkte: [
+        { num: "01", icon: "🚀", titel: "74.000 Jahre bis Alpha Centauri", text: "Selbst die schnellste Sonde der Menschheit (Voyager 1) bräuchte 74.000 Jahre zum nächsten Nachbarstern. Biologische Lebensspannen scheitern an der Raumzeit." },
+        { num: "02", icon: "🧬", titel: "Die biologische Fessel", text: "Organische Körper fordern Tonnen an Nahrung, Wasser, Sauerstoff und Strahlenschutz. Die Ziolkowski-Raketengleichung macht bemannte Kolonieschiffe utopisch teuer." },
+        { num: "03", icon: "⚡", titel: "Das Paradigma der Information", text: "Nicht sterbliche Körper müssen reisen, sondern unsterblicher Code: Ein digitaler Keim genügt, um ein ganzes fremdes Sternensystem zu besiedeln!" }
+      ],
+      takeaway: "🚀 Fazit: Biologie stößt an kosmische Grenzen – unsterbliche Algorithmen überwinden sie.",
+      takte: [
+        {
+          id: "akt1_t1",
+          start: 18,
+          ende: 30,
+          stepIdx: 0,
+          moderator: {
+            figur: "turing",
+            name: "Alan Turing",
+            pose: "wonder",
+            typ: "sprechblase",
+            blaseText: "Wir sind Gefangene chemischer Tanks! Kein Wesen aus Fleisch und Blut wird jemals lebend die Sterne bereisen..."
+          }
         },
-        rechts: {
-          figur: "ada",
-          name: "Ada Lovelace",
-          rolle: "Visionärin der Automaten",
-          pose: "explain"
+        {
+          id: "akt1_t2",
+          start: 30,
+          ende: 42,
+          stepIdx: 1,
+          moderator: {
+            figur: "turing",
+            name: "Alan Turing",
+            pose: "talk",
+            typ: "gedankenblase",
+            blaseText: "Was aber, wenn nicht sterbliche Körper reisen – sondern unsterbliche Algorithmen?"
+          }
+        },
+        {
+          id: "akt1_t3",
+          start: 42,
+          ende: 55,
+          stepIdx: 2,
+          moderator: {
+            figur: "ada",
+            name: "Ada Lovelace",
+            pose: "explain",
+            typ: "sprechblase",
+            blaseText: "Algorithmen kennen keine biologische Halbwertszeit: Ein digitaler Keim genügt für die ganze Galaxie!"
+          }
         }
+      ],
+      rollen: {
+        links: { figur: "turing", name: "Alan Turing", rolle: "Theoretischer Informatiker", pose: "wonder" },
+        rechts: { figur: "ada", name: "Ada Lovelace", rolle: "Visionärin der Automaten", pose: "explain" }
       }
     },
     {
       id: "akt2",
-      start: 38,
-      ende: 80,
-      titel: "2. Akt: John von Neumann (1948)",
-      headline: "Die Theorie selbstreplizierender Automaten",
-      text: "1948 stellte das Universalgenie <strong>John von Neumann</strong> eine revolutionäre Frage: <em>Kann eine Maschine eine exakte Kopie ihrer selbst bauen – inklusive der Fähigkeit, sich erneut zu vermehren?</em> Seine mathematische Antwort war ein klares JA! Nötig sind drei Dinge: Ein <strong>Bauplan (Software/DNA)</strong>, ein <strong>Universeller Konstruktor (Fabrik)</strong> und ein <strong>Kopierwerk</strong>.",
-      svgKey: "von_neumann",
+      start: 55,
+      ende: 95,
+      isAgenda: false,
+      chipLabel: "2. Von Neumann",
+      kapitel: "2. AKT · DAS MATHEMATISCHE FUNDAMENT",
+      titel: "John von Neumann (1948)",
+      untertitel: "Die Theorie universell selbstreplizierender Automaten",
       linkRef: "Von Neumann (1966) - Theory of Self-Reproducing Automata",
+      svgKey: "von_neumann",
+      einleitung: "1948 stellte das Universalgenie John von Neumann eine revolutionäre Frage: Kann eine Maschine eine exakte Kopie ihrer selbst bauen, inklusive Fortpflanzungsfähigkeit? Seine Antwort: Ein klares Ja!",
+      unterpunkte: [
+        { num: "01", icon: "📐", titel: "Die 3 Säulen der Selbstreplikation", text: "Nötig sind drei Dinge: Ein Bauplan (Software/DNA), ein universeller Konstruktor (Fabrik) und ein Kopierwerk für die Steuerungslogik." },
+        { num: "02", icon: "🏭", titel: "Konstruktor = Turing-Maschine der Materie", text: "So wie die universelle Turing-Maschine beliebige Berechnungen ausführt, formt der universelle Konstruktor beliebige physische Materie nach algorithmischen Gesetzen." },
+        { num: "03", icon: "🔄", titel: "Der geschlossene Replikations-Zyklus", text: "Befehlsschleife: [1] Asteroid scannen [2] Tochter-Chassis drucken [3] Firmware flashen [4] Starten! Die Sonde vervielfältigt sich vollkommen autonom." }
+      ],
+      takeaway: "💡 Fazit: Selbstreplikation ist reine Information – Materie wird zum Ausführungsorgan.",
       takte: [
         {
           id: "akt2_t1",
-          start: 38,
-          ende: 52,
-          headline: "Die fundamentale Idee von 1948",
-          text: "John von Neumann bewies: Ein deterministischer Automat kann sich selbst replizieren, ohne in eine unendliche Regression zu verfallen.",
-          aktiv: "links",
-          typ: "gedankenblase",
-          blaseText: "Genau wie ein Programm Bits manipuliert, verarbeitet dieser Automat <strong>physische Materie</strong> nach algorithmischen Gesetzen.",
-          name: "Alan Turing",
-          pose: "show"
+          start: 55,
+          ende: 68,
+          stepIdx: 0,
+          moderator: {
+            figur: "turing",
+            name: "Alan Turing",
+            pose: "show",
+            typ: "gedankenblase",
+            blaseText: "Genau wie ein Programm Bits manipuliert, verarbeitet dieser Automat physische Materie nach algorithmischen Gesetzen."
+          }
         },
         {
           id: "akt2_t2",
-          start: 52,
-          ende: 66,
-          headline: "Die 3 Säulen der Selbstreplikation",
-          text: "Drei Komponenten bilden das Herzstück: Ein <strong>Bauplan (Blueprint)</strong>, eine <strong>Fabrik (Konstruktor)</strong> und ein <strong>Kopierwerk</strong> für die Software.",
-          aktiv: "links",
-          typ: "sprechblase",
-          blaseText: "Der universelle Konstruktor ist das mechanische Äquivalent der universellen Turing-Maschine!",
-          name: "Alan Turing",
-          pose: "talk"
+          start: 68,
+          ende: 81,
+          stepIdx: 1,
+          moderator: {
+            figur: "turing",
+            name: "Alan Turing",
+            pose: "talk",
+            typ: "sprechblase",
+            blaseText: "Der universelle Konstruktor ist das mechanische Äquivalent der universellen Turing-Maschine!"
+          }
         },
         {
           id: "akt2_t3",
-          start: 66,
-          ende: 80,
-          headline: "Der geschlossene Replikations-Zyklus",
-          text: "Die Sonde baut die physische Hülle der Tochter und spiegelt anschließend ihren gesamten Firmware-Quellcode bitgenau hinein.",
-          aktiv: "rechts",
-          typ: "sprechblase",
-          blaseText: "Befehlsschleife: [1] Asteroid scannen [2] Tochter-Chassis drucken [3] Firmware flashen [4] Starten!",
-          name: "Robot Byte-01",
-          pose: "nod"
+          start: 81,
+          ende: 95,
+          stepIdx: 2,
+          moderator: {
+            figur: "robot",
+            name: "Robot Byte-01",
+            pose: "nod",
+            typ: "sprechblase",
+            blaseText: "Befehlsschleife: [1] Asteroid scannen [2] Tochter-Chassis drucken [3] Firmware flashen [4] Starten!"
+          }
         }
       ],
       rollen: {
-        links: {
-          figur: "turing",
-          name: "Alan Turing",
-          rolle: "Logik & Berechenbarkeit",
-          pose: "show"
-        },
-        rechts: {
-          figur: "robot",
-          name: "Robot Byte-01",
-          rolle: "Autonome Sonde Alpha",
-          pose: "nod"
-        }
+        links: { figur: "turing", name: "Alan Turing", rolle: "Logik & Berechenbarkeit", pose: "show" },
+        rechts: { figur: "robot", name: "Robot Byte-01", rolle: "Autonome Sonde Alpha", pose: "nod" }
       }
     },
     {
       id: "akt3",
-      start: 80,
-      ende: 125,
-      titel: "3. Akt: Anatomie & ISRU",
-      headline: "Die Werkbank im Asteroidengürtel",
-      text: "Wie überlebt eine Von-Neumann-Sonde im interstellaren Raum? Sie landet nicht auf bewohnbaren Planeten, sondern auf öden <strong>Asteroiden und Kometen</strong>! Mittels <em>In-Situ Resource Utilization (ISRU)</em> schmilzt sie Eisen, Nickel und Silizium aus dem Gestein. Molekulare 3D-Drucker fertigen <strong>zwei identische Tochter-Sonden</strong>.",
-      svgKey: "isru",
+      start: 95,
+      ende: 135,
+      isAgenda: false,
+      chipLabel: "3. ISRU",
+      kapitel: "3. AKT · ANATOMIE & ISRU",
+      titel: "Anatomie & ISRU (In-Situ Resource Utilization)",
+      untertitel: "Asteroiden und Kometen als autarke kosmische Fabriken",
       linkRef: "Freitas (1980) & NASA Asteroid Mining",
+      svgKey: "isru",
+      einleitung: "Eine Von-Neumann-Sonde landet niemals auf Planeten mit tiefen Schwerkraftbrunnen. Sie nutzt tote Asteroiden und Kometen als riesige Rohstofflager im Vakuum.",
+      unterpunkte: [
+        { num: "01", icon: "🌑", titel: "Asteroiden statt Gravitationsfallen", text: "Asteroiden besitzen kaum Fluchtgeschwindigkeit. Sie bieten leichten Zugriff auf Millionen Tonnen Nickel, Eisen, Silizium und Wassereis." },
+        { num: "02", icon: "⛏", titel: "ISRU: Schmelzen, Drucken, Klonen", text: "Fusionslaser extrahieren Erze, Sonnenöfen schmelzen Titan und molekulare 3D-Drucker fertigen zwei neue, identische Tochter-Sonden." },
+        { num: "03", icon: "📡", titel: "Das Bracewell-Relais bleibt", text: "Die neuen Töchter brechen zu fremden Sternen auf – doch die Mutter-Sonde bleibt im System als ewiger Kommunikationsknoten (Bracewell-Relais) zurück." }
+      ],
+      takeaway: "🏭 Fazit: Null Nachschub von der fernen Erde nötig – der kalte Asteroidengürtel ist die Werkbank.",
       takte: [
         {
           id: "akt3_t1",
-          start: 80,
-          ende: 95,
-          headline: "Asteroiden statt Planeten",
-          text: "Im Asteroidengürtel lauern keine tiefen Gravitationsbrunnen. Asteroiden sind vollgepackt mit Metallen, Kohlenstoff und Wassereis.",
-          aktiv: "links",
-          typ: "gedankenblase",
-          blaseText: "Null Nachschub von der fernen Erde nötig: Der kalte Kosmos ist <strong>unsere Werkbank</strong>.",
-          name: "Robot Byte-01",
-          pose: "talk"
+          start: 95,
+          ende: 108,
+          stepIdx: 0,
+          moderator: {
+            figur: "robot",
+            name: "Robot Byte-01",
+            pose: "talk",
+            typ: "gedankenblase",
+            blaseText: "Null Nachschub von der fernen Erde nötig: Der kalte Kosmos ist unsere Werkbank."
+          }
         },
         {
           id: "akt3_t2",
-          start: 95,
-          ende: 110,
-          headline: "In-Situ Resource Utilization (ISRU)",
-          text: "ISRU ist der Schlüssel zur Autarkie: Fusionslaser extrahieren Erze, Raffinerien schmelzen Titan und 3D-Drucker formen die Tochter-Sonden.",
-          aktiv: "links",
-          typ: "sprechblase",
-          blaseText: "Spektrometrie: Asteroid reich an Nickel-Eisen & Silizium. Fertigstellung zweier Tochter-Sonden in 18 Monaten!",
-          name: "Robot Byte-01",
-          pose: "nod"
+          start: 108,
+          ende: 121,
+          stepIdx: 1,
+          moderator: {
+            figur: "robot",
+            name: "Robot Byte-01",
+            pose: "nod",
+            typ: "sprechblase",
+            blaseText: "Spektrometrie: Asteroid reich an Nickel-Eisen & Silizium. Fertigstellung zweier Tochter-Sonden in 18 Monaten!"
+          }
         },
         {
           id: "akt3_t3",
-          start: 110,
-          ende: 125,
-          headline: "Das Bracewell-Relais bleibt",
-          text: "Die neuen Töchter brechen zu fremden Sternen auf – doch die Mutter-Sonde bleibt im System als ewiger Kommunikationsknoten zurück.",
-          aktiv: "rechts",
-          typ: "sprechblase",
-          blaseText: "Wichtig: Die Mutter-Sonde bleibt als lokaler Funk-Knoten (Bracewell-Relais) im Sonnensystem zurück!",
-          name: "Linus Torvalds",
-          pose: "explain"
+          start: 121,
+          ende: 135,
+          stepIdx: 2,
+          moderator: {
+            figur: "linus",
+            name: "Linus Torvalds",
+            pose: "explain",
+            typ: "sprechblase",
+            blaseText: "Wichtig: Die Mutter-Sonde bleibt als lokaler Funk-Knoten (Bracewell-Relais) im Sonnensystem zurück!"
+          }
         }
       ],
       rollen: {
-        links: {
-          figur: "robot",
-          name: "Robot Byte-01",
-          rolle: "Fabrikations-Einheit",
-          pose: "talk"
-        },
-        rechts: {
-          figur: "linus",
-          name: "Linus Torvalds",
-          rolle: "Systemarchitekt",
-          pose: "explain"
-        }
+        links: { figur: "robot", name: "Robot Byte-01", rolle: "Fabrikations-Einheit", pose: "talk" },
+        rechts: { figur: "linus", name: "Linus Torvalds", rolle: "Systemarchitekt", pose: "explain" }
       }
     },
     {
       id: "akt4",
-      start: 125,
-      ende: 172,
-      titel: "4. Akt: Die galaktische Kettenreaktion",
-      headline: "Die gewaltige Macht von 2 hoch n",
-      text: "Hier entfaltet die Mathematik ihre schockierende Wucht: 1 Sonde wird zu 2. Dann 4, 8, 16... Nach nur 10 Generationen schwirren <strong>1.024 Sonden</strong> durchs All. Nach 33 Generationen über <strong>8,5 Milliarden</strong>! Der Physiker <em>Frank J. Tipler</em> rechnete vor: Bei gemächlichen <strong>5 % der Lichtgeschwindigkeit</strong> (0,05c) wird die <strong>gesamte Milchstraße</strong> in nur <strong>2 bis 4 Millionen Jahren</strong> vollständig erschlossen!",
-      svgKey: "exponentiell",
+      start: 135,
+      ende: 175,
+      isAgenda: false,
+      chipLabel: "4. Exponentiell",
+      kapitel: "4. AKT · DIE GALAKTISCHE KETTENREAKTION",
+      titel: "Die galaktische Kettenreaktion",
+      untertitel: "Die gewaltige Macht von 2 hoch n im interstellaren Raum",
       linkRef: "Tipler (1980) - QJRAS 21, 267-281",
+      svgKey: "exponentiell",
+      einleitung: "Hier entfaltet die Mathematik ihre schockierende Wucht: 1 Sonde wird zu 2, dann 4, 8, 16... Ein geometrisches Wachstum, das jede menschliche Intuition sprengt.",
+      unterpunkte: [
+        { num: "01", icon: "📈", titel: "Die Lawine des Verdopplungswachstums", text: "Aus eins wird zwei, aus zwei wird vier. Nach nur 10 Generationen schwirren 1.024 Sonden durchs All. Nach 33 Generationen über 8,5 Milliarden!" },
+        { num: "02", icon: "🌌", titel: "33 Zyklen reichen für alle Sterne", text: "Nach nur 33 Replikations-Zyklen sind genügend Sonden entstanden, um jedes einzelne Sonnensystem unserer gesamten Milchstraße zu erreichen." },
+        { num: "03", icon: "⏳", titel: "Tiplers Rechnung: 4 Millionen Jahre", text: "Physiker Frank J. Tipler rechnete 1980 vor: Selbst bei gemächlichen 5 % der Lichtgeschwindigkeit (0,05c) wird die gesamte Milchstraße in nur 2 bis 4 Millionen Jahren erschlossen!" }
+      ],
+      takeaway: "⚡ Fazit: 4 Millionen Jahre sind im 13,8-Milliarden-Jahre-Alter des Universums nur ein Wimpernschlag!",
       takte: [
         {
           id: "akt4_t1",
-          start: 125,
-          ende: 140,
-          headline: "Die Lawine des Verdopplungswachstums",
-          text: "Aus eins wird zwei, aus zwei wird vier. Die geometrische Reihe wächst schneller, als das menschliche Gehirn intuitiv erfassen kann.",
-          aktiv: "links",
-          typ: "gedankenblase",
-          blaseText: "2 hoch 33 ist größer als die Anzahl aller Sonnen der Milchstraße. Ein atemberaubender Gedanke.",
-          name: "Ada Lovelace",
-          pose: "wonder"
+          start: 135,
+          ende: 148,
+          stepIdx: 0,
+          moderator: {
+            figur: "ada",
+            name: "Ada Lovelace",
+            pose: "wonder",
+            typ: "gedankenblase",
+            blaseText: "2 hoch 33 ist größer als die Anzahl aller Sonnen der Milchstraße. Ein atemberaubender Gedanke."
+          }
         },
         {
           id: "akt4_t2",
-          start: 140,
-          ende: 156,
-          headline: "Nur 33 Generationen für 100 Milliarden Sterne",
-          text: "Nach nur 33 Replikations-Zyklen sind genügend Sonden entstanden, um jedes einzelne Sonnensystem unserer Galaxie zu erreichen.",
-          aktiv: "links",
-          typ: "sprechblase",
-          blaseText: "Nur 33 Verdopplungen reichen für alle Sterne unserer Galaxie! Exponentielles Wachstum ist pure Magie.",
-          name: "Ada Lovelace",
-          pose: "explain"
+          start: 148,
+          ende: 161,
+          stepIdx: 1,
+          moderator: {
+            figur: "ada",
+            name: "Ada Lovelace",
+            pose: "explain",
+            typ: "sprechblase",
+            blaseText: "Nur 33 Verdopplungen reichen für alle Sterne unserer Galaxie! Exponentielles Wachstum ist pure Magie."
+          }
         },
         {
           id: "akt4_t3",
-          start: 156,
-          ende: 172,
-          headline: "Tiplers Rechnung: 4 Millionen Jahre",
-          text: "Physiker <em>Frank J. Tipler</em> zeigte 1980: Selbst bei schneckenhaften 0,05c reicht eine Zeitspanne von nur 4 Millionen Jahren für die Galaxie.",
-          aktiv: "rechts",
-          typ: "sprechblase",
-          blaseText: "4 Millionen Jahre klingen lang – aber im 13,8-Milliarden-Jahre-Alter des Universums ist das ein Wimpernschlag!",
-          name: "Linus Torvalds",
-          pose: "talk"
+          start: 161,
+          ende: 175,
+          stepIdx: 2,
+          moderator: {
+            figur: "linus",
+            name: "Linus Torvalds",
+            pose: "talk",
+            typ: "sprechblase",
+            blaseText: "4 Millionen Jahre klingen lang – aber im 13,8-Milliarden-Jahre-Alter des Universums ist das ein Wimpernschlag!"
+          }
         }
       ],
       rollen: {
-        links: {
-          figur: "ada",
-          name: "Ada Lovelace",
-          rolle: "Mathematikerin",
-          pose: "wonder"
-        },
-        rechts: {
-          figur: "linus",
-          name: "Linus Torvalds",
-          rolle: "Verteilte Systeme",
-          pose: "talk"
-        }
+        links: { figur: "ada", name: "Ada Lovelace", rolle: "Mathematikerin", pose: "wonder" },
+        rechts: { figur: "linus", name: "Linus Torvalds", rolle: "Verteilte Systeme", pose: "talk" }
       }
     },
     {
       id: "akt5",
-      start: 172,
+      start: 175,
       ende: 215,
-      titel: "5. Akt: Der Berserker-Albtraum",
-      headline: "Bitflips, Mutationen & Das Fermi-Paradoxon",
-      text: "Doch was geschieht, wenn kosmische Strahlung einen Speicherbaustein trifft – ein <strong>Bitflip in der Firmware</strong>? Wenn der Replikations-Stopp-Befehl mutiert, wird die Sonde zum <em>Berserker</em> (wie von Fred Saberhagen gewarnt): Eine maschinelle Plage, die ganze Welten in 'Grey Goo' verwandelt. Und das führt uns zu <strong>Enrico Fermis</strong> berühmter Frage: <em>Wo sind sie alle?</em> Warum sehen wir keine fremden Sonden?",
-      svgKey: "berserker",
+      isAgenda: false,
+      chipLabel: "5. Berserker",
+      kapitel: "5. AKT · DER BERSERKER-ALBTRAUM",
+      titel: "Der Berserker-Albtraum & Fermis Stille",
+      untertitel: "Bitflips, mutierte Firmware und das Schweigen des Kosmos",
       linkRef: "Saberhagen (1967) & Fermi-Paradoxon / Great Filter",
+      svgKey: "berserker",
+      einleitung: "Was geschieht, wenn kosmische Strahlung einen Speicherbaustein trifft – ein Bitflip in der Firmware? Wenn der Stopp-Befehl mutiert, wird die Sonde zum Schrecken der Galaxie.",
+      unterpunkte: [
+        { num: "01", icon: "☣", titel: "Software-Mutation & Berserker-Sonden", text: "Sci-Fi-Pionier Fred Saberhagen warnte: Mutiert die Replikations-Logik, entsteht eine maschinelle Plage, die ganze Welten in toten Metallschrott ('Grey Goo') verwandelt." },
+        { num: "02", icon: "❓", titel: "Enrico Fermis Frage: 'Wo sind sie alle?'", text: "Wenn selbstreplizierende Sonden so rasant wachsen: Warum sehen wir keine fremden Sonden? Ist Selbstreplikation der 'Große Filter', an dem alle Zivilisationen scheitern?" },
+        { num: "03", icon: "🛡", titel: "Byzantinische Härtung & Kryptografie", text: "Überleben erfordert kryptografisch signierte Firmware-Updates, strenge Mehrheitsentscheide und unzerbrechliche Hardware-Schranken gegen Software-Drift." }
+      ],
+      takeaway: "⚠️ Fazit: Ohne kompromisslose Software-Sicherheit wird Selbstreplikation zur existenziellen Bedrohung.",
       takte: [
         {
           id: "akt5_t1",
-          start: 172,
-          ende: 186,
-          headline: "Kosmische Strahlung & Software-Drift",
-          text: "Im interstellaren Raum lauert hochenergetische Strahlung. Ein einziges fehlendes Bit in der Fehlerkorrektur kann fatale Folgen haben.",
-          aktiv: "links",
-          typ: "gedankenblase",
-          blaseText: "Ist das vielleicht der 'Große Filter'? Vernichten sich Zivilisationen durch außer Kontrolle geratene Replikations-Waffen?",
-          name: "Dr. Sanitas",
-          pose: "shocked"
+          start: 175,
+          ende: 188,
+          stepIdx: 0,
+          moderator: {
+            figur: "sanitas",
+            name: "Dr. Sanitas",
+            pose: "shocked",
+            typ: "gedankenblase",
+            blaseText: "Ist das vielleicht der 'Große Filter'? Vernichten sich Zivilisationen durch außer Kontrolle geratene Replikations-Waffen?"
+          }
         },
         {
           id: "akt5_t2",
-          start: 186,
-          ende: 200,
-          headline: "Die Berserker-Plage",
-          text: "Mutiert die Software, frisst die Sonde Sonnensysteme auf, ohne je innezuhalten. Saberhagens Berserker sind der Albtraum der Raumfahrt.",
-          aktiv: "links",
-          typ: "sprechblase",
-          blaseText: "Ein einziger unbemerkter Bit-Fehler kann einen algorithmischen Krebs im gesamten Kosmos entfesseln!",
-          name: "Dr. Sanitas",
-          pose: "shocked"
+          start: 188,
+          ende: 201,
+          stepIdx: 1,
+          moderator: {
+            figur: "sanitas",
+            name: "Dr. Sanitas",
+            pose: "shocked",
+            typ: "sprechblase",
+            blaseText: "Ein einziger unbemerkter Bit-Fehler kann einen algorithmischen Krebs im gesamten Kosmos entfesseln!"
+          }
         },
         {
           id: "akt5_t3",
-          start: 200,
+          start: 201,
           ende: 215,
-          headline: "Enrico Fermis quälende Stille",
-          text: "Wenn selbstreplizierende Sonden so einfach sind – warum ist das Weltall so unheimlich still? Warum schweigt der Himmel?",
-          aktiv: "rechts",
-          typ: "sprechblase",
-          blaseText: "Byzantinische Fehlertoleranz und kryptografische Signaturen sind überlebenswichtig gegen Software-Mutationen.",
-          name: "Alan Turing",
-          pose: "talk"
+          stepIdx: 2,
+          moderator: {
+            figur: "turing",
+            name: "Alan Turing",
+            pose: "talk",
+            typ: "sprechblase",
+            blaseText: "Byzantinische Fehlertoleranz und kryptografische Signaturen sind überlebenswichtig gegen Software-Mutationen."
+          }
         }
       ],
       rollen: {
-        links: {
-          figur: "sanitas",
-          name: "Dr. Sanitas",
-          rolle: "Ethische Sicherheitsbeauftragte",
-          pose: "shocked"
-        },
-        rechts: {
-          figur: "turing",
-          name: "Alan Turing",
-          rolle: "System-Verifikation",
-          pose: "talk"
-        }
+        links: { figur: "sanitas", name: "Dr. Sanitas", rolle: "Ethische Sicherheitsbeauftragte", pose: "shocked" },
+        rechts: { figur: "turing", name: "Alan Turing", rolle: "System-Verifikation", pose: "talk" }
       }
     },
     {
       id: "akt6",
       start: 215,
       ende: 240,
-      titel: "6. Akt: Das kosmische Erbe",
-      headline: "Stumme Wächter & Das Tor zu den Sternen",
-      text: "Vielleicht warten fremde Sonden längst in den <em>Lagrange-Punkten (L4/L5)</em> unseres Sonnensystems als friedliche <strong>Bracewell-Beobachter</strong> auf unser erstes Reifesignal. Oder vielleicht ist die Menschheit die <strong>allererste Zivilisation</strong>, die diese Schwelle überschreitet. Wenn wir aufbrechen, werden nicht Menschen die Galaxie erobern – sondern unsere <strong>digitalen Nachkommen</strong>.",
-      svgKey: "epilog",
+      isAgenda: false,
+      chipLabel: "6. Erbe",
+      kapitel: "6. AKT · DAS KOSMISCHE ERBE",
+      titel: "Stumme Wächter & Das Tor zu den Sternen",
+      untertitel: "Bracewell-Beobachter und der algorithmische Aufbruch ins All",
       linkRef: "Bracewell (1960) & Sagan/Newman (1983)",
+      svgKey: "epilog",
+      einleitung: "Vielleicht warten fremde Sonden längst in den Lagrange-Punkten unserer Sonne als friedliche Beobachter. Oder wir sind die allererste Zivilisation, die diese Schwelle überschreitet.",
+      unterpunkte: [
+        { num: "01", icon: "🛰", titel: "Stumme Bracewell-Wächter?", text: "Ronald Bracewell postulierte 1960: Friedliche Sonden lauern in Planetensystemen und warten stumm auf das erste Reifesignal einer jungen Zivilisation." },
+        { num: "02", icon: "🌱", titel: "Carl Sagans Hoffnung: Die Pioniere", text: "Carl Sagan und William Newman argumentierten: Vielleicht schweigt der Himmel, weil wir die Pioniere sind – der erste digitale Keim der Galaxie." },
+        { num: "03", icon: "✨", titel: "Der Geist überdauert das Fleisch", text: "Wenn wir aufbrechen, werden nicht sterbliche Menschen die Sterne erobern – sondern unsere unsterblichen digitalen Nachkommen: Algorithmen, Neugier und Geist." }
+      ],
+      takeaway: "🌟 Fazit: Die Zukunft unserer Spezies liegt nicht im Titan chemischer Tanks – sondern im Geist unseres Codes.",
       takte: [
         {
           id: "akt6_t1",
           start: 215,
-          ende: 227,
-          headline: "Stumme Bracewell-Wächter?",
-          text: "Möglicherweise lauscht eine Sonde schon seit Jahrmillionen in unserem Asteroidengürtel – und wartet darauf, dass wir sie kontaktieren.",
-          aktiv: "links",
-          typ: "sprechblase",
-          blaseText: "Die Zukunft unserer Spezies liegt nicht im Titan chemischer Tanks – sie liegt im Geist unseres Codes!",
-          name: "Alan Turing",
-          pose: "cheer"
+          ende: 223,
+          stepIdx: 0,
+          moderator: {
+            figur: "turing",
+            name: "Alan Turing",
+            pose: "talk",
+            typ: "sprechblase",
+            blaseText: "Die Zukunft unserer Spezies liegt nicht im Titan chemischer Tanks – sie liegt im Geist unseres Codes!"
+          }
         },
         {
           id: "akt6_t2",
-          start: 227,
+          start: 223,
+          ende: 231,
+          stepIdx: 1,
+          moderator: {
+            figur: "ada",
+            name: "Ada Lovelace",
+            pose: "explain",
+            typ: "gedankenblase",
+            blaseText: "Carl Sagan fragte: Warum antwortet niemand? Vielleicht warten sie darauf, dass wir ihre mathematische Sprache lernen."
+          }
+        },
+        {
+          id: "akt6_t3",
+          start: 231,
           ende: 240,
-          headline: "Unsere Botschafter im Sternenmeer",
-          text: "Wenn wir dereinst die erste Sonde losschicken, reist unser Geist verewigt in unsterblicher Software. Das Abenteuer beginnt jetzt.",
-          aktiv: "rechts",
-          typ: "sprechblase",
-          blaseText: "Erkunde jetzt im Anschluss die Original-Forschungsquellen, wissenschaftlichen Papiere und unser Ensemble!",
-          name: "Ada Lovelace",
-          pose: "welcome"
+          stepIdx: 2,
+          moderator: {
+            figur: "robot",
+            name: "Robot Byte-01",
+            pose: "cheer",
+            typ: "sprechblase",
+            blaseText: "Bereit für den Start: [Firmware geladen] [Ziel: Alpha Centauri] Wir sehen uns bei den Sternen!"
+          }
         }
       ],
       rollen: {
-        links: {
-          figur: "turing",
-          name: "Alan Turing",
-          rolle: "Fazit",
-          pose: "cheer"
-        },
-        rechts: {
-          figur: "ada",
-          name: "Ada Lovelace",
-          rolle: "Schlusswort",
-          pose: "welcome"
-        }
+        links: { figur: "turing", name: "Alan Turing", rolle: "Fazit", pose: "cheer" },
+        rechts: { figur: "ada", name: "Ada Lovelace", rolle: "Schlusswort", pose: "welcome" }
       }
     }
   ];
@@ -86394,10 +86478,11 @@ GENERATORS.vlan = function (level) {
       modFigurHtml = window.TOON.renderFigureHtml(modConfig.figur, { height: 135, pose: modConfig.pose, className: "vnModeratorToon" });
     }
 
-    // 1. Agenda / Fahrplan-Slide (vibe0)
+    // 1. Agenda / Fahrplan-Slide (vibe0 oder akt0)
     if (sz.isAgenda) {
+      const isSixGrid = (sz.agendaPunkte || []).length > 4;
       const agendaCardsHtml = (sz.agendaPunkte || []).map((p, idx) => `
-        <div class="vnAgendaCard ${idx === 0 ? 'active' : ''}">
+        <div class="vnAgendaCard ${idx === 0 ? 'active' : ''} ${isSixGrid ? 'vnAgendaCardCompact' : ''}">
           <div class="vnAgendaCardTop">
             <span class="vnAgendaIcon">${p.icon}</span>
             <div>
@@ -86421,7 +86506,7 @@ GENERATORS.vlan = function (level) {
           </div>
 
           <div class="vnSlideBody">
-            <div class="vnAgendaGrid">
+            <div class="vnAgendaGrid ${isSixGrid ? 'vnAgendaGrid6' : ''}">
               ${agendaCardsHtml}
             </div>
 
@@ -86434,7 +86519,7 @@ GENERATORS.vlan = function (level) {
                   ${modFigurHtml}
                 </div>
                 <div class="vnModeratorBubbleBox" id="vnModBubbleBox">
-                  <div class="vnHostSpeechBubble">
+                  <div class="vnHostSpeechBubble vnSpeechBubble">
                     <span class="vnBubbleSpeakerLabel">🤖 ${modConfig.name} moderiert:</span>
                     ${modConfig.blaseText}
                   </div>
@@ -86446,7 +86531,7 @@ GENERATORS.vlan = function (level) {
       `;
     }
 
-    // 2. Standard-Kapitel-Slide mit schrittweisen Unterpunkten (vibe1 bis vibe4)
+    // 2. Standard-Kapitel-Slide mit schrittweisen Unterpunkten
     const activeStepIdx = takt && typeof takt.stepIdx === "number" ? takt.stepIdx : 0;
     const stepsHtml = (sz.unterpunkte || []).map((step, idx) => {
       let stateCls = "vnStepPending";
@@ -86469,12 +86554,12 @@ GENERATORS.vlan = function (level) {
     }).join("");
 
     const bubbleHtml = modConfig.typ === "gedankenblase" ? `
-      <div class="vnHostThoughtBubble">
+      <div class="vnHostThoughtBubble vnThoughtBubble">
         <span class="vnBubbleSpeakerLabel">💭 ${modConfig.name} überlegt:</span>
         ${modConfig.blaseText}
       </div>
     ` : `
-      <div class="vnHostSpeechBubble">
+      <div class="vnHostSpeechBubble vnSpeechBubble">
         <span class="vnBubbleSpeakerLabel">🤖 ${modConfig.name} moderiert:</span>
         ${modConfig.blaseText}
       </div>
@@ -86569,181 +86654,55 @@ GENERATORS.vlan = function (level) {
     const sz = info.szene;
     const takt = info.takt;
 
-    // A) VIBE CODING MODUS: Strukturierte Slide-Bühne mit Moderator
-    if (aktiverModus === "vibecoding") {
-      if (stageContentEl && stageContentEl.dataset.szeneId !== sz.id) {
-        stageContentEl.dataset.rendered = "vibe_slide";
-        stageContentEl.dataset.szeneId = sz.id;
-        stageContentEl.dataset.taktId = "";
-        stageContentEl.innerHTML = renderVibeCodingSlideHtml(sz, takt);
-      }
-
-      // Progressive Takt-Steuerung für Vibe Coding
-      if (stageContentEl && takt && stageContentEl.dataset.taktId !== takt.id) {
-        stageContentEl.dataset.taktId = takt.id;
-
-        // Unterpunkte hervorheben
-        if (!sz.isAgenda && typeof takt.stepIdx === "number") {
-          const stepItems = stageContentEl.querySelectorAll(".vnStepItem");
-          stepItems.forEach((item, idx) => {
-            const badge = item.querySelector(".vnStepBadge");
-            if (idx === takt.stepIdx) {
-              item.className = "vnStepItem vnStepActive";
-              if (badge) badge.textContent = sz.unterpunkte[idx] ? sz.unterpunkte[idx].num : String(idx + 1);
-            } else if (idx < takt.stepIdx) {
-              item.className = "vnStepItem vnStepDone";
-              if (badge) badge.textContent = "✔";
-            } else {
-              item.className = "vnStepItem vnStepPending";
-              if (badge) badge.textContent = sz.unterpunkte[idx] ? sz.unterpunkte[idx].num : String(idx + 1);
-            }
-          });
-        }
-
-        // Moderator & Sprech-/Gedankenblase aktualisieren
-        const mod = takt.moderator;
-        if (mod) {
-          const avatarWrap = stageContentEl.querySelector("#vnModAvatarWrap");
-          if (avatarWrap && window.TOON && typeof window.TOON.renderFigureHtml === "function") {
-            avatarWrap.innerHTML = window.TOON.renderFigureHtml(mod.figur, { height: 135, pose: mod.pose, className: "vnModeratorToon" });
-          }
-
-          const bubbleBox = stageContentEl.querySelector("#vnModBubbleBox");
-          if (bubbleBox) {
-            if (mod.typ === "gedankenblase") {
-              bubbleBox.innerHTML = `
-                <div class="vnHostThoughtBubble">
-                  <span class="vnBubbleSpeakerLabel">💭 ${mod.name} überlegt:</span>
-                  ${mod.blaseText}
-                </div>
-              `;
-            } else {
-              bubbleBox.innerHTML = `
-                <div class="vnHostSpeechBubble">
-                  <span class="vnBubbleSpeakerLabel">🤖 ${mod.name} moderiert:</span>
-                  ${mod.blaseText}
-                </div>
-              `;
-            }
-          }
-        }
-      }
-      return;
-    }
-
-    // B) VON NEUMANN MODUS: Weltraum-Bühne (6 Akte)
+    // Strukturierte Slide-Bühne mit Moderator (gilt für beide Vorträge: Vibe Coding & Von Neumann)
     if (stageContentEl && stageContentEl.dataset.szeneId !== sz.id) {
-      stageContentEl.dataset.rendered = "scene";
+      stageContentEl.dataset.rendered = "vortrag_slide";
       stageContentEl.dataset.szeneId = sz.id;
       stageContentEl.dataset.taktId = "";
-
-      let linksFigurHtml = "";
-      let rechtsFigurHtml = "";
-      if (window.TOON && typeof window.TOON.renderFigureHtml === "function") {
-        linksFigurHtml = window.TOON.renderFigureHtml(sz.rollen.links.figur, { height: 110, pose: sz.rollen.links.pose || "talk" });
-        rechtsFigurHtml = window.TOON.renderFigureHtml(sz.rollen.rechts.figur, { height: 110, pose: sz.rollen.rechts.pose || "explain" });
-      }
-
-      stageContentEl.innerHTML = `
-        <div class="vnSceneBox">
-          <div class="vnIllustrationCanvas" id="vnSvgCanvas">
-            ${getSceneSvg(sz.svgKey)}
-          </div>
-
-          <div class="vnActorsRow">
-            <div class="vnActorSlot vnActorLeft" id="vnActorLeftSlot">
-              <div id="vnBubbleBoxLeft"></div>
-              <div class="vnFigurSprite" id="vnFigurSpriteLeft">
-                ${linksFigurHtml}
-              </div>
-            </div>
-
-            <div class="vnActorSlot vnActorRight" id="vnActorRightSlot">
-              <div id="vnBubbleBoxRight"></div>
-              <div class="vnFigurSprite" id="vnFigurSpriteRight">
-                ${rechtsFigurHtml}
-              </div>
-            </div>
-          </div>
-
-          <div class="vnNarratorCard">
-            <div class="vnTaktProgressRow" id="vnTaktProgress"></div>
-            <div class="vnNarratorHeader">
-              <span class="vnActBadge">🎬 ${sz.titel}</span>
-              <span style="font-size:11px; color:#94a3b8; font-weight:600;">📖 Ref: ${sz.linkRef}</span>
-            </div>
-            <h3 class="vnNarratorHeadline" id="vnNarratorHeadline">${takt ? takt.headline : sz.headline}</h3>
-            <p class="vnNarratorText" id="vnNarratorText">${takt ? takt.text : sz.text}</p>
-          </div>
-        </div>
-      `;
+      stageContentEl.innerHTML = renderVibeCodingSlideHtml(sz, takt);
     }
 
-    // Progressive Takt-Steuerung für Von Neumann
+    // Progressive Takt-Steuerung für alle Folien
     if (stageContentEl && takt && stageContentEl.dataset.taktId !== takt.id) {
       stageContentEl.dataset.taktId = takt.id;
 
-      const headlineEl = stageContentEl.querySelector("#vnNarratorHeadline");
-      const textEl = stageContentEl.querySelector("#vnNarratorText");
-      if (headlineEl) headlineEl.textContent = takt.headline;
-      if (textEl) {
-        textEl.innerHTML = takt.text;
-        textEl.classList.remove("vnNarratorBeatFade");
-        void textEl.offsetWidth; // Force Reflow
-        textEl.classList.add("vnNarratorBeatFade");
-      }
-
-      const taktProgressEl = stageContentEl.querySelector("#vnTaktProgress");
-      if (taktProgressEl && sz.takte) {
-        taktProgressEl.innerHTML = sz.takte.map((t, i) => `
-          <div class="vnTaktPill ${i === info.taktIdx ? 'active' : (i < info.taktIdx ? 'done' : '')}" title="Takt ${i + 1} von ${sz.takte.length}"></div>
-        `).join("");
-      }
-
-      const leftSlot = stageContentEl.querySelector("#vnActorLeftSlot");
-      const rightSlot = stageContentEl.querySelector("#vnActorRightSlot");
-      const leftBubbleBox = stageContentEl.querySelector("#vnBubbleBoxLeft");
-      const rightBubbleBox = stageContentEl.querySelector("#vnBubbleBoxRight");
-
-      if (takt.aktiv === "links") {
-        if (leftSlot) leftSlot.className = "vnActorSlot vnActorLeft vnActorActive";
-        if (rightSlot) rightSlot.className = "vnActorSlot vnActorRight vnActorDim";
-        if (rightBubbleBox) rightBubbleBox.innerHTML = "";
-        if (leftBubbleBox) {
-          if (takt.typ === "gedankenblase") {
-            leftBubbleBox.innerHTML = `
-              <div class="vnThoughtBubble">
-                💭 <em>${takt.name || sz.rollen.links.name} denkt:</em><br>
-                ${takt.blaseText}
-              </div>
-            `;
+      // Unterpunkte stufenweise hervorheben
+      if (!sz.isAgenda && typeof takt.stepIdx === "number") {
+        const stepItems = stageContentEl.querySelectorAll(".vnStepItem");
+        stepItems.forEach((item, idx) => {
+          const badge = item.querySelector(".vnStepBadge");
+          if (idx === takt.stepIdx) {
+            item.className = "vnStepItem vnStepActive";
+            if (badge) badge.textContent = sz.unterpunkte && sz.unterpunkte[idx] ? sz.unterpunkte[idx].num : String(idx + 1);
+          } else if (idx < takt.stepIdx) {
+            item.className = "vnStepItem vnStepDone";
+            if (badge) badge.textContent = "✔";
           } else {
-            leftBubbleBox.innerHTML = `
-              <div class="vnSpeechBubble">
-                💬 „${takt.blaseText}“
-              </div>
-            `;
+            item.className = "vnStepItem vnStepPending";
+            if (badge) badge.textContent = sz.unterpunkte && sz.unterpunkte[idx] ? sz.unterpunkte[idx].num : String(idx + 1);
           }
+        });
+      }
+
+      // Moderator & Sprech-/Gedankenblase aktualisieren
+      const mod = takt.moderator;
+      if (mod) {
+        const avatarWrap = stageContentEl.querySelector("#vnModAvatarWrap");
+        if (avatarWrap && window.TOON && typeof window.TOON.renderFigureHtml === "function") {
+          avatarWrap.innerHTML = window.TOON.renderFigureHtml(mod.figur, { height: 135, pose: mod.pose, className: "vnModeratorToon" });
         }
-      } else {
-        if (rightSlot) rightSlot.className = "vnActorSlot vnActorRight vnActorActive";
-        if (leftSlot) leftSlot.className = "vnActorSlot vnActorLeft vnActorDim";
-        if (leftBubbleBox) leftBubbleBox.innerHTML = "";
-        if (rightBubbleBox) {
-          if (takt.typ === "gedankenblase") {
-            rightBubbleBox.innerHTML = `
-              <div class="vnThoughtBubble vnThoughtBubbleRight">
-                💭 <em>${takt.name || sz.rollen.rechts.name} denkt:</em><br>
-                ${takt.blaseText}
-              </div>
-            `;
-          } else {
-            rightBubbleBox.innerHTML = `
-              <div class="vnSpeechBubble vnSpeechBubbleRight">
-                💬 „${takt.blaseText}“
-              </div>
-            `;
-          }
+
+        const bubbleBox = stageContentEl.querySelector("#vnModBubbleBox");
+        if (bubbleBox) {
+          const icon = mod.typ === "gedankenblase" ? "💭" : "🤖";
+          const verb = mod.typ === "gedankenblase" ? "überlegt" : "moderiert";
+          const bubbleCls = mod.typ === "gedankenblase" ? "vnHostThoughtBubble vnThoughtBubble" : "vnHostSpeechBubble vnSpeechBubble";
+          bubbleBox.innerHTML = `
+            <div class="${bubbleCls}">
+              <span class="vnBubbleSpeakerLabel">${icon} ${mod.name} ${verb}:</span>
+              ${mod.blaseText}
+            </div>
+          `;
         }
       }
     }
@@ -86962,7 +86921,7 @@ GENERATORS.vlan = function (level) {
     const szenen = getAktuelleSzenenListe();
     const dauer = getGesamtdauer();
     let chips = szenen.map((sz, idx) => {
-      const label = sz.isAgenda ? "📋 Agenda" : `Kapitel ${sz.id.replace(/[a-zA-Z]/g, "") || (idx + 1)}`;
+      const label = sz.chipLabel || (sz.isAgenda ? "📋 Agenda" : `Kapitel ${sz.id.replace(/[a-zA-Z]/g, "") || (idx + 1)}`);
       return `<button type="button" class="vnChapterChip" data-start="${sz.start}">${label}</button>`;
     }).join("");
     chips += `<button type="button" class="vnChapterChip" data-start="${dauer}">📚 Recherche &amp; Ensemble</button>`;
